@@ -55,7 +55,7 @@ export default function DiskusiPage() {
 
   return (
     <div className="flex flex-col lg:w-7/12">
-      <HeaderCard className="mt-10" />
+      <HeaderCard className="mt-8" />
 
       <div ref={ref as any}>
         {data.map((val, idx) => (

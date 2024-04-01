@@ -74,7 +74,7 @@ export default function DiskusiDetailPage() {
                 <Text className="text-sm text-gray-dark font-medium leading-4">
                   NamaFile.ext
                 </Text>
-                <Text className="text-[.75rem] text-gray-dark leading-4">
+                <Text className="text-xs text-gray-dark leading-4">
                   ukuranfile
                 </Text>
               </div>
@@ -176,7 +176,7 @@ export default function DiskusiDetailPage() {
                         <Text className="text-sm text-gray-dark font-semibold">
                           Annitsa Bestweden
                         </Text>
-                        <Text className="text-[.625rem] text-gray-lighter font-medium">
+                        <Text className="text-2xs text-gray-lighter font-medium">
                           email@namaweb.com
                         </Text>
                       </div>

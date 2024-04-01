@@ -15,7 +15,9 @@ export default function HeaderCard({ className }: { className?: string }) {
       <Title as="h6" className="font-semibold leading-4">
         Mulai Diskusi
       </Title>
-      <Text className="text-xs">Pilih jenis diskusi yang Kamu inginkan</Text>
+      <Text className="text-xs mt-1">
+        Pilih jenis diskusi yang Kamu inginkan
+      </Text>
       <div className="flex space-x-4 mt-4">
         <ButtonIcon title="Materi" color="green">
           <BsFileRichtext size={26} />

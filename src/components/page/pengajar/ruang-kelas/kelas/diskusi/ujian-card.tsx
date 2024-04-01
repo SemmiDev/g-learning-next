@@ -19,7 +19,7 @@ export default function UjianCard({ className }: { className?: string }) {
             <Text className="text-base font-semibold text-gray-dark">
               Prabroro Janggar
             </Text>
-            <Text className="text-[.75rem] font-medium">30 Menit</Text>
+            <Text className="text-xs font-medium">30 Menit</Text>
           </div>
         </div>
         <DropdownMoreAction />
@@ -37,16 +37,16 @@ export default function UjianCard({ className }: { className?: string }) {
       <CardSeparator />
       <div className="p-2">
         <Link href={`${routes.kelas}/diskusi/detail`}>
-          <Button size="sm" className="bg-primary w-full">
+          <Button size="sm" className="bg-blue-400 w-full hover:bg-blue-600">
             Cek Ujian
           </Button>
         </Link>
         <div className="flex flex-col p-2">
-          <div className="flex justify-end">
+          <div className="flex justify-start">
             <Button
               size="sm"
               variant="text"
-              className="flex space-x-1 items-center text-gray-dark hover:text-primary"
+              className="flex space-x-1 items-center text-gray-dark px-0 hover:text-primary"
             >
               <BsChatSquareText size={14} />
               <Text className="text-2xs font-semibold">6 Komentar</Text>

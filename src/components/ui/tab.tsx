@@ -1,9 +1,8 @@
-'use client'
-
 import type { Item } from './tab-group'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Text } from 'rizzui'
 
 export const Tab = ({ path, item }: { path: string; item: Item }) => {
   const pathname = usePathname()
@@ -19,11 +18,19 @@ export const Tab = ({ path, item }: { path: string; item: Item }) => {
   return (
     <Link
       href={link}
-      className={clsx('text-sm font-semibold px-4 py-3', {
-        'text-primary border-b-2 border-b-primary': isActive,
-      })}
+      className={clsx(
+        'group relative cursor-pointer whitespace-nowrap py-2.5 px-1 text-gray-dark before:absolute before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:bg-primary before:transition-all',
+        isActive
+          ? 'text-primary before:visible before:w-full before:opacity-100'
+          : 'before:invisible before:w-0 before:opacity-0'
+      )}
     >
-      {item.text}
+      <Text
+        as="span"
+        className="inline-flex text-sm font-semibold rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-gray-100/70"
+      >
+        {item.text}
+      </Text>
     </Link>
   )
 }

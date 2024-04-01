@@ -1,7 +1,6 @@
 import Card from '@/components/ui/card'
 import Image from 'next/image'
 import { Button, Text, Title } from 'rizzui'
-import { BsThreeDots } from 'react-icons/bs'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Link from 'next/link'
@@ -19,7 +18,7 @@ export default function Materi2Card({ className }: { className?: string }) {
             <Text className="text-base font-semibold text-gray-dark">
               Prabroro Janggar
             </Text>
-            <Text className="text-[.75rem] font-medium">30 Menit</Text>
+            <Text className="text-xs font-medium">30 Menit</Text>
           </div>
         </div>
         <DropdownMoreAction />
@@ -37,7 +36,7 @@ export default function Materi2Card({ className }: { className?: string }) {
       <CardSeparator />
       <div className="p-2">
         <Link href={`${routes.kelas}/diskusi/detail`}>
-          <Button size="sm" className="w-full">
+          <Button size="sm" className="bg-blue-400 w-full hover:bg-blue-600">
             Buka Kelas
           </Button>
         </Link>

@@ -1,12 +1,12 @@
-import { Title } from 'rizzui';
-import cn from '@/utils/class-names';
-import Breadcrumb from '@/components/ui/breadcrumb';
+import { Title } from 'rizzui'
+import cn from '@/utils/class-names'
+import Breadcrumb from '@/components/ui/breadcrumb'
 
 export type PageHeaderTypes = {
-  title: string;
-  breadcrumb: { name: string; href?: string }[];
-  className?: string;
-};
+  title: string
+  breadcrumb: { name: string; href?: string }[]
+  className?: string
+}
 
 export default function PageHeader({
   title,
@@ -43,5 +43,5 @@ export default function PageHeader({
         {children}
       </div>
     </header>
-  );
+  )
 }

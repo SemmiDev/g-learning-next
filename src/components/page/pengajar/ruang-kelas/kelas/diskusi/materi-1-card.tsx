@@ -20,7 +20,7 @@ export default function MateriCard({ className }: { className?: string }) {
             <Text className="text-base font-semibold text-gray-dark">
               Prabroro Janggar
             </Text>
-            <Text className="text-[.75rem] font-medium">30 Menit</Text>
+            <Text className="text-xs font-medium">30 Menit</Text>
           </div>
         </div>
         <DropdownMoreAction />
@@ -49,16 +49,14 @@ export default function MateriCard({ className }: { className?: string }) {
             <Text className="text-sm text-gray-dark font-medium leading-4">
               NamaFile.ext
             </Text>
-            <Text className="text-[.75rem] text-gray-dark leading-4">
-              ukuranfile
-            </Text>
+            <Text className="text-xs text-gray-dark leading-4">ukuranfile</Text>
           </div>
         </div>
       </div>
       <CardSeparator />
       <div className="p-2">
         <Link href={`${routes.kelas}/diskusi/detail`}>
-          <Button size="sm" className="w-full">
+          <Button size="sm" className="bg-blue-400 w-full hover:bg-blue-600">
             Buka Kelas
           </Button>
         </Link>
