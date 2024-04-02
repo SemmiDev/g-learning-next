@@ -10,7 +10,7 @@ export default function Card({
   return (
     <div
       className={cn(
-        'bg-white border border-gray-100 shadow rounded-lg p-2',
+        'bg-white border border-gray-100 shadow rounded-lg overflow-clip p-2',
         className
       )}
     >
