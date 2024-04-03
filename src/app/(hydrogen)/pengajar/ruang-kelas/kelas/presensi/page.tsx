@@ -129,6 +129,16 @@ export default function PresensiPage() {
       sakit: 1,
       alpha: 1,
     },
+    {
+      id: 5,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      hadir: 12,
+      izin: 4,
+      sakit: 1,
+      alpha: 1,
+    },
   ]
 
   return (

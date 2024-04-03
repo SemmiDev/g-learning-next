@@ -30,7 +30,7 @@ export default function DiskusiDetailPage() {
         <Card className="flex flex-col p-0 w-full lg:w-8/12">
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
-              <Text size="lg" weight="semibold" variant="dark">
+              <Text size="lg" weight="semibold" variant="dark" className="mb-2">
                 Judul Diskusi + Gambar dan Video Mata Kuliah Aljabar Linier
               </Text>
               <Text size="sm">
@@ -115,7 +115,7 @@ export default function DiskusiDetailPage() {
                 />
                 <div className="flex flex-col items-start text-gray-dark">
                   <Text weight="semibold">Anjal Karman</Text>
-                  <Text className="leading-5">
+                  <Text size="sm" className="leading-5">
                     ini adalah komentar dari user yang membuat komentar ini
                     adalah komentar dari user yang membuat komentar ini adalah
                     komentar dari user yang membuat komentar ini adalah komentar
@@ -144,7 +144,7 @@ export default function DiskusiDetailPage() {
           </div>
         </Card>
         <Card className="flex flex-col flex-1 p-0">
-          <Title as="h6" className="px-3 py-2">
+          <Title as="h6" weight="semibold" className="px-3 py-2">
             Anggota Kelas
           </Title>
           <div className="flex justify-between items-center px-3 mb-4">

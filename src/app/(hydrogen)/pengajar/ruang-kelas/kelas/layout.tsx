@@ -38,7 +38,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
       <Card className="flex flex-col">
         <div className="flex justify-between items-start space-x-2">
           <div className="flex space-x-3">
-            <div className="w-44 h-28 rounded overflow-clip">
+            <div className="w-56 h-28 rounded overflow-clip">
               <Image
                 src={imageKelas}
                 alt="kelas"
@@ -47,7 +47,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
             </div>
             <div>
               <div className="flex space-x-2 items-center">
-                <Title as="h6" weight="semibold">
+                <Title as="h5" weight="semibold">
                   Aljabar Linier
                 </Title>
                 <Badge
@@ -59,11 +59,11 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
                   Publik
                 </Badge>
               </div>
-              <Text>
+              <Text size="sm">
                 Kelas TI A | 3 SKS | 35 Mahasiswa | Senin, 13.00-14.35 | Rabu,
                 13.00-14.35
               </Text>
-              <Text className="mt-2">
+              <Text size="sm" className="mt-2">
                 Berikut adalah tempat untuk menulis deskripsi singkat terkait
                 kelas yan telah dibuat
               </Text>

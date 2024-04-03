@@ -27,10 +27,10 @@ export default function DiskusiDetailTugasPage() {
         </Link>
       </div>
       <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
-        <Card className="flex flex-col p-0 w-full lg:w-8/12">
+        <Card className="flex flex-col p-0 w-full lg:w-6/12">
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
-              <Text size="lg" weight="semibold" variant="dark">
+              <Text size="lg" weight="semibold" variant="dark" className="mb-2">
                 Judul Tugas
               </Text>
               <Text size="sm">
@@ -46,40 +46,6 @@ export default function DiskusiDetailTugasPage() {
                 <TextSpan color="danger">13 April 2024, 23:59 WIB </TextSpan>
               </Text>
             </div>
-          </div>
-          <CardSeparator />
-          <div className="flex flex-col px-4 py-2">
-            <div className="flex justify-center mt-4">
-              <div className="flex max-w-8/12 max-h-60">
-                <Image
-                  src={imagePreview}
-                  alt="preview"
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
-          <CardSeparator />
-          <div className="flex justify-between items-center bg-gray-50 rounded-md mx-4 my-2 p-2">
-            <div className="flex items-center space-x-1">
-              <BsFileText className="text-primary-lighter" size={32} />
-              <div className="flex flex-col">
-                <Text
-                  size="sm"
-                  weight="medium"
-                  variant="dark"
-                  className="leading-4"
-                >
-                  NamaFile.ext
-                </Text>
-                <Text size="sm" variant="dark" className="leading-4">
-                  ukuranfile
-                </Text>
-              </div>
-            </div>
-            <Button size="sm" variant="text" className="text-sm">
-              Unduh
-            </Button>
           </div>
           <CardSeparator />
           <div className="flex flex-col p-4">
@@ -118,10 +84,8 @@ export default function DiskusiDetailTugasPage() {
                   className="w-8 h-8 rounded-md"
                 />
                 <div className="flex flex-col items-start text-gray-dark">
-                  <Text weight="semibold" className="font-semibold">
-                    Anjal Karman
-                  </Text>
-                  <Text className="leading-5">
+                  <Text weight="semibold">Anjal Karman</Text>
+                  <Text size="sm" className="leading-5">
                     ini adalah komentar dari user yang membuat komentar ini
                     adalah komentar dari user yang membuat komentar ini adalah
                     komentar dari user yang membuat komentar ini adalah komentar
@@ -150,7 +114,7 @@ export default function DiskusiDetailTugasPage() {
           </div>
         </Card>
         <Card className="flex flex-col flex-1 p-0">
-          <Title as="h6" className="px-3 py-2">
+          <Title as="h6" weight="semibold" className="px-3 py-2">
             Anggota Kelas
           </Title>
           <div className="flex justify-between items-center px-3 mb-4">
