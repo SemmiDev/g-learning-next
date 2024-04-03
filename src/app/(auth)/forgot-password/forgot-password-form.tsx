@@ -1,14 +1,16 @@
 'use client'
 
-import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Button, Input, Text } from 'rizzui'
+import { Input } from 'rizzui'
 import { useMedia } from '@/hooks/use-media'
 import { Form } from '@/components/ui/form'
 import { publicRoutes } from '@/config/routes'
 import { z } from '@/utils/zod-id'
+import Text from '@/components/ui/text'
+import Button from '@/components/ui/button'
+import TextLink from '@/components/ui/text-link'
 
 export const forgetPasswordSchema = z.object({
   email: z.string().email(),
@@ -77,14 +79,11 @@ export default function ForgetPasswordForm() {
           </div>
         )}
       </Form>
-      <Text className="mt-6 font-bold leading-loose md:mt-7 lg:mt-9">
+      <Text weight="semibold" className="mt-6 leading-loose md:mt-7 lg:mt-9">
         Tidak ingin me-reset password?{' '}
-        <Link
-          href={publicRoutes.login}
-          className="font-semibold text-primary transition-colors hover:text-primary-dark"
-        >
+        <TextLink href={publicRoutes.login} color="primary" weight="bold">
           Masuk
-        </Link>
+        </TextLink>
       </Text>
     </>
   )

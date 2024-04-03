@@ -1,9 +1,8 @@
-import { Title } from 'rizzui'
 import { metaObject } from '@/config/site.config'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]/options'
-import { useSession } from 'next-auth/react'
 import Span from './span'
+import { Title } from '@/components/ui'
 
 export const metadata = {
   ...metaObject('Dashboard'),

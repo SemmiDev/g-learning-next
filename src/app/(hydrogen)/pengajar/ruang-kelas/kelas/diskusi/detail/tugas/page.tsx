@@ -9,11 +9,12 @@ import Image from 'next/image'
 import Card from '@/components/ui/card'
 import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'
+import { ReadMoreWeb } from 'react-shorten'
 import CardSeparator from '@/components/ui/card-separator'
 import { FaChevronDown } from 'react-icons/fa'
-import { Button, ReadMore, Text, Title } from '@/components/ui'
+import { Button, ReadMore, Text, TextSpan, Title } from '@/components/ui'
 
-export default function DiskusiDetailPage() {
+export default function DiskusiDetailTugasPage() {
   return (
     <>
       <div className="mt-4 mb-4">
@@ -31,15 +32,19 @@ export default function DiskusiDetailPage() {
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
               <Text size="lg" weight="semibold" variant="dark">
-                Judul Diskusi + Gambar dan Video Mata Kuliah Aljabar Linier
+                Judul Tugas
               </Text>
               <Text size="sm">
                 <ReadMore>
-                  Ini merupakan catatan dari sebuah diskusi yang telah dibuat,
+                  Ini merupakan catatan dari sebuah tugas yang telah dibuat,
                   cukup di buat dalam 2 kalimat dan tambahkan. Ini merupakan
                   catatan dari sebuah diskusi yang telah dibuat, cukup di buat
                   dalam 2 kalimat dan tambahkan.
                 </ReadMore>
+              </Text>
+              <Text size="sm" weight="semibold" variant="dark" className="mt-2">
+                Batas Waktu Pengumpulan:{' '}
+                <TextSpan color="danger">13 April 2024, 23:59 WIB </TextSpan>
               </Text>
             </div>
           </div>
@@ -68,7 +73,7 @@ export default function DiskusiDetailPage() {
                 >
                   NamaFile.ext
                 </Text>
-                <Text size="xs" variant="dark" className="leading-4">
+                <Text size="sm" variant="dark" className="leading-4">
                   ukuranfile
                 </Text>
               </div>
@@ -114,7 +119,9 @@ export default function DiskusiDetailPage() {
                   className="w-8 h-8 rounded-md"
                 />
                 <div className="flex flex-col items-start text-gray-dark">
-                  <Text weight="semibold">Anjal Karman</Text>
+                  <Text weight="semibold" className="font-semibold">
+                    Anjal Karman
+                  </Text>
                   <Text className="leading-5">
                     ini adalah komentar dari user yang membuat komentar ini
                     adalah komentar dari user yang membuat komentar ini adalah

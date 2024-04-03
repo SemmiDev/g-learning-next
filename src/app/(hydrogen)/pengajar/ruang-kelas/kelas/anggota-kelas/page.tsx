@@ -1,20 +1,25 @@
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
 import Image from 'next/image'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Button, Checkbox, Input, Text, Title } from 'rizzui'
+import { Checkbox, Input } from 'rizzui'
 import imagePhoto from '@public/images/photo.png'
-import Pagination from '@/components/ui/pagination'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  Pagination,
+  Text,
+  Title,
+} from '@/components/ui'
 
 export default function AnggotaKelasPage() {
   return (
     <div className="flex flex-wrap items-start space-y-8 mt-8 lg:space-x-6 lg:space-y-0">
       <Card className="w-full lg:w-7/12 p-0">
         <div className="p-2">
-          <Title as="h6" className="font-semibold leading-4 ">
+          <Title as="h6" className="leading-4">
             Anggota Kelas
           </Title>
-          <Text className="text-xs mt-1">
+          <Text size="xs" weight="semibold" variant="lighter" className="mt-1">
             List mahasiswa yang bergabung di dalam kelas
           </Text>
         </div>
@@ -44,10 +49,15 @@ export default function AnggotaKelasPage() {
                       className="w-10 h-10 rounded-md"
                     />
                     <div className="flex flex-col justify-center">
-                      <Text className="text-sm text-gray-dark font-semibold">
+                      <Text size="sm" weight="semibold" variant="dark">
                         Annitsa Bestweden
                       </Text>
-                      <Text className="text-2xs text-gray-lighter font-medium mt-0.5">
+                      <Text
+                        size="2xs"
+                        weight="medium"
+                        variant="lighter"
+                        className="mt-0.5"
+                      >
                         email@namaweb.com
                       </Text>
                     </div>
@@ -55,7 +65,8 @@ export default function AnggotaKelasPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="m-2 hover:text-red-500 hover:border-red-500"
+                    color="danger"
+                    className="m-2"
                   >
                     Keluarkan
                   </Button>
@@ -66,7 +77,7 @@ export default function AnggotaKelasPage() {
           })}
         </div>
         <div className="flex justify-between items-center p-2">
-          <Text className="text-2xs text-gray-lighter">
+          <Text size="2xs" variant="lighter">
             Menampilkan 10 dari 30 data
           </Text>
           <Pagination total={30} />
@@ -74,7 +85,7 @@ export default function AnggotaKelasPage() {
       </Card>
       <Card className="w-full lg:w-4/12 p-0">
         <div className="flex flex-col p-2">
-          <Title as="h6" className="font-semibold leading-4 ">
+          <Title as="h6" weight="semibold" className="leading-4">
             Permintaan Bergabung
           </Title>
           <Checkbox
@@ -96,10 +107,10 @@ export default function AnggotaKelasPage() {
                   className="w-[38px] h-[38px] rounded-md"
                 />
                 <div className="flex flex-col">
-                  <Text className="text-sm text-gray-dark font-semibold">
+                  <Text size="sm" weight="semibold" variant="dark">
                     Annitsa Bestweden
                   </Text>
-                  <Text className="text-2xs text-gray-lighter font-medium">
+                  <Text size="2xs" weight="medium" variant="lighter">
                     email@namaweb.com
                   </Text>
                   <div className="flex space-x-2 mt-2">

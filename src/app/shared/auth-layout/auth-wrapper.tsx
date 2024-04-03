@@ -1,12 +1,11 @@
 'use client'
 
-import { Button, Title, Text } from 'rizzui'
 import { FcGoogle } from 'react-icons/fc'
 import OrSeparation from '@/app/shared/auth-layout/or-separation'
-import toast from 'react-hot-toast'
 import Image from 'next/image'
 import imageBanner from '@public/auth-banner.png'
 import { signIn } from 'next-auth/react'
+import { Button, Text, Title } from '@/components/ui'
 
 export default function AuthWrapper({
   children,
@@ -32,7 +31,10 @@ export default function AuthWrapper({
             >
               {title}
             </Title>
-            <Text className="xs:text-xs md:text-sm font-medium text-gray-700">
+            <Text
+              weight="medium"
+              className="xs:text-xs md:text-sm text-gray-700"
+            >
               {description}
             </Text>
           </div>

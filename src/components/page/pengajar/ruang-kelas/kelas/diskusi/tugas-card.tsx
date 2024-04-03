@@ -40,7 +40,7 @@ export default function TugasCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        <Link href={`${routes.kelas}/diskusi/detail`}>
+        <Link href={`${routes.kelas}/diskusi/detail/tugas`}>
           <Button size="sm" className="bg-blue-400 w-full hover:bg-blue-600">
             Cek Tugas
           </Button>

@@ -1,13 +1,13 @@
 'use client'
 
-import Link from 'next/link'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Password, Checkbox, Button, Input, Text } from 'rizzui'
+import { Password, Checkbox, Input } from 'rizzui'
 import { Form } from '@/components/ui/form'
 import { publicRoutes } from '@/config/routes'
 import toast from 'react-hot-toast'
 import { signUpSchema, SignUpSchema } from './schema'
+import { Button, Text, TextLink } from '@/components/ui'
 
 const initialValues = {
   email: '',
@@ -78,26 +78,23 @@ export default function SignUpForm() {
                 error={errors.confirmPassword?.message}
               />
             </div>
-            <div className="col-span-2 flex items-start text-gray-700">
+            <div className="col-span-2 flex items-start">
               <Checkbox
                 onChange={(e) => setAgreed(e.target.checked)}
                 className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
                 label={
-                  <Text as="span" className="ps-1 text-gray">
+                  <Text as="span" size="sm">
                     Dengan mendaftar, anda telah menyetujui{' '}
-                    <Link
-                      href={publicRoutes.term}
-                      className="font-semibold text-gray-700 transition-colors hover:text-primary"
-                    >
+                    <TextLink href={publicRoutes.term} weight="semibold">
                       Ketentuan Layanan
-                    </Link>{' '}
+                    </TextLink>{' '}
                     &{' '}
-                    <Link
+                    <TextLink
                       href={publicRoutes.privacyPolicy}
-                      className="font-semibold text-gray-700 transition-colors hover:text-primary"
+                      weight="semibold"
                     >
                       Kebijakan Privasi
-                    </Link>{' '}
+                    </TextLink>{' '}
                     dari Kami
                   </Text>
                 }
@@ -113,14 +110,11 @@ export default function SignUpForm() {
           </div>
         )}
       </Form>
-      <Text className="mt-6 font-bold leading-loose md:mt-7 lg:mt-9">
+      <Text weight="bold" className="mt-6 leading-loose md:mt-7 lg:mt-9">
         Sudah punya akun?{' '}
-        <Link
-          href={publicRoutes.login}
-          className="font-semibold text-primary transition-colors hover:text-primary-dark"
-        >
+        <TextLink href={publicRoutes.login} color="primary" weight="semibold">
           Klik di sini untuk masuk
-        </Link>
+        </TextLink>
       </Text>
     </>
   )

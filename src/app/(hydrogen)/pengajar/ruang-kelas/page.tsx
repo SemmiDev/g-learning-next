@@ -1,9 +1,9 @@
 import PageHeader from '@/app/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import { Button, Text, Title } from 'rizzui'
 import imageKelas from '@public/images/list-kelas.png'
 import CardKelas from '@/components/page/pengajar/ruang-kelas/card-kelas'
+import { Button, Text, Title } from '@/components/ui'
 
 export const metadata = {
   ...metaObject('Ruang Kelas'),
@@ -31,7 +31,7 @@ export default function ListKelasPage() {
           <Title as="h5" className="leading-tight font-semibold">
             Semua Kelas
           </Title>
-          <Text className="text-xs text-gray-300">
+          <Text size="xs" className="text-gray-300">
             Semua kelas akademik yang anda
           </Text>
         </div>

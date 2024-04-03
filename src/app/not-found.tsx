@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Title, Button } from 'rizzui'
 import { PiHouseLineBold } from 'react-icons/pi'
 import { siteConfig } from '@/config/site.config'
 import NotFoundImg from '@public/not-found.png'
+import { Button, Title } from '@/components/ui'
 
 export default function NotFound() {
   return (
@@ -28,7 +28,8 @@ export default function NotFound() {
           />
           <Title
             as="h1"
-            className="text-[22px] font-bold leading-normal text-black lg:text-3xl"
+            weight="bold"
+            className="text-[22px] leading-normal text-black lg:text-3xl"
           >
             Sorry, the page not found
           </Title>

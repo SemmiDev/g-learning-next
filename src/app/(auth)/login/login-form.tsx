@@ -2,13 +2,16 @@
 
 import Link from 'next/link'
 import { SubmitHandler } from 'react-hook-form'
-import { Password, Button, Input, Text } from 'rizzui'
+import { Password, Input } from 'rizzui'
 import { Form } from '@/components/ui/form'
 import { publicRoutes, routes } from '@/config/routes'
 import toast from 'react-hot-toast'
 import { LoginSchema, loginSchema } from './schema'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
+import TextLink from '@/components/ui/text-link'
+import Text from '@/components/ui/text'
+import Button from '@/components/ui/button'
 
 const initialValues: LoginSchema = {
   email: 'anto@gmail.com',
@@ -84,14 +87,11 @@ export default function LoginForm() {
           </div>
         )}
       </Form>
-      <Text className="mt-6 font-bold leading-loose md:mt-7 lg:mt-9">
+      <Text weight="bold" className="mt-6 leading-loose md:mt-7 lg:mt-9">
         Belum punya Akun?{' '}
-        <Link
-          href={publicRoutes.signUp}
-          className="font-semibold transition-colors text-primary hover:text-primary-dark"
-        >
+        <TextLink href={publicRoutes.signUp} color="primary" weight="semibold">
           Klik di sini untuk mendaftar
-        </Link>
+        </TextLink>
       </Text>
     </>
   )

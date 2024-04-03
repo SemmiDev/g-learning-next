@@ -1,14 +1,12 @@
 'use client'
 
-import Card from '@/components/ui/card'
-import { Text, Title } from 'rizzui'
-import Table, { HeaderCell } from '@/components/ui/table'
+import { HeaderCell } from '@/components/ui/table'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
-import Pagination from '@/components/ui/pagination'
 import ChartPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/chart-card'
 import KehadiranPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/kehadiran-card'
 import RekapPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/rekap-card'
+import { Text } from '@/components/ui'
 
 const COLORS = ['#FFD1D1', '#D68585', '#B92E5D', '#6D1A36']
 
@@ -33,10 +31,15 @@ export default function PresensiPage() {
             className="w-10 h-10 rounded-md"
           />
           <div className="flex flex-col justify-center">
-            <Text className="text-sm text-gray-dark font-semibold">
+            <Text size="sm" weight="semibold" variant="dark">
               {row.nama}
             </Text>
-            <Text className="text-2xs text-gray-lighter font-medium mt-0.5">
+            <Text
+              size="2xs"
+              weight="medium"
+              variant="lighter"
+              className="mt-0.5"
+            >
               {row.email}
             </Text>
           </div>
@@ -48,7 +51,7 @@ export default function PresensiPage() {
       dataIndex: 'hadir',
       key: 'hadir',
       render: (value: string) => (
-        <Text className="text-sm font-medium text-gray-dark text-center">
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
           {value}
         </Text>
       ),
@@ -58,7 +61,7 @@ export default function PresensiPage() {
       dataIndex: 'izin',
       key: 'izin',
       render: (value: string) => (
-        <Text className="text-sm font-medium text-gray-dark text-center">
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
           {value}
         </Text>
       ),
@@ -68,7 +71,7 @@ export default function PresensiPage() {
       dataIndex: 'sakit',
       key: 'sakit',
       render: (value: string) => (
-        <Text className="text-sm font-medium text-gray-dark text-center">
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
           {value}
         </Text>
       ),
@@ -78,7 +81,7 @@ export default function PresensiPage() {
       dataIndex: 'alpha',
       key: 'alpha',
       render: (value: string) => (
-        <Text className="text-sm font-medium text-gray-dark text-center">
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
           {value}
         </Text>
       ),

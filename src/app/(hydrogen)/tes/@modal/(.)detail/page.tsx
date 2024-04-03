@@ -1,8 +1,9 @@
 'use client'
 
+import { Text, Title } from '@/components/ui'
 import { useRouter } from 'next/navigation'
 import { MdOutlineClose } from 'react-icons/md'
-import { ActionIcon, Modal, Text, Title } from 'rizzui'
+import { ActionIcon, Modal } from 'rizzui'
 
 export default function TesDetailModal() {
   const router = useRouter()

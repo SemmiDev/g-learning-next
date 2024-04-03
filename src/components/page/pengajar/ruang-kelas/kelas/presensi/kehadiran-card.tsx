@@ -1,9 +1,9 @@
+import { Text, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
 import Pagination from '@/components/ui/pagination'
 import Table from '@/components/ui/table'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
-import { Text, Title } from 'rizzui'
 
 export default function KehadiranPresensiCard({
   columns,
@@ -14,7 +14,7 @@ export default function KehadiranPresensiCard({
 }) {
   return (
     <Card className="col-span-3 p-0 lg:col-span-2">
-      <Title as="h4" className="text-[1.375rem] font-semibold m-2">
+      <Title as="h4" weight="semibold" className="text-[1.375rem] m-2">
         Anggota Kelas dengan Jumlah Kehadiran Terendah
       </Title>
       <div className="relative">
@@ -26,7 +26,7 @@ export default function KehadiranPresensiCard({
         />
       </div>
       <div className="flex justify-between items-center p-2">
-        <Text className="text-2xs text-gray-lighter">
+        <Text size="2xs" variant="lighter">
           Menampilkan 10 dari 30 data
         </Text>
         <Pagination total={30} />

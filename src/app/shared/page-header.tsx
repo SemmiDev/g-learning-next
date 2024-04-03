@@ -1,6 +1,6 @@
-import { Title } from 'rizzui'
 import cn from '@/utils/class-names'
 import Breadcrumb from '@/components/ui/breadcrumb'
+import { Title } from '@/components/ui'
 
 export type PageHeaderTypes = {
   title: string
@@ -20,6 +20,7 @@ export default function PageHeader({
         <div>
           <Title
             as="h2"
+            variant="dark"
             className="mb-2 text-[22px] lg:text-2xl 4xl:text-[26px]"
           >
             {title}

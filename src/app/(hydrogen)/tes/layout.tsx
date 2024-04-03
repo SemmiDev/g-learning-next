@@ -1,5 +1,5 @@
+import { Title } from '@/components/ui'
 import { ReactNode } from 'react'
-import { Title } from 'rizzui'
 
 export default function TesLayout({
   children,

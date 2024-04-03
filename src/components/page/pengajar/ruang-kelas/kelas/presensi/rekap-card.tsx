@@ -7,25 +7,19 @@ import {
   BsTrash,
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import {
-  Button as RizButton,
-  Dropdown,
-  Input,
-  Text,
-  Title,
-  ActionIcon,
-} from 'rizzui'
+import { Button as RizButton, Dropdown, Input, ActionIcon } from 'rizzui'
 import RekapPresensiItem from './rekap-item'
 import Pagination from '@/components/ui/pagination'
 import Button from '@/components/ui/button'
 import CardSeparator from '@/components/ui/card-separator'
 import Image from 'next/image'
 import imagePhoto from '@public/images/photo.png'
+import { Text, Title } from '@/components/ui'
 
 export default function RekapPresensiCard() {
   return (
     <Card className="col-span-3">
-      <Title as="h4" className="text-[1.375rem] font-semibold">
+      <Title as="h4" weight="semibold" className="text-[1.375rem]">
         Rekap Presensi Peserta
       </Title>
       <div className="flex flex-wrap gap-4 mt-4 lg:flex-nowrap">
@@ -121,26 +115,34 @@ export default function RekapPresensiCard() {
                           className="w-10 h-10 rounded-md"
                         />
                         <div className="flex flex-col">
-                          <Text className="text-sm text-gray-dark font-semibold">
+                          <Text size="sm" weight="semibold" variant="dark">
                             Annitsa Bestweden
                           </Text>
-                          <Text className="text-2xs text-gray-lighter font-medium">
+                          <Text size="2xs" weight="medium" variant="lighter">
                             email@namaweb.com
                           </Text>
                         </div>
                       </div>
                       <div className="flex space-x-2">
                         <ActionIcon size="sm" rounded="lg">
-                          H
+                          <Text size="xs" weight="semibold">
+                            H
+                          </Text>
                         </ActionIcon>
                         <ActionIcon size="sm" rounded="lg" variant="outline">
-                          I
+                          <Text size="xs" weight="semibold">
+                            I
+                          </Text>
                         </ActionIcon>
                         <ActionIcon size="sm" rounded="lg" variant="outline">
-                          A
+                          <Text size="xs" weight="semibold">
+                            S
+                          </Text>
                         </ActionIcon>
                         <ActionIcon size="sm" rounded="lg" variant="outline">
-                          S
+                          <Text size="xs" weight="semibold">
+                            A
+                          </Text>
                         </ActionIcon>
                       </div>
                     </div>
@@ -150,8 +152,8 @@ export default function RekapPresensiCard() {
             </div>
             <CardSeparator />
             <div className="flex justify-between items-center p-2">
-              <Text className="text-2xs text-gray-lighter">
-                Menampilkan 10 dari 20 data
+              <Text size="2xs" variant="lighter">
+                Menampilkan 10 dari 30 data
               </Text>
               <Pagination total={20} />
             </div>
