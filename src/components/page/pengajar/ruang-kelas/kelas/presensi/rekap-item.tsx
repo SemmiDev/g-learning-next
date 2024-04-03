@@ -1,5 +1,5 @@
+import { Text } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { Text } from 'rizzui'
 
 export default function RekapPresensiItem({
   active = false,
@@ -16,14 +16,12 @@ export default function RekapPresensiItem({
       )}
     >
       <Text
-        className={cn(
-          'text-base font-semibold',
-          active ? 'text-primary' : 'text-gray-dark'
-        )}
+        weight="semibold"
+        className={cn(active ? 'text-primary' : 'text-gray-dark')}
       >
         Judul sesi absensi
       </Text>
-      <Text className="text-sm font-semibold text-gray-lighter">
+      <Text size="sm" weight="semibold" variant="lighter">
         Kamis, 29 februari 2024, 23:59 WIB
       </Text>
     </div>

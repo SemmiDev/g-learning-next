@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import Card from '@/components/ui/card'
-import { Text, Title } from 'rizzui'
 import { ChartData } from './chart'
+import { Text, Title } from '@/components/ui'
 
 const ChartPresensi = dynamic(
   () => import('@/components/page/pengajar/ruang-kelas/kelas/presensi/chart'),
@@ -20,7 +20,7 @@ export default function ChartPresensiCard({
   return (
     <div className={className}>
       <Card>
-        <Title as="h4" className="text-[1.375rem] font-semibold">
+        <Title as="h4" weight="semibold" className="text-[1.375rem]">
           Persentase Tingkat Kehadiran
         </Title>
         <div className="flex flex-col items-center">
@@ -36,9 +36,15 @@ export default function ChartPresensiCard({
                       className="rounded-xl w-3 h-3"
                       style={{ backgroundColor: colors[idx] }}
                     ></div>
-                    <Text className="text-sm font-semibold">{val.name}</Text>
+                    <Text size="sm" weight="semibold">
+                      {val.name}
+                    </Text>
                   </div>
-                  <Text className="text-gray-dark text-[1.375rem] font-semibold">
+                  <Text
+                    weight="semibold"
+                    variant="dark"
+                    className="text-[1.375rem]"
+                  >
                     {val.value}%
                   </Text>
                 </div>

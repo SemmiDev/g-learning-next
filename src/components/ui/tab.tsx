@@ -2,7 +2,7 @@ import type { Item } from './tab-group'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Text } from 'rizzui'
+import Text from './text'
 
 export const Tab = ({ path, item }: { path: string; item: Item }) => {
   const pathname = usePathname()
@@ -27,7 +27,9 @@ export const Tab = ({ path, item }: { path: string; item: Item }) => {
     >
       <Text
         as="span"
-        className="inline-flex text-sm font-semibold rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-gray-100/70"
+        size="sm"
+        weight="semibold"
+        className="inline-flex rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-gray-100/70"
       >
         {item.text}
       </Text>

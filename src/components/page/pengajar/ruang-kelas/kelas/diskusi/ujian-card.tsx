@@ -1,6 +1,6 @@
 import Card from '@/components/ui/card'
 import Image from 'next/image'
-import { ActionIcon, Button, Text, Textarea, Title } from 'rizzui'
+import { ActionIcon, Textarea } from 'rizzui'
 import { BsChatSquareText, BsFillSendFill, BsThreeDots } from 'react-icons/bs'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { routes } from '@/config/routes'
 import CardSeparator from '@/components/ui/card-separator'
 import DropdownMoreAction from './dropdown-more-action'
+import { Button, Text, Title } from '@/components/ui'
 
 export default function UjianCard({ className }: { className?: string }) {
   return (
@@ -16,20 +17,22 @@ export default function UjianCard({ className }: { className?: string }) {
         <div className="flex space-x-3">
           <Image src={imagePhoto} alt="foto" className="w-12 h-12 rounded-lg" />
           <div className="flex flex-col">
-            <Text className="text-base font-semibold text-gray-dark">
+            <Text weight="semibold" variant="dark">
               Prabroro Janggar
             </Text>
-            <Text className="text-xs font-medium">30 Menit</Text>
+            <Text size="xs" weight="medium" variant="lighter">
+              30 Menit
+            </Text>
           </div>
         </div>
         <DropdownMoreAction />
       </div>
       <CardSeparator />
       <div className="flex flex-col px-4 py-2">
-        <Title as="h5" className="font-semibold">
+        <Title as="h5" weight="semibold" className="text-[1.375rem] mb-2">
           Judul Ujian
         </Title>
-        <Text className="text-gray-dark truncate">
+        <Text size="sm" variant="dark" className="truncate">
           Ini merupakan catatan dari sebuah diskui yang telah dibuat, cukup di
           buat dalam 2 kalimat dan tambahkan.
         </Text>
@@ -37,7 +40,7 @@ export default function UjianCard({ className }: { className?: string }) {
       <CardSeparator />
       <div className="p-2">
         <Link href={`${routes.kelas}/diskusi/detail`}>
-          <Button size="sm" className="bg-blue-400 w-full hover:bg-blue-600">
+          <Button size="sm" className="w-full">
             Cek Ujian
           </Button>
         </Link>
@@ -49,7 +52,9 @@ export default function UjianCard({ className }: { className?: string }) {
               className="flex space-x-1 items-center text-gray-dark px-0 hover:text-primary"
             >
               <BsChatSquareText size={14} />
-              <Text className="text-2xs font-semibold">6 Komentar</Text>
+              <Text size="2xs" weight="semibold">
+                6 Komentar
+              </Text>
             </Button>
           </div>
           <div className="flex items-center space-x-2 mt-1">

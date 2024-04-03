@@ -10,11 +10,10 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Button as RizButton, Dropdown, Input, ActionIcon } from 'rizzui'
 import RekapPresensiItem from './rekap-item'
 import Pagination from '@/components/ui/pagination'
-import Button from '@/components/ui/button'
 import CardSeparator from '@/components/ui/card-separator'
 import Image from 'next/image'
 import imagePhoto from '@public/images/photo.png'
-import { Text, Title } from '@/components/ui'
+import { Button, Text, Title } from '@/components/ui'
 
 export default function RekapPresensiCard() {
   return (
@@ -55,7 +54,7 @@ export default function RekapPresensiCard() {
             })}
           </Card>
           <div className="flex justify-between items-center p-2">
-            <Text className="text-2xs text-gray-lighter">
+            <Text size="2xs" variant="lighter">
               Menampilkan 10 dari 30 data
             </Text>
             <Pagination total={30} />
@@ -64,13 +63,13 @@ export default function RekapPresensiCard() {
         <div className="w-full lg:w-7/12">
           <Card className="flex justify-between">
             <div>
-              <Text className="text-base text-gray-dark font-semibold">
+              <Text weight="semibold" variant="dark">
                 Judul sesi absensi
               </Text>
-              <Text className="text-sm text-gray-lighter font-medium">
+              <Text size="sm" weight="medium" variant="lighter">
                 Keterangan singkat terkait sesi kelas
               </Text>
-              <Text className="text-sm text-gray-dark font-medium mt-2">
+              <Text size="sm" weight="medium" variant="dark" className="mt-2">
                 Kamis, 29 februari 2024, 23:59 WIB
               </Text>
             </div>
@@ -87,7 +86,7 @@ export default function RekapPresensiCard() {
             </div>
           </Card>
           <Card className="p-0 mt-4">
-            <Text className="text-base text-gray-dark font-semibold m-2">
+            <Text weight="semibold" variant="dark" className="m-2">
               Daftar Hadir Peserta Kelas
             </Text>
             <CardSeparator />

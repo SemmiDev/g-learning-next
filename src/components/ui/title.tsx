@@ -10,7 +10,7 @@ type TextProps = Without<RizTitleProps, 'color' | 'fontWeight'> &
 
 export default function Title({
   color = 'gray',
-  variant = 'default',
+  variant = 'dark',
   weight = 'bold',
   size,
   className,

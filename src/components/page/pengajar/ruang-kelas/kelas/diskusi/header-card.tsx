@@ -1,5 +1,4 @@
 import Card from '@/components/ui/card'
-import { Text, Title } from 'rizzui'
 import ButtonIcon from '../button-icon'
 import {
   BsCardChecklist,
@@ -8,14 +7,15 @@ import {
   BsMegaphone,
   BsWebcam,
 } from 'react-icons/bs'
+import { Text, Title } from '@/components/ui'
 
 export default function HeaderCard({ className }: { className?: string }) {
   return (
     <Card className={className}>
-      <Title as="h6" className="font-semibold leading-4">
+      <Title as="h6" weight="semibold" className="leading-4">
         Mulai Diskusi
       </Title>
-      <Text className="text-xs mt-1">
+      <Text size="xs" weight="semibold" variant="lighter" className="mt-1">
         Pilih jenis diskusi yang Kamu inginkan
       </Text>
       <div className="flex space-x-4 mt-4">

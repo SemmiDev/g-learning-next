@@ -23,7 +23,7 @@ const TextLinkColors = {
   primary: 'text-primary hover:text-primary-dark',
   secondary: 'text-secondary hover:text-secondary-dark',
   success: 'text-green hover:text-green-dark',
-  warning: 'text-yellow hover:text-yellow-dark',
+  warning: 'text-orange hover:text-orange-dark',
   danger: 'text-red hover:text-red-dark',
   gray: 'text-gray hover:text-gray-dark',
 }

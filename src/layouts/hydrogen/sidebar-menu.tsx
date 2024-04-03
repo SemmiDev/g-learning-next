@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { Fragment } from 'react'
 import { usePathname } from 'next/navigation'
-import { Title, Collapse } from 'rizzui'
+import { Collapse } from 'rizzui'
 import cn from '@/utils/class-names'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { menuItems } from '@/layouts/hydrogen/menu-items'
 import StatusBadge from '@/components/get-status-badge'
+import { Title } from '@/components/ui'
 
 export function SidebarMenu() {
   const pathname = usePathname()
@@ -136,7 +137,7 @@ export function SidebarMenu() {
               <Title
                 as="h6"
                 className={cn(
-                  'mb-2 truncate px-6 text-xs font-normal uppercase tracking-widest text-gray-500 2xl:px-8',
+                  'mb-2 truncate px-6 text-xs font-normal uppercase tracking-widest 2xl:px-8',
                   index !== 0 && 'mt-6 3xl:mt-7'
                 )}
               >

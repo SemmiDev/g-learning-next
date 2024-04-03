@@ -46,9 +46,9 @@ export const TextColors = {
     lighter: 'text-green-lighter',
   },
   warning: {
-    default: 'text-yellow',
-    dark: 'text-yellow-dark',
-    lighter: 'text-yellow-lighter',
+    default: 'text-orange',
+    dark: 'text-orange-dark',
+    lighter: 'text-orange-lighter',
   },
   danger: {
     default: 'text-red',

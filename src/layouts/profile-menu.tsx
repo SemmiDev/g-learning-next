@@ -1,6 +1,6 @@
 'use client'
 
-import { Title, Text, Avatar, Button, Popover } from 'rizzui'
+import { Avatar, Popover } from 'rizzui'
 import cn from '@/utils/class-names'
 import { routes, publicRoutes } from '@/config/routes'
 import Link from 'next/link'
@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
+import { Button, Text, Title } from '@/components/ui'
 
 const menuItems = [
   {
@@ -33,10 +34,10 @@ function DropdownMenu() {
           name={session?.user?.name ?? ''}
         />
         <div className="ms-3">
-          <Title as="h6" className="font-semibold">
+          <Title as="h6" weight="semibold">
             {session?.user?.name}
           </Title>
-          <Text className="text-gray">{session?.user?.email}</Text>
+          <Text>{session?.user?.email}</Text>
         </div>
       </div>
       <div className="grid px-3.5 py-3.5 font-medium text-gray">
@@ -52,8 +53,9 @@ function DropdownMenu() {
       </div>
       <div className="border-t border-gray-300 px-6 pb-6 pt-5">
         <Button
-          className="h-auto w-full justify-start p-0 font-medium text-gray-700 outline-none focus-within:text-gray hover:text-gray-dark focus-visible:ring-0"
           variant="text"
+          color="warning"
+          className="h-auto w-full justify-start p-0 font-medium outline-none focus-within:text-gray focus-visible:ring-0"
           onClick={() => logout()}
         >
           Keluar

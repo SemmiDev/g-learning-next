@@ -1,3 +1,4 @@
+import { Button, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { routes } from '@/config/routes'
 import Image from 'next/image'
@@ -6,7 +7,7 @@ import { BiMessageAltDots } from 'react-icons/bi'
 import { BsClipboardPlus } from 'react-icons/bs'
 import { GrShareOption } from 'react-icons/gr'
 import { PiGear } from 'react-icons/pi'
-import { ActionIcon, Badge, Button, Text } from 'rizzui'
+import { ActionIcon, Badge } from 'rizzui'
 
 export default function CardKelas({ image }: { image: any }) {
   return (
@@ -16,10 +17,12 @@ export default function CardKelas({ image }: { image: any }) {
       </div>
       <div className="flex justify-between items-start mt-2">
         <div>
-          <Text className="text-base font-semibold text-gray-dark">
+          <Text weight="semibold" variant="dark">
             Sistem Operasi
           </Text>
-          <Text className="font-medium text-gray-lighter">Kelas TI A</Text>
+          <Text size="sm" weight="medium" variant="lighter">
+            Kelas TI A
+          </Text>
         </div>
         <Badge size="sm" color="success" variant="flat">
           Publik
@@ -30,16 +33,20 @@ export default function CardKelas({ image }: { image: any }) {
           <tbody>
             <tr>
               <td className="border border-gray-100 p-1">
-                <Text className="font-medium text-gray-lighter">Jadwal</Text>
-                <Text className="font-medium text-gray">
+                <Text size="sm" weight="medium" variant="lighter">
+                  Jadwal
+                </Text>
+                <Text size="sm" weight="medium">
                   Senin, 13:00 - 14:00
                 </Text>
               </td>
               <td className="border border-gray-100 p-1">
-                <Text className="font-medium text-gray-lighter">
+                <Text size="sm" weight="medium" variant="lighter">
                   Jumlah Siswa
                 </Text>
-                <Text className="font-medium text-gray">36 Orang</Text>
+                <Text size="sm" weight="medium">
+                  36 Orang
+                </Text>
               </td>
             </tr>
           </tbody>

@@ -1,6 +1,7 @@
+import { Button } from '@/components/ui'
 import { BsPencil, BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { PiShareFat } from 'react-icons/pi'
-import { Button, Dropdown } from 'rizzui'
+import { Dropdown } from 'rizzui'
 
 export default function DropdownMoreAction() {
   return (
@@ -13,7 +14,7 @@ export default function DropdownMoreAction() {
       <Dropdown.Menu className="divide-y">
         <div className="mb-2">
           <Dropdown.Item className="text-gray-dark">
-            <BsPencil className="text-yellow-500 mr-2 h-4 w-4" />
+            <BsPencil className="text-orange mr-2 h-4 w-4" />
             Ubah
           </Dropdown.Item>
           <Dropdown.Item className="text-gray-dark">
@@ -23,7 +24,7 @@ export default function DropdownMoreAction() {
         </div>
         <div className="mt-2 pt-2">
           <Dropdown.Item className="text-gray-dark">
-            <BsTrash3 className="text-red-500 mr-2 h-4 w-4" />
+            <BsTrash3 className="text-red mr-2 h-4 w-4" />
             Hapus
           </Dropdown.Item>
         </div>
