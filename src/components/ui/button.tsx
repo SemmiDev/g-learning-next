@@ -3,7 +3,6 @@ import { Without } from '@/utils/without-type'
 import { Button as RizButton, ButtonProps as RizButtonProps } from 'rizzui'
 
 type ButtonProps = Without<RizButtonProps, 'color'> & {
-  classNames?: string
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
 }
 
@@ -38,12 +37,7 @@ const ButtonColors = {
   },
 }
 
-export default function Button({
-  classNames,
-  color,
-  className,
-  ...props
-}: ButtonProps) {
+export default function Button({ color, className, ...props }: ButtonProps) {
   return (
     <RizButton
       className={cn(

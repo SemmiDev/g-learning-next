@@ -2,18 +2,156 @@
 
 import { routes } from '@/config/routes'
 import Link from 'next/link'
-import { ActionIcon, Checkbox, Textarea } from 'rizzui'
+import { ActionIcon, Checkbox, Dropdown, Input, Textarea } from 'rizzui'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import { BsChatSquareText, BsFileText, BsFillSendFill } from 'react-icons/bs'
+import {
+  BsChatSquareText,
+  BsCheck,
+  BsChevronDown,
+  BsFileText,
+  BsFillSendFill,
+} from 'react-icons/bs'
 import Image from 'next/image'
 import Card from '@/components/ui/card'
 import imagePhoto from '@public/images/photo.png'
-import imagePreview from '@public/images/preview-video.png'
 import CardSeparator from '@/components/ui/card-separator'
 import { FaChevronDown } from 'react-icons/fa'
 import { Button, ReadMore, Text, TextSpan, Title } from '@/components/ui'
+import Table, { HeaderCell } from '@/components/ui/table'
+import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/tugas/dropdown-nilai-action'
+import { PiMagnifyingGlass } from 'react-icons/pi'
 
 export default function DiskusiDetailTugasPage() {
+  const tableColumns = [
+    {
+      title: <HeaderCell title="No" className="justify-center" />,
+      dataIndex: 'no',
+      key: 'no',
+      render: (_: string, __: any, idx: number) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {idx + 1}
+        </Text>
+      ),
+    },
+    {
+      title: <HeaderCell title="Nama Peserta" />,
+      dataIndex: 'nama',
+      key: 'nama',
+      render: (_: string, row: any) => (
+        <div className="flex space-x-3">
+          <Image
+            src={row.image}
+            alt="profile"
+            className="w-10 h-10 rounded-md"
+          />
+          <div className="flex flex-col justify-center">
+            <Text size="sm" weight="semibold" variant="dark">
+              {row.nama}
+            </Text>
+            <Text
+              size="2xs"
+              weight="medium"
+              variant="lighter"
+              className="mt-0.5"
+            >
+              {row.email}
+            </Text>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: <HeaderCell title="Waktu Pengumpulan" />,
+      dataIndex: 'tanggal',
+      key: 'tanggal',
+      render: (value: string, row: any) => (
+        <Text size="sm" weight="medium" variant="dark">
+          {row.tanggal}
+          <br />
+          {row.jam}
+        </Text>
+      ),
+    },
+    {
+      title: <HeaderCell title="Nilai" className="justify-center" />,
+      dataIndex: 'nilai',
+      key: 'nilai',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {value ?? '-'}
+        </Text>
+      ),
+    },
+    {
+      title: <HeaderCell title="" />,
+      dataIndex: 'nilai',
+      key: 'nilai',
+      render: (_: string, row: any) => {
+        if (row.nilai != null) {
+          return (
+            <div className="flex justify-end">
+              <DropdownNilaiAction />
+            </div>
+          )
+        }
+
+        return (
+          <Button size="sm" variant="solid" className="whitespace-nowrap">
+            Cek Tugas
+          </Button>
+        )
+      },
+    },
+  ]
+
+  const tableData = [
+    {
+      id: 1,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      tanggal: '15 Des 24',
+      jam: '15 : 36',
+      nilai: 92,
+    },
+    {
+      id: 2,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      tanggal: '15 Des 24',
+      jam: '15 : 36',
+      nilai: 89,
+    },
+    {
+      id: 3,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      tanggal: '15 Des 24',
+      jam: '15 : 36',
+      nilai: 86,
+    },
+    {
+      id: 4,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      tanggal: '15 Des 24',
+      jam: '15 : 36',
+      nilai: null,
+    },
+    {
+      id: 5,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      tanggal: '15 Des 24',
+      jam: '15 : 36',
+      nilai: null,
+    },
+  ]
+
   return (
     <>
       <div className="mt-4 mb-4">
@@ -115,64 +253,46 @@ export default function DiskusiDetailTugasPage() {
         </Card>
         <Card className="flex flex-col flex-1 p-0">
           <Title as="h6" weight="semibold" className="px-3 py-2">
-            Anggota Kelas
+            Pengumpulan Tugas Peserta
           </Title>
-          <div className="flex justify-between items-center px-3 mb-4">
-            <Checkbox
+          <CardSeparator />
+          <div className="flex justify-between p-2">
+            <Input
               size="sm"
-              label="Tandai Hadir Semua"
-              className="text-gray-lighter text-xs"
-              iconClassName="h-3 top-1"
+              type="search"
+              prefix={
+                <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+              }
+              placeholder="Cari Nama Peserta"
             />
-            <Button size="sm">Simpan</Button>
+            <Dropdown>
+              <Dropdown.Trigger>
+                <Button size="sm" variant="outline">
+                  Belum Mengumpulkan <BsChevronDown className="ml-2 w-5" />
+                </Button>
+              </Dropdown.Trigger>
+              <Dropdown.Menu>
+                <Dropdown.Item className="justify-between">
+                  <Text size="sm" className="text-left">
+                    Belum Mengumpulkan
+                  </Text>{' '}
+                  <BsCheck size={18} />
+                </Dropdown.Item>
+                <Dropdown.Item className="justify-between">
+                  <Text size="sm" className="text-left">
+                    Sudah Mengumpulkan
+                  </Text>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
-          <div>
-            {[...Array(10)].map((val, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="flex justify-between items-center border-t-2 border-t-gray-100 px-3 py-2"
-                >
-                  <div className="flex space-x-3">
-                    <Image
-                      src={imagePhoto}
-                      alt="profile"
-                      className="w-10 h-10 rounded-md"
-                    />
-                    <div className="flex flex-col">
-                      <Text size="sm" weight="semibold" variant="dark">
-                        Annitsa Bestweden
-                      </Text>
-                      <Text size="2xs" weight="medium" variant="lighter">
-                        email@namaweb.com
-                      </Text>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <ActionIcon size="sm" rounded="lg">
-                      <Text size="xs" weight="semibold">
-                        H
-                      </Text>
-                    </ActionIcon>
-                    <ActionIcon size="sm" rounded="lg" variant="outline">
-                      <Text size="xs" weight="semibold">
-                        I
-                      </Text>
-                    </ActionIcon>
-                    <ActionIcon size="sm" rounded="lg" variant="outline">
-                      <Text size="xs" weight="semibold">
-                        S
-                      </Text>
-                    </ActionIcon>
-                    <ActionIcon size="sm" rounded="lg" variant="outline">
-                      <Text size="xs" weight="semibold">
-                        A
-                      </Text>
-                    </ActionIcon>
-                  </div>
-                </div>
-              )
-            })}
+          <div className="relative">
+            <Table
+              rowKey={(record) => record.id}
+              variant="elegant"
+              columns={tableColumns}
+              data={tableData}
+            />
           </div>
         </Card>
       </div>
