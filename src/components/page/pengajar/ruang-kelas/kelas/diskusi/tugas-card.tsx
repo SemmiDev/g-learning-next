@@ -9,6 +9,7 @@ import { routes } from '@/config/routes'
 import CardSeparator from '@/components/ui/card-separator'
 import DropdownMoreAction from './dropdown-more-action'
 import { Button, Text, TextSpan, Title } from '@/components/ui'
+import KomentarSectionShort from './komentar-section-short'
 
 export default function TugasCard({ className }: { className?: string }) {
   return (
@@ -48,35 +49,7 @@ export default function TugasCard({ className }: { className?: string }) {
             Cek Tugas
           </Button>
         </Link>
-        <div className="flex flex-col p-2">
-          <div className="flex justify-start">
-            <Button
-              size="sm"
-              variant="text"
-              className="flex space-x-1 items-center text-gray-dark px-0 hover:text-primary"
-            >
-              <BsChatSquareText size={14} />
-              <Text size="2xs" weight="semibold">
-                6 Komentar
-              </Text>
-            </Button>
-          </div>
-          <div className="flex items-center space-x-2 mt-1">
-            <Image
-              src={imagePhoto}
-              alt="profile"
-              className="w-8 h-8 rounded-md"
-            />
-            <Textarea
-              className="flex-1"
-              rows={2}
-              placeholder="Tulis Komentar..."
-            ></Textarea>
-            <ActionIcon size="sm" variant="outline">
-              <BsFillSendFill size={12} />
-            </ActionIcon>
-          </div>
-        </div>
+        <KomentarSectionShort className="pt-4 px-2" />
       </div>
     </Card>
   )

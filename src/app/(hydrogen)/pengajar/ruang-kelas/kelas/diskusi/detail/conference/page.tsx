@@ -4,16 +4,14 @@ import { routes } from '@/config/routes'
 import Link from 'next/link'
 import { ActionIcon, Checkbox } from 'rizzui'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import { BsFileText } from 'react-icons/bs'
 import Image from 'next/image'
 import Card from '@/components/ui/card'
 import imagePhoto from '@public/images/photo.png'
-import imagePreview from '@public/images/preview-video.png'
 import CardSeparator from '@/components/ui/card-separator'
-import { Button, ReadMore, Text, Title } from '@/components/ui'
-import KomentarSectionFull from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-full'
+import { Button, ReadMore, Text, TextSpan, Title } from '@/components/ui'
+import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
 
-export default function DiskusiDetailPage() {
+export default function DiskusiDetailConferencePage() {
   return (
     <>
       <div className="mt-4 mb-4">
@@ -27,15 +25,15 @@ export default function DiskusiDetailPage() {
         </Link>
       </div>
       <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
-        <Card className="flex flex-col p-0 w-full lg:w-8/12">
+        <Card className="flex flex-col p-0 w-full lg:w-6/12">
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
               <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-                Judul Diskusi + Gambar dan Video Mata Kuliah Aljabar Linier
+                Judul Conference
               </Text>
               <Text size="sm">
                 <ReadMore>
-                  Ini merupakan catatan dari sebuah diskusi yang telah dibuat,
+                  Ini merupakan catatan dari sebuah tugas yang telah dibuat,
                   cukup di buat dalam 2 kalimat dan tambahkan. Ini merupakan
                   catatan dari sebuah diskusi yang telah dibuat, cukup di buat
                   dalam 2 kalimat dan tambahkan.
@@ -44,41 +42,12 @@ export default function DiskusiDetailPage() {
             </div>
           </div>
           <CardSeparator />
-          <div className="flex flex-col px-4 py-2">
-            <div className="flex justify-center mt-4">
-              <div className="flex max-w-8/12 max-h-60">
-                <Image
-                  src={imagePreview}
-                  alt="preview"
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
-          <CardSeparator />
-          <div className="flex justify-between items-center bg-gray-50 rounded-md mx-4 my-2 p-2">
-            <div className="flex items-center space-x-1">
-              <BsFileText className="text-primary-lighter" size={32} />
-              <div className="flex flex-col">
-                <Text
-                  size="sm"
-                  weight="medium"
-                  variant="dark"
-                  className="leading-4"
-                >
-                  NamaFile.ext
-                </Text>
-                <Text size="xs" variant="dark" className="leading-4">
-                  ukuranfile
-                </Text>
-              </div>
-            </div>
-            <Button size="sm" variant="text" className="text-sm">
-              Unduh
+          <div className="flex p-2">
+            <Button size="sm" color="primary" className="w-full">
+              Mulai Conference
             </Button>
           </div>
-          <CardSeparator />
-          <KomentarSectionFull className="p-4" />
+          <KomentarSectionShort className="p-4" />
         </Card>
         <Card className="flex flex-col flex-1 p-0">
           <Title as="h6" weight="semibold" className="px-3 py-2">

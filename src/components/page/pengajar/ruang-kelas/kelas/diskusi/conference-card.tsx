@@ -9,6 +9,7 @@ import { routes } from '@/config/routes'
 import CardSeparator from '@/components/ui/card-separator'
 import DropdownMoreAction from './dropdown-more-action'
 import { Button, Text, Title } from '@/components/ui'
+import KomentarSectionFull from './komentar-section-full'
 
 export default function ConferenceCard({ className }: { className?: string }) {
   return (
@@ -39,40 +40,12 @@ export default function ConferenceCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        <Link href={`${routes.kelas}/diskusi/detail`}>
+        <Link href={`${routes.kelas}/diskusi/detail/conference`}>
           <Button size="sm" color="primary" className="w-full">
             <BsCameraVideo size={16} className="me-2" /> Buka Kelas
           </Button>
         </Link>
-        <div className="flex flex-col p-2">
-          <div className="flex justify-start">
-            <Button
-              size="sm"
-              variant="text"
-              className="flex space-x-1 items-center text-gray-dark px-0 hover:text-primary"
-            >
-              <BsChatSquareText size={14} />
-              <Text size="2xs" weight="semibold">
-                6 Komentar
-              </Text>
-            </Button>
-          </div>
-          <div className="flex items-center space-x-2 mt-1">
-            <Image
-              src={imagePhoto}
-              alt="profile"
-              className="w-8 h-8 rounded-md"
-            />
-            <Textarea
-              className="flex-1"
-              rows={2}
-              placeholder="Tulis Komentar..."
-            ></Textarea>
-            <ActionIcon size="sm" variant="outline">
-              <BsFillSendFill size={12} />
-            </ActionIcon>
-          </div>
-        </div>
+        <KomentarSectionFull className="pt-4 px-2 pb-2" />
       </div>
     </Card>
   )

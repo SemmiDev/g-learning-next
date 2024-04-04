@@ -15,7 +15,7 @@ import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/di
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
 
-export default function DiskusiDetailTugasPage() {
+export default function DiskusiDetailUjianPage() {
   const tableColumns = [
     {
       title: <HeaderCell title="No" className="justify-center" />,
@@ -55,7 +55,7 @@ export default function DiskusiDetailTugasPage() {
       ),
     },
     {
-      title: <HeaderCell title="Waktu Pengumpulan" />,
+      title: <HeaderCell title="Tanggal & Waktu Pengerjaan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
       render: (value: string, row: any) => (
@@ -80,21 +80,11 @@ export default function DiskusiDetailTugasPage() {
       title: <HeaderCell title="" />,
       dataIndex: 'nilai',
       key: 'nilai',
-      render: (_: string, row: any) => {
-        if (row.nilai != null) {
-          return (
-            <div className="flex justify-end">
-              <DropdownNilaiAction />
-            </div>
-          )
-        }
-
-        return (
-          <Button size="sm" variant="solid" className="whitespace-nowrap">
-            Cek Tugas
-          </Button>
-        )
-      },
+      render: (_: string, row: any) => (
+        <div className="flex justify-end">
+          <DropdownNilaiAction />
+        </div>
+      ),
     },
   ]
 
@@ -106,7 +96,7 @@ export default function DiskusiDetailTugasPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 92,
+      nilai: 91,
     },
     {
       id: 2,
@@ -133,7 +123,7 @@ export default function DiskusiDetailTugasPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: null,
+      nilai: 85,
     },
     {
       id: 5,
@@ -142,7 +132,7 @@ export default function DiskusiDetailTugasPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: null,
+      nilai: 85,
     },
   ]
 
@@ -163,7 +153,7 @@ export default function DiskusiDetailTugasPage() {
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
               <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-                Judul Tugas
+                Judul Ujian
               </Text>
               <Text size="sm">
                 <ReadMore>
@@ -173,10 +163,6 @@ export default function DiskusiDetailTugasPage() {
                   dalam 2 kalimat dan tambahkan.
                 </ReadMore>
               </Text>
-              <Text size="sm" weight="semibold" variant="dark" className="mt-2">
-                Batas Waktu Pengumpulan:{' '}
-                <TextSpan color="danger">13 April 2024, 23:59 WIB </TextSpan>
-              </Text>
             </div>
           </div>
           <CardSeparator />
@@ -184,7 +170,7 @@ export default function DiskusiDetailTugasPage() {
         </Card>
         <Card className="flex flex-col flex-1 p-0">
           <Title as="h6" weight="semibold" className="px-3 py-2">
-            Pengumpulan Tugas Peserta
+            Peserta yang Mengikuti Ujian
           </Title>
           <CardSeparator />
           <div className="flex justify-between p-2">
@@ -196,26 +182,53 @@ export default function DiskusiDetailTugasPage() {
               }
               placeholder="Cari Nama Peserta"
             />
-            <Dropdown>
-              <Dropdown.Trigger>
-                <Button size="sm" variant="outline">
-                  Belum Mengumpulkan <BsChevronDown className="ml-2 w-5" />
-                </Button>
-              </Dropdown.Trigger>
-              <Dropdown.Menu>
-                <Dropdown.Item className="justify-between">
-                  <Text size="sm" className="text-left">
-                    Belum Mengumpulkan
-                  </Text>{' '}
-                  <BsCheck size={18} />
-                </Dropdown.Item>
-                <Dropdown.Item className="justify-between">
-                  <Text size="sm" className="text-left">
-                    Sudah Mengumpulkan
-                  </Text>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <div className="flex space-x-2">
+              <Dropdown>
+                <Dropdown.Trigger>
+                  <Button size="sm" variant="outline">
+                    Nilai Tertinggi <BsChevronDown className="ml-2 w-5" />
+                  </Button>
+                </Dropdown.Trigger>
+                <Dropdown.Menu>
+                  <Dropdown.Item className="justify-between">
+                    <Text size="sm" className="text-left">
+                      Abjad Nama
+                    </Text>
+                  </Dropdown.Item>
+                  <Dropdown.Item className="justify-between">
+                    <Text size="sm" className="text-left">
+                      Nilai Tertinggi
+                    </Text>{' '}
+                    <BsCheck size={18} />
+                  </Dropdown.Item>
+                  <Dropdown.Item className="justify-between">
+                    <Text size="sm" className="text-left">
+                      Nilai Terendah
+                    </Text>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown>
+                <Dropdown.Trigger>
+                  <Button size="sm" variant="outline">
+                    Sudah Ujian <BsChevronDown className="ml-2 w-5" />
+                  </Button>
+                </Dropdown.Trigger>
+                <Dropdown.Menu>
+                  <Dropdown.Item className="justify-between">
+                    <Text size="sm" className="text-left">
+                      Belum Ujian
+                    </Text>
+                  </Dropdown.Item>
+                  <Dropdown.Item className="justify-between">
+                    <Text size="sm" className="text-left">
+                      Sudah Ujian
+                    </Text>{' '}
+                    <BsCheck size={18} />
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </div>
           <div className="relative">
             <Table

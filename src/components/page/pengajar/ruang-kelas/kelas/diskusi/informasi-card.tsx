@@ -8,6 +8,7 @@ import imagePreview from '@public/images/preview-video.png'
 import CardSeparator from '@/components/ui/card-separator'
 import DropdownMoreAction from './dropdown-more-action'
 import { Button, Text, Title } from '@/components/ui'
+import KomentarSectionZero from './komentar-section-zero'
 
 export default function InformasiCard({ className }: { className?: string }) {
   return (
@@ -46,35 +47,7 @@ export default function InformasiCard({ className }: { className?: string }) {
         </div>
       </div>
       <CardSeparator />
-      <div className="flex flex-col px-4 py-2">
-        <div className="flex justify-start">
-          <Button
-            size="sm"
-            variant="text"
-            className="flex space-x-1 items-center px-0"
-          >
-            <BsChatSquareText size={14} />
-            <Text size="2xs" weight="semibold">
-              6 Komentar
-            </Text>
-          </Button>
-        </div>
-        <div className="flex items-center space-x-2 mt-1">
-          <Image
-            src={imagePhoto}
-            alt="profile"
-            className="w-8 h-8 rounded-md"
-          />
-          <Textarea
-            className="flex-1"
-            rows={2}
-            placeholder="Tulis Komentar..."
-          ></Textarea>
-          <ActionIcon size="sm" variant="outline">
-            <BsFillSendFill size={12} />
-          </ActionIcon>
-        </div>
-      </div>
+      <KomentarSectionZero className="pt-4 px-4 pb-2" />
     </Card>
   )
 }
