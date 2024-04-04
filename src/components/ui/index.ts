@@ -1,6 +1,8 @@
 import Button from './button'
 import Card from './card'
 import CardSeparator from './card-separator'
+import Input from './input'
+import Modal from './modal'
 import Pagination from './pagination'
 import ReadMore from './readmore'
 import { TabGroup } from './tab-group'
@@ -14,6 +16,8 @@ export {
   Button,
   Card,
   CardSeparator,
+  Input,
+  Modal,
   Pagination,
   ReadMore,
   TabGroup,

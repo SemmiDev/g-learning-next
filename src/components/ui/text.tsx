@@ -4,7 +4,7 @@ import { Text as RizText, TextProps as RizTextProps } from 'rizzui'
 
 export type DefaultTextProps = {
   size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
-  color?: 'gray' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'gray'
   weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold'
 }
 
