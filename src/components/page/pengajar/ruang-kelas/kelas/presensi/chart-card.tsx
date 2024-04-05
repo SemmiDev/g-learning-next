@@ -13,7 +13,7 @@ export default function ChartPresensiCard({
   data,
   colors,
 }: {
-  className: string
+  className?: string
   data: ChartData[]
   colors: string[]
 }) {
