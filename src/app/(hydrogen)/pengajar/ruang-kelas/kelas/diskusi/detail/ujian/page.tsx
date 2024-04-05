@@ -9,11 +9,12 @@ import Image from 'next/image'
 import Card from '@/components/ui/card'
 import imagePhoto from '@public/images/photo.png'
 import CardSeparator from '@/components/ui/card-separator'
-import { Button, ReadMore, Text, TextSpan, Title } from '@/components/ui'
+import { Button, Pagination, ReadMore, Text, Title } from '@/components/ui'
 import Table, { HeaderCell } from '@/components/ui/table'
 import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/tugas/dropdown-nilai-action'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
+import { BiFilterAlt } from 'react-icons/bi'
 
 export default function DiskusiDetailUjianPage() {
   const tableColumns = [
@@ -211,18 +212,19 @@ export default function DiskusiDetailUjianPage() {
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button size="sm" variant="outline">
-                    Sudah Ujian <BsChevronDown className="ml-2 w-5" />
+                    <BiFilterAlt size={16} />
                   </Button>
                 </Dropdown.Trigger>
                 <Dropdown.Menu>
                   <Dropdown.Item className="justify-between">
                     <Text size="sm" className="text-left">
-                      Belum Ujian
+                      Belum Mengumpulkan
                     </Text>
+                    <BsCheck size={18} />
                   </Dropdown.Item>
                   <Dropdown.Item className="justify-between">
                     <Text size="sm" className="text-left">
-                      Sudah Ujian
+                      Sudah Mengumpulkan
                     </Text>{' '}
                     <BsCheck size={18} />
                   </Dropdown.Item>
@@ -237,6 +239,12 @@ export default function DiskusiDetailUjianPage() {
               columns={tableColumns}
               data={tableData}
             />
+          </div>
+          <div className="flex justify-between items-center p-2">
+            <Text size="2xs" variant="lighter">
+              Menampilkan 10 dari 30 data
+            </Text>
+            <Pagination total={30} />
           </div>
         </Card>
       </div>
