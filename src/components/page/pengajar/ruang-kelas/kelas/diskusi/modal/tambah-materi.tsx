@@ -1,7 +1,7 @@
 import { Button, CardSeparator, Modal } from '@/components/ui'
 import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
-import { Controller, SubmitHandler, useFormContext } from 'react-hook-form'
+import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
 import { Input } from 'rizzui'
 import { required } from '@/utils/validation'
@@ -50,6 +50,7 @@ export default function TambahMateriModal({
               <Input
                 label="Judul"
                 placeholder="Tulis judul materi di sini"
+                labelClassName="text-gray-dark font-semibold"
                 {...register('judul')}
                 error={errors.judul?.message as string}
               />
@@ -60,12 +61,23 @@ export default function TambahMateriModal({
                 render={({ field: { onChange, value } }) => (
                   <QuillEditor
                     label="Catatan Tambahan"
-                    className="col-span-full [&_.ql-editor]:min-h-[100px]"
+                    placeholder="Buat catatan singkat terkait materi yang diberikan"
                     value={value}
                     onChange={onChange}
                   />
                 )}
               />
+
+              <div>
+                <label className="text-gray-dark font-semibold mb-1.5 block">
+                  Tambahkan Berkas
+                </label>
+                <div className="text-gray-lighter text-sm border-2 border-gray-50 rounded-md py-3 px-4">
+                  <Button variant="text" className="h-4 p-0">
+                    Klik di sini untuk tambah berkas
+                  </Button>
+                </div>
+              </div>
             </div>
             <CardSeparator />
             <div className="flex gap-2 p-3">

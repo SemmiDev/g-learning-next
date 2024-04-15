@@ -98,9 +98,11 @@ export default function DiskusiDetailTugasPage() {
         }
 
         return (
-          <Button size="sm" variant="solid" className="whitespace-nowrap">
-            Cek Tugas
-          </Button>
+          <Link href={`${routes.kelas}/tugas/detail`}>
+            <Button size="sm" variant="solid" className="whitespace-nowrap">
+              Cek Tugas
+            </Button>
+          </Link>
         )
       },
     },

@@ -12,6 +12,8 @@ import DropdownNilaiAction from '../diskusi/tugas/dropdown-nilai-action'
 import KomentarSectionZero from '../diskusi/komentar-section-zero'
 import RekapTugasItem from './rekap-item'
 import { BiFilterAlt } from 'react-icons/bi'
+import Link from 'next/link'
+import { routes } from '@/config/routes'
 
 export default function RekapTugasCard() {
   const tableColumns = [
@@ -56,7 +58,7 @@ export default function RekapTugasCard() {
       title: <HeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
-      render: (value: string, row: any) => (
+      render: (_: string, row: any) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
           <br />
@@ -88,9 +90,11 @@ export default function RekapTugasCard() {
         }
 
         return (
-          <Button size="sm" variant="solid" className="whitespace-nowrap">
-            Cek Tugas
-          </Button>
+          <Link href={`${routes.kelas}/tugas/detail`}>
+            <Button size="sm" variant="solid" className="whitespace-nowrap">
+              Cek Tugas
+            </Button>
+          </Link>
         )
       },
     },
