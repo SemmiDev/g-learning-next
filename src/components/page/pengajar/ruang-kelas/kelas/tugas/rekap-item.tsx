@@ -36,7 +36,7 @@ export default function RekapTugasItem({
       </Text>
       <div className="flex justify-between">
         <Text size="sm" weight="semibold" variant="dark">
-          Kamis, 29 februari 2024, 23:59 WIB
+          29 februari 2024, 23:59 WIB
         </Text>
         <Text size="xs" weight="medium" variant="lighter">
           2 peserta mengumpulkan Tugas

@@ -8,7 +8,7 @@ import Image from 'next/image'
 import imagePhoto from '@public/images/photo.png'
 import { Button, Text, Title } from '@/components/ui'
 import Table, { HeaderCell } from '@/components/ui/table'
-import DropdownNilaiAction from '../diskusi/tugas/dropdown-nilai-action'
+import DropdownNilaiAction from './dropdown-nilai-action'
 import KomentarSectionZero from '../diskusi/komentar-section-zero'
 import RekapTugasItem from './rekap-item'
 import { BiFilterAlt } from 'react-icons/bi'
@@ -261,7 +261,7 @@ export default function RekapTugasCard() {
               </Text>
             </div>
             <div className="flex flex-col justify-between">
-              <div className="flex justify-end">
+              <div className="flex flex-wrap justify-end">
                 <Button size="sm" color="warning" variant="text">
                   <BsPencil className="mr-2" /> Ubah
                 </Button>

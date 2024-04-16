@@ -11,7 +11,7 @@ import imagePhoto from '@public/images/photo.png'
 import CardSeparator from '@/components/ui/card-separator'
 import { Button, Pagination, ReadMore, Text, Title } from '@/components/ui'
 import Table, { HeaderCell } from '@/components/ui/table'
-import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/tugas/dropdown-nilai-action'
+import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/ujian/dropdown-nilai-action'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
 import { BiFilterAlt } from 'react-icons/bi'
@@ -59,7 +59,7 @@ export default function DiskusiDetailUjianPage() {
       title: <HeaderCell title="Tanggal & Waktu Pengerjaan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
-      render: (value: string, row: any) => (
+      render: (_: string, row: any) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
           <br />
@@ -81,7 +81,7 @@ export default function DiskusiDetailUjianPage() {
       title: <HeaderCell title="" />,
       dataIndex: 'nilai',
       key: 'nilai',
-      render: (_: string, row: any) => (
+      render: () => (
         <div className="flex justify-end">
           <DropdownNilaiAction />
         </div>
@@ -158,7 +158,7 @@ export default function DiskusiDetailUjianPage() {
               </Text>
               <Text size="sm">
                 <ReadMore>
-                  Ini merupakan catatan dari sebuah tugas yang telah dibuat,
+                  Ini merupakan catatan dari sebuah ujian yang telah dibuat,
                   cukup di buat dalam 2 kalimat dan tambahkan. Ini merupakan
                   catatan dari sebuah diskusi yang telah dibuat, cukup di buat
                   dalam 2 kalimat dan tambahkan.
@@ -218,13 +218,13 @@ export default function DiskusiDetailUjianPage() {
                 <Dropdown.Menu>
                   <Dropdown.Item className="justify-between">
                     <Text size="sm" className="text-left">
-                      Belum Mengumpulkan
+                      Belum Ujian
                     </Text>
                     <BsCheck size={18} />
                   </Dropdown.Item>
                   <Dropdown.Item className="justify-between">
                     <Text size="sm" className="text-left">
-                      Sudah Mengumpulkan
+                      Sudah Ujian
                     </Text>{' '}
                     <BsCheck size={18} />
                   </Dropdown.Item>

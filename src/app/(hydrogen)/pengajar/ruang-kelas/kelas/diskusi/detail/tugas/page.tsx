@@ -18,7 +18,7 @@ import {
   Title,
 } from '@/components/ui'
 import Table, { HeaderCell } from '@/components/ui/table'
-import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/tugas/dropdown-nilai-action'
+import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/tugas/dropdown-nilai-action'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
 import { BiFilterAlt } from 'react-icons/bi'

@@ -7,8 +7,9 @@ import Pagination from './pagination'
 import ReadMore from './readmore'
 import { TabGroup } from './tab-group'
 import { Tab } from './tab'
-import TextLink from './text-link'
 import Text from './text'
+import TextLabel from './text-label'
+import TextLink from './text-link'
 import TextSpan from './text-span'
 import Title from './title'
 
@@ -22,8 +23,9 @@ export {
   ReadMore,
   TabGroup,
   Tab,
-  TextLink,
   Text,
+  TextLabel,
+  TextLink,
   TextSpan,
   Title,
 }
