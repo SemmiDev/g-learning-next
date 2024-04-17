@@ -11,19 +11,32 @@ export default function ModalHeader({
   onClose,
 }: {
   title: string
-  desc: string
+  desc?: string
   className?: string
   onClose(): void
 }) {
   return (
-    <div className={cn('flex justify-between bg-black p-3', className)}>
+    <div
+      className={cn(
+        'modal-header flex justify-between bg-black p-3',
+        className
+      )}
+    >
       <div>
-        <Title as="h3" className="text-white mb-1">
+        <Title as="h4" weight="semibold" className="modal-title text-white">
           {title}
         </Title>
-        <Text size="sm" color="gray" variant="lighter">
-          {desc}
-        </Text>
+        {desc && (
+          <Text
+            size="sm"
+            weight="medium"
+            color="gray"
+            variant="lighter"
+            className="modal-desc mt-1"
+          >
+            {desc}
+          </Text>
+        )}
       </div>
       <ActionIcon
         size="sm"

@@ -7,17 +7,8 @@ import {
   BsMegaphone,
   BsWebcam,
 } from 'react-icons/bs'
-import {
-  Button,
-  CardSeparator,
-  Input,
-  Modal,
-  Text,
-  Title,
-} from '@/components/ui'
+import { Text, Title } from '@/components/ui'
 import { useState } from 'react'
-import { Controller } from 'react-hook-form'
-import QuillEditor from '@/components/ui/quill-editor'
 import TambahMateriModal from './modal/tambah-materi'
 
 export default function HeaderCard({ className }: { className?: string }) {
@@ -54,6 +45,7 @@ export default function HeaderCard({ className }: { className?: string }) {
           </ButtonIcon>
         </div>
       </Card>
+
       <TambahMateriModal
         showModal={showModalMateri}
         setShowModal={setShowModalMateri}

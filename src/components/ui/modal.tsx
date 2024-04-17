@@ -5,7 +5,7 @@ import cn from '@/utils/class-names'
 
 type ModalProps = RizModalProps & {
   title: string
-  desc: string
+  desc?: string
   children: ReactNode
   headerClassName?: string
   bodyClassName?: string
@@ -34,7 +34,7 @@ export default function Modal({
         onClose={props.onClose}
         className={headerClassName}
       />
-      <div className={bodyClassName}>{children}</div>
+      <div className={cn('modal-body', bodyClassName)}>{children}</div>
     </RizModal>
   )
 }
