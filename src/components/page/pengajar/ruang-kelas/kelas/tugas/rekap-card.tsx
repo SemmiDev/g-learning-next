@@ -217,10 +217,10 @@ export default function RekapTugasCard() {
               </Dropdown.Trigger>
               <Dropdown.Menu>
                 <Dropdown.Item className="justify-between">
-                  <Text>Terbaru</Text> <BsCheck size={18} />
+                  <Text size="sm">Terbaru</Text> <BsCheck size={18} />
                 </Dropdown.Item>
                 <Dropdown.Item className="justify-between">
-                  <Text>Terlawas</Text>
+                  <Text size="sm">Terlawas</Text>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
