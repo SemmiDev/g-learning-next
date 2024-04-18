@@ -9,8 +9,10 @@ import {
 } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
-import { FileInput, Input, Radio } from 'rizzui'
+import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
+import { ActionIcon, FileInput, Input, Radio, Select } from 'rizzui'
+
+const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu', 'Minggu']
 
 const formSchema = z.object({
   title: z.string().pipe(required),
@@ -21,6 +23,12 @@ const formSchema = z.object({
     .any()
     .superRefine(maxFileSize({ max: 5, metric: 'MB', desc: 'gambar' }))
     .superRefine(imageFileOnly),
+  hariWaktu: z.array(
+    z.object({
+      hari: z.string(),
+      waktu: z.string(),
+    })
+  ),
 })
 
 type FormSchema = z.infer<typeof formSchema>
@@ -30,6 +38,16 @@ const initialValues: FormSchema = {
   subtitle: '',
   jenis: 'Public',
   catatan: '',
+  hariWaktu: [
+    {
+      hari: 'Senin',
+      waktu: '10:30 - 14:45',
+    },
+    {
+      hari: 'Rabu',
+      waktu: '11:45 - 15:15',
+    },
+  ],
 }
 
 export default function BuatKelasModal({
@@ -39,6 +57,11 @@ export default function BuatKelasModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
+  const optionsHari = HARI.map((hari) => ({
+    label: hari,
+    value: hari,
+  }))
+
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
   }
@@ -62,6 +85,7 @@ export default function BuatKelasModal({
           register,
           control,
           watch,
+          setValue,
           formState: { errors, isSubmitting },
         }) => (
           <>
@@ -109,8 +133,55 @@ export default function BuatKelasModal({
                 </div>
               </div>
 
-              <div>
-                <TextLabel>Hari dan Waktu</TextLabel>
+              <div className="mb-4">
+                <TextLabel className="block mb-2">Hari dan Waktu</TextLabel>
+                <div className="space-y-2">
+                  {watch('hariWaktu')?.map((_, idx) => {
+                    return (
+                      <div key={idx} className="flex items-center gap-x-2">
+                        <Controller
+                          control={control}
+                          name={`hariWaktu.${idx}.hari`}
+                          render={({ field: { value, onChange } }) => (
+                            <Select
+                              options={optionsHari}
+                              onChange={onChange}
+                              value={value}
+                              getOptionValue={(option) => option.value}
+                              className="flex-1"
+                            />
+                          )}
+                        />
+                        <Input
+                          labelClassName="text-gray-dark font-semibold"
+                          className="flex-1"
+                          {...register(`hariWaktu.${idx}.waktu`)}
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline-colorful"
+                          color="danger"
+                        >
+                          <BsTrash />
+                        </Button>
+                      </div>
+                    )
+                  })}
+                </div>
+                <Button
+                  variant="text-colorful"
+                  onClick={() =>
+                    setValue('hariWaktu', [
+                      ...watch('hariWaktu'),
+                      {
+                        hari: '',
+                        waktu: '',
+                      },
+                    ])
+                  }
+                >
+                  <BsPlusSquare className="-ms-2 me-2" /> Tambah Hari dan Waktu
+                </Button>
               </div>
 
               <Controller
@@ -129,7 +200,7 @@ export default function BuatKelasModal({
               <FileInput
                 label="Foto Sampul Kelas"
                 variant="outline"
-                // accept="image/*"
+                accept="image/*"
                 {...register('cover')}
                 error={errors.cover?.message as string}
               />
