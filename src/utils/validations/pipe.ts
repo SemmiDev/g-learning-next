@@ -1,4 +1,4 @@
-import { z } from './zod-id'
+import { z } from '../zod-id'
 
 export const required = z
   .string()

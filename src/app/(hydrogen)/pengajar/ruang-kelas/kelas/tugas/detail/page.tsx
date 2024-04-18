@@ -11,7 +11,7 @@ import QuillEditor from '@/components/ui/quill-editor'
 import { z } from '@/utils/zod-id'
 import { Form } from '@/components/ui/form'
 import { Controller, SubmitHandler } from 'react-hook-form'
-import { required } from '@/utils/validation'
+import { required } from '@/utils/validations/pipe'
 
 const formSchema = z.object({
   nilai: z.string().pipe(required).pipe(z.coerce.number().min(0).max(100)),

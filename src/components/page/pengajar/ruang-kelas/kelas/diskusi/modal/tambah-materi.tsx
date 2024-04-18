@@ -4,7 +4,7 @@ import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
 import { Input, Radio, Switch } from 'rizzui'
-import { required } from '@/utils/validation'
+import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
 
 const formSchema = z.object({

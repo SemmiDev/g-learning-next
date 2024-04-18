@@ -1,6 +1,4 @@
-import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
-import { MdOutlineContentCopy } from 'react-icons/md'
-import { ActionIcon } from 'rizzui'
+import { Button, CardSeparator, Modal, Text } from '@/components/ui'
 
 export default function KeluarkanAnggotaModal({
   showModal = false,
