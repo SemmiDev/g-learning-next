@@ -2,15 +2,11 @@ import { Button, CardSeparator, Modal, Text, TextLabel } from '@/components/ui'
 import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { required } from '@/utils/validations/pipe'
-import {
-  fileRequired,
-  imageFileOnly,
-  maxFileSize,
-} from '@/utils/validations/refine'
+import { imageFileOnly, maxFileSize } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
-import { ActionIcon, FileInput, Input, Radio, Select } from 'rizzui'
+import { FileInput, Input, Radio, Select } from 'rizzui'
 
 const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu', 'Minggu']
 
@@ -161,6 +157,14 @@ export default function BuatKelasModal({
                           size="sm"
                           variant="outline-colorful"
                           color="danger"
+                          onClick={() => {
+                            setValue(
+                              'hariWaktu',
+                              watch('hariWaktu').filter(
+                                (__, cIdx) => cIdx !== idx
+                              )
+                            )
+                          }}
                         >
                           <BsTrash />
                         </Button>
