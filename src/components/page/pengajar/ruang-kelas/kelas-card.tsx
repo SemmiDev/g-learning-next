@@ -9,7 +9,13 @@ import { GrShareOption } from 'react-icons/gr'
 import { PiGear } from 'react-icons/pi'
 import { ActionIcon, Badge } from 'rizzui'
 
-export default function CardKelas({ image }: { image: any }) {
+export default function CardKelas({
+  image,
+  onClickPengaturan,
+}: {
+  image: any
+  onClickPengaturan?: Function
+}) {
   return (
     <Card>
       <div className="aspect-[333/130] rounded overflow-clip">
@@ -62,7 +68,12 @@ export default function CardKelas({ image }: { image: any }) {
         <ActionIcon variant="outline">
           <GrShareOption size={18} />
         </ActionIcon>
-        <ActionIcon variant="outline">
+        <ActionIcon
+          variant="outline"
+          onClick={() => {
+            if (onClickPengaturan) onClickPengaturan()
+          }}
+        >
           <PiGear size={18} />
         </ActionIcon>
       </div>

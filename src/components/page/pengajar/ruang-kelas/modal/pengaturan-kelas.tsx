@@ -30,14 +30,23 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>
 
 const initialValues: FormSchema = {
-  title: '',
-  subtitle: '',
+  title: 'Aljabar Linear',
+  subtitle: 'TI A',
   jenis: 'Public',
   catatan: '',
-  hariWaktu: [],
+  hariWaktu: [
+    {
+      hari: 'Senin',
+      waktu: '10:30 - 14:45',
+    },
+    {
+      hari: 'Rabu',
+      waktu: '11:45 - 15:15',
+    },
+  ],
 }
 
-export default function BuatKelasModal({
+export default function PengaturanKelasModal({
   showModal = false,
   setShowModal,
 }: {
@@ -55,7 +64,7 @@ export default function BuatKelasModal({
 
   return (
     <Modal
-      title="Buat Kelas Baru"
+      title="Pengaturan Kelas"
       headerClassName="[&_.modal-title]:text-lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}

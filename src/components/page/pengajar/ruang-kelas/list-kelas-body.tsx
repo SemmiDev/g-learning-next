@@ -5,9 +5,12 @@ import CardKelas from './kelas-card'
 import imageKelas from '@public/images/list-kelas.png'
 import BuatKelasModal from '@/components/page/pengajar/ruang-kelas/modal/buat-kelas'
 import { useState } from 'react'
+import PengaturanKelasModal from './modal/pengaturan-kelas'
 
 export default function ListKelasBody() {
   const [showModalBuatKelas, setShowModalBuatKelas] = useState(false)
+  const [showModalPengaturanKelas, setShowModalPengaturanKelas] =
+    useState(false)
 
   return (
     <>
@@ -30,13 +33,24 @@ export default function ListKelasBody() {
       </div>
       <div className="grid grid-cols-1 gap-5 mt-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {[...Array(10)].map((e, i) => {
-          return <CardKelas key={i} image={imageKelas} />
+          return (
+            <CardKelas
+              key={i}
+              image={imageKelas}
+              onClickPengaturan={() => setShowModalPengaturanKelas(true)}
+            />
+          )
         })}
       </div>
 
       <BuatKelasModal
         showModal={showModalBuatKelas}
         setShowModal={setShowModalBuatKelas}
+      />
+
+      <PengaturanKelasModal
+        showModal={showModalPengaturanKelas}
+        setShowModal={setShowModalPengaturanKelas}
       />
     </>
   )
