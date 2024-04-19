@@ -1,25 +1,39 @@
 import { RefinementCtx } from 'zod'
 import { z } from '../zod-id'
 
-export const fileRequired = (files: FileList, ctx: RefinementCtx) => {
-  if (files.length === 0) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Berkas tidak boleh kosong',
-    })
+export const fileRequired =
+  ({ desc = 'Berkas' }: { desc?: string } = {}) =>
+  (files: FileList, ctx: RefinementCtx) => {
+    if (files.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `${desc} tidak boleh kosong`,
+      })
+    }
   }
-}
 
-export const maxFileSize = ({
-  max,
-  metric,
-  desc = 'berkas',
-}: {
-  max: number
-  metric: 'B' | 'KB' | 'MB' | 'GB'
-  desc?: string
-}) => {
-  return (files: FileList, ctx: RefinementCtx) => {
+export const dateRequired =
+  ({ desc = 'Tanggal' }: { desc?: string } = {}) =>
+  (date: any, ctx: RefinementCtx) => {
+    if (date === null || date === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `${desc} tidak boleh kosong`,
+      })
+    }
+  }
+
+export const maxFileSize =
+  ({
+    max,
+    metric,
+    desc = 'berkas',
+  }: {
+    max: number
+    metric: 'B' | 'KB' | 'MB' | 'GB'
+    desc?: string
+  }) =>
+  (files: FileList, ctx: RefinementCtx) => {
     const metricSize =
       metric === 'KB'
         ? 1024
@@ -37,7 +51,6 @@ export const maxFileSize = ({
       })
     }
   }
-}
 
 export const imageFileOnly = (files: FileList, ctx: RefinementCtx) => {
   if (

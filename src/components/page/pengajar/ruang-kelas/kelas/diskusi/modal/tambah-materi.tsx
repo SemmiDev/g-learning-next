@@ -6,6 +6,7 @@ import { z } from '@/utils/zod-id'
 import { Input, Radio, Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
+import { DatePicker } from '@/components/ui/datepicker'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -93,7 +94,7 @@ export default function TambahMateriModal({
               </div>
 
               <div className="flex gap-x-8 mt-2 mb-2">
-                <div className="flex items-center space-x-0.5">
+                <div className="flex items-center space-x-1">
                   <TextLabel>Presensi</TextLabel>
                   <BsInfoCircle size={12} />
                 </div>
@@ -113,7 +114,7 @@ export default function TambahMateriModal({
 
               {watch('presensi') === 'aktif' && (
                 <div className="flex mt-2 mb-2">
-                  <div className="flex items-center space-x-0.5">
+                  <div className="flex items-center space-x-1">
                     <TextLabel>Atur Presensi</TextLabel>
                     <BsInfoCircle size={12} />
                   </div>
@@ -137,16 +138,28 @@ export default function TambahMateriModal({
 
             <CardSeparator />
 
-            <div className="flex gap-x-4 px-3 py-1">
-              <Switch label="Opsi Penjadwalan" {...register('penjadwalan')} />
+            <div className="flex gap-x-4 px-3 py-3">
+              <Switch
+                label="Opsi Penjadwalan"
+                labelClassName="text-gray-dark font-semibold"
+                {...register('penjadwalan')}
+              />
               {watch('penjadwalan', false) && (
-                <Input
-                  type="datetime-local"
-                  placeholder="Atur Tanggal dan Jam Terbit"
-                  className="flex-1"
-                  labelClassName="text-gray-dark font-semibold"
-                  {...register('jadwal')}
-                  error={errors.jadwal?.message as string}
+                <Controller
+                  name="jadwal"
+                  control={control}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <DatePicker
+                      placeholderText="Atur Tanggal dan Jam Terbit"
+                      showTimeSelect
+                      dateFormat="dd MMMM yyyy HH:mm"
+                      timeFormat="HH:mm"
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      selected={value}
+                      className="flex-1"
+                    />
+                  )}
                 />
               )}
             </div>

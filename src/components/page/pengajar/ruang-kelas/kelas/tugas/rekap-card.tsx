@@ -204,10 +204,11 @@ export default function RekapTugasCard() {
             <Input
               size="sm"
               type="search"
+              placeholder="Cari Tugas"
+              clearable={true}
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
-              placeholder="Cari Tugas"
             />
             <Dropdown>
               <Dropdown.Trigger>
@@ -283,10 +284,11 @@ export default function RekapTugasCard() {
               <Input
                 size="sm"
                 type="search"
+                placeholder="Cari Nama Peserta"
+                clearable={true}
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }
-                placeholder="Cari Nama Peserta"
               />
               <div className="flex space-x-2">
                 <Dropdown>

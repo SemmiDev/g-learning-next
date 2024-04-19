@@ -66,7 +66,7 @@ export default function DiskusiDetailTugasPage() {
       title: <HeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
-      render: (value: string, row: any) => (
+      render: (_: string, row: any) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
           <br />
@@ -201,10 +201,11 @@ export default function DiskusiDetailTugasPage() {
             <Input
               size="sm"
               type="search"
+              placeholder="Cari Nama Peserta"
+              clearable={true}
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
-              placeholder="Cari Nama Peserta"
             />
             <div className="flex space-x-2">
               <Dropdown>

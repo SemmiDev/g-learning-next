@@ -24,9 +24,10 @@ export default function BerkasPage() {
         <Input
           size="sm"
           type="search"
-          prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           placeholder="Cari Berkas Bahan Ajar"
+          clearable={true}
           className="w-72 sm:w-96"
+          prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
         />
         <Dropdown>
           <Dropdown.Trigger>

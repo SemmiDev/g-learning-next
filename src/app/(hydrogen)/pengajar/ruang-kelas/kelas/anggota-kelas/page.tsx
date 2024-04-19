@@ -42,11 +42,12 @@ export default function AnggotaKelasPage() {
             <Input
               size="sm"
               type="search"
+              placeholder="Cari Anggota Kelas"
+              clearable={true}
+              className="w-72 sm:w-96"
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
-              placeholder="Cari Anggota Kelas"
-              className="w-72 sm:w-96"
             />
             <Button size="sm" onClick={() => setShowModalUndang(true)}>
               Undang Anggota

@@ -192,10 +192,11 @@ export default function UjianPage() {
           <Input
             size="sm"
             type="search"
+            placeholder="Cari Sesi Ujian"
+            clearable={true}
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }
-            placeholder="Cari Sesi Ujian"
           />
           <Dropdown>
             <Dropdown.Trigger>
@@ -290,10 +291,11 @@ export default function UjianPage() {
             <Input
               size="sm"
               type="search"
+              placeholder="Cari Nama Peserta"
+              clearable={true}
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
-              placeholder="Cari Nama Peserta"
             />
             <div className="flex space-x-2">
               <Dropdown>

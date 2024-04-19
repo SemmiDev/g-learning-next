@@ -27,10 +27,11 @@ export default function RekapPresensiCard() {
             <Input
               size="sm"
               type="search"
+              placeholder="Cari sesi belajar"
+              clearable={true}
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
-              placeholder="Cari sesi belajar"
             />
             <Dropdown>
               <Dropdown.Trigger>
@@ -94,11 +95,12 @@ export default function RekapPresensiCard() {
               <Input
                 size="sm"
                 type="search"
+                placeholder="Cari Nama"
+                clearable={true}
+                className="w-80"
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }
-                placeholder="Cari Nama"
-                className="w-80"
               />
             </div>
             <div>
