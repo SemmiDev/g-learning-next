@@ -3,12 +3,12 @@ import { routes } from '@/config/routes'
 import PageHeader from '@/app/shared/page-header'
 import { ReactNode } from 'react'
 import { TabGroup } from '@/components/ui/tab-group'
-import { ActionIcon, Badge } from 'rizzui'
-import { GrShareOption } from 'react-icons/gr'
+import { Badge } from 'rizzui'
 import Card from '@/components/ui/card'
 import Image from 'next/image'
 import imageKelas from '@public/images/list-kelas.png'
-import { Button, Text, Title } from '@/components/ui'
+import { Text, Title } from '@/components/ui'
+import KelasHeaderAction from '@/components/page/pengajar/ruang-kelas/kelas/header-action'
 
 export const metadata = {
   ...metaObject('Ruang Kelas'),
@@ -69,14 +69,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
               </Text>
             </div>
           </div>
-          <div className="flex space-x-2 items-center">
-            <ActionIcon size="sm" variant="outline">
-              <GrShareOption size={16} />
-            </ActionIcon>
-            <Button size="sm" className="h-7">
-              Pengaturan
-            </Button>
-          </div>
+          <KelasHeaderAction />
         </div>
         <TabGroup
           className="mt-2 mb-2"
