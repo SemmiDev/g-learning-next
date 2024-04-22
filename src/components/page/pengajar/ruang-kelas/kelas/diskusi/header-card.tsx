@@ -11,9 +11,11 @@ import { Text, Title } from '@/components/ui'
 import { useState } from 'react'
 import TambahMateriModal from './modal/tambah-materi'
 import TambahUjianModal from './modal/tambah-ujian'
+import TambahTugasModal from './modal/tambah-tugas'
 
 export default function HeaderCard({ className }: { className?: string }) {
   const [showModalMateri, setShowModalMateri] = useState(false)
+  const [showModalTugas, setShowModalTugas] = useState(false)
   const [showModalUjian, setShowModalUjian] = useState(false)
 
   return (
@@ -33,7 +35,11 @@ export default function HeaderCard({ className }: { className?: string }) {
           >
             <BsFileRichtext size={26} />
           </ButtonIcon>
-          <ButtonIcon title="Tugas" color="violet">
+          <ButtonIcon
+            title="Tugas"
+            color="violet"
+            onClick={() => setShowModalTugas(true)}
+          >
             <BsClipboardPlus size={26} />
           </ButtonIcon>
           <ButtonIcon
@@ -55,6 +61,11 @@ export default function HeaderCard({ className }: { className?: string }) {
       <TambahMateriModal
         showModal={showModalMateri}
         setShowModal={setShowModalMateri}
+      />
+
+      <TambahTugasModal
+        showModal={showModalTugas}
+        setShowModal={setShowModalTugas}
       />
 
       <TambahUjianModal

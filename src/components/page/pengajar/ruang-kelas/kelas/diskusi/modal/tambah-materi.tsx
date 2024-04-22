@@ -80,7 +80,7 @@ export default function TambahMateriModal({
           <>
             <div className="flex flex-col gap-4 p-3">
               <Input
-                label="Judul"
+                label="Judul Materi"
                 placeholder="Tulis judul materi di sini"
                 labelClassName="text-gray-dark font-semibold"
                 {...register('judul')}
