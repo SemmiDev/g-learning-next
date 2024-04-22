@@ -7,28 +7,52 @@ import { Input, Radio, Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
 import { DatePicker } from '@/components/ui/datepicker'
-import { dateRequired } from '@/utils/validations/refine'
 
-const formSchema = z.object({
+const baseFormSchema = z.object({
   jenis: z.string().pipe(required),
-  jadwal: z.coerce.date().optional(),
-  penjadwalan: z.coerce.boolean(),
-  durasi: z.optional(z.coerce.number()),
-  mulai: z.optional(z.coerce.date()),
-  selesai: z.optional(z.coerce.date()),
+  durasi: z
+    .string()
+    .pipe(required)
+    .transform((val) => parseInt(val))
+    .pipe(z.number().min(1)),
+  mulai: z.date(),
+  selesai: z.date(),
   paket: z.string().optional(),
-  catatan: z.string(),
+  catatan: z.string().optional(),
   acak: z.string(),
   presensi: z.string(),
 })
 
-type FormSchema = z.infer<typeof formSchema>
+const formSchema = z.discriminatedUnion('penjadwalan', [
+  z
+    .object({
+      penjadwalan: z.literal(false),
+    })
+    .merge(baseFormSchema),
+  z
+    .object({
+      penjadwalan: z.literal(true),
+      jadwal: z.date(),
+    })
+    .merge(baseFormSchema),
+])
+
+// type FormSchema = z.infer<typeof formSchema>
+type FormSchema = {
+  jenis?: string
+  penjadwalan: boolean
+  jadwal?: Date
+  durasi?: string | number
+  mulai?: Date
+  selesai?: Date
+  paket?: string
+  catatan?: string
+  acak: string
+  presensi: string
+}
 
 const initialValues: FormSchema = {
-  jenis: '',
   penjadwalan: false,
-  paket: '',
-  catatan: '',
   acak: 'aktif',
   presensi: 'aktif',
 }
@@ -71,7 +95,7 @@ export default function TambahUjianModal({
                 placeholder="Tulis jenis ujian di sini"
                 labelClassName="text-gray-dark font-semibold"
                 {...register('jenis')}
-                error={errors.jenis?.message as string}
+                error={errors.jenis?.message}
               />
 
               <div className="flex gap-x-4">
@@ -86,6 +110,7 @@ export default function TambahUjianModal({
                     control={control}
                     render={({ field: { value, onChange, onBlur } }) => (
                       <DatePicker
+                        inputProps={{ error: errors.jadwal?.message }}
                         placeholderText="Atur Tanggal dan Jam Terbit"
                         showTimeSelect
                         dateFormat="dd MMMM yyyy HH:mm"
@@ -109,14 +134,17 @@ export default function TambahUjianModal({
                   labelClassName="text-gray-dark font-semibold"
                   suffix="Menit"
                   {...register('durasi')}
-                  error={errors.durasi?.message as string}
+                  error={errors.durasi?.message}
                 />
                 <Controller
                   name="mulai"
                   control={control}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <DatePicker
-                      inputProps={{ label: 'Waktu Mulai' }}
+                      inputProps={{
+                        label: 'Waktu Mulai',
+                        error: errors.mulai?.message,
+                      }}
                       placeholderText="Atur waktu mulai"
                       showTimeSelect
                       dateFormat="dd MMMM yyyy HH:mm"
@@ -133,7 +161,10 @@ export default function TambahUjianModal({
                   control={control}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <DatePicker
-                      inputProps={{ label: 'Waktu Selesai' }}
+                      inputProps={{
+                        label: 'Waktu Selesai',
+                        error: errors.selesai?.message,
+                      }}
                       placeholderText="Atur waktu selesai"
                       showTimeSelect
                       dateFormat="dd MMMM yyyy HH:mm"

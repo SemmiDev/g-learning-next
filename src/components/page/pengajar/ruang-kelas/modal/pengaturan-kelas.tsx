@@ -12,28 +12,38 @@ const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 
 const formSchema = z.object({
   title: z.string().pipe(required),
-  subtitle: z.string(),
+  subtitle: z.string().optional(),
   jenis: z.string().pipe(required),
-  catatan: z.string(),
+  catatan: z.string().optional(),
   cover: z
     .any()
     .superRefine(maxFileSize({ max: 5, metric: 'MB', desc: 'gambar' }))
     .superRefine(imageFileOnly),
   hariWaktu: z.array(
     z.object({
-      hari: z.string(),
-      waktu: z.string(),
+      hari: z.string().pipe(required),
+      waktu: z.string().pipe(required),
     })
   ),
 })
 
-type FormSchema = z.infer<typeof formSchema>
+// type FormSchema = z.infer<typeof formSchema>
+type FormSchema = {
+  title?: string
+  subtitle?: string
+  jenis?: string
+  catatan?: string
+  cover?: any
+  hariWaktu: {
+    hari?: string
+    waktu?: string
+  }[]
+}
 
 const initialValues: FormSchema = {
   title: 'Aljabar Linear',
   subtitle: 'TI A',
   jenis: 'Public',
-  catatan: '',
   hariWaktu: [
     {
       hari: 'Senin',
@@ -60,6 +70,13 @@ export default function PengaturanKelasModal({
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
+  }
+
+  const errorHari = (hariWaktu: any, idx: number) => {
+    return hariWaktu?.at(idx)?.hari?.message ?? null
+  }
+  const errorWaktu = (hariWaktu: any, idx: number) => {
+    return hariWaktu?.at(idx)?.waktu?.message ?? null
   }
 
   return (
@@ -91,7 +108,7 @@ export default function PengaturanKelasModal({
                 placeholder="Tulis nama program di sini"
                 labelClassName="text-gray-dark font-semibold"
                 {...register('title')}
-                error={errors.title?.message as string}
+                error={errors.title?.message}
               />
 
               <Input
@@ -99,7 +116,7 @@ export default function PengaturanKelasModal({
                 placeholder="Tulis nama kelas di sini"
                 labelClassName="text-gray-dark font-semibold"
                 {...register('subtitle')}
-                error={errors.subtitle?.message as string}
+                error={errors.subtitle?.message}
               />
 
               <div>
@@ -134,7 +151,7 @@ export default function PengaturanKelasModal({
                 <div className="space-y-2">
                   {watch('hariWaktu')?.map((_, idx) => {
                     return (
-                      <div key={idx} className="flex items-center gap-x-2">
+                      <div key={idx} className="flex gap-x-2">
                         <Controller
                           control={control}
                           name={`hariWaktu.${idx}.hari`}
@@ -146,6 +163,7 @@ export default function PengaturanKelasModal({
                               value={value}
                               getOptionValue={(option) => option.value}
                               className="flex-1"
+                              error={errorHari(errors.hariWaktu, idx)}
                             />
                           )}
                         />
@@ -154,11 +172,13 @@ export default function PengaturanKelasModal({
                           labelClassName="text-gray-dark font-semibold"
                           className="flex-1"
                           {...register(`hariWaktu.${idx}.waktu`)}
+                          error={errorWaktu(errors.hariWaktu, idx)}
                         />
                         <Button
                           size="sm"
                           variant="outline-colorful"
                           color="danger"
+                          className="mt-1"
                           onClick={() => {
                             setValue(
                               'hariWaktu',

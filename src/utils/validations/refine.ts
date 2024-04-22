@@ -12,17 +12,6 @@ export const fileRequired =
     }
   }
 
-export const dateRequired =
-  ({ desc = 'Tanggal' }: { desc?: string } = {}) =>
-  (date: any, ctx: RefinementCtx) => {
-    if (date === null || date === undefined) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `${desc} tidak boleh kosong`,
-      })
-    }
-  }
-
 export const maxFileSize =
   ({
     max,

@@ -81,7 +81,7 @@ export default function TugasDetailPage() {
                     placeholder="Berikan nilai. Contoh: 80"
                     labelClassName="text-gray-dark font-semibold"
                     {...register('nilai')}
-                    error={errors.nilai?.message as string}
+                    error={errors.nilai?.message}
                   />
                   <Controller
                     control={control}

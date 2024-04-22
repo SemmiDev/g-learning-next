@@ -8,20 +8,38 @@ import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
 import { DatePicker } from '@/components/ui/datepicker'
 
-const formSchema = z.object({
+const baseFormSchema = z.object({
   judul: z.string().pipe(required),
-  catatan: z.string(),
+  catatan: z.string().optional(),
   presensi: z.string(),
   tipe_presensi: z.string(),
-  penjadwalan: z.coerce.boolean(),
-  jadwal: z.coerce.date().optional(),
 })
 
-type FormSchema = z.infer<typeof formSchema>
+const formSchema = z.discriminatedUnion('penjadwalan', [
+  z
+    .object({
+      penjadwalan: z.literal(false),
+    })
+    .merge(baseFormSchema),
+  z
+    .object({
+      penjadwalan: z.literal(true),
+      jadwal: z.date(),
+    })
+    .merge(baseFormSchema),
+])
+
+// type FormSchema = z.infer<typeof formSchema>
+type FormSchema = {
+  judul?: string
+  catatan?: string
+  presensi: string
+  tipe_presensi: string
+  penjadwalan: boolean
+  jadwal?: Date
+}
 
 const initialValues: FormSchema = {
-  judul: '',
-  catatan: '',
   presensi: 'non-aktif',
   tipe_presensi: 'manual',
   penjadwalan: false,
@@ -66,7 +84,7 @@ export default function TambahMateriModal({
                 placeholder="Tulis judul materi di sini"
                 labelClassName="text-gray-dark font-semibold"
                 {...register('judul')}
-                error={errors.judul?.message as string}
+                error={errors.judul?.message}
               />
 
               <Controller
@@ -150,6 +168,7 @@ export default function TambahMateriModal({
                   control={control}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <DatePicker
+                      inputProps={{ error: errors.jadwal?.message }}
                       placeholderText="Atur Tanggal dan Jam Terbit"
                       showTimeSelect
                       dateFormat="dd MMMM yyyy HH:mm"
