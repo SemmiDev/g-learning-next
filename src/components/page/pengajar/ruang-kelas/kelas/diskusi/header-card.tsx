@@ -13,12 +13,14 @@ import TambahMateriModal from './modal/tambah-materi'
 import TambahUjianModal from './modal/tambah-ujian'
 import TambahTugasModal from './modal/tambah-tugas'
 import TambahConferenceModal from './modal/tambah-conference'
+import TambahInformasiModal from './modal/tambah-informasi'
 
 export default function HeaderCard({ className }: { className?: string }) {
   const [showModalMateri, setShowModalMateri] = useState(false)
   const [showModalTugas, setShowModalTugas] = useState(false)
   const [showModalUjian, setShowModalUjian] = useState(false)
   const [showModalConference, setShowModalConference] = useState(false)
+  const [showModalInformasi, setShowModalInformasi] = useState(false)
 
   return (
     <>
@@ -58,7 +60,11 @@ export default function HeaderCard({ className }: { className?: string }) {
           >
             <BsWebcam size={26} />
           </ButtonIcon>
-          <ButtonIcon title="Informasi" color="indigo">
+          <ButtonIcon
+            title="Informasi"
+            color="indigo"
+            onClick={() => setShowModalInformasi(true)}
+          >
             <BsMegaphone size={26} />
           </ButtonIcon>
         </div>
@@ -82,6 +88,11 @@ export default function HeaderCard({ className }: { className?: string }) {
       <TambahConferenceModal
         showModal={showModalConference}
         setShowModal={setShowModalConference}
+      />
+
+      <TambahInformasiModal
+        showModal={showModalInformasi}
+        setShowModal={setShowModalInformasi}
       />
     </>
   )

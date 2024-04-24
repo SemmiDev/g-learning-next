@@ -65,7 +65,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
               </Text>
               <Text size="sm" className="mt-2">
                 Berikut adalah tempat untuk menulis deskripsi singkat terkait
-                kelas yan telah dibuat
+                kelas yang telah dibuat
               </Text>
             </div>
           </div>
