@@ -14,6 +14,7 @@ import CardSeparator from '@/components/ui/card-separator'
 import Image from 'next/image'
 import imagePhoto from '@public/images/photo.png'
 import { Button, Text, Title } from '@/components/ui'
+import { Fragment } from 'react'
 
 export default function RekapPresensiCard() {
   return (
@@ -106,7 +107,7 @@ export default function RekapPresensiCard() {
             <div>
               {[...Array(10)].map((val, idx) => {
                 return (
-                  <>
+                  <Fragment key={idx}>
                     <CardSeparator />
                     <div className="flex justify-between items-center px-3 py-2">
                       <div className="flex space-x-3">
@@ -147,7 +148,7 @@ export default function RekapPresensiCard() {
                         </ActionIcon>
                       </div>
                     </div>
-                  </>
+                  </Fragment>
                 )
               })}
             </div>

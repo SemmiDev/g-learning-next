@@ -72,13 +72,6 @@ export default function PengaturanKelasModal({
     console.log('form data', data)
   }
 
-  const errorHari = (hariWaktu: any, idx: number) => {
-    return hariWaktu?.at(idx)?.hari?.message ?? null
-  }
-  const errorWaktu = (hariWaktu: any, idx: number) => {
-    return hariWaktu?.at(idx)?.waktu?.message ?? null
-  }
-
   return (
     <Modal
       title="Pengaturan Kelas"
@@ -163,7 +156,7 @@ export default function PengaturanKelasModal({
                               value={value}
                               getOptionValue={(option) => option.value}
                               className="flex-1"
-                              error={errorHari(errors.hariWaktu, idx)}
+                              error={errors.hariWaktu?.[idx]?.hari?.message}
                             />
                           )}
                         />
@@ -172,7 +165,7 @@ export default function PengaturanKelasModal({
                           labelClassName="text-gray-dark font-semibold"
                           className="flex-1"
                           {...register(`hariWaktu.${idx}.waktu`)}
-                          error={errorWaktu(errors.hariWaktu, idx)}
+                          error={errors.hariWaktu?.[idx]?.waktu?.message}
                         />
                         <Button
                           size="sm"
