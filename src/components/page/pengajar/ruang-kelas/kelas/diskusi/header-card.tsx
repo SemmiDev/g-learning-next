@@ -12,11 +12,13 @@ import { useState } from 'react'
 import TambahMateriModal from './modal/tambah-materi'
 import TambahUjianModal from './modal/tambah-ujian'
 import TambahTugasModal from './modal/tambah-tugas'
+import TambahConferenceModal from './modal/tambah-conference'
 
 export default function HeaderCard({ className }: { className?: string }) {
   const [showModalMateri, setShowModalMateri] = useState(false)
   const [showModalTugas, setShowModalTugas] = useState(false)
   const [showModalUjian, setShowModalUjian] = useState(false)
+  const [showModalConference, setShowModalConference] = useState(false)
 
   return (
     <>
@@ -49,7 +51,11 @@ export default function HeaderCard({ className }: { className?: string }) {
           >
             <BsCardChecklist size={26} />
           </ButtonIcon>
-          <ButtonIcon title="Konferens" color="red">
+          <ButtonIcon
+            title="Conference"
+            color="red"
+            onClick={() => setShowModalConference(true)}
+          >
             <BsWebcam size={26} />
           </ButtonIcon>
           <ButtonIcon title="Informasi" color="indigo">
@@ -71,6 +77,11 @@ export default function HeaderCard({ className }: { className?: string }) {
       <TambahUjianModal
         showModal={showModalUjian}
         setShowModal={setShowModalUjian}
+      />
+
+      <TambahConferenceModal
+        showModal={showModalConference}
+        setShowModal={setShowModalConference}
       />
     </>
   )
