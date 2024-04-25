@@ -10,6 +10,7 @@ interface QuillEditorProps extends ReactQuillProps {
   labelClassName?: string
   errorClassName?: string
   toolbarPosition?: 'top' | 'bottom'
+  toolbar?: 'minimalist' | 'normal'
 }
 
 export default function QuillEditor({
@@ -19,45 +20,28 @@ export default function QuillEditor({
   className,
   labelClassName,
   errorClassName,
+  tabIndex = 0,
+  toolbar = 'normal',
   toolbarPosition = 'top',
   ...props
 }: QuillEditorProps) {
+  const listToolbar =
+    toolbar === 'minimalist'
+      ? [['bold', 'italic', 'underline', 'strike', 'clean']]
+      : [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          ['clean'],
+        ]
   const quillModules = {
-    toolbar: [
-      // [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-      ['blockquote', 'code-block'],
-
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-
-      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-      [{ font: [] }],
-      [{ align: [] }],
-
-      ['clean'],
-    ],
+    toolbar: listToolbar,
   }
-
-  // const quillFormats = [
-  //   'header',
-  //   'bold',
-  //   'italic',
-  //   'underline',
-  //   'strike',
-  //   'list',
-  //   'bullet',
-  //   'blockquote',
-  //   'code-block',
-  //   'script',
-  //   'indent',
-  //   'color',
-  //   'background',
-  //   'font',
-  //   'align',
-  // ];
 
   return (
     <div className={cn(className)}>
@@ -73,12 +57,12 @@ export default function QuillEditor({
       )}
       <ReactQuill
         modules={quillModules}
-        // formats={quillFormats}
         className={cn(
           'react-quill',
           toolbarPosition === 'bottom' && 'react-quill-toolbar-bottom relative',
           className
         )}
+        tabIndex={tabIndex}
         {...props}
       />
       {error && (

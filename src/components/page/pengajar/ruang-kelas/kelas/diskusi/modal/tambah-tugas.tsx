@@ -86,6 +86,7 @@ export default function TambahTugasModal({
                   <QuillEditor
                     label="Catatan Tambahan"
                     placeholder="Buat catatan singkat terkait tugas yang diberikan"
+                    toolbar="minimalist"
                     value={value}
                     onChange={onChange}
                   />

@@ -1,6 +1,6 @@
 import { routes } from '@/config/routes'
 import { ReactNode } from 'react'
-import { BiHome } from 'react-icons/bi'
+import { BiHome, BiSolidBookBookmark } from 'react-icons/bi'
 import { BsBox } from 'react-icons/bs'
 import { MdOutlineInsertPageBreak } from 'react-icons/md'
 
@@ -36,5 +36,10 @@ export const menuItems: MenuItemType[] = [
     name: 'Ruang Kelas',
     href: routes.ruangKelas,
     icon: <BsBox />,
+  },
+  {
+    name: 'Bank Materi',
+    href: routes.bankMateri,
+    icon: <BiSolidBookBookmark />,
   },
 ]

@@ -1,0 +1,31 @@
+import PageHeader from '@/app/shared/page-header'
+import ListFolderMateriBody from '@/components/page/pengajar/bank-materi/list-folder-body'
+import ListKelasBody from '@/components/page/pengajar/ruang-kelas/list-kelas-body'
+import { routes } from '@/config/routes'
+import { metaObject } from '@/config/site.config'
+
+export const metadata = {
+  ...metaObject('Bank Materi'),
+}
+
+const pageHeader = {
+  title: 'Bank Materi',
+  breadcrumb: [
+    {
+      href: routes.dashboard,
+      name: 'Dashboard',
+    },
+    {
+      name: 'Bank Materi',
+    },
+  ],
+}
+
+export default function ListFolderBankMateriPage() {
+  return (
+    <>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      <ListFolderMateriBody />
+    </>
+  )
+}

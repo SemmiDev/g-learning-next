@@ -1,4 +1,4 @@
-import { Button, CardSeparator, Modal, Text, TextLabel } from '@/components/ui'
+import { Button, CardSeparator, Modal, TextLabel } from '@/components/ui'
 import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
@@ -92,6 +92,7 @@ export default function TambahConferenceModal({
                   <QuillEditor
                     label="Catatan Tambahan"
                     placeholder="Buat catatan singkat terkait conference yang diberikan"
+                    toolbar="minimalist"
                     value={value}
                     onChange={onChange}
                   />

@@ -94,6 +94,7 @@ export default function TambahMateriModal({
                   <QuillEditor
                     label="Catatan Tambahan"
                     placeholder="Buat catatan singkat terkait materi yang diberikan"
+                    toolbar="minimalist"
                     value={value}
                     onChange={onChange}
                   />

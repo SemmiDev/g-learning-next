@@ -11,7 +11,7 @@ export default function DropdownMoreAction() {
           <BsThreeDots size={18} />
         </Button>
       </Dropdown.Trigger>
-      <Dropdown.Menu className="divide-y">
+      <Dropdown.Menu className="w-32 divide-y">
         <div className="mb-2">
           <Dropdown.Item className="text-gray-dark">
             <BsPencil className="text-orange mr-2 h-4 w-4" />

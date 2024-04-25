@@ -30,7 +30,9 @@ export default function RekapTugasItem({
           {open ? 'Open' : 'Closed'}
         </Badge>
       </div>
-      <Text variant="lighter">Keterangan singkat terkait tugasnya</Text>
+      <Text size="sm" variant="lighter">
+        Keterangan singkat terkait tugasnya
+      </Text>
       <Text size="sm" weight="semibold" variant="lighter" className="mt-2">
         Batas waktu pengumpulan
       </Text>

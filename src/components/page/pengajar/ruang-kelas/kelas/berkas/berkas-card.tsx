@@ -1,7 +1,7 @@
 import { Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
-import { BsDownload, BsThreeDots } from 'react-icons/bs'
+import { BsDownload, BsThreeDotsVertical } from 'react-icons/bs'
 import { GrShare } from 'react-icons/gr'
 import { ActionIcon, Dropdown } from 'rizzui'
 
@@ -23,24 +23,24 @@ export default function BerkasCard({
   return (
     <div
       className={cn(
-        'relative rounded-lg border border-muted bg-gray-0 p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:bg-gray-50',
+        'relative rounded-lg border border-muted bg-gray-0 p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:bg-gray-50',
         className
       )}
     >
       <div className="flex items-start justify-between">
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
-          <figure className="h-7 w-7">{file.image}</figure>
+        <div className="mb-4 flex size-11 items-center justify-center rounded-md bg-gray-100">
+          <figure className="size-5">{file.image}</figure>
         </div>
         <div className="flex">
           <Dropdown placement="bottom-end">
             <Dropdown.Trigger>
               <ActionIcon size="sm" variant="text">
-                <BsThreeDots size={18} />
+                <BsThreeDotsVertical size={14} />
               </ActionIcon>
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-52">
               <Dropdown.Item className="text-gray-dark">
-                <GrShare size={12} className="mr-2" />
+                <GrShare size={12} className="text-green-dark mr-2" />
                 Buka Diskusi Terkait
               </Dropdown.Item>
               <Dropdown.Item className="text-gray-dark">
@@ -53,8 +53,8 @@ export default function BerkasCard({
       </div>
       <Title
         as="h4"
-        size="sm"
-        weight="medium"
+        size="base"
+        weight="semibold"
         variant="dark"
         className="truncate"
       >

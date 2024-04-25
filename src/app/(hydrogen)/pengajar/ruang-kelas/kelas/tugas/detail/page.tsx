@@ -91,6 +91,7 @@ export default function TugasDetailPage() {
                         label="Catatan Tambahan"
                         className="col-span-full [&_.ql-editor]:min-h-[150px]"
                         placeholder="Berikan catatan kepada peserta terkait tugas yang dikumpulkan"
+                        toolbar="minimalist"
                         value={value}
                         onChange={onChange}
                       />

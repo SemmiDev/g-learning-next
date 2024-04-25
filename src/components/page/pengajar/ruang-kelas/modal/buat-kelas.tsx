@@ -201,6 +201,7 @@ export default function BuatKelasModal({
                     <QuillEditor
                       label="Catatan Tambahan"
                       placeholder="Buat catatan singkat terkait program dan kelas yg diberikan"
+                      toolbar="minimalist"
                       value={value}
                       onChange={onChange}
                     />

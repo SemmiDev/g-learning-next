@@ -14,6 +14,7 @@ export const publicRoutes = {
 export const pengajarRoutes = {
   ruangKelas: '/pengajar/ruang-kelas',
   kelas: '/pengajar/ruang-kelas/kelas',
+  bankMateri: '/pengajar/bank-materi',
 }
 
 export const routes = {

@@ -193,6 +193,7 @@ export default function TambahUjianModal({
                   <QuillEditor
                     label="Catatan Tambahan"
                     placeholder="Buat catatan singkat terkait materi yang diberikan"
+                    toolbar="minimalist"
                     value={value}
                     onChange={onChange}
                   />

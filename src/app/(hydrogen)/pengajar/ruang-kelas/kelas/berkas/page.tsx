@@ -13,7 +13,7 @@ export default function BerkasPage() {
   const listFile: BerkasType[] = [...Array(12)].map((_) => ({
     name: 'Nama File.ext',
     desc: 'Judul Diskusi',
-    image: <IoDocumentText size={26} className="text-green" />,
+    image: <IoDocumentText size={20} className="text-green" />,
     size: '5 MB',
     time: '12 Mar 2024 13:00',
   }))
