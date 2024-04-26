@@ -1,18 +1,40 @@
 'use client'
 
-import { Button, Title } from '@/components/ui'
+import { Button, CardSeparator, Title } from '@/components/ui'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
 import FolderCard, { FolderType } from './folder-card'
+import { useState } from 'react'
+import TambahFolderModal from './modal/tambah-folder'
 import { useModal } from '@/app/shared/modal-views/use-modal'
-import TambahFolderModalView from './modal-view/tambah-folder'
+import ModalHeader from '@/components/ui/modal/header'
+import { Form } from '@/components/ui/form'
+import { SubmitHandler } from 'react-hook-form'
+import { z } from '@/utils/zod-id'
+import { required } from '@/utils/validations/pipe'
+import ControlledInput from '@/components/ui/controlled/input'
+
+const formSchema = z.object({
+  nama: z.string().pipe(required),
+})
+
+type FormSchema = {
+  nama?: string
+}
+
+const initialValues: FormSchema = {}
 
 export default function ListFolderMateriBody() {
-  const { openModal, closeModal } = useModal()
+  const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
+
   const listFolder: FolderType[] = [...Array(12)].map((_) => ({
     name: 'Bank Materi Aljabar Linier',
     count: 15,
   }))
+
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+    console.log('form data', data)
+  }
 
   return (
     <>
@@ -35,11 +57,7 @@ export default function ListFolderMateriBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => {
-            openModal({
-              view: <TambahFolderModalView closeModal={closeModal} />,
-            })
-          }}
+          onClick={() => setShowModalTambahFolder(true)}
         >
           Tambah Folder Baru
         </Button>
@@ -52,6 +70,11 @@ export default function ListFolderMateriBody() {
       <div className="flex justify-center mt-4">
         <Button>Tampilkan Lebih banyak</Button>
       </div>
+
+      <TambahFolderModal
+        showModal={showModalTambahFolder}
+        setShowModal={setShowModalTambahFolder}
+      />
     </>
   )
 }

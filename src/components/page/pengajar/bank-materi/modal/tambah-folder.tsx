@@ -4,8 +4,6 @@ import { SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
 import { required } from '@/utils/validations/pipe'
 import ControlledInput from '@/components/ui/controlled/input'
-import ModalHeader from '@/components/ui/modal/header'
-import { ModalViewProps } from '@/app/shared/modal-views/use-modal'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -18,18 +16,24 @@ type FormSchema = {
 
 const initialValues: FormSchema = {}
 
-export default function TambahFolderModalView({ closeModal }: ModalViewProps) {
+export default function TambahFolderModal({
+  showModal = false,
+  setShowModal,
+}: {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+}) {
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
   }
 
   return (
-    <>
-      <ModalHeader
-        title="Tambah Folder Baru"
-        desc="Buat folder baru untuk menyimpan materi Kamu"
-        onClose={closeModal}
-      />
+    <Modal
+      title="Tambah Folder Baru"
+      desc="Buat folder baru untuk menyimpan materi Kamu"
+      isOpen={showModal}
+      onClose={() => setShowModal(false)}
+    >
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -55,13 +59,17 @@ export default function TambahFolderModalView({ closeModal }: ModalViewProps) {
               <Button type="submit" className="flex-1" disabled={isSubmitting}>
                 Buat Folder Baru
               </Button>
-              <Button variant="outline" className="flex-1" onClick={closeModal}>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowModal(false)}
+              >
                 Batal
               </Button>
             </div>
           </>
         )}
       </Form>
-    </>
+    </Modal>
   )
 }
