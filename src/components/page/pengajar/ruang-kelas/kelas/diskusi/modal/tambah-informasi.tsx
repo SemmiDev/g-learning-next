@@ -53,6 +53,7 @@ export default function TambahInformasiModal({
   return (
     <Modal
       title="Bagikan Informasi"
+      size="lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >

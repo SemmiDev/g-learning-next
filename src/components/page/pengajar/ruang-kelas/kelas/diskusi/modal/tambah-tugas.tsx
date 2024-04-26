@@ -53,6 +53,7 @@ export default function TambahTugasModal({
   return (
     <Modal
       title="Bagikan Tugas"
+      size="lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >

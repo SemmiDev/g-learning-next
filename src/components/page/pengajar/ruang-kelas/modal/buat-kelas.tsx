@@ -65,6 +65,7 @@ export default function BuatKelasModal({
   return (
     <Modal
       title="Buat Kelas Baru"
+      size="lg"
       headerClassName="[&_.modal-title]:text-lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}

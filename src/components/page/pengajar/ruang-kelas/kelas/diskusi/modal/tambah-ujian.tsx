@@ -72,6 +72,7 @@ export default function TambahUjianModal({
   return (
     <Modal
       title="Bagikan Ujian"
+      size="lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >

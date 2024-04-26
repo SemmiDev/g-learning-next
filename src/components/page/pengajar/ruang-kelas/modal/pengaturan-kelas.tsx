@@ -76,6 +76,7 @@ export default function PengaturanKelasModal({
   return (
     <Modal
       title="Pengaturan Kelas"
+      size="lg"
       headerClassName="[&_.modal-title]:text-lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}

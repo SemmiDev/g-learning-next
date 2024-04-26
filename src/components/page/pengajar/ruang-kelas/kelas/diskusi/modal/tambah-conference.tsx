@@ -59,6 +59,7 @@ export default function TambahConferenceModal({
   return (
     <Modal
       title="Bagikan Conference"
+      size='lg'
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >

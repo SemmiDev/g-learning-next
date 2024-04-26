@@ -61,6 +61,7 @@ export default function TambahMateriModal({
     <Modal
       title="Bagikan Materi"
       desc="Lampirkan materi yang ingin Kamu bagikan, dapat berupa gambar, video, link video, atau dokumen"
+      size="lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
