@@ -7,6 +7,7 @@ import { Input, Radio, Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
 import { DatePicker } from '@/components/ui/datepicker'
+import ControlledInput from '@/components/ui/controlled/input'
 
 const baseFormSchema = z.object({
   jenis: z.string().pipe(required),
@@ -90,12 +91,12 @@ export default function TambahUjianModal({
         }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <Input
+              <ControlledInput
+                name="jenis"
+                control={control}
+                errors={errors}
                 label="Jenis Ujian"
                 placeholder="Tulis jenis ujian di sini"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('jenis')}
-                error={errors.jenis?.message}
               />
 
               <div className="flex gap-x-4">
@@ -126,15 +127,15 @@ export default function TambahUjianModal({
               </div>
 
               <div className="flex gap-x-2">
-                <Input
+                <ControlledInput
+                  name="durasi"
+                  control={control}
+                  errors={errors}
                   label="Durasi Ujian"
                   type="number"
                   placeholder="Atur lama ujian"
                   className="flex-1"
-                  labelClassName="text-gray-dark font-semibold"
                   suffix="Menit"
-                  {...register('durasi')}
-                  error={errors.durasi?.message}
                 />
                 <Controller
                   name="mulai"
@@ -179,11 +180,12 @@ export default function TambahUjianModal({
               </div>
 
               {/* Ganti menggunakan searchable select */}
-              <Input
+              <ControlledInput
+                name="paket"
+                control={control}
+                errors={errors}
                 label="Pilih Paket Soal"
                 placeholder="Klik di sini untuk memilih paket soal yang ada"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('paket')}
               />
 
               <Controller

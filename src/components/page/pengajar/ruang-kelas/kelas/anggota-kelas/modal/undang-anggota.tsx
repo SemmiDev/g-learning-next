@@ -1,6 +1,6 @@
-import { Button, CardSeparator, Input, Modal } from '@/components/ui'
+import { Button, CardSeparator, Modal } from '@/components/ui'
 import { MdOutlineContentCopy } from 'react-icons/md'
-import { ActionIcon } from 'rizzui'
+import { ActionIcon, Input } from 'rizzui'
 
 export default function UndangAnggotaModal({
   showModal = false,
@@ -18,10 +18,16 @@ export default function UndangAnggotaModal({
       onClose={() => setShowModal(false)}
     >
       <div className="flex flex-col gap-4 p-3">
-        <Input label="Kode Unik" value="XXXYZ" readOnly />
+        <Input
+          label="Kode Unik"
+          value="XXXYZ"
+          className="font-semibold text-gray-dark"
+          readOnly
+        />
         <Input
           label="Bagikan melalui link"
           value="https://glearning.id/XXXYZ"
+          className="font-semibold text-gray-dark"
           suffix={
             <ActionIcon
               size="sm"

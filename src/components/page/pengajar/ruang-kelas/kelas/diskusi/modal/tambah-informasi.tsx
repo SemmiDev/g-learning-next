@@ -3,9 +3,10 @@ import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
-import { Input, Radio, Switch } from 'rizzui'
+import { Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { DatePicker } from '@/components/ui/datepicker'
+import ControlledInput from '@/components/ui/controlled/input'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -71,12 +72,12 @@ export default function TambahInformasiModal({
         }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <Input
+              <ControlledInput
+                name="judul"
+                control={control}
+                errors={errors}
                 label="Judul Informasi"
                 placeholder="Tulis judul informasi di sini"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('judul')}
-                error={errors.judul?.message}
               />
 
               <Controller

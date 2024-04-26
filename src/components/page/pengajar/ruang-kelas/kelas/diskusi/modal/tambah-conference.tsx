@@ -3,10 +3,11 @@ import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
-import { Input, Radio, Switch } from 'rizzui'
+import { Radio, Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
 import { DatePicker } from '@/components/ui/datepicker'
+import ControlledInput from '@/components/ui/controlled/input'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -77,12 +78,12 @@ export default function TambahConferenceModal({
         }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <Input
+              <ControlledInput
+                name="judul"
+                control={control}
+                errors={errors}
                 label="Judul Conference"
                 placeholder="Tulis judul conference di sini"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('judul')}
-                error={errors.judul?.message}
               />
 
               <Controller
@@ -99,12 +100,12 @@ export default function TambahConferenceModal({
                 )}
               />
 
-              <Input
+              <ControlledInput
+                name="link"
+                control={control}
+                errors={errors}
                 label="Link Conference"
                 placeholder="Tulis link conference di sini"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('link')}
-                error={errors.link?.message}
               />
 
               <div className="flex gap-x-8 mt-2 mb-2">

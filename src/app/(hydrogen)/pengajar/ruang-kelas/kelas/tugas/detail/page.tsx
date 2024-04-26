@@ -6,27 +6,24 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import imagePhoto from '@public/images/photo.png'
-import { Input } from 'rizzui'
 import QuillEditor from '@/components/ui/quill-editor'
 import { z } from '@/utils/zod-id'
 import { Form } from '@/components/ui/form'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { required } from '@/utils/validations/pipe'
+import ControlledInput from '@/components/ui/controlled/input'
 
 const formSchema = z.object({
   nilai: z.string().pipe(required).pipe(z.coerce.number().min(0).max(100)),
-  catatan: z.string(),
+  catatan: z.string().optional(),
 })
 
 type FormSchema = {
-  nilai: string | number
-  catatan: string
+  nilai?: string | number
+  catatan?: string
 }
 
-const initialValues: FormSchema = {
-  nilai: '',
-  catatan: '',
-}
+const initialValues: FormSchema = {}
 
 export default function TugasDetailPage() {
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
@@ -72,16 +69,16 @@ export default function TugasDetailPage() {
               defaultValues: initialValues,
             }}
           >
-            {({ register, control, formState: { errors, isSubmitting } }) => (
+            {({ control, formState: { errors, isSubmitting } }) => (
               <>
                 <div className="space-y-5 p-2">
-                  <Input
+                  <ControlledInput
+                    name="nilai"
+                    control={control}
+                    errors={errors}
                     type="number"
                     label="Nilai"
                     placeholder="Berikan nilai. Contoh: 80"
-                    labelClassName="text-gray-dark font-semibold"
-                    {...register('nilai')}
-                    error={errors.nilai?.message}
                   />
                   <Controller
                     control={control}

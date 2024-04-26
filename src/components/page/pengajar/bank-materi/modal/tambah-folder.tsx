@@ -46,11 +46,11 @@ export default function TambahFolderModal({
           <>
             <div className="flex flex-col gap-4 p-3">
               <ControlledInput
-                label="Nama Folder"
-                placeholder="Tulis nama folder di sini"
                 name="nama"
                 control={control}
                 errors={errors}
+                label="Nama Folder"
+                placeholder="Tulis nama folder di sini"
               />
             </div>
             <CardSeparator />

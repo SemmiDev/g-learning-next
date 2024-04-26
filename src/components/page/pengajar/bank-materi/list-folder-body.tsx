@@ -1,28 +1,11 @@
 'use client'
 
-import { Button, CardSeparator, Title } from '@/components/ui'
+import { Button, Title } from '@/components/ui'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
 import FolderCard, { FolderType } from './folder-card'
 import { useState } from 'react'
 import TambahFolderModal from './modal/tambah-folder'
-import { useModal } from '@/app/shared/modal-views/use-modal'
-import ModalHeader from '@/components/ui/modal/header'
-import { Form } from '@/components/ui/form'
-import { SubmitHandler } from 'react-hook-form'
-import { z } from '@/utils/zod-id'
-import { required } from '@/utils/validations/pipe'
-import ControlledInput from '@/components/ui/controlled/input'
-
-const formSchema = z.object({
-  nama: z.string().pipe(required),
-})
-
-type FormSchema = {
-  nama?: string
-}
-
-const initialValues: FormSchema = {}
 
 export default function ListFolderMateriBody() {
   const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
@@ -31,10 +14,6 @@ export default function ListFolderMateriBody() {
     name: 'Bank Materi Aljabar Linier',
     count: 15,
   }))
-
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
-  }
 
   return (
     <>

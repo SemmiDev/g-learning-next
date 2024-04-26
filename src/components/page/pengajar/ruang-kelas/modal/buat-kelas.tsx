@@ -1,4 +1,5 @@
 import { Button, CardSeparator, Modal, Text, TextLabel } from '@/components/ui'
+import ControlledInput from '@/components/ui/controlled/input'
 import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { required } from '@/utils/validations/pipe'
@@ -86,20 +87,20 @@ export default function BuatKelasModal({
           return (
             <>
               <div className="flex flex-col gap-4 p-3">
-                <Input
+                <ControlledInput
+                  name="title"
+                  control={control}
+                  errors={errors}
                   label="Nama Program"
                   placeholder="Tulis nama program di sini"
-                  labelClassName="text-gray-dark font-semibold"
-                  {...register('title')}
-                  error={errors.title?.message}
                 />
 
-                <Input
+                <ControlledInput
+                  name="subtitle"
+                  control={control}
+                  errors={errors}
                   label="Nama Kelas"
                   placeholder="Tulis nama kelas di sini"
-                  labelClassName="text-gray-dark font-semibold"
-                  {...register('subtitle')}
-                  error={errors.subtitle?.message}
                 />
 
                 <div>

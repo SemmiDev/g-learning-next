@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Empty,
@@ -8,13 +8,13 @@ import {
   Popover,
   Title,
   Text,
-} from 'rizzui';
-import cn from '@/utils/class-names';
-import RcTable from 'rc-table';
-import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case';
-import { PiTextColumns } from 'react-icons/pi';
+} from 'rizzui'
+import cn from '@/utils/class-names'
+import RcTable from 'rc-table'
+import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
+import { PiTextColumns } from 'react-icons/pi'
 
-export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T;
+export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 
 const classes = {
   table:
@@ -37,20 +37,20 @@ const classes = {
   },
   striped:
     '[&_.rc-table-row:nth-child(2n)_.rc-table-cell]:bg-gray-100/50 [&_.rc-table-row:hover]:bg-transparent',
-};
+}
 
-type RCTableProps = ExtractProps<typeof RcTable>;
+type RCTableProps = ExtractProps<typeof RcTable>
 
 export interface TableProps
   extends Omit<RCTableProps, 'className' | 'emptyText'> {
   /** Set empty text, it will only appear when table has no data */
-  emptyText?: React.ReactElement;
+  emptyText?: React.ReactElement
   /** The variants of the component are: */
-  variant?: keyof typeof classes.variants;
+  variant?: keyof typeof classes.variants
   /** Add striping style */
-  striped?: boolean;
+  striped?: boolean
   /** Add custom classes for extra style */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -83,34 +83,34 @@ export default function Table({
       }
       {...props}
     />
-  );
+  )
 }
 
 // Table Header Cell Component
-type TextAlign = 'left' | 'center' | 'right';
+type TextAlign = 'left' | 'center' | 'right'
 
 export interface HeaderCellProps {
-  title: React.ReactNode;
-  width?: number;
+  title: React.ReactNode
+  width?: number
   /** Set table header cell text alignment */
-  align?: TextAlign;
+  align?: TextAlign
   /** Make header cell text ellipsis, you need to set width prop too */
-  ellipsis?: boolean;
+  ellipsis?: boolean
   /** Make sortable column, it's also required ascending prop too. Check our example for more details. */
-  sortable?: boolean;
+  sortable?: boolean
   /** Make ascending column, it's also required sortable prop too. Check our example for more details. */
-  ascending?: boolean;
+  ascending?: boolean
   /** Add custom classes to the sort icon for extra style */
-  iconClassName?: string;
+  iconClassName?: string
   /** Add custom classes for extra style */
-  className?: string;
+  className?: string
 }
 
 // A util func
 function handleTextAlignment(align: TextAlign) {
-  if (align === 'center') return 'justify-center';
-  if (align === 'right') return 'justify-end';
-  return '';
+  if (align === 'center') return 'justify-center'
+  if (align === 'right') return 'justify-end'
+  return ''
 }
 
 export function HeaderCell({
@@ -126,12 +126,12 @@ export function HeaderCell({
   if (ellipsis && width === undefined) {
     console.warn(
       'When ellipsis is true make sure you are using the same column width in HeaderCell component too.'
-    );
+    )
   }
   if (width !== undefined && ellipsis !== true) {
     console.warn(
       "width prop without ellipsis won't work, please set ellipsis prop true."
-    );
+    )
   }
   return (
     <div
@@ -172,15 +172,15 @@ export function HeaderCell({
         </div>
       )}
     </div>
-  );
+  )
 }
 
 type ToggleColumnsTypes<T> = {
-  columns: T[];
-  checkedColumns: string[];
-  setCheckedColumns: React.Dispatch<React.SetStateAction<string[]>>;
-  hideIndex?: number;
-};
+  columns: T[]
+  checkedColumns: string[]
+  setCheckedColumns: React.Dispatch<React.SetStateAction<string[]>>
+  hideIndex?: number
+}
 
 export function ToggleColumns<T>({
   columns,
@@ -222,5 +222,5 @@ export function ToggleColumns<T>({
         </Popover.Content>
       </Popover>
     </div>
-  );
+  )
 }

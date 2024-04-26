@@ -1,18 +1,19 @@
 import cn from '@/utils/class-names'
 import { Control, Controller, FieldErrors } from 'react-hook-form'
-import { Input, InputProps } from 'rizzui'
+import { Textarea, TextareaProps } from 'rizzui'
 
-type ControlledInputProps = InputProps & {
+type ControlledInputProps = TextareaProps & {
   name: string
-  control: Control<any>
-  errors?: FieldErrors<any>
+  control: Control
+  errors?: FieldErrors
 }
 
-export default function ControlledInput({
+export default function ControlledTextarea({
   name,
   control,
   errors,
   labelClassName,
+  rows = 3,
   ...props
 }: ControlledInputProps) {
   return (
@@ -20,11 +21,12 @@ export default function ControlledInput({
       control={control}
       name={name}
       render={({ field: { name, value, onChange, onBlur } }) => (
-        <Input
+        <Textarea
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
+          rows={rows}
           onChange={onChange}
           onBlur={onBlur}
-          value={value ?? ''}
+          value={value}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />
