@@ -23,7 +23,6 @@ export default function Modal({
 }: ModalProps) {
   return (
     <RizModal
-      size="lg"
       overlayClassName={cn('cursor-auto', overlayClassName)}
       containerClassName={cn('overflow-clip', containerClassName)}
       {...props}

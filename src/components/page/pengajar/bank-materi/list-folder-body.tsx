@@ -4,12 +4,11 @@ import { Button, Title } from '@/components/ui'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
 import FolderCard, { FolderType } from './folder-card'
-import { useState } from 'react'
-import TambahFolderModal from './modal/tambah-folder'
+import { useModal } from '@/app/shared/modal-views/use-modal'
+import TambahFolderModalView from './modal-view/tambah-folder'
 
 export default function ListFolderMateriBody() {
-  const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
-
+  const { openModal, closeModal } = useModal()
   const listFolder: FolderType[] = [...Array(12)].map((_) => ({
     name: 'Bank Materi Aljabar Linier',
     count: 15,
@@ -36,7 +35,11 @@ export default function ListFolderMateriBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambahFolder(true)}
+          onClick={() => {
+            openModal({
+              view: <TambahFolderModalView closeModal={closeModal} />,
+            })
+          }}
         >
           Tambah Folder Baru
         </Button>
@@ -49,11 +52,6 @@ export default function ListFolderMateriBody() {
       <div className="flex justify-center mt-4">
         <Button>Tampilkan Lebih banyak</Button>
       </div>
-
-      <TambahFolderModal
-        showModal={showModalTambahFolder}
-        setShowModal={setShowModalTambahFolder}
-      />
     </>
   )
 }

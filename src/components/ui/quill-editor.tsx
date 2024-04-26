@@ -54,6 +54,7 @@ export default function QuillEditor({
           // ['link', 'image'],
           ['clean'],
         ]
+
   const quillModules = {
     toolbar: {
       container: listToolbar,
