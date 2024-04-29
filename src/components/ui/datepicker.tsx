@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Input, InputProps } from 'rizzui'
 import cn from '@/utils/class-names'

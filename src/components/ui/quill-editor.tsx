@@ -1,3 +1,5 @@
+'use client'
+
 import ReactQuill, { type ReactQuillProps } from 'react-quill'
 import { FieldError } from 'rizzui'
 import cn from '@/utils/class-names'

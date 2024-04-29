@@ -1,17 +1,17 @@
-'use client';
+'use client'
 
 import {
   DrawerPlacements,
   useDrawer,
-} from '@/app/shared/drawer-views/use-drawer';
-import { ActionIcon } from 'rizzui';
-import cn from '@/utils/class-names';
+} from '@/components/shared/global-drawer/use-drawer'
+import { ActionIcon } from 'rizzui'
+import cn from '@/utils/class-names'
 
 interface Props {
-  view: JSX.Element;
-  placement?: DrawerPlacements;
-  customSize?: string;
-  className?: string;
+  view: JSX.Element
+  placement?: DrawerPlacements
+  customSize?: string
+  className?: string
 }
 
 export default function HamburgerButton({
@@ -20,7 +20,7 @@ export default function HamburgerButton({
   customSize = '320px',
   className,
 }: Props) {
-  const { openDrawer } = useDrawer();
+  const { openDrawer } = useDrawer()
   return (
     <ActionIcon
       aria-label="Open Sidebar Menu"
@@ -49,5 +49,5 @@ export default function HamburgerButton({
         />
       </svg>
     </ActionIcon>
-  );
+  )
 }
