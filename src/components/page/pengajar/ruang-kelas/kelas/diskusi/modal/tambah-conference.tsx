@@ -8,6 +8,7 @@ import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
 import { DatePicker } from '@/components/ui/datepicker'
 import ControlledInput from '@/components/ui/controlled/input'
+import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -59,7 +60,7 @@ export default function TambahConferenceModal({
   return (
     <Modal
       title="Bagikan Conference"
-      size='lg'
+      size="lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
@@ -160,18 +161,11 @@ export default function TambahConferenceModal({
 
             <CardSeparator />
 
-            <div className="flex gap-2 p-3">
-              <Button type="submit" className="flex-1" disabled={isSubmitting}>
-                Bagikan Sekarang
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => setShowModal(false)}
-              >
-                Batal
-              </Button>
-            </div>
+            <ModalFooterButtons
+              submit="Bagikan Sekarang"
+              isSubmitting={isSubmitting}
+              onCancel={() => setShowModal(false)}
+            />
           </>
         )}
       </Form>

@@ -7,17 +7,17 @@ import ControlledInput from '@/components/ui/controlled/input'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 
 const formSchema = z.object({
-  nama: z.string().pipe(required),
+  judul: z.string().pipe(required),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  nama?: string
+  judul?: string
 }
 
 const initialValues: FormSchema = {}
 
-export default function TambahFolderModal({
+export default function TambahMateriModal({
   showModal = false,
   setShowModal,
 }: {
@@ -30,8 +30,8 @@ export default function TambahFolderModal({
 
   return (
     <Modal
-      title="Tambah Folder Baru"
-      desc="Buat folder baru untuk menyimpan materi Kamu"
+      title="Tambah Materi Baru"
+      desc="Buat materi ajar terkait kelas yang kamu kelola"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
@@ -47,18 +47,18 @@ export default function TambahFolderModal({
           <>
             <div className="flex flex-col gap-4 p-3">
               <ControlledInput
-                name="nama"
+                name="judul"
                 control={control}
                 errors={errors}
-                label="Nama Folder"
-                placeholder="Tulis nama folder di sini"
+                label="Judul Materi"
+                placeholder="Tulis judul materi di sini"
               />
             </div>
 
             <CardSeparator />
 
             <ModalFooterButtons
-              submit="Buat Folder Baru"
+              submit="Tambah Materi"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
             />

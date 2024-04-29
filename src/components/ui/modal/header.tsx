@@ -13,7 +13,7 @@ export default function ModalHeader({
   title: string
   desc?: string
   className?: string
-  onClose(): void
+  onClose?(): void
 }) {
   return (
     <div
@@ -38,14 +38,16 @@ export default function ModalHeader({
           </Text>
         )}
       </div>
-      <ActionIcon
-        size="sm"
-        variant="text"
-        onClick={onClose}
-        className="text-white"
-      >
-        <MdOutlineClose size={18} />
-      </ActionIcon>
+      {onClose && (
+        <ActionIcon
+          size="sm"
+          variant="text"
+          onClick={onClose}
+          className="text-white"
+        >
+          <MdOutlineClose size={18} />
+        </ActionIcon>
+      )}
     </div>
   )
 }

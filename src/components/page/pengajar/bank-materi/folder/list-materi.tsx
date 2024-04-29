@@ -3,16 +3,18 @@
 import { Button, Title } from '@/components/ui'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
-import FolderCard, { FolderType } from './folder-card'
 import { useState } from 'react'
-import TambahFolderModal from './modal/tambah-folder'
+import MateriCard, { MateriType } from './materi-card'
+import TambahMateriModal from './modal/tambah-materi'
 
-export default function ListFolderMateriBody() {
-  const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
+export default function ListMateriBody() {
+  const [showModalTambahMateri, setShowModalTambahMateri] = useState(false)
 
-  const listFolder: FolderType[] = [...Array(12)].map((_) => ({
-    name: 'Bank Materi Aljabar Linier',
-    count: 15,
+  const listMateri: MateriType[] = [...Array(12)].map((_) => ({
+    title: 'Judul dari materinya nanti ada disini ya maksimal 2 baris aja',
+    desc: 'Penjelasan singkat terkait materi yang dibuat nanti akan muncul disini',
+    time: '12 Mar 2024 13:00',
+    fileCount: 4,
   }))
 
   return (
@@ -22,7 +24,7 @@ export default function ListFolderMateriBody() {
         weight="semibold"
         className="text-[1.375rem] leading-tight mb-4"
       >
-        List Bank Materi
+        Bank Materi Aljabar Linier
       </Title>
       <div className="flex justify-between">
         <Input
@@ -36,23 +38,23 @@ export default function ListFolderMateriBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambahFolder(true)}
+          onClick={() => setShowModalTambahMateri(true)}
         >
-          Tambah Folder Baru
+          Tambah Materi
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {listFolder.map((folder, idx) => (
-          <FolderCard folder={folder} key={idx} />
+        {listMateri.map((materi, idx) => (
+          <MateriCard materi={materi} key={idx} />
         ))}
       </div>
       <div className="flex justify-center mt-4">
         <Button>Tampilkan Lebih banyak</Button>
       </div>
 
-      <TambahFolderModal
-        showModal={showModalTambahFolder}
-        setShowModal={setShowModalTambahFolder}
+      <TambahMateriModal
+        showModal={showModalTambahMateri}
+        setShowModal={setShowModalTambahMateri}
       />
     </>
   )

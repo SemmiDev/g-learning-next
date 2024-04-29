@@ -30,7 +30,7 @@ export default function ButtonIcon({
       >
         {children}
       </div>
-      <Text size="sm" weight="semibold" variant="dark" className="mt-1">
+      <Text size="xs" weight="semibold" variant="dark" className="mt-1">
         {title}
       </Text>
     </button>

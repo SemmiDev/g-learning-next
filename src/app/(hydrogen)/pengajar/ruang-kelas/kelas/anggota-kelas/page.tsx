@@ -14,11 +14,10 @@ import {
 } from '@/components/ui'
 import { Fragment, useState } from 'react'
 import UndangAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/undang-anggota'
-import KeluarkanAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/keluarkan-anggota'
+import ConfirmButton from '@/components/ui/button/confirm'
 
 export default function AnggotaKelasPage() {
   const [showModalUndang, setShowModalUndang] = useState(false)
-  const [showModalKeluarkan, setShowModalKeluarkan] = useState(false)
 
   return (
     <>
@@ -79,15 +78,16 @@ export default function AnggotaKelasPage() {
                         </Text>
                       </div>
                     </div>
-                    <Button
+                    <ConfirmButton
+                      title="Keluarkan Anggota Kelas"
+                      desc="Apakah Anda yakin ingin mengeluarkan peserta ini dari kelas anda?"
                       size="sm"
                       variant="outline"
                       color="danger"
                       className="m-2"
-                      onClick={() => setShowModalKeluarkan(true)}
                     >
                       Keluarkan
-                    </Button>
+                    </ConfirmButton>
                   </div>
                   <CardSeparator />
                 </Fragment>
@@ -154,11 +154,6 @@ export default function AnggotaKelasPage() {
       <UndangAnggotaModal
         showModal={showModalUndang}
         setShowModal={setShowModalUndang}
-      />
-
-      <KeluarkanAnggotaModal
-        showModal={showModalKeluarkan}
-        setShowModal={setShowModalKeluarkan}
       />
     </>
   )

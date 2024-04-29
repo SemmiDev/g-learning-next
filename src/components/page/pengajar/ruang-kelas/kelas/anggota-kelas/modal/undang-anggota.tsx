@@ -1,4 +1,6 @@
-import { Button, CardSeparator, Modal } from '@/components/ui'
+import { CardSeparator, Modal } from '@/components/ui'
+import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
+import toast from 'react-hot-toast'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { ActionIcon, Input } from 'rizzui'
 
@@ -33,9 +35,14 @@ export default function UndangAnggotaModal({
               size="sm"
               variant="text"
               className="-me-2"
-              onClick={() =>
-                navigator.clipboard.writeText('https://glearning.id/XXXYZ')
-              }
+              onClick={async () => {
+                await navigator.clipboard.writeText(
+                  'https://glearning.id/XXXYZ'
+                )
+                toast.success('Link berhasil disalin.', {
+                  position: 'bottom-center',
+                })
+              }}
             >
               <MdOutlineContentCopy />
             </ActionIcon>
@@ -46,15 +53,7 @@ export default function UndangAnggotaModal({
 
       <CardSeparator />
 
-      <div className="flex p-3">
-        <Button
-          variant="outline"
-          className="flex-1"
-          onClick={() => setShowModal(false)}
-        >
-          Tutup
-        </Button>
-      </div>
+      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(false)} />
     </Modal>
   )
 }

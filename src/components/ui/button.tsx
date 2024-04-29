@@ -3,15 +3,24 @@ import { Without } from '@/utils/without-type'
 import { Button as RizButton, ButtonProps as RizButtonProps } from 'rizzui'
 import { TextWeights } from './text'
 
-type ButtonProps = Without<RizButtonProps, 'color' | 'variant'> & {
-  variant?:
-    | 'solid'
-    | 'flat'
-    | 'outline'
-    | 'text'
-    | 'text-colorful'
-    | 'outline-colorful'
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+export type ButtonColorProp =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+
+export type ButtonVariantProp =
+  | 'solid'
+  | 'flat'
+  | 'outline'
+  | 'text'
+  | 'text-colorful'
+  | 'outline-colorful'
+
+export type ButtonProps = Without<RizButtonProps, 'color' | 'variant'> & {
+  variant?: ButtonVariantProp
+  color?: ButtonColorProp
   fontWeight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold'
 }
 

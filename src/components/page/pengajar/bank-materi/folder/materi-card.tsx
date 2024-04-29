@@ -3,35 +3,46 @@ import cn from '@/utils/class-names'
 import Image from 'next/image'
 import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { ActionIcon, Dropdown } from 'rizzui'
-import iconFolder from '@public/icons/folder.png'
-import Link from 'next/link'
-import { routes } from '@/config/routes'
+import iconMateri from '@public/icons/materi.png'
 
-export type FolderType = {
-  name: string
-  count: number
+export type MateriType = {
+  title: string
+  desc: string
+  time: string
+  fileCount: number
 }
 
-export default function FolderCard({
-  folder,
+export default function MateriCard({
+  materi,
   className,
 }: {
-  folder: FolderType
+  materi: MateriType
   className?: string
 }) {
   return (
-    <Link
-      href={`${routes.bankMateri}/folder`}
+    <div
       className={cn(
         'relative rounded-lg border border-muted p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-md active:bg-gray-50/30',
         className
       )}
     >
       <div className="flex items-start justify-between">
-        <div className="mb-4 flex size-11 items-center justify-center rounded-md bg-gray-50">
-          <figure className="size-5">
-            <Image src={iconFolder} alt="folder" />
-          </figure>
+        <div className="flex mb-2">
+          <div className="flex size-12 items-center justify-center rounded-md bg-gray-50 mr-2">
+            <figure className="size-6">
+              <Image src={iconMateri} alt="folder" />
+            </figure>
+          </div>
+          <Title
+            as="h4"
+            size="base"
+            weight="semibold"
+            variant="dark"
+            className="flex-1 line-clamp-2"
+            title={materi.title}
+          >
+            {materi.title}
+          </Title>
         </div>
         <div className="flex">
           <Dropdown placement="bottom-end">
@@ -57,19 +68,19 @@ export default function FolderCard({
           </Dropdown>
         </div>
       </div>
-      <Title
-        as="h4"
-        size="base"
+      <Text
+        size="sm"
         weight="medium"
         variant="dark"
-        className="truncate"
-        title={folder.name}
+        className="line-clamp-2"
+        title={materi.desc}
       >
-        {folder.name}
-      </Title>
-      <Text size="sm" className="truncate">
-        {folder.count} Materi
+        {materi.desc}
       </Text>
-    </Link>
+      <ul className="flex list-inside list-disc text-sm text-gray-lighter gap-3.5">
+        <li className="list-none">{materi.time}</li>
+        <li>{materi.fileCount} berkas</li>
+      </ul>
+    </div>
   )
 }

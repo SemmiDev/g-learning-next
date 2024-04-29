@@ -1,6 +1,7 @@
 import { Button, CardSeparator, Modal, Text, TextLabel } from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'
 import { Form } from '@/components/ui/form'
+import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 import QuillEditor from '@/components/ui/quill-editor'
 import { required } from '@/utils/validations/pipe'
 import { imageFileOnly, maxFileSize } from '@/utils/validations/refine'
@@ -230,18 +231,11 @@ export default function PengaturanKelasModal({
 
             <CardSeparator />
 
-            <div className="flex gap-2 p-3">
-              <Button type="submit" className="flex-1" disabled={isSubmitting}>
-                Simpan
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => setShowModal(false)}
-              >
-                Batal
-              </Button>
-            </div>
+            <ModalFooterButtons
+              submit="Simpan"
+              isSubmitting={isSubmitting}
+              onCancel={() => setShowModal(false)}
+            />
           </>
         )}
       </Form>

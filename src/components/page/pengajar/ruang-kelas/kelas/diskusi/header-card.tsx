@@ -31,41 +31,41 @@ export default function HeaderCard({ className }: { className?: string }) {
         <Text size="xs" weight="semibold" variant="lighter" className="mt-1">
           Pilih jenis diskusi yang Kamu inginkan
         </Text>
-        <div className="flex space-x-4 mt-4">
+        <div className="flex gap-5 mt-4">
           <ButtonIcon
             title="Materi"
             color="green"
             onClick={() => setShowModalMateri(true)}
           >
-            <BsFileRichtext size={26} />
+            <BsFileRichtext size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Tugas"
             color="violet"
             onClick={() => setShowModalTugas(true)}
           >
-            <BsClipboardPlus size={26} />
+            <BsClipboardPlus size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Ujian"
             color="blue"
             onClick={() => setShowModalUjian(true)}
           >
-            <BsCardChecklist size={26} />
+            <BsCardChecklist size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Conference"
             color="red"
             onClick={() => setShowModalConference(true)}
           >
-            <BsWebcam size={26} />
+            <BsWebcam size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Informasi"
             color="indigo"
             onClick={() => setShowModalInformasi(true)}
           >
-            <BsMegaphone size={26} />
+            <BsMegaphone size={32} />
           </ButtonIcon>
         </div>
       </Card>

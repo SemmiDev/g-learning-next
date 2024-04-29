@@ -1,5 +1,5 @@
 import PageHeader from '@/app/shared/page-header'
-import ListFolderMateriBody from '@/components/page/pengajar/bank-materi/list-folder-body'
+import ListMateriBody from '@/components/page/pengajar/bank-materi/folder/list-materi'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
 
@@ -17,6 +17,9 @@ const pageHeader = {
     {
       name: 'Bank Materi',
     },
+    {
+      name: 'Aljabar Linear',
+    },
   ],
 }
 
@@ -24,7 +27,7 @@ export default function ListFolderBankMateriPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-      <ListFolderMateriBody />
+      <ListMateriBody />
     </>
   )
 }
