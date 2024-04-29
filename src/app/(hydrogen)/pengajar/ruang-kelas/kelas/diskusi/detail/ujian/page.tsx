@@ -9,8 +9,15 @@ import Image from 'next/image'
 import Card from '@/components/ui/card'
 import imagePhoto from '@public/images/photo.png'
 import CardSeparator from '@/components/ui/card-separator'
-import { Button, Pagination, ReadMore, Text, Title } from '@/components/ui'
-import Table, { HeaderCell } from '@/components/ui/table'
+import {
+  Button,
+  Pagination,
+  ReadMore,
+  Table,
+  TableHeaderCell,
+  Text,
+  Title,
+} from '@/components/ui'
 import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/ujian/dropdown-nilai-action'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
@@ -19,7 +26,7 @@ import { BiFilterAlt } from 'react-icons/bi'
 export default function DiskusiDetailUjianPage() {
   const tableColumns = [
     {
-      title: <HeaderCell title="No" className="justify-center" />,
+      title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
       key: 'no',
       render: (_: string, __: any, idx: number) => (
@@ -29,7 +36,7 @@ export default function DiskusiDetailUjianPage() {
       ),
     },
     {
-      title: <HeaderCell title="Nama Peserta" />,
+      title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       key: 'nama',
       render: (_: string, row: any) => (
@@ -56,7 +63,7 @@ export default function DiskusiDetailUjianPage() {
       ),
     },
     {
-      title: <HeaderCell title="Tanggal & Waktu Pengerjaan" />,
+      title: <TableHeaderCell title="Tanggal & Waktu Pengerjaan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
       render: (_: string, row: any) => (
@@ -68,7 +75,7 @@ export default function DiskusiDetailUjianPage() {
       ),
     },
     {
-      title: <HeaderCell title="Nilai" className="justify-center" />,
+      title: <TableHeaderCell title="Nilai" className="justify-center" />,
       dataIndex: 'nilai',
       key: 'nilai',
       render: (value: string) => (
@@ -78,7 +85,7 @@ export default function DiskusiDetailUjianPage() {
       ),
     },
     {
-      title: <HeaderCell title="" />,
+      title: <TableHeaderCell title="" />,
       dataIndex: 'nilai',
       key: 'nilai',
       render: () => (

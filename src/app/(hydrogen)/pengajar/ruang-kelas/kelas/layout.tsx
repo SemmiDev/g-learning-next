@@ -1,13 +1,12 @@
 import { metaObject } from '@/config/site.config'
 import { routes } from '@/config/routes'
-import PageHeader from '@/app/shared/page-header'
+import PageHeader from '@/components/shared/page-header'
 import { ReactNode } from 'react'
-import { TabGroup } from '@/components/ui/tab-group'
 import { Badge } from 'rizzui'
 import Card from '@/components/ui/card'
 import Image from 'next/image'
 import imageKelas from '@public/images/list-kelas.png'
-import { Text, Title } from '@/components/ui'
+import { TabGroup, Text, Title } from '@/components/ui'
 import KelasHeaderAction from '@/components/page/pengajar/ruang-kelas/kelas/header-action'
 
 export const metadata = {

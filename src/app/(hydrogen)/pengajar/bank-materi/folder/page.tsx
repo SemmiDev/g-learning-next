@@ -1,4 +1,4 @@
-import PageHeader from '@/app/shared/page-header'
+import PageHeader from '@/components/shared/page-header'
 import ListMateriBody from '@/components/page/pengajar/bank-materi/folder/list-materi'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

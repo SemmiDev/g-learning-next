@@ -17,7 +17,7 @@ import {
   TextSpan,
   Title,
 } from '@/components/ui'
-import Table, { HeaderCell } from '@/components/ui/table'
+import Table, { TableHeaderCell } from '@/components/ui/table'
 import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/tugas/dropdown-nilai-action'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
@@ -26,7 +26,7 @@ import { BiFilterAlt } from 'react-icons/bi'
 export default function DiskusiDetailTugasPage() {
   const tableColumns = [
     {
-      title: <HeaderCell title="No" className="justify-center" />,
+      title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
       key: 'no',
       render: (_: string, __: any, idx: number) => (
@@ -36,7 +36,7 @@ export default function DiskusiDetailTugasPage() {
       ),
     },
     {
-      title: <HeaderCell title="Nama Peserta" />,
+      title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       key: 'nama',
       render: (_: string, row: any) => (
@@ -63,7 +63,7 @@ export default function DiskusiDetailTugasPage() {
       ),
     },
     {
-      title: <HeaderCell title="Waktu Pengumpulan" />,
+      title: <TableHeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
       render: (_: string, row: any) => (
@@ -75,7 +75,7 @@ export default function DiskusiDetailTugasPage() {
       ),
     },
     {
-      title: <HeaderCell title="Nilai" className="justify-center" />,
+      title: <TableHeaderCell title="Nilai" className="justify-center" />,
       dataIndex: 'nilai',
       key: 'nilai',
       render: (value: string) => (
@@ -85,7 +85,7 @@ export default function DiskusiDetailTugasPage() {
       ),
     },
     {
-      title: <HeaderCell title="" />,
+      title: <TableHeaderCell title="" />,
       dataIndex: 'nilai',
       key: 'nilai',
       render: (_: string, row: any) => {

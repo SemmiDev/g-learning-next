@@ -1,12 +1,11 @@
 'use client'
 
-import { HeaderCell } from '@/components/ui/table'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import ChartPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/chart-card'
 import KehadiranPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/kehadiran-card'
 import RekapPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/rekap-card'
-import { Text } from '@/components/ui'
+import { TableHeaderCell, Text } from '@/components/ui'
 
 const COLORS = ['#FFD1D1', '#D68585', '#B92E5D', '#6D1A36']
 
@@ -20,7 +19,7 @@ export default function PresensiPage() {
 
   const tableColumns = [
     {
-      title: <HeaderCell title="Nama Peserta" />,
+      title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       key: 'nama',
       render: (_: string, row: any) => (
@@ -47,7 +46,7 @@ export default function PresensiPage() {
       ),
     },
     {
-      title: <HeaderCell title="Hadir" className="justify-center" />,
+      title: <TableHeaderCell title="Hadir" className="justify-center" />,
       dataIndex: 'hadir',
       key: 'hadir',
       render: (value: string) => (
@@ -57,7 +56,7 @@ export default function PresensiPage() {
       ),
     },
     {
-      title: <HeaderCell title="Izin" className="justify-center" />,
+      title: <TableHeaderCell title="Izin" className="justify-center" />,
       dataIndex: 'izin',
       key: 'izin',
       render: (value: string) => (
@@ -67,7 +66,7 @@ export default function PresensiPage() {
       ),
     },
     {
-      title: <HeaderCell title="Sakit" className="justify-center" />,
+      title: <TableHeaderCell title="Sakit" className="justify-center" />,
       dataIndex: 'sakit',
       key: 'sakit',
       render: (value: string) => (
@@ -77,7 +76,7 @@ export default function PresensiPage() {
       ),
     },
     {
-      title: <HeaderCell title="Alpha" className="justify-center" />,
+      title: <TableHeaderCell title="Alpha" className="justify-center" />,
       dataIndex: 'alpha',
       key: 'alpha',
       render: (value: string) => (
