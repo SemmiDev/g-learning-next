@@ -22,6 +22,7 @@ export default function FolderCard({
   return (
     <Link
       href={`${routes.bankMateri}/folder`}
+      data-disable-nprogress={true}
       className={cn(
         'relative rounded-lg border border-muted p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-md active:bg-gray-50/30',
         className
@@ -33,7 +34,7 @@ export default function FolderCard({
             <Image src={iconFolder} alt="folder" />
           </figure>
         </div>
-        <div className="flex">
+        <div onClick={(e) => e.stopPropagation()}>
           <Dropdown placement="bottom-end">
             <Dropdown.Trigger>
               <ActionIcon size="sm" variant="text">
