@@ -1,6 +1,6 @@
 import { ActionIcon } from 'rizzui'
-import Text from '../text'
-import Title from '../title'
+import Text from '../text/text'
+import Title from '../text/title'
 import { MdOutlineClose } from 'react-icons/md'
 import cn from '@/utils/class-names'
 

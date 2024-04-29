@@ -2,7 +2,7 @@ import cn from '@/utils/class-names'
 import { Control, Controller, FieldErrors } from 'react-hook-form'
 import { Input, InputProps } from 'rizzui'
 
-type ControlledInputProps = InputProps & {
+export type ControlledInputProps = InputProps & {
   name: string
   control: Control<any>
   errors?: FieldErrors<any>

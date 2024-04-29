@@ -2,7 +2,7 @@ import cn from '@/utils/class-names'
 import { Control, Controller, FieldErrors } from 'react-hook-form'
 import { Textarea, TextareaProps } from 'rizzui'
 
-type ControlledInputProps = TextareaProps & {
+export type ControlledTextareaProps = TextareaProps & {
   name: string
   control: Control
   errors?: FieldErrors
@@ -15,7 +15,7 @@ export default function ControlledTextarea({
   labelClassName,
   rows = 3,
   ...props
-}: ControlledInputProps) {
+}: ControlledTextareaProps) {
   return (
     <Controller
       control={control}

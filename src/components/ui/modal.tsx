@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import cn from '@/utils/class-names'
 import { Without } from '@/utils/without-type'
 
-type ModalProps = Without<RizModalProps, 'onClose'> & {
+export type ModalProps = Without<RizModalProps, 'onClose'> & {
   title: string
   desc?: string
   children: ReactNode

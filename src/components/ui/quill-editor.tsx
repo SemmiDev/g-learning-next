@@ -4,7 +4,7 @@ import cn from '@/utils/class-names'
 import 'react-quill/dist/quill.snow.css'
 // import { useCallback, useRef } from 'react'
 
-interface QuillEditorProps extends ReactQuillProps {
+export interface QuillEditorProps extends ReactQuillProps {
   error?: string
   label?: React.ReactNode
   className?: string

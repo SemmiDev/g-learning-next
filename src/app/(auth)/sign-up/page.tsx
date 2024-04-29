@@ -1,6 +1,6 @@
 import { metaObject } from '@/config/site.config'
-import AuthWrapper from '@/app/shared/auth-layout/auth-wrapper'
 import SignUpForm from './sign-up-form'
+import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
 
 export const metadata = {
   ...metaObject('Masuk'),

@@ -1,7 +1,7 @@
 import cn from '@/utils/class-names'
 import { Without } from '@/utils/without-type'
 import { Button as RizButton, ButtonProps as RizButtonProps } from 'rizzui'
-import { TextWeights } from './text'
+import { TextWeights } from './text/text'
 
 export type ButtonColorProp =
   | 'primary'

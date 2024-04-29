@@ -1,12 +1,12 @@
-import React from 'react';
-import cn from '@/utils/class-names';
-import Link from 'next/link';
+import React from 'react'
+import cn from '@/utils/class-names'
+import Link from 'next/link'
 
 export type BreadcrumbItemProps = {
-  href?: string;
-  className?: string;
-  children: React.ReactNode;
-};
+  href?: string
+  className?: string
+  children: React.ReactNode
+}
 
 const BreadcrumbItem = ({
   href = '#',
@@ -20,15 +20,15 @@ const BreadcrumbItem = ({
   >
     {children}
   </Link>
-);
+)
 
 export interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
-  separator?: React.ReactNode;
-  disableCurrent?: boolean;
-  children: React.ReactNode;
-  className?: string;
-  separatorClassName?: string;
-  separatorVariant?: 'default' | 'circle';
+  separator?: React.ReactNode
+  disableCurrent?: boolean
+  children: React.ReactNode
+  className?: string
+  separatorClassName?: string
+  separatorVariant?: 'default' | 'circle'
 }
 
 const Breadcrumb = ({
@@ -39,12 +39,12 @@ const Breadcrumb = ({
   separatorClassName,
   separatorVariant = 'default',
 }: BreadcrumbProps) => {
-  const numOfItems = React.Children.count(children);
+  const numOfItems = React.Children.count(children)
 
   return (
     <div className={cn('inline-flex items-center gap-2.5', className)}>
       {React.Children.map(children, (child, index) => {
-        if (!React.isValidElement<BreadcrumbItemProps>(child)) return child;
+        if (!React.isValidElement<BreadcrumbItemProps>(child)) return child
 
         return (
           <>
@@ -65,12 +65,12 @@ const Breadcrumb = ({
                 <span className="h-1 w-1 rounded-full bg-gray-300" />
               ))}
           </>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-Breadcrumb.Item = BreadcrumbItem;
-Breadcrumb.displayName = 'Breadcrumb';
-export default Breadcrumb;
+Breadcrumb.Item = BreadcrumbItem
+Breadcrumb.displayName = 'Breadcrumb'
+export default Breadcrumb

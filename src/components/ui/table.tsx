@@ -89,7 +89,7 @@ export default function Table({
 // Table Header Cell Component
 type TextAlign = 'left' | 'center' | 'right'
 
-export interface HeaderCellProps {
+export interface TableHeaderCellProps {
   title: React.ReactNode
   width?: number
   /** Set table header cell text alignment */
@@ -113,7 +113,7 @@ function handleTextAlignment(align: TextAlign) {
   return ''
 }
 
-export function HeaderCell({
+export function TableHeaderCell({
   title,
   align = 'left',
   width,
@@ -122,7 +122,7 @@ export function HeaderCell({
   ascending,
   iconClassName,
   className,
-}: HeaderCellProps) {
+}: TableHeaderCellProps) {
   if (ellipsis && width === undefined) {
     console.warn(
       'When ellipsis is true make sure you are using the same column width in HeaderCell component too.'
@@ -182,7 +182,7 @@ type ToggleColumnsTypes<T> = {
   hideIndex?: number
 }
 
-export function ToggleColumns<T>({
+export function TableToggleColumns<T>({
   columns,
   checkedColumns,
   setCheckedColumns,

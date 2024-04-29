@@ -9,8 +9,8 @@ import toast from 'react-hot-toast'
 import { LoginSchema, loginSchema } from './schema'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
-import TextLink from '@/components/ui/text-link'
-import Text from '@/components/ui/text'
+import TextLink from '@/components/ui/text/link'
+import Text from '@/components/ui/text/text'
 import Button from '@/components/ui/button'
 
 const initialValues: LoginSchema = {

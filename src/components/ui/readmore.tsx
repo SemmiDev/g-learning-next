@@ -2,7 +2,7 @@ import cn from '@/utils/class-names'
 import { Without } from '@/utils/without-type'
 import { ReadMoreWeb, ReadMoreWebProps } from 'react-shorten'
 
-type ReadMoreProps = Without<ReadMoreWebProps, 'truncate'> & {
+export type ReadMoreProps = Without<ReadMoreWebProps, 'truncate'> & {
   truncate?: number
 }
 

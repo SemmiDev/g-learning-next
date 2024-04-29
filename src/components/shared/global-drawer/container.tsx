@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { Drawer } from 'rizzui'
-import { useDrawer } from '@/app/shared/drawer-views/use-drawer'
+import { useDrawer } from './use-drawer'
 
 export default function GlobalDrawer() {
   const { isOpen, view, placement, customSize, closeDrawer } = useDrawer()

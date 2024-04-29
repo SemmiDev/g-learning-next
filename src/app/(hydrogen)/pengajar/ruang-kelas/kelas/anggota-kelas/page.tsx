@@ -14,7 +14,7 @@ import {
 } from '@/components/ui'
 import { Fragment, useState } from 'react'
 import UndangAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/undang-anggota'
-import ConfirmButton from '@/components/ui/button/confirm'
+import ConfirmButton from '@/components/shared/global-modal/implements/confirm'
 
 export default function AnggotaKelasPage() {
   const [showModalUndang, setShowModalUndang] = useState(false)
