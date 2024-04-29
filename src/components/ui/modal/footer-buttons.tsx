@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import Button, { ButtonColorProp, ButtonVariantProp } from '../button'
 
 export default function ModalFooterButtons({

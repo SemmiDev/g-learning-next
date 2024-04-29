@@ -13,6 +13,8 @@ import ControlledTextarea, {
 import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
 import Modal, { ModalProps } from './modal'
+import ModalHeader from './modal/header'
+import ModalFooterButtons from './modal/footer-buttons'
 import Pagination, { PaginationProps } from './pagination'
 import QuillEditor, { QuillEditorProps } from './quill-editor'
 import ReadMore, { ReadMoreProps } from './readmore'
@@ -49,6 +51,8 @@ export {
   Form,
   Modal,
   type ModalProps,
+  ModalFooterButtons,
+  ModalHeader,
   Pagination,
   type PaginationProps,
   ReadMore,
@@ -59,10 +63,10 @@ export {
   TabGroup,
   Tab,
   Table,
-  TableHeaderCell,
-  TableToggleColumns,
   type TableProps,
+  TableHeaderCell,
   type TableHeaderCellProps,
+  TableToggleColumns,
   Text,
   TextLabel,
   TextLink,
