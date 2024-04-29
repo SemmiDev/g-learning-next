@@ -7,7 +7,7 @@ export const fileRequired =
     if (files.length === 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `${desc} tidak boleh kosong`,
+        message: `${desc} wajib diisi`,
       })
     }
   }

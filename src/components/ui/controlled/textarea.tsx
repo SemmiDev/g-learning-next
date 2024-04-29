@@ -1,3 +1,5 @@
+'use client'
+
 import cn from '@/utils/class-names'
 import { Control, Controller, FieldErrors } from 'react-hook-form'
 import { Textarea, TextareaProps } from 'rizzui'

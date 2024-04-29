@@ -1,9 +1,13 @@
 'use client'
 
-import ReactQuill, { type ReactQuillProps } from 'react-quill'
+import { type ReactQuillProps } from 'react-quill'
 import { FieldError } from 'rizzui'
 import cn from '@/utils/class-names'
 import 'react-quill/dist/quill.snow.css'
+
+const ReactQuill =
+  typeof window === 'object' ? require('react-quill') : () => false
+
 // import { useCallback, useRef } from 'react'
 
 export interface QuillEditorProps extends ReactQuillProps {
