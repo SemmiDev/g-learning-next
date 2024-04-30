@@ -2,18 +2,17 @@ import {
   Button,
   CardSeparator,
   ControlledDatePicker,
+  ControlledQuillEditor,
   Modal,
   Text,
   TextLabel,
 } from '@/components/ui'
 import { Form } from '@/components/ui/form'
-import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
-import { Input, Radio, Switch } from 'rizzui'
+import { Radio, Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
-import { DatePicker } from '@/components/ui/datepicker'
 import ControlledInput from '@/components/ui/controlled/input'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 
@@ -172,18 +171,13 @@ export default function TambahUjianModal({
                 placeholder="Klik di sini untuk memilih paket soal yang ada"
               />
 
-              <Controller
-                control={control}
+              <ControlledQuillEditor
                 name="catatan"
-                render={({ field: { onChange, value } }) => (
-                  <QuillEditor
-                    label="Catatan Tambahan"
-                    placeholder="Buat catatan singkat terkait materi yang diberikan"
-                    toolbar="minimalist"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+                control={control}
+                errors={errors}
+                label="Catatan Tambahan"
+                placeholder="Buat catatan singkat terkait materi yang diberikan"
+                toolbar="minimalist"
               />
 
               <div>

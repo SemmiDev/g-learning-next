@@ -4,9 +4,13 @@ import { type ReactQuillProps } from 'react-quill'
 import { FieldError } from 'rizzui'
 import cn from '@/utils/class-names'
 import 'react-quill/dist/quill.snow.css'
+import dynamic from 'next/dynamic'
+import { Skeleton } from './skeleton'
 
-const ReactQuill =
-  typeof window === 'object' ? require('react-quill') : () => false
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[150px] w-full rounded" />,
+})
 
 // import { useCallback, useRef } from 'react'
 

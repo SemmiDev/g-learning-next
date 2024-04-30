@@ -1,11 +1,15 @@
-import { Button, CardSeparator, Modal } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  ControlledQuillEditor,
+  Modal,
+} from '@/components/ui'
 import { Form } from '@/components/ui/form'
-import { Controller, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
 import { required } from '@/utils/validations/pipe'
 import ControlledInput from '@/components/ui/controlled/input'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
-import QuillEditor from '@/components/ui/quill-editor'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -58,18 +62,13 @@ export default function TambahMateriModal({
                 placeholder="Tulis judul materi di sini"
               />
 
-              <Controller
-                control={control}
+              <ControlledQuillEditor
                 name="catatan"
-                render={({ field: { onChange, value } }) => (
-                  <QuillEditor
-                    label="Catatan Tambahan"
-                    placeholder="Buat catatan singkat terkait materi yang diberikan"
-                    toolbar="minimalist"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+                control={control}
+                errors={errors}
+                label="Catatan Tambahan"
+                placeholder="Buat catatan singkat terkait materi yang diberikan"
+                toolbar="minimalist"
               />
 
               <div>

@@ -1,8 +1,14 @@
-import { Button, CardSeparator, Modal, Text, TextLabel } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  ControlledQuillEditor,
+  Modal,
+  Text,
+  TextLabel,
+} from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'
 import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
-import QuillEditor from '@/components/ui/quill-editor'
 import { required } from '@/utils/validations/pipe'
 import { imageFileOnly, maxFileSize } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -197,18 +203,13 @@ export default function BuatKelasModal({
                   </Button>
                 </div>
 
-                <Controller
-                  control={control}
+                <ControlledQuillEditor
                   name="catatan"
-                  render={({ field: { onChange, value } }) => (
-                    <QuillEditor
-                      label="Catatan Tambahan"
-                      placeholder="Buat catatan singkat terkait program dan kelas yg diberikan"
-                      toolbar="minimalist"
-                      value={value}
-                      onChange={onChange}
-                    />
-                  )}
+                  control={control}
+                  errors={errors}
+                  label="Catatan Tambahan"
+                  placeholder="Buat catatan singkat terkait program dan kelas yg diberikan"
+                  toolbar="minimalist"
                 />
 
                 <FileInput

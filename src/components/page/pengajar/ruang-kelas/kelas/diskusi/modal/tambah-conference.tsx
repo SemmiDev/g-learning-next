@@ -2,11 +2,11 @@ import {
   Button,
   CardSeparator,
   ControlledDatePicker,
+  ControlledQuillEditor,
   Modal,
   TextLabel,
 } from '@/components/ui'
 import { Form } from '@/components/ui/form'
-import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
 import { Radio, Switch } from 'rizzui'
@@ -93,18 +93,13 @@ export default function TambahConferenceModal({
                 placeholder="Tulis judul conference di sini"
               />
 
-              <Controller
-                control={control}
+              <ControlledQuillEditor
                 name="catatan"
-                render={({ field: { onChange, value } }) => (
-                  <QuillEditor
-                    label="Catatan Tambahan"
-                    placeholder="Buat catatan singkat terkait conference yang diberikan"
-                    toolbar="minimalist"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+                control={control}
+                errors={errors}
+                label="Catatan Tambahan"
+                placeholder="Buat catatan singkat terkait conference yang diberikan"
+                toolbar="minimalist"
               />
 
               <ControlledInput

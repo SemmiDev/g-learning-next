@@ -10,6 +10,9 @@ import ControlledInput, { ControlledInputProps } from './controlled/input'
 import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
+import ControlledQuillEditor, {
+  ControlledQuillEditorProps,
+} from './controlled/quill'
 import ControlledTextarea, {
   ControlledTextareaProps,
 } from './controlled/textarea'
@@ -19,8 +22,9 @@ import Modal, { ModalProps } from './modal'
 import ModalHeader from './modal/header'
 import ModalFooterButtons from './modal/footer-buttons'
 import Pagination, { PaginationProps } from './pagination'
-import QuillEditor, { QuillEditorProps } from './quill-editor'
+import QuillEditor, { QuillEditorProps } from './quill'
 import ReadMore, { ReadMoreProps } from './readmore'
+import { Skeleton, LineGroup } from './skeleton'
 import SimpleBar from './simplebar'
 import { Tab, TabGroup } from './tab'
 import Table, {
@@ -49,11 +53,14 @@ export {
   type ControlledInputProps,
   ControlledDatePicker,
   type ControlledDatePickerProps,
+  ControlledQuillEditor,
+  type ControlledQuillEditorProps,
   ControlledTextarea,
   type ControlledTextareaProps,
   DatePicker,
   type DatePickerProps,
   Form,
+  LineGroup,
   Modal,
   type ModalProps,
   ModalFooterButtons,
@@ -64,6 +71,7 @@ export {
   type ReadMoreProps,
   QuillEditor,
   type QuillEditorProps,
+  Skeleton,
   SimpleBar,
   TabGroup,
   Tab,

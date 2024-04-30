@@ -22,7 +22,6 @@ export default function ControlledDatePicker({
   errors,
   placeholder,
   label,
-  onChange,
   inputProps,
   ...props
 }: ControlledDatePickerProps) {

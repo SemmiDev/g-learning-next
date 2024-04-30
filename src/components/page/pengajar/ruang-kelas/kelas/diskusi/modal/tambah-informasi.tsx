@@ -2,17 +2,14 @@ import {
   Button,
   CardSeparator,
   ControlledDatePicker,
+  ControlledQuillEditor,
   Modal,
-  Text,
-  TextLabel,
 } from '@/components/ui'
 import { Form } from '@/components/ui/form'
-import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { z } from '@/utils/zod-id'
 import { Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
-import { DatePicker } from '@/components/ui/datepicker'
 import ControlledInput from '@/components/ui/controlled/input'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 
@@ -89,18 +86,13 @@ export default function TambahInformasiModal({
                 placeholder="Tulis judul informasi di sini"
               />
 
-              <Controller
-                control={control}
+              <ControlledQuillEditor
                 name="catatan"
-                render={({ field: { onChange, value } }) => (
-                  <QuillEditor
-                    label="Catatan Tambahan"
-                    placeholder="Buat catatan terkait informasi yang diberikan"
-                    className="col-span-full [&_.ql-editor]:min-h-[150px]"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+                control={control}
+                errors={errors}
+                label="Catatan Tambahan"
+                placeholder="Buat catatan terkait informasi yang diberikan"
+                className="col-span-full [&_.ql-editor]:min-h-[150px]"
               />
 
               <div>

@@ -1,17 +1,23 @@
 'use client'
 
-import { Button, Card, CardSeparator, ReadMore, Text } from '@/components/ui'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  ControlledInput,
+  ControlledQuillEditor,
+  ReadMore,
+  Text,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import imagePhoto from '@public/images/photo.png'
-import QuillEditor from '@/components/ui/quill-editor'
 import { z } from '@/utils/zod-id'
 import { Form } from '@/components/ui/form'
-import { Controller, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { required } from '@/utils/validations/pipe'
-import ControlledInput from '@/components/ui/controlled/input'
 
 const formSchema = z.object({
   nilai: z.string().pipe(required).pipe(z.coerce.number().min(0).max(100)),
@@ -80,19 +86,14 @@ export default function TugasDetailPage() {
                     label="Nilai"
                     placeholder="Berikan nilai. Contoh: 80"
                   />
-                  <Controller
-                    control={control}
+                  <ControlledQuillEditor
                     name="catatan"
-                    render={({ field: { onChange, value } }) => (
-                      <QuillEditor
-                        label="Catatan Tambahan"
-                        className="col-span-full [&_.ql-editor]:min-h-[150px]"
-                        placeholder="Berikan catatan kepada peserta terkait tugas yang dikumpulkan"
-                        toolbar="minimalist"
-                        value={value}
-                        onChange={onChange}
-                      />
-                    )}
+                    control={control}
+                    errors={errors}
+                    label="Catatan Tambahan"
+                    className="col-span-full [&_.ql-editor]:min-h-[150px]"
+                    placeholder="Berikan catatan kepada peserta terkait tugas yang dikumpulkan"
+                    toolbar="minimalist"
                   />
                 </div>
                 <CardSeparator />
