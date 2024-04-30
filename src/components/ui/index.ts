@@ -7,6 +7,9 @@ import Breadcrumb, { BreadcrumbProps, BreadcrumbItemProps } from './breadcrumb'
 import Card from './card'
 import CardSeparator from './card-separator'
 import ControlledInput, { ControlledInputProps } from './controlled/input'
+import ControlledDatePicker, {
+  ControlledDatePickerProps,
+} from './controlled/datepicker'
 import ControlledTextarea, {
   ControlledTextareaProps,
 } from './controlled/textarea'
@@ -44,6 +47,8 @@ export {
   CardSeparator,
   ControlledInput,
   type ControlledInputProps,
+  ControlledDatePicker,
+  type ControlledDatePickerProps,
   ControlledTextarea,
   type ControlledTextareaProps,
   DatePicker,

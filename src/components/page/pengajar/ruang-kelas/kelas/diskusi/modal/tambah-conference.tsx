@@ -1,4 +1,10 @@
-import { Button, CardSeparator, Modal, TextLabel } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  ControlledDatePicker,
+  Modal,
+  TextLabel,
+} from '@/components/ui'
 import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
@@ -6,7 +12,6 @@ import { z } from '@/utils/zod-id'
 import { Radio, Switch } from 'rizzui'
 import { required } from '@/utils/validations/pipe'
 import { BsInfoCircle } from 'react-icons/bs'
-import { DatePicker } from '@/components/ui/datepicker'
 import ControlledInput from '@/components/ui/controlled/input'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 
@@ -139,22 +144,15 @@ export default function TambahConferenceModal({
                 {...register('penjadwalan')}
               />
               {watch('penjadwalan', false) && (
-                <Controller
+                <ControlledDatePicker
                   name="jadwal"
                   control={control}
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <DatePicker
-                      inputProps={{ error: errors.jadwal?.message }}
-                      placeholderText="Atur Tanggal dan Jam Terbit"
-                      showTimeSelect
-                      dateFormat="dd MMMM yyyy HH:mm"
-                      timeFormat="HH:mm"
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      selected={value}
-                      className="flex-1"
-                    />
-                  )}
+                  errors={errors}
+                  placeholder="Atur Tanggal dan Jam Terbit"
+                  showTimeSelect
+                  dateFormat="dd MMMM yyyy HH:mm"
+                  timeFormat="HH:mm"
+                  className="flex-1"
                 />
               )}
             </div>

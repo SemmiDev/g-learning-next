@@ -1,4 +1,11 @@
-import { Button, CardSeparator, Modal, Text, TextLabel } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  ControlledDatePicker,
+  Modal,
+  Text,
+  TextLabel,
+} from '@/components/ui'
 import { Form } from '@/components/ui/form'
 import QuillEditor from '@/components/ui/quill-editor'
 import { Controller, SubmitHandler } from 'react-hook-form'
@@ -114,22 +121,15 @@ export default function TambahTugasModal({
                   {...register('dibawasiWaktu')}
                 />
                 {watch('dibawasiWaktu', false) && (
-                  <Controller
+                  <ControlledDatePicker
                     name="batasWaktu"
                     control={control}
-                    render={({ field: { value, onChange, onBlur } }) => (
-                      <DatePicker
-                        inputProps={{ error: errors.batasWaktu?.message }}
-                        placeholderText="Atur Tanggal dan Jam Terbit"
-                        showTimeSelect
-                        dateFormat="dd MMMM yyyy HH:mm"
-                        timeFormat="HH:mm"
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        selected={value}
-                        className="flex-1"
-                      />
-                    )}
+                    errors={errors}
+                    placeholder="Atur Tanggal dan Jam Terbit"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="flex-1"
                   />
                 )}
               </div>
