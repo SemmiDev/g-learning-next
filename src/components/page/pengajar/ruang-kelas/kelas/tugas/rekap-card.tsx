@@ -7,7 +7,7 @@ import CardSeparator from '@/components/ui/card-separator'
 import Image from 'next/image'
 import imagePhoto from '@public/images/photo.png'
 import { Button, Text, Title } from '@/components/ui'
-import Table, { HeaderCell } from '@/components/ui/table'
+import Table, { TableHeaderCell } from '@/components/ui/table'
 import DropdownNilaiAction from './dropdown-nilai-action'
 import KomentarSectionZero from '../diskusi/komentar-section-zero'
 import RekapTugasItem from './rekap-item'
@@ -18,7 +18,7 @@ import { routes } from '@/config/routes'
 export default function RekapTugasCard() {
   const tableColumns = [
     {
-      title: <HeaderCell title="No" className="justify-center" />,
+      title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
       key: 'no',
       render: (_: string, __: any, idx: number) => (
@@ -28,7 +28,7 @@ export default function RekapTugasCard() {
       ),
     },
     {
-      title: <HeaderCell title="Nama Peserta" />,
+      title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       key: 'nama',
       render: (_: string, row: any) => (
@@ -55,7 +55,7 @@ export default function RekapTugasCard() {
       ),
     },
     {
-      title: <HeaderCell title="Waktu Pengumpulan" />,
+      title: <TableHeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
       render: (_: string, row: any) => (
@@ -67,7 +67,7 @@ export default function RekapTugasCard() {
       ),
     },
     {
-      title: <HeaderCell title="Nilai" className="justify-center" />,
+      title: <TableHeaderCell title="Nilai" className="justify-center" />,
       dataIndex: 'nilai',
       key: 'nilai',
       render: (value: string) => (
@@ -77,7 +77,7 @@ export default function RekapTugasCard() {
       ),
     },
     {
-      title: <HeaderCell title="" />,
+      title: <TableHeaderCell title="" />,
       dataIndex: 'nilai',
       key: 'nilai',
       render: (_: string, row: any) => {

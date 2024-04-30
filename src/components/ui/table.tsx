@@ -125,7 +125,7 @@ export function TableHeaderCell({
 }: TableHeaderCellProps) {
   if (ellipsis && width === undefined) {
     console.warn(
-      'When ellipsis is true make sure you are using the same column width in HeaderCell component too.'
+      'When ellipsis is true make sure you are using the same column width in TableHeaderCell component too.'
     )
   }
   if (width !== undefined && ellipsis !== true) {
