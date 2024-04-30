@@ -9,15 +9,15 @@ import {
   ReadMore,
   Text,
 } from '@/components/ui'
+import { Form } from '@/components/ui/form'
 import { routes } from '@/config/routes'
+import { required } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
+import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { RiArrowLeftLine } from 'react-icons/ri'
-import imagePhoto from '@public/images/photo.png'
-import { z } from '@/utils/zod-id'
-import { Form } from '@/components/ui/form'
 import { SubmitHandler } from 'react-hook-form'
-import { required } from '@/utils/validations/pipe'
+import { RiArrowLeftLine } from 'react-icons/ri'
 
 const formSchema = z.object({
   nilai: z.string().pipe(required).pipe(z.coerce.number().min(0).max(100)),

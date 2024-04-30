@@ -1,11 +1,11 @@
 'use client'
 
-import imagePhoto from '@public/images/photo.png'
-import Image from 'next/image'
 import ChartPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/chart-card'
 import KehadiranPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/kehadiran-card'
 import RekapPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/presensi/rekap-card'
 import { TableHeaderCell, Text } from '@/components/ui'
+import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
 
 const COLORS = ['#FFD1D1', '#D68585', '#B92E5D', '#6D1A36']
 

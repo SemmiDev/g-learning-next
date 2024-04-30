@@ -1,10 +1,10 @@
 'use client'
 
-import { FcGoogle } from 'react-icons/fc'
-import Image from 'next/image'
+import { Button, Text, Title } from '@/components/ui'
 import imageBanner from '@public/auth-banner.png'
 import { signIn } from 'next-auth/react'
-import { Button, Text, Title } from '@/components/ui'
+import Image from 'next/image'
+import { FcGoogle } from 'react-icons/fc'
 import OrSeparation from './or-separation'
 
 export default function AuthWrapper({

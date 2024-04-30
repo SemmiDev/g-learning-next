@@ -1,8 +1,8 @@
+import cn from '@/utils/class-names'
+import { MdOutlineClose } from 'react-icons/md'
 import { ActionIcon } from 'rizzui'
 import Text from '../text/text'
 import Title from '../text/title'
-import { MdOutlineClose } from 'react-icons/md'
-import cn from '@/utils/class-names'
 
 export default function ModalHeader({
   title,

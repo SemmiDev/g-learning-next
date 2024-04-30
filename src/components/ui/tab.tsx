@@ -1,9 +1,9 @@
 'use client'
 
-import cn from '@/utils/class-names'
-import { Button } from 'rizzui'
-import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
 import { useScrollableSlider } from '@/hooks/use-scrollable-slider'
+import cn from '@/utils/class-names'
+import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
+import { Button } from 'rizzui'
 
 import clsx from 'clsx'
 import Link from 'next/link'

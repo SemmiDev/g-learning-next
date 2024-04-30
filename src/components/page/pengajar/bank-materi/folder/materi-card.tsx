@@ -1,11 +1,10 @@
-import { Button, CardSeparator, Text, Title } from '@/components/ui'
+import { Button, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import iconMateri from '@public/icons/materi.png'
 import Image from 'next/image'
+import { BiShareAlt } from 'react-icons/bi'
 import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { ActionIcon, Dropdown } from 'rizzui'
-import iconMateri from '@public/icons/materi.png'
-import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
-import { BiShareAlt } from 'react-icons/bi'
 
 export type MateriType = {
   title: string

@@ -1,7 +1,7 @@
 import cn from '@/utils/class-names'
+import { Without } from '@/utils/without-type'
 import { Title as RizTitle, TitleProps as RizTitleProps } from 'rizzui'
 import { DefaultTextProps, TextColors, TextSizes, TextWeights } from './text'
-import { Without } from '@/utils/without-type'
 
 type TextProps = Without<RizTitleProps, 'color' | 'fontWeight'> &
   DefaultTextProps & {

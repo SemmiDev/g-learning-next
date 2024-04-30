@@ -1,18 +1,18 @@
 'use client'
 
+import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
+import cn from '@/utils/class-names'
+import RcTable from 'rc-table'
+import { PiTextColumns } from 'react-icons/pi'
 import {
-  Empty,
   ActionIcon,
   Checkbox,
   CheckboxGroup,
+  Empty,
   Popover,
-  Title,
   Text,
+  Title,
 } from 'rizzui'
-import cn from '@/utils/class-names'
-import RcTable from 'rc-table'
-import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
-import { PiTextColumns } from 'react-icons/pi'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 

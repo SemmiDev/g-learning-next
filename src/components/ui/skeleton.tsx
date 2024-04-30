@@ -1,6 +1,6 @@
-import { forwardRef } from 'react'
 import cn from '@/utils/class-names'
 import rangeMap from '@/utils/range-map'
+import { forwardRef } from 'react'
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string

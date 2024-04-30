@@ -1,9 +1,9 @@
 'use client'
 
+import cn from '@/utils/class-names'
 import RcPagination, {
   PaginationProps as RcPaginationProps,
 } from 'rc-pagination'
-import cn from '@/utils/class-names'
 import 'rc-pagination/assets/index.css'
 
 const classes = {

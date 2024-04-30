@@ -1,6 +1,6 @@
 import { withAuth } from 'next-auth/middleware'
-import { authRoutes, publicRoutes, routes } from './config/routes'
 import { NextResponse } from 'next/server'
+import { authRoutes, publicRoutes, routes } from './config/routes'
 
 export default withAuth(
   function middleware(req) {

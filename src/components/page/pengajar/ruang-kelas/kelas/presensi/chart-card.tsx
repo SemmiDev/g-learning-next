@@ -1,7 +1,7 @@
-import dynamic from 'next/dynamic'
-import Card from '@/components/ui/card'
-import { ChartData } from './chart'
 import { Text, Title } from '@/components/ui'
+import Card from '@/components/ui/card'
+import dynamic from 'next/dynamic'
+import { ChartData } from './chart'
 
 const ChartPresensi = dynamic(
   () => import('@/components/page/pengajar/ruang-kelas/kelas/presensi/chart'),

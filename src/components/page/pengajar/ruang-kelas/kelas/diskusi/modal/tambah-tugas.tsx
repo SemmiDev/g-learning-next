@@ -5,13 +5,13 @@ import {
   ControlledQuillEditor,
   Modal,
 } from '@/components/ui'
-import { Form } from '@/components/ui/form'
-import { Controller, SubmitHandler } from 'react-hook-form'
-import { z } from '@/utils/zod-id'
-import { Switch } from 'rizzui'
-import { required } from '@/utils/validations/pipe'
 import ControlledInput from '@/components/ui/controlled/input'
+import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
+import { required } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
+import { SubmitHandler } from 'react-hook-form'
+import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),

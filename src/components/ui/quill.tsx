@@ -1,10 +1,10 @@
 'use client'
 
-import { type ReactQuillProps } from 'react-quill'
-import { FieldError } from 'rizzui'
 import cn from '@/utils/class-names'
-import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
+import { type ReactQuillProps } from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import { FieldError } from 'rizzui'
 import { Skeleton } from './skeleton'
 
 const ReactQuill = dynamic(() => import('react-quill'), {

@@ -1,13 +1,11 @@
+import { Text, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
-import Image from 'next/image'
-import { ActionIcon, Textarea } from 'rizzui'
-import { BsChatSquareText, BsFillSendFill } from 'react-icons/bs'
+import CardSeparator from '@/components/ui/card-separator'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'
-import CardSeparator from '@/components/ui/card-separator'
+import Image from 'next/image'
 import DropdownMoreAction from './dropdown-more-action'
-import { Button, Text, Title } from '@/components/ui'
 import KomentarSectionZero from './komentar-section-zero'
 
 export default function InformasiCard({ className }: { className?: string }) {

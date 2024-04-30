@@ -1,10 +1,10 @@
 'use client'
 
-import { Button, Text, Title } from '@/components/ui'
-import CardKelas from './kelas-card'
-import imageKelas from '@public/images/list-kelas.png'
 import BuatKelasModal from '@/components/page/pengajar/ruang-kelas/modal/buat-kelas'
+import { Button, Text, Title } from '@/components/ui'
+import imageKelas from '@public/images/list-kelas.png'
 import { useState } from 'react'
+import CardKelas from './kelas-card'
 import PengaturanKelasModal from './modal/pengaturan-kelas'
 
 export default function ListKelasBody() {

@@ -1,15 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { Input, InputProps } from 'rizzui'
 import cn from '@/utils/class-names'
-import { PiCalendarBlank, PiCaretDownBold } from 'react-icons/pi'
+import { id } from 'date-fns/locale'
+import { useState } from 'react'
 import ReactDatePicker, {
   type ReactDatePickerProps,
   registerLocale,
 } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { id } from 'date-fns/locale'
+import { PiCalendarBlank, PiCaretDownBold } from 'react-icons/pi'
+import { Input, InputProps } from 'rizzui'
 registerLocale('id', id)
 
 const calendarContainerClasses = {

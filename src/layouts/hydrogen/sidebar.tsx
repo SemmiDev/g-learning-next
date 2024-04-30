@@ -1,12 +1,12 @@
 'use client'
 
-import Link from 'next/link'
-import { cn } from '@/utils/class-names'
 import SimpleBar from '@/components/ui/simplebar'
-import Image from 'next/image'
-import logo from '@public/logo.svg'
 import { routes } from '@/config/routes'
 import { SidebarMenu } from '@/layouts/hydrogen/sidebar-menu'
+import { cn } from '@/utils/class-names'
+import logo from '@public/logo.svg'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Sidebar({ className }: { className?: string }) {
   return (

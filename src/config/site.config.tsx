@@ -1,7 +1,7 @@
+import logoIconImg from '@public/logo-short.svg'
+import logoImg from '@public/logo.svg'
 import { Metadata } from 'next'
 import { OpenGraph } from 'next/dist/lib/metadata/types/opengraph-types'
-import logoImg from '@public/logo.svg'
-import logoIconImg from '@public/logo-short.svg'
 
 enum MODE {
   DARK = 'dark',
@@ -18,7 +18,7 @@ export const siteConfig = {
 
 export const metaObject = (
   title?: string,
-  openGraph?: OpenGraph,
+  // openGraph?: OpenGraph,
   description: string = siteConfig.description
 ): Metadata => {
   return {

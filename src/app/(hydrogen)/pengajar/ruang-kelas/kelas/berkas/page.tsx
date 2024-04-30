@@ -5,9 +5,9 @@ import BerkasCard, {
 } from '@/components/page/pengajar/ruang-kelas/kelas/berkas/berkas-card'
 import { Button, Text } from '@/components/ui'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { IoDocumentText } from 'react-icons/io5'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
-import { IoDocumentText } from 'react-icons/io5'
 
 export default function BerkasPage() {
   const listFile: BerkasType[] = [...Array(12)].map((_) => ({

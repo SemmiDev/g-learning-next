@@ -1,5 +1,6 @@
+import { Text, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
-import ButtonIcon from '../button-icon'
+import { useState } from 'react'
 import {
   BsCardChecklist,
   BsClipboardPlus,
@@ -7,13 +8,12 @@ import {
   BsMegaphone,
   BsWebcam,
 } from 'react-icons/bs'
-import { Text, Title } from '@/components/ui'
-import { useState } from 'react'
-import TambahMateriModal from './modal/tambah-materi'
-import TambahUjianModal from './modal/tambah-ujian'
-import TambahTugasModal from './modal/tambah-tugas'
+import ButtonIcon from '../button-icon'
 import TambahConferenceModal from './modal/tambah-conference'
 import TambahInformasiModal from './modal/tambah-informasi'
+import TambahMateriModal from './modal/tambah-materi'
+import TambahTugasModal from './modal/tambah-tugas'
+import TambahUjianModal from './modal/tambah-ujian'
 
 export default function HeaderCard({ className }: { className?: string }) {
   const [showModalMateri, setShowModalMateri] = useState(false)

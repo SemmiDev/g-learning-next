@@ -1,9 +1,9 @@
 'use client'
 
 import { Button, Title } from '@/components/ui'
+import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
-import { useState } from 'react'
 import MateriCard, { MateriType } from './materi-card'
 import TambahMateriModal from './modal/tambah-materi'
 

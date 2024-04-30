@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui'
-import { BsPencil, BsThreeDots, BsTrash3 } from 'react-icons/bs'
+import { BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 
 export default function DropdownNilaiAction() {

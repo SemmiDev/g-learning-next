@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import cn from '@/utils/class-names';
-import { useIsMounted } from '@/hooks/use-is-mounted';
-import { useWindowScroll } from '@/hooks/use-window-scroll';
+import { useIsMounted } from '@/hooks/use-is-mounted'
+import { useWindowScroll } from '@/hooks/use-window-scroll'
+import cn from '@/utils/class-names'
 
 type StickyHeaderProps = {
-  className?: string;
-  offset?: number;
-};
+  className?: string
+  offset?: number
+}
 
 export default function StickyHeader({
   offset = 2,
   className,
   children,
 }: React.PropsWithChildren<StickyHeaderProps>) {
-  const isMounted = useIsMounted();
-  const windowScroll = useWindowScroll();
+  const isMounted = useIsMounted()
+  const windowScroll = useWindowScroll()
   return (
     <header
       className={cn(
@@ -26,5 +26,5 @@ export default function StickyHeader({
     >
       {children}
     </header>
-  );
+  )
 }

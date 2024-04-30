@@ -1,17 +1,17 @@
 'use client'
 
-import { routes } from '@/config/routes'
-import Link from 'next/link'
-import { ActionIcon, Checkbox } from 'rizzui'
-import { RiArrowLeftLine } from 'react-icons/ri'
-import { BsFileText } from 'react-icons/bs'
-import Image from 'next/image'
+import KomentarSectionFull from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-full'
+import { Button, ReadMore, Text, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
+import CardSeparator from '@/components/ui/card-separator'
+import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'
-import CardSeparator from '@/components/ui/card-separator'
-import { Button, ReadMore, Text, Title } from '@/components/ui'
-import KomentarSectionFull from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-full'
+import Image from 'next/image'
+import Link from 'next/link'
+import { BsFileText } from 'react-icons/bs'
+import { RiArrowLeftLine } from 'react-icons/ri'
+import { ActionIcon, Checkbox } from 'rizzui'
 
 export default function DiskusiDetailPage() {
   return (

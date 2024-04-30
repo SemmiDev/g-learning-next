@@ -1,5 +1,6 @@
 'use client'
 
+import KomentarSectionZero from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-zero'
 import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/ujian/dropdown-nilai-action'
 import {
   Button,
@@ -11,14 +12,13 @@ import {
   Text,
   Title,
 } from '@/components/ui'
-import Image from 'next/image'
-import imagePhoto from '@public/images/photo.png'
-import { Badge, Dropdown, Input } from 'rizzui'
-import { PiMagnifyingGlass } from 'react-icons/pi'
-import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
-import { BiFilterAlt } from 'react-icons/bi'
-import KomentarSectionZero from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-zero'
 import cn from '@/utils/class-names'
+import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
+import { BiFilterAlt } from 'react-icons/bi'
+import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
+import { PiMagnifyingGlass } from 'react-icons/pi'
+import { Badge, Dropdown, Input } from 'rizzui'
 
 export default function UjianPage() {
   const tableColumns = [

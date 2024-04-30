@@ -1,12 +1,12 @@
-import Link from 'next/link'
-import { Fragment } from 'react'
-import { usePathname } from 'next/navigation'
-import { Collapse } from 'rizzui'
-import cn from '@/utils/class-names'
-import { PiCaretDownBold } from 'react-icons/pi'
-import { menuItems } from '@/layouts/hydrogen/menu-items'
 import StatusBadge from '@/components/get-status-badge'
 import { Title } from '@/components/ui'
+import { menuItems } from '@/layouts/hydrogen/menu-items'
+import cn from '@/utils/class-names'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Fragment } from 'react'
+import { PiCaretDownBold } from 'react-icons/pi'
+import { Collapse } from 'rizzui'
 
 export function SidebarMenu() {
   const pathname = usePathname()
@@ -14,7 +14,6 @@ export function SidebarMenu() {
   return (
     <div className="mt-4 pb-3 3xl:mt-6">
       {menuItems.map((item, index) => {
-        // const isActive = pathname === (item?.href as string);
         const link = item?.href as string
         const isActive =
           (link === '/' && pathname === link) ||

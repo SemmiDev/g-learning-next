@@ -1,10 +1,10 @@
 import { Button, Text } from '@/components/ui'
+import cn from '@/utils/class-names'
+import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import { BsChatSquareText, BsFillSendFill } from 'react-icons/bs'
-import { ActionIcon, Textarea } from 'rizzui'
-import imagePhoto from '@public/images/photo.png'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
-import cn from '@/utils/class-names'
+import { ActionIcon, Textarea } from 'rizzui'
 
 export default function KomentarSectionFull({
   className,

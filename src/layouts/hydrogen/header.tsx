@@ -1,13 +1,13 @@
 'use client'
 
-import Link from 'next/link'
-import HamburgerButton from '@/layouts/hamburger-button'
-import Sidebar from '@/layouts/hydrogen/sidebar'
-import HeaderMenuRight from '@/layouts/header-menu-right'
-import StickyHeader from '@/layouts/sticky-header'
-import Image from 'next/image'
-import logo from '@public/logo-short.svg'
 import { routes } from '@/config/routes'
+import HamburgerButton from '@/layouts/hamburger-button'
+import HeaderMenuRight from '@/layouts/header-menu-right'
+import Sidebar from '@/layouts/hydrogen/sidebar'
+import StickyHeader from '@/layouts/sticky-header'
+import logo from '@public/logo-short.svg'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Header() {
   return (

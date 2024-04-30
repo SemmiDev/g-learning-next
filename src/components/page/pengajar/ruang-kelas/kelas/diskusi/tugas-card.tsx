@@ -1,14 +1,12 @@
+import { Button, Text, TextSpan, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
-import Image from 'next/image'
-import { ActionIcon, Textarea } from 'rizzui'
-import { BsChatSquareText, BsFillSendFill, BsThreeDots } from 'react-icons/bs'
+import CardSeparator from '@/components/ui/card-separator'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
 import Link from 'next/link'
-import { routes } from '@/config/routes'
-import CardSeparator from '@/components/ui/card-separator'
 import DropdownMoreAction from './dropdown-more-action'
-import { Button, Text, TextSpan, Title } from '@/components/ui'
 import KomentarSectionShort from './komentar-section-short'
 
 export default function TugasCard({ className }: { className?: string }) {

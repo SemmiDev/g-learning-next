@@ -1,9 +1,7 @@
 'use client'
 
-import Image from 'next/image'
-import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Checkbox, Input } from 'rizzui'
-import imagePhoto from '@public/images/photo.png'
+import UndangAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/undang-anggota'
+import ConfirmButton from '@/components/shared/global-modal/implements/confirm'
 import {
   Button,
   Card,
@@ -12,9 +10,11 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
 import { Fragment, useState } from 'react'
-import UndangAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/undang-anggota'
-import ConfirmButton from '@/components/shared/global-modal/implements/confirm'
+import { PiMagnifyingGlass } from 'react-icons/pi'
+import { Checkbox, Input } from 'rizzui'
 
 export default function AnggotaKelasPage() {
   const [showModalUndang, setShowModalUndang] = useState(false)

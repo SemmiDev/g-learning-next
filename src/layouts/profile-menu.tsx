@@ -1,14 +1,14 @@
 'use client'
 
-import { Avatar, Popover } from 'rizzui'
+import { Button, Text, Title } from '@/components/ui'
+import { publicRoutes, routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import { routes, publicRoutes } from '@/config/routes'
+import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { signOut, useSession } from 'next-auth/react'
-import { useRouter } from 'next-nprogress-bar'
-import { Button, Text, Title } from '@/components/ui'
+import { Avatar, Popover } from 'rizzui'
 
 const menuItems = [
   {

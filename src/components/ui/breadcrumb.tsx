@@ -1,6 +1,6 @@
-import React from 'react'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
+import React from 'react'
 
 export type BreadcrumbItemProps = {
   href?: string

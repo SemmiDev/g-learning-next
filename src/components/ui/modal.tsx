@@ -1,8 +1,8 @@
-import { Modal as RizModal, ModalProps as RizModalProps } from 'rizzui'
-import ModalHeader from './modal/header'
-import { ReactNode } from 'react'
 import cn from '@/utils/class-names'
 import { Without } from '@/utils/without-type'
+import { ReactNode } from 'react'
+import { Modal as RizModal, ModalProps as RizModalProps } from 'rizzui'
+import ModalHeader from './modal/header'
 
 export type ModalProps = Without<RizModalProps, 'onClose'> & {
   title: string

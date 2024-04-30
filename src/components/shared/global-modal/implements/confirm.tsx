@@ -1,11 +1,11 @@
+import { useModal } from '@/components/shared/global-modal/use-modal'
+import { Without } from '@/utils/without-type'
 import { ModalSize } from 'rizzui'
 import Button, { ButtonProps } from '../../../ui/button/button'
-import { Without } from '@/utils/without-type'
-import Text from '../../../ui/text/text'
 import CardSeparator from '../../../ui/card-separator'
 import ModalFooterButtons from '../../../ui/modal/footer-buttons'
 import ModalHeader from '../../../ui/modal/header'
-import { useModal } from '@/components/shared/global-modal/use-modal'
+import Text from '../../../ui/text/text'
 
 type ConfirmButtonProps = Without<ButtonProps, 'title'> & {
   title: string

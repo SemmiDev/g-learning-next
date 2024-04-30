@@ -1,14 +1,14 @@
+import { Button, Text, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
-import Image from 'next/image'
-import { BsFileText } from 'react-icons/bs'
+import CardSeparator from '@/components/ui/card-separator'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'
+import Image from 'next/image'
 import Link from 'next/link'
-import { routes } from '@/config/routes'
-import CardSeparator from '@/components/ui/card-separator'
+import { BsFileText } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
-import { Button, Text, Title } from '@/components/ui'
 
 export default function MateriCard({ className }: { className?: string }) {
   return (

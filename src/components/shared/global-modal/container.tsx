@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import { Modal } from 'rizzui'
 import { useModal } from './use-modal'
 

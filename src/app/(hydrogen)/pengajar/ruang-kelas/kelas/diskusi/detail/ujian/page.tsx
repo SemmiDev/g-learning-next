@@ -1,14 +1,7 @@
 'use client'
 
-import { routes } from '@/config/routes'
-import Link from 'next/link'
-import { Dropdown, Input } from 'rizzui'
-import { RiArrowLeftLine } from 'react-icons/ri'
-import { BsCheck, BsChevronDown } from 'react-icons/bs'
-import Image from 'next/image'
-import Card from '@/components/ui/card'
-import imagePhoto from '@public/images/photo.png'
-import CardSeparator from '@/components/ui/card-separator'
+import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
+import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/ujian/dropdown-nilai-action'
 import {
   Button,
   Pagination,
@@ -18,10 +11,17 @@ import {
   Text,
   Title,
 } from '@/components/ui'
-import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/ujian/dropdown-nilai-action'
-import { PiMagnifyingGlass } from 'react-icons/pi'
-import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
+import Card from '@/components/ui/card'
+import CardSeparator from '@/components/ui/card-separator'
+import { routes } from '@/config/routes'
+import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
+import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
+import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { PiMagnifyingGlass } from 'react-icons/pi'
+import { RiArrowLeftLine } from 'react-icons/ri'
+import { Dropdown, Input } from 'rizzui'
 
 export default function DiskusiDetailUjianPage() {
   const tableColumns = [

@@ -3,7 +3,6 @@ import {
   CardSeparator,
   ControlledQuillEditor,
   Modal,
-  Text,
   TextLabel,
 } from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'

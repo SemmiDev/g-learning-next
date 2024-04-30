@@ -1,20 +1,20 @@
 'use client'
 
-import useInfiniteScroll, {
-  ScrollDirection,
-} from 'react-easy-infinite-scroll-hook'
-import { useEffect, useState } from 'react'
-import { loadMore } from './actions'
 import {
+  ConferenceCard,
+  HeaderCard,
   Materi1Card,
   Materi2Card,
   Materi3Card,
-  HeaderCard,
   TugasCard,
-  ConferenceCard,
   UjianCard,
 } from '@/components/page/pengajar/ruang-kelas/kelas/diskusi'
 import InformasiCard from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/informasi-card'
+import { useEffect, useState } from 'react'
+import useInfiniteScroll, {
+  ScrollDirection,
+} from 'react-easy-infinite-scroll-hook'
+import { loadMore } from './actions'
 
 type dataType = {
   name: string

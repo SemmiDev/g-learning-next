@@ -4,12 +4,12 @@ import {
   ControlledQuillEditor,
   Modal,
 } from '@/components/ui'
-import { Form } from '@/components/ui/form'
-import { SubmitHandler } from 'react-hook-form'
-import { z } from '@/utils/zod-id'
-import { required } from '@/utils/validations/pipe'
 import ControlledInput from '@/components/ui/controlled/input'
+import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
+import { required } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
+import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),

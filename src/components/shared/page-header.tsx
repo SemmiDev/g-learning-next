@@ -1,10 +1,13 @@
-import cn from '@/utils/class-names'
-import Breadcrumb from '@/components/ui/breadcrumb'
 import { Title } from '@/components/ui'
+import Breadcrumb from '@/components/ui/breadcrumb'
+import cn from '@/utils/class-names'
 
 export type PageHeaderTypes = {
   title: string
-  breadcrumb: { name: string; href?: string }[]
+  breadcrumb: {
+    name: string
+    href?: string
+  }[]
   className?: string
 }
 

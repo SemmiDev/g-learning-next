@@ -1,4 +1,10 @@
+import { Button, Text, Title } from '@/components/ui'
 import Card from '@/components/ui/card'
+import CardSeparator from '@/components/ui/card-separator'
+import Pagination from '@/components/ui/pagination'
+import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
+import { Fragment } from 'react'
 import {
   BsCheck,
   BsChevronDown,
@@ -7,14 +13,8 @@ import {
   BsTrash,
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Button as RizButton, Dropdown, Input, ActionIcon } from 'rizzui'
+import { ActionIcon, Dropdown, Input, Button as RizButton } from 'rizzui'
 import RekapPresensiItem from './rekap-item'
-import Pagination from '@/components/ui/pagination'
-import CardSeparator from '@/components/ui/card-separator'
-import Image from 'next/image'
-import imagePhoto from '@public/images/photo.png'
-import { Button, Text, Title } from '@/components/ui'
-import { Fragment } from 'react'
 
 export default function RekapPresensiCard() {
   return (
