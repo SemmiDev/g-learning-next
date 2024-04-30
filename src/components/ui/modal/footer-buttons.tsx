@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
-import Button, { ButtonColorProp, ButtonVariantProp } from '../button'
+import Button, { ButtonColorProp, ButtonVariantProp } from '../button/button'
+import ButtonSubmit from '../button/submit'
 
 export default function ModalFooterButtons({
   submit,
@@ -25,15 +26,15 @@ export default function ModalFooterButtons({
   return (
     <div className="flex gap-2 p-3">
       {submit && (
-        <Button
+        <ButtonSubmit
           type="submit"
           variant={submitVariant}
           color={submitColor}
           className="flex-1"
-          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
         >
           {submit}
-        </Button>
+        </ButtonSubmit>
       )}
       {buttons}
       {onCancel && (

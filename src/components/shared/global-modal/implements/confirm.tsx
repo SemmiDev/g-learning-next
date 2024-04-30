@@ -1,5 +1,5 @@
 import { ModalSize } from 'rizzui'
-import Button, { ButtonProps } from '../../../ui/button'
+import Button, { ButtonProps } from '../../../ui/button/button'
 import { Without } from '@/utils/without-type'
 import Text from '../../../ui/text/text'
 import CardSeparator from '../../../ui/card-separator'

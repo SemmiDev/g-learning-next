@@ -2,7 +2,7 @@ import Button, {
   ButtonProps,
   ButtonColorProp,
   ButtonVariantProp,
-} from './button'
+} from './button/button'
 import Breadcrumb, { BreadcrumbProps, BreadcrumbItemProps } from './breadcrumb'
 import Card from './card'
 import CardSeparator from './card-separator'

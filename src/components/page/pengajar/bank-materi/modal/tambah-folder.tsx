@@ -5,6 +5,7 @@ import { z } from '@/utils/zod-id'
 import { required } from '@/utils/validations/pipe'
 import ControlledInput from '@/components/ui/controlled/input'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
+import { wait } from '@/utils/wait'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
