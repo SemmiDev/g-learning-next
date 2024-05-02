@@ -13,13 +13,12 @@ import { DatePicker, DatePickerProps } from '../datepicker'
 export type ControlledDatePickerProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<DatePickerProps<boolean>, 'onChange' | 'placeholderText'> & {
+> = Without<DatePickerProps<boolean>, 'placeholderText'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   placeholder?: string
   label?: string
-  onChange?(): void
 }
 
 export default function ControlledDatePicker<
@@ -31,6 +30,7 @@ export default function ControlledDatePicker<
   errors,
   placeholder,
   label,
+  onChange,
   inputProps,
   ...props
 }: ControlledDatePickerProps<TFieldValues, TName>) {
@@ -38,9 +38,12 @@ export default function ControlledDatePicker<
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange, onBlur } }) => (
+      render={({ field: { value, onChange: setValue, onBlur } }) => (
         <DatePicker
-          onChange={onChange}
+          onChange={(val, e) => {
+            onChange && onChange(val, e)
+            setValue(val)
+          }}
           onBlur={onBlur}
           selected={value}
           placeholderText={placeholder}

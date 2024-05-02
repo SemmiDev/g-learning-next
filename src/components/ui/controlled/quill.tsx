@@ -26,16 +26,20 @@ export default function ControlledQuillEditor<
   control,
   errors,
   labelClassName,
+  onChange,
   ...props
 }: ControlledQuillEditorProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange, onBlur } }) => (
+      render={({ field: { value, onChange: setValue, onBlur } }) => (
         <QuillEditor
           value={value}
-          onChange={onChange}
+          onChange={(val, d, s, e) => {
+            onChange && onChange(val, d, s, e)
+            setValue(val)
+          }}
           onBlur={onBlur}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}

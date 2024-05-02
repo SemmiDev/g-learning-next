@@ -27,6 +27,7 @@ export default function ControlledTextarea<
   control,
   errors,
   labelClassName,
+  onChange,
   rows = 3,
   ...props
 }: ControlledTextareaProps<TFieldValues, TName>) {
@@ -34,11 +35,14 @@ export default function ControlledTextarea<
     <Controller
       control={control}
       name={name}
-      render={({ field: { name, value, onChange, onBlur } }) => (
+      render={({ field: { name, value, onChange: setValue, onBlur } }) => (
         <Textarea
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
           rows={rows}
-          onChange={onChange}
+          onChange={(val) => {
+            onChange && onChange(val)
+            setValue(val)
+          }}
           onBlur={onBlur}
           value={value}
           error={errors ? (errors[name]?.message as string) : undefined}

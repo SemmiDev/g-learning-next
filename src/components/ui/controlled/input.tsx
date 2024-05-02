@@ -27,16 +27,20 @@ export default function ControlledInput<
   control,
   errors,
   labelClassName,
+  onChange,
   ...props
 }: ControlledInputProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { name, value, onChange, onBlur } }) => (
+      render={({ field: { name, value, onChange: setValue, onBlur } }) => (
         <Input
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
-          onChange={onChange}
+          onChange={(val) => {
+            onChange && onChange(val)
+            setValue(val)
+          }}
           onBlur={onBlur}
           value={value ?? ''}
           error={errors ? (errors[name]?.message as string) : undefined}

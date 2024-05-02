@@ -25,7 +25,11 @@ type FormSchema = {
   deskripsi?: string
 }
 
-const initialValues: FormSchema = {}
+const initialValues: FormSchema = {
+  bobotBenar: '1',
+  bobotSalah: '0',
+  bobotKosong: '0',
+}
 
 export default function TambahSoalModal({
   showModal = false,
@@ -79,6 +83,7 @@ export default function TambahSoalModal({
                   type="number"
                   label="Bobot Benar"
                   placeholder="Nilai jawaban benar"
+                  className="flex-1"
                 />
                 <ControlledInput
                   name="bobotSalah"
@@ -87,6 +92,7 @@ export default function TambahSoalModal({
                   type="number"
                   label="Bobot Salah"
                   placeholder="Nilai jawaban salah"
+                  className="flex-1"
                 />
                 <ControlledInput
                   name="bobotKosong"
@@ -95,6 +101,7 @@ export default function TambahSoalModal({
                   type="number"
                   label="Bobot Kosong"
                   placeholder="Nilai jawaban kosong"
+                  className="flex-1"
                 />
               </div>
 
