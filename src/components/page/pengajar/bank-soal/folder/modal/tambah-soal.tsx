@@ -1,16 +1,10 @@
-import {
-  Button,
-  CardSeparator,
-  ControlledQuillEditor,
-  Modal,
-} from '@/components/ui'
+import { CardSeparator, ControlledQuillEditor, Modal } from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'
 import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -54,17 +48,9 @@ export default function TambahSoalModal({
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
-        useFormProps={{
-          mode: 'onSubmit',
-          defaultValues: initialValues,
-        }}
+        useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}
       >
-        {({
-          control,
-          setValue,
-          getValues,
-          formState: { errors, isSubmitting },
-        }) => (
+        {({ control, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
               <ControlledInput
