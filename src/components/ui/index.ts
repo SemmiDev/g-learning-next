@@ -18,6 +18,7 @@ import ControlledTextarea, {
 } from './controlled/textarea'
 import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
+import Input, { InputProps } from './input'
 import Modal, { ModalProps } from './modal'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
@@ -50,6 +51,7 @@ export {
   ControlledTextarea,
   DatePicker,
   Form,
+  Input,
   LineGroup,
   Modal,
   ModalFooterButtons,
@@ -79,6 +81,7 @@ export {
   type ControlledQuillEditorProps,
   type ControlledTextareaProps,
   type DatePickerProps,
+  type InputProps,
   type ModalProps,
   type PaginationProps,
   type QuillEditorProps,

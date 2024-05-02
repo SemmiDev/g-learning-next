@@ -8,7 +8,7 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { Input, InputProps } from 'rizzui'
+import Input, { InputProps } from '../input'
 
 export type ControlledInputProps<
   TFieldValues extends FieldValues,
