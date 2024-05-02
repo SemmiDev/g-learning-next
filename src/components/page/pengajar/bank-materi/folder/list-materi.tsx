@@ -10,12 +10,17 @@ import TambahMateriModal from './modal/tambah-materi'
 export default function ListMateriBody() {
   const [showModalTambahMateri, setShowModalTambahMateri] = useState(false)
 
-  const listMateri: MateriType[] = [...Array(12)].map((_) => ({
-    title: 'Judul dari materinya nanti ada disini ya maksimal 2 baris aja',
-    desc: 'Penjelasan singkat terkait materi yang dibuat nanti akan muncul disini',
-    time: '12 Mar 2024 13:00',
-    fileCount: 4,
-  }))
+  const listMateri: MateriType[] = [...Array(12)].map((_, idx) => {
+    const type = (idx + 2) % 3 === 0 ? 'tugas' : 'materi'
+
+    return {
+      title: `Judul dari ${type}nya nanti ada disini ya maksimal 2 baris aja`,
+      desc: `Penjelasan singkat terkait ${type} yang dibuat nanti akan muncul disini`,
+      time: '12 Mar 2024 13:00',
+      fileCount: 4,
+      type: type,
+    }
+  })
 
   return (
     <>

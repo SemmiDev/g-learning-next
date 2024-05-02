@@ -3,15 +3,12 @@
 import Link from 'next/link'
 import { SubmitHandler } from 'react-hook-form'
 import { Password, Input } from 'rizzui'
-import { Form } from '@/components/ui/form'
 import { publicRoutes, routes } from '@/config/routes'
 import toast from 'react-hot-toast'
 import { LoginSchema, loginSchema } from './schema'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
-import TextLink from '@/components/ui/text/link'
-import Text from '@/components/ui/text/text'
-import Button from '@/components/ui/button'
+import { Button, Form, Text, TextLink } from '@/components/ui'
 
 const initialValues: LoginSchema = {
   email: 'anto@gmail.com',

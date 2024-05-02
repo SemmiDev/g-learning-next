@@ -1,7 +1,7 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { Control, Controller, FieldErrors } from 'react-hook-form'
+import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form'
 import { Input, InputProps } from 'rizzui'
 
 export type ControlledInputProps = InputProps & {

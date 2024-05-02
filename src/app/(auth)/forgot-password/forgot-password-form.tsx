@@ -5,12 +5,9 @@ import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { Input } from 'rizzui'
 import { useMedia } from '@/hooks/use-media'
-import { Form } from '@/components/ui/form'
 import { publicRoutes } from '@/config/routes'
 import { z } from '@/utils/zod-id'
-import Text from '@/components/ui/text/text'
-import Button from '@/components/ui/button'
-import TextLink from '@/components/ui/text/link'
+import { Button, Form, Text, TextLink } from '@/components/ui'
 
 export const forgetPasswordSchema = z.object({
   email: z.string().email(),

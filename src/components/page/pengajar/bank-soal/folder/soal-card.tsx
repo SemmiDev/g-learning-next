@@ -1,25 +1,23 @@
 import { Button, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
-import iconMateri from '@public/icons/materi.png'
-import iconTugas from '@public/icons/tugas.png'
+import iconSoal from '@public/icons/materi.png'
 import Image from 'next/image'
 import { BiShareAlt } from 'react-icons/bi'
 import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { ActionIcon, Dropdown } from 'rizzui'
 
-export type MateriType = {
+export type SoalType = {
   title: string
   desc: string
   time: string
-  fileCount: number
-  type: 'materi' | 'tugas'
+  count: number
 }
 
-export default function MateriCard({
-  materi,
+export default function SoalCard({
+  soal,
   className,
 }: {
-  materi: MateriType
+  soal: SoalType
   className?: string
 }) {
   return (
@@ -31,20 +29,9 @@ export default function MateriCard({
     >
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center">
-          <div
-            className={cn(
-              'flex size-12 items-center justify-center rounded-md mr-2',
-              {
-                'bg-blue-400': materi.type === 'materi',
-                'bg-green-500': materi.type === 'tugas',
-              }
-            )}
-          >
+          <div className="flex size-12 items-center justify-center rounded-md bg-blue-400 mr-2">
             <figure className="size-6">
-              <Image
-                src={materi.type === 'tugas' ? iconTugas : iconMateri}
-                alt="folder"
-              />
+              <Image src={iconSoal} alt="folder" />
             </figure>
           </div>
           <Title
@@ -53,9 +40,9 @@ export default function MateriCard({
             weight="semibold"
             variant="dark"
             className="flex-1 line-clamp-2"
-            title={materi.title}
+            title={soal.title}
           >
-            {materi.title}
+            {soal.title}
           </Title>
         </div>
         <Dropdown placement="bottom-end">
@@ -86,21 +73,21 @@ export default function MateriCard({
         weight="medium"
         variant="dark"
         className="line-clamp-2"
-        title={materi.desc}
+        title={soal.desc}
       >
-        {materi.desc}
+        {soal.desc}
       </Text>
 
       <ul className="flex list-inside list-disc text-sm text-gray-lighter gap-3.5 mb-2">
-        <li className="list-none">{materi.time}</li>
-        <li>{materi.fileCount} berkas</li>
+        <li className="list-none">{soal.time}</li>
+        <li>{soal.count} Soal</li>
       </ul>
 
       <div className="flex gap-2">
         <Button size="sm" className="flex-1">
           <BiShareAlt className="mr-2" />
           <Text size="xs" weight="medium" className="text-nowrap">
-            Bagikan {materi.type === 'tugas' ? 'Tugas' : 'Materi'}
+            Bagikan Soal
           </Text>
         </Button>
         <Button size="sm" variant="outline" className="flex-1">

@@ -15,6 +15,7 @@ export const pengajarRoutes = {
   ruangKelas: '/pengajar/ruang-kelas',
   kelas: '/pengajar/ruang-kelas/kelas',
   bankMateri: '/pengajar/bank-materi',
+  bankSoal: '/pengajar/bank-soal',
 }
 
 export const routes = {
