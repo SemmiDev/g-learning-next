@@ -1,22 +1,34 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldPath,
+  FieldValues,
+} from 'react-hook-form'
 import { Input, InputProps } from 'rizzui'
 
-export type ControlledInputProps = InputProps & {
-  name: string
-  control: Control<any>
-  errors?: FieldErrors<any>
+export type ControlledInputProps<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+> = InputProps & {
+  name: TName
+  control: Control<TFieldValues>
+  errors?: FieldErrors<TFieldValues>
 }
 
-export default function ControlledInput({
+export default function ControlledInput<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+>({
   name,
   control,
   errors,
   labelClassName,
   ...props
-}: ControlledInputProps) {
+}: ControlledInputProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}

@@ -1,22 +1,31 @@
 'use client'
 
 import { Without } from '@/utils/without-type'
-import { Control, Controller, FieldErrors } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldPath,
+  FieldValues,
+} from 'react-hook-form'
 import { DatePicker, DatePickerProps } from '../datepicker'
 
-export type ControlledDatePickerProps = Without<
-  DatePickerProps<boolean>,
-  'onChange' | 'placeholderText'
-> & {
-  name: string
-  control: Control<any>
-  errors?: FieldErrors<any>
+export type ControlledDatePickerProps<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+> = Without<DatePickerProps<boolean>, 'onChange' | 'placeholderText'> & {
+  name: TName
+  control: Control<TFieldValues>
+  errors?: FieldErrors<TFieldValues>
   placeholder?: string
   label?: string
   onChange?(): void
 }
 
-export default function ControlledDatePicker({
+export default function ControlledDatePicker<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+>({
   name,
   control,
   errors,
@@ -24,7 +33,7 @@ export default function ControlledDatePicker({
   label,
   inputProps,
   ...props
-}: ControlledDatePickerProps) {
+}: ControlledDatePickerProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}

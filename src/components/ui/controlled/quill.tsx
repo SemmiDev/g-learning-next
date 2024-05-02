@@ -1,21 +1,33 @@
 'use client'
 
-import { Control, Controller, FieldErrors } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldPath,
+  FieldValues,
+} from 'react-hook-form'
 import QuillEditor, { QuillEditorProps } from '../quill'
 
-export type ControlledQuillEditorProps = QuillEditorProps & {
-  name: string
-  control: Control<any>
-  errors?: FieldErrors<any>
+export type ControlledQuillEditorProps<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+> = QuillEditorProps & {
+  name: TName
+  control: Control<TFieldValues>
+  errors?: FieldErrors<TFieldValues>
 }
 
-export default function ControlledQuillEditor({
+export default function ControlledQuillEditor<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+>({
   name,
   control,
   errors,
   labelClassName,
   ...props
-}: ControlledQuillEditorProps) {
+}: ControlledQuillEditorProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
