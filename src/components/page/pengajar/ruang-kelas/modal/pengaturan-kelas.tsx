@@ -4,12 +4,12 @@ import {
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
+  ControlledRadioGroupOptions,
   Form,
   Modal,
   ModalFooterButtons,
   TextLabel,
 } from '@/components/ui'
-import { ControlledRadioGroupOptions } from '@/components/ui/controlled/radio-group'
 import { required } from '@/utils/validations/pipe'
 import { imageFileOnly, maxFileSize } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'

@@ -15,6 +15,7 @@ import ControlledQuillEditor, {
 } from './controlled/quill'
 import ControlledRadio, { ControlledRadioProps } from './controlled/radio'
 import ControlledRadioGroup, {
+  ControlledRadioGroupOptions,
   ControlledRadioGroupProps,
 } from './controlled/radio-group'
 import ControlledTextarea, {
@@ -85,6 +86,7 @@ export {
   type ControlledDatePickerProps,
   type ControlledInputProps,
   type ControlledQuillEditorProps,
+  type ControlledRadioGroupOptions,
   type ControlledRadioGroupProps,
   type ControlledRadioProps,
   type ControlledTextareaProps,

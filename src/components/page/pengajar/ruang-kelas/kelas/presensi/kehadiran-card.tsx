@@ -1,7 +1,4 @@
-import { Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
-import Pagination from '@/components/ui/pagination'
-import Table from '@/components/ui/table'
+import { Card, Pagination, Table, Text, Title } from '@/components/ui'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 

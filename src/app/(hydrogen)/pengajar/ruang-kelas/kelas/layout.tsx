@@ -1,7 +1,6 @@
 import KelasHeaderAction from '@/components/page/pengajar/ruang-kelas/kelas/header-action'
 import PageHeader from '@/components/shared/page-header'
-import { TabGroup, Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
+import { Card, TabGroup, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
 import imageKelas from '@public/images/list-kelas.png'

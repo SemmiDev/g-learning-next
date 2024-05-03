@@ -1,5 +1,4 @@
-import { Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
+import { Card, Text, Title } from '@/components/ui'
 import { useState } from 'react'
 import {
   BsCardChecklist,

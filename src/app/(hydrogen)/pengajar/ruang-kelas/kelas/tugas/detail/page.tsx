@@ -6,10 +6,10 @@ import {
   CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
+  Form,
   ReadMore,
   Text,
 } from '@/components/ui'
-import { Form } from '@/components/ui/form'
 import { routes } from '@/config/routes'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'

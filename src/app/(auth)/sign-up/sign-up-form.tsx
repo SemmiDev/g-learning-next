@@ -1,13 +1,12 @@
 'use client'
 
+import { Button, Form, Text, TextLink } from '@/components/ui'
+import { publicRoutes } from '@/config/routes'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Password, Checkbox, Input } from 'rizzui'
-import { Form } from '@/components/ui/form'
-import { publicRoutes } from '@/config/routes'
 import toast from 'react-hot-toast'
+import { Checkbox, Input, Password } from 'rizzui'
 import { signUpSchema, SignUpSchema } from './schema'
-import { Button, Text, TextLink } from '@/components/ui'
 
 const initialValues = {
   email: '',

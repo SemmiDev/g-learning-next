@@ -1,9 +1,14 @@
 'use client'
 
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
-import { Button, ReadMore, Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  ReadMore,
+  Text,
+  Title,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'

@@ -1,5 +1,4 @@
-import { Title } from '@/components/ui'
-import Breadcrumb from '@/components/ui/breadcrumb'
+import { Breadcrumb, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 
 export type PageHeaderTypes = {

@@ -1,5 +1,4 @@
-import { Button, Text } from '@/components/ui'
-import Card from '@/components/ui/card'
+import { Button, Card, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import Image from 'next/image'
 import Link from 'next/link'

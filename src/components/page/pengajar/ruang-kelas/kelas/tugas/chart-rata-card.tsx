@@ -1,5 +1,4 @@
-import { Title } from '@/components/ui'
-import Card from '@/components/ui/card'
+import { Card, Title } from '@/components/ui'
 import dynamic from 'next/dynamic'
 import { ChartRataData } from './chart-rata'
 

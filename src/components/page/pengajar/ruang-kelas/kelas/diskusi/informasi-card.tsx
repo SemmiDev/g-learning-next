@@ -1,6 +1,4 @@
-import { Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
+import { Card, CardSeparator, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'

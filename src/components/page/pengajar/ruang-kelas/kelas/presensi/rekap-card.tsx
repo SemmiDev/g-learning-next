@@ -1,7 +1,11 @@
-import { Button, Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
-import Pagination from '@/components/ui/pagination'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  Pagination,
+  Text,
+  Title,
+} from '@/components/ui'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import { Fragment } from 'react'

@@ -1,6 +1,11 @@
-import { Button, Text, TextSpan, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  Text,
+  TextSpan,
+  Title,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'

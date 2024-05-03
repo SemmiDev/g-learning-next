@@ -1,8 +1,13 @@
-import { Button, Text, Title } from '@/components/ui'
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
-import Pagination from '@/components/ui/pagination'
-import Table, { TableHeaderCell } from '@/components/ui/table'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  Pagination,
+  Table,
+  TableHeaderCell,
+  Text,
+  Title,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'

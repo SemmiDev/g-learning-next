@@ -4,15 +4,16 @@ import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/d
 import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/tugas/dropdown-nilai-action'
 import {
   Button,
+  Card,
+  CardSeparator,
   Pagination,
   ReadMore,
+  Table,
+  TableHeaderCell,
   Text,
   TextSpan,
   Title,
 } from '@/components/ui'
-import Card from '@/components/ui/card'
-import CardSeparator from '@/components/ui/card-separator'
-import Table, { TableHeaderCell } from '@/components/ui/table'
 import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'

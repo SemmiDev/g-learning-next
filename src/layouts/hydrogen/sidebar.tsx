@@ -1,12 +1,12 @@
 'use client'
 
-import SimpleBar from '@/components/ui/simplebar'
 import { routes } from '@/config/routes'
 import { SidebarMenu } from '@/layouts/hydrogen/sidebar-menu'
 import { cn } from '@/utils/class-names'
 import logo from '@public/logo.svg'
 import Image from 'next/image'
 import Link from 'next/link'
+import SimpleBar from 'simplebar-react'
 
 export default function Sidebar({ className }: { className?: string }) {
   return (
