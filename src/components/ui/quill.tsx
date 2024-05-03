@@ -6,6 +6,7 @@ import { type ReactQuillProps } from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
 import { Skeleton } from './skeleton'
+import TextLabel from './text/label'
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -77,14 +78,7 @@ export default function QuillEditor({
   return (
     <div className={cn(className)}>
       {label && (
-        <label
-          className={cn(
-            'text-gray-dark font-semibold mb-1.5 block',
-            labelClassName
-          )}
-        >
-          {label}
-        </label>
+        <TextLabel className={cn('mb-1', labelClassName)}>{label}</TextLabel>
       )}
       <ReactQuill
         // ref={quillRef}

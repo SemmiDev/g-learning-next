@@ -13,12 +13,13 @@ import { DatePicker, DatePickerProps } from '../datepicker'
 export type ControlledDatePickerProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<DatePickerProps<boolean>, 'placeholderText'> & {
+> = Without<DatePickerProps<boolean>, 'placeholderText' | 'onChange'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   placeholder?: string
   label?: string
+  onChange?(date: any, event: any): void
 }
 
 export default function ControlledDatePicker<

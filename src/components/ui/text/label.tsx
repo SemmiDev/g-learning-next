@@ -9,7 +9,12 @@ export default function TextLabel({
   className?: string
 }) {
   return (
-    <label className={cn('text-sm font-semibold text-gray-dark', className)}>
+    <label
+      className={cn(
+        'block text-sm font-semibold text-gray-dark mb-0.5',
+        className
+      )}
+    >
       {children}
     </label>
   )

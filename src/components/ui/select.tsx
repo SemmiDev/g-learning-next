@@ -4,9 +4,10 @@ import cn from '@/utils/class-names'
 import { useId } from 'react'
 import ReactSelect, { Props } from 'react-select'
 import TextSpan from './text/span'
+import TextLabel from './text/label'
 
 const controlStyles = {
-  base: 'h-10 border rounded-lg bg-white ring-[0.6px] hover:cursor-pointer',
+  base: 'h-10 border rounded-md bg-white ring-[0.6px] hover:cursor-pointer',
   focus: 'border-muted ring-muted bg-transparent',
   nonFocus: 'border-muted ring-muted bg-transparent hover:border-primary',
 }
@@ -43,50 +44,39 @@ type SelectProps = Props & {
 export default function Select({ label, className, ...props }: SelectProps) {
   return (
     <div className="react-select">
-      <label className="block">
-        {label && (
-          <TextSpan
-            size="sm"
-            color="gray"
-            variant="dark"
-            className="block mb-1.5 font-semibold"
-          >
-            {label}
-          </TextSpan>
-        )}
-        <ReactSelect
-          unstyled={true}
-          classNames={{
-            control: ({ isFocused }) =>
-              cn(
-                controlStyles.base,
-                isFocused ? controlStyles.focus : controlStyles.nonFocus
-              ),
-            placeholder: () => placeholderStyles,
-            input: () => selectInputStyles,
-            valueContainer: () => valueContainerStyles,
-            singleValue: () => singleValueStyles,
-            multiValue: () => multiValueStyles,
-            multiValueLabel: () => multiValueLabelStyles,
-            multiValueRemove: () => multiValueRemoveStyles,
-            indicatorsContainer: () => indicatorsContainerStyles,
-            clearIndicator: () => clearIndicatorStyles,
-            indicatorSeparator: () => indicatorSeparatorStyles,
-            dropdownIndicator: () => dropdownIndicatorStyles,
-            menu: () => menuStyles,
-            groupHeading: () => groupHeadingStyles,
-            option: ({ isFocused, isSelected }) =>
-              cn(
-                optionStyles.base,
-                isSelected && optionStyles.selected,
-                isFocused && optionStyles.focus
-              ),
-            noOptionsMessage: () => noOptionsMessageStyles,
-          }}
-          instanceId={useId()}
-          {...props}
-        />
-      </label>
+      {label && <TextLabel className="mb-1">{label}</TextLabel>}
+      <ReactSelect
+        unstyled={true}
+        classNames={{
+          control: ({ isFocused }) =>
+            cn(
+              controlStyles.base,
+              isFocused ? controlStyles.focus : controlStyles.nonFocus
+            ),
+          placeholder: () => placeholderStyles,
+          input: () => selectInputStyles,
+          valueContainer: () => valueContainerStyles,
+          singleValue: () => singleValueStyles,
+          multiValue: () => multiValueStyles,
+          multiValueLabel: () => multiValueLabelStyles,
+          multiValueRemove: () => multiValueRemoveStyles,
+          indicatorsContainer: () => indicatorsContainerStyles,
+          clearIndicator: () => clearIndicatorStyles,
+          indicatorSeparator: () => indicatorSeparatorStyles,
+          dropdownIndicator: () => dropdownIndicatorStyles,
+          menu: () => menuStyles,
+          groupHeading: () => groupHeadingStyles,
+          option: ({ isFocused, isSelected }) =>
+            cn(
+              optionStyles.base,
+              isSelected && optionStyles.selected,
+              isFocused && optionStyles.focus
+            ),
+          noOptionsMessage: () => noOptionsMessageStyles,
+        }}
+        instanceId={useId()}
+        {...props}
+      />
     </div>
   )
 }

@@ -2,17 +2,18 @@ import {
   CardSeparator,
   ControlledDatePicker,
   ControlledQuillEditor,
+  ControlledRadioGroup,
   Modal,
-  TextLabel,
 } from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'
+import { ControlledRadioGroupOptions } from '@/components/ui/controlled/radio-group'
 import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
-import { Radio, Switch } from 'rizzui'
+import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
   jenis: z.string().pipe(required),
@@ -62,6 +63,16 @@ const initialValues: FormSchema = {
   acak: 'aktif',
   presensi: 'aktif',
 }
+
+const optionsAcak: ControlledRadioGroupOptions = [
+  { label: 'Aktif', value: 'aktif' },
+  { label: 'Tidak Aktif', value: 'non-aktif' },
+]
+
+const optionsPresensi: ControlledRadioGroupOptions = [
+  { label: 'Aktif', value: 'aktif' },
+  { label: 'Tidak Aktif', value: 'non-aktif' },
+]
 
 export default function TambahUjianModal({
   showModal = false,
@@ -178,47 +189,33 @@ export default function TambahUjianModal({
                 toolbar="minimalist"
               />
 
-              <div>
-                <div className="flex items-center space-x-1 mb-1.5">
-                  <TextLabel>Acak Soal</TextLabel>
-                  <BsInfoCircle size={12} />
-                </div>
-                <div className="flex gap-x-8">
-                  <Radio
-                    label="Aktif"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="aktif"
-                    {...register('acak')}
-                  />
-                  <Radio
-                    label="Tidak Aktif"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="non-aktif"
-                    {...register('acak')}
-                  />
-                </div>
-              </div>
+              <ControlledRadioGroup
+                name="acak"
+                control={control}
+                label={
+                  <div className="flex items-center">
+                    Acak Soal
+                    <BsInfoCircle size={12} className="ml-1" />
+                  </div>
+                }
+                className="mb-1.5"
+                groupClassName="gap-8"
+                options={optionsAcak}
+              />
 
-              <div>
-                <div className="flex items-center space-x-1 mb-1.5">
-                  <TextLabel>Presensi</TextLabel>
-                  <BsInfoCircle size={12} />
-                </div>
-                <div className="flex gap-x-8">
-                  <Radio
-                    label="Aktif"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="aktif"
-                    {...register('presensi')}
-                  />
-                  <Radio
-                    label="Tidak Aktif"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="non-aktif"
-                    {...register('presensi')}
-                  />
-                </div>
-              </div>
+              <ControlledRadioGroup
+                name="presensi"
+                control={control}
+                label={
+                  <div className="flex items-center">
+                    Presensi
+                    <BsInfoCircle size={12} className="ml-1" />
+                  </div>
+                }
+                className="mb-1.5"
+                groupClassName="gap-8"
+                options={optionsPresensi}
+              />
             </div>
 
             <CardSeparator />

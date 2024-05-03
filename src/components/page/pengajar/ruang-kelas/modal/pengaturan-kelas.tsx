@@ -1,19 +1,21 @@
 import {
   Button,
   CardSeparator,
+  ControlledInput,
   ControlledQuillEditor,
+  ControlledRadioGroup,
+  Form,
   Modal,
+  ModalFooterButtons,
   TextLabel,
 } from '@/components/ui'
-import ControlledInput from '@/components/ui/controlled/input'
-import { Form } from '@/components/ui/form'
-import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
+import { ControlledRadioGroupOptions } from '@/components/ui/controlled/radio-group'
 import { required } from '@/utils/validations/pipe'
 import { imageFileOnly, maxFileSize } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
-import { FileInput, Input, Radio, Select } from 'rizzui'
+import { FileInput, Input, Select } from 'rizzui'
 
 const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 
@@ -50,7 +52,7 @@ type FormSchema = {
 const initialValues: FormSchema = {
   title: 'Aljabar Linear',
   subtitle: 'TI A',
-  jenis: 'Public',
+  jenis: 'Private',
   hariWaktu: [
     {
       hari: 'Senin',
@@ -62,6 +64,12 @@ const initialValues: FormSchema = {
     },
   ],
 }
+
+const optionsJenis: ControlledRadioGroupOptions = [
+  { label: 'Publik', value: 'Public' },
+  { label: 'Private', value: 'Private' },
+  { label: 'Internal', value: 'Internal' },
+]
 
 export default function PengaturanKelasModal({
   showModal = false,
@@ -120,34 +128,20 @@ export default function PengaturanKelasModal({
                 placeholder="Tulis nama kelas di sini"
               />
 
-              <div>
-                <div className="flex items-center space-x-0.5 mb-2">
-                  <TextLabel>Jenis Kelas</TextLabel>
-                  <BsInfoCircle size={12} />
-                </div>
-                <div className="flex gap-x-8">
-                  <Radio
-                    label="Publik"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="Public"
-                    {...register('jenis')}
-                  />
-                  <Radio
-                    label="Private"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="Private"
-                    {...register('jenis')}
-                  />
-                  <Radio
-                    label="Internal"
-                    className="[&_.rizzui-radio-field]:cursor-pointer"
-                    value="Internal"
-                    {...register('jenis')}
-                  />
-                </div>
-              </div>
+              <ControlledRadioGroup
+                name="jenis"
+                control={control}
+                options={optionsJenis}
+                groupClassName="gap-x-8"
+                label={
+                  <div className="flex items-center">
+                    Jenis Kelas
+                    <BsInfoCircle size={12} className="ml-1" />
+                  </div>
+                }
+              />
 
-              <div className="mb-4">
+              <div>
                 <TextLabel className="block mb-2">Hari dan Waktu</TextLabel>
                 <div className="space-y-2">
                   {watch('hariWaktu')?.map((_, idx) => {

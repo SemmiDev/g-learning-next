@@ -13,6 +13,10 @@ import ControlledInput, { ControlledInputProps } from './controlled/input'
 import ControlledQuillEditor, {
   ControlledQuillEditorProps,
 } from './controlled/quill'
+import ControlledRadio, { ControlledRadioProps } from './controlled/radio'
+import ControlledRadioGroup, {
+  ControlledRadioGroupProps,
+} from './controlled/radio-group'
 import ControlledTextarea, {
   ControlledTextareaProps,
 } from './controlled/textarea'
@@ -48,6 +52,8 @@ export {
   ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
+  ControlledRadio,
+  ControlledRadioGroup,
   ControlledTextarea,
   DatePicker,
   Form,
@@ -79,6 +85,8 @@ export {
   type ControlledDatePickerProps,
   type ControlledInputProps,
   type ControlledQuillEditorProps,
+  type ControlledRadioGroupProps,
+  type ControlledRadioProps,
   type ControlledTextareaProps,
   type DatePickerProps,
   type InputProps,

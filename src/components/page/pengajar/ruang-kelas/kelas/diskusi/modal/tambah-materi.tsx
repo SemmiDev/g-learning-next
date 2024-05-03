@@ -3,17 +3,18 @@ import {
   CardSeparator,
   ControlledDatePicker,
   ControlledQuillEditor,
+  ControlledRadioGroup,
   Modal,
-  TextLabel,
 } from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'
+import { ControlledRadioGroupOptions } from '@/components/ui/controlled/radio-group'
 import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
-import { Radio, Switch } from 'rizzui'
+import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -51,6 +52,16 @@ const initialValues: FormSchema = {
   tipe_presensi: 'manual',
   penjadwalan: false,
 }
+
+const optionsPresensi: ControlledRadioGroupOptions = [
+  { label: 'Aktif', value: 'aktif' },
+  { label: 'Tidak Aktif', value: 'non-aktif' },
+]
+
+const optionsTipePresensi: ControlledRadioGroupOptions = [
+  { label: 'Absensi Manual', value: 'manual' },
+  { label: 'Absensi Otomatis', value: 'otomatis' },
+]
 
 export default function TambahMateriModal({
   showModal = false,
@@ -115,46 +126,36 @@ export default function TambahMateriModal({
                 </div>
               </div>
 
-              <div className="flex gap-x-8 mt-2 mb-2">
-                <div className="flex items-center space-x-1">
-                  <TextLabel>Presensi</TextLabel>
-                  <BsInfoCircle size={12} />
-                </div>
-                <Radio
-                  label="Aktif"
-                  className="[&_.rizzui-radio-field]:cursor-pointer"
-                  value="aktif"
-                  {...register('presensi')}
-                />
-                <Radio
-                  label="Tidak Aktif"
-                  className="[&_.rizzui-radio-field]:cursor-pointer"
-                  value="non-aktif"
-                  {...register('presensi')}
-                />
-              </div>
+              <ControlledRadioGroup
+                name="presensi"
+                control={control}
+                label={
+                  <div className="flex items-center">
+                    Presensi
+                    <BsInfoCircle size={12} className="ml-1" />
+                  </div>
+                }
+                className="flex gap-8 my-2"
+                groupClassName="gap-8"
+                labelClassName="mb-0"
+                options={optionsPresensi}
+              />
 
               {watch('presensi') === 'aktif' && (
-                <div className="flex mt-2 mb-2">
-                  <div className="flex items-center space-x-1">
-                    <TextLabel>Atur Presensi</TextLabel>
-                    <BsInfoCircle size={12} />
-                  </div>
-                  <div className="flex flex-wrap gap-x-8 gap-y-2 ml-8">
-                    <Radio
-                      label="Absensi Manual"
-                      className="[&_.rizzui-radio-field]:cursor-pointer"
-                      value="manual"
-                      {...register('tipe_presensi')}
-                    />
-                    <Radio
-                      label="Absensi Otomatis"
-                      className="[&_.rizzui-radio-field]:cursor-pointer"
-                      value="otomatis"
-                      {...register('tipe_presensi')}
-                    />
-                  </div>
-                </div>
+                <ControlledRadioGroup
+                  name="tipe_presensi"
+                  control={control}
+                  label={
+                    <div className="flex items-center">
+                      Atur Presensi
+                      <BsInfoCircle size={12} className="ml-1" />
+                    </div>
+                  }
+                  className="flex gap-8 my-2"
+                  groupClassName="gap-8"
+                  labelClassName="mb-0"
+                  options={optionsTipePresensi}
+                />
               )}
             </div>
 

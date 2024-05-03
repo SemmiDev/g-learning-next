@@ -2,17 +2,18 @@ import {
   CardSeparator,
   ControlledDatePicker,
   ControlledQuillEditor,
+  ControlledRadioGroup,
   Modal,
-  TextLabel,
 } from '@/components/ui'
 import ControlledInput from '@/components/ui/controlled/input'
+import { ControlledRadioGroupOptions } from '@/components/ui/controlled/radio-group'
 import { Form } from '@/components/ui/form'
 import ModalFooterButtons from '@/components/ui/modal/footer-buttons'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
-import { Radio, Switch } from 'rizzui'
+import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -49,6 +50,11 @@ const initialValues: FormSchema = {
   presensi: 'non-aktif',
   penjadwalan: false,
 }
+
+const optionsPresensi: ControlledRadioGroupOptions = [
+  { label: 'Aktif', value: 'aktif' },
+  { label: 'Tidak Aktif', value: 'non-aktif' },
+]
 
 export default function TambahConferenceModal({
   showModal = false,
@@ -109,24 +115,20 @@ export default function TambahConferenceModal({
                 placeholder="Tulis link conference di sini"
               />
 
-              <div className="flex gap-x-8 mt-2 mb-2">
-                <div className="flex items-center space-x-1">
-                  <TextLabel>Presensi</TextLabel>
-                  <BsInfoCircle size={12} />
-                </div>
-                <Radio
-                  label="Aktif"
-                  className="[&_.rizzui-radio-field]:cursor-pointer"
-                  value="aktif"
-                  {...register('presensi')}
-                />
-                <Radio
-                  label="Tidak Aktif"
-                  className="[&_.rizzui-radio-field]:cursor-pointer"
-                  value="non-aktif"
-                  {...register('presensi')}
-                />
-              </div>
+              <ControlledRadioGroup
+                name="presensi"
+                control={control}
+                label={
+                  <div className="flex items-center">
+                    Presensi
+                    <BsInfoCircle size={12} className="ml-1" />
+                  </div>
+                }
+                className="flex gap-8 my-2"
+                groupClassName="gap-8"
+                labelClassName="mb-0"
+                options={optionsPresensi}
+              />
             </div>
 
             <CardSeparator />

@@ -17,9 +17,10 @@ export default function Tes2Page() {
     <div className="space-y-4">
       <Input label="Aaaa Baaa" />
       <Select
-        // label="Testing Select"
+        label="Testing Select"
         placeholder="Pilih Satu"
         options={options}
+        isClearable
       />
     </div>
   )
