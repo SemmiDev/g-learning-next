@@ -18,7 +18,7 @@ export default function ModalHeader({
   return (
     <div
       className={cn(
-        'modal-header flex justify-between bg-black p-3',
+        'modal-header flex justify-between bg-gray-dark p-3',
         className
       )}
     >

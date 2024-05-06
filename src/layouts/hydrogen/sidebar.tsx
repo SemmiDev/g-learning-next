@@ -22,7 +22,7 @@ export default function Sidebar({ className }: { className?: string }) {
           aria-label="Site Logo"
           className="text-gray hover:text-gray-dark"
         >
-          <Image src={logo} alt="logo" />
+          <Image src={logo} alt="logo" priority />
         </Link>
       </div>
 

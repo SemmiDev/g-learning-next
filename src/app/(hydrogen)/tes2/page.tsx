@@ -1,5 +1,6 @@
 'use client'
 
+import PustakaMedia from '@/components/shared/pustaka-media'
 import { Input } from '@/components/ui'
 import Select from '@/components/ui/select'
 import { useState } from 'react'
@@ -15,6 +16,7 @@ export default function Tes2Page() {
 
   return (
     <div className="space-y-4">
+      <PustakaMedia />
       <Input label="Aaaa Baaa" />
       <Select
         label="Testing Select"
