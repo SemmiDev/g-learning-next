@@ -1,9 +1,13 @@
 'use client'
 
 import PustakaMedia from '@/components/shared/pustaka-media'
-import { Input } from '@/components/ui'
+import { ControlledInput, Form, Input } from '@/components/ui'
 import Select from '@/components/ui/select'
 import { useState } from 'react'
+import { z } from '@/utils/zod-id'
+import { Controller, SubmitHandler } from 'react-hook-form'
+import { required } from '@/utils/validations/pipe'
+import ButtonSubmit from '@/components/ui/button/submit'
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -11,19 +15,68 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' },
 ]
 
+const formSchema = z.object({
+  tes: z.string().pipe(required),
+  tes2: z.string().pipe(required),
+  tes3: z.array(z.any()),
+})
+
+// type FormSchema = z.infer<typeof formSchema>
+type FormSchema = {
+  tes?: string
+  tes2?: string
+  tes3?: string[]
+}
+
+const initialValues: FormSchema = {}
+
 export default function Tes2Page() {
   const [value, setValue] = useState(0)
 
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+    console.log('form data', data)
+  }
+
   return (
-    <div className="space-y-4">
-      <PustakaMedia />
-      <Input label="Aaaa Baaa" />
-      <Select
-        label="Testing Select"
-        placeholder="Pilih Satu"
-        options={options}
-        isClearable
-      />
-    </div>
+    <Form<FormSchema>
+      onSubmit={onSubmit}
+      validationSchema={formSchema}
+      useFormProps={{
+        mode: 'onSubmit',
+        defaultValues: initialValues,
+      }}
+    >
+      {({ control, formState: { errors, isSubmitting } }) => (
+        <div className="space-y-4">
+          <div>{JSON.stringify(errors)}</div>
+          <Controller
+            name="tes3"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <PustakaMedia onChange={onChange} />
+            )}
+          />
+          <ControlledInput name="tes" control={control} label="Tes 1" />
+          <Controller
+            name="tes2"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Select
+                label="Tes 2"
+                placeholder="Pilih Satu"
+                options={options}
+                onChange={(val: any) => onChange(val.value)}
+                onBlur={onBlur}
+                value={value}
+                isClearable
+              />
+            )}
+          />
+          <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
+            Submit
+          </ButtonSubmit>
+        </div>
+      )}
+    </Form>
   )
 }

@@ -3,7 +3,6 @@
 import cn from '@/utils/class-names'
 import { useId } from 'react'
 import ReactSelect, { Props } from 'react-select'
-import TextSpan from './text/span'
 import TextLabel from './text/label'
 
 const controlStyles = {
@@ -37,7 +36,7 @@ const optionStyles = {
 const noOptionsMessageStyles =
   'text-gray p-2 bg-gray-50 border border-dashed border-gray-200 rounded-sm'
 
-type SelectProps = Props & {
+export type SelectProps = Props & {
   label?: string
 }
 

@@ -6,7 +6,11 @@ import DriveButton from './drive-button'
 import FileButton, { FileItemType } from './file-button'
 import FolderButton, { FolderItemType } from './folder-button'
 
-export default function PustakaMedia() {
+export type PustakaMediaProps = {
+  onChange?(val: FileItemType[]): void
+}
+
+export default function PustakaMedia({ onChange }: PustakaMediaProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'xl' | 'full'>('xl')
   const [activeDrive, setActiveDrive] = useState<number | null>(null)
@@ -48,28 +52,36 @@ export default function PustakaMedia() {
 
   const files: FileItemType[] = [
     {
+      id: 'a1',
       name: 'Alur Sistem Informasi',
       size: 5120,
       time: '13 Januari 2024',
       icon: 'doc',
+      link: 'https://www.example.com',
     },
     {
+      id: 'a2',
       name: 'Penjelasan singkat Alur Sistem Informasi',
       size: null,
       time: '13 Januari 2024',
       icon: 'video',
+      link: 'https://www.example.com',
     },
     {
+      id: 'a3',
       name: 'Alur Sistem Informasi 2',
       size: 5120,
       time: '13 Januari 2024',
       icon: 'doc',
+      link: 'https://www.example.com',
     },
     {
+      id: 'a4',
       name: 'Alur Sistem Informasi 3',
       size: 5120,
       time: '13 Januari 2024',
       icon: 'doc',
+      link: 'https://www.example.com',
     },
   ]
 
@@ -149,7 +161,14 @@ export default function PustakaMedia() {
           </div>
           <CardSeparator />
           <div className="flex justify-end space-x-2 p-3">
-            <Button size="sm" className="w-36">
+            <Button
+              size="sm"
+              className="w-36"
+              onClick={() => {
+                onChange && onChange([files[0]])
+                doHide()
+              }}
+            >
               Pilih Berkas
             </Button>
             <Button

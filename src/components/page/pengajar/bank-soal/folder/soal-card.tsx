@@ -1,7 +1,9 @@
 import { Button, Text, Title } from '@/components/ui'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import iconSoal from '@public/icons/materi.png'
 import Image from 'next/image'
+import Link from 'next/link'
 import { BiShareAlt } from 'react-icons/bi'
 import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { ActionIcon, Dropdown } from 'rizzui'
@@ -90,11 +92,13 @@ export default function SoalCard({
             Bagikan Soal
           </Text>
         </Button>
-        <Button size="sm" variant="outline" className="flex-1">
-          <Text size="xs" weight="medium">
-            Detail
-          </Text>
-        </Button>
+        <Link href={`${routes.bankSoal}/folder/soal`}>
+          <Button size="sm" variant="outline" className="flex-1">
+            <Text size="xs" weight="medium">
+              Detail
+            </Text>
+          </Button>
+        </Link>
       </div>
     </div>
   )

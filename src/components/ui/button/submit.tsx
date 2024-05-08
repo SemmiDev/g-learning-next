@@ -7,6 +7,7 @@ export type ButtonSubmitProps = ButtonProps & {
 }
 
 export default function ButtonSubmit({
+  type = 'submit',
   isSubmitting = false,
   loaderSize = 'sm',
   disabled,
@@ -14,7 +15,7 @@ export default function ButtonSubmit({
   ...props
 }: ButtonSubmitProps) {
   return (
-    <Button disabled={isSubmitting || disabled} {...props}>
+    <Button type={type} disabled={isSubmitting || disabled} {...props}>
       {isSubmitting && (
         <Loader size={loaderSize} variant="spinner" className="mr-2" />
       )}

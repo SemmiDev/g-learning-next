@@ -12,6 +12,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.26.8",
     "@headlessui/react": "^1.7.18",
+    "@types/sanitize-html": "^2.11.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
@@ -41,6 +42,7 @@
     "react-use": "^17.5.0",
     "recharts": "^2.12.3",
     "rizzui": "^0.8.4",
+    "sanitize-html": "^2.13.0",
     "simplebar-react": "^3.2.4",
     "tailwind-merge": "^2.2.1",
     "zod": "^3.22.4",

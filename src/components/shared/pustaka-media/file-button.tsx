@@ -6,10 +6,12 @@ import { MdOutlineFileDownload } from 'react-icons/md'
 import { ActionIcon, Checkbox } from 'rizzui'
 
 export type FileItemType = {
+  id: string
   name: string
   size?: number | null
   time: string
   icon: 'video' | 'doc'
+  link: string
 }
 
 export type FileButtonProps = {
