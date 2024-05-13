@@ -26,7 +26,7 @@ export default function DriveButton({
   return (
     <button
       className={cn(
-        'flex flex-col items-stretch text-left space-y-1 border-b border-b-gray-100 p-3 hover:bg-gray-50',
+        'flex flex-col items-stretch text-left space-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50',
         { 'bg-gray-50/80': active }
       )}
       {...props}

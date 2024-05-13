@@ -5,16 +5,26 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import DriveButton from './drive-button'
 import FileButton, { FileItemType } from './file-button'
 import FolderButton, { FolderItemType } from './folder-button'
+import { removeFromList } from '@/utils/list'
+import SelectedFile from './selected-file'
 
 export type PustakaMediaProps = {
+  label?: string
+  placeholder?: string
   onChange?(val: FileItemType[]): void
 }
 
-export default function PustakaMedia({ onChange }: PustakaMediaProps) {
+export default function PustakaMedia({
+  label,
+  placeholder = 'Klik di sini untuk memilih dari pustaka media',
+  onChange,
+}: PustakaMediaProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'xl' | 'full'>('xl')
   const [activeDrive, setActiveDrive] = useState<number | null>(null)
   const [activeFolder, setActiveFolder] = useState<FolderItemType | null>(null)
+  const [checkedFileIds, setCheckedFileIds] = useState<string[]>([])
+  const [selectedFiles, setSelectedFiles] = useState<FileItemType[]>([])
 
   const handleResize = () => {
     if (window.innerWidth < 1280) {
@@ -35,8 +45,8 @@ export default function PustakaMedia({ onChange }: PustakaMediaProps) {
 
   const doHide = () => {
     setShow(false)
-    setActiveDrive(null)
-    setActiveFolder(null)
+    // setActiveDrive(null)
+    // setActiveFolder(null)
   }
 
   const drives = [
@@ -87,7 +97,35 @@ export default function PustakaMedia({ onChange }: PustakaMediaProps) {
 
   return (
     <>
-      <Button onClick={doShow}>Pustaka Media</Button>
+      <div
+        onClick={() => {
+          setCheckedFileIds(selectedFiles.map((file) => file.id))
+          doShow()
+        }}
+      >
+        {label && (
+          <label className="text-gray-dark font-semibold mb-1.5 block">
+            {label}
+          </label>
+        )}
+        <div className="flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-[0.875rem] hover:border-primary [&_.pustaka-media-label]:hover:text-primary">
+          {selectedFiles.length > 0 &&
+            selectedFiles.map((file) => (
+              <SelectedFile
+                file={file}
+                onRemove={() => {
+                  const selected = removeFromList(selectedFiles, file)
+                  setSelectedFiles(selected)
+                  onChange && onChange(selected)
+                }}
+                key={file.id}
+              />
+            ))}
+          <Text size="sm" className="pustaka-media-label">
+            {placeholder}
+          </Text>
+        </div>
+      </div>
       <Modal title="Pustaka Media" size={size} isOpen={show} onClose={doHide}>
         <div className="flex flex-col">
           <div className="flex flex-col min-h-[400px] lg:flex-row">
@@ -143,14 +181,23 @@ export default function PustakaMedia({ onChange }: PustakaMediaProps) {
                       ? files.map((file, idx) => (
                           <FileButton
                             file={file}
-                            onChange={(val) => console.log(val)}
+                            checked={checkedFileIds.indexOf(file.id) >= 0}
+                            onChange={(val) => {
+                              if (val) {
+                                setCheckedFileIds([...checkedFileIds, file.id])
+                              } else {
+                                setCheckedFileIds(
+                                  removeFromList(checkedFileIds, file.id)
+                                )
+                              }
+                            }}
                             key={idx}
                           />
                         ))
                       : folders.map((folder, idx) => (
                           <FolderButton
                             folder={folder}
-                            onClick={() => setActiveFolder(folder)}
+                            onOpen={() => setActiveFolder(folder)}
                             key={idx}
                           />
                         ))}
@@ -165,7 +212,11 @@ export default function PustakaMedia({ onChange }: PustakaMediaProps) {
               size="sm"
               className="w-36"
               onClick={() => {
-                onChange && onChange([files[0]])
+                const selected = files.filter(
+                  (val) => checkedFileIds.indexOf(val.id) >= 0
+                )
+                setSelectedFiles(selected)
+                onChange && onChange(selected)
                 doHide()
               }}
             >

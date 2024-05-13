@@ -3,6 +3,7 @@ import Button, { ButtonColorProp, ButtonVariantProp } from '../button/button'
 import ButtonSubmit from '../button/submit'
 
 export default function ModalFooterButtons({
+  size,
   submit,
   submitColor = 'primary',
   submitVariant = 'solid',
@@ -13,6 +14,7 @@ export default function ModalFooterButtons({
   cancelVariant = 'outline',
   onCancel,
 }: {
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   submit?: string
   submitColor?: ButtonColorProp
   submitVariant?: ButtonVariantProp
@@ -28,6 +30,7 @@ export default function ModalFooterButtons({
       {submit && (
         <ButtonSubmit
           type="submit"
+          size={size}
           variant={submitVariant}
           color={submitColor}
           className="flex-1"
@@ -39,6 +42,7 @@ export default function ModalFooterButtons({
       {buttons}
       {onCancel && (
         <Button
+          size={size}
           variant={cancelVariant}
           color={cancelColor}
           className="flex-1"

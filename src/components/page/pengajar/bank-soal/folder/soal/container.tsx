@@ -13,7 +13,7 @@ import {
 } from '@/components/ui'
 import ButtonSubmit from '@/components/ui/button/submit'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import { removeFromList } from '@/utils/list'
+import { removeIndexFromList } from '@/utils/list'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
@@ -122,7 +122,7 @@ export default function KelolaSoalBody() {
 
                               setValue(
                                 'jawaban',
-                                removeFromList(watch('jawaban'), idx)
+                                removeIndexFromList(watch('jawaban'), idx)
                               )
                             }}
                           >

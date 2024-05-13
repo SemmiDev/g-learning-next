@@ -53,7 +53,7 @@ export default function Tes2Page() {
             name="tes3"
             control={control}
             render={({ field: { onChange } }) => (
-              <PustakaMedia onChange={onChange} />
+              <PustakaMedia label="Pilih Berkas" onChange={onChange} />
             )}
           />
           <ControlledInput name="tes" control={control} label="Tes 1" />

@@ -1,7 +1,7 @@
 'use client'
 
 import UndangAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/undang-anggota'
-import ConfirmButton from '@/components/shared/global-modal/implements/confirm'
+import ConfirmButton from '@/components/shared/global-modal/implements/confirm-button'
 import {
   Button,
   Card,

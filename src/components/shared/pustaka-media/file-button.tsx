@@ -16,16 +16,22 @@ export type FileItemType = {
 
 export type FileButtonProps = {
   file: FileItemType
+  checked?: boolean
   onChange?(val: boolean): void
 }
 
-export default function FileButton({ file, onChange }: FileButtonProps) {
+export default function FileButton({
+  file,
+  checked = false,
+  onChange,
+}: FileButtonProps) {
   return (
-    <div className="flex items-center border-b border-b-gray-100 py-3">
+    <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
       <Checkbox
         size="sm"
         className="px-4"
         iconClassName="h-4 top-0.5 left"
+        checked={checked}
         onChange={(e) => {
           onChange && onChange(e.target.checked)
         }}
@@ -63,6 +69,7 @@ export default function FileButton({ file, onChange }: FileButtonProps) {
             size="sm"
             variant="outline"
             className="border-0 hover:border"
+            onClick={(e) => e.stopPropagation()}
           >
             <BsEye className="text-primary" />
           </ActionIcon>
@@ -70,6 +77,7 @@ export default function FileButton({ file, onChange }: FileButtonProps) {
             size="sm"
             variant="outline"
             className="border-0 hover:border"
+            onClick={(e) => e.stopPropagation()}
           >
             <MdOutlineFileDownload className="text-primary" />
           </ActionIcon>
@@ -77,11 +85,12 @@ export default function FileButton({ file, onChange }: FileButtonProps) {
             size="sm"
             variant="outline"
             className="border-0 hover:border hover:border-red-500"
+            onClick={(e) => e.stopPropagation()}
           >
             <BiTrashAlt className="text-red" />
           </ActionIcon>
         </div>
       </div>
-    </div>
+    </label>
   )
 }
