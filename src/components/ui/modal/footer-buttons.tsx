@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import Button, { ButtonColorProp, ButtonVariantProp } from '../button/button'
+import Button, { ButtonColors, ButtonVariants } from '../button/button'
 import ButtonSubmit from '../button/submit'
 
 export default function ModalFooterButtons({
@@ -16,13 +16,13 @@ export default function ModalFooterButtons({
 }: {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   submit?: string
-  submitColor?: ButtonColorProp
-  submitVariant?: ButtonVariantProp
+  submitColor?: ButtonColors
+  submitVariant?: ButtonVariants
   isSubmitting?: boolean
   buttons?: ReactNode
   cancel?: string
-  cancelColor?: ButtonColorProp
-  cancelVariant?: ButtonVariantProp
+  cancelColor?: ButtonColors
+  cancelVariant?: ButtonVariants
   onCancel?(): void
 }) {
   return (

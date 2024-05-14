@@ -11,13 +11,15 @@ import SelectedFile from './selected-file'
 export type PustakaMediaProps = {
   label?: string
   placeholder?: string
-  onChange?(val: FileItemType[]): void
+  onChange?(val: FileItemType | FileItemType[]): void
+  multiple?: boolean
 }
 
 export default function PustakaMedia({
   label,
   placeholder = 'Klik di sini untuk memilih dari pustaka media',
   onChange,
+  multiple = false,
 }: PustakaMediaProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'xl' | 'full'>('xl')
@@ -45,8 +47,12 @@ export default function PustakaMedia({
 
   const doHide = () => {
     setShow(false)
-    // setActiveDrive(null)
-    // setActiveFolder(null)
+  }
+
+  const doChange = (selected: FileItemType[]) => {
+    setSelectedFiles(selected)
+
+    onChange && onChange(multiple === true ? selected : selected[0])
   }
 
   const drives = [
@@ -115,13 +121,12 @@ export default function PustakaMedia({
                 file={file}
                 onRemove={() => {
                   const selected = removeFromList(selectedFiles, file)
-                  setSelectedFiles(selected)
-                  onChange && onChange(selected)
+                  doChange(selected)
                 }}
                 key={file.id}
               />
             ))}
-          <Text size="sm" className="pustaka-media-label">
+          <Text size="sm" className="pustaka-media-label text-gray-lighter">
             {placeholder}
           </Text>
         </div>
@@ -183,14 +188,22 @@ export default function PustakaMedia({
                             file={file}
                             checked={checkedFileIds.indexOf(file.id) >= 0}
                             onChange={(val) => {
-                              if (val) {
-                                setCheckedFileIds([...checkedFileIds, file.id])
+                              if (multiple) {
+                                if (val) {
+                                  setCheckedFileIds([
+                                    ...checkedFileIds,
+                                    file.id,
+                                  ])
+                                } else {
+                                  setCheckedFileIds(
+                                    removeFromList(checkedFileIds, file.id)
+                                  )
+                                }
                               } else {
-                                setCheckedFileIds(
-                                  removeFromList(checkedFileIds, file.id)
-                                )
+                                setCheckedFileIds([file.id])
                               }
                             }}
+                            multiple={multiple}
                             key={idx}
                           />
                         ))
@@ -215,8 +228,7 @@ export default function PustakaMedia({
                 const selected = files.filter(
                   (val) => checkedFileIds.indexOf(val.id) >= 0
                 )
-                setSelectedFiles(selected)
-                onChange && onChange(selected)
+                doChange(selected)
                 doHide()
               }}
             >

@@ -1,9 +1,8 @@
-import { Text } from '@/components/ui'
+import { ActionIcon, Text } from '@/components/ui'
 import ModalConfirm from '@/components/ui/modal/confirm'
-import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from 'react'
+import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsFolderFill, BsPencil } from 'react-icons/bs'
-import { ActionIcon } from 'rizzui'
 
 export type FolderItemType = {
   name: string
@@ -45,8 +44,8 @@ export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
         <div className="flex space-x-1">
           <ActionIcon
             size="sm"
-            variant="outline"
-            className="border-0 hover:border hover:border-orange-500"
+            variant="outline-hover"
+            color="warning"
             onClick={(e) => e.stopPropagation()}
             onDoubleClick={(e) => e.stopPropagation()}
           >
@@ -54,8 +53,8 @@ export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
           </ActionIcon>
           <ActionIcon
             size="sm"
-            variant="outline"
-            className="border-0 hover:border hover:border-red-500"
+            variant="outline-hover"
+            color="danger"
             onClick={(e) => {
               e.stopPropagation()
               setShowModalHapus(true)

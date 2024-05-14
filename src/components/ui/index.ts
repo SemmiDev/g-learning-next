@@ -1,8 +1,9 @@
 import Breadcrumb, { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb'
+import ActionIcon, { ActionIconProps } from './button/action-icon'
 import Button, {
-  ButtonColorProp,
+  ButtonColors,
   ButtonProps,
-  ButtonVariantProp,
+  ButtonVariants,
 } from './button/button'
 import Card from './card'
 import CardSeparator from './card-separator'
@@ -47,6 +48,7 @@ import Text from './text/text'
 import Title from './text/title'
 
 export {
+  ActionIcon,
   Breadcrumb,
   Button,
   Card,
@@ -80,11 +82,12 @@ export {
   TextLink,
   TextSpan,
   Title,
+  type ActionIconProps,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
-  type ButtonColorProp,
+  type ButtonColors,
   type ButtonProps,
-  type ButtonVariantProp,
+  type ButtonVariants,
   type ControlledDatePickerProps,
   type ControlledInputProps,
   type ControlledQuillEditorProps,

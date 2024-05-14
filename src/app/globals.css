@@ -46,9 +46,9 @@
     /* ----------------------------------- */
     /* secondary colors */
     /* ----------------------------------- */
-    --secondary-lighter: 221 227 255; /* #dde3ff */
-    --secondary-default: 78 54 245; /* #4e36f5 */
-    --secondary-dark: 67 42 216; /* #432ad8 */
+    --secondary-lighter: 187 68 240; /* #bb44f0 */
+    --secondary-default: 150 20 208; /* #9614d0 */
+    --secondary-dark: 102 0 148; /* #660094 */
     --secondary-foreground: 255 255 255; /* #ffffff */
 
     /* ----------------------------------- */

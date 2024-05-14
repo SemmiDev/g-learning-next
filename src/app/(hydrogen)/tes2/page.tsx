@@ -1,7 +1,7 @@
 'use client'
 
 import PustakaMedia from '@/components/shared/pustaka-media'
-import { ControlledInput, Form, Input } from '@/components/ui'
+import { ControlledInput, Form } from '@/components/ui'
 import Select from '@/components/ui/select'
 import { useState } from 'react'
 import { z } from '@/utils/zod-id'
@@ -17,14 +17,14 @@ const options = [
 
 const formSchema = z.object({
   tes: z.string().pipe(required),
-  tes2: z.string().pipe(required),
+  tes2: z.any().optional(),
   tes3: z.array(z.any()),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   tes?: string
-  tes2?: string
+  tes2?: object
   tes3?: string[]
 }
 
@@ -53,7 +53,7 @@ export default function Tes2Page() {
             name="tes3"
             control={control}
             render={({ field: { onChange } }) => (
-              <PustakaMedia label="Pilih Berkas" onChange={onChange} />
+              <PustakaMedia label="Pilih Berkas" onChange={onChange} multiple />
             )}
           />
           <ControlledInput name="tes" control={control} label="Tes 1" />
@@ -65,7 +65,7 @@ export default function Tes2Page() {
                 label="Tes 2"
                 placeholder="Pilih Satu"
                 options={options}
-                onChange={(val: any) => onChange(val.value)}
+                onChange={onChange}
                 onBlur={onBlur}
                 value={value}
                 isClearable
