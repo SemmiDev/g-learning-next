@@ -1,5 +1,5 @@
 import { ModalSize } from 'rizzui'
-import Button from '../button/button'
+import Button, { ButtonColorProp } from '../button/button'
 import CardSeparator from '../card-separator'
 import Modal, { ModalProps } from '../modal'
 import ModalFooterButtons from './footer-buttons'
@@ -11,6 +11,7 @@ export type ModalConfirmProps = Without<ModalProps, 'children'> & {
   title: string
   desc?: string
   confirm?: string
+  confirmColor?: ButtonColorProp
   onConfirm?(): void
   cancel?: string
   onCancel?(): void
@@ -20,8 +21,9 @@ export type ModalConfirmProps = Without<ModalProps, 'children'> & {
 export default function ModalConfirm({
   title,
   desc = 'Anda yakin?',
-  confirm = 'Ya',
   size = 'sm',
+  confirm = 'Ya',
+  confirmColor = 'danger',
   onConfirm,
   cancel = 'Tidak',
   onCancel,

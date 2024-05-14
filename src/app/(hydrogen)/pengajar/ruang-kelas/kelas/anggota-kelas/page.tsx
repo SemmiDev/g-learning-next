@@ -1,11 +1,11 @@
 'use client'
 
 import UndangAnggotaModal from '@/components/page/pengajar/ruang-kelas/kelas/anggota-kelas/modal/undang-anggota'
-import ConfirmButton from '@/components/shared/global-modal/implements/confirm-button'
 import {
   Button,
   Card,
   CardSeparator,
+  ModalConfirm,
   Pagination,
   Text,
   Title,
@@ -18,6 +18,7 @@ import { Checkbox, Input } from 'rizzui'
 
 export default function AnggotaKelasPage() {
   const [showModalUndang, setShowModalUndang] = useState(false)
+  const [showModalKeluarkan, setShowModalKeluarkan] = useState(false)
 
   return (
     <>
@@ -78,16 +79,15 @@ export default function AnggotaKelasPage() {
                         </Text>
                       </div>
                     </div>
-                    <ConfirmButton
-                      title="Keluarkan Anggota Kelas"
-                      desc="Apakah Anda yakin ingin mengeluarkan peserta ini dari kelas anda?"
+                    <Button
                       size="sm"
                       variant="outline"
                       color="danger"
                       className="m-2"
+                      onClick={() => setShowModalKeluarkan(true)}
                     >
                       Keluarkan
-                    </ConfirmButton>
+                    </Button>
                   </div>
                   <CardSeparator />
                 </Fragment>
@@ -150,6 +150,15 @@ export default function AnggotaKelasPage() {
           </div>
         </Card>
       </div>
+
+      <ModalConfirm
+        title="Keluarkan Anggota Kelas"
+        desc="Apakah Anda yakin ingin mengeluarkan peserta ini dari kelas anda?"
+        isOpen={showModalKeluarkan}
+        onClose={() => setShowModalKeluarkan(false)}
+        onCancel={() => setShowModalKeluarkan(false)}
+        onConfirm={() => setShowModalKeluarkan(false)}
+      />
 
       <UndangAnggotaModal
         showModal={showModalUndang}

@@ -25,6 +25,7 @@ import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
 import Input, { InputProps } from './input'
 import Modal, { ModalProps } from './modal'
+import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
@@ -61,6 +62,7 @@ export {
   Input,
   LineGroup,
   Modal,
+  ModalConfirm,
   ModalFooterButtons,
   ModalHeader,
   Pagination,
