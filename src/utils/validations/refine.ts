@@ -54,3 +54,21 @@ export const imageFileOnly = (files: FileList, ctx: RefinementCtx) => {
     })
   }
 }
+
+export const objectRequired = (val: any, ctx: RefinementCtx) => {
+  if (val === undefined || val === null) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Wajib diisi',
+    })
+  }
+}
+
+export const arrayRequired = (val: any[], ctx: RefinementCtx) => {
+  if (val === undefined || val === null || val.length <= 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Wajib diisi',
+    })
+  }
+}

@@ -1,13 +1,18 @@
 'use client'
 
-import PustakaMedia from '@/components/shared/pustaka-media'
-import { ControlledInput, Form } from '@/components/ui'
-import Select from '@/components/ui/select'
-import { useState } from 'react'
-import { z } from '@/utils/zod-id'
-import { Controller, SubmitHandler } from 'react-hook-form'
+import {
+  ButtonSubmit,
+  ControlledInput,
+  ControlledPustakaMedia,
+  Form,
+  PustakaMediaFileType,
+  Select,
+} from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
-import ButtonSubmit from '@/components/ui/button/submit'
+import { arrayRequired, objectRequired } from '@/utils/validations/refine'
+import { z } from '@/utils/zod-id'
+import { useState } from 'react'
+import { Controller, SubmitHandler } from 'react-hook-form'
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -17,15 +22,15 @@ const options = [
 
 const formSchema = z.object({
   tes: z.string().pipe(required),
-  tes2: z.any().optional(),
-  tes3: z.array(z.any()),
+  tes2: z.any().superRefine(objectRequired),
+  tes3: z.array(z.any()).superRefine(arrayRequired),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   tes?: string
   tes2?: object
-  tes3?: string[]
+  tes3?: PustakaMediaFileType[]
 }
 
 const initialValues: FormSchema = {}
@@ -49,12 +54,11 @@ export default function Tes2Page() {
       {({ control, formState: { errors, isSubmitting } }) => (
         <div className="space-y-4">
           <div>{JSON.stringify(errors)}</div>
-          <Controller
+          <ControlledPustakaMedia
             name="tes3"
             control={control}
-            render={({ field: { onChange } }) => (
-              <PustakaMedia label="Pilih Berkas" onChange={onChange} multiple />
-            )}
+            label="Pilih Berkas"
+            multiple
           />
           <ControlledInput name="tes" control={control} label="Tes 1" />
           <Controller

@@ -11,6 +11,7 @@ import SelectedFile from './selected-file'
 export type PustakaMediaProps = {
   label?: string
   placeholder?: string
+  value?: FileItemType | FileItemType[]
   onChange?(val: FileItemType | FileItemType[]): void
   multiple?: boolean
 }
@@ -18,6 +19,7 @@ export type PustakaMediaProps = {
 export default function PustakaMedia({
   label,
   placeholder = 'Klik di sini untuk memilih dari pustaka media',
+  value,
   onChange,
   multiple = false,
 }: PustakaMediaProps) {
@@ -26,7 +28,9 @@ export default function PustakaMedia({
   const [activeDrive, setActiveDrive] = useState<number | null>(null)
   const [activeFolder, setActiveFolder] = useState<FolderItemType | null>(null)
   const [checkedFileIds, setCheckedFileIds] = useState<string[]>([])
-  const [selectedFiles, setSelectedFiles] = useState<FileItemType[]>([])
+  const [selectedFiles, setSelectedFiles] = useState<FileItemType[]>(
+    Array.isArray(value) ? value : value ? [value] : []
+  )
 
   const handleResize = () => {
     if (window.innerWidth < 1280) {
