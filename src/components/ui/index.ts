@@ -40,7 +40,7 @@ import PustakaMedia, {
 } from './pustaka-media'
 import QuillEditor, { QuillEditorProps } from './quill'
 import ReadMore, { ReadMoreProps } from './readmore'
-import Select, { SelectProps } from './select'
+import Select, { SelectProps } from './select/select'
 import SimpleBar from './simplebar'
 import { LineGroup, Skeleton } from './skeleton'
 import { Tab, TabGroup } from './tab'
