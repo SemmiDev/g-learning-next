@@ -3,10 +3,9 @@
 import { Without } from '@/utils/without-type'
 import { GroupBase, OptionsOrGroups } from 'react-select'
 import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
+import { FieldError } from 'rizzui'
 import TextLabel from '../text/label'
 import { defaultClassNames } from './style'
-import { FieldError } from 'rizzui'
-import cn from '@/utils/class-names'
 
 export type AsyncPaginateSelectActionProps = {
   search: string
