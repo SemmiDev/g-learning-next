@@ -31,11 +31,15 @@ const optionStyles = {
 const noOptionsMessageStyles =
   'text-gray p-2 bg-gray-50 border border-dashed border-gray-200 rounded-sm'
 
-export const defaultClassNames = {
+export const defaultClassNames = (error?: boolean) => ({
   control: ({ isFocused }: { isFocused: boolean }) =>
     cn(
       controlStyles.base,
-      isFocused ? controlStyles.focus : controlStyles.nonFocus
+      isFocused ? controlStyles.focus : controlStyles.nonFocus,
+      {
+        '!border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red !bg-transparent':
+          error,
+      }
     ),
   placeholder: () => placeholderStyles,
   input: () => selectInputStyles,
@@ -63,4 +67,4 @@ export const defaultClassNames = {
       isFocused && optionStyles.focus
     ),
   noOptionsMessage: () => noOptionsMessageStyles,
-}
+})

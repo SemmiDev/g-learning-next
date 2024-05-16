@@ -7,6 +7,8 @@ import FileButton, { FileItemType } from './file-button'
 import FolderButton, { FolderItemType } from './folder-button'
 import { removeFromList } from '@/utils/list'
 import SelectedFile from './selected-file'
+import { FieldError } from 'rizzui'
+import cn from '@/utils/class-names'
 
 export type PustakaMediaProps = {
   label?: string
@@ -14,6 +16,8 @@ export type PustakaMediaProps = {
   value?: FileItemType | FileItemType[]
   onChange?(val: FileItemType | FileItemType[]): void
   multiple?: boolean
+  error?: string
+  errorClassName?: string
 }
 
 export default function PustakaMedia({
@@ -22,6 +26,8 @@ export default function PustakaMedia({
   value,
   onChange,
   multiple = false,
+  error,
+  errorClassName,
 }: PustakaMediaProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'xl' | 'full'>('xl')
@@ -107,34 +113,48 @@ export default function PustakaMedia({
 
   return (
     <>
-      <div
-        onClick={() => {
-          setCheckedFileIds(selectedFiles.map((file) => file.id))
-          doShow()
-        }}
-      >
-        {label && (
-          <label className="text-gray-dark font-semibold mb-1.5 block">
-            {label}
-          </label>
-        )}
-        <div className="flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-[0.875rem] hover:border-primary [&_.pustaka-media-label]:hover:text-primary">
-          {selectedFiles.length > 0 &&
-            selectedFiles.map((file) => (
-              <SelectedFile
-                file={file}
-                onRemove={() => {
-                  const selected = removeFromList(selectedFiles, file)
-                  doChange(selected)
-                }}
-                key={file.id}
-              />
-            ))}
-          <Text size="sm" className="pustaka-media-label text-gray-lighter">
-            {placeholder}
-          </Text>
+      <div>
+        <div
+          onClick={() => {
+            setCheckedFileIds(selectedFiles.map((file) => file.id))
+            doShow()
+          }}
+        >
+          {label && (
+            <label className="text-gray-dark font-semibold mb-1.5 block">
+              {label}
+            </label>
+          )}
+          <div
+            className={cn(
+              'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-[0.875rem] hover:border-primary [&_.pustaka-media-label]:hover:text-primary',
+              {
+                '!border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red !bg-transparent':
+                  error,
+              }
+            )}
+          >
+            {selectedFiles.length > 0 &&
+              selectedFiles.map((file) => (
+                <SelectedFile
+                  file={file}
+                  onRemove={() => {
+                    const selected = removeFromList(selectedFiles, file)
+                    doChange(selected)
+                  }}
+                  key={file.id}
+                />
+              ))}
+            <Text size="sm" className="pustaka-media-label text-gray-lighter">
+              {placeholder}
+            </Text>
+          </div>
         </div>
+        {error && (
+          <FieldError size="md" error={error} className={errorClassName} />
+        )}
       </div>
+
       <Modal title="Pustaka Media" size={size} isOpen={show} onClose={doHide}>
         <div className="flex flex-col">
           <div className="flex flex-col min-h-[400px] lg:flex-row">

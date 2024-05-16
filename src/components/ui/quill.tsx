@@ -72,7 +72,7 @@ export default function QuillEditor({
   return (
     <div className={cn(className)}>
       {label && (
-        <TextLabel className={cn('mb-1', labelClassName)}>{label}</TextLabel>
+        <TextLabel className={cn('mb-1.5', labelClassName)}>{label}</TextLabel>
       )}
       <ReactQuill
         ref={quillRef}

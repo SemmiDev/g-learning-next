@@ -39,6 +39,7 @@ export default function ControlledPustakaMedia<
             setValue(val)
           }}
           value={value}
+          error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />
       )}
