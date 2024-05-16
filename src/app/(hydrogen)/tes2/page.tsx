@@ -36,7 +36,7 @@ const formSchema = z.object({
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   tesx?: string
-  tes1?: object
+  tes1?: OptionType
   tes2?: OptionType
   tes3?: PustakaMediaFileType[]
 }
