@@ -7,31 +7,26 @@ import { FieldError } from 'rizzui'
 import TextLabel from '../text/label'
 import { defaultClassNames } from './style'
 
-export type AsyncPaginateSelectActionProps = {
+export type AsyncPaginateSelectActionProps<OptionType> = {
   search: string
-  loadedOptions: OptionsOrGroups<any, GroupBase<any>>
+  loadedOptions: OptionsOrGroups<OptionType, GroupBase<OptionType>>
   page: number
 }
+export type AsyncPaginateSelectActionType = { data: any[]; hasMore: boolean }
 
 export type AsyncPaginateSelectProps<
   OptionType,
-  Group extends GroupBase<OptionType>,
-  Additional,
-  IsMulti extends boolean
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<OptionType> = GroupBase<OptionType>,
+  Additional = { page: number }
 > = Without<
   AsyncPaginateProps<OptionType, Group, Additional, IsMulti>,
   'loadOptions'
 > & {
   label?: string
-  action({
-    search,
-    loadedOptions,
-    page,
-  }: {
-    search: string
-    loadedOptions: OptionsOrGroups<OptionType, Group>
-    page: number
-  }): Promise<any[]>
+  action(
+    props: AsyncPaginateSelectActionProps<OptionType>
+  ): Promise<AsyncPaginateSelectActionType>
   construct(data: any): OptionType
   error?: string
   errorClassName?: string
@@ -39,8 +34,8 @@ export type AsyncPaginateSelectProps<
 
 export default function AsyncPaginateSelect<
   OptionType,
-  Group extends GroupBase<OptionType>,
-  IsMulti extends boolean
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<OptionType> = GroupBase<OptionType>
 >({
   label,
   action,
@@ -49,7 +44,7 @@ export default function AsyncPaginateSelect<
   error,
   errorClassName,
   ...props
-}: AsyncPaginateSelectProps<OptionType, Group, { page: number }, IsMulti>) {
+}: AsyncPaginateSelectProps<OptionType, IsMulti, Group>) {
   return (
     <div className="react-select">
       {label && <TextLabel className="mb-1.5">{label}</TextLabel>}
@@ -60,11 +55,15 @@ export default function AsyncPaginateSelect<
           ...classNames,
         }}
         loadOptions={async (search, loadedOptions, { page } = { page: 1 }) => {
-          const data = await action({ search, loadedOptions, page })
+          const { data, hasMore } = await action({
+            search,
+            loadedOptions,
+            page,
+          })
 
           return {
             options: data.map((item) => construct(item)),
-            hasMore: page < 10,
+            hasMore: hasMore,
             additional: {
               page: page + 1,
             },

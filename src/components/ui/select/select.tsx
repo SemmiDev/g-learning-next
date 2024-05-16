@@ -6,19 +6,19 @@ import TextLabel from '../text/label'
 import { defaultClassNames } from './style'
 import { FieldError } from 'rizzui'
 
-export type SelectProps = ReactSelectProps & {
+export type SelectProps<OptionType> = ReactSelectProps<OptionType> & {
   label?: string
   error?: string
   errorClassName?: string
 }
 
-export default function Select({
+export default function Select<OptionType>({
   label,
   classNames,
   error,
   errorClassName,
   ...props
-}: SelectProps) {
+}: SelectProps<OptionType>) {
   return (
     <div className="react-select">
       {label && <TextLabel className="mb-1.5">{label}</TextLabel>}
