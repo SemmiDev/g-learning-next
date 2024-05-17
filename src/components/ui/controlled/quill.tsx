@@ -8,19 +8,21 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import QuillEditor, { QuillEditorProps } from '../quill'
+import { Without } from '@/utils/without-type'
 
 export type ControlledQuillEditorProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = QuillEditorProps & {
+> = Without<QuillEditorProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
+  onChange?(value: any): void
 }
 
 export default function ControlledQuillEditor<
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   name,
   control,
@@ -36,8 +38,8 @@ export default function ControlledQuillEditor<
       render={({ field: { value, onChange: setValue, onBlur } }) => (
         <QuillEditor
           value={value}
-          onChange={(val, d, s, e) => {
-            onChange && onChange(val, d, s, e)
+          onChange={(val) => {
+            onChange && onChange(val)
             setValue(val)
           }}
           onBlur={onBlur}

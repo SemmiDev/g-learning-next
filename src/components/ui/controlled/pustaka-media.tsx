@@ -19,8 +19,8 @@ export type ControlledPustakaMediaProps<
 }
 
 export default function ControlledPustakaMedia<
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   name,
   control,

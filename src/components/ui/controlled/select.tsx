@@ -18,6 +18,7 @@ export type ControlledSelectProps<
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
+  onChange?(value: any): void
 }
 
 export default function ControlledSelect<
@@ -28,15 +29,19 @@ export default function ControlledSelect<
   name,
   control,
   errors,
+  onChange,
   ...props
 }: ControlledSelectProps<OptionType, TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange, onBlur } }) => (
+      render={({ field: { value, onChange: setValue, onBlur } }) => (
         <Select
-          onChange={onChange}
+          onChange={(val) => {
+            onChange && onChange(val)
+            setValue(val)
+          }}
           onBlur={onBlur}
           value={value}
           error={errors ? (errors[name]?.message as string) : undefined}

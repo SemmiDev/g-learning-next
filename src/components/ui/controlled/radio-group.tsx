@@ -34,8 +34,8 @@ export type ControlledRadioGroupProps<
 }
 
 export default function ControlledRadio<
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   name,
   control,

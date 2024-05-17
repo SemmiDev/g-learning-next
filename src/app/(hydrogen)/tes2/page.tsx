@@ -2,6 +2,7 @@
 
 import {
   ButtonSubmit,
+  ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
   Form,
@@ -27,18 +28,20 @@ const options: OptionType[] = [
 ]
 
 const formSchema = z.object({
-  tesx: z.string().pipe(required),
-  tes1: z.any().superRefine(objectRequired),
-  tes2: z.any().superRefine(objectRequired),
-  tes3: z.array(z.any()).superRefine(arrayRequired),
+  // tesInput: z.string().pipe(required),
+  // tesSelect: z.any().superRefine(objectRequired),
+  // tesAsyncSelect: z.any().superRefine(objectRequired),
+  // tesMedia: z.array(z.any()).superRefine(arrayRequired),
+  // tesDate: z.date(),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  tesx?: string
-  tes1?: OptionType
-  tes2?: OptionType
-  tes3?: PustakaMediaFileType[]
+  // tesInput?: string
+  // tesSelect?: OptionType
+  // tesAsyncSelect?: OptionType
+  // tesMedia?: PustakaMediaFileType[]
+  // tesDate?: Date
 }
 
 const initialValues: FormSchema = {}
@@ -60,17 +63,24 @@ export default function Tes2Page() {
       {({ control, formState: { errors, isSubmitting } }) => (
         <div className="space-y-4">
           <div>{JSON.stringify(errors)}</div>
-          <ControlledSelect<OptionType>
-            name="tes1"
+          {/* <ControlledInput
+            name="tesInput"
+            control={control}
+            label="Input"
+            placeholder="Input disini"
+            errors={errors}
+          /> */}
+          {/* <ControlledSelect<OptionType>
+            name="tesSelect"
             control={control}
             options={options}
             label="Select"
             placeholder="Pilih Satu"
             errors={errors}
             isClearable
-          />
-          <ControlledAsyncPaginateSelect<OptionType>
-            name="tes2"
+          /> */}
+          {/* <ControlledAsyncPaginateSelect<OptionType>
+            name="tesAsyncSelect"
             control={control}
             label="Async Paginate Select"
             placeholder="Pilih Satu"
@@ -81,21 +91,20 @@ export default function Tes2Page() {
             })}
             errors={errors}
             isClearable
-          />
-          <ControlledPustakaMedia
-            name="tes3"
+          /> */}
+          {/* <ControlledPustakaMedia
+            name="tesMedia"
             control={control}
             label="Pilih Berkas"
             errors={errors}
             multiple
-          />
-          <ControlledInput
-            name="tesx"
+          /> */}
+          {/* <ControlledDatePicker
+            name="tesDate"
             control={control}
-            label="Input"
-            placeholder="Input disini"
+            label="Datepicker"
             errors={errors}
-          />
+          /> */}
           <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
             Submit
           </ButtonSubmit>
