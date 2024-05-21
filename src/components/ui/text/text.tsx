@@ -6,6 +6,7 @@ export type DefaultTextProps = {
   size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'gray'
   weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold'
+  align?: 'left' | 'center' | 'right'
 }
 
 export type TextProps = Without<RizTextProps, 'color' | 'fontWeight'> &
@@ -69,6 +70,7 @@ export default function Text({
   size = 'base',
   weight = 'normal',
   variant,
+  align,
   color,
   className,
   ...props
@@ -78,6 +80,7 @@ export default function Text({
       className={cn(
         TextSizes[size],
         TextWeights[weight],
+        `text-${align}`,
         color
           ? TextColors[color][variant ?? 'default']
           : variant

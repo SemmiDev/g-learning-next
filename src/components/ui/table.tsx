@@ -10,9 +10,9 @@ import {
   CheckboxGroup,
   Empty,
   Popover,
-  Text,
   Title,
 } from 'rizzui'
+import Text, { TextProps } from './text/text'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 
@@ -136,7 +136,7 @@ export function TableHeaderCell({
   return (
     <div
       className={cn(
-        'flex items-center gap-1',
+        'flex items-center gap-1 text-gray-dark font-bold',
         sortable && 'cursor-pointer',
         handleTextAlignment(align),
         className
@@ -174,6 +174,26 @@ export function TableHeaderCell({
     </div>
   )
 }
+
+export const TableCellText = ({
+  size = 'sm',
+  variant = 'dark',
+  ...props
+}: TextProps) => <Text size={size} variant={variant} {...props} />
+
+export const TableCellNumber = ({
+  weight = 'bold',
+  align = 'center',
+  ...props
+}: TextProps) => <TableCellText weight={weight} align={align} {...props} />
+
+export const renderTableCellText = (value: any) => (
+  <TableCellText>{value}</TableCellText>
+)
+
+export const renderTableCellNumber = (_: any, __: any, idx: any) => (
+  <TableCellNumber>{idx + 1}</TableCellNumber>
+)
 
 type ToggleColumnsTypes<T> = {
   columns: T[]

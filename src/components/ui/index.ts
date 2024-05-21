@@ -45,10 +45,14 @@ import SimpleBar from './simplebar'
 import { LineGroup, Skeleton } from './skeleton'
 import { Tab, TabGroup } from './tab'
 import Table, {
+  TableCellNumber,
+  TableCellText,
   TableHeaderCell,
   TableHeaderCellProps,
   TableProps,
   TableToggleColumns,
+  renderTableCellNumber,
+  renderTableCellText,
 } from './table'
 import TextLabel from './text/label'
 import TextLink from './text/link'
@@ -88,6 +92,8 @@ export {
   Tab,
   TabGroup,
   Table,
+  TableCellNumber,
+  TableCellText,
   TableHeaderCell,
   TableToggleColumns,
   Text,
@@ -95,6 +101,8 @@ export {
   TextLink,
   TextSpan,
   Title,
+  renderTableCellNumber,
+  renderTableCellText,
   type ActionIconProps,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
