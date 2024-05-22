@@ -18,6 +18,7 @@ export type ButtonVariants =
   | 'text-colorful'
   | 'outline-colorful'
   | 'outline-hover'
+  | 'outline-hover-colorful'
 
 export type ButtonProps = Without<RizButtonProps, 'color' | 'variant'> & {
   variant?: ButtonVariants
@@ -74,6 +75,18 @@ export const ButtonColorStyles = {
     danger:
       'border-transparent hover:text-red hover:border-red focus-visible:ring-red-lighter',
   },
+  'outline-hover-colorful': {
+    primary:
+      'text-primary border-transparent hover:text-primary hover:border-primary focus-visible:ring-primary-lighter',
+    secondary:
+      'text-secondary border-transparent hover:text-secondary hover:border-secondary focus-visible:ring-secondary-lighter',
+    success:
+      'text-green border-transparent hover:text-green hover:border-green focus-visible:ring-green-lighter',
+    warning:
+      'text-orange border-transparent hover:text-orange hover:border-orange focus-visible:ring-orange-lighter',
+    danger:
+      'text-red border-transparent hover:text-red hover:border-red focus-visible:ring-red-lighter',
+  },
   text: {
     primary: 'hover:text-primary focus-visible:ring-primary-lighter',
     secondary: 'hover:text-secondary focus-visible:ring-secondary-lighter',
@@ -105,6 +118,7 @@ export const getRizVariant = (
     case 'outline':
     case 'outline-colorful':
     case 'outline-hover':
+    case 'outline-hover-colorful':
       return 'outline'
     case 'text':
     case 'text-colorful':

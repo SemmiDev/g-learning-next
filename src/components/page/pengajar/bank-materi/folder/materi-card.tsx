@@ -1,10 +1,13 @@
 import { Button, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
-import iconMateri from '@public/icons/materi.png'
-import iconTugas from '@public/icons/tugas.png'
-import Image from 'next/image'
 import { BiShareAlt } from 'react-icons/bi'
-import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
+import {
+  BsClipboardPlus,
+  BsFileEarmarkRichtext,
+  BsPencil,
+  BsThreeDotsVertical,
+  BsTrash3,
+} from 'react-icons/bs'
 import { ActionIcon, Dropdown } from 'rizzui'
 
 export type MateriType = {
@@ -35,17 +38,16 @@ export default function MateriCard({
             className={cn(
               'flex size-12 items-center justify-center rounded-md mr-2',
               {
-                'bg-blue-400': materi.type === 'materi',
-                'bg-green-500': materi.type === 'tugas',
+                'btn-item-green': materi.type === 'materi',
+                'btn-item-violet': materi.type === 'tugas',
               }
             )}
           >
-            <figure className="size-6">
-              <Image
-                src={materi.type === 'tugas' ? iconTugas : iconMateri}
-                alt="folder"
-              />
-            </figure>
+            {materi.type === 'tugas' ? (
+              <BsClipboardPlus size={24} />
+            ) : (
+              <BsFileEarmarkRichtext size={24} />
+            )}
           </div>
           <Title
             as="h4"

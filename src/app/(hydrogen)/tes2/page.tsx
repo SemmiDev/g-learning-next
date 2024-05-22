@@ -13,8 +13,10 @@ import ControlledSelect from '@/components/ui/controlled/select'
 import { required } from '@/utils/validations/pipe'
 import { arrayRequired, objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
-import { SubmitHandler } from 'react-hook-form'
+import { Controller, SubmitHandler } from 'react-hook-form'
 import { tesAsyncAction } from './action'
+import Materi from '@/components/ui/materi/materi'
+import { MateriItemType } from '@/components/ui/materi/materi-button'
 
 type OptionType = {
   label: string
@@ -32,6 +34,7 @@ const formSchema = z.object({
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
+  tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
 })
 
@@ -41,6 +44,7 @@ type FormSchema = {
   // tesSelect?: OptionType
   // tesAsyncSelect?: OptionType
   // tesMedia?: PustakaMediaFileType[]
+  tesMateri?: MateriItemType
   // tesDate?: Date
 }
 
@@ -99,6 +103,13 @@ export default function Tes2Page() {
             errors={errors}
             multiple
           /> */}
+          <Controller
+            name="tesMateri"
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <Materi label="Pilih Materi" value={value} onChange={onChange} />
+            )}
+          />
           {/* <ControlledDatePicker
             name="tesDate"
             control={control}

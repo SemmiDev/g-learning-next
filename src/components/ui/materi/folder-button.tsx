@@ -7,7 +7,7 @@ import { LuFolderSearch } from 'react-icons/lu'
 
 export type FolderItemType = {
   name: string
-  fileCount: number
+  count: number
 }
 
 export type FolderButtonProps = {
@@ -35,7 +35,7 @@ export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
               {folder.name}
             </Text>
             <Text size="sm" variant="lighter">
-              {folder.fileCount} Berkas
+              {folder.count} Materi
             </Text>
           </div>
         </div>

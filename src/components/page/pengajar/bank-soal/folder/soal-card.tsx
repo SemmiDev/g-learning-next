@@ -1,11 +1,14 @@
 import { Button, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import iconSoal from '@public/icons/materi.png'
-import Image from 'next/image'
 import Link from 'next/link'
 import { BiShareAlt } from 'react-icons/bi'
-import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
+import {
+  BsFileEarmarkRichtext,
+  BsPencil,
+  BsThreeDotsVertical,
+  BsTrash3,
+} from 'react-icons/bs'
 import { ActionIcon, Dropdown } from 'rizzui'
 
 export type SoalType = {
@@ -31,10 +34,8 @@ export default function SoalCard({
     >
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center">
-          <div className="flex size-12 items-center justify-center rounded-md bg-blue-400 mr-2">
-            <figure className="size-6">
-              <Image src={iconSoal} alt="folder" />
-            </figure>
+          <div className="flex size-12 items-center justify-center rounded-md btn-item-green mr-2">
+            <BsFileEarmarkRichtext size={24} />
           </div>
           <Title
             as="h4"

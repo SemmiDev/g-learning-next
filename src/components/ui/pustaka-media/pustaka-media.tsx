@@ -156,7 +156,7 @@ export default function PustakaMedia({
       </div>
 
       <Modal title="Pustaka Media" size={size} isOpen={show} onClose={doHide}>
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] xl:min-h-full">
           <div className="flex flex-col min-h-[400px] lg:flex-row">
             <div className="flex flex-col lg:w-4/12 lg:border-r lg:border-r-gray-100">
               {drives.map((drive, idx) => (
@@ -243,29 +243,31 @@ export default function PustakaMedia({
               )}
             </div>
           </div>
-          <CardSeparator />
-          <div className="flex justify-end space-x-2 p-3">
-            <Button
-              size="sm"
-              className="w-36"
-              onClick={() => {
-                const selected = files.filter(
-                  (val) => checkedFileIds.indexOf(val.id) >= 0
-                )
-                doChange(selected)
-                doHide()
-              }}
-            >
-              Pilih Berkas
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              className="w-36"
-              onClick={doHide}
-            >
-              Batal
-            </Button>
+          <div>
+            <CardSeparator />
+            <div className="flex justify-end space-x-2 p-3">
+              <Button
+                size="sm"
+                className="w-36"
+                onClick={() => {
+                  const selected = files.filter(
+                    (val) => checkedFileIds.indexOf(val.id) >= 0
+                  )
+                  doChange(selected)
+                  doHide()
+                }}
+              >
+                Pilih Berkas
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-36"
+                onClick={doHide}
+              >
+                Batal
+              </Button>
+            </div>
           </div>
         </div>
       </Modal>

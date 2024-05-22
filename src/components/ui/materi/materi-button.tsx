@@ -1,83 +1,79 @@
 import { ActionIcon, ModalConfirm, Text } from '@/components/ui'
-import { formatBytes } from '@/utils/bytes'
+import cn from '@/utils/class-names'
 import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
-import { BsEye, BsFileEarmarkFill, BsFillPlayBtnFill } from 'react-icons/bs'
-import { MdOutlineFileDownload } from 'react-icons/md'
-import { Checkbox, Radio } from 'rizzui'
+import {
+  BsClipboardPlus,
+  BsFileEarmarkRichtext,
+  BsPencil,
+} from 'react-icons/bs'
+import { Radio } from 'rizzui'
 
-export type FileItemType = {
+export type MateriItemType = {
   id: string
   name: string
-  size?: number | null
   time: string
-  icon: 'video' | 'doc'
-  link: string
+  fileCount: number
+  type: 'materi' | 'tugas'
 }
 
-export type FileButtonProps = {
-  file: FileItemType
+export type MateriButtonProps = {
+  materi: MateriItemType
   checked?: boolean
-  onChange?(val: boolean): void
-  multiple: boolean
+  onChange?(): void
 }
 
-export default function FileButton({
-  file,
+export default function MateriButton({
+  materi,
   checked = false,
   onChange,
-  multiple,
-}: FileButtonProps) {
+}: MateriButtonProps) {
   const [showModalHapus, setShowModalHapus] = useState(false)
 
   return (
     <>
       <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
-        {multiple ? (
-          <Checkbox
-            size="sm"
-            className="px-4"
-            iconClassName="h-4 top-0.5 left"
-            checked={checked}
-            onChange={(e) => {
-              onChange && onChange(e.target.checked)
-            }}
-          />
-        ) : (
-          <Radio
-            name="pustaka_media_radio"
-            value={file.id}
-            size="sm"
-            className="px-4"
-            checked={checked}
-            onChange={() => onChange && onChange(true)}
-          />
-        )}
+        <Radio
+          name="pustaka_media_radio"
+          value={materi.id}
+          size="sm"
+          className="px-4"
+          checked={checked}
+          onChange={() => onChange && onChange()}
+        />
         <div className="flex flex-1 justify-between items-center space-x-2">
           <div className="flex space-x-2">
-            <div className="flex size-11 items-center justify-center rounded-md shrink-0 bg-gray-50">
-              {file.icon === 'video' ? (
-                <BsFillPlayBtnFill size={20} className="text-red-dark" />
+            <div
+              className={cn(
+                'flex size-11 items-center justify-center rounded-md mr-2',
+                {
+                  'btn-item-green': materi.type === 'materi',
+                  'btn-item-violet': materi.type === 'tugas',
+                }
+              )}
+            >
+              {materi.type === 'tugas' ? (
+                <BsClipboardPlus size={22} />
               ) : (
-                <BsFileEarmarkFill size={20} className="text-purple-900/80" />
+                <BsFileEarmarkRichtext size={22} />
               )}
             </div>
             <div className="flex flex-col">
               <Text
                 weight="semibold"
                 variant="dark"
-                title={file.name}
+                title={materi.name}
                 className="truncate"
               >
-                {file.name}
+                {materi.name}
               </Text>
               <ul className="flex list-inside list-disc gap-3.5">
                 <li className="list-none text-sm text-gray-lighter">
-                  {file.size ? formatBytes(file.size, 2) : file.time}
+                  {materi.time}
                 </li>
-                {file.size && (
-                  <li className="text-sm text-gray-lighter">{file.time}</li>
-                )}
+                <li className="text-sm text-gray-lighter">
+                  {materi.fileCount} berkas
+                </li>
               </ul>
             </div>
           </div>
@@ -85,16 +81,10 @@ export default function FileButton({
             <ActionIcon
               size="sm"
               variant="outline-hover-colorful"
+              color="warning"
               onClick={(e) => e.stopPropagation()}
             >
-              <BsEye />
-            </ActionIcon>
-            <ActionIcon
-              size="sm"
-              variant="outline-hover-colorful"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <MdOutlineFileDownload />
+              <BsPencil />
             </ActionIcon>
             <ActionIcon
               size="sm"
