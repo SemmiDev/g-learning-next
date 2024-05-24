@@ -1,11 +1,12 @@
 import {
-  Button,
   CardSeparator,
   ControlledInput,
+  ControlledPustakaMedia,
   ControlledQuillEditor,
   Form,
   Modal,
   ModalFooterButtons,
+  PustakaMediaFileType,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -14,12 +15,14 @@ import { SubmitHandler } from 'react-hook-form'
 const formSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
+  berkas: z.array(z.any()),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   judul?: string
   catatan?: string
+  berkas?: PustakaMediaFileType[]
 }
 
 const initialValues: FormSchema = {}
@@ -71,16 +74,13 @@ export default function TambahMateriModal({
                 toolbar="minimalist"
               />
 
-              <div>
-                <label className="text-gray-dark font-semibold mb-1.5 block">
-                  Tambahkan Berkas
-                </label>
-                <div className="text-gray-lighter text-sm border-2 border-gray-50 rounded-md py-3 px-4">
-                  <Button variant="text" className="h-4 p-0">
-                    Klik di sini untuk tambah berkas
-                  </Button>
-                </div>
-              </div>
+              <ControlledPustakaMedia
+                name="berkas"
+                control={control}
+                label="Pilih Berkas"
+                errors={errors}
+                multiple
+              />
             </div>
 
             <CardSeparator />

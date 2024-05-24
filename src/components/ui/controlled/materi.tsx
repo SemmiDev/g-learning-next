@@ -1,7 +1,5 @@
 'use client'
 
-import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -9,43 +7,39 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { Textarea, TextareaProps } from 'rizzui'
+import Materi, { MateriProps } from '../materi'
+import { Without } from '@/utils/without-type'
 
-export type ControlledTextareaProps<
+export type ControlledMateriProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<TextareaProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Without<MateriProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledTextarea<
+export default function ControlledMateri<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   name,
   control,
   errors,
-  labelClassName,
   onChange,
-  rows = 3,
   ...props
-}: ControlledTextareaProps<TFieldValues, TName>) {
+}: ControlledMateriProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Textarea
-          labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
-          rows={rows}
+      render={({ field: { value, onChange: setValue } }) => (
+        <Materi
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)
           }}
-          onBlur={onBlur}
           value={value}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}

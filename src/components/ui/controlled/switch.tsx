@@ -9,19 +9,19 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { Textarea, TextareaProps } from 'rizzui'
+import Switch, { SwitchProps } from '../switch'
 
-export type ControlledTextareaProps<
+export type ControlledSwitchProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<TextareaProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Without<SwitchProps, 'value' | 'checked' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledTextarea<
+export default function ControlledSwitch<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -30,23 +30,21 @@ export default function ControlledTextarea<
   errors,
   labelClassName,
   onChange,
-  rows = 3,
   ...props
-}: ControlledTextareaProps<TFieldValues, TName>) {
+}: ControlledSwitchProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Textarea
+        <Switch
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
-          rows={rows}
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)
           }}
           onBlur={onBlur}
-          value={value}
+          checked={value}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />

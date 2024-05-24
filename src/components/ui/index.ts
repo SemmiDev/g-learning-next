@@ -12,6 +12,7 @@ import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
 import ControlledInput, { ControlledInputProps } from './controlled/input'
+import ControlledMateri, { ControlledMateriProps } from './controlled/materi'
 import ControlledPustakaMedia, {
   ControlledPustakaMediaProps,
 } from './controlled/pustaka-media'
@@ -23,12 +24,14 @@ import ControlledRadioGroup, {
   ControlledRadioGroupOptions,
   ControlledRadioGroupProps,
 } from './controlled/radio-group'
+import ControlledSwitch, { ControlledSwitchProps } from './controlled/switch'
 import ControlledTextarea, {
   ControlledTextareaProps,
 } from './controlled/textarea'
 import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
 import Input, { InputProps } from './input'
+import Materi, { MateriItemType, MateriProps } from './materi'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
@@ -69,15 +72,18 @@ export {
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledMateri,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledRadio,
   ControlledRadioGroup,
+  ControlledSwitch,
   ControlledTextarea,
   DatePicker,
   Form,
   Input,
   LineGroup,
+  Materi,
   Modal,
   ModalConfirm,
   ModalFooterButtons,
@@ -112,14 +118,18 @@ export {
   type ButtonVariants,
   type ControlledDatePickerProps,
   type ControlledInputProps,
+  type ControlledMateriProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
   type ControlledRadioGroupOptions,
   type ControlledRadioGroupProps,
   type ControlledRadioProps,
+  type ControlledSwitchProps,
   type ControlledTextareaProps,
   type DatePickerProps,
   type InputProps,
+  type MateriItemType,
+  type MateriProps,
   type ModalProps,
   type PaginationProps,
   type PustakaMediaFileType,

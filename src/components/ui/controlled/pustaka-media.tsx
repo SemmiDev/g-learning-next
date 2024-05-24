@@ -8,14 +8,16 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import PustakaMedia, { PustakaMediaProps } from '../pustaka-media'
+import { Without } from '@/utils/without-type'
 
 export type ControlledPustakaMediaProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = PustakaMediaProps & {
+> = Without<PustakaMediaProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
+  onChange?(value: any): void
 }
 
 export default function ControlledPustakaMedia<

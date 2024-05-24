@@ -36,7 +36,7 @@ export default function ControlledInput<
     <Controller
       control={control}
       name={name}
-      render={({ field: { name, value, onChange: setValue, onBlur } }) => (
+      render={({ field: { value, onChange: setValue, onBlur } }) => (
         <Input
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
           onChange={(val) => {

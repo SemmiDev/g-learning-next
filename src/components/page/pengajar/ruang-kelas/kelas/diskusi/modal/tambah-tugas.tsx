@@ -1,47 +1,64 @@
 import {
-  Button,
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledMateri,
+  ControlledPustakaMedia,
   ControlledQuillEditor,
+  ControlledSwitch,
   Form,
+  MateriItemType,
   Modal,
   ModalFooterButtons,
+  PustakaMediaFileType,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
+import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
-import { Switch } from 'rizzui'
 
-const baseFormSchema = z.object({
-  judul: z.string().pipe(required),
-  catatan: z.string().optional(),
+const isShareFs = z.object({
+  share: z.literal(true),
+  materi: z.any().superRefine(objectRequired),
 })
 
-const formSchema = z.discriminatedUnion('dibawasiWaktu', [
-  z
-    .object({
-      dibawasiWaktu: z.literal(false),
-    })
-    .merge(baseFormSchema),
-  z
-    .object({
-      dibawasiWaktu: z.literal(true),
-      batasWaktu: z.date(),
-    })
-    .merge(baseFormSchema),
+const isNotShareFs = z.object({
+  share: z.literal(false),
+  judul: z.string().pipe(required),
+  catatan: z.string().optional(),
+  berkas: z.array(z.any()),
+})
+
+const isDibatasiWaktuFs = z.object({
+  dibawasiWaktu: z.literal(true),
+  batasWaktu: z.date(),
+})
+
+const isNotDibatasiWaktuFs = z.object({
+  dibawasiWaktu: z.literal(false),
+})
+
+const formSchema = z.union([
+  isShareFs.merge(isDibatasiWaktuFs),
+  isShareFs.merge(isNotDibatasiWaktuFs),
+  isNotShareFs.merge(isDibatasiWaktuFs),
+  isNotShareFs.merge(isNotDibatasiWaktuFs),
 ])
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
+  share: boolean
+  materi?: MateriItemType
   judul?: string
   catatan?: string
   dibawasiWaktu: boolean
   batasWaktu?: Date
+  berkas?: PustakaMediaFileType[]
 }
 
 const initialValues: FormSchema = {
   dibawasiWaktu: false,
+  share: true,
 }
 
 export default function TambahTugasModal({
@@ -70,47 +87,55 @@ export default function TambahTugasModal({
           defaultValues: initialValues,
         }}
       >
-        {({
-          register,
-          control,
-          watch,
-          formState: { errors, isSubmitting },
-        }) => (
+        {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <ControlledInput
-                name="judul"
+              <ControlledSwitch
+                name="share"
                 control={control}
-                errors={errors}
-                label="Judul Tugas"
-                placeholder="Tulis judul tugas di sini"
+                label="Bagikan dari Bank Materi"
               />
 
-              <ControlledQuillEditor
-                name="catatan"
-                control={control}
-                errors={errors}
-                label="Catatan Tambahan"
-                placeholder="Buat catatan singkat terkait tugas yang diberikan"
-                toolbar="minimalist"
-              />
+              {watch('share') ? (
+                <ControlledMateri
+                  name="materi"
+                  control={control}
+                  errors={errors}
+                />
+              ) : (
+                <>
+                  <ControlledInput
+                    name="judul"
+                    control={control}
+                    errors={errors}
+                    label="Judul Tugas"
+                    placeholder="Tulis judul tugas di sini"
+                  />
 
-              <div>
-                <label className="text-gray-dark font-semibold mb-1.5 block">
-                  Tambahkan Berkas
-                </label>
-                <div className="text-gray-lighter text-sm border-2 border-gray-50 rounded-md py-3 px-4">
-                  <Button variant="text" className="h-4 p-0">
-                    Klik di sini untuk tambah berkas
-                  </Button>
-                </div>
-              </div>
+                  <ControlledQuillEditor
+                    name="catatan"
+                    control={control}
+                    errors={errors}
+                    label="Catatan Tambahan"
+                    placeholder="Buat catatan singkat terkait tugas yang diberikan"
+                    toolbar="minimalist"
+                  />
+
+                  <ControlledPustakaMedia
+                    name="berkas"
+                    control={control}
+                    label="Pilih Berkas"
+                    errors={errors}
+                    multiple
+                  />
+                </>
+              )}
 
               <div className="flex gap-x-4 px-3 py-3">
-                <Switch
+                <ControlledSwitch
+                  name="dibawasiWaktu"
+                  control={control}
                   label="Opsi Batas Waktu Penyerahan"
-                  labelClassName="text-gray-dark font-semibold"
-                  {...register('dibawasiWaktu')}
                 />
                 {watch('dibawasiWaktu', false) && (
                   <ControlledDatePicker

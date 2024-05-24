@@ -1,56 +1,80 @@
 import {
-  Button,
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledMateri,
+  ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledRadioGroup,
   ControlledRadioGroupOptions,
+  ControlledSwitch,
   Form,
+  MateriItemType,
   Modal,
   ModalFooterButtons,
+  PustakaMediaFileType,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
+import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
-import { Switch } from 'rizzui'
 
-const baseFormSchema = z.object({
-  judul: z.string().pipe(required),
-  catatan: z.string().optional(),
+const baseFs = z.object({
   presensi: z.string(),
   tipe_presensi: z.string(),
 })
 
-const formSchema = z.discriminatedUnion('penjadwalan', [
-  z
-    .object({
-      penjadwalan: z.literal(false),
-    })
-    .merge(baseFormSchema),
-  z
-    .object({
-      penjadwalan: z.literal(true),
-      jadwal: z.date(),
-    })
-    .merge(baseFormSchema),
+const isShareFs = z
+  .object({
+    share: z.literal(true),
+    materi: z.any().superRefine(objectRequired),
+  })
+  .merge(baseFs)
+
+const isNotShareFs = z
+  .object({
+    share: z.literal(false),
+    judul: z.string().pipe(required),
+    catatan: z.string().optional(),
+    berkas: z.array(z.any()),
+  })
+  .merge(baseFs)
+
+const isPenjadwalanFs = z.object({
+  penjadwalan: z.literal(true),
+  jadwal: z.date(),
+})
+
+const isNotPenjadwalanFs = z.object({
+  penjadwalan: z.literal(false),
+})
+
+const formSchema = z.union([
+  isShareFs.merge(isPenjadwalanFs),
+  isShareFs.merge(isNotPenjadwalanFs),
+  isNotShareFs.merge(isPenjadwalanFs),
+  isNotShareFs.merge(isNotPenjadwalanFs),
 ])
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
+  share: boolean
+  materi?: MateriItemType
   judul?: string
   catatan?: string
   presensi: string
   tipe_presensi: string
   penjadwalan: boolean
   jadwal?: Date
+  berkas?: PustakaMediaFileType[]
 }
 
 const initialValues: FormSchema = {
   presensi: 'non-aktif',
   tipe_presensi: 'manual',
   penjadwalan: false,
+  share: true,
 }
 
 const optionsPresensi: ControlledRadioGroupOptions = [
@@ -90,41 +114,49 @@ export default function TambahMateriModal({
           defaultValues: initialValues,
         }}
       >
-        {({
-          register,
-          control,
-          watch,
-          formState: { errors, isSubmitting },
-        }) => (
+        {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <ControlledInput
-                name="judul"
+              <ControlledSwitch
+                name="share"
                 control={control}
-                errors={errors}
-                label="Judul Materi"
-                placeholder="Tulis judul materi di sini"
+                label="Bagikan dari Bank Materi"
               />
 
-              <ControlledQuillEditor
-                name="catatan"
-                control={control}
-                errors={errors}
-                label="Catatan Tambahan"
-                placeholder="Buat catatan singkat terkait materi yang diberikan"
-                toolbar="minimalist"
-              />
+              {watch('share') ? (
+                <ControlledMateri
+                  name="materi"
+                  control={control}
+                  errors={errors}
+                />
+              ) : (
+                <>
+                  <ControlledInput
+                    name="judul"
+                    control={control}
+                    errors={errors}
+                    label="Judul Materi"
+                    placeholder="Tulis judul materi di sini"
+                  />
 
-              <div>
-                <label className="text-gray-dark font-semibold mb-1.5 block">
-                  Tambahkan Berkas
-                </label>
-                <div className="text-gray-lighter text-sm border-2 border-gray-50 rounded-md py-3 px-4">
-                  <Button variant="text" className="h-4 p-0">
-                    Klik di sini untuk tambah berkas
-                  </Button>
-                </div>
-              </div>
+                  <ControlledQuillEditor
+                    name="catatan"
+                    control={control}
+                    errors={errors}
+                    label="Catatan Tambahan"
+                    placeholder="Buat catatan singkat terkait materi yang diberikan"
+                    toolbar="minimalist"
+                  />
+
+                  <ControlledPustakaMedia
+                    name="berkas"
+                    control={control}
+                    label="Pilih Berkas"
+                    errors={errors}
+                    multiple
+                  />
+                </>
+              )}
 
               <ControlledRadioGroup
                 name="presensi"
@@ -162,10 +194,10 @@ export default function TambahMateriModal({
             <CardSeparator />
 
             <div className="flex gap-x-4 px-3 py-3">
-              <Switch
+              <ControlledSwitch
+                name="penjadwalan"
+                control={control}
                 label="Opsi Penjadwalan"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('penjadwalan')}
               />
               {watch('penjadwalan', false) && (
                 <ControlledDatePicker
