@@ -1,43 +1,30 @@
 import { RefinementCtx } from 'zod'
+import { checkMaxFileSize, FileSizeMetric } from '../bytes'
 import { z } from '../zod-id'
+import { UploadFileType } from '@/components/ui/upload-file/upload-file'
 
-export const fileRequired =
-  ({ desc = 'Berkas' }: { desc?: string } = {}) =>
-  (files: FileList, ctx: RefinementCtx) => {
-    if (files.length === 0) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `${desc} wajib diisi`,
-      })
-    }
-  }
-
-export const maxFileSize =
+export const maxUploadFileSize =
   ({
     max,
     metric,
     desc = 'berkas',
   }: {
     max: number
-    metric: 'B' | 'KB' | 'MB' | 'GB'
+    metric: FileSizeMetric
     desc?: string
   }) =>
-  (files: FileList, ctx: RefinementCtx) => {
-    const metricSize =
-      metric === 'KB'
-        ? 1024
-        : metric === 'MB'
-        ? 1024 * 1024
-        : metric === 'GB'
-        ? 1024 * 1024 * 1024
-        : 1
-    const maxSize = max * metricSize
+  (files: UploadFileType[] | UploadFileType, ctx: RefinementCtx) => {
+    if (!Array.isArray(files)) {
+      files = [files]
+    }
 
-    if (files.length > 0 && files?.[0]?.size > maxSize) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Ukuran ${desc} maksimal ${max}${metric}`,
-      })
+    for (const file of files) {
+      if (file && checkMaxFileSize(file.size, max, metric)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Ukuran ${desc} maksimal ${max}${metric}`,
+        })
+      }
     }
   }
 

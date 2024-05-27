@@ -15,3 +15,24 @@ export const formatBytes = (
     nospace ? '' : ' '
   }${sizes[i]}`
 }
+
+export type FileSizeMetric = 'B' | 'KB' | 'MB' | 'GB'
+
+// return true if more than max size
+export const checkMaxFileSize = (
+  size: number,
+  max: number,
+  metric: FileSizeMetric
+) => {
+  const metricSize =
+    metric === 'KB'
+      ? 1024
+      : metric === 'MB'
+      ? 1024 * 1024
+      : metric === 'GB'
+      ? 1024 * 1024 * 1024
+      : 1
+  const maxSize = max * metricSize
+
+  return size > maxSize
+}

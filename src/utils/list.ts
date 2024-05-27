@@ -5,7 +5,7 @@ export const removeIndexFromList = (list: any[], idx: number) => {
   return newList
 }
 
-export const removeFromList = (list: any[], value: any) => {
+export const removeFromList = <T>(list: T[], value: T) => {
   const idx = list.indexOf(value)
 
   if (idx < 0) return list

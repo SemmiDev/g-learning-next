@@ -11,12 +11,19 @@ import {
 import ControlledAsyncPaginateSelect from '@/components/ui/controlled/async-paginate-select'
 import ControlledSelect from '@/components/ui/controlled/select'
 import { required } from '@/utils/validations/pipe'
-import { arrayRequired, objectRequired } from '@/utils/validations/refine'
+import {
+  arrayRequired,
+  maxUploadFileSize,
+  objectRequired,
+} from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { tesAsyncAction } from './action'
 import Materi from '@/components/ui/materi/materi'
 import { MateriItemType } from '@/components/ui/materi/materi-button'
+import UploadFile, {
+  UploadFileType,
+} from '@/components/ui/upload-file/upload-file'
 
 type OptionType = {
   label: string
@@ -34,8 +41,9 @@ const formSchema = z.object({
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
-  tesMateri: z.any().superRefine(objectRequired),
+  // tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
+  tesFiles: z.array(z.any()).superRefine(arrayRequired),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
@@ -44,8 +52,9 @@ type FormSchema = {
   // tesSelect?: OptionType
   // tesAsyncSelect?: OptionType
   // tesMedia?: PustakaMediaFileType[]
-  tesMateri?: MateriItemType
+  // tesMateri?: MateriItemType
   // tesDate?: Date
+  tesFiles?: UploadFileType[]
 }
 
 const initialValues: FormSchema = {}
@@ -103,19 +112,32 @@ export default function Tes2Page() {
             errors={errors}
             multiple
           /> */}
-          <Controller
+          {/* <Controller
             name="tesMateri"
             control={control}
             render={({ field: { value, onChange } }) => (
               <Materi label="Pilih Materi" value={value} onChange={onChange} />
             )}
-          />
+          /> */}
           {/* <ControlledDatePicker
             name="tesDate"
             control={control}
             label="Datepicker"
             errors={errors}
           /> */}
+          <Controller
+            name="tesFiles"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <UploadFile
+                desc="(Tipe berkas yang bisa di-upload adalah: xls, xlsx dengan ukuran
+              maksimal 10 MB untuk setiap berkas yang dipilih)"
+                onChange={onChange}
+                maxSize={{ size: 100, metric: 'KB' }}
+                multiple
+              />
+            )}
+          />
           <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
             Submit
           </ButtonSubmit>
