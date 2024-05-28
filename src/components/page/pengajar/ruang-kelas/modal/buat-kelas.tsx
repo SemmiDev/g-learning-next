@@ -5,17 +5,17 @@ import {
   ControlledQuillEditor,
   ControlledRadioGroup,
   ControlledRadioGroupOptions,
+  ControlledUploadFile,
   Form,
   Modal,
   ModalFooterButtons,
   TextLabel,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
-import { imageFileOnly, maxFileSize } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
-import { FileInput, Input, Select } from 'rizzui'
+import { Input, Select } from 'rizzui'
 
 const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 
@@ -24,10 +24,7 @@ const formSchema = z.object({
   subtitle: z.string().optional(),
   jenis: z.string().pipe(required),
   catatan: z.string().optional(),
-  cover: z
-    .any()
-    .superRefine(maxFileSize({ max: 5, metric: 'MB', desc: 'gambar' }))
-    .superRefine(imageFileOnly),
+  cover: z.any(),
   hariWaktu: z.array(
     z.object({
       hari: z.string().pipe(required),
@@ -205,12 +202,12 @@ export default function BuatKelasModal({
                   toolbar="minimalist"
                 />
 
-                <FileInput
+                <ControlledUploadFile
+                  name="cover"
+                  control={control}
+                  errors={errors}
                   label="Foto Sampul Kelas"
-                  variant="outline"
-                  accept="image/*"
-                  {...register('cover')}
-                  error={errors.cover?.message as string}
+                  accept={{ 'image/*': [] }}
                 />
               </div>
 

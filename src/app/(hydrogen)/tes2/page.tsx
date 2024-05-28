@@ -2,28 +2,15 @@
 
 import {
   ButtonSubmit,
-  ControlledDatePicker,
   ControlledInput,
-  ControlledPustakaMedia,
+  ControlledUploadFile,
   Form,
-  PustakaMediaFileType,
-} from '@/components/ui'
-import ControlledAsyncPaginateSelect from '@/components/ui/controlled/async-paginate-select'
-import ControlledSelect from '@/components/ui/controlled/select'
-import { required } from '@/utils/validations/pipe'
-import {
-  arrayRequired,
-  maxUploadFileSize,
-  objectRequired,
-} from '@/utils/validations/refine'
-import { z } from '@/utils/zod-id'
-import { Controller, SubmitHandler } from 'react-hook-form'
-import { tesAsyncAction } from './action'
-import Materi from '@/components/ui/materi/materi'
-import { MateriItemType } from '@/components/ui/materi/materi-button'
-import UploadFile, {
   UploadFileType,
-} from '@/components/ui/upload-file/upload-file'
+} from '@/components/ui'
+import { required } from '@/utils/validations/pipe'
+import { arrayRequired } from '@/utils/validations/refine'
+import { z } from '@/utils/zod-id'
+import { SubmitHandler } from 'react-hook-form'
 
 type OptionType = {
   label: string
@@ -125,18 +112,14 @@ export default function Tes2Page() {
             label="Datepicker"
             errors={errors}
           /> */}
-          <Controller
+          <ControlledUploadFile
             name="tesFiles"
             control={control}
-            render={({ field: { onChange } }) => (
-              <UploadFile
-                desc="(Tipe berkas yang bisa di-upload adalah: xls, xlsx dengan ukuran
+            desc="(Tipe berkas yang bisa di-upload adalah: xls, xlsx dengan ukuran
               maksimal 10 MB untuk setiap berkas yang dipilih)"
-                onChange={onChange}
-                maxSize={{ size: 100, metric: 'KB' }}
-                multiple
-              />
-            )}
+            maxSize={{ size: 100, metric: 'MB' }}
+            errors={errors}
+            multiple
           />
           <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
             Submit

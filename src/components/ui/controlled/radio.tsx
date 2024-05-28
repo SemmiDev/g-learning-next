@@ -1,5 +1,3 @@
-'use client'
-
 import cn from '@/utils/class-names'
 import { Without } from '@/utils/without-type'
 import {

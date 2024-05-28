@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'

@@ -1,4 +1,3 @@
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -6,26 +5,20 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import AsyncPaginateSelect, {
-  AsyncPaginateSelectProps,
-} from '../select/async-paginate'
+import { Without } from '@/utils/without-type'
+import { UploadFile, UploadFileProps } from '../upload-file'
 
-export type ControlledAsyncPaginateSelectProps<
-  OptionType,
+export type ControlledUploadFileProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<
-  AsyncPaginateSelectProps<OptionType>,
-  'value' | 'onChange' | 'onBlur'
-> & {
+> = Without<UploadFileProps, 'onChange'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledAsyncPaginateSelect<
-  OptionType,
+export default function ControlledUploadFile<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -34,19 +27,17 @@ export default function ControlledAsyncPaginateSelect<
   errors,
   onChange,
   ...props
-}: ControlledAsyncPaginateSelectProps<OptionType, TFieldValues, TName>) {
+}: ControlledUploadFileProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <AsyncPaginateSelect
+      render={({ field: { onChange: setValue } }) => (
+        <UploadFile
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)
           }}
-          onBlur={onBlur}
-          value={value}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />

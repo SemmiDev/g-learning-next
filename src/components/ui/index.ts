@@ -28,6 +28,9 @@ import ControlledSwitch, { ControlledSwitchProps } from './controlled/switch'
 import ControlledTextarea, {
   ControlledTextareaProps,
 } from './controlled/textarea'
+import ControlledUploadFile, {
+  ControlledUploadFileProps,
+} from './controlled/upload-file'
 import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
 import Input, { InputProps } from './input'
@@ -62,6 +65,12 @@ import TextLink from './text/link'
 import TextSpan from './text/span'
 import Text from './text/text'
 import Title from './text/title'
+import {
+  UploadFile,
+  UploadFileProps,
+  UploadFileSize,
+  UploadFileType,
+} from './upload-file'
 
 export {
   ActionIcon,
@@ -79,6 +88,7 @@ export {
   ControlledRadioGroup,
   ControlledSwitch,
   ControlledTextarea,
+  ControlledUploadFile,
   DatePicker,
   Form,
   Input,
@@ -107,6 +117,7 @@ export {
   TextLink,
   TextSpan,
   Title,
+  UploadFile,
   renderTableCellNumber,
   renderTableCellText,
   type ActionIconProps,
@@ -126,6 +137,7 @@ export {
   type ControlledRadioProps,
   type ControlledSwitchProps,
   type ControlledTextareaProps,
+  type ControlledUploadFileProps,
   type DatePickerProps,
   type InputProps,
   type MateriItemType,
@@ -139,4 +151,7 @@ export {
   type SelectProps,
   type TableHeaderCellProps,
   type TableProps,
+  type UploadFileProps,
+  type UploadFileSize,
+  type UploadFileType,
 }

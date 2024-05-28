@@ -1,5 +1,3 @@
-'use client'
-
 import { Without } from '@/utils/without-type'
 import {
   Control,
