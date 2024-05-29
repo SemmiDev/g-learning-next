@@ -4,10 +4,7 @@ import {
   renderTableCellNumber,
   renderTableCellText,
   Table,
-  TableCellNumber,
-  TableCellText,
   TableHeaderCell,
-  Text,
 } from '@/components/ui'
 
 export default function Tes3Table() {

@@ -2,23 +2,18 @@
 
 import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
 import cn from '@/utils/class-names'
+import emptyIcon from '@public/icons/empty.png'
+import Image from 'next/image'
 import RcTable from 'rc-table'
 import { PiTextColumns } from 'react-icons/pi'
-import {
-  ActionIcon,
-  Checkbox,
-  CheckboxGroup,
-  Empty,
-  Popover,
-  Title,
-} from 'rizzui'
+import { ActionIcon, Checkbox, CheckboxGroup, Popover, Title } from 'rizzui'
 import Text, { TextProps } from './text/text'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 
 const classes = {
   table:
-    '[&_.rc-table-content]:overflow-x-auto [&_table]:w-full [&_.rc-table-row:hover]:bg-gray-50 [&_.rc-table-row-expand-icon-cell]:w-14',
+    '[&_.rc-table-content]:overflow-x-auto [&_table]:w-full [&_.rc-table-row]:transition [&_.rc-table-row]:duration-50 [&_.rc-table-row:hover]:bg-gray-50 [&_.rc-table-row-expand-icon-cell]:w-14',
   thead:
     '[&_thead]:text-left [&_thead]:rtl:text-right [&_th.rc-table-cell]:uppercase [&_th.rc-table-cell]:text-xs [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500',
   tCell:
@@ -76,8 +71,13 @@ export default function Table({
       )}
       emptyText={
         emptyText || (
-          <div className="py-5 text-center lg:py-8">
-            <Empty /> <Text className="mt-3">No Data</Text>
+          <div className="flex flex-col items-center py-5 lg:py-8">
+            <figure className="size-24">
+              <Image src={emptyIcon} alt="Data Kosong" />
+            </figure>
+            <Text size="sm" weight="semibold" variant="dark" className="mt-4">
+              Data Masih Kosong
+            </Text>
           </div>
         )
       }
@@ -182,10 +182,13 @@ export const TableCellText = ({
 }: TextProps) => <Text size={size} variant={variant} {...props} />
 
 export const TableCellNumber = ({
-  weight = 'bold',
+  size = 'xs',
+  weight = 'semibold',
   align = 'center',
   ...props
-}: TextProps) => <TableCellText weight={weight} align={align} {...props} />
+}: TextProps) => (
+  <TableCellText size={size} weight={weight} align={align} {...props} />
+)
 
 export const renderTableCellText = (value: any) => (
   <TableCellText>{value}</TableCellText>
