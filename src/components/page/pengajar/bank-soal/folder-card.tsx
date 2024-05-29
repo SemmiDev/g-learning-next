@@ -20,11 +20,9 @@ export default function FolderCard({
   className?: string
 }) {
   return (
-    <Link
-      href={`${routes.bankSoal}/folder`}
-      data-disable-nprogress={true}
+    <div
       className={cn(
-        'relative rounded-lg border border-muted p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-md active:bg-gray-50/30',
+        'relative rounded-lg border border-muted p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
         className
       )}
     >
@@ -34,43 +32,43 @@ export default function FolderCard({
             <Image src={iconFolder} alt="folder" />
           </figure>
         </div>
-        <div onClick={(e) => e.stopPropagation()}>
-          <Dropdown placement="bottom-end">
-            <Dropdown.Trigger>
-              <ActionIcon size="sm" variant="text">
-                <BsThreeDotsVertical size={14} />
-              </ActionIcon>
-            </Dropdown.Trigger>
-            <Dropdown.Menu className="w-30 divide-y">
-              <div className="mb-2">
-                <Dropdown.Item className="text-gray-dark">
-                  <BsPencil className="text-orange mr-2 h-4 w-4" />
-                  Ubah
-                </Dropdown.Item>
-              </div>
-              <div className="mt-2 pt-2">
-                <Dropdown.Item className="text-gray-dark">
-                  <BsTrash3 className="text-red mr-2 h-4 w-4" />
-                  Hapus
-                </Dropdown.Item>
-              </div>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
+        <Dropdown placement="bottom-end">
+          <Dropdown.Trigger>
+            <ActionIcon size="sm" variant="text">
+              <BsThreeDotsVertical size={14} />
+            </ActionIcon>
+          </Dropdown.Trigger>
+          <Dropdown.Menu className="w-30 divide-y">
+            <div className="mb-2">
+              <Dropdown.Item className="text-gray-dark">
+                <BsPencil className="text-orange mr-2 h-4 w-4" />
+                Ubah
+              </Dropdown.Item>
+            </div>
+            <div className="mt-2 pt-2">
+              <Dropdown.Item className="text-gray-dark">
+                <BsTrash3 className="text-red mr-2 h-4 w-4" />
+                Hapus
+              </Dropdown.Item>
+            </div>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
-      <Title
-        as="h4"
-        size="base"
-        weight="medium"
-        variant="dark"
-        className="truncate"
-        title={folder.name}
-      >
-        {folder.name}
-      </Title>
-      <Text size="sm" className="truncate">
-        {folder.count} Bank Soal
-      </Text>
-    </Link>
+      <Link href={`${routes.bankSoal}/folder`}>
+        <Title
+          as="h4"
+          size="base"
+          weight="medium"
+          variant="dark"
+          className="truncate"
+          title={folder.name}
+        >
+          {folder.name}
+        </Title>
+        <Text size="sm" className="truncate">
+          {folder.count} Bank Soal
+        </Text>
+      </Link>
+    </div>
   )
 }

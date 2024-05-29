@@ -1,3 +1,5 @@
+'use client'
+
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import {
