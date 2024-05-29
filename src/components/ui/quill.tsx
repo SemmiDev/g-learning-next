@@ -2,11 +2,10 @@
 
 import cn from '@/utils/class-names'
 import { useCallback, useRef } from 'react'
-import { type ReactQuillProps } from 'react-quill'
+import ReactQuill, { type ReactQuillProps } from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
 import TextLabel from './text/label'
-import ReactQuill from 'react-quill'
 
 export interface QuillEditorProps extends ReactQuillProps {
   error?: string
@@ -79,7 +78,11 @@ export default function QuillEditor({
         modules={quillModules}
         className={cn(
           'react-quill',
-          toolbarPosition === 'bottom' && 'react-quill-toolbar-bottom relative',
+          {
+            'react-quill-toolbar-bottom relative': toolbarPosition === 'bottom',
+            '[&>.ql-container]:!border-[1.8px] [&>.ql-container]:!border-red [&>.ql-toolbar]:!border-b-red':
+              error,
+          },
           className
         )}
         tabIndex={tabIndex}

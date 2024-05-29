@@ -100,15 +100,12 @@ export default function UploadFile({
         </label>
       )}
       <div
-        className={cn([
-          'border rounded-md ring-[0.6px] ring-muted p-3',
-          {
-            'border-muted': hasFiles,
-            'border-dashed': !hasFiles,
-            '!border-solid !border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red !bg-transparent':
-              error,
-          },
-        ])}
+        className={cn('border rounded-md ring-[0.6px] ring-muted p-3', {
+          'border-muted': hasFiles,
+          'border-dashed': !hasFiles,
+          '!border-solid !border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red':
+            error,
+        })}
       >
         <div
           className="dropzone flex flex-col items-center"

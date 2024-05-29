@@ -2,8 +2,7 @@ import { routes } from '@/config/routes'
 import { ReactNode } from 'react'
 import { BiHome, BiSolidBookBookmark } from 'react-icons/bi'
 import { BsBox } from 'react-icons/bs'
-import { LuFileText } from 'react-icons/lu'
-import { MdOutlineInsertPageBreak } from 'react-icons/md'
+import { LuFileText, LuPackage } from 'react-icons/lu'
 
 type MenuItemType = {
   name: string
@@ -21,17 +20,12 @@ type MenuItemType = {
 // Note: do not add href in the label object, it is rendering as label
 export const menuItems: MenuItemType[] = [
   {
-    name: 'Overview',
-  },
-  {
     name: 'Dashboard',
     href: routes.dashboard,
     icon: <BiHome />,
   },
   {
-    name: 'Blank Page',
-    href: routes.blank,
-    icon: <MdOutlineInsertPageBreak />,
+    name: 'Akademik',
   },
   {
     name: 'Ruang Kelas',
@@ -47,5 +41,23 @@ export const menuItems: MenuItemType[] = [
     name: 'Bank Soal',
     href: routes.bankSoal,
     icon: <LuFileText />,
+  },
+  {
+    name: 'Umum',
+  },
+  {
+    name: 'Ruang Kursus',
+    href: routes.bankSoal,
+    icon: <LuPackage />,
+    dropdownItems: [
+      {
+        name: 'Instruktur',
+        href: routes.ruangKursus.instruktur,
+      },
+      {
+        name: 'Peserta',
+        href: routes.ruangKursus.peserta,
+      },
+    ],
   },
 ]
