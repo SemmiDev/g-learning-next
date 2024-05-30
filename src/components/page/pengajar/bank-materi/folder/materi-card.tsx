@@ -1,4 +1,4 @@
-import { Button, Text, Title } from '@/components/ui'
+import { ActionIcon, Button, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BiShareAlt } from 'react-icons/bi'
 import {
@@ -8,23 +8,28 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
-import { ActionIcon, Dropdown } from 'rizzui'
+import { Dropdown } from 'rizzui'
 
 export type MateriType = {
-  title: string
+  id: string
+  name: string
   desc: string
   time: string
   fileCount: number
   type: 'materi' | 'tugas'
 }
 
+type MateriCardProps = {
+  materi: MateriType
+  className?: string
+  onShare?(): void
+}
+
 export default function MateriCard({
   materi,
   className,
-}: {
-  materi: MateriType
-  className?: string
-}) {
+  onShare,
+}: MateriCardProps) {
   return (
     <div
       className={cn(
@@ -32,7 +37,7 @@ export default function MateriCard({
         className
       )}
     >
-      <div className="flex justify-between items-start mb-2">
+      <div className="flex justify-between items-start space-x-2 mb-2">
         <div className="flex items-center">
           <div
             className={cn(
@@ -55,14 +60,14 @@ export default function MateriCard({
             weight="semibold"
             variant="dark"
             className="flex-1 line-clamp-2"
-            title={materi.title}
+            title={materi.name}
           >
-            {materi.title}
+            {materi.name}
           </Title>
         </div>
         <Dropdown placement="bottom-end">
           <Dropdown.Trigger>
-            <ActionIcon size="sm" variant="text">
+            <ActionIcon size="sm" variant="outline-hover">
               <BsThreeDotsVertical size={14} />
             </ActionIcon>
           </Dropdown.Trigger>
@@ -99,7 +104,7 @@ export default function MateriCard({
       </ul>
 
       <div className="flex gap-2">
-        <Button size="sm" className="flex-1">
+        <Button size="sm" className="flex-1" onClick={onShare}>
           <BiShareAlt className="mr-2" />
           <Text size="xs" weight="medium" className="text-nowrap">
             Bagikan {materi.type === 'tugas' ? 'Tugas' : 'Materi'}

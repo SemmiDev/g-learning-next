@@ -3,11 +3,19 @@
 import {
   renderTableCellNumber,
   renderTableCellText,
-  Table,
   TableHeaderCell,
 } from '@/components/ui'
+import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { useTableAsync } from '@/hooks/use-table-async'
+import { useState } from 'react'
+import { tesAsyncAction } from './actions'
 
 export default function Tes3Table() {
+  const [pageSize, setPageSize] = useState(5)
+
+  const { data, isLoading, page, onPageChange, totalData, sort, onSort } =
+    useTableAsync(tesAsyncAction)
+
   const tableColumns = [
     {
       title: <TableHeaderCell title="#" align="center" />,
@@ -15,53 +23,64 @@ export default function Tes3Table() {
       render: renderTableCellNumber,
     },
     {
-      title: <TableHeaderCell title="Nama" />,
+      title: (
+        <TableHeaderCell
+          title="Nama"
+          sortable
+          sort={
+            sort?.key === 'nama' && sort?.direction !== undefined
+              ? sort?.direction
+              : undefined
+          }
+        />
+      ),
       dataIndex: 'nama',
       key: 'nama',
       render: renderTableCellText,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('nama')
+        },
+      }),
     },
     {
-      title: <TableHeaderCell title="Email" />,
+      title: (
+        <TableHeaderCell
+          title="Email"
+          sortable
+          sort={
+            sort?.key === 'email' && sort?.direction !== undefined
+              ? sort?.direction
+              : undefined
+          }
+        />
+      ),
       dataIndex: 'email',
       key: 'email',
       render: renderTableCellText,
-    },
-  ]
-
-  const tableData = [
-    {
-      id: 1,
-      nama: 'Nama 1',
-      email: 'email1@namaweb.com',
-    },
-    {
-      id: 2,
-      nama: 'Nama 2',
-      email: 'email2@namaweb.com',
-    },
-    {
-      id: 3,
-      nama: 'Nama 3',
-      email: 'email3@namaweb.com',
-    },
-    {
-      id: 4,
-      nama: 'Nama 4',
-      email: 'email4@namaweb.com',
-    },
-    {
-      id: 5,
-      nama: 'Nama 5',
-      email: 'email5@namaweb.com',
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('email')
+        },
+      }),
     },
   ]
 
   return (
-    <Table
-      rowKey={(record) => record.id}
-      variant="elegant"
-      columns={tableColumns}
-      data={tableData}
-    />
+    <>
+      <ControlledAsyncTable
+        data={data}
+        isLoading={isLoading}
+        columns={tableColumns}
+        rowKey={(record) => record.id}
+        paginatorOptions={{
+          pageSize,
+          setPageSize,
+          current: page,
+          total: totalData,
+          onChange: (page) => onPageChange(page),
+        }}
+      />
+    </>
   )
 }

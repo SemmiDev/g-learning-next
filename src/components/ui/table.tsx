@@ -7,6 +7,11 @@ import Image from 'next/image'
 import RcTable from 'rc-table'
 import { PiTextColumns } from 'react-icons/pi'
 import { ActionIcon, Checkbox, CheckboxGroup, Popover, Title } from 'rizzui'
+import {
+  TbCaretDownFilled,
+  TbCaretUpDownFilled,
+  TbCaretUpFilled,
+} from 'react-icons/tb'
 import Text, { TextProps } from './text/text'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
@@ -98,8 +103,8 @@ export interface TableHeaderCellProps {
   ellipsis?: boolean
   /** Make sortable column, it's also required ascending prop too. Check our example for more details. */
   sortable?: boolean
-  /** Make ascending column, it's also required sortable prop too. Check our example for more details. */
-  ascending?: boolean
+  /** Make ascending or descending column, it's also required sortable prop too. Check our example for more details. */
+  sort?: 'asc' | 'desc'
   /** Add custom classes to the sort icon for extra style */
   iconClassName?: string
   /** Add custom classes for extra style */
@@ -119,7 +124,7 @@ export function TableHeaderCell({
   width,
   ellipsis,
   sortable,
-  ascending,
+  sort,
   iconClassName,
   className,
 }: TableHeaderCellProps) {
@@ -150,24 +155,12 @@ export function TableHeaderCell({
       </div>
       {sortable && (
         <div className="inline-flex">
-          {ascending ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              className={cn('h-auto w-3', iconClassName)}
-              viewBox="0 0 16 16"
-            >
-              <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-            </svg>
+          {sort === 'asc' ? (
+            <TbCaretDownFilled className={cn(iconClassName)} />
+          ) : sort === 'desc' ? (
+            <TbCaretUpFilled className={cn(iconClassName)} />
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              className={cn('h-auto w-3', iconClassName)}
-              viewBox="0 0 16 16"
-            >
-              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-            </svg>
+            <TbCaretUpDownFilled className={cn(iconClassName)} />
           )}
         </div>
       )}
