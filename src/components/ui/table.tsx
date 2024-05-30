@@ -2,7 +2,7 @@
 
 import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
 import cn from '@/utils/class-names'
-import emptyIcon from '@public/icons/empty.png'
+import emptyIcon from '@public/icons/empty.svg'
 import Image from 'next/image'
 import RcTable from 'rc-table'
 import { PiTextColumns } from 'react-icons/pi'
