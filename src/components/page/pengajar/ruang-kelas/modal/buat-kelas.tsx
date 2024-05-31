@@ -20,8 +20,8 @@ import { Input, Select } from 'rizzui'
 const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 
 const formSchema = z.object({
-  title: z.string().pipe(required),
-  subtitle: z.string().optional(),
+  program: z.string().pipe(required),
+  kelas: z.string().optional(),
   jenis: z.string().pipe(required),
   catatan: z.string().optional(),
   cover: z.any(),
@@ -35,8 +35,8 @@ const formSchema = z.object({
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  title?: string
-  subtitle?: string
+  program?: string
+  kelas?: string
   jenis?: string
   catatan?: string
   cover?: any
@@ -100,7 +100,7 @@ export default function BuatKelasModal({
             <>
               <div className="flex flex-col gap-4 p-3">
                 <ControlledInput
-                  name="title"
+                  name="program"
                   control={control}
                   errors={errors}
                   label="Nama Program"
@@ -108,7 +108,7 @@ export default function BuatKelasModal({
                 />
 
                 <ControlledInput
-                  name="subtitle"
+                  name="kelas"
                   control={control}
                   errors={errors}
                   label="Nama Kelas"

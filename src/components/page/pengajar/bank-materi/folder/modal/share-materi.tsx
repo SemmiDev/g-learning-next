@@ -1,26 +1,36 @@
 import {
   CardSeparator,
   ControlledDatePicker,
+  ControlledKelas,
   ControlledRadioGroup,
   ControlledRadioGroupOptions,
   ControlledSwitch,
   Form,
+  Kelas,
   Modal,
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
-import { SubmitHandler } from 'react-hook-form'
+import { Controller, SubmitHandler } from 'react-hook-form'
 import {
   BsClipboardPlus,
   BsFileEarmarkRichtext,
   BsInfoCircle,
 } from 'react-icons/bs'
 import { MateriType } from '../materi-card'
-import { BiSolidChevronDown } from 'react-icons/bi'
+
+type KelasType = {
+  id: string
+  program: string
+  kelas?: string
+  instansi?: string
+}
 
 const baseFs = z.object({
+  kelas: z.any().superRefine(objectRequired),
   presensi: z.string(),
   tipe_presensi: z.string(),
 })
@@ -41,6 +51,7 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
+  kelas?: KelasType
   presensi: string
   tipe_presensi: string
   penjadwalan: boolean
@@ -133,26 +144,12 @@ export default function ShareMateriModal({
                 </div>
               </div>
 
-              {/* TODO: Masih Statis */}
-              <div>
-                <label className="text-gray-dark font-semibold mb-1.5 block">
-                  Pilih Kelas
-                </label>
-                <div className="flex justify-between items-center border border-muted rounded-md p-3">
-                  <div className="flex flex-col">
-                    <Text size="sm" weight="semibold" variant="dark">
-                      Sistem Operasi
-                    </Text>
-                    <Text size="sm" weight="medium" variant="lighter">
-                      Kelas TI A
-                    </Text>
-                    <Text size="sm" weight="medium" variant="lighter">
-                      Nama Instansi
-                    </Text>
-                  </div>
-                  <BiSolidChevronDown size={22} />
-                </div>
-              </div>
+              <ControlledKelas
+                name="kelas"
+                control={control}
+                errors={errors}
+                label="Pilih Kelas"
+              />
 
               <ControlledRadioGroup
                 name="presensi"

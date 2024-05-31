@@ -1,3 +1,9 @@
+import Kelas, { KelasItemType, KelasProps } from '../shared/kelas'
+import Materi, { MateriItemType, MateriProps } from '../shared/materi'
+import PustakaMedia, {
+  PustakaMediaFileType,
+  PustakaMediaProps,
+} from '../shared/pustaka-media'
 import Breadcrumb, { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb'
 import ActionIcon, { ActionIconProps } from './button/action-icon'
 import Button, {
@@ -12,6 +18,7 @@ import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
 import ControlledInput, { ControlledInputProps } from './controlled/input'
+import ControlledKelas, { ControlledKelasProps } from './controlled/kelas'
 import ControlledMateri, { ControlledMateriProps } from './controlled/materi'
 import ControlledPustakaMedia, {
   ControlledPustakaMediaProps,
@@ -34,16 +41,11 @@ import ControlledUploadFile, {
 import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
 import Input, { InputProps } from './input'
-import Materi, { MateriItemType, MateriProps } from './materi'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
-import PustakaMedia, {
-  PustakaMediaFileType,
-  PustakaMediaProps,
-} from './pustaka-media'
 import QuillEditor, { QuillEditorProps } from './quill'
 import ReadMore, { ReadMoreProps } from './readmore'
 import Select, { SelectProps } from './select/select'
@@ -81,6 +83,7 @@ export {
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledKelas,
   ControlledMateri,
   ControlledPustakaMedia,
   ControlledQuillEditor,
@@ -92,6 +95,7 @@ export {
   DatePicker,
   Form,
   Input,
+  Kelas,
   LineGroup,
   Materi,
   Modal,
@@ -129,6 +133,7 @@ export {
   type ButtonVariants,
   type ControlledDatePickerProps,
   type ControlledInputProps,
+  type ControlledKelasProps,
   type ControlledMateriProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
@@ -140,6 +145,8 @@ export {
   type ControlledUploadFileProps,
   type DatePickerProps,
   type InputProps,
+  type KelasItemType,
+  type KelasProps,
   type MateriItemType,
   type MateriProps,
   type ModalProps,

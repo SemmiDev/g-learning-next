@@ -7,20 +7,20 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import Materi, { MateriProps } from '../../shared/materi'
+import Kelas, { KelasProps } from '../../shared/kelas'
 import { Without } from '@/utils/without-type'
 
-export type ControlledMateriProps<
+export type ControlledKelasProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<MateriProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Without<KelasProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledMateri<
+export default function ControlledKelas<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -29,13 +29,13 @@ export default function ControlledMateri<
   errors,
   onChange,
   ...props
-}: ControlledMateriProps<TFieldValues, TName>) {
+}: ControlledKelasProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue } }) => (
-        <Materi
+        <Kelas
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)

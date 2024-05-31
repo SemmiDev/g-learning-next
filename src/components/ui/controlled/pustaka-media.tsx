@@ -7,7 +7,7 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import PustakaMedia, { PustakaMediaProps } from '../pustaka-media'
+import PustakaMedia, { PustakaMediaProps } from '../../shared/pustaka-media'
 import { Without } from '@/utils/without-type'
 
 export type ControlledPustakaMediaProps<
