@@ -15,7 +15,7 @@ import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Dropdown, Input, Button as RizButton } from 'rizzui'
+import { Dropdown, Input } from 'rizzui'
 import KomentarSectionZero from '../diskusi/komentar-section-zero'
 import DropdownNilaiAction from './dropdown-nilai-action'
 import RekapTugasItem from './rekap-item'
@@ -217,9 +217,9 @@ export default function RekapTugasCard() {
             />
             <Dropdown>
               <Dropdown.Trigger>
-                <RizButton size="sm" variant="outline">
+                <Button size="sm" variant="outline">
                   Terbaru <BsChevronDown className="ml-2 w-5" />
-                </RizButton>
+                </Button>
               </Dropdown.Trigger>
               <Dropdown.Menu>
                 <Dropdown.Item className="justify-between">

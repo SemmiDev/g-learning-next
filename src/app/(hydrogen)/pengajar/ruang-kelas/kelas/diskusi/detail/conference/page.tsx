@@ -2,6 +2,7 @@
 
 import KomentarSectionShort from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-short'
 import {
+  ActionIcon,
   Button,
   Card,
   CardSeparator,
@@ -14,7 +15,7 @@ import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import { ActionIcon, Checkbox } from 'rizzui'
+import { Checkbox } from 'rizzui'
 
 export default function DiskusiDetailConferencePage() {
   return (

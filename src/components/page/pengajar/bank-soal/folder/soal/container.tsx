@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  ActionIcon,
   Button,
   Card,
   CardSeparator,
@@ -18,7 +19,7 @@ import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { SubmitHandler } from 'react-hook-form'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
-import { ActionIcon, FieldError } from 'rizzui'
+import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
 import { useState } from 'react'
 
@@ -125,7 +126,8 @@ export default function KelolaSoalBody() {
                             <ActionIcon
                               size="sm"
                               variant="outline"
-                              className="hover:border-red-lighter hover:text-red"
+                              color="danger"
+                              className="hover:border-red-lighter"
                               onClick={() => {
                                 if (watch('jawaban').length <= 3) return
 

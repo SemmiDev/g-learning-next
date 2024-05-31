@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Button,
   Card,
   CardSeparator,
@@ -17,7 +18,7 @@ import {
   BsTrash,
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { ActionIcon, Dropdown, Input, Button as RizButton } from 'rizzui'
+import { Dropdown, Input } from 'rizzui'
 import RekapPresensiItem from './rekap-item'
 
 export default function RekapPresensiCard() {
@@ -40,9 +41,9 @@ export default function RekapPresensiCard() {
             />
             <Dropdown>
               <Dropdown.Trigger>
-                <RizButton size="sm" variant="outline">
+                <Button size="sm" variant="outline">
                   Terbaru <BsChevronDown className="ml-2 w-5" />
-                </RizButton>
+                </Button>
               </Dropdown.Trigger>
               <Dropdown.Menu>
                 <Dropdown.Item className="justify-between">

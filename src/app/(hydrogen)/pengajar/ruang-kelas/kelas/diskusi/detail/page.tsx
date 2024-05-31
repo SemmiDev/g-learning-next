@@ -2,6 +2,7 @@
 
 import KomentarSectionFull from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-full'
 import {
+  ActionIcon,
   Button,
   Card,
   CardSeparator,
@@ -16,7 +17,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BsFileText } from 'react-icons/bs'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import { ActionIcon, Checkbox } from 'rizzui'
+import { Checkbox } from 'rizzui'
 
 export default function DiskusiDetailPage() {
   return (

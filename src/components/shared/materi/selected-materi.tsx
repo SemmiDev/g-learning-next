@@ -1,8 +1,7 @@
-import { Text } from '@/components/ui'
+import { ActionIcon, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsClipboardPlus, BsFileEarmarkRichtext } from 'react-icons/bs'
 import { MdClose } from 'react-icons/md'
-import { ActionIcon } from 'rizzui'
 import { MateriItemType } from './materi-button'
 
 type SelectedFileProps = { materi: MateriItemType; onRemove?(): void }
@@ -54,11 +53,11 @@ export default function SelectedMateri({
       <div className="flex space-x-1">
         <ActionIcon
           size="sm"
-          variant="outline"
-          className="border-0 hover:border hover:border-red-500"
+          variant="outline-hover-colorful"
+          color="danger"
           onClick={() => onRemove && onRemove()}
         >
-          <MdClose className="text-red" />
+          <MdClose />
         </ActionIcon>
       </div>
     </div>

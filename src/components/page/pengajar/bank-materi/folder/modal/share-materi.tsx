@@ -6,7 +6,6 @@ import {
   ControlledRadioGroupOptions,
   ControlledSwitch,
   Form,
-  Kelas,
   Modal,
   ModalFooterButtons,
   Text,
@@ -14,7 +13,7 @@ import {
 import cn from '@/utils/class-names'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
-import { Controller, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import {
   BsClipboardPlus,
   BsFileEarmarkRichtext,

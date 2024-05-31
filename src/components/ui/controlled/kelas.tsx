@@ -1,5 +1,6 @@
 'use client'
 
+import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -8,7 +9,6 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import Kelas, { KelasProps } from '../../shared/kelas'
-import { Without } from '@/utils/without-type'
 
 export type ControlledKelasProps<
   TFieldValues extends FieldValues,

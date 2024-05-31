@@ -1,8 +1,7 @@
-import { Text } from '@/components/ui'
+import { ActionIcon, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import { BsFileEarmarkFill, BsFillPlayBtnFill } from 'react-icons/bs'
 import { MdClose } from 'react-icons/md'
-import { ActionIcon } from 'rizzui'
 import { FileItemType } from './file-button'
 
 type SelectedFileProps = { file: FileItemType; onRemove?(): void }
@@ -43,11 +42,11 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
       <div className="flex space-x-1">
         <ActionIcon
           size="sm"
-          variant="outline"
-          className="border-0 hover:border hover:border-red-500"
+          variant="outline-hover-colorful"
+          color="danger"
           onClick={() => onRemove && onRemove()}
         >
-          <MdClose className="text-red" />
+          <MdClose />
         </ActionIcon>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Button, Card, Text } from '@/components/ui'
+import { ActionIcon, Button, Card, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -6,7 +6,7 @@ import { BiMessageAltDots } from 'react-icons/bi'
 import { BsClipboardPlus } from 'react-icons/bs'
 import { GrShareOption } from 'react-icons/gr'
 import { PiGear } from 'react-icons/pi'
-import { ActionIcon, Badge } from 'rizzui'
+import { Badge } from 'rizzui'
 
 export default function CardKelas({
   image,

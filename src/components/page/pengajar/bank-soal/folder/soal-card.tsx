@@ -1,4 +1,4 @@
-import { Button, Text, Title } from '@/components/ui'
+import { ActionIcon, Button, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
@@ -9,7 +9,7 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
-import { ActionIcon, Dropdown } from 'rizzui'
+import { Dropdown } from 'rizzui'
 
 export type SoalType = {
   title: string

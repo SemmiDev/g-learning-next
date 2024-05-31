@@ -1,9 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui'
+import { ActionIcon, Button } from '@/components/ui'
 import { useState } from 'react'
 import { GrShareOption } from 'react-icons/gr'
-import { ActionIcon } from 'rizzui'
 import PengaturanKelasModal from '../modal/pengaturan-kelas'
 
 export default function KelasHeaderAction() {

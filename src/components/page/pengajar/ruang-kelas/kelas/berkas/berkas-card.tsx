@@ -1,9 +1,9 @@
-import { Text, Title } from '@/components/ui'
+import { ActionIcon, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import { BsDownload, BsThreeDotsVertical } from 'react-icons/bs'
 import { GrShare } from 'react-icons/gr'
-import { ActionIcon, Dropdown } from 'rizzui'
+import { Dropdown } from 'rizzui'
 
 export type BerkasType = {
   name: string
