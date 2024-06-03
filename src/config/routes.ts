@@ -20,6 +20,8 @@ export const pengajarRoutes = {
     instruktur: '/pengajar/ruang-kursus/instruktur',
     peserta: '/pengajar/ruang-kursus/peserta',
   },
+  transaksi: '/pengajar/transaksi',
+  pustakaMedia: '/pengajar/pustaka-media',
 }
 
 export const routes = {

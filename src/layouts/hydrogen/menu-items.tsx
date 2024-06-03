@@ -2,7 +2,7 @@ import { routes } from '@/config/routes'
 import { ReactNode } from 'react'
 import { BiHome, BiSolidBookBookmark } from 'react-icons/bi'
 import { BsBox } from 'react-icons/bs'
-import { LuFileText, LuPackage } from 'react-icons/lu'
+import { LuFileText, LuPackage, LuSave } from 'react-icons/lu'
 
 type MenuItemType = {
   name: string
@@ -59,5 +59,10 @@ export const menuItems: MenuItemType[] = [
         href: routes.ruangKursus.peserta,
       },
     ],
+  },
+  {
+    name: 'Pustaka Media',
+    href: routes.pustakaMedia,
+    icon: <LuSave />,
   },
 ]

@@ -84,7 +84,7 @@ export default function PustakaMedia({
       name: 'Alur Sistem Informasi',
       size: 5120,
       time: '13 Januari 2024',
-      icon: 'doc',
+      icon: 'file',
       link: 'https://www.example.com',
     },
     {
@@ -100,7 +100,7 @@ export default function PustakaMedia({
       name: 'Alur Sistem Informasi 2',
       size: 5120,
       time: '13 Januari 2024',
-      icon: 'doc',
+      icon: 'file',
       link: 'https://www.example.com',
     },
     {
@@ -108,7 +108,7 @@ export default function PustakaMedia({
       name: 'Alur Sistem Informasi 3',
       size: 5120,
       time: '13 Januari 2024',
-      icon: 'doc',
+      icon: 'file',
       link: 'https://www.example.com',
     },
   ]

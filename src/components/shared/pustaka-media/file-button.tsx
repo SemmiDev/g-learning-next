@@ -11,7 +11,7 @@ export type FileItemType = {
   name: string
   size?: number | null
   time: string
-  icon: 'video' | 'doc'
+  icon: 'video' | 'file'
   link: string
 }
 
