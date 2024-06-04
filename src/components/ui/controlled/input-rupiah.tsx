@@ -7,19 +7,19 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import Input, { InputProps } from '../input'
+import InputRupiah, { InputRupiahProps } from '../input-rupiah'
 
-export type ControlledInputProps<
+export type ControlledInputRupiahProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Omit<InputProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<InputRupiahProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledInput<
+export default function ControlledInputRupiah<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -28,13 +28,13 @@ export default function ControlledInput<
   errors,
   onChange,
   ...props
-}: ControlledInputProps<TFieldValues, TName>) {
+}: ControlledInputRupiahProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Input
+        <InputRupiah
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)

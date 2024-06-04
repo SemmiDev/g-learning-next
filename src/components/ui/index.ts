@@ -21,6 +21,9 @@ import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
 import ControlledInput, { ControlledInputProps } from './controlled/input'
+import ControlledInputRupiah, {
+  ControlledInputRupiahProps,
+} from './controlled/input-rupiah'
 import ControlledKelas, { ControlledKelasProps } from './controlled/kelas'
 import ControlledMateri, { ControlledMateriProps } from './controlled/materi'
 import ControlledPustakaMedia, {
@@ -45,6 +48,7 @@ import ControlledUploadFile, {
 import { DatePicker, DatePickerProps } from './datepicker'
 import { Form } from './form'
 import Input, { InputProps } from './input'
+import InputRupiah, { InputRupiahProps } from './input-rupiah'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
@@ -88,6 +92,7 @@ export {
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
+  ControlledInputRupiah,
   ControlledKelas,
   ControlledMateri,
   ControlledPustakaMedia,
@@ -101,6 +106,7 @@ export {
   DatePicker,
   Form,
   Input,
+  InputRupiah,
   Kelas,
   LineGroup,
   Materi,
@@ -140,6 +146,7 @@ export {
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,
   type ControlledInputProps,
+  type ControlledInputRupiahProps,
   type ControlledKelasProps,
   type ControlledMateriProps,
   type ControlledPustakaMediaProps,
@@ -153,6 +160,7 @@ export {
   type ControlledUploadFileProps,
   type DatePickerProps,
   type InputProps,
+  type InputRupiahProps,
   type KelasItemType,
   type KelasProps,
   type MateriItemType,
