@@ -1,6 +1,7 @@
 import {
   CardSeparator,
   ControlledInput,
+  ControlledInputRupiah,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledSelect,
@@ -26,10 +27,7 @@ const baseFs = z.object({
 const isBayarFs = z
   .object({
     bayar: z.literal(true),
-    harga: z
-      .string()
-      .pipe(required)
-      .transform((val) => parseInt(val)),
+    harga: z.string().pipe(required),
   })
   .merge(baseFs)
 
@@ -45,7 +43,7 @@ const formSchema = z.union([isBayarFs, isNotBayarFs])
 type FormSchema = {
   nama?: string
   bayar: boolean
-  harga?: string | number
+  harga?: string
   tipe?: SelectOptionType
   deskripsi?: string
   cover?: any
@@ -107,11 +105,10 @@ export default function BuatKursusModal({
                   label="Kursus Berbayar"
                 />
                 {watch('bayar', false) && (
-                  <ControlledInput
+                  <ControlledInputRupiah
                     name="harga"
                     control={control}
                     errors={errors}
-                    type="number"
                     placeholder="Masukkan harga kursus di sini"
                     className="flex-1"
                   />
@@ -142,12 +139,18 @@ export default function BuatKursusModal({
                 label="Cover Kursus"
                 errors={errors}
               />
+
+              <ControlledSwitch
+                name="modulUrut"
+                control={control}
+                label="Peserta Harus Menonton Module Secara Berurut"
+              />
             </div>
 
             <CardSeparator />
 
             <ModalFooterButtons
-              submit="Buat Folder Baru"
+              submit="Buat Kursus"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
             />
