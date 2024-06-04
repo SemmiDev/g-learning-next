@@ -3,14 +3,16 @@
 import {
   ButtonSubmit,
   ControlledInput,
+  ControlledSelect,
   ControlledUploadFile,
   Form,
   UploadFileType,
 } from '@/components/ui'
+import InputRupiah from '@/components/ui/input-rupiah'
 import { required } from '@/utils/validations/pipe'
-import { arrayRequired } from '@/utils/validations/refine'
+import { arrayRequired, objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
-import { SubmitHandler } from 'react-hook-form'
+import { Controller, SubmitHandler } from 'react-hook-form'
 
 type OptionType = {
   label: string
@@ -25,23 +27,25 @@ const options: OptionType[] = [
 
 const formSchema = z.object({
   // tesInput: z.string().pipe(required),
+  tesNumber: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
   // tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
-  tesFiles: z.array(z.any()).superRefine(arrayRequired),
+  // tesFiles: z.array(z.any()).superRefine(arrayRequired),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   // tesInput?: string
+  tesNumber?: number | string
   // tesSelect?: OptionType
   // tesAsyncSelect?: OptionType
   // tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesDate?: Date
-  tesFiles?: UploadFileType[]
+  // tesFiles?: UploadFileType[]
 }
 
 const initialValues: FormSchema = {}
@@ -70,6 +74,17 @@ export default function Tes2Page() {
             placeholder="Input disini"
             errors={errors}
           /> */}
+          <Controller
+            name="tesNumber"
+            control={control}
+            render={({ field: { value, onChange: setValue } }) => (
+              <InputRupiah
+                label="Tes Label"
+                value={value}
+                onChange={setValue}
+              />
+            )}
+          />
           {/* <ControlledSelect<OptionType>
             name="tesSelect"
             control={control}
@@ -112,7 +127,7 @@ export default function Tes2Page() {
             label="Datepicker"
             errors={errors}
           /> */}
-          <ControlledUploadFile
+          {/* <ControlledUploadFile
             name="tesFiles"
             control={control}
             desc="(Tipe berkas yang bisa di-upload adalah: xls, xlsx dengan ukuran
@@ -120,7 +135,7 @@ export default function Tes2Page() {
             maxSize={{ size: 100, metric: 'MB' }}
             errors={errors}
             multiple
-          />
+          /> */}
           <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
             Submit
           </ButtonSubmit>
