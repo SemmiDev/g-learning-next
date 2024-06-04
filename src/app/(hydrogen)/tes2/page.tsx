@@ -3,12 +3,12 @@
 import {
   ButtonSubmit,
   ControlledInput,
+  ControlledInputRupiah,
   ControlledSelect,
   ControlledUploadFile,
   Form,
   UploadFileType,
 } from '@/components/ui'
-import InputRupiah from '@/components/ui/input-rupiah'
 import { required } from '@/utils/validations/pipe'
 import { arrayRequired, objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -74,16 +74,11 @@ export default function Tes2Page() {
             placeholder="Input disini"
             errors={errors}
           /> */}
-          <Controller
+          <ControlledInputRupiah
             name="tesNumber"
             control={control}
-            render={({ field: { value, onChange: setValue } }) => (
-              <InputRupiah
-                label="Tes Label"
-                value={value}
-                onChange={setValue}
-              />
-            )}
+            errors={errors}
+            label="Tes Label"
           />
           {/* <ControlledSelect<OptionType>
             name="tesSelect"
