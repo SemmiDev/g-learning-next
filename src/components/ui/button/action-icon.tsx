@@ -1,5 +1,4 @@
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import {
   ActionIcon as RizActionIcon,
   type ActionIconProps as RizActionIconProps,
@@ -12,10 +11,7 @@ import {
   getRizVariant,
 } from './button'
 
-export type ActionIconProps = Without<
-  RizActionIconProps,
-  'color' | 'variant'
-> & {
+export type ActionIconProps = Omit<RizActionIconProps, 'color' | 'variant'> & {
   variant?: ButtonVariants
   color?: ButtonColors
   fontWeight?: DefaultTextProps['weight']

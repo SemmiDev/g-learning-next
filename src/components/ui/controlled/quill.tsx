@@ -8,12 +8,11 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import QuillEditor, { QuillEditorProps } from '../quill'
-import { Without } from '@/utils/without-type'
 
 export type ControlledQuillEditorProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<QuillEditorProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<QuillEditorProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

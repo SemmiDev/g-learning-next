@@ -9,12 +9,11 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import Input, { InputProps } from '../input'
-import { Without } from '@/utils/without-type'
 
 export type ControlledInputProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<InputProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<InputProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

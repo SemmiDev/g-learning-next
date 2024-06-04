@@ -1,6 +1,5 @@
 'use client'
 
-import { Without } from '@/utils/without-type'
 import { GroupBase, OptionsOrGroups } from 'react-select'
 import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
@@ -19,7 +18,7 @@ export type AsyncPaginateSelectProps<
   IsMulti extends boolean = boolean,
   Group extends GroupBase<OptionType> = GroupBase<OptionType>,
   Additional = { page: number }
-> = Without<
+> = Omit<
   AsyncPaginateProps<OptionType, Group, Additional, IsMulti>,
   'loadOptions'
 > & {

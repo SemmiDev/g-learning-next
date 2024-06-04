@@ -1,5 +1,4 @@
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import { Button as RizButton, type ButtonProps as RizButtonProps } from 'rizzui'
 import { DefaultTextProps, TextWeights } from '../text/text'
 
@@ -20,7 +19,7 @@ export type ButtonVariants =
   | 'outline-hover'
   | 'outline-hover-colorful'
 
-export type ButtonProps = Without<RizButtonProps, 'color' | 'variant'> & {
+export type ButtonProps = Omit<RizButtonProps, 'color' | 'variant'> & {
   variant?: ButtonVariants
   color?: ButtonColors
   fontWeight?: DefaultTextProps['weight']

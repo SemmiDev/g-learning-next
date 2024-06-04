@@ -8,7 +8,6 @@ import { Title, Loader } from 'rizzui'
 import cn from '@/utils/class-names'
 import type { TableFilterProps } from '@/components/ui/controlled-async-table/filter'
 import type { TablePaginationProps } from '@/components/ui/controlled-async-table/pagination'
-import { Without } from '@/utils/without-type'
 const TableFilter = dynamic(
   () => import('@/components/ui/controlled-async-table/filter'),
   { ssr: false }

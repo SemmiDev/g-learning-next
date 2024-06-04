@@ -1,7 +1,6 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -14,7 +13,7 @@ import Switch, { SwitchProps } from '../switch'
 export type ControlledSwitchProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<SwitchProps, 'value' | 'checked' | 'onChange' | 'onBlur'> & {
+> = Omit<SwitchProps, 'value' | 'checked' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

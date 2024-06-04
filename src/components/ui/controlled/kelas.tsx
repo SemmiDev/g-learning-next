@@ -1,6 +1,5 @@
 'use client'
 
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -13,7 +12,7 @@ import Kelas, { KelasProps } from '../../shared/kelas'
 export type ControlledKelasProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<KelasProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<KelasProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

@@ -7,13 +7,12 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { Without } from '@/utils/without-type'
 import { UploadFile, UploadFileProps } from '../upload-file'
 
 export type ControlledUploadFileProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<UploadFileProps, 'onChange'> & {
+> = Omit<UploadFileProps, 'onChange'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

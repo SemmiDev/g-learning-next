@@ -1,6 +1,5 @@
 'use client'
 
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -16,7 +15,7 @@ export type ControlledAsyncPaginateSelectProps<
   OptionType,
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<
+> = Omit<
   AsyncPaginateSelectProps<OptionType>,
   'value' | 'onChange' | 'onBlur'
 > & {

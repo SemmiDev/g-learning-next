@@ -1,9 +1,8 @@
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import { Title as RizTitle, TitleProps as RizTitleProps } from 'rizzui'
 import { DefaultTextProps, TextColors, TextSizes, TextWeights } from './text'
 
-type TextProps = Without<RizTitleProps, 'color' | 'fontWeight'> &
+type TextProps = Omit<RizTitleProps, 'color' | 'fontWeight'> &
   DefaultTextProps & {
     variant?: 'default' | 'dark' | 'lighter'
   }

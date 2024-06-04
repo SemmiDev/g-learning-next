@@ -3,7 +3,6 @@
 import { checkMaxFileSize, FileSizeMetric } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { removeFromList } from '@/utils/list'
-import { Without } from '@/utils/without-type'
 import dropIcon from '@public/icons/dropzone.svg'
 import Image from 'next/image'
 import { useCallback, useState } from 'react'
@@ -21,7 +20,7 @@ export type UploadFileSize = {
   metric: FileSizeMetric
 }
 
-export type UploadFileProps = Without<
+export type UploadFileProps = Omit<
   DropzoneOptions,
   'onDrop' | 'validator' | 'maxSize' | 'minSize'
 > & {

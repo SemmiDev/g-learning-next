@@ -1,11 +1,10 @@
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import Link, { LinkProps } from 'next/link'
 import { ReactNode } from 'react'
 import { DefaultTextProps, TextSizes, TextWeights } from './text'
 
 type TextLinkProps = LinkProps &
-  Without<DefaultTextProps, 'color'> & {
+  Omit<DefaultTextProps, 'color'> & {
     color?:
       | 'default'
       | 'primary'

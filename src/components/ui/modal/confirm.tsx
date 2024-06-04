@@ -1,12 +1,11 @@
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import Button, { ButtonColors } from '../button/button'
 import CardSeparator from '../card-separator'
 import Modal, { ModalProps } from '../modal'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
 
-export type ModalConfirmProps = Without<ModalProps, 'children'> & {
+export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
   title: string
   desc?: string
   confirm?: string

@@ -8,12 +8,11 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import Materi, { MateriProps } from '../../shared/materi'
-import { Without } from '@/utils/without-type'
 
 export type ControlledMateriProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<MateriProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<MateriProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

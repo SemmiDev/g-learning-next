@@ -6,6 +6,11 @@ import TextLabel from '../text/label'
 import { defaultClassNames } from './style'
 import { FieldError } from 'rizzui'
 
+export type SelectOptionType = {
+  label: string
+  value: string
+}
+
 export type SelectProps<OptionType> = ReactSelectProps<OptionType> & {
   label?: string
   error?: string

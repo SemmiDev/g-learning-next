@@ -1,7 +1,6 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -14,7 +13,7 @@ import { Radio, RadioProps } from 'rizzui'
 export type ControlledRadioProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<RadioProps, 'onChange' | 'onBlur'> & {
+> = Omit<RadioProps, 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

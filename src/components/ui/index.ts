@@ -14,6 +14,9 @@ import Button, {
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
 import CardSeparator from './card-separator'
+import ControlledAsyncPaginateSelect, {
+  ControlledAsyncPaginateSelectProps,
+} from './controlled/async-paginate-select'
 import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
@@ -31,6 +34,7 @@ import ControlledRadioGroup, {
   ControlledRadioGroupOptions,
   ControlledRadioGroupProps,
 } from './controlled/radio-group'
+import ControlledSelect, { ControlledSelectProps } from './controlled/select'
 import ControlledSwitch, { ControlledSwitchProps } from './controlled/switch'
 import ControlledTextarea, {
   ControlledTextareaProps,
@@ -48,7 +52,7 @@ import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
 import QuillEditor, { QuillEditorProps } from './quill'
 import ReadMore, { ReadMoreProps } from './readmore'
-import Select, { SelectProps } from './select/select'
+import Select, { SelectOptionType, SelectProps } from './select/select'
 import SimpleBar from './simplebar'
 import { LineGroup, Skeleton } from './skeleton'
 import { Tab, TabGroup } from './tab'
@@ -81,6 +85,7 @@ export {
   ButtonSubmit,
   Card,
   CardSeparator,
+  ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
   ControlledKelas,
@@ -89,6 +94,7 @@ export {
   ControlledQuillEditor,
   ControlledRadio,
   ControlledRadioGroup,
+  ControlledSelect,
   ControlledSwitch,
   ControlledTextarea,
   ControlledUploadFile,
@@ -131,6 +137,7 @@ export {
   type ButtonProps,
   type ButtonSubmitProps,
   type ButtonVariants,
+  type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,
   type ControlledInputProps,
   type ControlledKelasProps,
@@ -140,6 +147,7 @@ export {
   type ControlledRadioGroupOptions,
   type ControlledRadioGroupProps,
   type ControlledRadioProps,
+  type ControlledSelectProps,
   type ControlledSwitchProps,
   type ControlledTextareaProps,
   type ControlledUploadFileProps,
@@ -155,6 +163,7 @@ export {
   type PustakaMediaProps,
   type QuillEditorProps,
   type ReadMoreProps,
+  type SelectOptionType,
   type SelectProps,
   type TableHeaderCellProps,
   type TableProps,

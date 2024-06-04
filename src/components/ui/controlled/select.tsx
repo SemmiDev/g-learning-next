@@ -1,6 +1,5 @@
 'use client'
 
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -14,7 +13,7 @@ export type ControlledSelectProps<
   OptionType,
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<SelectProps<OptionType>, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<SelectProps<OptionType>, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
@@ -23,8 +22,8 @@ export type ControlledSelectProps<
 
 export default function ControlledSelect<
   OptionType,
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TFieldValues extends FieldValues = any,
+  TName extends FieldPath<TFieldValues> = any
 >({
   name,
   control,

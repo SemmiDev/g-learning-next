@@ -1,5 +1,4 @@
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import { Text as RizText, TextProps as RizTextProps } from 'rizzui'
 
 export type DefaultTextProps = {
@@ -9,7 +8,7 @@ export type DefaultTextProps = {
   align?: 'left' | 'center' | 'right'
 }
 
-export type TextProps = Without<RizTextProps, 'color' | 'fontWeight'> &
+export type TextProps = Omit<RizTextProps, 'color' | 'fontWeight'> &
   DefaultTextProps & {
     variant?: 'default' | 'dark' | 'lighter'
   }

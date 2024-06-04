@@ -1,7 +1,6 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -14,7 +13,7 @@ import { Textarea, TextareaProps } from 'rizzui'
 export type ControlledTextareaProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<TextareaProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<TextareaProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

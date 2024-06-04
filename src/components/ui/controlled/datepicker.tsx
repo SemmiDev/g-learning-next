@@ -1,6 +1,5 @@
 'use client'
 
-import { Without } from '@/utils/without-type'
 import {
   Control,
   Controller,
@@ -13,7 +12,7 @@ import { DatePicker, DatePickerProps } from '../datepicker'
 export type ControlledDatePickerProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Without<
+> = Omit<
   DatePickerProps<boolean>,
   'placeholderText' | 'value' | 'onChange' | 'onBlur'
 > & {

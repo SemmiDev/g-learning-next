@@ -12,6 +12,7 @@ export default function Input({
     <RizInput
       labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
       inputClassName={cn('[&_input::placeholder]:opacity-80', inputClassName)}
+      placeholder=" "
       {...props}
     />
   )
