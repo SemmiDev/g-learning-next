@@ -36,5 +36,7 @@ export default function InputRupiah({
 }
 
 function CustomInput({ ...props }) {
-  return <Input prefix="Rp" {...props} />
+  return (
+    <Input prefix="Rp" className="[&_.rizzui-input-field]:ps-1" {...props} />
+  )
 }
