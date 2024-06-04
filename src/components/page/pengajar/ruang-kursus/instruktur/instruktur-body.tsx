@@ -1,12 +1,33 @@
+'use client'
+
 import { Button, Text } from '@/components/ui'
 import emptyIcon from '@public/icons/empty.svg'
-import Image from 'next/image'
 import imagePhoto from '@public/images/photo.png'
+import Image from 'next/image'
+import { useState } from 'react'
+import BuatKursusModal from './modal/buat-kursus'
 
 export default function RuangKursusInstrukturBody() {
+  const [showModalBuatKursus, setShowModalBuatKursus] = useState(false)
+
+  const openModalBuatKursus = () => setShowModalBuatKursus(true)
+
   const isEmpty = true
 
-  return !isEmpty ? <Body /> : <EmptyBody />
+  return (
+    <>
+      {!isEmpty ? (
+        <Body />
+      ) : (
+        <EmptyBody openModalBuatKursus={openModalBuatKursus} />
+      )}
+
+      <BuatKursusModal
+        showModal={showModalBuatKursus}
+        setShowModal={setShowModalBuatKursus}
+      />
+    </>
+  )
 }
 
 function Body() {
@@ -35,7 +56,7 @@ function Body() {
   )
 }
 
-function EmptyBody() {
+function EmptyBody({ openModalBuatKursus }: { openModalBuatKursus(): void }) {
   return (
     <div className="flex flex-col items-center pt-20">
       <figure className="size-48">
@@ -44,7 +65,9 @@ function EmptyBody() {
       <Text weight="bold" className="text-[1.375rem] mt-4">
         Kursus Anda masih kosong!
       </Text>
-      <Button className="mt-2">Mulai Buat Kursus</Button>
+      <Button className="mt-2" onClick={openModalBuatKursus}>
+        Mulai Buat Kursus
+      </Button>
     </div>
   )
 }
