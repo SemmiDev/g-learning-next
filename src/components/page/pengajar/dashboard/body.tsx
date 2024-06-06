@@ -15,6 +15,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
+import Calendar from 'react-calendar'
 
 export default function DashboardBody() {
   const tableJadwalColumns = [
@@ -23,7 +24,7 @@ export default function DashboardBody() {
       dataIndex: 'kelas',
       key: 'kelas',
       render: (value: string, row: any) => (
-        <div className="flex space-x-3">
+        <div className="flex items-center space-x-2">
           <Image
             src={row.image}
             alt="profile"
@@ -69,7 +70,7 @@ export default function DashboardBody() {
       title: <TableHeaderCell title="Aksi" align="center" />,
       render: (_: string, row: any) => {
         return (
-          <Link href={`${routes.kelas}`}>
+          <Link href={`${routes.kelas}`} className="flex justify-center">
             <Button variant="text-colorful">Masuk Kelas</Button>
           </Link>
         )
@@ -120,6 +121,109 @@ export default function DashboardBody() {
     },
   ]
 
+  const tableKursusColumns = [
+    {
+      title: <TableHeaderCell title="Nama Kursus" />,
+      dataIndex: 'nama',
+      key: 'nama',
+      render: (value: string, row: any) => (
+        <div className="flex items-center space-x-2">
+          <Image
+            src={row.image}
+            alt="profile"
+            className="w-10 h-10 rounded-md object-cover"
+          />
+          <Text size="sm" weight="semibold" variant="dark">
+            {value}
+          </Text>
+        </div>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Total Modul" />,
+      dataIndex: 'modul',
+      key: 'modul',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark">
+          {value} Modul
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Progress" />,
+      dataIndex: 'progress',
+      key: 'progress',
+      render: (value: string, row: any) => (
+        <Text size="sm" weight="medium" variant="dark">
+          {value}/{row.progress} Modul
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Creator" />,
+      dataIndex: 'creator',
+      key: 'creator',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark">
+          {value}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Aksi" align="center" />,
+      render: (_: string, row: any) => {
+        return (
+          <div className="flex justify-center">
+            <Button variant="text-colorful">Mulai Belajar</Button>
+          </div>
+        )
+      },
+    },
+  ]
+
+  const tableKursusData = [
+    {
+      id: 1,
+      nama: 'Sistem Informasi',
+      modul: 75,
+      progress: 12,
+      creator: 'Garuda Cyber Institute',
+      image: imageKelas,
+    },
+    {
+      id: 2,
+      nama: 'Biologi Tinggat Lanjut',
+      modul: 15,
+      progress: 0,
+      creator: 'Visual Vulcream',
+      image: imageKelas,
+    },
+    {
+      id: 3,
+      nama: 'Aljabar Linear',
+      modul: 5,
+      progress: 5,
+      creator: 'Garuda Cyber Institute',
+      image: imageKelas,
+    },
+    {
+      id: 4,
+      nama: 'Jaringan dan Keamanan Data',
+      modul: 35,
+      progress: 35,
+      creator: 'Randa Nurhidayat',
+      image: imageKelas,
+    },
+    {
+      id: 5,
+      nama: 'Human Computer Interaction',
+      modul: 12,
+      progress: 12,
+      creator: 'Kelas Juwara',
+      image: imageKelas,
+    },
+  ]
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -160,9 +264,28 @@ export default function DashboardBody() {
             Kalender
           </Title>
           <CardSeparator />
-          <div className="min-h-48"></div>
+          <div className="py-2 px-6">
+            <Calendar
+              prev2Label={false}
+              next2Label={false}
+              className="!w-full !border-0 !bg-transparent !font-inter !text-base"
+            />
+          </div>
         </Card>
       </div>
+
+      <Card className="flex flex-col w-full p-0">
+        <Title as="h4" weight="semibold" className="p-2">
+          Kursus yang Anda Ikuti
+        </Title>
+        <CardSeparator />
+        <Table
+          rowKey={(record) => record.id}
+          variant="elegant"
+          columns={tableKursusColumns}
+          data={tableKursusData}
+        />
+      </Card>
     </div>
   )
 }
