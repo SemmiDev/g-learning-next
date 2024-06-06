@@ -1,12 +1,14 @@
 import { Breadcrumb, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 
+type BreadcrumbType = {
+  name: string
+  href?: string
+}
+
 export type PageHeaderTypes = {
   title: string
-  breadcrumb: {
-    name: string
-    href?: string
-  }[]
+  breadcrumb?: BreadcrumbType[]
   className?: string
 }
 
@@ -28,20 +30,22 @@ export default function PageHeader({
             {title}
           </Title>
 
-          <Breadcrumb
-            separator=""
-            separatorVariant="circle"
-            className="flex-wrap"
-          >
-            {breadcrumb.map((item) => (
-              <Breadcrumb.Item
-                key={item.name}
-                {...(item?.href && { href: item?.href })}
-              >
-                {item.name}
-              </Breadcrumb.Item>
-            ))}
-          </Breadcrumb>
+          {breadcrumb && !!breadcrumb.length && (
+            <Breadcrumb
+              separator=""
+              separatorVariant="circle"
+              className="flex-wrap"
+            >
+              {breadcrumb?.map((item) => (
+                <Breadcrumb.Item
+                  key={item.name}
+                  {...(item?.href && { href: item?.href })}
+                >
+                  {item.name}
+                </Breadcrumb.Item>
+              ))}
+            </Breadcrumb>
+          )}
         </div>
         {children}
       </div>

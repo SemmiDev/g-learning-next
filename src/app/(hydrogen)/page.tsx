@@ -1,19 +1,20 @@
-import { Title } from '@/components/ui'
+import DashboardBody from '@/components/page/pengajar/dashboard/body'
+import PageHeader from '@/components/shared/page-header'
 import { metaObject } from '@/config/site.config'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/options'
 
 export const metadata = {
   ...metaObject('Dashboard'),
 }
 
-export default async function Home() {
-  const session = await getServerSession(authOptions)
+const pageHeader = {
+  title: 'Dashboard',
+}
 
+export default async function Home() {
   return (
     <>
-      <Title>Selamat Datang</Title>
-      <pre className="mt-4">{JSON.stringify(session)}</pre>
+      <PageHeader title={pageHeader.title} />
+      <DashboardBody />
     </>
   )
 }
