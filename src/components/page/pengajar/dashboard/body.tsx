@@ -13,9 +13,11 @@ import { routes } from '@/config/routes'
 import imageKelas from '@public/images/list-kelas.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import Calendar from 'react-calendar'
 import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
-import Calendar from 'react-calendar'
+import RuangPenyimpananCard from './ruang-penyimpanan-card'
+import RecentFileCard from './recent-file-card'
 
 export default function DashboardBody() {
   const tableJadwalColumns = [
@@ -272,6 +274,11 @@ export default function DashboardBody() {
             />
           </div>
         </Card>
+      </div>
+
+      <div className="flex flex-wrap gap-4">
+        <RuangPenyimpananCard />
+        <RecentFileCard />
       </div>
 
       <Card className="flex flex-col w-full p-0">

@@ -43,7 +43,7 @@
     "react-select-async-paginate": "^0.7.4",
     "react-shorten": "^1.1.4",
     "react-use": "^17.5.0",
-    "recharts": "^2.12.3",
+    "recharts": "^2.12.7",
     "rizzui": "^0.8.4",
     "sanitize-html": "^2.13.0",
     "simplebar-react": "^3.2.4",
