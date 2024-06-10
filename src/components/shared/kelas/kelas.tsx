@@ -105,7 +105,7 @@ export default function Kelas({
         )}
         <div
           className={cn(
-            'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-[0.875rem] hover:border-primary [&_.kelas-label]:hover:text-primary',
+            'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-3 hover:border-primary [&_.kelas-label]:hover:text-primary',
             {
               '!border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red !bg-transparent':
                 error,

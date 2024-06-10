@@ -1,4 +1,5 @@
 import { Text } from '@/components/ui'
+import { LuChevronDown } from 'react-icons/lu'
 import { KelasItemType } from './kelas-button'
 
 type SelectedFileProps = { kelas: KelasItemType; onOpenList?(): void }
@@ -42,6 +43,7 @@ export default function SelectedKelas({
           </Text>
         )}
       </div>
+      <LuChevronDown size={20} />
     </div>
   )
 }
