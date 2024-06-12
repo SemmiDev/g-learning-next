@@ -239,7 +239,7 @@ export default function UjianPage() {
           <div className="flex justify-between">
             <div>
               <Text weight="semibold" variant="dark">
-                Judul Tugas
+                Judul Ujian
               </Text>
               <Text size="sm" weight="medium" variant="lighter">
                 Keterangan singkat atau catatan terkait Ujiannya ada disini
