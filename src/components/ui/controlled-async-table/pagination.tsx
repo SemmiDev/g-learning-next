@@ -56,6 +56,7 @@ export default function TablePagination({
         pageSize={pageSize}
         defaultCurrent={1}
         showLessItems={true}
+        className="select-none"
         prevIconClassName="py-0 text-gray !leading-[26px]"
         nextIconClassName="py-0 text-gray !leading-[26px]"
         {...props}

@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Text } from '@/components/ui'
+import { ActionIcon, Button, Text, Thumbnail } from '@/components/ui'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
@@ -14,7 +14,7 @@ export default function KomentarSectionShort({
   return (
     <div className={cn('flex flex-col', className)}>
       <div className="flex items-center space-x-2">
-        <Image src={imagePhoto} alt="profile" className="w-8 h-8 rounded-md" />
+        <Thumbnail src={imagePhoto} alt="profil" size={32} rounded="md" />
         <Textarea
           className="flex-1"
           rows={2}
@@ -38,10 +38,12 @@ export default function KomentarSectionShort({
       </div>
       <div className="space-y-4 ps-4 mt-2">
         <div className="flex space-x-2">
-          <Image
+          <Thumbnail
             src={imagePhoto}
-            alt="profile"
-            className="w-8 h-8 rounded-md"
+            alt="profil"
+            size={32}
+            rounded="md"
+            className="flex-shrink-0"
           />
           <div className="flex flex-col items-start text-gray-dark">
             <Text weight="semibold">Anjal Karman</Text>

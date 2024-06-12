@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
-import isEmpty from 'lodash/isEmpty'
-import Table, { type TableProps } from '@/components/ui/table'
-import { Title, Loader } from 'rizzui'
-import cn from '@/utils/class-names'
 import type { TableFilterProps } from '@/components/ui/controlled-async-table/filter'
 import type { TablePaginationProps } from '@/components/ui/controlled-async-table/pagination'
+import Table, { type TableProps } from '@/components/ui/table'
+import { SortType } from '@/hooks/use-table-async'
+import cn from '@/utils/class-names'
+import isEmpty from 'lodash/isEmpty'
+import dynamic from 'next/dynamic'
+import React from 'react'
+import { Loader, Title } from 'rizzui'
 const TableFilter = dynamic(
   () => import('@/components/ui/controlled-async-table/filter'),
   { ssr: false }
@@ -19,7 +20,8 @@ const TablePagination = dynamic(
 
 export type ControlledAsyncTableActionProps = {
   page: number
-  search: string
+  search?: string
+  sort?: SortType
 }
 export type ControlledAsyncTableActionType = {
   data: any[]
@@ -27,6 +29,7 @@ export type ControlledAsyncTableActionType = {
 }
 
 export type ControlledAsyncTableProps = TableProps & {
+  isFirstLoading?: boolean
   isLoading?: boolean
   showLoadingText?: boolean
   filterElement?: React.ReactElement
@@ -38,6 +41,7 @@ export type ControlledAsyncTableProps = TableProps & {
 }
 
 export default function ControlledAsyncTable({
+  isFirstLoading,
   isLoading,
   filterElement,
   filterOptions,
@@ -48,7 +52,7 @@ export default function ControlledAsyncTable({
   className,
   ...tableProps
 }: ControlledAsyncTableProps) {
-  if (isLoading) {
+  if (isFirstLoading) {
     return (
       <div className="grid h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
         <Loader variant="spinner" size="xl" />
@@ -67,13 +71,17 @@ export default function ControlledAsyncTable({
         <TableFilter {...filterOptions}>{filterElement}</TableFilter>
       )}
 
-      <div className="relative">
+      <div
+        className={cn(
+          'relative',
+          isLoading && 'cursor-wait [&_th>div]:cursor-wait'
+        )}
+      >
         <Table
           rowKey={(record) => record.id}
           className={cn(className)}
           {...tableProps}
         />
-
         {tableFooter ? tableFooter : null}
       </div>
 

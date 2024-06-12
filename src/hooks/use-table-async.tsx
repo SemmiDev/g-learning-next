@@ -1,10 +1,15 @@
-import { useState, useEffect, useMemo } from 'react'
-import isString from 'lodash/isString'
-import { AnyObject } from '@/utils/type-interface'
 import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
+import { AnyObject } from '@/utils/type-interface'
+import isString from 'lodash/isString'
+import { useEffect, useState } from 'react'
+
+export type SortType = {
+  name: string | null
+  direction: 'asc' | 'desc' | null
+}
 
 export function useTableAsync<T extends AnyObject>(
   action: (
@@ -14,7 +19,8 @@ export function useTableAsync<T extends AnyObject>(
 ) {
   const [data, setData] = useState<T[]>([])
   const [totalData, setTotalData] = useState(1)
-  const [isLoading, setLoading] = useState(true)
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   /*
    * Handle row selection
@@ -39,17 +45,21 @@ export function useTableAsync<T extends AnyObject>(
   /*
    * Handle sorting
    */
-  const [sort, setSort] = useState<AnyObject>({
-    key: null,
+  const [sort, setSort] = useState<SortType>({
+    name: null,
     direction: null,
   })
 
-  function onSort(key: string) {
-    let direction = 'asc'
-    if (sort.key === key && sort.direction === 'asc') {
-      direction = 'desc'
-    }
-    setSort({ key, direction })
+  function onSort(name: string) {
+    setIsLoading(true)
+
+    const direction =
+      sort.name === name && sort.direction === 'asc' ? 'desc' : 'asc'
+
+    setSort({
+      name,
+      direction: direction,
+    })
   }
 
   /*
@@ -104,14 +114,15 @@ export function useTableAsync<T extends AnyObject>(
    */
   useEffect(() => {
     ;(async () => {
-      const resData = await action({ page, search })
+      const resData = await action({ page, search, sort })
 
       setData(resData.data)
       setTotalData(resData.totalData)
 
-      setLoading(false)
+      setIsFirstLoading(false)
+      setIsLoading(false)
     })()
-  }, [action, page, search])
+  }, [action, page, search, sort])
 
   /*
    * Go to first page when data is filtered and searched
@@ -123,6 +134,7 @@ export function useTableAsync<T extends AnyObject>(
   // useTable returns
   return {
     data,
+    isFirstLoading,
     isLoading,
     // pagination
     page,

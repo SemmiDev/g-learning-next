@@ -11,6 +11,7 @@ import {
   Table,
   TableHeaderCell,
   Text,
+  Thumbnail,
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
@@ -18,7 +19,7 @@ import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
-import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { BsCardChecklist, BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import { Dropdown, Input } from 'rizzui'
@@ -41,11 +42,7 @@ export default function DiskusiDetailUjianPage() {
       key: 'nama',
       render: (_: string, row: any) => (
         <div className="flex space-x-3">
-          <Image
-            src={row.image}
-            alt="profile"
-            className="w-10 h-10 rounded-md"
-          />
+          <Thumbnail src={row.image} alt="profil" size={40} rounded="md" />
           <div className="flex flex-col justify-center">
             <Text size="sm" weight="semibold" variant="dark">
               {row.nama}
@@ -158,6 +155,18 @@ export default function DiskusiDetailUjianPage() {
       </div>
       <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
         <Card className="flex flex-col p-0 w-full lg:w-6/12">
+          <div className="flex items-center space-x-2 px-4 py-2">
+            <Thumbnail src={imagePhoto} size={48} alt="profil" rounded="md" />
+            <div className="flex flex-col">
+              <Title as="h6" weight="semibold">
+                Prabroro Janggar membagikan sesuatu yang baru
+              </Title>
+              <Text size="xs" variant="lighter">
+                30 Menit
+              </Text>
+            </div>
+          </div>
+          <CardSeparator />
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
               <Text size="lg" weight="semibold" variant="dark" className="mb-2">
@@ -171,6 +180,63 @@ export default function DiskusiDetailUjianPage() {
                   dalam 2 kalimat dan tambahkan.
                 </ReadMore>
               </Text>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mx-2 my-2">
+            <figure className="flex justify-center items-center size-[52px] rounded btn-item-blue">
+              <BsCardChecklist size={24} />
+            </figure>
+            <div className="flex flex-col gap-2 2xl:flex-row">
+              <table>
+                <tbody>
+                  <tr>
+                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                      Jumlah Soal
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                      :
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold">20</td>
+                  </tr>
+                  <tr>
+                    <td className="text-xs text-gray-lighter font-medium">
+                      Durasi pengerjaan
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold text-center">
+                      :
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold">
+                      90 menit
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
+                      Batas waktu pengerjaan
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                      :
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold">
+                      20 Desember 2023, 23:59
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-xs text-gray-lighter font-medium">
+                      Jenis ujian
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold text-center">
+                      :
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold">
+                      UTS
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <CardSeparator />

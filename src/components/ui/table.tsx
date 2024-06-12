@@ -13,6 +13,7 @@ import {
   TbCaretUpFilled,
 } from 'react-icons/tb'
 import Text, { TextProps } from './text/text'
+import { SortType } from '@/hooks/use-table-async'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 
@@ -20,7 +21,7 @@ const classes = {
   table:
     '[&_.rc-table-content]:overflow-x-auto [&_table]:w-full [&_.rc-table-row]:transition [&_.rc-table-row]:duration-50 [&_.rc-table-row:hover]:bg-gray-50 [&_.rc-table-row-expand-icon-cell]:w-14',
   thead:
-    '[&_thead]:text-left [&_thead]:rtl:text-right [&_th.rc-table-cell]:text-sm [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500',
+    '[&_thead]:text-left [&_thead]:rtl:text-right [&_thead]:select-none [&_th.rc-table-cell]:text-sm [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500',
   tCell:
     '[&_.rc-table-cell]:px-3 [&_th.rc-table-cell]:py-3 [&_td.rc-table-cell]:py-4',
   variants: {
@@ -104,8 +105,9 @@ export interface TableHeaderCellProps {
   /** Make sortable column, it's also required ascending prop too. Check our example for more details. */
   sortable?: boolean
   /** Make ascending or descending column, it's also required sortable prop too. Check our example for more details. */
-  sort?: 'asc' | 'desc'
+  sort?: 'asc' | 'desc' | null
   /** Add custom classes to the sort icon for extra style */
+  sorting?: boolean
   iconClassName?: string
   /** Add custom classes for extra style */
   className?: string
@@ -115,6 +117,7 @@ export interface TableHeaderCellProps {
 function handleTextAlignment(align: TextAlign) {
   if (align === 'center') return 'justify-center'
   if (align === 'right') return 'justify-end'
+
   return ''
 }
 
@@ -124,7 +127,7 @@ export function TableHeaderCell({
   width,
   ellipsis,
   sortable,
-  sort,
+  sort = null,
   iconClassName,
   className,
 }: TableHeaderCellProps) {
@@ -138,10 +141,11 @@ export function TableHeaderCell({
       "width prop without ellipsis won't work, please set ellipsis prop true."
     )
   }
+
   return (
     <div
       className={cn(
-        'flex items-center gap-1 text-gray-dark font-bold',
+        'flex items-center gap-1 text-gray-dark font-semibold',
         sortable && 'cursor-pointer',
         handleTextAlignment(align),
         className
@@ -166,6 +170,12 @@ export function TableHeaderCell({
       )}
     </div>
   )
+}
+
+export const getSortDirection = (sort: SortType, name: string) => {
+  return sort?.name === name && sort?.direction !== null
+    ? sort?.direction
+    : null
 }
 
 export const TableCellText = ({

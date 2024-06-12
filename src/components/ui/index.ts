@@ -67,6 +67,7 @@ import Table, {
   TableHeaderCellProps,
   TableProps,
   TableToggleColumns,
+  getSortDirection,
   renderTableCellNumber,
   renderTableCellText,
 } from './table'
@@ -75,6 +76,7 @@ import TextLink from './text/link'
 import TextSpan from './text/span'
 import Text from './text/text'
 import Title from './text/title'
+import Thumbnail, { ThumbnailProps } from './thumbnail'
 import {
   UploadFile,
   UploadFileProps,
@@ -132,8 +134,10 @@ export {
   TextLabel,
   TextLink,
   TextSpan,
+  Thumbnail,
   Title,
   UploadFile,
+  getSortDirection,
   renderTableCellNumber,
   renderTableCellText,
   type ActionIconProps,
@@ -175,6 +179,7 @@ export {
   type SelectProps,
   type TableHeaderCellProps,
   type TableProps,
+  type ThumbnailProps,
   type UploadFileProps,
   type UploadFileSize,
   type UploadFileType,

@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  getSortDirection,
   renderTableCellNumber,
   renderTableCellText,
   TableHeaderCell,
@@ -13,8 +14,16 @@ import { tesAsyncAction } from './actions'
 export default function Tes3Table() {
   const [pageSize, setPageSize] = useState(5)
 
-  const { data, isLoading, page, onPageChange, totalData, sort, onSort } =
-    useTableAsync(tesAsyncAction)
+  const {
+    data,
+    isFirstLoading,
+    isLoading,
+    page,
+    onPageChange,
+    totalData,
+    sort,
+    onSort,
+  } = useTableAsync(tesAsyncAction)
 
   const tableColumns = [
     {
@@ -27,11 +36,7 @@ export default function Tes3Table() {
         <TableHeaderCell
           title="Nama"
           sortable
-          sort={
-            sort?.key === 'nama' && sort?.direction !== undefined
-              ? sort?.direction
-              : undefined
-          }
+          sort={getSortDirection(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
@@ -48,11 +53,7 @@ export default function Tes3Table() {
         <TableHeaderCell
           title="Email"
           sortable
-          sort={
-            sort?.key === 'email' && sort?.direction !== undefined
-              ? sort?.direction
-              : undefined
-          }
+          sort={getSortDirection(sort, 'email')}
         />
       ),
       dataIndex: 'email',
@@ -70,6 +71,7 @@ export default function Tes3Table() {
     <>
       <ControlledAsyncTable
         data={data}
+        isFirstLoading={isFirstLoading}
         isLoading={isLoading}
         columns={tableColumns}
         rowKey={(record) => record.id}
