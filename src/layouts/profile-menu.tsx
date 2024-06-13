@@ -10,13 +10,6 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Avatar, Popover } from 'rizzui'
 
-const menuItems = [
-  {
-    name: 'Profil Saya',
-    href: routes.profile,
-  },
-]
-
 function DropdownMenu() {
   const router = useRouter()
   const { data: session } = useSession()
@@ -25,6 +18,16 @@ function DropdownMenu() {
     await signOut({ redirect: false })
     router.replace(publicRoutes.login)
   }
+
+  const menuItems = [
+    {
+      name: 'Profil Saya',
+      href:
+        session?.level === 'Pengajar'
+          ? routes.pengajar.profile
+          : routes.peserta.profile,
+    },
+  ]
 
   return (
     <div className="w-64 text-left rtl:text-right">

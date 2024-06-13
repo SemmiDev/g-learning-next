@@ -54,7 +54,7 @@ export default function FolderCard({
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <Link href={`${routes.bankSoal}/folder`}>
+      <Link href={`${routes.pengajar.bankSoal}/folder`}>
         <Title
           as="h4"
           size="base"

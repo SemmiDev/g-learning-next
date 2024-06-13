@@ -93,7 +93,10 @@ export default function SoalCard({
             Bagikan Soal
           </Text>
         </Button>
-        <Link href={`${routes.bankSoal}/folder/soal`} className="flex-1">
+        <Link
+          href={`${routes.pengajar.bankSoal}/folder/soal`}
+          className="flex-1"
+        >
           <Button size="sm" variant="outline" className="w-full">
             <Text size="xs" weight="medium">
               Detail

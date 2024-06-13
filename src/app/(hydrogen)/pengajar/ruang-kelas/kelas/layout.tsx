@@ -20,7 +20,7 @@ const pageHeader = {
       name: 'Dashboard',
     },
     {
-      href: routes.ruangKelas,
+      href: routes.pengajar.ruangKelas,
       name: 'Ruang Kelas',
     },
     {
@@ -71,7 +71,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
         </div>
         <TabGroup
           className="mt-2 mb-2"
-          path={routes.kelas}
+          path={routes.pengajar.kelas}
           items={[
             {
               text: 'Diskusi',

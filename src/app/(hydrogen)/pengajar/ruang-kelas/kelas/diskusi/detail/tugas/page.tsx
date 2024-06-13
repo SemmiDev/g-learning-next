@@ -99,7 +99,7 @@ export default function DiskusiDetailTugasPage() {
         }
 
         return (
-          <Link href={`${routes.kelas}/tugas/detail`}>
+          <Link href={`${routes.pengajar.kelas}/tugas/detail`}>
             <Button size="sm" variant="solid" className="whitespace-nowrap">
               Cek Tugas
             </Button>
@@ -160,7 +160,7 @@ export default function DiskusiDetailTugasPage() {
   return (
     <>
       <div className="mt-4 mb-4">
-        <Link href={routes.kelas}>
+        <Link href={routes.pengajar.kelas}>
           <Button variant="text" color="primary" className="text-gray-dark">
             <RiArrowLeftLine size={18} className="" />{' '}
             <Text weight="medium" className="ml-2">

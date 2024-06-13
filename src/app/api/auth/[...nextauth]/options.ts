@@ -2,6 +2,7 @@ import { AuthOptions } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
+import { jwtDecode } from 'jwt-decode'
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -10,13 +11,25 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req): Promise<any> {
         // console.log(credentials)
 
-        // return null
-        return {
-          id: 123,
-          name: 'Antoni',
-          email: 'anto@gmail.com',
-          jwt: 'iniadalahcontohjwt',
+        if (req.body?.username == 'pengajar@gmail.com') {
+          return {
+            id: 2,
+            name: 'Nama Pengajar',
+            email: 'pengajar@gmail.com',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlbmdhamFyIiwiaWF0IjoxNTE2MjM5MDIyfQ.8cffnhxieDxB7ufL2Tyckb2k39lgsKrzF3Axp-i4iVc',
+          }
         }
+
+        if (req.body?.username == 'peserta@gmail.com') {
+          return {
+            id: 3,
+            name: 'Nama Peserta',
+            email: 'peserta@gmail.com',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlc2VydGEiLCJpYXQiOjE1MTYyMzkwMjJ9.MhaAQ43OFkJrznl-J37Wt30JACuMZLhRdcRpgkl0mhA',
+          }
+        }
+
+        return null
       },
     }),
     GoogleProvider({
@@ -27,8 +40,7 @@ export const authOptions: AuthOptions = {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
-          image: profile.picture,
-          jwt: 'iniadalahcontohjwt',
+          jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlbmdhamFyIiwiaWF0IjoxNTE2MjM5MDIyfQ.8cffnhxieDxB7ufL2Tyckb2k39lgsKrzF3Axp-i4iVc',
         }
       },
     }),
@@ -49,7 +61,12 @@ export const authOptions: AuthOptions = {
     },
     session: async ({ session, token }: { session: any; token: JWT }) => {
       if (token) {
-        session.jwt = token.jwt
+        const jwtToken = token.jwt as string
+        const decoded = jwtDecode<any>(jwtToken)
+
+        // add extra data to session
+        session.level = decoded.level
+        session.jwt = jwtToken
       }
 
       return session

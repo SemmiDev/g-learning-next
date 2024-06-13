@@ -37,7 +37,7 @@ export default function ConferenceCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        <Link href={`${routes.kelas}/diskusi/detail/conference`}>
+        <Link href={`${routes.pengajar.kelas}/diskusi/detail/conference`}>
           <Button size="sm" color="primary" className="w-full">
             <BsCameraVideo size={16} className="me-2" /> Buka Kelas
           </Button>

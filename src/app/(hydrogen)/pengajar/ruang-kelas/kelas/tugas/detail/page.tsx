@@ -97,7 +97,7 @@ export default function TugasDetailPage() {
   return (
     <>
       <div className="mt-4 mb-4">
-        <Link href={`${routes.kelas}/tugas`}>
+        <Link href={`${routes.pengajar.kelas}/tugas`}>
           <Button variant="text" color="primary" className="text-gray-dark">
             <RiArrowLeftLine size={18} className="" />{' '}
             <Text weight="medium" className="ml-2">

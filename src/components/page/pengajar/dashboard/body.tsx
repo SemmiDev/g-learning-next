@@ -72,7 +72,10 @@ export default function DashboardBody() {
       title: <TableHeaderCell title="Aksi" align="center" />,
       render: (_: string, row: any) => {
         return (
-          <Link href={`${routes.kelas}`} className="flex justify-center">
+          <Link
+            href={`${routes.pengajar.kelas}`}
+            className="flex justify-center"
+          >
             <Button variant="text-colorful">Masuk Kelas</Button>
           </Link>
         )

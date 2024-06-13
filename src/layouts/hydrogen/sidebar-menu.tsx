@@ -1,15 +1,38 @@
 import StatusBadge from '@/components/get-status-badge'
 import { Title } from '@/components/ui'
-import { menuItems } from '@/layouts/hydrogen/menu-items'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Fragment } from 'react'
+import { Fragment, ReactNode } from 'react'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
+import { menuItemsPengajar } from './menu-items/pengajar'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import { useSession } from 'next-auth/react'
+import { menuItemsPeserta } from './menu-items/peserta'
+
+export type MenuDropdownItemType = {
+  name: string
+  href: string
+  icon?: ReactNode
+  badge?: string
+}
+
+export type MenuItemType = {
+  name: string
+  href?: string
+  icon?: ReactNode
+  badge?: string
+  dropdownItems?: MenuDropdownItemType[]
+}
 
 export function SidebarMenu() {
   const pathname = usePathname()
+  const { data: session } = useSession()
+
+  const menuItems =
+    session?.level == 'Pengajar' ? menuItemsPengajar : menuItemsPeserta
 
   return (
     <div className="mt-4 pb-3 3xl:mt-6">

@@ -1,24 +1,11 @@
 import { routes } from '@/config/routes'
-import { ReactNode } from 'react'
 import { BiHome, BiSolidBookBookmark } from 'react-icons/bi'
 import { BsBox } from 'react-icons/bs'
 import { LuFileText, LuPackage, LuSave } from 'react-icons/lu'
-
-type MenuItemType = {
-  name: string
-  href?: string
-  icon?: ReactNode
-  badge?: string
-  dropdownItems?: {
-    name: string
-    href: string
-    icon?: ReactNode
-    badge?: string
-  }[]
-}
+import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
-export const menuItems: MenuItemType[] = [
+export const menuItemsPengajar: MenuItemType[] = [
   {
     name: 'Dashboard',
     href: routes.dashboard,
@@ -29,17 +16,17 @@ export const menuItems: MenuItemType[] = [
   },
   {
     name: 'Ruang Kelas',
-    href: routes.ruangKelas,
+    href: routes.pengajar.ruangKelas,
     icon: <BsBox />,
   },
   {
     name: 'Bank Materi',
-    href: routes.bankMateri,
+    href: routes.pengajar.bankMateri,
     icon: <BiSolidBookBookmark />,
   },
   {
     name: 'Bank Soal',
-    href: routes.bankSoal,
+    href: routes.pengajar.bankSoal,
     icon: <LuFileText />,
   },
   {
@@ -47,22 +34,22 @@ export const menuItems: MenuItemType[] = [
   },
   {
     name: 'Ruang Kursus',
-    href: routes.bankSoal,
+    href: routes.pengajar.bankSoal,
     icon: <LuPackage />,
     dropdownItems: [
       {
         name: 'Instruktur',
-        href: routes.ruangKursus.instruktur,
+        href: routes.pengajar.ruangKursus.instruktur,
       },
       {
         name: 'Peserta',
-        href: routes.ruangKursus.peserta,
+        href: routes.pengajar.ruangKursus.peserta,
       },
     ],
   },
   {
     name: 'Pustaka Media',
-    href: routes.pustakaMedia,
+    href: routes.pengajar.pustakaMedia,
     icon: <LuSave />,
   },
 ]

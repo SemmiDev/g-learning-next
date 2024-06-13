@@ -76,7 +76,7 @@ export default function CardKelas({
           <PiGear size={18} />
         </ActionIcon>
       </div>
-      <Link href={routes.kelas}>
+      <Link href={routes.pengajar.kelas}>
         <Button size="sm" className="w-full mt-2">
           Masuk Kelas
         </Button>

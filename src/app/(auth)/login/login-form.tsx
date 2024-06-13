@@ -11,8 +11,8 @@ import { useRouter } from 'next-nprogress-bar'
 import { Button, Form, Text, TextLink } from '@/components/ui'
 
 const initialValues: LoginSchema = {
-  email: 'anto@gmail.com',
-  password: 'admin123',
+  email: 'peserta@gmail.com',
+  password: '123',
 }
 
 export default function LoginForm() {
@@ -33,8 +33,6 @@ export default function LoginForm() {
   }
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    console.log('data di client', data)
-
     await toast.promise(doLogin(data), {
       loading: <Text>Mencoba masuk...</Text>,
       success: <Text>Berhasil masuk.</Text>,

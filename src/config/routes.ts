@@ -12,6 +12,7 @@ export const publicRoutes = {
 }
 
 export const pengajarRoutes = {
+  profile: '/pengajar/profil',
   ruangKelas: '/pengajar/ruang-kelas',
   kelas: '/pengajar/ruang-kelas/kelas',
   bankMateri: '/pengajar/bank-materi',
@@ -24,9 +25,14 @@ export const pengajarRoutes = {
   pustakaMedia: '/pengajar/pustaka-media',
 }
 
+export const pesertaRoutes = {
+  profile: '/peserta/profil',
+  ruangKelas: '/peserta/ruang-kelas',
+}
+
 export const routes = {
   dashboard: '/',
   blank: '/blank',
-  profile: '/profile',
-  ...pengajarRoutes,
+  pengajar: pengajarRoutes,
+  peserta: pesertaRoutes,
 }

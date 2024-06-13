@@ -95,7 +95,7 @@ export default function RekapTugasCard() {
         }
 
         return (
-          <Link href={`${routes.kelas}/tugas/detail`}>
+          <Link href={`${routes.pengajar.kelas}/tugas/detail`}>
             <Button size="sm" variant="solid" className="whitespace-nowrap">
               Cek Tugas
             </Button>
