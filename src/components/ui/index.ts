@@ -54,7 +54,6 @@ import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
-import QuillEditor, { QuillEditorProps } from './quill'
 import ReadMore, { ReadMoreProps } from './readmore'
 import Select, { SelectOptionType, SelectProps } from './select/select'
 import SimpleBar from './simplebar'
@@ -118,7 +117,6 @@ export {
   ModalHeader,
   Pagination,
   PustakaMedia,
-  QuillEditor,
   ReadMore,
   Select,
   SimpleBar,
@@ -173,7 +171,6 @@ export {
   type PaginationProps,
   type PustakaMediaFileType,
   type PustakaMediaProps,
-  type QuillEditorProps,
   type ReadMoreProps,
   type SelectOptionType,
   type SelectProps,

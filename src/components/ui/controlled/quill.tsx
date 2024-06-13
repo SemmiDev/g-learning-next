@@ -7,7 +7,10 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import QuillEditor, { QuillEditorProps } from '../quill'
+import { QuillEditorProps } from '../quill'
+import dynamic from 'next/dynamic'
+
+const QuillEditor = dynamic(() => import('../quill'))
 
 export type ControlledQuillEditorProps<
   TFieldValues extends FieldValues,
