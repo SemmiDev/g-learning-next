@@ -1,28 +1,25 @@
 import { ActionIcon, Button, Card, Text } from '@/components/ui'
-import { routes } from '@/config/routes'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
-import Link from 'next/link'
 import { BiMessageAltDots } from 'react-icons/bi'
 import { BsClipboardPlus } from 'react-icons/bs'
 import { GrShareOption } from 'react-icons/gr'
-import { PiGear } from 'react-icons/pi'
 import { Badge } from 'rizzui'
 
 type CardKelasProps = {
   program: string
   kelas?: string
+  instansi?: string
   akses?: 'Publik' | 'Private'
   image: string | StaticImport
-  onClickPengaturan?: Function
 }
 
 export default function CardKelas({
   program,
   kelas,
+  instansi,
   akses = 'Private',
   image,
-  onClickPengaturan,
 }: CardKelasProps) {
   return (
     <Card>
@@ -36,6 +33,9 @@ export default function CardKelas({
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
             {kelas}
+          </Text>
+          <Text size="sm" weight="medium" variant="lighter">
+            {instansi}
           </Text>
         </div>
         <Badge
@@ -80,20 +80,12 @@ export default function CardKelas({
         <ActionIcon variant="outline">
           <GrShareOption size={18} />
         </ActionIcon>
-        <ActionIcon
-          variant="outline"
-          onClick={() => {
-            if (onClickPengaturan) onClickPengaturan()
-          }}
-        >
-          <PiGear size={18} />
-        </ActionIcon>
       </div>
-      <Link href={routes.pengajar.kelas}>
-        <Button size="sm" className="w-full mt-2">
-          Masuk Kelas
-        </Button>
-      </Link>
+      {/* <Link href={routes.peserta.kelas}> */}
+      <Button size="sm" className="w-full mt-2">
+        Masuk Kelas
+      </Button>
+      {/* </Link> */}
     </Card>
   )
 }

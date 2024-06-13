@@ -43,22 +43,22 @@ function DropdownMenu() {
           <Text>{session?.user?.email}</Text>
         </div>
       </div>
-      <div className="grid px-3.5 py-3.5 font-medium text-gray">
+      <div className="grid p-3.5 font-medium text-gray">
         {menuItems.map((item) => (
           <Link
             key={item.name}
             href={item.href}
-            className="group my-0.5 flex items-center rounded-md px-2.5 py-2 hover:bg-gray-100 focus:outline-none hover:dark:bg-gray-50/50"
+            className="group my-0.5 flex items-center rounded-md px-2.5 py-2 hover:bg-gray-50 focus:outline-none hover:dark:bg-gray-50/50"
           >
             {item.name}
           </Link>
         ))}
       </div>
-      <div className="border-t border-gray-300 px-6 pb-6 pt-5">
+      <div className="border-t border-gray-300 p-3.5">
         <Button
           variant="text"
-          color="warning"
-          className="h-auto w-full justify-start p-0 font-medium outline-none focus-within:text-gray focus-visible:ring-0"
+          color="danger"
+          className="h-auto w-full justify-start font-medium outline-none px-2.5 py-2 hover:bg-gray-50 focus-within:text-gray focus-visible:ring-0"
           onClick={() => logout()}
         >
           Keluar

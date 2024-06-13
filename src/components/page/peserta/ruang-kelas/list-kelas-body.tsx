@@ -1,16 +1,12 @@
 'use client'
 
-import BuatKelasModal from '@/components/page/pengajar/ruang-kelas/modal/buat-kelas'
 import { Button, Text, Title } from '@/components/ui'
 import imageKelas from '@public/images/list-kelas.png'
 import { useState } from 'react'
 import CardKelas from './kelas-card'
-import PengaturanKelasModal from './modal/pengaturan-kelas'
 
 export default function ListKelasBody() {
-  const [showModalBuatKelas, setShowModalBuatKelas] = useState(false)
-  const [showModalPengaturanKelas, setShowModalPengaturanKelas] =
-    useState(false)
+  const [showModalGabungKelas, setShowModalGabungKelas] = useState(false)
 
   return (
     <>
@@ -21,14 +17,14 @@ export default function ListKelasBody() {
             weight="semibold"
             className="text-[1.375rem] leading-tight"
           >
-            Semua Kelas yang Dikelola
+            Semua Kelas yang Diikuti
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">
-            Semua kelas yang Kamu buat dan bisa dikelola
+            Semua daftar kelas yang Kamu kamu ikuti
           </Text>
         </div>
-        <Button size="sm" onClick={() => setShowModalBuatKelas(true)}>
-          Tambah Kelas
+        <Button size="sm" onClick={() => setShowModalGabungKelas(true)}>
+          Gabung ke Kelas
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -37,24 +33,14 @@ export default function ListKelasBody() {
             <CardKelas
               program="Sistem Operasi"
               kelas="Kelas TI A"
+              instansi="Nama Instansi"
               image={imageKelas}
               akses="Publik"
-              onClickPengaturan={() => setShowModalPengaturanKelas(true)}
               key={i}
             />
           )
         })}
       </div>
-
-      <BuatKelasModal
-        showModal={showModalBuatKelas}
-        setShowModal={setShowModalBuatKelas}
-      />
-
-      <PengaturanKelasModal
-        showModal={showModalPengaturanKelas}
-        setShowModal={setShowModalPengaturanKelas}
-      />
     </>
   )
 }
