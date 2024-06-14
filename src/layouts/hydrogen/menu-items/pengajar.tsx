@@ -7,7 +7,7 @@ import { MenuItemType } from '../sidebar-menu'
 // Note: do not add href in the label object, it is rendering as label
 export const menuItemsPengajar: MenuItemType[] = [
   {
-    name: 'Dashboard',
+    name: 'Dasbor',
     href: routes.dashboard,
     icon: <BiHome />,
   },

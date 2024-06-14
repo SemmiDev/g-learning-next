@@ -1,3 +1,3 @@
 export default function DashboardBody() {
-  return <h3>Halaman Dashboard Peserta</h3>
+  return <h3>Halaman Dasbor Peserta</h3>
 }

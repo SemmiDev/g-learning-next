@@ -47,7 +47,7 @@ export default function NotFound() {
               className="mt-8 h-12 px-4 xl:h-14 xl:px-6"
             >
               <PiHouseLineBold className="mr-1.5 text-lg" />
-              Back to home
+              Kembali ke Dasbor
             </Button>
           </Link>
         </div>

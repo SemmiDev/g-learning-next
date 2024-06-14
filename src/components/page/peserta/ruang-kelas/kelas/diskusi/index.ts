@@ -1,5 +1,4 @@
 import ConferenceCard from './conference-card'
-import DropdownMoreAction from './dropdown-more-action'
 import HeaderCard from './header-card'
 import InformasiCard from './informasi-card'
 import Materi1Card from './materi-1-card'
@@ -10,7 +9,6 @@ import UjianCard from './ujian-card'
 
 export {
   ConferenceCard,
-  DropdownMoreAction,
   HeaderCard,
   InformasiCard,
   Materi1Card,

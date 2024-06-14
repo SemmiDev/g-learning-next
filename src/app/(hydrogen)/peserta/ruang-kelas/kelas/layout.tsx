@@ -1,4 +1,4 @@
-import KelasHeaderAction from '@/components/page/pengajar/ruang-kelas/kelas/header-action'
+import KelasHeaderAction from '@/components/page/peserta/ruang-kelas/kelas/header-action'
 import PageHeader from '@/components/shared/page-header'
 import { Card, TabGroup, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
@@ -20,7 +20,7 @@ const pageHeader = {
       name: 'Dasbor',
     },
     {
-      href: routes.pengajar.ruangKelas,
+      href: routes.peserta.ruangKelas,
       name: 'Ruang Kelas',
     },
     {
@@ -71,7 +71,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
         </div>
         <TabGroup
           className="mt-2 mb-2"
-          path={routes.pengajar.kelas}
+          path={routes.peserta.kelas}
           items={[
             {
               text: 'Diskusi',

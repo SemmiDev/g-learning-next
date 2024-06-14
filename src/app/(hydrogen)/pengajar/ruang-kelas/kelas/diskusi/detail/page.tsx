@@ -1,6 +1,7 @@
 'use client'
 
 import KomentarSectionFull from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-full'
+import FileListItem from '@/components/shared/file/file-list-item'
 import {
   ActionIcon,
   Button,
@@ -62,27 +63,11 @@ export default function DiskusiDetailPage() {
             </div>
           </div>
           <CardSeparator />
-          <div className="flex justify-between items-center bg-gray-50 rounded-md mx-4 my-2 p-2">
-            <div className="flex items-center space-x-1">
-              <BsFileText className="text-primary-lighter" size={32} />
-              <div className="flex flex-col">
-                <Text
-                  size="sm"
-                  weight="medium"
-                  variant="dark"
-                  className="leading-4"
-                >
-                  NamaFile.ext
-                </Text>
-                <Text size="xs" variant="dark" className="leading-4">
-                  ukuranfile
-                </Text>
-              </div>
-            </div>
-            <Button size="sm" variant="text" className="text-sm">
-              Unduh
-            </Button>
-          </div>
+          <FileListItem
+            file={{ name: 'NamaFile.ext', size: 50 }}
+            className="mx-3 my-2"
+            download
+          />
           <CardSeparator />
           <KomentarSectionFull className="p-4" />
         </Card>

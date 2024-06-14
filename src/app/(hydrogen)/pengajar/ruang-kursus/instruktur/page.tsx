@@ -13,7 +13,7 @@ const pageHeader = {
   breadcrumb: [
     {
       href: routes.dashboard,
-      name: 'Dashboard',
+      name: 'Dasbor',
     },
     {
       name: 'Ruang Kursus - Instruktur',

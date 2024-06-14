@@ -1,6 +1,6 @@
 'use client'
 
-import { loadMore } from '@/actions/pengajar/ruang-kelas/kelas'
+import { loadMore } from '@/actions/peserta/ruang-kelas/kelas'
 import {
   ConferenceCard,
   HeaderCard,
@@ -10,7 +10,7 @@ import {
   Materi3Card,
   TugasCard,
   UjianCard,
-} from '@/components/page/pengajar/ruang-kelas/kelas/diskusi'
+} from '@/components/page/peserta/ruang-kelas/kelas/diskusi'
 import { useEffect, useState } from 'react'
 import useInfiniteScroll, {
   ScrollDirection,

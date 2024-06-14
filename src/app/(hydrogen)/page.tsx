@@ -3,11 +3,11 @@ import PageHeader from '@/components/shared/page-header'
 import { metaObject } from '@/config/site.config'
 
 export const metadata = {
-  ...metaObject('Dashboard'),
+  ...metaObject('Dasbor'),
 }
 
 const pageHeader = {
-  title: 'Dashboard',
+  title: 'Dasbor',
 }
 
 export default async function Home() {

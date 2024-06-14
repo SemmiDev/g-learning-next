@@ -28,6 +28,7 @@ export const pengajarRoutes = {
 export const pesertaRoutes = {
   profile: '/peserta/profil',
   ruangKelas: '/peserta/ruang-kelas',
+  kelas: '/peserta/ruang-kelas/kelas',
 }
 
 export const routes = {

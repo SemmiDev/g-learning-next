@@ -1,5 +1,9 @@
 'use client'
 
+import FileIcon from '@/components/shared/file/file-icon'
+import FileListItem, {
+  FileListItemType,
+} from '@/components/shared/file/file-list-item'
 import {
   Button,
   Card,
@@ -19,48 +23,8 @@ import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SubmitHandler } from 'react-hook-form'
-import {
-  BsFileEarmarkText,
-  BsFileImage,
-  BsFileText,
-  BsFiletypeDoc,
-  BsFiletypeDocx,
-  BsFiletypePdf,
-  BsFiletypePpt,
-  BsFiletypePptx,
-  BsFiletypeXls,
-  BsFiletypeXlsx,
-} from 'react-icons/bs'
 import { LuChevronDown } from 'react-icons/lu'
 import { RiArrowLeftLine } from 'react-icons/ri'
-
-const iconSize = 20
-
-const FileIcon = ({ filename }: { filename: string }) => {
-  switch (filename.split('.').pop()) {
-    case 'doc':
-      return <BsFiletypeDoc size={iconSize} className="text-primary" />
-    case 'docx':
-      return <BsFiletypeDocx size={iconSize} className="text-primary" />
-    case 'xls':
-      return <BsFiletypeXls size={iconSize} className="text-green" />
-    case 'xlsx':
-      return <BsFiletypeXlsx size={iconSize} className="text-green" />
-    case 'ppt':
-      return <BsFiletypePpt size={iconSize} className="text-orange-600" />
-    case 'pptx':
-      return <BsFiletypePptx size={iconSize} className="text-orange-600" />
-    case 'pdf':
-      return <BsFiletypePdf size={iconSize} className="text-red" />
-    case 'jpg':
-    case 'jpeg':
-    case 'png':
-    case 'bmp':
-      return <BsFileImage size={iconSize} className="text-primary" />
-    default:
-      return <BsFileEarmarkText size={iconSize} className="text-primary" />
-  }
-}
 
 const formSchema = z.object({
   nilai: z.string().pipe(required).pipe(z.coerce.number().min(0).max(100)),
@@ -79,7 +43,7 @@ export default function TugasDetailPage() {
     console.log('form data', data)
   }
 
-  const files = [
+  const files: FileListItemType[] = [
     {
       name: 'NamaFile.jpg',
       size: 50,
@@ -175,27 +139,7 @@ export default function TugasDetailPage() {
                   </ReadMore>
                   <div className="flex flex-col space-y-2 mt-4">
                     {files.map((file, idx) => (
-                      <div
-                        className="flex justify-between items-center bg-gray-50 rounded-md p-1"
-                        key={idx}
-                      >
-                        <div className="flex items-center">
-                          <figure className="flex justify-center items-center size-11">
-                            <FileIcon filename={file.name} />
-                          </figure>
-                          <div className="flex flex-col">
-                            <Text size="sm" weight="semibold" color="primary">
-                              {file.name}
-                            </Text>
-                            <Text size="xs" variant="dark">
-                              {formatBytes(file.size)}
-                            </Text>
-                          </div>
-                        </div>
-                        <Button size="sm" variant="text" className="text-sm">
-                          Unduh
-                        </Button>
-                      </div>
+                      <FileListItem file={file} key={idx} download />
                     ))}
                   </div>
                 </div>

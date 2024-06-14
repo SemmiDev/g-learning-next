@@ -1,6 +1,8 @@
 import { ActionIcon, Button, Card, Text } from '@/components/ui'
+import { routes } from '@/config/routes'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
+import Link from 'next/link'
 import { BiMessageAltDots } from 'react-icons/bi'
 import { BsClipboardPlus } from 'react-icons/bs'
 import { GrShareOption } from 'react-icons/gr'
@@ -81,11 +83,11 @@ export default function CardKelas({
           <GrShareOption size={18} />
         </ActionIcon>
       </div>
-      {/* <Link href={routes.peserta.kelas}> */}
-      <Button size="sm" className="w-full mt-2">
-        Masuk Kelas
-      </Button>
-      {/* </Link> */}
+      <Link href={routes.peserta.kelas}>
+        <Button size="sm" className="w-full mt-2">
+          Masuk Kelas
+        </Button>
+      </Link>
     </Card>
   )
 }
