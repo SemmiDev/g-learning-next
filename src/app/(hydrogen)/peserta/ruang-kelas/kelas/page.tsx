@@ -11,6 +11,8 @@ import {
   TugasCard,
   UjianCard,
 } from '@/components/page/peserta/ruang-kelas/kelas/diskusi'
+import DaftarTugasCard from '@/components/page/peserta/ruang-kelas/kelas/diskusi/daftar-tugas-card'
+import PresensiCard from '@/components/page/peserta/ruang-kelas/kelas/diskusi/presensi-card'
 import { useEffect, useState } from 'react'
 import useInfiniteScroll, {
   ScrollDirection,
@@ -54,29 +56,35 @@ export default function DiskusiPage() {
   const cc = 7
 
   return (
-    <div className="flex flex-col lg:w-7/12">
-      <HeaderCard className="mt-8" />
+    <div className="flex flex-col-reverse gap-8 mt-8 lg:flex-row">
+      <div className="flex flex-col lg:w-7/12">
+        <HeaderCard />
 
-      <div ref={ref as any}>
-        {data.map((val, idx) => (
-          <div className="Row" key={idx}>
-            {idx % cc === 0 ? (
-              <Materi1Card className="mt-8" />
-            ) : idx % cc === 1 ? (
-              <TugasCard className="mt-8" />
-            ) : idx % cc === 2 ? (
-              <ConferenceCard className="mt-8" />
-            ) : idx % cc === 3 ? (
-              <UjianCard className="mt-8" />
-            ) : idx % cc === 4 ? (
-              <InformasiCard className="mt-8" />
-            ) : idx % cc === 5 ? (
-              <Materi2Card className="mt-8" />
-            ) : (
-              <Materi3Card className="mt-8" />
-            )}
-          </div>
-        ))}
+        <div ref={ref as any}>
+          {data.map((val, idx) => (
+            <div className="Row" key={idx}>
+              {idx % cc === 0 ? (
+                <Materi1Card className="mt-8" />
+              ) : idx % cc === 1 ? (
+                <TugasCard className="mt-8" />
+              ) : idx % cc === 2 ? (
+                <ConferenceCard className="mt-8" />
+              ) : idx % cc === 3 ? (
+                <UjianCard className="mt-8" />
+              ) : idx % cc === 4 ? (
+                <InformasiCard className="mt-8" />
+              ) : idx % cc === 5 ? (
+                <Materi2Card className="mt-8" />
+              ) : (
+                <Materi3Card className="mt-8" />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col flex-1">
+        <PresensiCard />
+        <DaftarTugasCard className="mt-8" />
       </div>
     </div>
   )
