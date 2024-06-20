@@ -90,9 +90,9 @@ export default function TambahInformasiModal({
                 name="catatan"
                 control={control}
                 errors={errors}
+                minHeight={150}
                 label="Catatan Tambahan"
                 placeholder="Buat catatan terkait informasi yang diberikan"
-                className="col-span-full [&_.ql-editor]:min-h-[150px]"
               />
 
               <div>

@@ -94,10 +94,10 @@ export default function KelolaSoalBody() {
                       name="soal"
                       control={control}
                       errors={errors}
+                      toolbar="minimalist-image"
+                      minHeight={150}
                       label="Soal"
                       placeholder="Deskripsi soal"
-                      toolbar="minimalist-image"
-                      className="col-span-full [&_.ql-editor]:min-h-[150px]"
                     />
 
                     <div className="space-y-2">

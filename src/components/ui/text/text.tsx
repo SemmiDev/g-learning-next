@@ -79,7 +79,7 @@ export default function Text({
       className={cn(
         TextSizes[size],
         TextWeights[weight],
-        `text-${align}`,
+        { [`text-${align}`]: !!align },
         color
           ? TextColors[color][variant ?? 'default']
           : variant

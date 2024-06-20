@@ -1,6 +1,5 @@
 'use client'
 
-import FileIcon from '@/components/shared/file/file-icon'
 import FileListItem, {
   FileListItemType,
 } from '@/components/shared/file/file-list-item'
@@ -16,7 +15,6 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { formatBytes } from '@/utils/bytes'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import imagePhoto from '@public/images/photo.png'
@@ -159,10 +157,10 @@ export default function TugasDetailPage() {
                     name="catatan"
                     control={control}
                     errors={errors}
-                    label="Catatan Tambahan"
-                    className="col-span-full [&_.ql-editor]:min-h-[150px]"
-                    placeholder="Berikan catatan kepada peserta terkait tugas yang dikumpulkan"
                     toolbar="minimalist"
+                    minHeight={150}
+                    label="Catatan Tambahan"
+                    placeholder="Berikan catatan kepada peserta terkait tugas yang dikumpulkan"
                   />
                 </div>
               </Card>

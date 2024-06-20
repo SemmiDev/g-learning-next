@@ -9,8 +9,9 @@ import {
 } from 'react-hook-form'
 import { QuillEditorProps } from '../quill'
 import dynamic from 'next/dynamic'
+import cn from '@/utils/class-names'
 
-const QuillEditor = dynamic(() => import('../quill'))
+const QuillEditor = dynamic(() => import('../quill'), { ssr: false })
 
 export type ControlledQuillEditorProps<
   TFieldValues extends FieldValues,
@@ -20,6 +21,7 @@ export type ControlledQuillEditorProps<
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
+  minHeight?: number
 }
 
 export default function ControlledQuillEditor<
@@ -31,6 +33,8 @@ export default function ControlledQuillEditor<
   errors,
   labelClassName,
   onChange,
+  minHeight,
+  className,
   ...props
 }: ControlledQuillEditorProps<TFieldValues, TName>) {
   return (
@@ -46,6 +50,13 @@ export default function ControlledQuillEditor<
           }}
           onBlur={onBlur}
           error={errors ? (errors[name]?.message as string) : undefined}
+          className={cn(
+            {
+              [`col-span-full [&_.ql-editor]:min-h-[${minHeight}px]`]:
+                !!minHeight,
+            },
+            className
+          )}
           {...props}
         />
       )}

@@ -13,7 +13,7 @@ import {
 } from '@/components/page/peserta/ruang-kelas/kelas/diskusi'
 import DaftarTugasCard from '@/components/page/peserta/ruang-kelas/kelas/diskusi/daftar-tugas-card'
 import PresensiCard from '@/components/page/peserta/ruang-kelas/kelas/diskusi/presensi-card'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import useInfiniteScroll, {
   ScrollDirection,
 } from 'react-easy-infinite-scroll-hook'
@@ -56,35 +56,35 @@ export default function DiskusiPage() {
   const cc = 7
 
   return (
-    <div className="flex flex-col-reverse gap-8 mt-8 lg:flex-row">
+    <div className="flex flex-col-reverse gap-x-4 gap-y-6 mt-8 lg:flex-row">
       <div className="flex flex-col lg:w-7/12">
         <HeaderCard />
 
         <div ref={ref as any}>
           {data.map((val, idx) => (
-            <div className="Row" key={idx}>
+            <Fragment key={idx}>
               {idx % cc === 0 ? (
-                <Materi1Card className="mt-8" />
+                <Materi1Card className="mt-6" />
               ) : idx % cc === 1 ? (
-                <TugasCard className="mt-8" />
+                <TugasCard className="mt-6" />
               ) : idx % cc === 2 ? (
-                <ConferenceCard className="mt-8" />
+                <ConferenceCard className="mt-6" />
               ) : idx % cc === 3 ? (
-                <UjianCard className="mt-8" />
+                <UjianCard className="mt-6" />
               ) : idx % cc === 4 ? (
-                <InformasiCard className="mt-8" />
+                <InformasiCard className="mt-6" />
               ) : idx % cc === 5 ? (
-                <Materi2Card className="mt-8" />
+                <Materi2Card className="mt-6" />
               ) : (
-                <Materi3Card className="mt-8" />
+                <Materi3Card className="mt-6" />
               )}
-            </div>
+            </Fragment>
           ))}
         </div>
       </div>
       <div className="flex flex-col flex-1">
         <PresensiCard />
-        <DaftarTugasCard className="mt-8" />
+        <DaftarTugasCard className="mt-6" />
       </div>
     </div>
   )

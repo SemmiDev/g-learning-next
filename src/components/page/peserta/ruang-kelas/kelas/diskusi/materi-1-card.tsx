@@ -2,9 +2,11 @@ import FileListItem, {
   FileListItemType,
 } from '@/components/shared/file/file-list-item'
 import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function MateriCard({ className }: { className?: string }) {
   const files: FileListItemType[] = [
@@ -54,11 +56,11 @@ export default function MateriCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        {/* <Link href={`${routes.pengajar.kelas}/diskusi/detail`}> */}
-        <Button size="sm" className="w-full">
-          Masuk Kelas
-        </Button>
-        {/* </Link> */}
+        <Link href={`${routes.peserta.kelas}/diskusi/detail`}>
+          <Button size="sm" className="w-full">
+            Masuk Kelas
+          </Button>
+        </Link>
       </div>
     </Card>
   )

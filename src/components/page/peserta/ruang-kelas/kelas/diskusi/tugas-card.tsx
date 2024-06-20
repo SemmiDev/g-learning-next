@@ -6,9 +6,11 @@ import {
   TextSpan,
   Title,
 } from '@/components/ui'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
+import Link from 'next/link'
 import KomentarSectionShort from './komentar-section-short'
 
 export default function TugasCard({ className }: { className?: string }) {
@@ -43,11 +45,11 @@ export default function TugasCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        {/* <Link href={`${routes.pengajar.kelas}/diskusi/detail/tugas`}> */}
-        <Button size="sm" className="w-full">
-          Kumpulkan Tugas
-        </Button>
-        {/* </Link> */}
+        <Link href={`${routes.peserta.kelas}/diskusi/detail/tugas`}>
+          <Button size="sm" className="w-full">
+            Kumpulkan Tugas
+          </Button>
+        </Link>
         <KomentarSectionShort className="pt-4 px-2" />
       </div>
     </Card>

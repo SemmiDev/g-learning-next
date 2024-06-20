@@ -41,7 +41,7 @@ export default function Materi3Card({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        {/* <Link href={`${routes.pengajar.kelas}/diskusi/detail`}> */}
+        {/* <Link href={`${routes.peserta.kelas}/diskusi/detail`}> */}
         <Button size="sm" className="w-full">
           Masuk Kelas
         </Button>
