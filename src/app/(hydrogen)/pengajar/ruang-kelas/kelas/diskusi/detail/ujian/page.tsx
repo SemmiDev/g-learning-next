@@ -16,7 +16,6 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
-import Image from 'next/image'
 import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCardChecklist, BsCheck, BsChevronDown } from 'react-icons/bs'
@@ -243,7 +242,7 @@ export default function DiskusiDetailUjianPage() {
           <KomentarSectionShort className="p-4" />
         </Card>
         <Card className="flex flex-col flex-1 p-0">
-          <Title as="h6" weight="semibold" className="px-3 py-2">
+          <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
             Peserta yang Mengikuti Ujian
           </Title>
           <CardSeparator />

@@ -15,7 +15,7 @@ import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
-import { Input, Select } from 'rizzui'
+import { Input, Select, SelectOption } from 'rizzui'
 
 const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 
@@ -57,6 +57,11 @@ const optionsJenis: ControlledRadioGroupOptions = [
   { label: 'Internal', value: 'Internal' },
 ]
 
+const optionsHari: SelectOption[] = HARI.map((hari) => ({
+  label: hari,
+  value: hari,
+}))
+
 export default function BuatKelasModal({
   showModal = false,
   setShowModal,
@@ -64,11 +69,6 @@ export default function BuatKelasModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const optionsHari = HARI.map((hari) => ({
-    label: hari,
-    value: hari,
-  }))
-
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
   }
@@ -138,12 +138,14 @@ export default function BuatKelasModal({
                             control={control}
                             name={`hariWaktu.${idx}.hari`}
                             render={({ field: { value, onChange } }) => (
-                              <Select
+                              <Select<SelectOption>
                                 placeholder="Pilih nama hari"
                                 options={optionsHari}
                                 onChange={onChange}
                                 value={value}
-                                getOptionValue={(option) => option.value}
+                                getOptionValue={(option: SelectOption) =>
+                                  option.value
+                                }
                                 className="flex-1"
                                 error={errors.hariWaktu?.[idx]?.hari?.message}
                               />

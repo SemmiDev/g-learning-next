@@ -2,12 +2,10 @@
 
 import { useScrollableSlider } from '@/hooks/use-scrollable-slider'
 import cn from '@/utils/class-names'
-import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
-import { Button } from 'rizzui'
-
-import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
+import { Button } from 'rizzui'
 import Text from './text/text'
 
 type TabItem = {
@@ -30,7 +28,7 @@ export const Tab = ({ path, item }: { path: string; item: TabItem }) => {
   return (
     <Link
       href={link}
-      className={clsx(
+      className={cn(
         'group relative cursor-pointer whitespace-nowrap py-2.5 px-1 text-gray-dark before:absolute before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:bg-primary before:transition-all',
         isActive
           ? 'text-primary before:visible before:w-full before:opacity-100'

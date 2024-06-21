@@ -1,7 +1,9 @@
 import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
+import Link from 'next/link'
 import { BsCardChecklist } from 'react-icons/bs'
 import KomentarSectionZero from './komentar-section-zero'
 
@@ -89,11 +91,11 @@ export default function UjianCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        {/* <Link href={`${routes.peserta.kelas}/diskusi/detail/ujian`}> */}
-        <Button size="sm" className="w-full">
-          Kerjakan Ujian
-        </Button>
-        {/* </Link> */}
+        <Link href={`${routes.peserta.kelas}/diskusi/detail/ujian`}>
+          <Button size="sm" className="w-full">
+            Kerjakan Ujian
+          </Button>
+        </Link>
         <KomentarSectionZero className="pt-4 px-2 pb-2" />
       </div>
     </Card>
