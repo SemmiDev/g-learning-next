@@ -1,16 +1,19 @@
 'use client'
 
-import React, { useState } from 'react'
-import dynamic from 'next/dynamic'
-import {
-  PiMagnifyingGlassBold,
-  PiFunnel,
-  PiXBold,
-  PiFunnelX,
-} from 'react-icons/pi'
-import { Button, ActionIcon, Input, Title } from 'rizzui'
-import cn from '@/utils/class-names'
 import { useMedia } from '@/hooks/use-media'
+import cn from '@/utils/class-names'
+import dynamic from 'next/dynamic'
+import React, { useState } from 'react'
+import {
+  PiFunnel,
+  PiFunnelX,
+  PiMagnifyingGlassBold,
+  PiXBold,
+} from 'react-icons/pi'
+import ActionIcon from '../button/action-icon'
+import Button from '../button/button'
+import Input from '../input'
+import Title from '../text/title'
 const Drawer = dynamic(() => import('rizzui').then((module) => module.Drawer), {
   ssr: false,
 })
@@ -42,7 +45,7 @@ function FilterDrawerView({
             size="sm"
             rounded="full"
             variant="text"
-            title={'Close Filter'}
+            title={'Tutup Filter'}
             onClick={() => setOpenDrawer(false)}
           >
             <PiXBold className="h-4 w-4" />
@@ -54,9 +57,8 @@ function FilterDrawerView({
           </div>
         </div>
         <Button
-          size="lg"
           onClick={() => setOpenDrawer(false)}
-          className="mt-5 h-11 w-full text-sm"
+          className="mt-5 w-full text-sm"
         >
           Filter
         </Button>
