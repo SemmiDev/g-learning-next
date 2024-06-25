@@ -2,8 +2,12 @@
 
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
-import { TableToggleColumns } from '@/components/ui/table'
-import { PiMagnifyingGlassBold, PiFunnel, PiXBold } from 'react-icons/pi'
+import {
+  PiMagnifyingGlassBold,
+  PiFunnel,
+  PiXBold,
+  PiFunnelX,
+} from 'react-icons/pi'
 import { Button, ActionIcon, Input, Title } from 'rizzui'
 import cn from '@/utils/class-names'
 import { useMedia } from '@/hooks/use-media'
@@ -27,7 +31,7 @@ function FilterDrawerView({
       size="sm"
       isOpen={isOpen ?? false}
       onClose={() => setOpenDrawer(false)}
-      overlayClassName="dark:bg-opacity-40 dark:backdrop-blur-md"
+      overlayClassName="cursor-default dark:bg-opacity-40 dark:backdrop-blur-md"
       containerClassName="dark:bg-gray-100"
       className="z-[9999]"
     >
@@ -54,7 +58,7 @@ function FilterDrawerView({
           onClick={() => setOpenDrawer(false)}
           className="mt-5 h-11 w-full text-sm"
         >
-          Show Results
+          Filter
         </Button>
       </div>
     </Drawer>
@@ -65,10 +69,7 @@ export type TableFilterProps = {
   searchTerm: string
   onSearchClear: () => void
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  columns: { [key: string]: any }[]
-  checkedColumns: string[]
-  setCheckedColumns: React.Dispatch<React.SetStateAction<string[]>>
-  hideIndex?: number
+  searchPlaceholder?: string
   children?: React.ReactNode
   drawerTitle?: string
   hasSearched?: boolean
@@ -81,18 +82,16 @@ export default function TableFilter({
   searchTerm,
   onSearchClear,
   onSearchChange,
-  columns,
-  checkedColumns,
-  setCheckedColumns,
-  hideIndex,
-  drawerTitle = 'Table Filters',
+  searchPlaceholder = 'Ketik pencarian di sini...',
+  drawerTitle = 'Filter Table',
   hasSearched,
-  enableDrawerFilter = false,
-  showSearchOnTheRight = false,
+  enableDrawerFilter = true,
+  showSearchOnTheRight = true,
   menu,
   children,
 }: TableFilterProps) {
   const isMediumScreen = useMedia('(max-width: 1860px)', false)
+
   const [showFilters, setShowFilters] = useState(true)
   const [openDrawer, setOpenDrawer] = useState(false)
 
@@ -102,7 +101,7 @@ export default function TableFilter({
         {!showSearchOnTheRight ? (
           <Input
             type="search"
-            placeholder="Search by anything..."
+            placeholder={searchPlaceholder}
             value={searchTerm}
             onClear={onSearchClear}
             onChange={onSearchChange}
@@ -138,7 +137,7 @@ export default function TableFilter({
         {showSearchOnTheRight ? (
           <Input
             type="search"
-            placeholder="Search by anything..."
+            placeholder={searchPlaceholder}
             value={searchTerm}
             onClear={onSearchClear}
             onChange={onSearchChange}
@@ -160,25 +159,19 @@ export default function TableFilter({
               : { onClick: () => setShowFilters(() => !showFilters) })}
             variant={'outline'}
             className={cn(
-              'me-2.5 h-9 pe-3 ps-2.5',
+              'me-2.5 h-9 px-2.5',
               !(isMediumScreen || enableDrawerFilter) &&
                 showFilters &&
                 'border-dashed border-gray-700'
             )}
           >
-            <PiFunnel className="me-1.5 h-[18px] w-[18px]" strokeWidth={1.7} />
-            {!(isMediumScreen || enableDrawerFilter) && showFilters
-              ? 'Hide Filters'
-              : 'Filters'}
+            {!(isMediumScreen || enableDrawerFilter) && showFilters ? (
+              <PiFunnelX size={18} strokeWidth={1.7} />
+            ) : (
+              <PiFunnel size={18} strokeWidth={1.7} />
+            )}
           </Button>
         ) : null}
-
-        <TableToggleColumns
-          columns={columns}
-          checkedColumns={checkedColumns}
-          setCheckedColumns={setCheckedColumns}
-          hideIndex={hideIndex}
-        />
       </div>
     </div>
   )

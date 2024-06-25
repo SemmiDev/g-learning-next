@@ -10,9 +10,12 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { useState } from 'react'
 import { tesAsyncAction } from './actions'
+import FilterElement from './filter-element'
 
 export default function Tes3Table() {
   const [pageSize, setPageSize] = useState(5)
+  const [checkedColumns, setCheckedColumns] = useState<string[]>(['single'])
+  const [search, setSearch] = useState('')
 
   const {
     data,
@@ -23,6 +26,9 @@ export default function Tes3Table() {
     totalData,
     sort,
     onSort,
+    filters,
+    updateFilter,
+    onReset,
   } = useTableAsync(tesAsyncAction)
 
   const tableColumns = [
@@ -75,6 +81,19 @@ export default function Tes3Table() {
         isLoading={isLoading}
         columns={tableColumns}
         rowKey={(record) => record.id}
+        filterOptions={{
+          searchTerm: search,
+          onSearchClear: () => setSearch(''),
+          onSearchChange: (e) => setSearch(e.target.value),
+        }}
+        filterElement={
+          <FilterElement
+            isFiltered={false}
+            filters={filters}
+            updateFilter={updateFilter}
+            onReset={onReset}
+          />
+        }
         paginatorOptions={{
           pageSize,
           setPageSize,

@@ -1,22 +1,16 @@
 'use client'
 
 import type { TableFilterProps } from '@/components/ui/controlled-async-table/filter'
+import TableFilter from '@/components/ui/controlled-async-table/filter'
 import type { TablePaginationProps } from '@/components/ui/controlled-async-table/pagination'
+import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import Table, { type TableProps } from '@/components/ui/table'
 import { SortType } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import isEmpty from 'lodash/isEmpty'
-import dynamic from 'next/dynamic'
 import React from 'react'
-import { Loader, Title } from 'rizzui'
-const TableFilter = dynamic(
-  () => import('@/components/ui/controlled-async-table/filter'),
-  { ssr: false }
-)
-const TablePagination = dynamic(
-  () => import('@/components/ui/controlled-async-table/pagination'),
-  { ssr: false }
-)
+import { CgSpinner } from 'react-icons/cg'
+import { Title } from 'rizzui'
 
 export type ControlledAsyncTableActionProps = {
   page: number
@@ -54,8 +48,8 @@ export default function ControlledAsyncTable({
 }: ControlledAsyncTableProps) {
   if (isFirstLoading) {
     return (
-      <div className="grid h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
-        <Loader variant="spinner" size="xl" />
+      <div className="flex flex-col h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
+        <CgSpinner size={40} className="animate-spin" />
         {showLoadingText ? (
           <Title as="h6" className="-me-2 mt-4 font-medium text-gray-500">
             Loading...

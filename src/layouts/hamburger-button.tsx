@@ -21,6 +21,7 @@ export default function HamburgerButton({
   className,
 }: Props) {
   const { openDrawer } = useDrawer()
+
   return (
     <ActionIcon
       aria-label="Open Sidebar Menu"

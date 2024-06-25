@@ -9,7 +9,7 @@ export const tesAsyncAction = async ({
   search = '',
   sort,
 }: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
-  await wait(1000)
+  // await wait(1000)
 
   const data = [...Array(5)].map((v, idx) => {
     const no = idx + 1

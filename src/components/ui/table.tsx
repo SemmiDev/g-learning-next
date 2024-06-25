@@ -1,36 +1,33 @@
 'use client'
 
-import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
+import { SortType } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import emptyIcon from '@public/icons/empty.svg'
 import Image from 'next/image'
 import RcTable from 'rc-table'
-import { PiTextColumns } from 'react-icons/pi'
-import { ActionIcon, Checkbox, CheckboxGroup, Popover, Title } from 'rizzui'
 import {
   TbCaretDownFilled,
   TbCaretUpDownFilled,
   TbCaretUpFilled,
 } from 'react-icons/tb'
 import Text, { TextProps } from './text/text'
-import { SortType } from '@/hooks/use-table-async'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 
 const classes = {
   table:
-    '[&_.rc-table-content]:overflow-x-auto [&_table]:w-full [&_.rc-table-row]:transition [&_.rc-table-row]:duration-50 [&_.rc-table-row:hover]:bg-gray-50 [&_.rc-table-row-expand-icon-cell]:w-14',
+    '[&_.rc-table-content]:overflow-x-auto [&_table]:w-full [&_.rc-table-row]:transition [&_.rc-table-row]:duration-50 [&_.rc-table-row:hover]:bg-gray-50/50 [&_.rc-table-row-expand-icon-cell]:w-14',
   thead:
     '[&_thead]:text-left [&_thead]:rtl:text-right [&_thead]:select-none [&_th.rc-table-cell]:text-sm [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500',
   tCell:
     '[&_.rc-table-cell]:px-3 [&_th.rc-table-cell]:py-3 [&_td.rc-table-cell]:py-4',
   variants: {
     classic:
-      '[&_thead]:bg-gray-100 [&_.rc-table-container]:border-x [&_.rc-table-container]:border-muted/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70 [&_thead]:border-y [&_thead]:border-muted/70',
+      '[&_thead]:bg-gray-50 [&_.rc-table-container]:border-x [&_.rc-table-container]:border-muted/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70 [&_thead]:border-y [&_thead]:border-muted/70',
     modern:
-      '[&_thead_th]:bg-gray-100 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70 [&_thead_.rc-table-row-expand-icon-cell]:bg-gray-100',
+      '[&_thead_th]:bg-gray-50 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70 [&_thead_.rc-table-row-expand-icon-cell]:bg-gray-50',
     minimal:
-      '[&_thead_th]:bg-gray-100 [&_thead_th:first-child]:rounded-ss-lg [&_thead_th:first-child]:rounded-es-lg [&_thead_th:last-child]:rounded-se-lg [&_thead_th:last-child]:rounded-ee-lg [&_thead_.rc-table-row-expand-icon-cell]:bg-gray-100',
+      '[&_thead_th]:bg-gray-50 [&_thead_th:first-child]:rounded-ss-lg [&_thead_th:first-child]:rounded-es-lg [&_thead_th:last-child]:rounded-se-lg [&_thead_th:last-child]:rounded-ee-lg [&_thead_.rc-table-row-expand-icon-cell]:bg-gray-50',
     elegant:
       '[&_thead]:border-y [&_thead]:border-muted/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70',
     retro:
@@ -200,53 +197,3 @@ export const renderTableCellText = (value: any) => (
 export const renderTableCellNumber = (_: any, __: any, idx: any) => (
   <TableCellNumber>{idx + 1}</TableCellNumber>
 )
-
-type ToggleColumnsTypes<T> = {
-  columns: T[]
-  checkedColumns: string[]
-  setCheckedColumns: React.Dispatch<React.SetStateAction<string[]>>
-  hideIndex?: number
-}
-
-export function TableToggleColumns<T>({
-  columns,
-  checkedColumns,
-  setCheckedColumns,
-  hideIndex,
-}: ToggleColumnsTypes<T>) {
-  return (
-    <div>
-      <Popover shadow="sm" placement="bottom-end">
-        <Popover.Trigger>
-          <ActionIcon variant="outline" title={'Toggle Columns'}>
-            <PiTextColumns strokeWidth={3} className=" h-6 w-6" />
-          </ActionIcon>
-        </Popover.Trigger>
-        <Popover.Content className="z-0">
-          <div className="px-0.5 pt-2 text-left rtl:text-right">
-            <Title as="h6" className="mb-1 px-0.5 text-sm font-semibold">
-              Toggle Columns
-            </Title>
-            <CheckboxGroup
-              values={checkedColumns}
-              setValues={setCheckedColumns}
-              className="grid grid-cols-2 gap-x-6 gap-y-5 px-1.5 pb-3.5 pt-4"
-            >
-              {columns.map((column: any, index) => (
-                <Checkbox
-                  key={column.dataIndex}
-                  value={column.dataIndex}
-                  label={addSpacesToCamelCase(column.dataIndex)}
-                  labelClassName="ml-2 rtl:mr-2 text-[13px] font-medium"
-                  className={cn(
-                    hideIndex && index === hideIndex ? 'hidden' : ''
-                  )}
-                />
-              ))}
-            </CheckboxGroup>
-          </div>
-        </Popover.Content>
-      </Popover>
-    </div>
-  )
-}
