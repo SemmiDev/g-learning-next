@@ -57,10 +57,11 @@ function FilterDrawerView({
           </div>
         </div>
         <Button
-          onClick={() => setOpenDrawer(false)}
           className="mt-5 w-full text-sm"
+          variant="outline-colorful"
+          onClick={() => setOpenDrawer(false)}
         >
-          Filter
+          Tutup
         </Button>
       </div>
     </Drawer>
@@ -85,7 +86,7 @@ export default function TableFilter({
   onSearchClear,
   onSearchChange,
   searchPlaceholder = 'Ketik pencarian di sini...',
-  drawerTitle = 'Filter Table',
+  drawerTitle = 'Filter Data',
   hasSearched,
   enableDrawerFilter = true,
   showSearchOnTheRight = true,
@@ -107,9 +108,8 @@ export default function TableFilter({
             value={searchTerm}
             onClear={onSearchClear}
             onChange={onSearchChange}
-            inputClassName="h-9"
             clearable={true}
-            prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
+            prefix={<PiMagnifyingGlassBold className="size-4" />}
           />
         ) : null}
 

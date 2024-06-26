@@ -3,6 +3,7 @@ import {
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
 import { AnyObject } from '@/utils/type-interface'
+import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
 
@@ -106,6 +107,7 @@ export function useTableAsync<T extends AnyObject>(
    */
   function onReset() {
     onSearch('')
+
     if (initialFilterState) return setFilters(initialFilterState)
   }
 
@@ -124,12 +126,14 @@ export function useTableAsync<T extends AnyObject>(
     })()
   }, [action, page, search, sort])
 
+  const isFiltered = !_.isEqual(filters, initialFilterState)
+
   /*
    * Go to first page when data is filtered and searched
    */
   useEffect(() => {
     onPageChange(1)
-  }, [search])
+  }, [filters, search])
 
   // useTable returns
   return {
@@ -154,6 +158,7 @@ export function useTableAsync<T extends AnyObject>(
     // filters
     filters,
     updateFilter,
+    isFiltered,
     onReset,
   }
 }

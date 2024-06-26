@@ -28,8 +28,12 @@ export default function Tes3Table() {
     onSort,
     filters,
     updateFilter,
+    isFiltered,
     onReset,
-  } = useTableAsync(tesAsyncAction)
+  } = useTableAsync(tesAsyncAction, {
+    nama: '',
+    email: '',
+  })
 
   const tableColumns = [
     {
@@ -88,7 +92,7 @@ export default function Tes3Table() {
         }}
         filterElement={
           <FilterElement
-            isFiltered={false}
+            isFiltered={isFiltered}
             filters={filters}
             updateFilter={updateFilter}
             onReset={onReset}

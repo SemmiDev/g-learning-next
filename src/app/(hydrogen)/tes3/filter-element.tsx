@@ -1,7 +1,7 @@
 'use client'
 
-import { PiTrashDuotone } from 'react-icons/pi'
-import { Button } from 'rizzui'
+import { Button, Input } from '@/components/ui'
+import { AiOutlineClear } from 'react-icons/ai'
 
 type FilterElementProps = {
   isFiltered: boolean
@@ -18,15 +18,19 @@ export default function FilterElement({
 }: FilterElementProps) {
   return (
     <>
-      Testing
+      <Input
+        label="Nama"
+        onChange={(e) => updateFilter('nama', e.target.value)}
+        value={filters.nama ?? ''}
+      />
+      <Input
+        label="Email"
+        onChange={(e) => updateFilter('email', e.target.value)}
+        value={filters.email ?? ''}
+      />
       {isFiltered ? (
-        <Button
-          size="sm"
-          onClick={onReset}
-          className="h-8 bg-gray-200/70"
-          variant="flat"
-        >
-          <PiTrashDuotone className="me-1.5 h-[17px] w-[17px]" /> Clear
+        <Button size="sm" variant="flat" color="warning" onClick={onReset}>
+          <AiOutlineClear size={15} className="me-1.5" /> Bersikan Filter
         </Button>
       ) : null}
     </>
