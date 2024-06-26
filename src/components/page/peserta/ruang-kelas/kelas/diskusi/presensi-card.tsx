@@ -33,26 +33,28 @@ type PresensiItemProps = {
   jumlah: number
 }
 function PresensiItem({ status, jumlah }: PresensiItemProps) {
-  let color
+  let bgColor
   switch (status) {
     case 'Hadir':
-      color = '#EAFDED'
+      bgColor = 'bg-slight-green'
       break
     case 'Sakit':
-      color = '#EAF4FD'
+      bgColor = 'bg-slight-blue'
       break
     case 'Izin':
-      color = '#FDF9EA'
+      bgColor = 'bg-slight-yellow'
       break
     case 'Alpha':
-      color = '#FDEAEA'
+      bgColor = 'bg-slight-red'
       break
   }
 
   return (
     <div
-      className="flex flex-col items-center rounded-md min-w-20 p-2"
-      style={{ backgroundColor: color }}
+      className={cn(
+        'flex flex-col items-center rounded-md min-w-20 p-2',
+        bgColor
+      )}
     >
       <Text
         weight="semibold"

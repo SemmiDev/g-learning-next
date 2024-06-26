@@ -1,5 +1,6 @@
 'use client'
 
+import MulaiUjianModal from '@/components/page/peserta/ruang-kelas/kelas/diskusi/detail/ujian/modal/mulai-ujian'
 import KomentarSectionShort from '@/components/page/peserta/ruang-kelas/kelas/diskusi/komentar-section-short'
 import {
   Button,
@@ -13,10 +14,13 @@ import {
 import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Link from 'next/link'
+import { useState } from 'react'
 import { BsCardChecklist } from 'react-icons/bs'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function DiskusiDetailUjianPage() {
+  const [showModalMulai, setShowModalMulai] = useState(false)
+
   return (
     <>
       <div className="mt-4 mb-4">
@@ -129,22 +133,22 @@ export default function DiskusiDetailUjianPage() {
                 <tr>
                   <td className="w-32">Jumlah pertanyaan</td>
                   <td className="w-3 text-center"> : </td>
-                  <td></td>
+                  <td>20</td>
                 </tr>
                 <tr>
                   <td>Benar/ salah</td>
                   <td className="text-center"> : </td>
-                  <td></td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Waktu mulai</td>
                   <td className="text-center"> : </td>
-                  <td></td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Waktu selesai</td>
                   <td className="text-center"> : </td>
-                  <td></td>
+                  <td>-</td>
                 </tr>
               </tbody>
             </table>
@@ -153,16 +157,21 @@ export default function DiskusiDetailUjianPage() {
                 Nilai
               </Text>
               <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-                100
+                -
               </Text>
             </div>
           </div>
           <CardSeparator />
           <div className="flex flex-col p-2">
-            <Button>Mulai ujian</Button>
+            <Button onClick={() => setShowModalMulai(true)}>Mulai ujian</Button>
           </div>
         </Card>
       </div>
+
+      <MulaiUjianModal
+        showModal={showModalMulai}
+        setShowModal={setShowModalMulai}
+      />
     </>
   )
 }

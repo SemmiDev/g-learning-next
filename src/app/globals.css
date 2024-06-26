@@ -210,7 +210,7 @@
   }
 
   body {
-    @apply flex min-h-full flex-col overflow-x-hidden text-sm text-gray-600 dark:bg-gray-50;
+    @apply flex min-h-full flex-col overflow-x-hidden text-sm text-gray-600 bg-gray-50/30 dark:bg-gray-50;
   }
 
   input::-ms-clear,
@@ -1466,4 +1466,17 @@ div[style='z-index: 1000001;'],
 .btn-item-indigo {
   background-color: #c3c2ff;
   color: #5100d4;
+}
+
+.bg-slight-blue {
+  background-color: #eaf4fd;
+}
+.bg-slight-green {
+  background-color: #eafded;
+}
+.bg-slight-yellow {
+  background-color: #fdf9ea;
+}
+.bg-slight-red {
+  background-color: #fdeaea;
 }
