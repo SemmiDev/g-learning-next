@@ -1,6 +1,5 @@
 'use client'
 
-import HydrogenLayout from '@/layouts/hydrogen/layout'
 import { useSession } from 'next-auth/react'
 import { CgSpinner } from 'react-icons/cg'
 

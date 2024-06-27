@@ -2,7 +2,7 @@
 
 import { Button, Card, CardSeparator, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { useState } from 'react'
+import { SoalType } from './ujian-body'
 
 const boxColor = (color: 'green' | 'orange' | 'white'): string => {
   switch (color) {
@@ -26,15 +26,17 @@ const boxBehavior = (color: 'green' | 'orange' | 'white'): string => {
   }
 }
 
-export default function DaftarSoalCard() {
-  const [currentSoal, setCurrentSoal] = useState(0)
+type DaftarSoalCardProps = {
+  listSoal: SoalType[]
+  currentSoal: number
+  setCurrentSoal(val: number): void
+}
 
-  const listSoal = [...Array(20)].map((_, idx) => ({
-    soal: '<p>hjabsd <b>asjkd</b> hjbs</p>',
-    jawaban: [...Array(4)].map((_, idx) => '<p>etref <b>xss</b> wwqa</p>'),
-    sudah: idx < 18,
-  }))
-
+export default function DaftarSoalCard({
+  listSoal,
+  currentSoal,
+  setCurrentSoal,
+}: DaftarSoalCardProps) {
   return (
     <Card className="flex flex-col p-0">
       <Text weight="semibold" variant="dark" className="mx-3 my-2">
@@ -43,7 +45,7 @@ export default function DaftarSoalCard() {
       <CardSeparator />
       <div className="flex flex-col space-y-3 p-3">
         <div className="flex gap-x-2">
-          <div className="flex flex-col items-center flex-1 bg-slight-blue rounded-md p-2">
+          <div className="flex flex-col items-center flex-1 bg-slight-blue rounded-md px-4 py-2">
             <Text size="2xs" weight="medium" variant="lighter" align="center">
               Jumlah soal
             </Text>
@@ -51,7 +53,7 @@ export default function DaftarSoalCard() {
               21
             </Text>
           </div>
-          <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md p-2">
+          <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md px-4 py-2">
             <Text size="2xs" weight="medium" variant="lighter" align="center">
               Sudah dijawab
             </Text>
@@ -59,7 +61,7 @@ export default function DaftarSoalCard() {
               18
             </Text>
           </div>
-          <div className="flex flex-col items-center flex-1 bg-slight-red rounded-md p-2">
+          <div className="flex flex-col items-center flex-1 bg-slight-red rounded-md px-4 py-2">
             <Text size="2xs" weight="medium" variant="lighter" align="center">
               Belum dijawab
             </Text>
@@ -71,7 +73,7 @@ export default function DaftarSoalCard() {
         <div className="grid grid-cols-10 gap-2 xl:grid-cols-5">
           {listSoal.map((soal, idx) => {
             const color =
-              idx === currentSoal ? 'orange' : soal.sudah ? 'green' : 'white'
+              idx === currentSoal ? 'orange' : soal.jawab ? 'green' : 'white'
 
             return (
               <div className="flex justify-center items-center" key={idx}>
