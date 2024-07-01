@@ -1,11 +1,12 @@
 'use client'
 
 import { Button, Input } from '@/components/ui'
+import { AnyObject } from '@/utils/type-interface'
 import { AiOutlineClear } from 'react-icons/ai'
 
 type FilterElementProps = {
   isFiltered: boolean
-  filters: { [key: string]: any }
+  filters: AnyObject
   updateFilter: (columnId: string, filterValue: string | any[]) => void
   onReset: () => void
 }
@@ -20,13 +21,17 @@ export default function FilterElement({
     <>
       <Input
         label="Nama"
-        onChange={(e) => updateFilter('nama', e.target.value)}
         value={filters.nama ?? ''}
+        onChange={(e) => updateFilter('nama', e.target.value)}
+        onClear={() => updateFilter('nama', '')}
+        clearable
       />
       <Input
         label="Email"
-        onChange={(e) => updateFilter('email', e.target.value)}
         value={filters.email ?? ''}
+        onChange={(e) => updateFilter('email', e.target.value)}
+        onClear={() => updateFilter('email', '')}
+        clearable
       />
       {isFiltered ? (
         <Button size="sm" variant="flat" color="warning" onClick={onReset}>

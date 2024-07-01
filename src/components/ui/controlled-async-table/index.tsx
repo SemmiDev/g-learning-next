@@ -7,6 +7,7 @@ import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import Table, { type TableProps } from '@/components/ui/table'
 import { SortType } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
+import { AnyObject } from '@/utils/type-interface'
 import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import { CgSpinner } from 'react-icons/cg'
@@ -16,6 +17,7 @@ export type ControlledAsyncTableActionProps = {
   page: number
   search?: string
   sort?: SortType
+  filters?: AnyObject
 }
 export type ControlledAsyncTableActionType = {
   data: any[]
@@ -49,7 +51,7 @@ export default function ControlledAsyncTable({
   if (isFirstLoading) {
     return (
       <div className="flex flex-col h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
-        <CgSpinner size={40} className="animate-spin" />
+        <CgSpinner size={40} className="animate-spin text-primary" />
         {showLoadingText ? (
           <Title as="h6" className="-me-2 mt-4 font-medium text-gray-500">
             Loading...

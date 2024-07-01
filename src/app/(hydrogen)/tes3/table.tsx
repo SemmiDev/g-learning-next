@@ -15,7 +15,6 @@ import FilterElement from './filter-element'
 export default function Tes3Table() {
   const [pageSize, setPageSize] = useState(5)
   const [checkedColumns, setCheckedColumns] = useState<string[]>(['single'])
-  const [search, setSearch] = useState('')
 
   const {
     data,
@@ -26,6 +25,8 @@ export default function Tes3Table() {
     totalData,
     sort,
     onSort,
+    search,
+    onSearch,
     filters,
     updateFilter,
     isFiltered,
@@ -87,8 +88,8 @@ export default function Tes3Table() {
         rowKey={(record) => record.id}
         filterOptions={{
           searchTerm: search,
-          onSearchClear: () => setSearch(''),
-          onSearchChange: (e) => setSearch(e.target.value),
+          onSearchClear: () => onSearch(''),
+          onSearchChange: (e) => onSearch(e.target.value),
         }}
         filterElement={
           <FilterElement

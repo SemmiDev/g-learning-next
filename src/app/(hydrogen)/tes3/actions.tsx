@@ -8,6 +8,7 @@ export const tesAsyncAction = async ({
   page = 1,
   search = '',
   sort,
+  filters,
 }: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
   // await wait(1000)
 
@@ -16,7 +17,7 @@ export const tesAsyncAction = async ({
 
     return {
       id: no,
-      nama: `Nama ${no} ${JSON.stringify(sort)}`,
+      nama: `Nama ${no}`,
       email: `email${no}@namaweb.com`,
     }
   })

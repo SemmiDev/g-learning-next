@@ -116,7 +116,7 @@ export function useTableAsync<T extends AnyObject>(
    */
   useEffect(() => {
     ;(async () => {
-      const resData = await action({ page, search, sort })
+      const resData = await action({ page, search, sort, filters })
 
       setData(resData.data)
       setTotalData(resData.totalData)
@@ -124,7 +124,7 @@ export function useTableAsync<T extends AnyObject>(
       setIsFirstLoading(false)
       setIsLoading(false)
     })()
-  }, [action, page, search, sort])
+  }, [action, page, search, sort, filters])
 
   const isFiltered = !_.isEqual(filters, initialFilterState)
 
