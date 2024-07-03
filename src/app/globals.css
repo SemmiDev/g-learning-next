@@ -1480,3 +1480,16 @@ div[style='z-index: 1000001;'],
 .bg-slight-red {
   background-color: #fdeaea;
 }
+
+.bg-badge-green {
+  background-color: #33c50e;
+}
+.bg-badge-yellow {
+  background-color: #f6b63b;
+}
+.bg-badge-blue {
+  background-color: #3b82f6;
+}
+.bg-badge-red {
+  background-color: #f63b3b;
+}
