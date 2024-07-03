@@ -28,19 +28,22 @@ export default function UjianCard({ listUjian }: UjianCardProps) {
               {item.batasWaktu}
             </Text>
           </div>
-          {item.status === 'Belum' ? (
-            <Button size="sm">Kerjakan Ujian</Button>
-          ) : (
-            <Badge
-              variant="solid"
-              rounded="md"
-              className={
-                item.status === 'Sudah' ? 'bg-badge-green' : 'bg-badge-yellow'
-              }
-            >
-              {item.status === 'Sudah' ? 'Cek Hasil Ujian' : 'Ulangi Ujian'}
-            </Badge>
-          )}
+          <Button
+            size="sm"
+            color={
+              item.status === 'Sudah'
+                ? 'success'
+                : item.status === 'Belum'
+                ? 'primary'
+                : 'warning'
+            }
+          >
+            {item.status === 'Sudah'
+              ? 'Cek Hasil Ujian'
+              : item.status === 'Belum'
+              ? 'Kerjakan Ujian'
+              : 'Ulangi Ujian'}
+          </Button>
         </div>
       ))}
     </Card>
