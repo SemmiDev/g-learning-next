@@ -107,10 +107,10 @@ export default function ShareMateriModal({
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <div className="flex space-x-2 border border-dashed border-muted rounded-md p-3">
+              <div className="flex space-x-2 border border-dashed border-muted rounded-md p-2">
                 <div
                   className={cn(
-                    'flex size-11 items-center justify-center rounded-md mr-2',
+                    'flex size-11 items-center justify-center rounded-md',
                     {
                       'btn-item-green': materi?.type === 'materi',
                       'btn-item-violet': materi?.type === 'tugas',

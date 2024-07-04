@@ -1,16 +1,16 @@
 'use client'
 
 import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
+import cn from '@/utils/class-names'
+import { removeFromList } from '@/utils/list'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import { FieldError } from 'rizzui'
 import DriveButton from './drive-button'
 import FileButton, { FileItemType } from './file-button'
 import FolderButton, { FolderItemType } from './folder-button'
-import { removeFromList } from '@/utils/list'
 import SelectedFile from './selected-file'
-import { FieldError } from 'rizzui'
-import cn from '@/utils/class-names'
 
 export type PustakaMediaProps = {
   label?: string
@@ -81,10 +81,10 @@ export default function PustakaMedia({
   const files: FileItemType[] = [
     {
       id: 'a1',
-      name: 'Alur Sistem Informasi',
+      name: 'Alur Sistem Informasi.docx',
       size: 5120,
       time: '13 Januari 2024',
-      icon: 'file',
+      type: 'file',
       link: 'https://www.example.com',
     },
     {
@@ -92,23 +92,23 @@ export default function PustakaMedia({
       name: 'Penjelasan singkat Alur Sistem Informasi',
       size: null,
       time: '13 Januari 2024',
-      icon: 'video',
+      type: 'link-video',
       link: 'https://www.example.com',
     },
     {
       id: 'a3',
-      name: 'Alur Sistem Informasi 2',
+      name: 'Alur Sistem Informasi 2.pdf',
       size: 5120,
       time: '13 Januari 2024',
-      icon: 'file',
+      type: 'file',
       link: 'https://www.example.com',
     },
     {
       id: 'a4',
-      name: 'Alur Sistem Informasi 3',
+      name: 'Alur Sistem Informasi 3.pdf',
       size: 5120,
       time: '13 Januari 2024',
-      icon: 'file',
+      type: 'file',
       link: 'https://www.example.com',
     },
   ]

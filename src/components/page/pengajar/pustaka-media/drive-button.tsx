@@ -32,7 +32,7 @@ export default function DriveButton({
       {...props}
     >
       {active && <div className="w-1 h-full bg-primary"></div>}
-      <div className="flex flex-col items-stretch flex-1 space-y-1 p-3">
+      <div className="flex flex-col items-stretch flex-1 space-y-1 p-2">
         <div className="flex justify-between space-x-2">
           <Text
             weight="semibold"

@@ -2,16 +2,17 @@ import { ActionIcon, ModalConfirm, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
-import { BsEye, BsFileEarmarkFill, BsFillPlayBtnFill } from 'react-icons/bs'
+import { BsEye, BsFillPlayBtnFill } from 'react-icons/bs'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Checkbox, Radio } from 'rizzui'
+import FileIcon from '../file/file-icon'
 
 export type FileItemType = {
   id: string
   name: string
   size?: number | null
   time: string
-  icon: 'video' | 'file'
+  type: 'link-video' | 'file'
   link: string
 }
 
@@ -32,11 +33,11 @@ export default function FileButton({
 
   return (
     <>
-      <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
+      <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
         {multiple ? (
           <Checkbox
             size="sm"
-            className="px-4"
+            className="px-3"
             iconClassName="h-4 top-0.5 left"
             checked={checked}
             onChange={(e) => {
@@ -48,7 +49,7 @@ export default function FileButton({
             name="pustaka_media_radio"
             value={file.id}
             size="sm"
-            className="px-4"
+            className="px-3"
             checked={checked}
             onChange={() => onChange && onChange(true)}
           />
@@ -56,10 +57,10 @@ export default function FileButton({
         <div className="flex flex-1 justify-between items-center space-x-2">
           <div className="flex space-x-2">
             <div className="flex size-11 items-center justify-center rounded-md shrink-0 bg-gray-50">
-              {file.icon === 'video' ? (
+              {file.type === 'link-video' ? (
                 <BsFillPlayBtnFill size={20} className="text-red-dark" />
               ) : (
-                <BsFileEarmarkFill size={20} className="text-purple-900/80" />
+                <FileIcon filename={file.name} />
               )}
             </div>
             <div className="flex flex-col">
@@ -89,13 +90,15 @@ export default function FileButton({
             >
               <BsEye />
             </ActionIcon>
-            <ActionIcon
-              size="sm"
-              variant="outline-hover-colorful"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <MdOutlineFileDownload />
-            </ActionIcon>
+            {file.type === 'file' && (
+              <ActionIcon
+                size="sm"
+                variant="outline-hover-colorful"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MdOutlineFileDownload />
+              </ActionIcon>
+            )}
             <ActionIcon
               size="sm"
               variant="outline-hover-colorful"

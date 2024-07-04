@@ -1,7 +1,8 @@
 import { ActionIcon, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
-import { BsFileEarmarkFill, BsFillPlayBtnFill } from 'react-icons/bs'
+import { BsFillPlayBtnFill } from 'react-icons/bs'
 import { MdClose } from 'react-icons/md'
+import FileIcon from '../file/file-icon'
 import { FileItemType } from './file-button'
 
 type SelectedFileProps = { file: FileItemType; onRemove?(): void }
@@ -14,10 +15,10 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
     >
       <div className="flex space-x-2">
         <div className="flex items-center justify-center size-11 shrink-0 rounded-md bg-gray-50">
-          {file.icon === 'video' ? (
+          {file.type === 'link-video' ? (
             <BsFillPlayBtnFill size={20} className="text-red-dark" />
           ) : (
-            <BsFileEarmarkFill size={20} className="text-purple-900/80" />
+            <FileIcon filename={file.name} />
           )}
         </div>
         <div className="flex flex-col">

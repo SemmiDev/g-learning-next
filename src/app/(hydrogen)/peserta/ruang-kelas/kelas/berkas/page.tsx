@@ -2,7 +2,7 @@
 
 import BerkasCard, {
   BerkasType,
-} from '@/components/page/pengajar/ruang-kelas/kelas/berkas/berkas-card'
+} from '@/components/page/peserta/ruang-kelas/kelas/berkas/berkas-card'
 import { Button, Text } from '@/components/ui'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -11,7 +11,7 @@ import { Dropdown, Input } from 'rizzui'
 export default function BerkasPage() {
   const listFile: BerkasType[] = [...Array(12)].map((_) => ({
     name: 'Nama File.ext',
-    desc: 'Judul Diskusi',
+    desc: 'Judul dari diskusi yang sudah dishare dengan file',
     size: '5 MB',
     time: '12 Mar 2024 13:00',
   }))

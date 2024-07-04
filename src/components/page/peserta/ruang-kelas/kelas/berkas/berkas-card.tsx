@@ -1,5 +1,5 @@
 import FileIcon from '@/components/shared/file/file-icon'
-import { ActionIcon, Text, Title } from '@/components/ui'
+import { ActionIcon, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsDownload, BsThreeDotsVertical } from 'react-icons/bs'
 import { GrShare } from 'react-icons/gr'
@@ -16,7 +16,7 @@ export default function BerkasCard({
   file,
   className,
 }: {
-  file: any
+  file: BerkasType
   className?: string
 }) {
   return (
@@ -44,7 +44,7 @@ export default function BerkasCard({
               </Dropdown.Item>
               <Dropdown.Item className="text-gray-dark">
                 <BsDownload size={14} className="text-blue-dark mr-2" />
-                Download
+                Unduh
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

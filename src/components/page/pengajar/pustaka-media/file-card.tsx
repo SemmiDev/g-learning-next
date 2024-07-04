@@ -1,4 +1,4 @@
-import { ActionIcon, Text, Title } from '@/components/ui'
+import { ActionIcon, Title } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import iconFolder from '@public/icons/folder.svg'
@@ -84,7 +84,7 @@ export default function FileCard({ file, className }: FileCardProps) {
   return (
     <div
       className={cn(
-        'relative rounded-lg border border-muted p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
+        'relative rounded-lg border border-muted p-2 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
         className
       )}
     >
