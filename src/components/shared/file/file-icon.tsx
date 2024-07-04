@@ -1,11 +1,14 @@
 import {
   BsFileEarmarkText,
+  BsFileEarmarkZip,
   BsFileImage,
   BsFiletypeDoc,
   BsFiletypeDocx,
   BsFiletypePdf,
   BsFiletypePpt,
   BsFiletypePptx,
+  BsFiletypeSvg,
+  BsFiletypeTxt,
   BsFiletypeXls,
   BsFiletypeXlsx,
 } from 'react-icons/bs'
@@ -31,11 +34,20 @@ export default function FileIcon({ filename, iconSize = 20 }: FileIconProps) {
       return <BsFiletypePptx size={iconSize} className="text-orange-600" />
     case 'pdf':
       return <BsFiletypePdf size={iconSize} className="text-red" />
+    case 'txt':
+      return <BsFiletypeTxt size={iconSize} className="text-red" />
+    case 'svg':
+      return <BsFiletypeSvg size={iconSize} className="text-primary" />
     case 'jpg':
     case 'jpeg':
     case 'png':
     case 'bmp':
       return <BsFileImage size={iconSize} className="text-primary" />
+    case 'zip':
+    case 'rar':
+    case '7zip':
+    case 'gz':
+      return <BsFileEarmarkZip size={iconSize} className="text-primary" />
     default:
       return <BsFileEarmarkText size={iconSize} className="text-primary" />
   }
