@@ -20,6 +20,12 @@ export default function AnggotaKelasPage() {
   const [showModalUndang, setShowModalUndang] = useState(false)
   const [showModalKeluarkan, setShowModalKeluarkan] = useState(false)
 
+  const listAnggota = [...Array(10)].map((_, idx) => ({
+    nama: 'Annitsa Bestweden',
+    email: 'email@namaweb.com',
+    image: imagePhoto,
+  }))
+
   return (
     <>
       <div className="flex flex-wrap items-start space-y-8 mt-8 lg:space-x-6 lg:space-y-0">
@@ -34,7 +40,7 @@ export default function AnggotaKelasPage() {
               variant="lighter"
               className="mt-1"
             >
-              List mahasiswa yang bergabung di dalam kelas
+              List peserta yang bergabung di dalam kelas
             </Text>
           </div>
           <CardSeparator />
@@ -55,7 +61,7 @@ export default function AnggotaKelasPage() {
           </div>
           <CardSeparator />
           <div className="flex flex-col">
-            {[...Array(10)].map((val, idx) => {
+            {listAnggota.map((item, idx) => {
               return (
                 <Fragment key={idx}>
                   <div className="flex justify-between items-center">
@@ -67,7 +73,7 @@ export default function AnggotaKelasPage() {
                       />
                       <div className="flex flex-col justify-center">
                         <Text size="sm" weight="semibold" variant="dark">
-                          Annitsa Bestweden
+                          {item.nama}
                         </Text>
                         <Text
                           size="2xs"
@@ -75,7 +81,7 @@ export default function AnggotaKelasPage() {
                           variant="lighter"
                           className="mt-0.5"
                         >
-                          email@namaweb.com
+                          {item.email}
                         </Text>
                       </div>
                     </div>
