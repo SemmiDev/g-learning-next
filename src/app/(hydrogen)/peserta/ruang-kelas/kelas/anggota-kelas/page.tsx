@@ -1,19 +1,11 @@
 'use client'
 
-import {
-  Button,
-  Card,
-  CardSeparator,
-  ModalConfirm,
-  Pagination,
-  Text,
-  Title,
-} from '@/components/ui'
+import { Card, CardSeparator, Pagination, Text, Title } from '@/components/ui'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Checkbox, Input } from 'rizzui'
+import { Input } from 'rizzui'
 
 export default function AnggotaKelasPage() {
   const listAnggota = [...Array(10)].map((_, idx) => ({
