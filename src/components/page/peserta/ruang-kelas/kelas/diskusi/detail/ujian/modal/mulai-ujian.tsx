@@ -28,7 +28,7 @@ export default function MulaiUjianModal({
           Apakah Anda yakin ingin memulai ujian?
         </Text>
         <div className="flex gap-x-2 mt-2">
-          <div className="flex flex-col flex-1 bg-slight-blue rounded-md p-2">
+          <div className="flex flex-col items-center flex-1 bg-slight-blue rounded-md p-2">
             <Text size="xs" weight="medium">
               Jumlah Soal
             </Text>
@@ -36,7 +36,7 @@ export default function MulaiUjianModal({
               21 soal
             </Text>
           </div>
-          <div className="flex flex-col flex-1 bg-slight-green rounded-md p-2">
+          <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md p-2">
             <Text size="xs" weight="medium">
               Durasi Pengerjaan
             </Text>
