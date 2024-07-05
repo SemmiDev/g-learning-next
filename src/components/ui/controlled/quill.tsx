@@ -21,7 +21,7 @@ export type ControlledQuillEditorProps<
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
-  minHeight?: number
+  size?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
 export default function ControlledQuillEditor<
@@ -33,7 +33,7 @@ export default function ControlledQuillEditor<
   errors,
   labelClassName,
   onChange,
-  minHeight,
+  size = 'sm',
   className,
   ...props
 }: ControlledQuillEditorProps<TFieldValues, TName>) {
@@ -51,9 +51,11 @@ export default function ControlledQuillEditor<
           onBlur={onBlur}
           error={errors ? (errors[name]?.message as string) : undefined}
           className={cn(
+            'col-span-full',
             {
-              [`col-span-full [&_.ql-editor]:min-h-[${minHeight}px]`]:
-                !!minHeight,
+              '[&_.ql-editor]:min-h-[150px]': size === 'md',
+              '[&_.ql-editor]:min-h-[300px]': size === 'lg',
+              '[&_.ql-editor]:min-h-[450px]': size === 'xl',
             },
             className
           )}

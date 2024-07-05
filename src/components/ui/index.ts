@@ -46,6 +46,8 @@ import ControlledUploadFile, {
   ControlledUploadFileProps,
 } from './controlled/upload-file'
 import { DatePicker, DatePickerProps } from './datepicker'
+import FileIcon from './file/file-icon'
+import FileListItem, { FileListItemType } from './file/file-list-item'
 import { Form } from './form'
 import Input, { InputProps } from './input'
 import InputRupiah, { InputRupiahProps } from './input-rupiah'
@@ -65,7 +67,6 @@ import Table, {
   TableHeaderCell,
   TableHeaderCellProps,
   TableProps,
-  TableToggleColumns,
   getSortDirection,
   renderTableCellNumber,
   renderTableCellText,
@@ -105,6 +106,8 @@ export {
   ControlledTextarea,
   ControlledUploadFile,
   DatePicker,
+  FileIcon,
+  FileListItem,
   Form,
   Input,
   InputRupiah,
@@ -127,7 +130,6 @@ export {
   TableCellNumber,
   TableCellText,
   TableHeaderCell,
-  TableToggleColumns,
   Text,
   TextLabel,
   TextLink,
@@ -161,6 +163,7 @@ export {
   type ControlledTextareaProps,
   type ControlledUploadFileProps,
   type DatePickerProps,
+  type FileListItemType,
   type InputProps,
   type InputRupiahProps,
   type KelasItemType,

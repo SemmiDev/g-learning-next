@@ -1,14 +1,13 @@
 'use client'
 
-import FileListItem, {
-  FileListItemType,
-} from '@/components/shared/file/file-list-item'
 import {
   Button,
   Card,
   CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
+  FileListItem,
+  FileListItemType,
   Form,
   ReadMore,
   Text,
@@ -158,7 +157,7 @@ export default function TugasDetailPage() {
                     control={control}
                     errors={errors}
                     toolbar="minimalist"
-                    minHeight={150}
+                    size="md"
                     label="Catatan Tambahan"
                     placeholder="Berikan catatan kepada peserta terkait tugas yang dikumpulkan"
                   />

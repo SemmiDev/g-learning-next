@@ -34,7 +34,7 @@ export default function DiskusiDetailUjianPage() {
         </Link>
       </div>
       <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
-        <Card className="flex flex-col p-0 w-full lg:w-6/12">
+        <Card className="flex flex-col p-0 w-full lg:w-7/12">
           <div className="flex items-center space-x-2 px-4 py-2">
             <Thumbnail src={imagePhoto} size={48} alt="profil" rounded="md" />
             <div className="flex flex-col">

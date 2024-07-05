@@ -1,9 +1,6 @@
 'use client'
 
 import KomentarSectionShort from '@/components/page/peserta/ruang-kelas/kelas/diskusi/komentar-section-short'
-import FileListItem, {
-  FileListItemType,
-} from '@/components/shared/file/file-list-item'
 import {
   Button,
   ButtonSubmit,
@@ -11,6 +8,8 @@ import {
   CardSeparator,
   ControlledQuillEditor,
   ControlledUploadFile,
+  FileListItem,
+  FileListItemType,
   Form,
   ReadMore,
   Text,
@@ -19,12 +18,12 @@ import {
   UploadFileType,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import Link from 'next/link'
-import { RiArrowLeftLine } from 'react-icons/ri'
-import { z } from '@/utils/zod-id'
-import { SubmitHandler } from 'react-hook-form'
 import { objectRequired } from '@/utils/validations/refine'
+import { z } from '@/utils/zod-id'
+import Link from 'next/link'
+import { SubmitHandler } from 'react-hook-form'
 import { BsPlusCircle } from 'react-icons/bs'
+import { RiArrowLeftLine } from 'react-icons/ri'
 
 const formSchema = z.object({
   berkas: z.any().superRefine(objectRequired),
@@ -55,6 +54,17 @@ export default function DiskusiDetailTugasPage() {
     {
       name: 'NamaFile.ext',
       size: 500,
+    },
+  ]
+
+  const uploadFiles: FileListItemType[] = [
+    {
+      name: 'TugasSaya.docx',
+      size: 50,
+    },
+    {
+      name: 'NamaFile.pdf',
+      size: 280,
     },
   ]
 
@@ -119,7 +129,7 @@ export default function DiskusiDetailTugasPage() {
                 Nilai
               </Text>
               <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-                100
+                -
               </Text>
             </div>
           </div>
@@ -135,13 +145,13 @@ export default function DiskusiDetailTugasPage() {
           >
             {({ control, formState: { errors, isSubmitting } }) => (
               <>
-                <div className="flex flex-col p-2">
+                <div className="flex flex-col space-y-2 p-2">
                   <ControlledUploadFile
                     name="berkas"
                     control={control}
                     errors={errors}
-                    className="mb-2"
                     containerClassName="bg-gray-50/40 border-solid"
+                    multiple
                   >
                     <div className="flex justify-center items-center space-x-1">
                       <Text size="sm" weight="semibold" color="primary">
@@ -150,12 +160,17 @@ export default function DiskusiDetailTugasPage() {
                       <BsPlusCircle className="text-primary" />
                     </div>
                   </ControlledUploadFile>
+                  <div className="flex flex-col space-y-2 py-2">
+                    {uploadFiles.map((file, idx) => (
+                      <FileListItem file={file} onDelete={() => {}} key={idx} />
+                    ))}
+                  </div>
                   <ControlledQuillEditor
                     name="catatan"
                     control={control}
                     errors={errors}
                     toolbar="minimalist"
-                    minHeight={150}
+                    size="md"
                     label="Catatan"
                     placeholder="Tulis catatan terkait tugas yang kamu kumpulkan"
                   />

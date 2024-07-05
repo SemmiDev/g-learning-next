@@ -90,7 +90,7 @@ export default function TambahInformasiModal({
                 name="catatan"
                 control={control}
                 errors={errors}
-                minHeight={150}
+                size="md"
                 label="Catatan Tambahan"
                 placeholder="Buat catatan terkait informasi yang diberikan"
               />

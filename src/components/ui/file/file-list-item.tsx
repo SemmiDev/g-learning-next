@@ -1,6 +1,5 @@
-import { Button, Text } from '@/components/ui'
+import { Button, FileIcon, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
-import FileIcon from './file-icon'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
 
@@ -14,12 +13,14 @@ type FileListItemProps = {
   file: FileListItemType
   download?: boolean
   className?: string
+  onDelete?(): void
 }
 
 export default function FileListItem({
   file,
   download = false,
   className,
+  onDelete,
 }: FileListItemProps) {
   return (
     <div
@@ -53,6 +54,17 @@ export default function FileListItem({
             Unduh
           </Button>
         ))}
+      {onDelete && (
+        <Button
+          size="sm"
+          variant="text"
+          color="danger"
+          className="text-sm"
+          onClick={onDelete}
+        >
+          Hapus
+        </Button>
+      )}
     </div>
   )
 }

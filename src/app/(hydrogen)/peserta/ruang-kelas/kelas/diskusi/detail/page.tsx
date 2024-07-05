@@ -1,11 +1,10 @@
 import KomentarSectionFull from '@/components/page/peserta/ruang-kelas/kelas/diskusi/komentar-section-full'
-import FileListItem, {
-  FileListItemType,
-} from '@/components/shared/file/file-list-item'
 import {
   Button,
   Card,
   CardSeparator,
+  FileListItem,
+  FileListItemType,
   ReadMore,
   Text,
   Title,

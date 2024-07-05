@@ -1,12 +1,12 @@
 'use client'
 
 import KomentarSectionFull from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-full'
-import FileListItem from '@/components/shared/file/file-list-item'
 import {
   ActionIcon,
   Button,
   Card,
   CardSeparator,
+  FileListItem,
   ReadMore,
   Text,
   Title,
@@ -16,7 +16,6 @@ import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { BsFileText } from 'react-icons/bs'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import { Checkbox } from 'rizzui'
 

@@ -1,11 +1,10 @@
-import { ActionIcon, ModalConfirm, Text } from '@/components/ui'
+import { ActionIcon, FileIcon, ModalConfirm, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsEye, BsFillPlayBtnFill } from 'react-icons/bs'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Checkbox, Radio } from 'rizzui'
-import FileIcon from '../file/file-icon'
 
 export type FileItemType = {
   id: string

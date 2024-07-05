@@ -1,8 +1,7 @@
-import { ActionIcon, Text } from '@/components/ui'
+import { ActionIcon, FileIcon, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import { BsFillPlayBtnFill } from 'react-icons/bs'
 import { MdClose } from 'react-icons/md'
-import FileIcon from '../file/file-icon'
 import { FileItemType } from './file-button'
 
 type SelectedFileProps = { file: FileItemType; onRemove?(): void }

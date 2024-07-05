@@ -95,7 +95,7 @@ export default function KelolaSoalBody() {
                       control={control}
                       errors={errors}
                       toolbar="minimalist-image"
-                      minHeight={150}
+                      size="lg"
                       label="Soal"
                       placeholder="Deskripsi soal"
                     />
@@ -119,6 +119,7 @@ export default function KelolaSoalBody() {
                             control={control}
                             placeholder="Deskripsi jawaban"
                             toolbar="minimalist-image"
+                            size="md"
                             className="flex-1"
                             error={errors.jawaban?.[idx]?.message}
                           />

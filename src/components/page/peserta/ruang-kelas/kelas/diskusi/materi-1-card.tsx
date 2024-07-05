@@ -1,7 +1,12 @@
-import FileListItem, {
+import {
+  Button,
+  Card,
+  CardSeparator,
+  FileListItem,
   FileListItemType,
-} from '@/components/shared/file/file-list-item'
-import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+  Text,
+  Title,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
