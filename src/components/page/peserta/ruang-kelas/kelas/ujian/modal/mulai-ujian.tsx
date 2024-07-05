@@ -5,6 +5,7 @@ import {
   Modal,
   ModalFooterButtons,
   Text,
+  Time,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
@@ -59,7 +60,7 @@ export default function HasilUjianModal({
               <td>Waktu selesai</td>
               <td className="text-center"> : </td>
               <td>
-                {ujian?.status !== 'Belum' ? '18 Januari 2024 | 17:03:13' : '-'}
+                {ujian?.status !== 'Belum' ? '18 Januari 2024 | 17:11:03' : '-'}
               </td>
             </tr>
             <tr>

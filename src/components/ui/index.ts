@@ -77,6 +77,7 @@ import TextSpan from './text/span'
 import Text from './text/text'
 import Title from './text/title'
 import Thumbnail, { ThumbnailProps } from './thumbnail'
+import Time, { TimeProps } from './time'
 import {
   UploadFile,
   UploadFileProps,
@@ -135,6 +136,7 @@ export {
   TextLink,
   TextSpan,
   Thumbnail,
+  Time,
   Title,
   UploadFile,
   getSortDirection,
@@ -180,6 +182,7 @@ export {
   type TableHeaderCellProps,
   type TableProps,
   type ThumbnailProps,
+  type TimeProps,
   type UploadFileProps,
   type UploadFileSize,
   type UploadFileType,
