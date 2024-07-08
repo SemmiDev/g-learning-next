@@ -2,7 +2,7 @@ import cn from '@/utils/class-names'
 import { Text as RizText, TextProps as RizTextProps } from 'rizzui'
 
 export type DefaultTextProps = {
-  size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
+  size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '1.5xl' | '2xl' | '3xl'
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'gray'
   weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold'
   align?: 'left' | 'center' | 'right'
@@ -20,6 +20,7 @@ export const TextSizes = {
   base: 'text-base',
   lg: 'text-lg',
   xl: 'text-xl',
+  '1.5xl': 'text-1.5xl',
   '2xl': 'text-2xl',
   '3xl': 'text-3xl',
 }

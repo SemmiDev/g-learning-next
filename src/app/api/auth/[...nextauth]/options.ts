@@ -11,21 +11,30 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req): Promise<any> {
         // console.log(credentials)
 
-        if (req.body?.username == 'pengajar@gmail.com') {
+        if (req.body?.username == 'pengajar@glearning.com') {
           return {
             id: 2,
             name: 'Nama Pengajar',
-            email: 'pengajar@gmail.com',
+            email: 'pengajar@glearning.com',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlbmdhamFyIiwiaWF0IjoxNTE2MjM5MDIyfQ.8cffnhxieDxB7ufL2Tyckb2k39lgsKrzF3Axp-i4iVc',
           }
         }
 
-        if (req.body?.username == 'peserta@gmail.com') {
+        if (req.body?.username == 'peserta@glearning.com') {
           return {
             id: 3,
             name: 'Nama Peserta',
-            email: 'peserta@gmail.com',
+            email: 'peserta@glearning.com',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlc2VydGEiLCJpYXQiOjE1MTYyMzkwMjJ9.MhaAQ43OFkJrznl-J37Wt30JACuMZLhRdcRpgkl0mhA',
+          }
+        }
+
+        if (req.body?.username == 'admin@glearning.com') {
+          return {
+            id: 3,
+            name: 'Nama Admin',
+            email: 'admin@glearning.com',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IkFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.Vq_GAU2EbhVQO386WazO6cgxvDDf8Ne9_IZkOsFRzvs',
           }
         }
 

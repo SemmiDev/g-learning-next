@@ -20,7 +20,7 @@ import { TbSelect } from 'react-icons/tb'
 import { useState } from 'react'
 
 const initialValues: LoginSchema = {
-  email: 'peserta@gmail.com',
+  email: 'admin@glearning.com',
   password: '123',
 }
 
@@ -110,8 +110,9 @@ export default function LoginForm() {
               bodyClassName="flex flex-col space-y-2 p-3"
             >
               {[
-                { level: 'Pengajar', email: 'pengajar@gmail.com' },
-                { level: 'Peserta', email: 'peserta@gmail.com' },
+                { level: 'Pengajar', email: 'pengajar@glearning.com' },
+                { level: 'Peserta', email: 'peserta@glearning.com' },
+                { level: 'Admin', email: 'admin@glearning.com' },
               ].map(({ level, email }, idx) => (
                 <div
                   className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"

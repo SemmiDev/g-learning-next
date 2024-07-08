@@ -31,6 +31,10 @@ export const pesertaRoutes = {
   kelas: '/peserta/ruang-kelas/kelas',
 }
 
+export const adminRoutes = {
+  profile: '/admin/profil',
+}
+
 export const routes = {
   dashboard: '/',
   blank: '/blank',

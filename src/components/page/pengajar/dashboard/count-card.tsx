@@ -1,5 +1,5 @@
 import { Card, Text } from '@/components/ui'
-import { ComponentType, ReactNode } from 'react'
+import { ComponentType } from 'react'
 import { IconBaseProps } from 'react-icons/lib'
 
 type DashboardCountCardProps = {
