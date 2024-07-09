@@ -9,9 +9,9 @@ type LayoutProps = {
 }
 
 export default function DefaultLayout({ children }: LayoutProps) {
-  const { status } = useSession()
+  const { data: session } = useSession()
 
-  if (status !== 'authenticated') {
+  if (!session?.expires) {
     return (
       <div className="flex justify-center items-center h-svh">
         <CgSpinner size={40} className="text-primary animate-spin" />

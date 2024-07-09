@@ -33,6 +33,10 @@ export const pesertaRoutes = {
 
 export const adminRoutes = {
   profile: '/admin/profil',
+  daftarInstansi: '/admin/daftar-instansi',
+  paketInstansi: '/admin/paket-instansi',
+  paketPengguna: '/admin/paket-pengguna',
+  manajemenAdmin: '/admin/manajemen-admin',
 }
 
 export const routes = {
@@ -40,4 +44,5 @@ export const routes = {
   blank: '/blank',
   pengajar: pengajarRoutes,
   peserta: pesertaRoutes,
+  admin: adminRoutes,
 }

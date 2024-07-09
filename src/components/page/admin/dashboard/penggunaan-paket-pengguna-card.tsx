@@ -14,7 +14,11 @@ type ChartDataType = {
   fill: string
 }
 
-export default function DashboardPenggunaanPaketPenggunaCard() {
+export default function DashboardPenggunaanPaketPenggunaCard({
+  className,
+}: {
+  className?: string
+}) {
   const data: ChartDataType[] = [
     {
       name: 'Advance',
@@ -39,7 +43,7 @@ export default function DashboardPenggunaanPaketPenggunaCard() {
   ]
 
   return (
-    <Card className="p-0">
+    <Card className={cn('p-0', className)}>
       <Title as="h4" size="1.5xl" weight="semibold" className="p-2">
         Penggunaan Paket Pengguna
       </Title>

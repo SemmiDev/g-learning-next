@@ -1,7 +1,12 @@
 import { routes } from '@/config/routes'
-import { BiHome, BiSolidBookBookmark } from 'react-icons/bi'
-import { BsBox } from 'react-icons/bs'
-import { LuFileText, LuPackage, LuSave } from 'react-icons/lu'
+import {
+  LuBook,
+  LuBox,
+  LuFileText,
+  LuHome,
+  LuPackage,
+  LuSave,
+} from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
@@ -9,7 +14,7 @@ export const menuItemsPengajar: MenuItemType[] = [
   {
     name: 'Dasbor',
     href: routes.dashboard,
-    icon: <BiHome />,
+    icon: <LuHome />,
   },
   {
     name: 'Akademik',
@@ -17,12 +22,12 @@ export const menuItemsPengajar: MenuItemType[] = [
   {
     name: 'Ruang Kelas',
     href: routes.pengajar.ruangKelas,
-    icon: <BsBox />,
+    icon: <LuBox />,
   },
   {
     name: 'Bank Materi',
     href: routes.pengajar.bankMateri,
-    icon: <BiSolidBookBookmark />,
+    icon: <LuBook />,
   },
   {
     name: 'Bank Soal',

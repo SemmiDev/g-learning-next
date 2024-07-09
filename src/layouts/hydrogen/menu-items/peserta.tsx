@@ -1,6 +1,5 @@
 import { routes } from '@/config/routes'
-import { BiHome } from 'react-icons/bi'
-import { BsBox } from 'react-icons/bs'
+import { LuBox, LuHome } from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
@@ -8,7 +7,7 @@ export const menuItemsPeserta: MenuItemType[] = [
   {
     name: 'Dasbor',
     href: routes.dashboard,
-    icon: <BiHome />,
+    icon: <LuHome />,
   },
   {
     name: 'Akademik',
@@ -16,6 +15,6 @@ export const menuItemsPeserta: MenuItemType[] = [
   {
     name: 'Ruang Kelas',
     href: routes.peserta.ruangKelas,
-    icon: <BsBox />,
+    icon: <LuBox />,
   },
 ]

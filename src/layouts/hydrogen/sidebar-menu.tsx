@@ -1,16 +1,15 @@
 import StatusBadge from '@/components/get-status-badge'
 import { Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Fragment, ReactNode } from 'react'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
 import { menuItemsPengajar } from './menu-items/pengajar'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/options'
-import { useSession } from 'next-auth/react'
 import { menuItemsPeserta } from './menu-items/peserta'
+import { menuItemsAdmin } from './menu-items/admin'
 
 export type MenuDropdownItemType = {
   name: string
@@ -32,7 +31,13 @@ export function SidebarMenu() {
   const { data: session } = useSession()
 
   const menuItems =
-    session?.level == 'Pengajar' ? menuItemsPengajar : menuItemsPeserta
+    session?.level === 'Admin'
+      ? menuItemsAdmin
+      : session?.level === 'Pengajar'
+      ? menuItemsPengajar
+      : session?.level === 'Peserta'
+      ? menuItemsPeserta
+      : []
 
   return (
     <div className="mt-4 pb-3 3xl:mt-6">
