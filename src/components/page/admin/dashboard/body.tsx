@@ -18,13 +18,13 @@ export default function DashboardBody() {
               label="Total Instansi"
               count="1.000"
               Icon={LuHome}
-              iconFigureClassName="bg-blue-500"
+              iconFigureClassName="bg-badge-blue"
             />
             <DashboardCountCard
               label="Total Pengguna"
               count="3.400.000"
               Icon={LuUsers}
-              iconFigureClassName="bg-green-500"
+              iconFigureClassName="bg-badge-green"
             />
           </div>
           <DashboardPenggunaanPenyimpananCard />

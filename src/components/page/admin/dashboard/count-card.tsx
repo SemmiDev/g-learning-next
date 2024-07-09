@@ -20,7 +20,7 @@ export default function DashboardCountCard({
     <Card className="flex flex-col p-3 pb-2">
       <figure
         className={cn(
-          'flex justify-center items-center size-12 bg-primary rounded-md text-white mb-2',
+          'flex justify-center items-center size-12 bg-badge-blue rounded-md text-white mb-2',
           iconFigureClassName
         )}
       >
