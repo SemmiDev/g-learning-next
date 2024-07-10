@@ -23,7 +23,7 @@ export default function InformasiCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="flex flex-col px-4 py-2">
-        <Title as="h5" weight="semibold" className="text-[1.375rem] mb-2">
+        <Title as="h4" size="1.5xl" weight="semibold" className="mb-1">
           Judul Informasi
         </Title>
         <Text size="sm" variant="dark" className="truncate">

@@ -56,11 +56,7 @@ function PresensiItem({ status, jumlah }: PresensiItemProps) {
         bgColor
       )}
     >
-      <Text
-        weight="semibold"
-        variant="dark"
-        className="text-[1.375rem] leading-7"
-      >
+      <Text size="1.5xl" weight="semibold" variant="dark">
         {jumlah}
       </Text>
       <Text size="sm" weight="medium" variant="lighter">

@@ -19,7 +19,7 @@ export default function ChartPresensiCard({
   return (
     <div className={className}>
       <Card>
-        <Title as="h4" weight="semibold" className="text-[1.375rem]">
+        <Title as="h4" size="1.5xl" weight="semibold">
           Persentase Tingkat Kehadiran
         </Title>
         <div className="flex flex-col items-center">
@@ -39,11 +39,7 @@ export default function ChartPresensiCard({
                       {val.name}
                     </Text>
                   </div>
-                  <Text
-                    weight="semibold"
-                    variant="dark"
-                    className="text-[1.375rem]"
-                  >
+                  <Text size="1.5xl" weight="semibold" variant="dark">
                     {val.value}%
                   </Text>
                 </div>

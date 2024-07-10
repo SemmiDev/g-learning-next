@@ -79,6 +79,7 @@ export type TableFilterProps = {
   showSearchOnTheRight?: boolean
   enableDrawerFilter?: boolean
   menu?: React.ReactNode
+  className?: string
 }
 
 export default function TableFilter({
@@ -89,9 +90,10 @@ export default function TableFilter({
   drawerTitle = 'Filter Data',
   hasSearched,
   enableDrawerFilter = true,
-  showSearchOnTheRight = true,
+  showSearchOnTheRight = false,
   menu,
   children,
+  className,
 }: TableFilterProps) {
   const isMediumScreen = useMedia('(max-width: 1860px)', false)
 
@@ -99,7 +101,12 @@ export default function TableFilter({
   const [openDrawer, setOpenDrawer] = useState(false)
 
   return (
-    <div className="table-filter mb-4 flex items-center justify-between">
+    <div
+      className={cn(
+        'table-filter flex items-center justify-between p-2.5 py-3',
+        className
+      )}
+    >
       <div className="flex flex-wrap items-center gap-4">
         {!showSearchOnTheRight ? (
           <Input

@@ -62,7 +62,7 @@ function EmptyBody({ openModalBuatKursus }: { openModalBuatKursus(): void }) {
       <figure className="size-48">
         <Image src={emptyIcon} alt="Kosong" />
       </figure>
-      <Text weight="bold" className="text-[1.375rem] mt-4">
+      <Text size="1.5xl" weight="bold" className="mt-4">
         Kursus Anda masih kosong!
       </Text>
       <Button className="mt-2" onClick={openModalBuatKursus}>

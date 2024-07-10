@@ -11,7 +11,7 @@ export default function KehadiranPresensiCard({
 }) {
   return (
     <Card className="col-span-3 p-0 lg:col-span-2">
-      <Title as="h4" weight="semibold" className="text-[1.375rem] m-2">
+      <Title as="h4" size="1.5xl" weight="semibold" className="m-2">
         Anggota Kelas dengan Jumlah Kehadiran Terendah
       </Title>
       <div className="relative">

@@ -12,11 +12,7 @@ export default function ListKelasBody() {
     <>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <Title
-            as="h5"
-            weight="semibold"
-            className="text-[1.375rem] leading-tight"
-          >
+          <Title as="h4" size="1.5xl" weight="semibold">
             Semua Kelas yang Diikuti
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">

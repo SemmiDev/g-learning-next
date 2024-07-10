@@ -8,7 +8,7 @@ export default function JudulSoalCard({ onSelesaiUjian }: JudulSoalCardProps) {
   return (
     <Card className="flex justify-between items-center px-4 py-3.5">
       <div className="flex flex-col">
-        <Title as="h4" weight="semibold" className="text-[1.375rem] mb-1">
+        <Title as="h4" size="1.5xl" weight="semibold" className="mb-1">
           Judul soal di sini
         </Title>
         <Text size="sm" weight="medium" variant="lighter">

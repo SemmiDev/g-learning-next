@@ -16,7 +16,7 @@ export default function ChartTugasTertinggiCard({
   return (
     <div className={className}>
       <Card>
-        <Title as="h4" weight="semibold" className="text-[1.375rem] mb-4">
+        <Title as="h4" size="1.5xl" weight="semibold" className="mb-4">
           Grafik Nilai Tugas Tertinggi
         </Title>
         <div className="flex flex-col items-center min-h-[180px]">

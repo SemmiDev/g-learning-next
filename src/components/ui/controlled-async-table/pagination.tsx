@@ -2,6 +2,7 @@ import { PiCaretDownBold } from 'react-icons/pi'
 import Pagination, { type PaginationProps } from '@/components/ui/pagination'
 import { Select } from 'rizzui'
 import cn from '@/utils/class-names'
+import Text from '../text/text'
 
 const paginationLimitOptions = [5, 10, 15, 20, 25].map((v, idx) => ({
   id: idx,
@@ -19,7 +20,7 @@ export default function TablePagination({
   pageSize,
   setPageSize,
   total,
-  paginatorClassName = 'mt-5 xs:mt-6 sm:mt-7',
+  paginatorClassName = 'px-2.5 py-4',
   ...props
 }: TablePaginationProps) {
   return (
@@ -31,13 +32,18 @@ export default function TablePagination({
     >
       {!setPageSize ? (
         total && (
-          <div className="hidden text-gray-500 sm:inline-flex">
-            {props.current} of {Math.ceil(total / pageSize)} pages
+          <div className="hidden sm:inline-flex">
+            <Text size="2xs" variant="lighter">
+              Menampilkan {props.current} dari {Math.ceil(total / pageSize)}{' '}
+              halaman
+            </Text>
           </div>
         )
       ) : (
         <div className="hidden items-center sm:flex">
-          Data per halaman:{' '}
+          <Text size="xs" variant="lighter">
+            Data per halaman:
+          </Text>
           <Select
             options={paginationLimitOptions}
             onChange={setPageSize}

@@ -8,7 +8,7 @@ import 'rc-pagination/assets/index.css'
 
 const classes = {
   base: {
-    item: '[&>.rc-pagination-item>a]:text-gray-700 [&>.rc-pagination-item>a]:font-medium [&>.rc-pagination-item>a:active]:translate-y-px [&>li.rc-pagination-item]:border-muted [&>.rc-pagination-item>a]:hover:text-gray-900 [&>.rc-pagination-item>a]:focus:text-gray-700 [&>.rc-pagination-item:not(.rc-pagination-item-active)]:bg-transparent',
+    item: '[&>.rc-pagination-item>a]:text-gray-700 [&>.rc-pagination-item>a]:font-medium [&>li.rc-pagination-item]:border-muted [&>.rc-pagination-item>a]:hover:text-gray-900 [&>.rc-pagination-item>a]:focus:text-gray-700 [&>.rc-pagination-item:not(.rc-pagination-item-active)]:bg-transparent',
     icon: '[&>.rc-pagination-prev]:align-baseline [&>.rc-pagination-next]:align-baseline',
     outline:
       '[&>.rc-pagination-item]:leading-7 [&>.rc-pagination-item]:border-0',

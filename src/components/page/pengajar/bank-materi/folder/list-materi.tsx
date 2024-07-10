@@ -30,9 +30,10 @@ export default function ListMateriBody() {
   return (
     <>
       <Title
-        as="h5"
+        as="h4"
+        size="1.5xl"
         weight="semibold"
-        className="text-[1.375rem] leading-tight mb-4"
+        className="leading-tight mb-3"
       >
         Bank Materi Aljabar Linier
       </Title>

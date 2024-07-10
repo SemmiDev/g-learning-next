@@ -20,8 +20,10 @@ const classes = {
   thead:
     '[&_thead]:text-left [&_thead]:rtl:text-right [&_thead]:select-none [&_th.rc-table-cell]:text-sm [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500',
   tCell:
-    '[&_.rc-table-cell]:px-3 [&_th.rc-table-cell]:py-3 [&_td.rc-table-cell]:py-4',
+    '[&_.rc-table-cell]:px-2.5 [&_th.rc-table-cell]:py-2.5 [&_td.rc-table-cell]:py-3 [&_td.rc-table-cell.action]:py-2',
   variants: {
+    default:
+      '[&_thead]:bg-gray-50 [&_th.rc-table-cell]:bg-gray-50/40 [&_.rc-table-cell]:border [&_.rc-table-cell]:border-muted',
     classic:
       '[&_thead]:bg-gray-50 [&_.rc-table-container]:border-x [&_.rc-table-container]:border-muted/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70 [&_thead]:border-y [&_thead]:border-muted/70',
     modern:
@@ -57,7 +59,7 @@ export interface TableProps
  */
 export default function Table({
   striped,
-  variant = 'classic',
+  variant = 'default',
   emptyText,
   className,
   ...props
@@ -177,9 +179,12 @@ export const getSortDirection = (sort: SortType, name: string) => {
 
 export const TableCellText = ({
   size = 'sm',
+  weight = 'medium',
   variant = 'dark',
   ...props
-}: TextProps) => <Text size={size} variant={variant} {...props} />
+}: TextProps) => (
+  <Text size={size} variant={variant} weight={weight} {...props} />
+)
 
 export const TableCellNumber = ({
   size = 'xs',

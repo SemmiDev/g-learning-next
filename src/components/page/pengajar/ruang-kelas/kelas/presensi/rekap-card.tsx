@@ -24,7 +24,7 @@ import RekapPresensiItem from './rekap-item'
 export default function RekapPresensiCard() {
   return (
     <Card className="col-span-3">
-      <Title as="h4" weight="semibold" className="text-[1.375rem]">
+      <Title as="h4" size="1.5xl" weight="semibold">
         Rekap Presensi Peserta
       </Title>
       <div className="flex flex-wrap gap-4 mt-4 lg:flex-nowrap">
