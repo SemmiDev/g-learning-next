@@ -10,8 +10,8 @@ export const menuItemsAdmin: MenuItemType[] = [
     icon: <LuHome />,
   },
   {
-    name: 'Daftar Instansi',
-    href: routes.admin.daftarInstansi,
+    name: 'List Instansi',
+    href: routes.admin.listInstansi,
     icon: <LuBox />,
   },
   {

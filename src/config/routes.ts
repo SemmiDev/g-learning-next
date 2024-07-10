@@ -33,7 +33,7 @@ export const pesertaRoutes = {
 
 export const adminRoutes = {
   profile: '/admin/profil',
-  daftarInstansi: '/admin/daftar-instansi',
+  listInstansi: '/admin/list-instansi',
   paketInstansi: '/admin/paket-instansi',
   paketPengguna: '/admin/paket-pengguna',
   manajemenAdmin: '/admin/manajemen-admin',

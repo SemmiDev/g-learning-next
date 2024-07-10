@@ -40,7 +40,7 @@ export default function DaftarSoalCard({
   return (
     <Card className="flex flex-col p-0">
       <Text weight="semibold" variant="dark" className="mx-3 my-2">
-        Daftar soal
+        Daftar Soal
       </Text>
       <CardSeparator />
       <div className="flex flex-col space-y-3 p-3">
