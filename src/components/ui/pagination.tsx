@@ -33,12 +33,12 @@ const classes = {
         secondary:
           '[&>.rc-pagination-item-active]:bg-secondary [&>li.rc-pagination-item-active]:border-secondary [&>.rc-pagination-item-active]:hover:border-secondary [&>.rc-pagination-item-active]:focus:border-secondary',
         danger:
-          '[&>.rc-pagination-item-active]:bg-red [&>li.rc-pagination-item-active]:border-red [&>.rc-pagination-item-active]:hover:border-red [&>.rc-pagination-item-active]:focus:border-red',
-        info: '[&>.rc-pagination-item-active]:bg-blue [&>li.rc-pagination-item-active]:border-blue [&>.rc-pagination-item-active]:hover:border-blue [&>.rc-pagination-item-active]:focus:border-blue',
+          '[&>.rc-pagination-item-active]:bg-danger [&>li.rc-pagination-item-active]:border-danger [&>.rc-pagination-item-active]:hover:border-danger [&>.rc-pagination-item-active]:focus:border-danger',
+        info: '[&>.rc-pagination-item-active]:bg-info [&>li.rc-pagination-item-active]:border-info [&>.rc-pagination-item-active]:hover:border-info [&>.rc-pagination-item-active]:focus:border-info',
         success:
-          '[&>.rc-pagination-item-active]:bg-green [&>li.rc-pagination-item-active]:border-green [&>.rc-pagination-item-active]:hover:border-green [&>.rc-pagination-item-active]:focus:border-green',
+          '[&>.rc-pagination-item-active]:bg-success [&>li.rc-pagination-item-active]:border-success [&>.rc-pagination-item-active]:hover:border-success [&>.rc-pagination-item-active]:focus:border-success',
         warning:
-          '[&>.rc-pagination-item-active]:bg-orange [&>li.rc-pagination-item-active]:border-orange [&>.rc-pagination-item-active]:hover:border-orange [&>.rc-pagination-item-active]:focus:border-orange',
+          '[&>.rc-pagination-item-active]:bg-warning [&>li.rc-pagination-item-active]:border-warning [&>.rc-pagination-item-active]:hover:border-warning [&>.rc-pagination-item-active]:focus:border-warning',
       },
     },
     flat: {
@@ -49,12 +49,12 @@ const classes = {
         secondary:
           '[&>.rc-pagination-item-active]:bg-secondary-lighter [&>li.rc-pagination-item-active]:border-secondary-lighter [&>.rc-pagination-item-active>a]:text-secondary-dark [&>.rc-pagination-item-active>a]:hover:text-secondary-dark [&>.rc-pagination-item-active>a]:focus:text-secondary-dark [&>.rc-pagination-item-active]:hover:border-secondary-lighter [&>.rc-pagination-item-active]:focus:border-secondary-lighter',
         danger:
-          '[&>.rc-pagination-item-active]:bg-red-lighter [&>li.rc-pagination-item-active]:border-red-lighter [&>.rc-pagination-item-active>a]:text-red-dark [&>.rc-pagination-item-active>a]:hover:text-red-dark [&>.rc-pagination-item-active>a]:focus:text-red-dark [&>.rc-pagination-item-active]:hover:border-red-lighter [&>.rc-pagination-item-active]:focus:border-red-lighter',
-        info: '[&>.rc-pagination-item-active]:bg-blue-lighter [&>li.rc-pagination-item-active]:border-blue-lighter [&>.rc-pagination-item-active>a]:text-blue-dark [&>.rc-pagination-item-active>a]:hover:text-blue-dark [&>.rc-pagination-item-active>a]:focus:text-blue-dark [&>.rc-pagination-item-active]:hover:border-blue-lighter [&>.rc-pagination-item-active]:focus:border-blue-lighter',
+          '[&>.rc-pagination-item-active]:bg-danger-lighter [&>li.rc-pagination-item-active]:border-danger-lighter [&>.rc-pagination-item-active>a]:text-danger-dark [&>.rc-pagination-item-active>a]:hover:text-danger-dark [&>.rc-pagination-item-active>a]:focus:text-danger-dark [&>.rc-pagination-item-active]:hover:border-danger-lighter [&>.rc-pagination-item-active]:focus:border-danger-lighter',
+        info: '[&>.rc-pagination-item-active]:bg-info-lighter [&>li.rc-pagination-item-active]:border-info-lighter [&>.rc-pagination-item-active>a]:text-info-dark [&>.rc-pagination-item-active>a]:hover:text-info-dark [&>.rc-pagination-item-active>a]:focus:text-info-dark [&>.rc-pagination-item-active]:hover:border-info-lighter [&>.rc-pagination-item-active]:focus:border-info-lighter',
         success:
-          '[&>.rc-pagination-item-active]:bg-green-lighter [&>li.rc-pagination-item-active]:border-green-lighter [&>.rc-pagination-item-active>a]:text-green-dark [&>.rc-pagination-item-active>a]:hover:text-green-dark [&>.rc-pagination-item-active>a]:focus:text-green-dark [&>.rc-pagination-item-active]:hover:border-green-lighter [&>.rc-pagination-item-active]:focus:border-green-lighter',
+          '[&>.rc-pagination-item-active]:bg-success-lighter [&>li.rc-pagination-item-active]:border-success-lighter [&>.rc-pagination-item-active>a]:text-success-dark [&>.rc-pagination-item-active>a]:hover:text-success-dark [&>.rc-pagination-item-active>a]:focus:text-success-dark [&>.rc-pagination-item-active]:hover:border-success-lighter [&>.rc-pagination-item-active]:focus:border-success-lighter',
         warning:
-          '[&>.rc-pagination-item-active]:bg-orange-lighter [&>li.rc-pagination-item-active]:border-orange-lighter [&>.rc-pagination-item-active>a]:text-orange-dark [&>.rc-pagination-item-active>a]:hover:text-orange-dark [&>.rc-pagination-item-active>a]:focus:text-orange-dark [&>.rc-pagination-item-active]:hover:border-orange-lighter [&>.rc-pagination-item-active]:focus:border-orange-lighter',
+          '[&>.rc-pagination-item-active]:bg-warning-lighter [&>li.rc-pagination-item-active]:border-warning-lighter [&>.rc-pagination-item-active>a]:text-warning-dark [&>.rc-pagination-item-active>a]:hover:text-warning-dark [&>.rc-pagination-item-active>a]:focus:text-warning-dark [&>.rc-pagination-item-active]:hover:border-warning-lighter [&>.rc-pagination-item-active]:focus:border-warning-lighter',
       },
     },
   },

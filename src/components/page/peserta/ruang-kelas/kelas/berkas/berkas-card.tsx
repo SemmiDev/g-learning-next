@@ -38,11 +38,11 @@ export default function BerkasCard({
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-52">
               <Dropdown.Item className="text-gray-dark">
-                <GrShare size={12} className="text-green-dark mr-2" />
+                <GrShare size={12} className="text-success-dark mr-2" />
                 Buka Diskusi Terkait
               </Dropdown.Item>
               <Dropdown.Item className="text-gray-dark">
-                <BsDownload size={14} className="text-blue-dark mr-2" />
+                <BsDownload size={14} className="text-info-dark mr-2" />
                 Unduh
               </Dropdown.Item>
             </Dropdown.Menu>

@@ -6,8 +6,6 @@ import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
 
 export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
-  title: string
-  desc?: string
   confirm?: string
   confirmColor?: ButtonColors
   onConfirm?(): void

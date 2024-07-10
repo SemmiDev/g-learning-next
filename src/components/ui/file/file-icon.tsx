@@ -25,17 +25,17 @@ export default function FileIcon({ filename, iconSize = 20 }: FileIconProps) {
     case 'docx':
       return <BsFiletypeDocx size={iconSize} className="text-primary" />
     case 'xls':
-      return <BsFiletypeXls size={iconSize} className="text-green" />
+      return <BsFiletypeXls size={iconSize} className="text-success" />
     case 'xlsx':
-      return <BsFiletypeXlsx size={iconSize} className="text-green" />
+      return <BsFiletypeXlsx size={iconSize} className="text-success" />
     case 'ppt':
       return <BsFiletypePpt size={iconSize} className="text-orange-600" />
     case 'pptx':
       return <BsFiletypePptx size={iconSize} className="text-orange-600" />
     case 'pdf':
-      return <BsFiletypePdf size={iconSize} className="text-red" />
+      return <BsFiletypePdf size={iconSize} className="text-danger" />
     case 'txt':
-      return <BsFiletypeTxt size={iconSize} className="text-red" />
+      return <BsFiletypeTxt size={iconSize} className="text-danger" />
     case 'svg':
       return <BsFiletypeSvg size={iconSize} className="text-primary" />
     case 'jpg':

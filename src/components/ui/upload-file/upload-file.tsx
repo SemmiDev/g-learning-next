@@ -110,7 +110,7 @@ export default function UploadFile({
           {
             'border-muted': hasFiles,
             'border-dashed': !hasFiles,
-            '!border-solid !border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red':
+            '!border-solid !border-danger [&.is-hover]:!border-danger [&.is-focus]:!border-danger !ring-danger':
               error,
           },
           containerClassName

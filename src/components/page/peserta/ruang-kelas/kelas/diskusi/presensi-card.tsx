@@ -20,7 +20,7 @@ export default function PresensiCard({ className }: { className?: string }) {
             Total keseluruhan presensi: <b>30</b>
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
-            Tingkat kehadiran: <span className="text-green">98%</span>
+            Tingkat kehadiran: <span className="text-success">98%</span>
           </Text>
         </div>
       </Card>

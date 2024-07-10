@@ -42,19 +42,19 @@ export const TextColors = {
     lighter: 'text-secondary-lighter',
   },
   success: {
-    default: 'text-green',
-    dark: 'text-green-dark',
-    lighter: 'text-green-lighter',
+    default: 'text-success',
+    dark: 'text-success-dark',
+    lighter: 'text-success-lighter',
   },
   warning: {
-    default: 'text-orange',
-    dark: 'text-orange-dark',
-    lighter: 'text-orange-lighter',
+    default: 'text-warning',
+    dark: 'text-warning-dark',
+    lighter: 'text-warning-lighter',
   },
   danger: {
-    default: 'text-red',
-    dark: 'text-red-dark',
-    lighter: 'text-red-lighter',
+    default: 'text-danger',
+    dark: 'text-danger-dark',
+    lighter: 'text-danger-lighter',
   },
 }
 

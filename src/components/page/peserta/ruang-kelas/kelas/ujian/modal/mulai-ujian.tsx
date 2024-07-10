@@ -78,8 +78,8 @@ export default function HasilUjianModal({
           className={cn(
             'flex flex-col items-center w-24 rounded-md bg-gray-50 p-3',
             {
-              'bg-green-100': ujian?.status === 'Sudah',
-              'bg-red-100': ujian?.status === 'Ulang',
+              'bg-success-100': ujian?.status === 'Sudah',
+              'bg-danger-100': ujian?.status === 'Ulang',
             }
           )}
         >

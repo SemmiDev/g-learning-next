@@ -8,7 +8,6 @@ import TableInstansiCard from './table-instansi'
 export default function ListInstansiBody() {
   const [showModalTambah, setShowModalTambah] = useState(false)
   const [showModalUbah, setShowModalUbah] = useState<number | null>(null)
-  const [showModalHapus, setShowModalHapus] = useState<number | null>(null)
 
   return (
     <>

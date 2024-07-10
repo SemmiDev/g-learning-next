@@ -23,7 +23,7 @@ export default function RecentFileItem({ file }: FileButtonProps) {
         <div className="flex space-x-2">
           <div className="flex size-11 items-center justify-center rounded-md shrink-0 bg-gray-50">
             {file.icon === 'video' ? (
-              <BsFillPlayBtnFill size={20} className="text-red-dark" />
+              <BsFillPlayBtnFill size={20} className="text-danger-dark" />
             ) : (
               <BsFileEarmarkFill size={20} className="text-purple-900/80" />
             )}

@@ -128,7 +128,7 @@ export default function KelolaSoalBody() {
                               size="sm"
                               variant="outline"
                               color="danger"
-                              className="hover:border-red-lighter"
+                              className="hover:border-danger-lighter"
                               onClick={() => {
                                 if (watch('jawaban').length <= 3) return
 

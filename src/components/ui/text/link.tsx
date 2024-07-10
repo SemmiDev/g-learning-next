@@ -21,9 +21,9 @@ const TextLinkColors = {
   default: 'text-gray hover:text-primary',
   primary: 'text-primary hover:text-primary-dark',
   secondary: 'text-secondary hover:text-secondary-dark',
-  success: 'text-green hover:text-green-dark',
-  warning: 'text-orange hover:text-orange-dark',
-  danger: 'text-red hover:text-red-dark',
+  success: 'text-success hover:text-success-dark',
+  warning: 'text-warning hover:text-warning-dark',
+  danger: 'text-danger hover:text-danger-dark',
   gray: 'text-gray hover:text-gray-dark',
 }
 

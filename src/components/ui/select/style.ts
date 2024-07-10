@@ -13,10 +13,10 @@ const multiValueStyles =
   'bg-gray-50 rounded items-center py-0.5 pl-2 pr-1 gap-1.5'
 const multiValueLabelStyles = 'leading-6 py-0.5'
 const multiValueRemoveStyles =
-  'border border-gray-200 bg-white hover:text-red-dark text-gray hover:border-red-lighter rounded-md'
+  'border border-gray-200 bg-white hover:text-danger-dark text-gray hover:border-danger-lighter rounded-md'
 const indicatorsContainerStyles = 'p-1 gap-1'
 const clearIndicatorStyles =
-  'text-gray-lighter p-1 rounded-md hover:text-red-dark'
+  'text-gray-lighter p-1 rounded-md hover:text-danger-dark'
 const indicatorSeparatorStyles = 'bg-gray-lighter'
 const dropdownIndicatorStyles =
   'p-1 text-gray-lighter rounded-md hover:text-primary-dark'
@@ -37,7 +37,7 @@ export const defaultClassNames = (error?: boolean) => ({
       controlStyles.base,
       isFocused ? controlStyles.focus : controlStyles.nonFocus,
       {
-        '!border-red [&.is-hover]:!border-red [&.is-focus]:!border-red !ring-red !bg-transparent':
+        '!border-danger [&.is-hover]:!border-danger [&.is-focus]:!border-danger !ring-danger !bg-transparent':
           error,
       }
     ),

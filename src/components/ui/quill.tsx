@@ -80,7 +80,7 @@ export default function QuillEditor({
           'react-quill',
           {
             'react-quill-toolbar-bottom relative': toolbarPosition === 'bottom',
-            '[&>.ql-container]:!border-[1.8px] [&>.ql-container]:!border-red [&>.ql-toolbar]:!border-b-red':
+            '[&>.ql-container]:!border-[1.8px] [&>.ql-container]:!border-danger [&>.ql-toolbar]:!border-b-danger':
               error,
           },
           className

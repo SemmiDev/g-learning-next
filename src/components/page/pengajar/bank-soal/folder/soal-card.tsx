@@ -63,7 +63,7 @@ export default function SoalCard({
             </div>
             <div className="mt-2 pt-2">
               <Dropdown.Item className="text-gray-dark">
-                <BsTrash3 className="text-red mr-2 h-4 w-4" />
+                <BsTrash3 className="text-danger mr-2 h-4 w-4" />
                 Hapus
               </Dropdown.Item>
             </div>

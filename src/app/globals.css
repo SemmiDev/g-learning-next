@@ -12,18 +12,6 @@
       - gray/natural colors for texts, borders and disabled elements.
       - If required we can use as background too.
     */
-    /* Custom Gray */
-    --gray-0: var(--t-gray-50);
-    --gray-50: var(--t-gray-100);
-    --gray-100: var(--t-gray-200);
-    --gray-200: var(--t-gray-300);
-    --gray-300: var(--t-gray-400);
-    --gray-400: var(--t-gray-500);
-    --gray-500: var(--t-gray-600);
-    --gray-600: var(--t-gray-700);
-    --gray-700: var(--t-gray-800);
-    --gray-800: var(--t-gray-900);
-    --gray-900: var(--t-gray-950);
     --gray-lighter: var(--gray-300);
     --gray-default: var(--gray-600);
     --gray-dark: var(--gray-900);
@@ -38,37 +26,60 @@
     /* ----------------------------------- */
     /* primary/brand colors */
     /* ----------------------------------- */
-    /* Custom Theme */
-    --primary-lighter: var(--blue-lighter);
-    --primary-default: var(--blue-default);
-    --primary-dark: var(--blue-dark);
+    --primary-lighter: var(--blue-300);
+    --primary-default: var(--blue-500);
+    --primary-dark: var(--blue-700);
     --primary-foreground: 255 255 255;
 
     /* ----------------------------------- */
     /* secondary colors */
     /* ----------------------------------- */
-    --secondary-lighter: 187 68 240; /* #bb44f0 */
-    --secondary-default: 150 20 208; /* #9614d0 */
-    --secondary-dark: 102 0 148; /* #660094 */
+    --secondary-lighter: 243 229 245; /* #f3e5f5 */
+    --secondary-default: 206 147 216; /* #ce93d8 */
+    --secondary-dark: 171 71 188; /* #ab47bc */
     --secondary-foreground: 255 255 255; /* #ffffff */
 
     /* ----------------------------------- */
     /* red/error colors */
     /* ----------------------------------- */
-    --red-lighter: 247 212 214; /* #f7d4d6 */
-    --red-default: 238 0 0; /* #e00 */
-    --red-dark: 197 0 0; /* #c50000 */
+    --danger-lighter: 247 212 214; /* #f7d4d6 */
+    --danger-default: 238 0 0; /* #e00 */
+    --danger-dark: 197 0 0; /* #c50000 */
 
     /* ----------------------------------- */
     /* orange/warning colors */
     /* ----------------------------------- */
-    --orange-lighter: 255 239 207; /* #ffefcf */
-    --orange-default: 245 166 35; /* #f5a623 */
-    --orange-dark: 171 87 10; /* #ab570a */
+    --warning-lighter: 255 239 207; /* #ffefcf */
+    --warning-default: 245 166 35; /* #f5a623 */
+    --warning-dark: 171 87 10; /* #ab570a */
 
     /* ----------------------------------- */
     /* blue/info colors */
     /* ----------------------------------- */
+    --info-lighter: 79 195 247; /* #4fc3f7 */
+    --info-default: 41 182 246; /* #29b6f6 */
+    --info-dark: 2 136 209; /* #0288d1 */
+
+    /* ----------------------------------- */
+    /* green/success colors */
+    /* ----------------------------------- */
+    --success-lighter: 185 249 207; /* #b9f9cf */
+    --success-default: 17 168 73; /* #11a849 */
+    --success-dark: 17 132 60; /* #11843c */
+
+    /* Custom Gray */
+    --gray-0: var(--t-gray-50);
+    --gray-50: var(--t-gray-100);
+    --gray-100: var(--t-gray-200);
+    --gray-200: var(--t-gray-300);
+    --gray-300: var(--t-gray-400);
+    --gray-400: var(--t-gray-500);
+    --gray-500: var(--t-gray-600);
+    --gray-600: var(--t-gray-700);
+    --gray-700: var(--t-gray-800);
+    --gray-800: var(--t-gray-900);
+    --gray-900: var(--t-gray-950);
+
     /* Custom Blue */
     --blue-0: var(--t-blue-50);
     --blue-50: var(--t-blue-100);
@@ -81,18 +92,8 @@
     --blue-700: var(--t-blue-800);
     --blue-800: var(--t-blue-900);
     --blue-900: var(--t-blue-950);
-    --blue-lighter: var(--blue-300);
-    --blue-default: var(--blue-500);
-    --blue-dark: var(--blue-700);
 
-    /* ----------------------------------- */
-    /* green/success colors */
-    /* ----------------------------------- */
-    --green-lighter: 185 249 207; /* #b9f9cf */
-    --green-default: 17 168 73; /* #11a849 */
-    --green-dark: 17 132 60; /* #11843c */
-
-    /* Custom Gray Colors */
+    /* Custom Theme Gray Colors */
     --t-gray-50: 255 255 255;
     --t-gray-100: 239 239 239;
     --t-gray-200: 220 220 220;
@@ -105,7 +106,7 @@
     --t-gray-900: 61 61 61;
     --t-gray-950: 41 41 41;
 
-    /* Custom Blue Colors */
+    /* Custom Theme Blue Colors */
     --t-blue-50: 239 244 255;
     --t-blue-100: 219 230 254;
     --t-blue-200: 191 211 254;
@@ -172,26 +173,26 @@
     /* ----------------------------------- */
     /* red/error colors */
     /* ----------------------------------- */
-    --red-lighter: 80 0 0; /* #500000 */
-    --red-dark: 255 193 193; /* #ffc1c1 */
+    --danger-lighter: 80 0 0; /* #500000 */
+    --danger-dark: 255 193 193; /* #ffc1c1 */
 
     /* ----------------------------------- */
     /* orange/warning colors */
     /* ----------------------------------- */
-    --orange-lighter: 68 29 4; /* #441d04 */
-    --orange-dark: 252 234 139; /* #fcea8b */
+    --warning-lighter: 68 29 4; /* #441d04 */
+    --warning-dark: 252 234 139; /* #fcea8b */
 
     /* ----------------------------------- */
     /* blue/info colors */
     /* ----------------------------------- */
-    --blue-lighter: 13 51 94; /* #0d335e */
-    --blue-dark: 181 233 255; /* #b5e9ff */
+    --info-lighter: 13 51 94; /* #0d335e */
+    --info-dark: 181 233 255; /* #b5e9ff */
 
     /* ----------------------------------- */
     /* green/success colors */
     /* ----------------------------------- */
-    --green-lighter: 3 48 22; /* #033016 */
-    --green-dark: 185 249 207; /* #b9f9cf */
+    --success-lighter: 3 48 22; /* #033016 */
+    --success-dark: 185 249 207; /* #b9f9cf */
 
     /* here you can customize other colors for dark theme if design required */
   }
@@ -305,7 +306,7 @@
   .password-dot {
     -webkit-text-security: disc;
     -moz-text-security: circle;
-    text-security: circle;
+    /* text-security: circle; */
   }
 
   /* experimental */
@@ -1251,7 +1252,7 @@ div[style='z-index: 1000001;'],
 }
 
 .rbc-today {
-  @apply bg-blue-lighter/10;
+  @apply bg-info-lighter/10;
 }
 
 .rbc-day-slot .rbc-time-slot,
@@ -1443,7 +1444,7 @@ div[style='z-index: 1000001;'],
   @apply !text-gray-0;
 }
 .react-calendar__month-view__days__day--weekend {
-  @apply !text-red-dark;
+  @apply !text-danger-dark;
 }
 
 /* custom */

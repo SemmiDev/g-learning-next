@@ -18,9 +18,9 @@ const boxColor = (color: 'green' | 'orange' | 'white'): string => {
 const boxBehavior = (color: 'green' | 'orange' | 'white'): string => {
   switch (color) {
     case 'green':
-      return 'hover:bg-green-dark'
+      return 'hover:bg-success-dark'
     case 'orange':
-      return 'hover:bg-orange'
+      return 'hover:bg-warning'
     case 'white':
       return 'hover:bg-gray-100'
   }

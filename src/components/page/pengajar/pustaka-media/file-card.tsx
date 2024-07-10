@@ -35,7 +35,7 @@ const iconSize = 20
 
 const FileIcon = ({ file }: { file: FileType }) => {
   if (file.icon == 'video') {
-    return <BsFillPlayBtnFill size={iconSize} className="text-red-dark" />
+    return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
   }
 
   let icon
@@ -47,10 +47,10 @@ const FileIcon = ({ file }: { file: FileType }) => {
       icon = <BsFiletypeDocx size={iconSize} className="text-primary" />
       break
     case 'xls':
-      icon = <BsFiletypeXls size={iconSize} className="text-green" />
+      icon = <BsFiletypeXls size={iconSize} className="text-success" />
       break
     case 'xlsx':
-      icon = <BsFiletypeXlsx size={iconSize} className="text-green" />
+      icon = <BsFiletypeXlsx size={iconSize} className="text-success" />
       break
     case 'ppt':
       icon = <BsFiletypePpt size={iconSize} className="text-orange-600" />
@@ -59,7 +59,7 @@ const FileIcon = ({ file }: { file: FileType }) => {
       icon = <BsFiletypePptx size={iconSize} className="text-orange-600" />
       break
     case 'pdf':
-      icon = <BsFiletypePdf size={iconSize} className="text-red" />
+      icon = <BsFiletypePdf size={iconSize} className="text-danger" />
       break
     case 'jpg':
     case 'jpeg':
@@ -108,7 +108,7 @@ export default function FileCard({ file, className }: FileCardProps) {
             {file.type == 'folder' && (
               <div className="mb-2">
                 <Dropdown.Item className="text-gray-dark">
-                  <BsPencil className="text-orange mr-2 h-4 w-4" />
+                  <BsPencil className="text-warning mr-2 h-4 w-4" />
                   Ubah
                 </Dropdown.Item>
               </div>
@@ -119,7 +119,7 @@ export default function FileCard({ file, className }: FileCardProps) {
               })}
             >
               <Dropdown.Item className="text-gray-dark">
-                <BsTrash3 className="text-red mr-2 h-4 w-4" />
+                <BsTrash3 className="text-danger mr-2 h-4 w-4" />
                 Hapus
               </Dropdown.Item>
             </div>

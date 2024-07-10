@@ -41,13 +41,13 @@ export default function FolderCard({
           <Dropdown.Menu className="w-30 divide-y">
             <div className="mb-2">
               <Dropdown.Item className="text-gray-dark">
-                <BsPencil className="text-orange mr-2 h-4 w-4" />
+                <BsPencil className="text-warning mr-2 h-4 w-4" />
                 Ubah
               </Dropdown.Item>
             </div>
             <div className="mt-2 pt-2">
               <Dropdown.Item className="text-gray-dark">
-                <BsTrash3 className="text-red mr-2 h-4 w-4" />
+                <BsTrash3 className="text-danger mr-2 h-4 w-4" />
                 Hapus
               </Dropdown.Item>
             </div>

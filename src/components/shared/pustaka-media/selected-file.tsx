@@ -15,7 +15,7 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
       <div className="flex space-x-2">
         <div className="flex items-center justify-center size-11 shrink-0 rounded-md bg-gray-50">
           {file.type === 'link-video' ? (
-            <BsFillPlayBtnFill size={20} className="text-red-dark" />
+            <BsFillPlayBtnFill size={20} className="text-danger-dark" />
           ) : (
             <FileIcon filename={file.name} />
           )}
