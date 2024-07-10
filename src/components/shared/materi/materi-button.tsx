@@ -106,8 +106,8 @@ export default function MateriButton({
         desc="Anda yakin ingin menghapus berkas ini?"
         isOpen={showModalHapus}
         onClose={() => setShowModalHapus(false)}
-        onCancel={() => setShowModalHapus(false)}
         onConfirm={() => setShowModalHapus(false)}
+        closeOnCancel
       />
     </>
   )

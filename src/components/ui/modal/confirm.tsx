@@ -23,6 +23,8 @@ export default function ModalConfirm({
   onConfirm,
   cancel = 'Tidak',
   onCancel,
+  closeOnCancel,
+  onClose,
   headerClassName,
   ...props
 }: ModalConfirmProps) {
@@ -31,6 +33,8 @@ export default function ModalConfirm({
       title={title}
       size={size}
       headerClassName={cn('[&_.modal-title]:text-lg', headerClassName)}
+      onClose={onClose}
+      closeButton={false}
       {...props}
     >
       <Text weight="semibold" variant="dark" className="text-center p-3">
@@ -53,6 +57,7 @@ export default function ModalConfirm({
         cancel={cancel}
         onCancel={() => {
           onCancel && onCancel()
+          closeOnCancel && onClose && onClose()
         }}
       />
     </Modal>

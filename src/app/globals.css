@@ -26,7 +26,7 @@
     /* ----------------------------------- */
     /* primary/brand colors */
     /* ----------------------------------- */
-    --primary-lighter: var(--blue-300);
+    --primary-lighter: var(--blue-100);
     --primary-default: var(--blue-500);
     --primary-dark: var(--blue-700);
     --primary-foreground: 255 255 255;
@@ -34,9 +34,9 @@
     /* ----------------------------------- */
     /* secondary colors */
     /* ----------------------------------- */
-    --secondary-lighter: 243 229 245; /* #f3e5f5 */
-    --secondary-default: 206 147 216; /* #ce93d8 */
-    --secondary-dark: 171 71 188; /* #ab47bc */
+    --secondary-lighter: 224 170 255; /* #e0aaff */
+    --secondary-default: 157 78 221; /* #9d4edd */
+    --secondary-dark: 123 44 191; /* #7b2cbf */
     --secondary-foreground: 255 255 255; /* #ffffff */
 
     /* ----------------------------------- */
@@ -56,8 +56,8 @@
     /* ----------------------------------- */
     /* blue/info colors */
     /* ----------------------------------- */
-    --info-lighter: 79 195 247; /* #4fc3f7 */
-    --info-default: 41 182 246; /* #29b6f6 */
+    --info-lighter: 129 212 250; /* #81d4fa */
+    --info-default: 3 169 244; /* #03a9f4 */
     --info-dark: 2 136 209; /* #0288d1 */
 
     /* ----------------------------------- */

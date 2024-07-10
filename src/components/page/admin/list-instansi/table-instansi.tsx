@@ -102,7 +102,7 @@ export default function TableInstansiCard() {
       className: 'action',
       render: (_: any, row: any) => (
         <div className="flex justify-center">
-          <ActionIcon size="sm" variant="text-colorful" color="success">
+          <ActionIcon size="sm" variant="text-colorful" color="info">
             <LuEye />
           </ActionIcon>
           <ActionIcon size="sm" variant="text-colorful" color="warning">
@@ -150,8 +150,9 @@ export default function TableInstansiCard() {
         color="danger"
         isOpen={!!showModalHapus}
         onClose={() => setShowModalHapus(null)}
-        onCancel={() => setShowModalHapus(null)}
         onConfirm={() => setShowModalHapus(null)}
+        closeOnCancel
+        icon={true}
       />
     </>
   )

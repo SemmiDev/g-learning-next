@@ -1,30 +1,62 @@
 import cn from '@/utils/class-names'
+import { ReactNode } from 'react'
+import { LuAlertCircle, LuAlertOctagon, LuAlertTriangle } from 'react-icons/lu'
 import { MdOutlineClose } from 'react-icons/md'
+import ActionIcon from '../button/action-icon'
 import Text from '../text/text'
 import Title from '../text/title'
-import ActionIcon from '../button/action-icon'
+
+type ColorType =
+  | 'dark-gray'
+  | 'primary'
+  | 'secondary'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'black'
+
+type IconType = boolean | ReactNode
+
+const HeaderIcon = ({ color, icon }: { color: ColorType; icon?: IconType }) => {
+  const size = 20
+
+  if (icon === true) {
+    switch (color) {
+      case 'primary':
+      case 'secondary':
+      case 'info':
+      case 'success':
+        return <LuAlertCircle size={size} className="text-white" />
+      case 'warning':
+        return <LuAlertOctagon size={size} className="text-white" />
+      case 'danger':
+        return <LuAlertTriangle size={size} className="text-white" />
+      default:
+        return null
+    }
+  }
+
+  return icon
+}
 
 export type ModalHeaderProps = {
   title: string
-  color?:
-    | 'dark-gray'
-    | 'primary'
-    | 'secondary'
-    | 'info'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'black'
+  color?: ColorType
+  icon?: IconType
   desc?: string
   className?: string
+  closeButton?: boolean
   onClose?(): void
 }
 
 export default function ModalHeader({
   title,
   color = 'dark-gray',
+  icon,
   desc,
   className,
+  closeButton,
   onClose,
 }: ModalHeaderProps) {
   const bgColor =
@@ -68,12 +100,13 @@ export default function ModalHeader({
           </Text>
         )}
       </div>
-      <div>
-        {onClose && (
+      <div className="flex items-center space-x-2">
+        <HeaderIcon color={color} icon={icon} />
+        {closeButton && onClose && (
           <ActionIcon
             size="sm"
             variant="text"
-            color="secondary"
+            color="gray"
             onClick={onClose}
             className="text-white"
           >

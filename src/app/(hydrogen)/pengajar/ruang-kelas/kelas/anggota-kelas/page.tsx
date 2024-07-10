@@ -162,8 +162,8 @@ export default function AnggotaKelasPage() {
         desc="Apakah Anda yakin ingin mengeluarkan peserta ini dari kelas anda?"
         isOpen={showModalKeluarkan}
         onClose={() => setShowModalKeluarkan(false)}
-        onCancel={() => setShowModalKeluarkan(false)}
         onConfirm={() => setShowModalKeluarkan(false)}
+        closeOnCancel
       />
 
       <UndangAnggotaModal

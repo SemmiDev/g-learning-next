@@ -75,8 +75,8 @@ export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
         desc="Anda yakin ingin menghapus folder ini?"
         isOpen={showModalHapus}
         onClose={() => setShowModalHapus(false)}
-        onCancel={() => setShowModalHapus(false)}
         onConfirm={() => setShowModalHapus(false)}
+        closeOnCancel
       />
     </>
   )

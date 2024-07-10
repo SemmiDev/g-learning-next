@@ -9,6 +9,7 @@ export type ButtonColors =
   | 'success'
   | 'warning'
   | 'danger'
+  | 'gray'
 
 export type ButtonVariants =
   | 'solid'
@@ -34,6 +35,7 @@ export const ButtonColorStyles = {
     success: 'bg-success hover:bg-success-dark',
     warning: 'bg-warning hover:bg-warning-dark',
     danger: 'bg-danger hover:bg-danger-dark',
+    gray: 'bg-gray hover:bg-gray-dark',
   },
   flat: {
     primary:
@@ -47,6 +49,7 @@ export const ButtonColorStyles = {
       'hover:bg-warning-lighter hover:text-warning-dark focus-visible:ring-muted',
     danger:
       'hover:bg-danger-lighter hover:text-danger-dark focus-visible:ring-muted',
+    gray: 'hover:bg-gray-lighter hover:text-gray-dark focus-visible:ring-muted',
   },
   outline: {
     primary: 'hover:text-primary hover:border-primary',
@@ -55,6 +58,7 @@ export const ButtonColorStyles = {
     success: 'hover:text-success hover:border-success',
     warning: 'hover:text-warning hover:border-warning',
     danger: 'hover:text-danger hover:border-danger',
+    gray: 'hover:text-gray hover:border-gray',
   },
   'outline-colorful': {
     primary:
@@ -68,6 +72,7 @@ export const ButtonColorStyles = {
       'text-warning border-warning hover:text-warning-dark hover:border-warning-dark',
     danger:
       'text-danger border-danger hover:text-danger-dark hover:border-danger-dark',
+    gray: 'text-gray border-gray hover:text-gray-dark hover:border-gray-dark',
   },
   'outline-hover': {
     primary:
@@ -81,6 +86,7 @@ export const ButtonColorStyles = {
       'border-transparent hover:text-warning hover:border-warning focus-visible:ring-warning-lighter',
     danger:
       'border-transparent hover:text-danger hover:border-danger focus-visible:ring-danger-lighter',
+    gray: 'border-transparent hover:text-gray hover:border-gray focus-visible:ring-gray-lighter',
   },
   'outline-hover-colorful': {
     primary:
@@ -94,6 +100,7 @@ export const ButtonColorStyles = {
       'text-warning border-transparent hover:text-warning hover:border-warning focus-visible:ring-warning-lighter',
     danger:
       'text-danger border-transparent hover:text-danger hover:border-danger focus-visible:ring-danger-lighter',
+    gray: 'text-gray border-transparent hover:text-gray hover:border-gray focus-visible:ring-gray-lighter',
   },
   text: {
     primary: 'hover:text-primary focus-visible:ring-primary-lighter',
@@ -102,6 +109,7 @@ export const ButtonColorStyles = {
     success: 'hover:text-success focus-visible:ring-success-lighter',
     warning: 'hover:text-warning focus-visible:ring-warning-lighter',
     danger: 'hover:text-danger focus-visible:ring-danger-lighter',
+    gray: 'hover:text-gray focus-visible:ring-gray-lighter',
   },
   'text-colorful': {
     primary:
@@ -115,6 +123,7 @@ export const ButtonColorStyles = {
       'text-warning hover:text-warning-dark focus-visible:ring-warning-lighter',
     danger:
       'text-danger hover:text-danger-dark focus-visible:ring-danger-lighter',
+    gray: 'text-gray hover:text-gray-dark focus-visible:ring-gray-lighter',
   },
 }
 
