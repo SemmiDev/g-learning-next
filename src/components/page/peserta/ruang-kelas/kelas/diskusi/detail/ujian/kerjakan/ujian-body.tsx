@@ -18,7 +18,7 @@ export type SoalType = {
   jawab?: JawabanType
 }
 
-export default function UjianBody() {
+export default function KerjakanUjianBody() {
   const isMediumScreen = useMedia('(min-width: 1280px)', true)
   const router = useRouter()
 
@@ -84,7 +84,7 @@ export default function UjianBody() {
         setShowModal={setShowModalSelesai}
         onSelesaiUjian={() => {
           setShowModalSelesai(false)
-          router.push(`${routes.peserta.kelas}/diskusi/detail/ujian`)
+          router.replace(`${routes.peserta.kelas}/diskusi/detail/ujian/selesai`)
         }}
       />
     </>

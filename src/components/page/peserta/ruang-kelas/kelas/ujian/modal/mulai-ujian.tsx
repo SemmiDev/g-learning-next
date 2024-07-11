@@ -36,12 +36,12 @@ export default function HasilUjianModal({
             <tr>
               <td className="w-32">Jumlah pertanyaan</td>
               <td className="w-3 text-center"> : </td>
-              <td>20</td>
+              <td className="font-semibold">20</td>
             </tr>
             <tr>
               <td>Benar/ salah</td>
               <td className="text-center"> : </td>
-              <td>
+              <td className="font-semibold">
                 {ujian?.status === 'Sudah'
                   ? '20/0'
                   : ujian?.status === 'Ulang'
@@ -52,14 +52,14 @@ export default function HasilUjianModal({
             <tr>
               <td>Waktu mulai</td>
               <td className="text-center"> : </td>
-              <td>
+              <td className="font-semibold">
                 {ujian?.status !== 'Belum' ? '18 Januari 2024 | 15:00:53' : '-'}
               </td>
             </tr>
             <tr>
               <td>Waktu selesai</td>
               <td className="text-center"> : </td>
-              <td>
+              <td className="font-semibold">
                 {ujian?.status !== 'Belum' ? '18 Januari 2024 | 17:11:03' : '-'}
               </td>
             </tr>
@@ -78,8 +78,8 @@ export default function HasilUjianModal({
           className={cn(
             'flex flex-col items-center w-24 rounded-md bg-gray-50 p-3',
             {
-              'bg-success-100': ujian?.status === 'Sudah',
-              'bg-danger-100': ujian?.status === 'Ulang',
+              'bg-green-100': ujian?.status === 'Sudah',
+              'bg-red-100': ujian?.status === 'Ulang',
             }
           )}
         >

@@ -133,22 +133,22 @@ export default function DiskusiDetailUjianPage() {
                 <tr>
                   <td className="w-32">Jumlah pertanyaan</td>
                   <td className="w-3 text-center"> : </td>
-                  <td>20</td>
+                  <td className="font-semibold">20</td>
                 </tr>
                 <tr>
                   <td>Benar/ salah</td>
                   <td className="text-center"> : </td>
-                  <td>-</td>
+                  <td className="font-semibold">-</td>
                 </tr>
                 <tr>
                   <td>Waktu mulai</td>
                   <td className="text-center"> : </td>
-                  <td>-</td>
+                  <td className="font-semibold">-</td>
                 </tr>
                 <tr>
                   <td>Waktu selesai</td>
                   <td className="text-center"> : </td>
-                  <td>-</td>
+                  <td className="font-semibold">-</td>
                 </tr>
               </tbody>
             </table>
