@@ -26,6 +26,9 @@ import ControlledInputRupiah, {
 } from './controlled/input-rupiah'
 import ControlledKelas, { ControlledKelasProps } from './controlled/kelas'
 import ControlledMateri, { ControlledMateriProps } from './controlled/materi'
+import ControlledPassword, {
+  ControlledPasswordProps,
+} from './controlled/password'
 import ControlledPustakaMedia, {
   ControlledPustakaMediaProps,
 } from './controlled/pustaka-media'
@@ -56,6 +59,7 @@ import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
+import Password, { PasswordProps } from './password'
 import ReadMore, { ReadMoreProps } from './readmore'
 import Select, { SelectOptionType, SelectProps } from './select/select'
 import SimpleBar from './simplebar'
@@ -98,6 +102,7 @@ export {
   ControlledInputRupiah,
   ControlledKelas,
   ControlledMateri,
+  ControlledPassword,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledRadio,
@@ -120,6 +125,7 @@ export {
   ModalFooterButtons,
   ModalHeader,
   Pagination,
+  Password,
   PustakaMedia,
   ReadMore,
   Select,
@@ -155,6 +161,7 @@ export {
   type ControlledInputRupiahProps,
   type ControlledKelasProps,
   type ControlledMateriProps,
+  type ControlledPasswordProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
   type ControlledRadioGroupOptions,
@@ -174,6 +181,7 @@ export {
   type MateriProps,
   type ModalProps,
   type PaginationProps,
+  type PasswordProps,
   type PustakaMediaFileType,
   type PustakaMediaProps,
   type ReadMoreProps,

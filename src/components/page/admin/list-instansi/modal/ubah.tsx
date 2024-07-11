@@ -12,6 +12,7 @@ import {
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useEffect, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
@@ -32,8 +33,8 @@ type FormSchema = {
   kontak?: string
   pimpinan?: string
   kontakPimpinan?: string
-  jenis?: string
-  paket?: string
+  jenis?: SelectOptionType
+  paket?: SelectOptionType
   jatuhTempo?: Date
   usernameAdmin?: string
   passwordAdmin?: string
@@ -49,31 +50,48 @@ const paketOptions: SelectOptionType[] = [
   { value: 'paket2', label: 'Paket 2' },
 ]
 
-const initialValues: FormSchema = {}
+type UbahModalProps = {
+  showModal?: number | null
+  setShowModal(show: number | null): void
+}
 
-export default function TambahModal({
-  showModal = false,
+export default function UbahModal({
+  showModal = null,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+}: UbahModalProps) {
+  const [initialValues, setInitialValues] = useState<FormSchema | null>()
+
+  useEffect(() => {
+    setInitialValues({
+      nama: 'Instansi Saya',
+      kontak: '08676876',
+      pimpinan: 'Pimpinan Saya',
+      kontakPimpinan: '08798789',
+      jenis: { value: 'jenis2', label: 'Jenis 2' },
+      paket: { value: 'paket1', label: 'Paket 1' },
+      jatuhTempo: new Date(),
+      usernameAdmin: 'admin',
+      passwordAdmin: 'adminok123',
+    })
+  }, [showModal])
+
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
   }
 
   return (
     <Modal
-      title="Tambah Instansi"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      title="Ubah Instansi"
+      color="warning"
+      isOpen={!!showModal}
+      onClose={() => setShowModal(null)}
     >
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
           mode: 'onSubmit',
-          defaultValues: initialValues,
+          defaultValues: initialValues ?? {},
         }}
       >
         {({ control, formState: { errors, isSubmitting } }) => (
@@ -161,7 +179,7 @@ export default function TambahModal({
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={() => setShowModal(null)}
             />
           </>
         )}

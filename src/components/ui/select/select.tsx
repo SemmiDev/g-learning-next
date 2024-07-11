@@ -1,12 +1,13 @@
 'use client'
 
+import { AnyObject } from '@/utils/type-interface'
 import { useId } from 'react'
 import ReactSelect, { Props as ReactSelectProps } from 'react-select'
+import { FieldError } from 'rizzui'
 import TextLabel from '../text/label'
 import { defaultClassNames } from './style'
-import { FieldError } from 'rizzui'
 
-export type SelectOptionType = {
+export type SelectOptionType = AnyObject & {
   label: string
   value: string
 }

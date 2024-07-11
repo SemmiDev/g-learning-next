@@ -1,6 +1,6 @@
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
-import { LuAlertCircle, LuAlertOctagon, LuAlertTriangle } from 'react-icons/lu'
+import { LuAlertTriangle, LuHelpCircle, LuInfo } from 'react-icons/lu'
 import { MdOutlineClose } from 'react-icons/md'
 import ActionIcon from '../button/action-icon'
 import Text from '../text/text'
@@ -16,28 +16,21 @@ type ColorType =
   | 'danger'
   | 'black'
 
-type IconType = boolean | ReactNode
+type IconType = 'warning' | 'info' | 'help' | ReactNode
 
-const HeaderIcon = ({ color, icon }: { color: ColorType; icon?: IconType }) => {
+const HeaderIcon = ({ icon }: { icon?: IconType }) => {
   const size = 20
 
-  if (icon === true) {
-    switch (color) {
-      case 'primary':
-      case 'secondary':
-      case 'info':
-      case 'success':
-        return <LuAlertCircle size={size} className="text-white" />
-      case 'warning':
-        return <LuAlertOctagon size={size} className="text-white" />
-      case 'danger':
-        return <LuAlertTriangle size={size} className="text-white" />
-      default:
-        return null
-    }
+  switch (icon) {
+    case 'warning':
+      return <LuAlertTriangle size={size} className="text-white" />
+    case 'info':
+      return <LuInfo size={size} className="text-white" />
+    case 'help':
+      return <LuHelpCircle size={size} className="text-white" />
+    default:
+      return icon
   }
-
-  return icon
 }
 
 export type ModalHeaderProps = {
@@ -101,7 +94,7 @@ export default function ModalHeader({
         )}
       </div>
       <div className="flex items-center space-x-2">
-        <HeaderIcon color={color} icon={icon} />
+        <HeaderIcon icon={icon} />
         {closeButton && onClose && (
           <ActionIcon
             size="sm"

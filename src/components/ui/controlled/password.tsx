@@ -7,48 +7,40 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import AsyncPaginateSelect, {
-  AsyncPaginateSelectProps,
-} from '../select/async-paginate'
-import { SelectOptionType } from '../select/select'
+import Password, { PasswordProps } from '../password'
 
-export type ControlledAsyncPaginateSelectProps<
+export type ControlledPasswordProps<
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType
-> = Omit<
-  AsyncPaginateSelectProps<OptionType>,
-  'value' | 'onChange' | 'onBlur'
-> & {
+  TName extends FieldPath<TFieldValues>
+> = Omit<PasswordProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledAsyncPaginateSelect<
+export default function ControlledPassword<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType = SelectOptionType
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   name,
   control,
   errors,
   onChange,
   ...props
-}: ControlledAsyncPaginateSelectProps<TFieldValues, TName, OptionType>) {
+}: ControlledPasswordProps<TFieldValues, TName>) {
   return (
-    <Controller<TFieldValues, TName>
+    <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <AsyncPaginateSelect<OptionType>
+        <Password
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)
           }}
           onBlur={onBlur}
-          value={value}
+          value={value ?? ''}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />

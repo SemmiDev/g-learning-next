@@ -115,7 +115,7 @@ export default function BuatKursusModal({
                 )}
               </div>
 
-              <ControlledSelect<SelectOptionType>
+              <ControlledSelect
                 name="tipe"
                 control={control}
                 options={tipeOptions}

@@ -13,8 +13,10 @@ import { useTableAsync } from '@/hooks/use-table-async'
 import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
+import UbahModal from './modal/ubah'
 
 export default function TableInstansiCard() {
+  const [showModalUbah, setShowModalUbah] = useState<number | null>()
   const [showModalHapus, setShowModalHapus] = useState<number | null>(null)
 
   const {
@@ -105,7 +107,12 @@ export default function TableInstansiCard() {
           <ActionIcon size="sm" variant="text-colorful" color="info">
             <LuEye />
           </ActionIcon>
-          <ActionIcon size="sm" variant="text-colorful" color="warning">
+          <ActionIcon
+            size="sm"
+            variant="text-colorful"
+            color="warning"
+            onClick={() => setShowModalUbah(row.id)}
+          >
             <BsPencilSquare />
           </ActionIcon>
           <ActionIcon
@@ -144,6 +151,8 @@ export default function TableInstansiCard() {
         />
       </Card>
 
+      <UbahModal showModal={showModalUbah} setShowModal={setShowModalUbah} />
+
       <ModalConfirm
         title="Hapus Instansi"
         desc="Apakah Anda yakin ingin menghapus instansi ini dari database?"
@@ -151,8 +160,8 @@ export default function TableInstansiCard() {
         isOpen={!!showModalHapus}
         onClose={() => setShowModalHapus(null)}
         onConfirm={() => setShowModalHapus(null)}
+        headerIcon="help"
         closeOnCancel
-        icon={true}
       />
     </>
   )

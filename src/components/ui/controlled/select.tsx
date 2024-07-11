@@ -7,12 +7,12 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import Select, { SelectProps } from '../select/select'
+import Select, { SelectOptionType, SelectProps } from '../select/select'
 
 export type ControlledSelectProps<
-  OptionType,
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues>,
+  OptionType extends SelectOptionType
 > = Omit<SelectProps<OptionType>, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
@@ -21,22 +21,22 @@ export type ControlledSelectProps<
 }
 
 export default function ControlledSelect<
-  OptionType,
-  TFieldValues extends FieldValues = any,
-  TName extends FieldPath<TFieldValues> = any
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  OptionType extends SelectOptionType = SelectOptionType
 >({
   name,
   control,
   errors,
   onChange,
   ...props
-}: ControlledSelectProps<OptionType, TFieldValues, TName>) {
+}: ControlledSelectProps<TFieldValues, TName, OptionType>) {
   return (
-    <Controller
+    <Controller<TFieldValues, TName>
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Select
+        <Select<OptionType>
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)

@@ -2,24 +2,22 @@
 
 import {
   ButtonSubmit,
+  ControlledAsyncPaginateSelect,
   ControlledInput,
   ControlledInputRupiah,
   ControlledSelect,
   ControlledUploadFile,
   Form,
+  SelectOptionType,
   UploadFileType,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
 import { arrayRequired, objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
+import { tesAsyncAction } from './action'
 
-type OptionType = {
-  label: string
-  value: string
-}
-
-const options: OptionType[] = [
+const options: SelectOptionType[] = [
   { value: 'chocolate', label: 'Chocolate' },
   { value: 'strawberry', label: 'Strawberry' },
   { value: 'vanilla', label: 'Vanilla' },
@@ -40,8 +38,8 @@ const formSchema = z.object({
 type FormSchema = {
   // tesInput?: string
   tesNumber?: number | string
-  // tesSelect?: OptionType
-  // tesAsyncSelect?: OptionType
+  tesSelect?: SelectOptionType
+  tesAsyncSelect?: SelectOptionType
   // tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesDate?: Date
@@ -80,7 +78,7 @@ export default function Tes2Page() {
             errors={errors}
             label="Tes Label"
           />
-          {/* <ControlledSelect<OptionType>
+          {/* <ControlledSelect
             name="tesSelect"
             control={control}
             options={options}
@@ -89,7 +87,7 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           /> */}
-          {/* <ControlledAsyncPaginateSelect<OptionType>
+          {/* <ControlledAsyncPaginateSelect
             name="tesAsyncSelect"
             control={control}
             label="Async Paginate Select"

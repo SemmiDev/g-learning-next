@@ -4,16 +4,17 @@ import { Modal as RizModal, ModalProps as RizModalProps } from 'rizzui'
 import ModalHeader, { ModalHeaderProps } from './modal/header'
 
 export type ModalProps = Omit<RizModalProps, 'onClose'> &
-  Omit<ModalHeaderProps, 'className'> & {
+  Omit<ModalHeaderProps, 'className' | 'icon'> & {
     children: ReactNode
     headerClassName?: string
+    headerIcon?: ModalHeaderProps['icon']
     bodyClassName?: string
   }
 
 export default function Modal({
   title,
   color,
-  icon,
+  headerIcon,
   desc,
   children,
   overlayClassName,
@@ -32,7 +33,8 @@ export default function Modal({
       {...props}
     >
       <ModalHeader
-        {...{ title, color, icon, desc, closeButton, onClose }}
+        {...{ title, color, desc, closeButton, onClose }}
+        icon={headerIcon}
         className={headerClassName}
       />
       <div className={cn('modal-body', bodyClassName)}>{children}</div>

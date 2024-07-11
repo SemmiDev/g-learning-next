@@ -48,6 +48,11 @@ const config: Config = {
           700: 'rgb(var(--blue-700) / <alpha-value>)',
           800: 'rgb(var(--blue-800) / <alpha-value>)',
           900: 'rgb(var(--blue-900) / <alpha-value>)',
+
+          // required by rizzui
+          lighter: 'rgb(var(--info-lighter) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--info-default) / <alpha-value>)',
+          dark: 'rgb(var(--info-dark) / <alpha-value>)',
         },
         background: 'rgb(var(--background) / <alpha-value>)',
         foreground: 'rgb(var(--foreground) / <alpha-value>)',
@@ -81,6 +86,23 @@ const config: Config = {
           dark: 'rgb(var(--info-dark) / <alpha-value>)',
         },
         success: {
+          lighter: 'rgb(var(--success-lighter) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--success-default) / <alpha-value>)',
+          dark: 'rgb(var(--success-dark) / <alpha-value>)',
+        },
+
+        // required by rizzui
+        red: {
+          lighter: 'rgb(var(--danger-lighter) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--danger-default) / <alpha-value>)',
+          dark: 'rgb(var(--danger-dark) / <alpha-value>)',
+        },
+        orange: {
+          lighter: 'rgb(var(--warning-lighter) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--warning-default) / <alpha-value>)',
+          dark: 'rgb(var(--warning-dark) / <alpha-value>)',
+        },
+        green: {
           lighter: 'rgb(var(--success-lighter) / <alpha-value>)',
           DEFAULT: 'rgb(var(--success-default) / <alpha-value>)',
           dark: 'rgb(var(--success-dark) / <alpha-value>)',
