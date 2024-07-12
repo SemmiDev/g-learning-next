@@ -6,6 +6,9 @@ import PustakaMedia, {
 } from '../shared/pustaka-media'
 import Breadcrumb, { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb'
 import ActionIcon, { ActionIconProps } from './button/action-icon'
+import ActionIconTooltip, {
+  ActionIconTooltipProps,
+} from './button/action-icon-tooltip'
 import Button, {
   ButtonColors,
   ButtonProps,
@@ -91,6 +94,7 @@ import {
 
 export {
   ActionIcon,
+  ActionIconTooltip,
   Breadcrumb,
   Button,
   ButtonSubmit,
@@ -149,6 +153,7 @@ export {
   renderTableCellNumber,
   renderTableCellText,
   type ActionIconProps,
+  type ActionIconTooltipProps,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
   type ButtonColors,

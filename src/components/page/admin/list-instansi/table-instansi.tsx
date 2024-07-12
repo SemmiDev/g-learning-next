@@ -1,6 +1,6 @@
 import { tableInstansiAction } from '@/actions/admin/list-instansi/table-instansi'
 import {
-  ActionIcon,
+  ActionIconTooltip,
   Card,
   getSortDirection,
   ModalConfirm,
@@ -9,7 +9,9 @@ import {
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
+import Link from 'next/link'
 import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
@@ -104,25 +106,34 @@ export default function TableInstansiCard() {
       className: 'action',
       render: (_: any, row: any) => (
         <div className="flex justify-center">
-          <ActionIcon size="sm" variant="text-colorful" color="info">
-            <LuEye />
-          </ActionIcon>
-          <ActionIcon
+          <Link href={`${routes.admin.listInstansi}/detail`}>
+            <ActionIconTooltip
+              tooltip="Lihat"
+              size="sm"
+              variant="text-colorful"
+              color="info"
+            >
+              <LuEye />
+            </ActionIconTooltip>
+          </Link>
+          <ActionIconTooltip
+            tooltip="Ubah"
             size="sm"
             variant="text-colorful"
             color="warning"
             onClick={() => setShowModalUbah(row.id)}
           >
             <BsPencilSquare />
-          </ActionIcon>
-          <ActionIcon
+          </ActionIconTooltip>
+          <ActionIconTooltip
+            tooltip="Hapus"
             size="sm"
             variant="text-colorful"
             color="danger"
             onClick={() => setShowModalHapus(row.id)}
           >
             <LuTrash />
-          </ActionIcon>
+          </ActionIconTooltip>
         </div>
       ),
     },

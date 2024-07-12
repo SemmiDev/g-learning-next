@@ -10,6 +10,7 @@ import {
   ButtonVariants,
   getRizVariant,
 } from './button'
+import { forwardRef } from 'react'
 
 export type ActionIconProps = Omit<RizActionIconProps, 'color' | 'variant'> & {
   variant?: ButtonVariants
@@ -17,22 +18,28 @@ export type ActionIconProps = Omit<RizActionIconProps, 'color' | 'variant'> & {
   fontWeight?: DefaultTextProps['weight']
 }
 
-export default function ActionIcon({
-  color = 'primary',
-  variant = 'solid',
-  fontWeight,
-  className,
-  ...props
-}: ActionIconProps) {
-  return (
-    <RizActionIcon
-      className={cn(
-        !props.disabled ? ButtonColorStyles[variant][color] : null,
-        fontWeight ? TextWeights[fontWeight] : null,
-        className
-      )}
-      variant={getRizVariant(variant)}
-      {...props}
-    />
-  )
-}
+export default forwardRef<HTMLButtonElement, ActionIconProps>(
+  function ActionIcon(
+    {
+      color = 'primary',
+      variant = 'solid',
+      fontWeight,
+      className,
+      ...props
+    }: ActionIconProps,
+    ref
+  ) {
+    return (
+      <RizActionIcon
+        ref={ref}
+        className={cn(
+          !props.disabled ? ButtonColorStyles[variant][color] : null,
+          fontWeight ? TextWeights[fontWeight] : null,
+          className
+        )}
+        variant={getRizVariant(variant)}
+        {...props}
+      />
+    )
+  }
+)

@@ -1,6 +1,7 @@
 import cn from '@/utils/class-names'
 import { Button as RizButton, type ButtonProps as RizButtonProps } from 'rizzui'
 import { DefaultTextProps, TextWeights } from '../text/text'
+import { forwardRef } from 'react'
 
 export type ButtonColors =
   | 'primary'
@@ -146,15 +147,19 @@ export const getRizVariant = (
   }
 }
 
-export default function Button({
-  color = 'primary',
-  variant = 'solid',
-  fontWeight,
-  className,
-  ...props
-}: ButtonProps) {
+export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    color = 'primary',
+    variant = 'solid',
+    fontWeight,
+    className,
+    ...props
+  }: ButtonProps,
+  ref
+) {
   return (
     <RizButton
+      ref={ref}
       className={cn(
         !props.disabled ? ButtonColorStyles[variant][color] : null,
         fontWeight ? TextWeights[fontWeight] : null,
@@ -164,4 +169,4 @@ export default function Button({
       {...props}
     />
   )
-}
+})

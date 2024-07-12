@@ -1,4 +1,4 @@
-import ListInstansiBody from '@/components/page/admin/list-instansi/body'
+import DetailInstansiBody from '@/components/page/admin/list-instansi/detail/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
@@ -15,7 +15,11 @@ const pageHeader = {
       name: 'Dasbor',
     },
     {
+      href: routes.admin.listInstansi,
       name: 'Instansi',
+    },
+    {
+      name: 'Detail Instansi',
     },
   ],
 }
@@ -24,7 +28,7 @@ export default function ListInstansiPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-      <ListInstansiBody />
+      <DetailInstansiBody />
     </>
   )
 }
