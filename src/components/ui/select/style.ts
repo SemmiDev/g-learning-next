@@ -31,29 +31,56 @@ const optionStyles = {
 const noOptionsMessageStyles =
   'text-gray p-2 bg-gray-50 border border-dashed border-gray-200 rounded-sm'
 
-export const defaultClassNames = (error?: boolean) => ({
+export type ClassNamesType = {
+  control?: string
+  placeholder?: string
+  input?: string
+  valueContainer?: string
+  singleValue?: string
+  multiValue?: string
+  multiValueLabel?: string
+  multiValueRemove?: string
+  indicatorsContainer?: string
+  clearIndicator?: string
+  indicatorSeparator?: string
+  dropdownIndicator?: string
+  menu?: string
+  groupHeading?: string
+  option?: string
+  noOptionsMessage?: string
+}
+
+export const makeClassNames = (
+  classNames?: ClassNamesType,
+  error?: boolean
+) => ({
   control: ({ isFocused }: { isFocused: boolean }) =>
     cn(
       controlStyles.base,
       isFocused ? controlStyles.focus : controlStyles.nonFocus,
+      classNames?.control,
       {
         '!border-danger [&.is-hover]:!border-danger [&.is-focus]:!border-danger !ring-danger !bg-transparent':
           error,
       }
     ),
-  placeholder: () => placeholderStyles,
-  input: () => selectInputStyles,
-  valueContainer: () => valueContainerStyles,
-  singleValue: () => singleValueStyles,
-  multiValue: () => multiValueStyles,
-  multiValueLabel: () => multiValueLabelStyles,
-  multiValueRemove: () => multiValueRemoveStyles,
-  indicatorsContainer: () => indicatorsContainerStyles,
-  clearIndicator: () => clearIndicatorStyles,
-  indicatorSeparator: () => indicatorSeparatorStyles,
-  dropdownIndicator: () => dropdownIndicatorStyles,
-  menu: () => menuStyles,
-  groupHeading: () => groupHeadingStyles,
+  placeholder: () => cn(placeholderStyles, classNames?.placeholder),
+  input: () => cn(selectInputStyles, classNames?.input),
+  valueContainer: () => cn(valueContainerStyles, classNames?.valueContainer),
+  singleValue: () => cn(singleValueStyles, classNames?.singleValue),
+  multiValue: () => cn(multiValueStyles, classNames?.multiValue),
+  multiValueLabel: () => cn(multiValueLabelStyles, classNames?.multiValueLabel),
+  multiValueRemove: () =>
+    cn(multiValueRemoveStyles, classNames?.multiValueRemove),
+  indicatorsContainer: () =>
+    cn(indicatorsContainerStyles, classNames?.indicatorsContainer),
+  clearIndicator: () => cn(clearIndicatorStyles, classNames?.clearIndicator),
+  indicatorSeparator: () =>
+    cn(indicatorSeparatorStyles, classNames?.indicatorSeparator),
+  dropdownIndicator: () =>
+    cn(dropdownIndicatorStyles, classNames?.dropdownIndicator),
+  menu: () => cn(menuStyles, classNames?.menu),
+  groupHeading: () => cn(groupHeadingStyles, classNames?.groupHeading),
   option: ({
     isFocused,
     isSelected,
@@ -63,8 +90,10 @@ export const defaultClassNames = (error?: boolean) => ({
   }) =>
     cn(
       optionStyles.base,
+      classNames?.option,
       isSelected && optionStyles.selected,
       isFocused && optionStyles.focus
     ),
-  noOptionsMessage: () => noOptionsMessageStyles,
+  noOptionsMessage: () =>
+    cn(noOptionsMessageStyles, classNames?.noOptionsMessage),
 })

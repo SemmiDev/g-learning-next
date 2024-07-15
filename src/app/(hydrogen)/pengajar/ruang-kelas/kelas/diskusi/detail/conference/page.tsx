@@ -116,7 +116,7 @@ export default function DiskusiDetailConferencePage() {
             })}
           </div>
           <CardSeparator />
-          <div className="flex justify-end m-2">
+          <div className="flex justify-end p-2">
             <Button size="sm">Simpan Presensi</Button>
           </div>
         </Card>

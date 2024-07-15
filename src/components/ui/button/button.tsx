@@ -15,6 +15,7 @@ export type ButtonColors =
 export type ButtonVariants =
   | 'solid'
   | 'flat'
+  | 'flat-colorful'
   | 'outline'
   | 'text'
   | 'text-colorful'
@@ -51,6 +52,20 @@ export const ButtonColorStyles = {
     danger:
       'hover:bg-danger-lighter hover:text-danger-dark focus-visible:ring-muted',
     gray: 'hover:bg-gray-lighter hover:text-gray-dark focus-visible:ring-muted',
+  },
+  'flat-colorful': {
+    primary:
+      'bg-gray-50/100 text-primary hover:bg-primary-lighter hover:text-primary-dark focus-visible:ring-muted',
+    secondary:
+      'bg-gray-50/100 text-secondary hover:bg-secondary-lighter hover:text-secondary-dark focus-visible:ring-muted',
+    info: 'bg-gray-50/100 text-info hover:bg-info-lighter hover:text-info-dark focus-visible:ring-muted',
+    success:
+      'bg-gray-50/100 text-success hover:bg-success-lighter hover:text-success-dark focus-visible:ring-muted',
+    warning:
+      'bg-gray-50/100 text-warning hover:bg-warning-lighter hover:text-warning-dark focus-visible:ring-muted',
+    danger:
+      'bg-gray-50/100 text-danger hover:bg-danger-lighter hover:text-danger-dark focus-visible:ring-muted',
+    gray: 'bg-gray-50/100 text-gray hover:bg-gray-lighter hover:text-gray-dark focus-visible:ring-muted',
   },
   outline: {
     primary: 'hover:text-primary hover:border-primary',
@@ -135,6 +150,7 @@ export const getRizVariant = (
     case 'solid':
       return 'solid'
     case 'flat':
+    case 'flat-colorful':
       return 'flat'
     case 'outline':
     case 'outline-colorful':

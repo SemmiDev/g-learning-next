@@ -1,3 +1,16 @@
+export const filesizeToKB = (size: number, metric: 'MB' | 'GB' | 'TB') => {
+  const metricSize =
+    metric === 'MB'
+      ? 1024
+      : metric === 'GB'
+      ? 1024 * 1024
+      : metric === 'TB'
+      ? 1024 * 1024 * 1024
+      : 1
+
+  return size * metricSize
+}
+
 export const formatBytes = (
   kilobytes: number,
   decimals = 2,

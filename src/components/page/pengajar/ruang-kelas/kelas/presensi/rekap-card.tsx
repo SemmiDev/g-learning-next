@@ -93,11 +93,11 @@ export default function RekapPresensiCard() {
             </div>
           </Card>
           <Card className="p-0 mt-4">
-            <Text weight="semibold" variant="dark" className="m-2">
+            <Text weight="semibold" variant="dark" className="p-2">
               Daftar Hadir Peserta Kelas
             </Text>
             <CardSeparator />
-            <div className="flex m-2">
+            <div className="flex p-2">
               <Input
                 size="sm"
                 type="search"
