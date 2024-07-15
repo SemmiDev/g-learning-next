@@ -1,4 +1,4 @@
-import { tablePenggunaAction } from '@/actions/admin/list-instansi/table-pengguna'
+import { tablePenggunaAction } from '@/actions/admin/instansi/table-pengguna'
 import {
   ActionIconTooltip,
   Card,

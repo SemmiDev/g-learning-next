@@ -1,4 +1,4 @@
-import ListInstansiBody from '@/components/page/admin/list-instansi/body'
+import ListInstansiBody from '@/components/page/admin/instansi/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

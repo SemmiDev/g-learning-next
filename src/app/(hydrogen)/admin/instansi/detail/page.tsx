@@ -1,4 +1,4 @@
-import DetailInstansiBody from '@/components/page/admin/list-instansi/detail/body'
+import DetailInstansiBody from '@/components/page/admin/instansi/detail/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

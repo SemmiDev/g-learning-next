@@ -1,4 +1,4 @@
-import { tableInstansiAction } from '@/actions/admin/list-instansi/table-instansi'
+import { tableInstansiAction } from '@/actions/admin/instansi/table-instansi'
 import {
   ActionIconTooltip,
   Card,
