@@ -32,11 +32,11 @@ export default function ControlledSelect<
   ...props
 }: ControlledSelectProps<TFieldValues, TName, OptionType>) {
   return (
-    <Controller<TFieldValues, TName>
+    <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Select<OptionType>
+        <Select
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)

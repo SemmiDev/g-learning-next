@@ -38,11 +38,11 @@ export default function ControlledAsyncPaginateSelect<
   ...props
 }: ControlledAsyncPaginateSelectProps<TFieldValues, TName, OptionType>) {
   return (
-    <Controller<TFieldValues, TName>
+    <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <AsyncPaginateSelect<OptionType>
+        <AsyncPaginateSelect
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)
