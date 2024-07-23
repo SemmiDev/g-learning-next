@@ -10,6 +10,6 @@ export const selectOption = (
   ...attrs,
 })
 
-export const listObjectFromList = <T>(list: T[], count: number) => {
+export const listObjectFromList = <T>(list: T[], count: number): T[] => {
   return [...Array(count)].map((_, idx) => list[idx % list.length])
 }
