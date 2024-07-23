@@ -2,12 +2,12 @@
 
 import cn from '@/utils/class-names'
 import { useCallback, useRef } from 'react'
-import ReactQuill, { type ReactQuillProps } from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+import ReactQuill from 'react-quill-new'
+import 'react-quill-new/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
 import TextLabel from './text/label'
 
-export interface QuillEditorProps extends ReactQuillProps {
+export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   error?: string
   label?: React.ReactNode
   className?: string
