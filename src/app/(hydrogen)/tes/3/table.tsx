@@ -14,7 +14,6 @@ import FilterElement from './filter-element'
 
 export default function Tes3Table() {
   const [pageSize, setPageSize] = useState(5)
-  const [checkedColumns, setCheckedColumns] = useState<string[]>(['single'])
 
   const {
     data,
@@ -90,6 +89,7 @@ export default function Tes3Table() {
           searchTerm: search,
           onSearchClear: () => onSearch(''),
           onSearchChange: (e) => onSearch(e.target.value),
+          className: 'px-0',
         }}
         filterElement={
           <FilterElement
@@ -105,6 +105,7 @@ export default function Tes3Table() {
           current: page,
           total: totalData,
           onChange: (page) => onPageChange(page),
+          paginatorClassName: 'px-0',
         }}
       />
     </>

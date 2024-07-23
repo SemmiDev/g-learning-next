@@ -103,7 +103,7 @@ export default function TableFilter({
   return (
     <div
       className={cn(
-        'table-filter flex items-center justify-between p-2.5 py-3',
+        'table-filter flex items-center justify-between px-2.5 py-3',
         className
       )}
     >

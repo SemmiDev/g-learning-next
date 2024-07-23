@@ -20,13 +20,13 @@ export default function TablePagination({
   pageSize,
   setPageSize,
   total,
-  paginatorClassName = 'px-2.5 py-4',
+  paginatorClassName,
   ...props
 }: TablePaginationProps) {
   return (
     <div
       className={cn(
-        'table-pagination flex items-center justify-center sm:justify-between',
+        'table-pagination flex items-center justify-center px-2.5 py-4 sm:justify-between',
         paginatorClassName
       )}
     >
