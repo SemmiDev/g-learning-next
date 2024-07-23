@@ -1,39 +1,23 @@
 'use client'
 
-import {
-  DrawerPlacements,
-  useDrawer,
-} from '@/components/shared/global-drawer/use-drawer'
 import cn from '@/utils/class-names'
 import { ActionIcon } from 'rizzui'
 
-interface Props {
-  view: JSX.Element
-  placement?: DrawerPlacements
-  customSize?: string
+interface HamburgerButtonProps {
   className?: string
+  onClick?(): void
 }
 
 export default function HamburgerButton({
-  view,
-  placement = 'left',
-  customSize = '320px',
   className,
-}: Props) {
-  const { openDrawer } = useDrawer()
-
+  onClick,
+}: HamburgerButtonProps) {
   return (
     <ActionIcon
       aria-label="Open Sidebar Menu"
       variant="text"
       className={cn('me-3 h-auto w-auto p-0 sm:me-4 xl:hidden', className)}
-      onClick={() =>
-        openDrawer({
-          view,
-          placement,
-          customSize,
-        })
-      }
+      onClick={onClick}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,6 @@
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from '@/components/theme-provider'
 import { inter, lexendDeca } from '@/app/fonts'
-import GlobalDrawer from '@/components/shared/global-drawer/container'
-import GlobalModal from '@/components/shared/global-modal/container'
 import { siteConfig } from '@/config/site.config'
 import { cn } from '@/utils/class-names'
 import NextProgress from '@/components/next-progress'
@@ -33,8 +31,6 @@ export default async function RootLayout({
           <NextProgress />
           <SessionProvide session={session}>{children}</SessionProvide>
           <Toaster />
-          <GlobalDrawer />
-          <GlobalModal />
         </ThemeProvider>
       </body>
     </html>

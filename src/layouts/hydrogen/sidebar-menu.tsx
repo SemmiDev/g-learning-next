@@ -7,9 +7,9 @@ import { usePathname } from 'next/navigation'
 import { Fragment, ReactNode } from 'react'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
+import { menuItemsAdmin } from './menu-items/admin'
 import { menuItemsPengajar } from './menu-items/pengajar'
 import { menuItemsPeserta } from './menu-items/peserta'
-import { menuItemsAdmin } from './menu-items/admin'
 
 export type MenuDropdownItemType = {
   name: string
@@ -30,7 +30,7 @@ export function SidebarMenu() {
   const pathname = usePathname()
   const { data: session } = useSession()
 
-  const menuItems =
+  const menuItems: MenuItemType[] =
     session?.level === 'Admin'
       ? menuItemsAdmin
       : session?.level === 'Pengajar'
