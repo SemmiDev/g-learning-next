@@ -52,6 +52,7 @@ import ControlledUploadFile, {
   ControlledUploadFileProps,
 } from './controlled/upload-file'
 import { DatePicker, DatePickerProps } from './datepicker'
+import Drawer, { DrawerProps } from './drawer'
 import FileIcon from './file/file-icon'
 import FileListItem, { FileListItemType } from './file/file-list-item'
 import { Form } from './form'
@@ -116,6 +117,7 @@ export {
   ControlledTextarea,
   ControlledUploadFile,
   DatePicker,
+  Drawer,
   FileIcon,
   FileListItem,
   Form,
@@ -177,6 +179,7 @@ export {
   type ControlledTextareaProps,
   type ControlledUploadFileProps,
   type DatePickerProps,
+  type DrawerProps,
   type FileListItemType,
   type InputProps,
   type InputRupiahProps,

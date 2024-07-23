@@ -2,7 +2,6 @@
 
 import { useMedia } from '@/hooks/use-media'
 import cn from '@/utils/class-names'
-import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 import {
   PiFunnel,
@@ -12,11 +11,9 @@ import {
 } from 'react-icons/pi'
 import ActionIcon from '../button/action-icon'
 import Button from '../button/button'
+import Drawer from '../drawer'
 import Input from '../input'
 import Title from '../text/title'
-const Drawer = dynamic(() => import('rizzui').then((module) => module.Drawer), {
-  ssr: false,
-})
 
 function FilterDrawerView({
   isOpen,

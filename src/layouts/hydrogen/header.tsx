@@ -1,5 +1,6 @@
 'use client'
 
+import { Drawer } from '@/components/ui'
 import { routes } from '@/config/routes'
 import HamburgerButton from '@/layouts/hamburger-button'
 import HeaderMenuRight from '@/layouts/header-menu-right'
@@ -9,7 +10,6 @@ import logo from '@public/logo-short.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Drawer } from 'rizzui'
 
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -36,7 +36,7 @@ export default function Header() {
         onClose={() => setSidebarOpen(false)}
         placement="left"
         customSize="320px"
-        overlayClassName="dark:bg-opacity-40 dark:backdrop-blur-md"
+        overlayClassName="cursor-default dark:bg-opacity-40 dark:backdrop-blur-md"
         containerClassName="dark:bg-gray-100"
         className="z-[9999]"
       >
