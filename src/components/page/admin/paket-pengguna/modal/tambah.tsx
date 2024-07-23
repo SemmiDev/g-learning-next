@@ -57,7 +57,7 @@ export default function TambahModal({
 
   return (
     <Modal
-      title="Tambah Paket Instansi"
+      title="Tambah Paket Pengguna"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >

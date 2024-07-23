@@ -45,7 +45,7 @@ export default function PaketPenggunaBody() {
       <div className="flex flex-col space-y-4">
         <div className="flex justify-between">
           <Title as="h4" size="1.5xl" weight="semibold">
-            List Paket Instansi
+            List Paket Pengguna
           </Title>
           <Button size="sm" onClick={() => setShowTambahModal(true)}>
             Buat Paket Baru
