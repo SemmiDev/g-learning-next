@@ -133,8 +133,8 @@ export default function UbahModal({
                 name="jenis"
                 control={control}
                 options={jenisOptions}
-                label="Select"
-                placeholder="Pilih Satu"
+                label="Jenis Instansi"
+                placeholder="Pilih Jenis Instansi"
                 errors={errors}
                 isClearable
               />
@@ -143,8 +143,8 @@ export default function UbahModal({
                 name="paket"
                 control={control}
                 options={paketOptions}
-                label="Select"
-                placeholder="Pilih Satu"
+                label="Paket"
+                placeholder="Pilih Paket"
                 errors={errors}
                 isClearable
               />
