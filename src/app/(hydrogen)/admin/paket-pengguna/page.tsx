@@ -1,30 +1,30 @@
-import PaketInstansiBody from '@/components/page/admin/paket-instansi/body'
+import PaketPenggunaBody from '@/components/page/admin/paket-pengguna/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
 
 export const metadata = {
-  ...metaObject('Paket Instansi'),
+  ...metaObject('Pengguna'),
 }
 
 const pageHeader = {
-  title: 'Paket Instansi',
+  title: 'Paket Pengguna',
   breadcrumb: [
     {
       href: routes.dashboard,
       name: 'Dasbor',
     },
     {
-      name: 'Paket Instansi',
+      name: 'Paket Pengguna',
     },
   ],
 }
 
-export default function PaketInstansiPage() {
+export default function PaketPenggunaPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-      <PaketInstansiBody />
+      <PaketPenggunaBody />
     </>
   )
 }

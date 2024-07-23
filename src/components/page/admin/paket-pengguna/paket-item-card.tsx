@@ -7,11 +7,7 @@ import { LuTrash2 } from 'react-icons/lu'
 export type PaketItemType = {
   nama: string
   totalPenyimpanan: number
-  penyimpananPengajar: number
-  penyimpananPeserta: number
-  limitUser: number
   limitKelas: number
-  limitKelasPengajar: number
   harga: number
 }
 
@@ -28,15 +24,7 @@ export default function PaketItemCard({ paket }: { paket: PaketItemType }) {
         </Text>
         <ul className="text-xs font-medium text-gray-dark list-disc ps-4">
           <li>Total penyimpanan: {formatBytes(paket.totalPenyimpanan)}</li>
-          <li>
-            Limit penyimpanan pengajar: {formatBytes(paket.penyimpananPengajar)}
-          </li>
-          <li>
-            Limit penyimpanan peserta: {formatBytes(paket.penyimpananPeserta)}
-          </li>
-          <li>Limit pengguna: {paket.limitUser} User</li>
           <li>Limit kelas: {paket.limitKelas} kelas</li>
-          <li>Limit kelas/pengajar: {paket.limitKelasPengajar} kelas</li>
         </ul>
       </div>
       <CardSeparator />
