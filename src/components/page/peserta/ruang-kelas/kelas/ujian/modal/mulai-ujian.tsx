@@ -5,7 +5,6 @@ import {
   Modal,
   ModalFooterButtons,
   Text,
-  Time,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
