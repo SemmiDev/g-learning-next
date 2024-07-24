@@ -71,18 +71,17 @@ export default function TablePenggunaCard() {
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       className: 'action',
+      width: 60,
       render: (_: any, row: any) => (
         <div className="flex justify-center">
-          <Link href={`${routes.admin.listInstansi}/pengguna/detail`}>
-            <ActionIconTooltip
-              tooltip="Lihat"
-              size="sm"
-              variant="text-colorful"
-              color="info"
-            >
-              <LuEye />
-            </ActionIconTooltip>
-          </Link>
+          <ActionIconTooltip
+            tooltip="Lihat"
+            size="sm"
+            variant="text-colorful"
+            color="info"
+          >
+            <LuEye />
+          </ActionIconTooltip>
         </div>
       ),
     },

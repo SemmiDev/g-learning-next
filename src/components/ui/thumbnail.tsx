@@ -7,6 +7,7 @@ export type ThumbnailProps = {
   rounded?: 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
   src: string | StaticImport
   alt: string
+  bordered?: boolean
   className?: string
 }
 
@@ -15,6 +16,7 @@ export default function Thumbnail({
   rounded = 'base',
   src,
   alt,
+  bordered,
   className,
 }: ThumbnailProps) {
   return (
@@ -26,6 +28,7 @@ export default function Thumbnail({
             ? `rounded-${rounded}`
             : 'rounded'
           : null,
+        { 'border border-muted': bordered },
         className
       )}
       style={{

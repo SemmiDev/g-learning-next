@@ -23,9 +23,13 @@ function DropdownMenu() {
     {
       name: 'Profil Saya',
       href:
-        session?.level === 'Pengajar'
+        session?.level === 'Admin'
+          ? routes.admin.profile
+          : session?.level === 'Pengajar'
           ? routes.pengajar.profile
-          : routes.peserta.profile,
+          : session?.level === 'Peserta'
+          ? routes.peserta.profile
+          : '',
     },
   ]
 

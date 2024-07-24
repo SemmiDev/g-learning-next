@@ -14,6 +14,7 @@ export const tableAdminAction = async ({
     id: idx + 1,
     nama: 'Nama Asli',
     username: 'admin',
+    email: 'admin@gmail.com',
     lastLogin: '02 Desember 2023',
   }))
 

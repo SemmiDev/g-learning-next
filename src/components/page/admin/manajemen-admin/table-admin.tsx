@@ -9,15 +9,15 @@ import {
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
-import Link from 'next/link'
 import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
+import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
 
 export default function TableAdminCard() {
+  const [showModalLihat, setShowModalLihat] = useState<number | null>()
   const [showModalUbah, setShowModalUbah] = useState<number | null>()
   const [showModalHapus, setShowModalHapus] = useState<number | null>(null)
 
@@ -60,6 +60,11 @@ export default function TableAdminCard() {
       render: renderTableCellText,
     },
     {
+      title: <TableHeaderCell title="Email" />,
+      dataIndex: 'email',
+      render: (value: string) => <TableCellText>{value || '-'}</TableCellText>,
+    },
+    {
       title: (
         <TableHeaderCell
           title="Last Login"
@@ -81,6 +86,15 @@ export default function TableAdminCard() {
       width: 100,
       render: (_: any, row: any) => (
         <div className="flex justify-center">
+          <ActionIconTooltip
+            tooltip="Lihat"
+            size="sm"
+            variant="text-colorful"
+            color="info"
+            onClick={() => setShowModalLihat(row.id)}
+          >
+            <LuEye />
+          </ActionIconTooltip>
           <ActionIconTooltip
             tooltip="Ubah"
             size="sm"
@@ -128,6 +142,7 @@ export default function TableAdminCard() {
       </Card>
 
       <UbahModal showModal={showModalUbah} setShowModal={setShowModalUbah} />
+      <LihatModal showModal={showModalLihat} setShowModal={setShowModalLihat} />
 
       <ModalConfirm
         title="Hapus Admin"

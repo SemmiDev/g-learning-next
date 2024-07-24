@@ -79,6 +79,7 @@ import Table, {
   renderTableCellNumber,
   renderTableCellText,
 } from './table'
+import TextBordered, { TextBorderedProps } from './text/bordered'
 import TextLabel from './text/label'
 import TextLink from './text/link'
 import TextSpan from './text/span'
@@ -144,6 +145,7 @@ export {
   TableCellText,
   TableHeaderCell,
   Text,
+  TextBordered,
   TextLabel,
   TextLink,
   TextSpan,
@@ -197,6 +199,7 @@ export {
   type SelectProps,
   type TableHeaderCellProps,
   type TableProps,
+  type TextBorderedProps,
   type ThumbnailProps,
   type TimeProps,
   type UploadFileProps,
