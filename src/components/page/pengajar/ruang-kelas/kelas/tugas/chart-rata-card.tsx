@@ -1,10 +1,5 @@
 import { Card, Title } from '@/components/ui'
-import dynamic from 'next/dynamic'
-import { ChartRataData } from './chart-rata'
-
-const ChartTugasRata = dynamic(() => import('./chart-rata'), {
-  ssr: false,
-})
+import ChartTugasRata, { ChartRataData } from './chart-rata'
 
 export default function ChartTugasRataCard({
   className,
