@@ -12,7 +12,7 @@ type DetailType = {
   nama: string
   username: string
   email?: string | null
-  nomor?: string | null
+  kontak?: string | null
 }
 
 type UbahModalProps = {
@@ -31,7 +31,7 @@ export default function LihatModal({
       nama: 'Nama Asli',
       username: 'Admin',
       email: 'admin@gmail.com',
-      nomor: '0812 3456 7890',
+      kontak: '0812 3456 7890',
     })
   }, [showModal])
 
@@ -46,7 +46,7 @@ export default function LihatModal({
         <TextBordered label="Nama Lengkap">{data?.nama}</TextBordered>
         <TextBordered label="Username">{data?.username}</TextBordered>
         <TextBordered label="Email">{data?.email || '-'}</TextBordered>
-        <TextBordered label="Nomor Kontak">{data?.nomor || '-'}</TextBordered>
+        <TextBordered label="Nomor Kontak">{data?.kontak || '-'}</TextBordered>
       </div>
 
       <CardSeparator />

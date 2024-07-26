@@ -1,11 +1,18 @@
+import DataFotoButton from '@/components/page/admin/profil/data-foto-button'
 import UbahButton from '@/components/page/admin/profil/ubah-button'
 import UbahSandiButton from '@/components/page/admin/profil/ubah-sandi-button'
 import PageHeader from '@/components/shared/page-header'
-import { Card, CardSeparator, Thumbnail, Title } from '@/components/ui'
+import {
+  Card,
+  CardSeparator,
+  TextBordered,
+  Thumbnail,
+  Title,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import imagePhoto from '@public/images/photo.png'
 import { ReactNode } from 'react'
+import imagePhoto from '@public/images/photo.png'
 
 export const metadata = {
   ...metaObject('Profil'),
@@ -37,16 +44,20 @@ export default function ProfilePage() {
           <UbahButton />
         </div>
         <CardSeparator />
-        <table className="text-sm font-semibold text-gray-dark m-2">
+        <table className="text-sm text-gray-dark m-2">
           <tbody>
             <DataRow label="Foto">
-              <Thumbnail
-                src={imagePhoto}
-                size={150}
-                rounded="md"
-                alt="profil"
-                bordered
-              />
+              <div className="inline-block relative">
+                <DataFotoButton />
+                <Thumbnail
+                  src={imagePhoto}
+                  size={150}
+                  rounded="md"
+                  alt="profil"
+                  bordered
+                />
+              </div>
+              <DataFotoButton />
             </DataRow>
             <DataRow label="Nama Lengkap" outline>
               Nama Asli
@@ -81,15 +92,9 @@ function DataRow({
 }) {
   return (
     <tr>
-      <td className="w-40 align-baseline py-2">{label}</td>
+      <td className="w-40 font-semibold align-baseline py-2">{label}</td>
       <td className="py-2">
-        {outline ? (
-          <div className="flex items-center text-xs text-gray-dark font-medium border border-muted rounded bg-gray-50/40 min-h-10 px-2 py-2.5">
-            {children}
-          </div>
-        ) : (
-          children
-        )}
+        {outline ? <TextBordered>{children}</TextBordered> : children}
       </td>
     </tr>
   )
