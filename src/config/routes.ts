@@ -39,10 +39,15 @@ export const adminRoutes = {
   manajemenAdmin: '/admin/manajemen-admin',
 }
 
+export const instansiRoutes = {
+  profile: '/instansi/profil',
+}
+
 export const routes = {
   dashboard: '/',
   blank: '/blank',
   pengajar: pengajarRoutes,
   peserta: pesertaRoutes,
   admin: adminRoutes,
+  instansi: instansiRoutes,
 }

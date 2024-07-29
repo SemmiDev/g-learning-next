@@ -8,6 +8,7 @@ import { Fragment, ReactNode } from 'react'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
 import { menuItemsAdmin } from './menu-items/admin'
+import { menuItemsInstansi } from './menu-items/instansi'
 import { menuItemsPengajar } from './menu-items/pengajar'
 import { menuItemsPeserta } from './menu-items/peserta'
 
@@ -33,6 +34,8 @@ export function SidebarMenu() {
   const menuItems: MenuItemType[] =
     session?.level === 'Admin'
       ? menuItemsAdmin
+      : session?.level === 'Instansi'
+      ? menuItemsInstansi
       : session?.level === 'Pengajar'
       ? menuItemsPengajar
       : session?.level === 'Peserta'

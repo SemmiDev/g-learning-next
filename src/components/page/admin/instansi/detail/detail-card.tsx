@@ -10,8 +10,12 @@ export default function DetailCard({ className }: { className?: string }) {
   return (
     <Card className={cn('flex justify-between space-x-2', className)}>
       <div className="flex flex-col items-center gap-3 md:flex-row">
-        <figure className="shrink-0 size-[150px] border border-muted rounded p-6">
-          <Image src={logo} alt="logo instansi" className="object-contain" />
+        <figure className="shrink-0 size-[150px] border border-muted rounded">
+          <Image
+            src={logo}
+            alt="logo instansi"
+            className="object-contain w-full h-full"
+          />
         </figure>
         <div className="space-y-1.5">
           <Title as="h3" size="1.5xl" className="text-center md:text-left">

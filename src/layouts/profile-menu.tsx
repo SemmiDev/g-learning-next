@@ -25,6 +25,8 @@ function DropdownMenu() {
       href:
         session?.level === 'Admin'
           ? routes.admin.profile
+          : session?.level === 'Instansi'
+          ? routes.instansi.profile
           : session?.level === 'Pengajar'
           ? routes.pengajar.profile
           : session?.level === 'Peserta'

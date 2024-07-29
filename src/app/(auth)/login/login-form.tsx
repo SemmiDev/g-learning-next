@@ -1,13 +1,5 @@
 'use client'
 
-import Link from 'next/link'
-import { SubmitHandler } from 'react-hook-form'
-import { Password, Input } from 'rizzui'
-import { publicRoutes, routes } from '@/config/routes'
-import toast from 'react-hot-toast'
-import { LoginSchema, loginSchema } from './schema'
-import { signIn } from 'next-auth/react'
-import { useRouter } from 'next-nprogress-bar'
 import {
   ActionIcon,
   Button,
@@ -16,11 +8,19 @@ import {
   Text,
   TextLink,
 } from '@/components/ui'
-import { TbSelect } from 'react-icons/tb'
+import { publicRoutes, routes } from '@/config/routes'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next-nprogress-bar'
+import Link from 'next/link'
 import { useState } from 'react'
+import { SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { TbSelect } from 'react-icons/tb'
+import { Input, Password } from 'rizzui'
+import { LoginSchema, loginSchema } from './schema'
 
 const initialValues: LoginSchema = {
-  email: 'admin@glearning.com',
+  email: 'instansi@glearning.com',
   password: '123',
 }
 
@@ -113,6 +113,7 @@ export default function LoginForm() {
                 { level: 'Pengajar', email: 'pengajar@glearning.com' },
                 { level: 'Peserta', email: 'peserta@glearning.com' },
                 { level: 'Admin', email: 'admin@glearning.com' },
+                { level: 'Instansi', email: 'instansi@glearning.com' },
               ].map(({ level, email }, idx) => (
                 <div
                   className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"
