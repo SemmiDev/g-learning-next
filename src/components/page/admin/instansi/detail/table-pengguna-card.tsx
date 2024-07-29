@@ -12,8 +12,12 @@ import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import Link from 'next/link'
 import { LuEye } from 'react-icons/lu'
+import LihatModal from './modal/lihat'
+import { useState } from 'react'
 
 export default function TablePenggunaCard() {
+  const [showModalLihat, setShowModalLihat] = useState<number | null>()
+
   const {
     data,
     isFirstLoading,
@@ -79,6 +83,7 @@ export default function TablePenggunaCard() {
             size="sm"
             variant="text-colorful"
             color="info"
+            onClick={() => setShowModalLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -88,25 +93,29 @@ export default function TablePenggunaCard() {
   ]
 
   return (
-    <Card className="p-0">
-      <ControlledAsyncTable
-        data={data}
-        isFirstLoading={isFirstLoading}
-        isLoading={isLoading}
-        columns={tableColumns}
-        rowKey={(record) => record.id}
-        filterOptions={{
-          searchTerm: search,
-          onSearchClear: () => onSearch(''),
-          onSearchChange: (e) => onSearch(e.target.value),
-        }}
-        paginatorOptions={{
-          pageSize: 10,
-          current: page,
-          total: totalData,
-          onChange: (page) => onPageChange(page),
-        }}
-      />
-    </Card>
+    <>
+      <Card className="p-0">
+        <ControlledAsyncTable
+          data={data}
+          isFirstLoading={isFirstLoading}
+          isLoading={isLoading}
+          columns={tableColumns}
+          rowKey={(record) => record.id}
+          filterOptions={{
+            searchTerm: search,
+            onSearchClear: () => onSearch(''),
+            onSearchChange: (e) => onSearch(e.target.value),
+          }}
+          paginatorOptions={{
+            pageSize: 10,
+            current: page,
+            total: totalData,
+            onChange: (page) => onPageChange(page),
+          }}
+        />
+      </Card>
+
+      <LihatModal showModal={showModalLihat} setShowModal={setShowModalLihat} />
+    </>
   )
 }

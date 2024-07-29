@@ -108,7 +108,7 @@ export default function TableInstansiCard() {
         <div className="flex justify-center">
           <Link href={`${routes.admin.listInstansi}/detail`}>
             <ActionIconTooltip
-              tooltip="Lihat"
+              tooltip="Detail"
               size="sm"
               variant="text-colorful"
               color="info"
