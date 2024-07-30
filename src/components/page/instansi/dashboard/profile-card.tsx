@@ -1,21 +1,13 @@
 import { ActionIcon, Card, Text, Title } from '@/components/ui'
-import Image from 'next/image'
-import logo from '@public/images/instansi-logo.png'
-import background from '@public/images/instansi-background.png'
-import { BsGear } from 'react-icons/bs'
-import { ComponentType, ReactNode } from 'react'
-import {
-  LuAccessibility,
-  LuCalendar,
-  LuCreditCard,
-  LuPackage,
-} from 'react-icons/lu'
-import { IconBaseProps, IconType } from 'react-icons/lib'
-import cn from '@/utils/class-names'
 import { angka, rupiah } from '@/utils/text'
+import background from '@public/images/instansi-background.png'
+import logo from '@public/images/instansi-logo.png'
+import Image from 'next/image'
+import { BsGear } from 'react-icons/bs'
+import { LuCalendar, LuCreditCard, LuPackage } from 'react-icons/lu'
 import ProfileItem from './profile-item'
 
-export default function ProfileCard() {
+export default function DashboardProfileCard() {
   return (
     <Card className="flex flex-col p-0">
       <div

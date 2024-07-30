@@ -67,9 +67,11 @@ function FilterDrawerView({
 
 export type TableFilterProps = {
   searchTerm: string
+  searchSize?: 'sm' | 'md' | 'lg' | 'xl'
+  searchPlaceholder?: string
+  searchClassName?: string
   onSearchClear: () => void
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  searchPlaceholder?: string
   children?: React.ReactNode
   drawerTitle?: string
   hasSearched?: boolean
@@ -81,9 +83,11 @@ export type TableFilterProps = {
 
 export default function TableFilter({
   searchTerm,
+  searchSize,
+  searchPlaceholder = 'Ketik pencarian di sini...',
+  searchClassName,
   onSearchClear,
   onSearchChange,
-  searchPlaceholder = 'Ketik pencarian di sini...',
   drawerTitle = 'Filter Data',
   hasSearched,
   enableDrawerFilter = true,
@@ -108,12 +112,16 @@ export default function TableFilter({
         {!showSearchOnTheRight ? (
           <Input
             type="search"
+            size={searchSize}
             placeholder={searchPlaceholder}
             value={searchTerm}
             onClear={onSearchClear}
             onChange={onSearchChange}
             clearable={true}
-            prefix={<PiMagnifyingGlassBold className="size-4" />}
+            prefix={
+              <PiMagnifyingGlassBold size={20} className="text-gray-lighter" />
+            }
+            className={cn('w-72 sm:w-96', searchClassName)}
           />
         ) : null}
 

@@ -8,12 +8,10 @@ import {
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
-import Link from 'next/link'
+import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
-import { useState } from 'react'
 
 export default function TablePenggunaCard() {
   const [showModalLihat, setShowModalLihat] = useState<number | null>()
@@ -29,10 +27,7 @@ export default function TablePenggunaCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAction, {
-    nama: '',
-    email: '',
-  })
+  } = useTableAsync(tablePenggunaAction)
 
   const tableColumns = [
     {

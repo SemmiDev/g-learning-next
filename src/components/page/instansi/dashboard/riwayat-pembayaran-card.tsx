@@ -1,0 +1,151 @@
+import { tableRiwayatPembayaranAction } from '@/actions/instansi/dashboard/table-riwayat-pembayaran'
+import {
+  ActionIconTooltip,
+  Card,
+  CardSeparator,
+  getSortDirection,
+  TableCellText,
+  TableHeaderCell,
+  Title,
+} from '@/components/ui'
+import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { useTableAsync } from '@/hooks/use-table-async'
+import cn from '@/utils/class-names'
+import { angka } from '@/utils/text'
+import { LuDownload } from 'react-icons/lu'
+
+export default function DashboardRiwayatPembayaranCard({
+  className,
+}: {
+  className?: string
+}) {
+  const {
+    data,
+    isFirstLoading,
+    isLoading,
+    page,
+    onPageChange,
+    totalData,
+    sort,
+    onSort,
+    search,
+    onSearch,
+  } = useTableAsync(tableRiwayatPembayaranAction)
+
+  const tableColumns = [
+    {
+      title: (
+        <TableHeaderCell
+          title="Tanggal"
+          sortable
+          sort={getSortDirection(sort, 'tanggal')}
+        />
+      ),
+      dataIndex: 'tanggal',
+      key: 'tanggal',
+      render: (value: string) => (
+        <TableCellText weight="semibold">{value}</TableCellText>
+      ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('tanggal')
+        },
+      }),
+    },
+    {
+      title: <TableHeaderCell title="Jenis Paket" align="center" />,
+      dataIndex: 'jenis',
+      key: 'jenis',
+      render: (value: string) => (
+        <TableCellText weight="semibold" align="center">
+          {value}
+        </TableCellText>
+      ),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Biaya (Rp)"
+          align="center"
+          sortable
+          sort={getSortDirection(sort, 'biaya')}
+        />
+      ),
+      dataIndex: 'biaya',
+      key: 'biaya',
+      render: (value: number) => (
+        <TableCellText weight="semibold" align="center">
+          {angka(value)}
+        </TableCellText>
+      ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('biaya')
+        },
+      }),
+    },
+    {
+      title: <TableHeaderCell title="No. Invoice" align="center" />,
+      dataIndex: 'invoice',
+      key: 'invoice',
+      render: (value: string) => (
+        <TableCellText weight="semibold" align="center">
+          {value}
+        </TableCellText>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Invoice" align="center" />,
+      width: 70,
+      render: (_: any, row: any) => (
+        <div className="flex justify-center">
+          <ActionIconTooltip
+            tooltip="Unduh"
+            size="sm"
+            variant="text-colorful"
+            color="primary"
+          >
+            <LuDownload />
+          </ActionIconTooltip>
+        </div>
+      ),
+    },
+  ]
+
+  return (
+    <Card className={cn('p-0', className)}>
+      <Title
+        as="h4"
+        size="1.5xl"
+        weight="semibold"
+        variant="dark"
+        className="m-2"
+      >
+        Riwayat Pembayaran
+      </Title>
+      <CardSeparator />
+      <ControlledAsyncTable
+        data={data}
+        isFirstLoading={isFirstLoading}
+        isLoading={isLoading}
+        columns={tableColumns}
+        rowKey={(record) => record.id}
+        filterOptions={{
+          searchTerm: search,
+          searchSize: 'sm',
+          onSearchClear: () => onSearch(''),
+          onSearchChange: (e) => onSearch(e.target.value),
+          className: 'p-2',
+        }}
+        paginatorOptions={{
+          pageSize: 5,
+          current: page,
+          total: totalData,
+          onChange: (page) => onPageChange(page),
+          paginatorClassName: 'p-2',
+        }}
+        className="[&_.rc-table-cell]:px-2 [&_th.rc-table-cell]:py-2 [&_td.rc-table-cell]:py-1"
+      />
+    </Card>
+  )
+}
