@@ -5,7 +5,7 @@ import {
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
 
-export const tablePenggunaAction = async ({
+export const tablePenggunaDiblokirAction = async ({
   page = 1,
   search = '',
   sort,
@@ -16,36 +16,36 @@ export const tablePenggunaAction = async ({
       id: 1,
       nama: 'Terra diagtora',
       jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
+      waktuBlokir: '2022-12-03 13:00',
+      keterangan: 'Akun Palsu',
     },
     {
       id: 2,
       nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
+      jenis: 'Siswa',
+      waktuBlokir: '2022-12-03 13:00',
+      keterangan: 'Menyebabkan Kekacauan',
     },
     {
       id: 3,
       nama: 'Terra diagtora',
       jenis: 'Siswa',
-      jumlahKelas: '12/50',
-      penyimpanan: '0/0',
+      waktuBlokir: '2022-12-03 13:00',
+      keterangan: 'Akun Palsu',
     },
     {
       id: 4,
       nama: 'Terra diagtora',
       jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
+      waktuBlokir: '2022-12-03 13:00',
+      keterangan: 'Akun Palsu',
     },
     {
       id: 5,
       nama: 'Terra diagtora',
       jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
+      waktuBlokir: '2022-12-03 13:00',
+      keterangan: 'Akun Palsu',
     },
   ]
 

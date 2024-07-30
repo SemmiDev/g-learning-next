@@ -12,6 +12,8 @@ import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -21,7 +23,7 @@ import DropdownNilaiAction from './dropdown-nilai-action'
 import RekapTugasItem from './rekap-item'
 
 export default function RekapTugasCard() {
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',

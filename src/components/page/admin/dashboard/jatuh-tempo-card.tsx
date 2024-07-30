@@ -5,7 +5,6 @@ import {
   CardSeparator,
   Input,
   Pagination,
-  renderTableCellText,
   Table,
   TableCellText,
   TableHeaderCell,
@@ -13,6 +12,8 @@ import {
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BsCheck, BsChevronDown, BsPencilSquare } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
@@ -22,7 +23,7 @@ export default function DashboardJatuhTempoCard({
 }: {
   className?: string
 }) {
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="Nama Instansi" />,
       dataIndex: 'instansi',

@@ -15,13 +15,15 @@ import {
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Badge, Dropdown, Input } from 'rizzui'
 
 export default function UjianPage() {
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',

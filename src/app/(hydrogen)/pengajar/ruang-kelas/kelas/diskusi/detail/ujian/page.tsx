@@ -17,6 +17,8 @@ import {
 import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Link from 'next/link'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCardChecklist, BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -24,7 +26,7 @@ import { RiArrowLeftLine } from 'react-icons/ri'
 import { Dropdown, Input } from 'rizzui'
 
 export default function DiskusiDetailUjianPage() {
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',

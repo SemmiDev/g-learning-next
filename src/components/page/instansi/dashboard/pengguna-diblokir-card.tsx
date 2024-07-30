@@ -1,4 +1,4 @@
-import { tablePenggunaAction } from '@/actions/instansi/dashboard/table-pengguna'
+import { tablePenggunaDiblokirAction } from '@/actions/instansi/dashboard/table-pengguna-diblokir'
 import {
   ActionIconTooltip,
   Card,
@@ -6,6 +6,7 @@ import {
   getSortDirection,
   TableCellText,
   TableHeaderCell,
+  Time,
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
@@ -15,7 +16,7 @@ import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { LuEye } from 'react-icons/lu'
 
-export default function DashboardPenggunaCard({
+export default function DashboardPenggunaDiblokirCard({
   className,
 }: {
   className?: string
@@ -31,13 +32,13 @@ export default function DashboardPenggunaCard({
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAction)
+  } = useTableAsync(tablePenggunaDiblokirAction)
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: (
         <TableHeaderCell
-          title="Nama"
+          title="Nama Pengguna"
           sortable
           sort={getSortDirection(sort, 'nama')}
         />
@@ -64,19 +65,31 @@ export default function DashboardPenggunaCard({
       ),
     },
     {
-      title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'jumlahKelas',
-      key: 'jumlahKelas',
+      title: (
+        <TableHeaderCell
+          title="Tanggal/Waktu Blokir"
+          align="center"
+          sortable
+          sort={getSortDirection(sort, 'waktuBlokir')}
+        />
+      ),
+      dataIndex: 'waktuBlokir',
+      key: 'waktuBlokir',
       render: (value: string) => (
         <TableCellText weight="semibold" align="center">
-          {value}
+          <Time date={value} format="datetime" />
         </TableCellText>
       ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('waktuBlokir')
+        },
+      }),
     },
     {
-      title: <TableHeaderCell title="Jumlah Penyimpanan (GB)" align="center" />,
-      dataIndex: 'penyimpanan',
-      key: 'penyimpanan',
+      title: <TableHeaderCell title="Keterangan" align="center" />,
+      dataIndex: 'keterangan',
+      key: 'keterangan',
       render: (value: string) => (
         <TableCellText weight="semibold" align="center">
           {value}
@@ -109,7 +122,7 @@ export default function DashboardPenggunaCard({
         variant="dark"
         className="m-2"
       >
-        Daftar Pengguna
+        Pengguna yang Diblokir
       </Title>
       <CardSeparator />
       <ControlledAsyncTable

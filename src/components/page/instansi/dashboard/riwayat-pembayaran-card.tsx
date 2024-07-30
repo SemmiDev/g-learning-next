@@ -6,12 +6,15 @@ import {
   getSortDirection,
   TableCellText,
   TableHeaderCell,
+  Time,
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { angka } from '@/utils/text'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { LuDownload } from 'react-icons/lu'
 
 export default function DashboardRiwayatPembayaranCard({
@@ -32,7 +35,7 @@ export default function DashboardRiwayatPembayaranCard({
     onSearch,
   } = useTableAsync(tableRiwayatPembayaranAction)
 
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: (
         <TableHeaderCell
@@ -44,7 +47,9 @@ export default function DashboardRiwayatPembayaranCard({
       dataIndex: 'tanggal',
       key: 'tanggal',
       render: (value: string) => (
-        <TableCellText weight="semibold">{value}</TableCellText>
+        <TableCellText weight="semibold">
+          <Time date={value} />
+        </TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {

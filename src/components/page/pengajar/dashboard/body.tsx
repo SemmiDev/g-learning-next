@@ -13,6 +13,8 @@ import { routes } from '@/config/routes'
 import imageKelas from '@public/images/list-kelas.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import Calendar from 'react-calendar'
 import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
@@ -20,7 +22,7 @@ import DashboardRecentFileCard from './recent-file-card'
 import DashboardRuangPenyimpananCard from './ruang-penyimpanan-card'
 
 export default function DashboardBody() {
-  const tableJadwalColumns = [
+  const tableJadwalColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="Nama Kelas" />,
       dataIndex: 'kelas',

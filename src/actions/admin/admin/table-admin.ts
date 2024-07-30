@@ -1,8 +1,9 @@
+'use server'
+
 import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
-import { listObjectFromList } from '@/utils/object'
 
 export const tableAdminAction = async ({
   page = 1,

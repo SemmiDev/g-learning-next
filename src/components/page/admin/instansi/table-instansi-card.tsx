@@ -12,6 +12,8 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import Link from 'next/link'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
@@ -37,7 +39,7 @@ export default function TableInstansiCard() {
     email: '',
   })
 
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: (
         <TableHeaderCell

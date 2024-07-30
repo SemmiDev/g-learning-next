@@ -12,6 +12,8 @@ import {
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BsCheck, BsChevronDown, BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -22,7 +24,7 @@ export default function DashboardPenggunaDibannedCard({
 }: {
   className?: string
 }) {
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="Nama Pengguna" />,
       dataIndex: 'pengguna',

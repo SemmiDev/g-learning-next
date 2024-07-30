@@ -6,6 +6,8 @@ import RekapPresensiCard from '@/components/page/pengajar/ruang-kelas/kelas/pres
 import { TableHeaderCell, Text } from '@/components/ui'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
+import { ColumnsType } from 'rc-table'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 
 const COLORS = ['#FFD1D1', '#D68585', '#B92E5D', '#6D1A36']
 
@@ -17,7 +19,7 @@ export default function PresensiPage() {
     { name: 'Alpha', value: 5 },
   ]
 
-  const tableColumns = [
+  const tableColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',

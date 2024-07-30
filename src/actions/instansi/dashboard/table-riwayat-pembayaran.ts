@@ -1,3 +1,5 @@
+'use server'
+
 import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
@@ -12,35 +14,35 @@ export const tableRiwayatPembayaranAction = async ({
   const data = [
     {
       id: 1,
-      tanggal: '12 Januari 2024',
+      tanggal: '2024-01-12',
       jenis: 'Advance',
       biaya: 5000000,
       invoice: 'INV/01/04/24',
     },
     {
       id: 2,
-      tanggal: '12 April 2024',
+      tanggal: '2024-04-12',
       jenis: 'Advance',
       biaya: 5000000,
       invoice: 'INV/01/04/24',
     },
     {
       id: 3,
-      tanggal: '12 Juli 2024',
+      tanggal: '2024-07-12',
       jenis: 'Premium',
       biaya: 3000000,
       invoice: 'INV/01/04/24',
     },
     {
       id: 4,
-      tanggal: '14 Oktober 2024',
+      tanggal: '2024-10-14',
       jenis: 'Premium',
       biaya: 3000000,
       invoice: 'INV/01/04/24',
     },
     {
       id: 5,
-      tanggal: '11 Januari 2023',
+      tanggal: '2023-01-11',
       jenis: 'Basic',
       biaya: 1500000,
       invoice: 'INV/01/04/24',
