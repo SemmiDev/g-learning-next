@@ -34,7 +34,7 @@ export default function DashboardProfileCard() {
           </ActionIcon>
         </div>
       </div>
-      <div className="flex space-x-3 p-2 mb-3">
+      <div className="flex space-x-3 p-2">
         <ProfileItem
           Icon={LuPackage}
           label={'Jenis Paket\nyang digunakan'}

@@ -29,7 +29,7 @@ export default function ProfileItem({
       className={cn(
         'flex flex-col rounded-md p-2',
         {
-          'border border-dashed border-muted': variant === 'outline',
+          'border border-dashed border-gray-200': variant === 'outline',
         },
         className
       )}
