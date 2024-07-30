@@ -16,8 +16,8 @@ import Link from 'next/link'
 import Calendar from 'react-calendar'
 import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
-import RuangPenyimpananCard from './ruang-penyimpanan-card'
-import RecentFileCard from './recent-file-card'
+import DashboardRecentFileCard from './recent-file-card'
+import DashboardRuangPenyimpananCard from './ruang-penyimpanan-card'
 
 export default function DashboardBody() {
   const tableJadwalColumns = [
@@ -280,8 +280,8 @@ export default function DashboardBody() {
       </div>
 
       <div className="flex flex-wrap gap-4">
-        <RuangPenyimpananCard />
-        <RecentFileCard />
+        <DashboardRuangPenyimpananCard />
+        <DashboardRecentFileCard />
       </div>
 
       <Card className="flex flex-col w-full p-0">

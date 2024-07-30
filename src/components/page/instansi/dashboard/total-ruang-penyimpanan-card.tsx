@@ -1,53 +1,40 @@
-import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+import { Card, CardSeparator, Text, Title } from '@/components/ui'
 import { filesizeToKB, formatBytes } from '@/utils/bytes'
-import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
-import { Dropdown } from 'rizzui'
 
-export default function DashboardRuangPenyimpananCard() {
+export default function DashboardTotalRuangPenyimpananCard() {
   const data = [
+    { name: 'Penyimpanan Tersedia', value: filesizeToKB(400, 'GB') },
     {
-      name: 'Penyimpanan Tersedia',
-      value: filesizeToKB(1, 'GB') - filesizeToKB(310, 'MB'),
+      name: 'Total Digunakan',
+      value: filesizeToKB(100, 'GB'),
     },
-    { name: 'Total Digunakan', value: filesizeToKB(310, 'MB') },
   ]
-  const COLORS = ['#BFDBFE', '#0070F3']
+  const COLORS = ['#2563EB', '#DCDCDC']
 
   return (
-    <Card className="flex flex-col w-full p-0 lg:w-5/12">
-      <div className="flex justify-between items-center p-2">
+    <Card className="flex flex-col w-full p-0">
+      <div className="flex p-2">
         <Title as="h4" weight="semibold">
-          Ruang Penyimpanan
+          Total Ruang Penyimpanan
         </Title>
-        <Dropdown>
-          <Dropdown.Trigger>
-            <Button size="sm" variant="outline">
-              Personal <BsChevronDown className="ml-2 w-5" />
-            </Button>
-          </Dropdown.Trigger>
-          <Dropdown.Menu>
-            <Dropdown.Item className="justify-between">
-              <Text size="sm">Personal</Text> <BsCheck size={18} />
-            </Dropdown.Item>
-            <Dropdown.Item className="justify-between">
-              <Text size="sm">UIN SUSKA Riau</Text>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
       </div>
       <CardSeparator />
-      <div className="h-[300px]">
+      <div className="h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart className="[&_.recharts-layer:focus]:outline-none [&_.recharts-sector:focus]:outline-none dark:[&_.recharts-text.recharts-label]:first-of-type:fill-white">
+          <PieChart
+            width={100}
+            height={100}
+            className="[&_.recharts-layer:focus]:outline-none [&_.recharts-sector:focus]:outline-none dark:[&_.recharts-text.recharts-label]:first-of-type:fill-white"
+          >
             <Pie
               data={data}
               cornerRadius={40}
-              innerRadius={100}
-              outerRadius={120}
+              innerRadius={90}
+              outerRadius={110}
               paddingAngle={10}
-              startAngle={105}
-              endAngle={360 + 105}
+              startAngle={360 - 35}
+              endAngle={-35}
               fill="#BFDBFE"
               stroke="rgba(0,0,0,0)"
               dataKey="value"
@@ -71,7 +58,7 @@ export default function DashboardRuangPenyimpananCard() {
         {data.map((item, index) => (
           <div
             key={item.name}
-            className="mb-4 flex items-center justify-between border-b border-muted pb-4 last:mb-0 last:border-0 last:pb-0"
+            className="flex items-center justify-between border-b border-muted pb-3 mb-3 last:mb-0 last:border-0 last:pb-0"
           >
             <div className="flex items-center justify-start">
               <span
@@ -99,7 +86,7 @@ function CustomLabel(props: any) {
     <>
       <text
         x={cx}
-        y={cy - 20}
+        y={cy - 17}
         fill="#000000"
         className="recharts-text recharts-label font-semibold"
         textAnchor="middle"
@@ -111,24 +98,24 @@ function CustomLabel(props: any) {
       </text>
       <text
         x={cx}
-        y={cy + 5}
+        y={cy}
         fill="#000000"
-        className="recharts-text recharts-label"
+        className="recharts-text recharts-label font-semibold"
         textAnchor="middle"
         dominantBaseline="central"
       >
-        <tspan fontSize="16px">digunakan dari</tspan>
+        <tspan fontSize="16px">digunakan</tspan>
       </text>
       <text
         x={cx}
-        y={cy + 30}
+        y={cy + 22}
         fill="#000000"
         className="recharts-text recharts-label font-semibold"
         textAnchor="middle"
         dominantBaseline="central"
       >
         <tspan fontSize="16px">
-          {formatBytes(props.data[0] + props.data[1])}
+          dari {formatBytes(props.data[0] + props.data[1])}
         </tspan>
       </text>
     </>

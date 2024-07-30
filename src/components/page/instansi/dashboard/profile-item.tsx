@@ -27,7 +27,7 @@ export default function ProfileItem({
   return (
     <div
       className={cn(
-        'flex flex-col rounded-md p-2',
+        'flex flex-col rounded-md px-3 py-2',
         {
           'border border-dashed border-gray-200': variant === 'outline',
         },

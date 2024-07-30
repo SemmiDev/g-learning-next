@@ -10,7 +10,7 @@ import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 import RecentFileItem, { FileItemType } from './recent-file-item'
 
-export default function RecentFileCard() {
+export default function DashboardRecentFileCard() {
   const files: FileItemType[] = [
     {
       id: 'a1',
