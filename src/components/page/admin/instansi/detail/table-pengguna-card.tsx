@@ -4,10 +4,10 @@ import {
   Card,
   getSortDirection,
   renderTableCellText,
-  TableCellText,
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -51,23 +51,17 @@ export default function TablePenggunaCard() {
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
       dataIndex: 'jenis',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
       dataIndex: 'penyimpanan',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
       dataIndex: 'kelas',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,

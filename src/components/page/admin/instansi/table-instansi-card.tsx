@@ -5,10 +5,10 @@ import {
   getSortDirection,
   ModalConfirm,
   renderTableCellText,
-  TableCellText,
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { renderTableCellTextCenter } from '@/components/ui/table'
 import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import Link from 'next/link'
@@ -59,30 +59,22 @@ export default function TableInstansiCard() {
     {
       title: <TableHeaderCell title="Paket" align="center" />,
       dataIndex: 'paket',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Pengguna" align="center" />,
       dataIndex: 'jumlahPengguna',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
       dataIndex: 'jumlahPenyimpanan',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
       dataIndex: 'jumlahKelas',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: (
@@ -94,9 +86,7 @@ export default function TableInstansiCard() {
         />
       ),
       dataIndex: 'jatuhTempo',
-      render: (value: any) => (
-        <TableCellText align="center">{value}</TableCellText>
-      ),
+      render: renderTableCellTextCenter,
       onHeaderCell: () => ({
         onClick: () => {
           onSort('jatuhTempo')

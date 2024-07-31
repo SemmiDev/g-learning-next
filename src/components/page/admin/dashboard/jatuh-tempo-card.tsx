@@ -5,12 +5,13 @@ import {
   CardSeparator,
   Input,
   Pagination,
+  renderTableCellText,
   Table,
-  TableCellText,
   TableHeaderCell,
   Text,
   Title,
 } from '@/components/ui'
+import { renderTableCellTextCenter } from '@/components/ui/table'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -28,29 +29,19 @@ export default function DashboardJatuhTempoCard({
       title: <TableHeaderCell title="Nama Instansi" />,
       dataIndex: 'instansi',
       key: 'instansi',
-      render: (value: string) => (
-        <TableCellText weight="semibold">{value}</TableCellText>
-      ),
+      render: renderTableCellText,
     },
     {
       title: <TableHeaderCell title="Paket" align="center" />,
       dataIndex: 'paket',
       key: 'paket',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Tangal Jatuh Tempo" align="center" />,
       dataIndex: 'jatuhTempo',
       key: 'jatuhTempo',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,

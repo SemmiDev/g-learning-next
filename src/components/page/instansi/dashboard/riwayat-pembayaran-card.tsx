@@ -4,12 +4,13 @@ import {
   Card,
   CardSeparator,
   getSortDirection,
+  renderTableCellText,
   TableCellText,
   TableHeaderCell,
-  Time,
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { angka } from '@/utils/text'
@@ -46,11 +47,7 @@ export default function DashboardRiwayatPembayaranCard({
       ),
       dataIndex: 'tanggal',
       key: 'tanggal',
-      render: (value: string) => (
-        <TableCellText weight="semibold">
-          <Time date={value} />
-        </TableCellText>
-      ),
+      render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
           onSort('tanggal')
@@ -61,11 +58,7 @@ export default function DashboardRiwayatPembayaranCard({
       title: <TableHeaderCell title="Jenis Paket" align="center" />,
       dataIndex: 'jenis',
       key: 'jenis',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: (
@@ -79,9 +72,7 @@ export default function DashboardRiwayatPembayaranCard({
       dataIndex: 'biaya',
       key: 'biaya',
       render: (value: number) => (
-        <TableCellText weight="semibold" align="center">
-          {angka(value)}
-        </TableCellText>
+        <TableCellText align="center">{angka(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {
@@ -93,11 +84,7 @@ export default function DashboardRiwayatPembayaranCard({
       title: <TableHeaderCell title="No. Invoice" align="center" />,
       dataIndex: 'invoice',
       key: 'invoice',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Invoice" align="center" />,

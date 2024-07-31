@@ -6,11 +6,14 @@ import {
   Input,
   Pagination,
   Table,
-  TableCellText,
   TableHeaderCell,
   Text,
   Title,
 } from '@/components/ui'
+import {
+  renderTableCellText,
+  renderTableCellTextCenter,
+} from '@/components/ui/table'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -29,49 +32,31 @@ export default function DashboardPenggunaDibannedCard({
       title: <TableHeaderCell title="Nama Pengguna" />,
       dataIndex: 'pengguna',
       key: 'pengguna',
-      render: (value: string) => (
-        <TableCellText weight="semibold">{value}</TableCellText>
-      ),
+      render: renderTableCellText,
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
       dataIndex: 'level',
       key: 'level',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Instansi" align="center" />,
       dataIndex: 'instansi',
       key: 'instansi',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Waktu Banned" align="center" />,
       dataIndex: 'waktu',
       key: 'waktu',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Keterangan" align="center" />,
       dataIndex: 'keterangan',
       key: 'keterangan',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,

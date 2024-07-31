@@ -4,12 +4,14 @@ import {
   Card,
   CardSeparator,
   getSortDirection,
+  renderTableCellText,
   TableCellText,
   TableHeaderCell,
   Time,
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
@@ -45,9 +47,7 @@ export default function DashboardPenggunaDiblokirCard({
       ),
       dataIndex: 'nama',
       key: 'nama',
-      render: (value: string) => (
-        <TableCellText weight="semibold">{value}</TableCellText>
-      ),
+      render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
           onSort('nama')
@@ -58,11 +58,7 @@ export default function DashboardPenggunaDiblokirCard({
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
       dataIndex: 'jenis',
       key: 'jenis',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: (
@@ -76,7 +72,7 @@ export default function DashboardPenggunaDiblokirCard({
       dataIndex: 'waktuBlokir',
       key: 'waktuBlokir',
       render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
+        <TableCellText align="center">
           <Time date={value} format="datetime" />
         </TableCellText>
       ),
@@ -90,11 +86,7 @@ export default function DashboardPenggunaDiblokirCard({
       title: <TableHeaderCell title="Keterangan" align="center" />,
       dataIndex: 'keterangan',
       key: 'keterangan',
-      render: (value: string) => (
-        <TableCellText weight="semibold" align="center">
-          {value}
-        </TableCellText>
-      ),
+      render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,

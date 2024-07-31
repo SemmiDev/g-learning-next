@@ -199,6 +199,10 @@ export const renderTableCellText = (value: any) => (
   <TableCellText>{value}</TableCellText>
 )
 
+export const renderTableCellTextCenter = (value: any) => (
+  <TableCellText align="center">{value}</TableCellText>
+)
+
 export const renderTableCellNumber = (_: any, __: any, idx: any) => (
   <TableCellNumber>{idx + 1}</TableCellNumber>
 )
