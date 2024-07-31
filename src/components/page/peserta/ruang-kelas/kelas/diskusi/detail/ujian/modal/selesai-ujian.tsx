@@ -57,17 +57,13 @@ export default function SelesaiUjianModal({
         </Text>
       </div>
       <CardSeparator />
-      <ModalFooterButtons
-        buttons={
-          <div className="flex-1">
-            <Button className="w-full" onClick={onSelesaiUjian}>
-              Ya
-            </Button>
-          </div>
-        }
-        cancel="Tidak"
-        onCancel={() => setShowModal(false)}
-      />
+      <ModalFooterButtons cancel="Tidak" onCancel={() => setShowModal(false)}>
+        <div className="flex-1">
+          <Button className="w-full" onClick={onSelesaiUjian}>
+            Ya
+          </Button>
+        </div>
+      </ModalFooterButtons>
     </Modal>
   )
 }

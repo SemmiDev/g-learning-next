@@ -9,7 +9,7 @@ type ModalFooterButtonsProps = {
   submitColor?: ButtonColors
   submitVariant?: ButtonVariants
   isSubmitting?: boolean
-  buttons?: ReactNode
+  children?: ReactNode
   cancel?: string
   cancelColor?: ButtonColors
   cancelVariant?: ButtonVariants
@@ -23,7 +23,7 @@ export default function ModalFooterButtons({
   submitColor = 'primary',
   submitVariant = 'solid',
   isSubmitting = false,
-  buttons,
+  children,
   cancel = 'Batal',
   cancelColor = 'primary',
   cancelVariant = 'outline',
@@ -46,7 +46,7 @@ export default function ModalFooterButtons({
           </ButtonSubmit>
         </div>
       )}
-      {buttons}
+      {children}
       {onCancel && (
         <div className="flex-1">
           <Button

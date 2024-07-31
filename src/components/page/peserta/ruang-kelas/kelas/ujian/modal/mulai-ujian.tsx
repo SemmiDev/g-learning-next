@@ -95,26 +95,22 @@ export default function HasilUjianModal({
         </div>
       </div>
       <CardSeparator />
-      <ModalFooterButtons
-        buttons={
-          ujian?.status === 'Sudah' ? (
-            <div className="flex-1">
-              <Button className="w-full" disabled>
-                Mulai Ujian
-              </Button>
-            </div>
-          ) : (
-            <Link
-              href={`${routes.peserta.kelas}/diskusi/detail/ujian/kerjakan`}
-              className="flex-1"
-            >
-              <Button className="w-full">Mulai Ujian</Button>
-            </Link>
-          )
-        }
-        cancel="Batal"
-        onCancel={() => setShowModal(false)}
-      />
+      <ModalFooterButtons cancel="Batal" onCancel={() => setShowModal(false)}>
+        {ujian?.status === 'Sudah' ? (
+          <div className="flex-1">
+            <Button className="w-full" disabled>
+              Mulai Ujian
+            </Button>
+          </div>
+        ) : (
+          <Link
+            href={`${routes.peserta.kelas}/diskusi/detail/ujian/kerjakan`}
+            className="flex-1"
+          >
+            <Button className="w-full">Mulai Ujian</Button>
+          </Link>
+        )}
+      </ModalFooterButtons>
     </Modal>
   )
 }

@@ -4,6 +4,7 @@ import CardSeparator from '../card-separator'
 import Modal, { ModalProps } from '../modal'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
+import { ReactNode } from 'react'
 
 export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
   confirm?: string
@@ -12,6 +13,7 @@ export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
   cancel?: string
   onCancel?(): void
   closeOnCancel?: boolean
+  children?: ReactNode
 }
 
 export default function ModalConfirm({
@@ -26,6 +28,7 @@ export default function ModalConfirm({
   closeOnCancel,
   onClose,
   headerClassName,
+  children,
   ...props
 }: ModalConfirmProps) {
   return (
@@ -41,25 +44,28 @@ export default function ModalConfirm({
         {desc}
       </Text>
 
+      {children}
+
       <CardSeparator />
 
       <ModalFooterButtons
-        buttons={
-          <Button
-            variant="solid"
-            className="flex-1"
-            color={confirmColor}
-            onClick={onConfirm}
-          >
-            {confirm}
-          </Button>
-        }
         cancel={cancel}
         onCancel={() => {
           onCancel && onCancel()
           closeOnCancel && onClose && onClose()
         }}
-      />
+      >
+        <div className="flex-1">
+          <Button
+            variant="solid"
+            className="w-full"
+            color={confirmColor}
+            onClick={onConfirm}
+          >
+            {confirm}
+          </Button>
+        </div>
+      </ModalFooterButtons>
     </Modal>
   )
 }

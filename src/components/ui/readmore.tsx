@@ -70,24 +70,3 @@ export const ReadMore: React.FC<ReadMoreProps> = ({
 }
 
 export default ReadMore
-
-// export default function ReadMore({
-//   truncate = 100,
-//   showMoreText = 'Lihat Selengkapnya',
-//   showLessText = '',
-//   className,
-//   ...props
-// }: ReadMoreProps) {
-//   return (
-//     <RSReadMore
-//       truncate={truncate}
-//       showMoreText={showMoreText}
-//       showLessText={showLessText}
-//       className={cn(
-//         'text-primary font-medium hover:text-primary-dark',
-//         className
-//       )}
-//       {...props}
-//     />
-//   )
-// }

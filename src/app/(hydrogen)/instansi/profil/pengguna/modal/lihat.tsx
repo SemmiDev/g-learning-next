@@ -1,6 +1,8 @@
 import {
+  Button,
   CardSeparator,
   Modal,
+  ModalConfirm,
   ModalFooterButtons,
   ReadMore,
   Text,
@@ -9,6 +11,7 @@ import {
 import Image from 'next/image'
 import { ReactNode, useEffect, useState } from 'react'
 import imagePhoto from '@public/images/photo.png'
+import BlokirModal from './blokir'
 
 type DataType = {
   nama: string
@@ -31,6 +34,7 @@ export default function LihatModal({
   setShowModal,
 }: LihatModalProps) {
   const [data, setData] = useState<DataType | null>()
+  const [showBlokir, setShowBlokir] = useState(false)
 
   useEffect(() => {
     setData({
@@ -81,7 +85,20 @@ export default function LihatModal({
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)} />
+      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)}>
+        <div className="flex-1">
+          <Button
+            variant="flat-colorful"
+            color="danger"
+            className="w-full"
+            onClick={() => setShowBlokir(true)}
+          >
+            Blokir
+          </Button>
+        </div>
+      </ModalFooterButtons>
+
+      <BlokirModal showModal={showBlokir} setShowModal={setShowBlokir} />
     </Modal>
   )
 }

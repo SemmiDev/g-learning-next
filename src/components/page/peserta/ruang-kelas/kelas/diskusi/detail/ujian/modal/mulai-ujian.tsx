@@ -47,18 +47,14 @@ export default function MulaiUjianModal({
         </div>
       </div>
       <CardSeparator />
-      <ModalFooterButtons
-        buttons={
-          <Link
-            href={`${routes.peserta.kelas}/diskusi/detail/ujian/kerjakan`}
-            className="flex-1"
-          >
-            <Button className="w-full">Ya</Button>
-          </Link>
-        }
-        cancel="Tidak"
-        onCancel={() => setShowModal(false)}
-      />
+      <ModalFooterButtons cancel="Tidak" onCancel={() => setShowModal(false)}>
+        <Link
+          href={`${routes.peserta.kelas}/diskusi/detail/ujian/kerjakan`}
+          className="flex-1"
+        >
+          <Button className="w-full">Ya</Button>
+        </Link>
+      </ModalFooterButtons>
     </Modal>
   )
 }
