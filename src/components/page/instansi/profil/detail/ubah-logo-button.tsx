@@ -3,15 +3,15 @@
 import { ActionIconTooltip } from '@/components/ui'
 import { useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
-import UbahFotoModal from './modal/ubah-foto'
+import UbahLogoModal from './modal/ubah-logo'
 
-export default function DataFotoButton() {
+export default function UbahLogoButton() {
   const [showModal, setShowModal] = useState(false)
 
   return (
     <>
       <ActionIconTooltip
-        tooltip="Ganti Foto"
+        tooltip="Ganti Logo"
         size="sm"
         variant="flat"
         color="secondary"
@@ -21,7 +21,7 @@ export default function DataFotoButton() {
         <LuCamera />
       </ActionIconTooltip>
 
-      <UbahFotoModal showModal={showModal} setShowModal={setShowModal} />
+      <UbahLogoModal showModal={showModal} setShowModal={setShowModal} />
     </>
   )
 }

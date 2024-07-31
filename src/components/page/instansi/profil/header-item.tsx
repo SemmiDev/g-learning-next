@@ -1,0 +1,25 @@
+import { Text } from '@/components/ui'
+import { ComponentType } from 'react'
+import { IconBaseProps } from 'react-icons/lib'
+
+type DetailItemProps = {
+  Icon: ComponentType<IconBaseProps>
+  label: string
+  value: string
+}
+
+export default function HeaderItem({ Icon, label, value }: DetailItemProps) {
+  return (
+    <div className="flex flex-col border border-muted border-dashed rounded-lg space-y-1 px-3 py-1.5">
+      <div className="flex items-center">
+        <Icon size={16} className="text-primary mr-1" />
+        <Text size="sm" weight="medium" variant="lighter">
+          {label}
+        </Text>
+      </div>
+      <Text weight="semibold" variant="dark" className="leading-4">
+        {value}
+      </Text>
+    </div>
+  )
+}

@@ -19,25 +19,25 @@ function DropdownMenu() {
     router.replace(publicRoutes.login)
   }
 
-  const menuItems = [
-    {
+  const menuItems = []
+
+  if (session?.level !== 'Instansi') {
+    menuItems.push({
       name: 'Profil Saya',
       href:
         session?.level === 'Admin'
           ? routes.admin.profile
-          : session?.level === 'Instansi'
-          ? routes.instansi.profile
           : session?.level === 'Pengajar'
           ? routes.pengajar.profile
           : session?.level === 'Peserta'
           ? routes.peserta.profile
           : '',
-    },
-  ]
+    })
+  }
 
   return (
-    <div className="w-64 text-left rtl:text-right">
-      <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
+    <div className="min-w-64 text-left rtl:text-right">
+      <div className="flex items-center px-6 pb-5 pt-6">
         <Avatar
           src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
           name={session?.user?.name ?? ''}
@@ -49,17 +49,19 @@ function DropdownMenu() {
           <Text>{session?.user?.email}</Text>
         </div>
       </div>
-      <div className="grid p-3.5 font-medium text-gray">
-        {menuItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className="group my-0.5 flex items-center rounded-md px-2.5 py-2 hover:bg-gray-50 focus:outline-none hover:dark:bg-gray-50/50"
-          >
-            {item.name}
-          </Link>
-        ))}
-      </div>
+      {menuItems.length > 0 && (
+        <div className="grid font-medium text-gray border-t border-gray-300 p-3.5">
+          {menuItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="group flex items-center rounded-md px-2.5 py-2 my-0.5 hover:bg-gray-50 focus:outline-none hover:dark:bg-gray-50/50"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      )}
       <div className="border-t border-gray-300 p-3.5">
         <Button
           variant="text"

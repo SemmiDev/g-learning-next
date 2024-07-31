@@ -1,5 +1,5 @@
-import DataFotoButton from '@/components/page/admin/profil/data-foto-button'
 import UbahButton from '@/components/page/admin/profil/ubah-button'
+import UbahFotoButton from '@/components/page/admin/profil/ubah-foto-button'
 import UbahSandiButton from '@/components/page/admin/profil/ubah-sandi-button'
 import PageHeader from '@/components/shared/page-header'
 import {
@@ -11,8 +11,8 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import { ReactNode } from 'react'
 import imagePhoto from '@public/images/photo.png'
+import { ReactNode } from 'react'
 
 export const metadata = {
   ...metaObject('Profil'),
@@ -48,7 +48,7 @@ export default function ProfilePage() {
           <tbody>
             <DataRow label="Foto">
               <div className="inline-block relative">
-                <DataFotoButton />
+                <UbahFotoButton />
                 <Thumbnail
                   src={imagePhoto}
                   size={150}
@@ -57,7 +57,6 @@ export default function ProfilePage() {
                   bordered
                 />
               </div>
-              <DataFotoButton />
             </DataRow>
             <DataRow label="Nama Lengkap" outline>
               Nama Asli
@@ -91,9 +90,9 @@ function DataRow({
   outline?: boolean
 }) {
   return (
-    <tr>
-      <td className="w-40 font-semibold align-baseline py-2">{label}</td>
-      <td className="py-2">
+    <tr className="[&>td]:py-2">
+      <td className="w-40 font-semibold align-baseline">{label}</td>
+      <td className="">
         {outline ? <TextBordered>{children}</TextBordered> : children}
       </td>
     </tr>
