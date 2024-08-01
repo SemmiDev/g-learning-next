@@ -1,4 +1,4 @@
-import { Card, Text, TextSpan } from '@/components/ui'
+import { Card, TextSpan } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
