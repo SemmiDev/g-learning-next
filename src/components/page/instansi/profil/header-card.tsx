@@ -15,6 +15,7 @@ export default function HeaderCard({ className }: { className?: string }) {
             src={logo}
             alt="logo instansi"
             className="object-contain w-full h-full"
+            priority
           />
         </figure>
         <div className="space-y-1.5">

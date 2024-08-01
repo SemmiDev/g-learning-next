@@ -61,7 +61,7 @@ export default function PenggunaPage() {
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'kelas',
+      dataIndex: 'jumlahKelas',
       render: renderTableCellTextCenter,
     },
     {

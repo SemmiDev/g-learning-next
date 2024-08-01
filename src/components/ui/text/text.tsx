@@ -4,7 +4,7 @@ import { Text as RizText, TextProps as RizTextProps } from 'rizzui'
 export type DefaultTextProps = {
   size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '1.5xl' | '2xl' | '3xl'
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'gray'
-  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold'
+  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'
   align?: 'left' | 'center' | 'right'
 }
 
@@ -64,6 +64,7 @@ export const TextWeights = {
   medium: 'font-medium',
   semibold: 'font-semibold',
   bold: 'font-bold',
+  extrabold: 'font-extrabold',
 }
 
 export default function Text({

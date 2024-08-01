@@ -4,9 +4,9 @@ import {
   Card,
   CardSeparator,
   getSortDirection,
-  renderTableCellText,
   TableCellText,
   TableHeaderCell,
+  Time,
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
@@ -47,7 +47,11 @@ export default function DashboardRiwayatPembayaranCard({
       ),
       dataIndex: 'tanggal',
       key: 'tanggal',
-      render: renderTableCellText,
+      render: (value: string) => (
+        <TableCellText>
+          <Time date={value} />
+        </TableCellText>
+      ),
       onHeaderCell: () => ({
         onClick: () => {
           onSort('tanggal')
