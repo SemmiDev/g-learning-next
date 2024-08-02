@@ -1,12 +1,11 @@
 import KelasHeaderAction from '@/components/page/pengajar/ruang-kelas/kelas/header-action'
 import PageHeader from '@/components/shared/page-header'
-import { Card, TabGroup, Text, Title } from '@/components/ui'
+import { Badge, Card, TabGroup, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
 import imageKelas from '@public/images/list-kelas.png'
 import Image from 'next/image'
 import { ReactNode } from 'react'
-import { Badge } from 'rizzui'
 
 export const metadata = {
   ...metaObject('Ruang Kelas'),

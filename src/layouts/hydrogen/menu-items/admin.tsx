@@ -1,5 +1,12 @@
 import { routes } from '@/config/routes'
-import { LuBook, LuBox, LuFileText, LuHome, LuUser } from 'react-icons/lu'
+import {
+  LuBook,
+  LuBox,
+  LuFileText,
+  LuHome,
+  LuUser,
+  LuUsers,
+} from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
@@ -13,6 +20,11 @@ export const menuItemsAdmin: MenuItemType[] = [
     name: 'List Instansi',
     href: routes.admin.listInstansi,
     icon: <LuBox />,
+  },
+  {
+    name: 'List Pengguna',
+    href: routes.admin.listPengguna,
+    icon: <LuUsers />,
   },
   {
     name: 'Paket Instansi',

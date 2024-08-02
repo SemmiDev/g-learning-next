@@ -13,7 +13,6 @@ import { useTableAsync } from '@/hooks/use-table-async'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
-import { useState } from 'react'
 import { LuDownload } from 'react-icons/lu'
 
 export default function RiwayatPembayaranPage() {

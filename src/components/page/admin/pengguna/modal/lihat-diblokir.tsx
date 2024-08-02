@@ -6,11 +6,12 @@ import {
   ModalFooterButtons,
   ReadMore,
   Text,
+  TextSpan,
   Title,
 } from '@/components/ui'
+import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import { ReactNode, useEffect, useState } from 'react'
-import imagePhoto from '@public/images/photo.png'
 import BlokirModal from './blokir'
 
 type DataType = {
@@ -22,6 +23,9 @@ type DataType = {
   email?: string
   website?: string
   jenisKelamin?: string
+  instansi?: string[]
+  paket: string
+  alasanBlokir: string
 }
 
 type LihatModalProps = {
@@ -29,12 +33,12 @@ type LihatModalProps = {
   setShowModal(show: number | null): void
 }
 
-export default function LihatModal({
+export default function LihatDiblokirModal({
   showModal = null,
   setShowModal,
 }: LihatModalProps) {
   const [data, setData] = useState<DataType | null>()
-  const [showBlokir, setShowBlokir] = useState(false)
+  const [showBukaBlokir, setShowBukaBlokir] = useState(false)
 
   useEffect(() => {
     setData({
@@ -47,11 +51,20 @@ export default function LihatModal({
       email: 'halo@anbes.com',
       website: 'anbes.com',
       jenisKelamin: 'Perempuan',
+      instansi: ['UIN Suska Riau', 'Universitas Riau'],
+      paket: 'Premium',
+      alasanBlokir:
+        'Akun dicuri dan digunakan oleh pihak lain, ini merupakan contoh alasan blokir',
     })
   }, [showModal])
 
   return (
-    <Modal size="sm" isOpen={!!showModal} onClose={() => setShowModal(null)}>
+    <Modal
+      title="Detail Pengguna yang Diblokir"
+      size="md"
+      isOpen={!!showModal}
+      onClose={() => setShowModal(null)}
+    >
       <div className="flex flex-col items-center p-3">
         <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
           <Image
@@ -80,6 +93,16 @@ export default function LihatModal({
           <DataRow label="Email">{data?.email || '-'}</DataRow>
           <DataRow label="Website">{data?.website || '-'}</DataRow>
           <DataRow label="Jenis Kelamin">{data?.jenisKelamin || '-'}</DataRow>
+          <DataRow label="Instansi">
+            {data?.instansi?.map((item, idx) => (
+              <TextSpan key={idx}>
+                {item}
+                <br />
+              </TextSpan>
+            ))}
+          </DataRow>
+          <DataRow label="Paket">{data?.paket}</DataRow>
+          <DataRow label="Alasan Diblokir">{data?.alasanBlokir || '-'}</DataRow>
         </tbody>
       </table>
 
@@ -87,18 +110,21 @@ export default function LihatModal({
 
       <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)}>
         <div className="flex-1">
-          <Button
-            variant="flat-colorful"
-            color="danger"
-            className="w-full"
-            onClick={() => setShowBlokir(true)}
-          >
-            Blokir
+          <Button className="w-full" onClick={() => setShowBukaBlokir(true)}>
+            Buka Blokir
           </Button>
         </div>
       </ModalFooterButtons>
 
-      <BlokirModal showModal={showBlokir} setShowModal={setShowBlokir} />
+      <ModalConfirm
+        title="Buka Blokir"
+        desc="Yakin ingin membuka blokir pengguna ini?"
+        confirmColor="primary"
+        isOpen={showBukaBlokir}
+        onConfirm={() => setShowBukaBlokir(false)}
+        onClose={() => setShowBukaBlokir(false)}
+        closeOnCancel
+      />
     </Modal>
   )
 }
@@ -106,7 +132,7 @@ export default function LihatModal({
 function DataRow({ label, children }: { label: string; children?: ReactNode }) {
   return (
     <tr>
-      <td className="font-medium text-gray-lighter align-baseline text-right pe-5 py-2">
+      <td className="w-32 font-medium text-gray-lighter align-baseline text-right pe-5 py-2">
         {label}
       </td>
       <td className="font-semibold text-gray-dark py-2">{children}</td>

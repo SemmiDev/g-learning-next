@@ -34,10 +34,7 @@ export default function TableInstansiCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tableInstansiAction, {
-    nama: '',
-    email: '',
-  })
+  } = useTableAsync(tableInstansiAction)
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

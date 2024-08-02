@@ -1,6 +1,5 @@
 import { TugasItemType } from '@/app/(hydrogen)/peserta/ruang-kelas/kelas/tugas/page'
-import { Button, Card, Text } from '@/components/ui'
-import { Badge } from 'rizzui'
+import { Badge, Button, Card, Text } from '@/components/ui'
 
 type TugasCardProps = {
   listTugas: TugasItemType[]

@@ -34,10 +34,7 @@ export default function TableAdminCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tableAdminAction, {
-    nama: '',
-    email: '',
-  })
+  } = useTableAsync(tableAdminAction)
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

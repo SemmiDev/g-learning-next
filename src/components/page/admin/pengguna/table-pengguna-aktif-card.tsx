@@ -1,22 +1,24 @@
-'use client'
-
-import { tablePenggunaAction } from '@/actions/instansi/profil/table-pengguna'
-import { ActionIconTooltip, Card, CardSeparator, Title } from '@/components/ui'
-import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { tablePenggunaAktifAction } from '@/actions/admin/pengguna/table-pengguna-aktif'
 import {
+  ActionIconTooltip,
+  Badge,
+  Card,
+  CardSeparator,
   getSortDirection,
   renderTableCellText,
-  renderTableCellTextCenter,
   TableHeaderCell,
-} from '@/components/ui/table'
+  Title,
+} from '@/components/ui'
+import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
-import LihatModal from '../../../../../components/page/instansi/profil/pengguna/modal/lihat'
+import LihatModal from './modal/lihat'
 
-export default function PenggunaPage() {
+export default function TablePenggunaAktifCard() {
   const [showModalLihat, setShowModalLihat] = useState<number | null>()
 
   const {
@@ -30,7 +32,7 @@ export default function PenggunaPage() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAction)
+  } = useTableAsync(tablePenggunaAktifAction)
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {
@@ -50,18 +52,22 @@ export default function PenggunaPage() {
       }),
     },
     {
+      title: <TableHeaderCell title="Instansi" align="center" />,
+      dataIndex: 'instansi',
+      render: (value: string, row: any) => (
+        <div className="flex justify-center items-center space-x-1">
+          <TableCellText>{value}</TableCellText>
+          {!!row.instansiMore && (
+            <Badge size="sm" variant="flat" color="gray">
+              +{row.instansiMore}
+            </Badge>
+          )}
+        </div>
+      ),
+    },
+    {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
       dataIndex: 'jenis',
-      render: renderTableCellTextCenter,
-    },
-    {
-      title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
-      dataIndex: 'penyimpanan',
-      render: renderTableCellTextCenter,
-    },
-    {
-      title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'jumlahKelas',
       render: renderTableCellTextCenter,
     },
     {

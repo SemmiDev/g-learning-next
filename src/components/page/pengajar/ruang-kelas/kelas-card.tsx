@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Card, Text } from '@/components/ui'
+import { ActionIcon, Badge, Button, Card, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
@@ -7,7 +7,6 @@ import { BiMessageAltDots } from 'react-icons/bi'
 import { BsClipboardPlus } from 'react-icons/bs'
 import { GrShareOption } from 'react-icons/gr'
 import { PiGear } from 'react-icons/pi'
-import { Badge } from 'rizzui'
 
 type CardKelasProps = {
   program: string

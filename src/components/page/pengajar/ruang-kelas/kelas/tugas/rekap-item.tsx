@@ -1,6 +1,5 @@
-import { Text } from '@/components/ui'
+import { Badge, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { Badge } from 'rizzui'
 
 export default function RekapTugasItem({
   active = false,

@@ -1,6 +1,5 @@
 import { AbsenItemType } from '@/app/(hydrogen)/peserta/ruang-kelas/kelas/presensi/page'
-import { Card, Text } from '@/components/ui'
-import { Badge } from 'rizzui'
+import { Badge, Card, Text } from '@/components/ui'
 
 type AbsensiCardProps = {
   listAbsen: AbsenItemType[]

@@ -3,6 +3,7 @@
 import KomentarSectionZero from '@/components/page/pengajar/ruang-kelas/kelas/diskusi/komentar-section-zero'
 import DropdownNilaiAction from '@/components/page/pengajar/ruang-kelas/kelas/ujian/dropdown-nilai-action'
 import {
+  Badge,
   Button,
   Card,
   CardSeparator,
@@ -20,7 +21,7 @@ import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Badge, Dropdown, Input } from 'rizzui'
+import { Dropdown, Input } from 'rizzui'
 
 export default function UjianPage() {
   const tableColumns: ColumnsType<DefaultRecordType> = [

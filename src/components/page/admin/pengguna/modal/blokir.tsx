@@ -1,5 +1,4 @@
 import {
-  Button,
   CardSeparator,
   ControlledInput,
   Form,
@@ -7,9 +6,9 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
-import { SubmitHandler } from 'react-hook-form'
-import { z } from '@/utils/zod-id'
 import { required } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
+import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   alasan: z.string().pipe(required),
@@ -57,7 +56,7 @@ export default function BlokirModal({
           <>
             <div className="space-y-3 p-3">
               <Text weight="semibold" variant="dark" className="text-center">
-                Yakin ingin memblokir pengguna ini di instansi anda? Tuliskan
+                Yakin ingin memblokir pengguna ini dari aplikasi? Tuliskan
                 alasan pemblokiran
               </Text>
 
