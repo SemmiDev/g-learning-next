@@ -3,7 +3,7 @@ import {
   ControlledDatePicker,
   ControlledKelas,
   ControlledRadioGroup,
-  ControlledRadioGroupOptions,
+  RadioGroupOptionType,
   ControlledSwitch,
   Form,
   Modal,
@@ -63,12 +63,12 @@ const initialValues: FormSchema = {
   penjadwalan: false,
 }
 
-const optionsPresensi: ControlledRadioGroupOptions = [
+const optionsPresensi: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const optionsTipePresensi: ControlledRadioGroupOptions = [
+const optionsTipePresensi: RadioGroupOptionType[] = [
   { label: 'Absensi Manual', value: 'manual' },
   { label: 'Absensi Otomatis', value: 'otomatis' },
 ]

@@ -1,6 +1,7 @@
 'use client'
 
 import cn from '@/utils/class-names'
+import { AnyObject } from '@/utils/type-interface'
 import { ReactNode } from 'react'
 import {
   Control,
@@ -12,20 +13,21 @@ import {
 import { FieldError, Radio } from 'rizzui'
 import TextLabel from '../text/label'
 
-export type ControlledRadioGroupOptions = {
+export type RadioGroupOptionType = AnyObject & {
   label: string
   value: any
-}[]
+}
 
 export type ControlledRadioGroupProps<
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues>,
+  TGroupOption extends RadioGroupOptionType
 > = {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   label?: ReactNode
-  options?: ControlledRadioGroupOptions
+  options?: TGroupOption[]
   onChange?(value: any): void
   className?: string
   labelClassName?: string
@@ -35,7 +37,8 @@ export type ControlledRadioGroupProps<
 
 export default function ControlledRadio<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TGroupOption extends RadioGroupOptionType = RadioGroupOptionType
 >({
   name,
   control,
@@ -47,7 +50,7 @@ export default function ControlledRadio<
   labelClassName,
   groupClassName,
   optionClassNames,
-}: ControlledRadioGroupProps<TFieldValues, TName>) {
+}: ControlledRadioGroupProps<TFieldValues, TName, TGroupOption>) {
   const error = errors ? (errors[name]?.message as string) : undefined
 
   return (

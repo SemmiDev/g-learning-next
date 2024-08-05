@@ -41,8 +41,8 @@ import ControlledQuillEditor, {
 } from './controlled/quill'
 import ControlledRadio, { ControlledRadioProps } from './controlled/radio'
 import ControlledRadioGroup, {
-  ControlledRadioGroupOptions,
   ControlledRadioGroupProps,
+  RadioGroupOptionType,
 } from './controlled/radio-group'
 import ControlledSelect, { ControlledSelectProps } from './controlled/select'
 import ControlledSwitch, { ControlledSwitchProps } from './controlled/switch'
@@ -176,7 +176,6 @@ export {
   type ControlledPasswordProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
-  type ControlledRadioGroupOptions,
   type ControlledRadioGroupProps,
   type ControlledRadioProps,
   type ControlledSelectProps,
@@ -197,6 +196,7 @@ export {
   type PasswordProps,
   type PustakaMediaFileType,
   type PustakaMediaProps,
+  type RadioGroupOptionType,
   type ReadMoreProps,
   type SelectOptionType,
   type SelectProps,

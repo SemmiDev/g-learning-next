@@ -4,10 +4,10 @@ import {
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
-  ControlledRadioGroupOptions,
   Form,
   Modal,
   ModalFooterButtons,
+  RadioGroupOptionType,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -51,7 +51,7 @@ const initialValues: FormSchema = {
   penjadwalan: false,
 }
 
-const optionsPresensi: ControlledRadioGroupOptions = [
+const optionsPresensi: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]

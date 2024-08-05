@@ -6,13 +6,13 @@ import {
   ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledRadioGroup,
-  ControlledRadioGroupOptions,
   ControlledSwitch,
   Form,
   MateriItemType,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
+  RadioGroupOptionType,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -77,12 +77,12 @@ const initialValues: FormSchema = {
   share: true,
 }
 
-const optionsPresensi: ControlledRadioGroupOptions = [
+const optionsPresensi: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const optionsTipePresensi: ControlledRadioGroupOptions = [
+const optionsTipePresensi: RadioGroupOptionType[] = [
   { label: 'Absensi Manual', value: 'manual' },
   { label: 'Absensi Otomatis', value: 'otomatis' },
 ]

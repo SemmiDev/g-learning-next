@@ -4,11 +4,11 @@ import {
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
-  ControlledRadioGroupOptions,
   ControlledUploadFile,
   Form,
   Modal,
   ModalFooterButtons,
+  RadioGroupOptionType,
   TextLabel,
 } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
@@ -51,7 +51,7 @@ const initialValues: FormSchema = {
   hariWaktu: [],
 }
 
-const optionsJenis: ControlledRadioGroupOptions = [
+const optionsJenis: RadioGroupOptionType[] = [
   { label: 'Publik', value: 'Public' },
   { label: 'Private', value: 'Private' },
   { label: 'Internal', value: 'Internal' },
