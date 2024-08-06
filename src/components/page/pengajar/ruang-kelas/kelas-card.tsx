@@ -1,32 +1,47 @@
 import { ActionIcon, Badge, Button, Card, Text } from '@/components/ui'
+import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BiMessageAltDots } from 'react-icons/bi'
-import { BsClipboardPlus } from 'react-icons/bs'
+import { BsCheckCircleFill, BsClipboardPlus } from 'react-icons/bs'
 import { GrShareOption } from 'react-icons/gr'
 import { PiGear } from 'react-icons/pi'
 
-type CardKelasProps = {
+type KelasCardProps = {
   program: string
   kelas?: string
   akses?: 'Publik' | 'Private'
-  image: string | StaticImport
+  image?: string | StaticImport | null
+  instansi?: string
+  instansiCentang?: boolean
+  pengajar: string
   onClickPengaturan?: Function
 }
 
-export default function CardKelas({
+export default function KelasCard({
   program,
   kelas,
   akses = 'Private',
   image,
+  instansi,
+  instansiCentang,
+  pengajar,
   onClickPengaturan,
-}: CardKelasProps) {
+}: KelasCardProps) {
   return (
     <Card>
       <div className="aspect-[333/130] rounded overflow-clip">
-        <Image src={image} alt="kelas" className="h-full w-full object-cover" />
+        {!!image ? (
+          <Image
+            src={image}
+            alt="kelas"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <RandomCoverImage persistentKey={program} alt="kelas" />
+        )}
       </div>
       <div className="flex justify-between items-start mt-2">
         <div>
@@ -35,6 +50,17 @@ export default function CardKelas({
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
             {kelas}
+          </Text>
+          <div className="flex items-center space-x-1">
+            <Text size="sm" weight="medium" variant="lighter">
+              {instansi || '-'}
+            </Text>
+            {instansiCentang && (
+              <BsCheckCircleFill size={10} className="text-primary mt-0.5" />
+            )}
+          </div>
+          <Text size="sm" weight="medium" variant="lighter">
+            {pengajar}
           </Text>
         </div>
         <Badge

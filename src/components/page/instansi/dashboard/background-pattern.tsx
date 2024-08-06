@@ -20,19 +20,6 @@ import bgp17 from '@public/images/background-profile/17.png'
 import bgp18 from '@public/images/background-profile/18.png'
 import bgp19 from '@public/images/background-profile/19.png'
 import bgp20 from '@public/images/background-profile/20.png'
-import { useSession } from 'next-auth/react'
-
-/* const imageColors = {
-  orange: 'inset 0 0 0 2000px rgba(203, 50, 2, 0.8)',
-  purple: 'inset 0 0 0 2000px rgba(114, 2, 203, 0.8)',
-  yellow: 'inset 0 0 0 2000px rgba(137, 140, 0, 0.8)',
-  green: 'inset 0 0 0 2000px rgba(8, 94, 0, 0.8)',
-  teal: 'inset 0 0 0 2000px rgba(0, 167, 107, 0.8)',
-  blue: 'inset 0 0 0 2000px rgba(23, 0, 167, 0.8)',
-  magenta: 'inset 0 0 0 2000px rgba(167, 0, 90, 0.8)',
-  violet: 'inset 0 0 0 2000px rgba(104, 0, 167, 0.8)',
-  lightBlue: 'inset 0 0 0 2000px rgba(0, 67, 167, 0.8)',
-} */
 
 const bgList = [
   bgp00,
@@ -58,20 +45,16 @@ const bgList = [
   bgp20,
 ]
 
-export default function BackgroundProfile({
-  className,
-}: {
+type BackgroundProfileProps = {
+  persistentKey: string
   className?: string
-}) {
-  const { data: session } = useSession()
+}
 
-  const bgp =
-    bgList[
-      hashToRangeNumber(
-        `${session?.jwt ?? ''}${new Date().toJSON().slice(0, 10)}`,
-        21
-      )
-    ]
+export default function BackgroundProfile({
+  persistentKey,
+  className,
+}: BackgroundProfileProps) {
+  const bgp = bgList[hashToRangeNumber(persistentKey, bgList.length - 1)]
 
   return (
     <div

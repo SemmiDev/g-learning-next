@@ -1,6 +1,7 @@
 import { ActionIcon, Card, Text, Title } from '@/components/ui'
 import { angka, rupiah } from '@/utils/text'
 import logo from '@public/images/instansi-logo.png'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { BsGear } from 'react-icons/bs'
 import { LuCalendar, LuCreditCard, LuPackage } from 'react-icons/lu'
@@ -8,10 +9,17 @@ import BackgroundProfile from './background-pattern'
 import ProfileItem from './profile-item'
 
 export default function DashboardProfileCard() {
+  const { data: session } = useSession()
+
   return (
     <Card className="flex flex-col p-0">
       <div className="relative h-[250px]">
-        <BackgroundProfile className="absolute w-full h-[150px]" />
+        <BackgroundProfile
+          persistentKey={`${session?.jwt ?? ''}${new Date()
+            .toJSON()
+            .slice(0, 10)}`}
+          className="absolute w-full h-[150px]"
+        />
         <div className="absolute flex flex-col items-center pt-4 pb-4 m-auto left-0 right-0">
           <figure className="size-[150px] bg-white border border-muted rounded-md shadow-sm mb-2">
             <Image

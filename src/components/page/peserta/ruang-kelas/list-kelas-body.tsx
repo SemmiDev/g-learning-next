@@ -3,7 +3,7 @@
 import { Button, Text, Title } from '@/components/ui'
 import imageKelas from '@public/images/list-kelas.png'
 import { useState } from 'react'
-import CardKelas from './kelas-card'
+import KelasCard from './kelas-card'
 
 export default function ListKelasBody() {
   const [showModalGabungKelas, setShowModalGabungKelas] = useState(false)
@@ -26,12 +26,14 @@ export default function ListKelasBody() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {[...Array(10)].map((e, i) => {
           return (
-            <CardKelas
-              program="Sistem Operasi"
+            <KelasCard
+              program={i == 0 ? 'Aljabar Linear' : `Sistem Operasi ${i}`}
               kelas="Kelas TI A"
-              instansi="Nama Instansi"
-              image={imageKelas}
+              image={i == 0 ? imageKelas : null}
               akses="Publik"
+              instansi="UIN ASUTRA Singapore"
+              instansiCentang={true}
+              pengajar="Annitsa Bestwedden"
               key={i}
             />
           )
