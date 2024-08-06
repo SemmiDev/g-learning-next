@@ -19,7 +19,7 @@ import { LuEye } from 'react-icons/lu'
 import LihatDiblokirModal from './modal/lihat-diblokir'
 
 export default function TablePenggunaDiblokirCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number | null>()
+  const [showModalLihat, setShowModalLihat] = useState<number>()
 
   const {
     data,

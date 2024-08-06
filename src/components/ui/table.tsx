@@ -104,7 +104,7 @@ export interface TableHeaderCellProps {
   /** Make sortable column, it's also required ascending prop too. Check our example for more details. */
   sortable?: boolean
   /** Make ascending or descending column, it's also required sortable prop too. Check our example for more details. */
-  sort?: 'asc' | 'desc' | null
+  sort?: 'asc' | 'desc'
   /** Add custom classes to the sort icon for extra style */
   sorting?: boolean
   iconClassName?: string
@@ -126,7 +126,7 @@ export function TableHeaderCell({
   width,
   ellipsis,
   sortable,
-  sort = null,
+  sort,
   iconClassName,
   className,
 }: TableHeaderCellProps) {
@@ -172,9 +172,7 @@ export function TableHeaderCell({
 }
 
 export const getSortDirection = (sort: SortType, name: string) => {
-  return sort?.name === name && sort?.direction !== null
-    ? sort?.direction
-    : null
+  return sort?.name === name ? sort?.direction : undefined
 }
 
 export const TableCellText = ({

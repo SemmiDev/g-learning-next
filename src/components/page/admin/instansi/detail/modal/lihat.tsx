@@ -22,15 +22,15 @@ type DataType = {
 }
 
 type LihatModalProps = {
-  showModal?: number | null
-  setShowModal(show: number | null): void
+  showModal?: number
+  setShowModal(show?: number): void
 }
 
 export default function LihatModal({
-  showModal = null,
+  showModal,
   setShowModal,
 }: LihatModalProps) {
-  const [data, setData] = useState<DataType | null>()
+  const [data, setData] = useState<DataType | undefined>()
 
   useEffect(() => {
     setData({
@@ -47,7 +47,11 @@ export default function LihatModal({
   }, [showModal])
 
   return (
-    <Modal size="sm" isOpen={!!showModal} onClose={() => setShowModal(null)}>
+    <Modal
+      size="sm"
+      isOpen={!!showModal}
+      onClose={() => setShowModal(undefined)}
+    >
       <div className="flex flex-col items-center p-3">
         <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
           <Image
@@ -81,7 +85,10 @@ export default function LihatModal({
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)} />
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={() => setShowModal(undefined)}
+      />
     </Modal>
   )
 }

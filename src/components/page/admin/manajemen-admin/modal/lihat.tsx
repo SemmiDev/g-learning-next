@@ -8,23 +8,23 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import { useEffect, useState } from 'react'
 
 type DetailType = {
-  foto?: string | StaticImport | null
+  foto?: string | StaticImport
   nama: string
   username: string
-  email?: string | null
-  kontak?: string | null
+  email?: string
+  kontak?: string
 }
 
 type UbahModalProps = {
-  showModal?: number | null
-  setShowModal(show: number | null): void
+  showModal?: number
+  setShowModal(show?: number): void
 }
 
 export default function LihatModal({
-  showModal = null,
+  showModal,
   setShowModal,
 }: UbahModalProps) {
-  const [data, setData] = useState<DetailType | null>()
+  const [data, setData] = useState<DetailType>()
 
   useEffect(() => {
     setData({
@@ -40,7 +40,7 @@ export default function LihatModal({
       title="Detail Admin"
       color="info"
       isOpen={!!showModal}
-      onClose={() => setShowModal(null)}
+      onClose={() => setShowModal(undefined)}
     >
       <div className="flex flex-col gap-4 p-3">
         <TextBordered label="Nama Lengkap">{data?.nama}</TextBordered>
@@ -51,7 +51,10 @@ export default function LihatModal({
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)} />
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={() => setShowModal(undefined)}
+      />
     </Modal>
   )
 }

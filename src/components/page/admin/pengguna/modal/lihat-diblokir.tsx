@@ -12,7 +12,6 @@ import {
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import { ReactNode, useEffect, useState } from 'react'
-import BlokirModal from './blokir'
 
 type DataType = {
   nama: string
@@ -29,15 +28,15 @@ type DataType = {
 }
 
 type LihatModalProps = {
-  showModal?: number | null
-  setShowModal(show: number | null): void
+  showModal?: number
+  setShowModal(show?: number): void
 }
 
 export default function LihatDiblokirModal({
-  showModal = null,
+  showModal,
   setShowModal,
 }: LihatModalProps) {
-  const [data, setData] = useState<DataType | null>()
+  const [data, setData] = useState<DataType>()
   const [showBukaBlokir, setShowBukaBlokir] = useState(false)
 
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function LihatDiblokirModal({
       title="Detail Pengguna yang Diblokir"
       size="md"
       isOpen={!!showModal}
-      onClose={() => setShowModal(null)}
+      onClose={() => setShowModal(undefined)}
     >
       <div className="flex flex-col items-center p-3">
         <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
@@ -108,7 +107,10 @@ export default function LihatDiblokirModal({
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)}>
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={() => setShowModal(undefined)}
+      >
         <div className="flex-1">
           <Button className="w-full" onClick={() => setShowBukaBlokir(true)}>
             Buka Blokir

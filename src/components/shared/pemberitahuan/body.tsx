@@ -13,12 +13,12 @@ import PemberitahuanItem from './item'
 
 export default function PemberitahuanBody() {
   const [data, setData] = useState<DataItemType[]>([])
-  const [page, setPage] = useState<number | null>(null)
+  const [page, setPage] = useState<number>()
 
   const loadData = async (loadPage: number) => {
     const moreData = await loadMoreAction(loadPage)
     setData((prev) => [...prev, ...moreData.data])
-    setPage(moreData.nextPage)
+    setPage(moreData.nextPage ?? undefined)
   }
 
   const loadNext = async (direction: ScrollDirection) => {

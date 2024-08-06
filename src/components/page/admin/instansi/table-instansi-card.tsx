@@ -20,8 +20,8 @@ import { LuEye, LuTrash } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
 
 export default function TableInstansiCard() {
-  const [showModalUbah, setShowModalUbah] = useState<number | null>()
-  const [showModalHapus, setShowModalHapus] = useState<number | null>(null)
+  const [showModalUbah, setShowModalUbah] = useState<number | undefined>()
+  const [showModalHapus, setShowModalHapus] = useState<number | undefined>()
 
   const {
     data,
@@ -158,8 +158,8 @@ export default function TableInstansiCard() {
         desc="Apakah Anda yakin ingin menghapus instansi ini dari database?"
         color="danger"
         isOpen={!!showModalHapus}
-        onClose={() => setShowModalHapus(null)}
-        onConfirm={() => setShowModalHapus(null)}
+        onClose={() => setShowModalHapus(undefined)}
+        onConfirm={() => setShowModalHapus(undefined)}
         headerIcon="help"
         closeOnCancel
       />

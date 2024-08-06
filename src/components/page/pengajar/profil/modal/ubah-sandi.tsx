@@ -37,7 +37,7 @@ export default function UbahSandiModal({
   showModal,
   setShowModal,
 }: UbahModalProps) {
-  const [initialValues, setInitialValues] = useState<FormSchema | null>()
+  const [initialValues, setInitialValues] = useState<FormSchema>()
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)

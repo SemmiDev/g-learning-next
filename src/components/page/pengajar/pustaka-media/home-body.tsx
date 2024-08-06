@@ -2,15 +2,15 @@
 
 import { Button, Text, Title } from '@/components/ui'
 import { useState } from 'react'
+import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
-import FileCard, { FileType } from './file-card'
 import DriveButton from './drive-button'
-import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import FileCard, { FileType } from './file-card'
 
 export default function HomePustakaMediaBody() {
-  const [activeDrive, setActiveDrive] = useState<number | null>(null)
-  const [activeFolder, setActiveFolder] = useState<FileType | null>(null)
+  const [activeDrive, setActiveDrive] = useState<number>()
+  const [activeFolder, setActiveFolder] = useState<FileType>()
   const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
 
   const drives = [
@@ -98,7 +98,7 @@ export default function HomePustakaMediaBody() {
             active={activeDrive === idx}
             onClick={() => {
               setActiveDrive(idx)
-              setActiveFolder(null)
+              setActiveFolder(undefined)
             }}
             key={idx}
           />
@@ -140,7 +140,7 @@ export default function HomePustakaMediaBody() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        {activeDrive != null && (
+        {!!activeDrive && activeDrive >= 0 && (
           <Button
             size="sm"
             variant="outline-colorful"

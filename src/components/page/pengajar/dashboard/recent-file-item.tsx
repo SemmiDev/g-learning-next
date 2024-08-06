@@ -6,7 +6,7 @@ import { MdOutlineFileDownload } from 'react-icons/md'
 export type FileItemType = {
   id: string
   name: string
-  size?: number | null
+  size?: number
   time: string
   icon: 'video' | 'file'
   link: string

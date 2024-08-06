@@ -21,7 +21,7 @@ export default function SinkronSmartCard({
 }: {
   className?: string
 }) {
-  const [initialValues, setInitialValues] = useState<FormSchema | null>()
+  const [initialValues, setInitialValues] = useState<FormSchema>()
   const [active, setActive] = useState(true)
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {

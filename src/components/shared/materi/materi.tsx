@@ -1,11 +1,11 @@
 'use client'
 
 import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
+import cn from '@/utils/class-names'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { FieldError } from 'rizzui'
-import cn from '@/utils/class-names'
 import FolderButton, { FolderItemType } from './folder-button'
 import MateriButton, { MateriItemType } from './materi-button'
 import SelectedMateri from './selected-materi'
@@ -14,7 +14,7 @@ export type MateriProps = {
   label?: string
   placeholder?: string
   value?: MateriItemType
-  onChange?(val: MateriItemType | null): void
+  onChange?(val?: MateriItemType): void
   multiple?: boolean
   error?: string
   errorClassName?: string
@@ -30,11 +30,11 @@ export default function Materi({
 }: MateriProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
-  const [activeFolder, setActiveFolder] = useState<FolderItemType | null>(null)
-  const [checkedMateriId, setCheckedMateriId] = useState<string | null>(null)
-  const [selectedMateri, setSelectedMateri] = useState<MateriItemType | null>(
-    value ?? null
-  )
+  const [activeFolder, setActiveFolder] = useState<FolderItemType>()
+  const [checkedMateriId, setCheckedMateriId] = useState<string>()
+  const [selectedMateri, setSelectedMateri] = useState<
+    MateriItemType | undefined
+  >(value)
 
   const handleResize = () => {
     if (window.innerWidth < 1024) {
@@ -59,7 +59,7 @@ export default function Materi({
     setShow(false)
   }
 
-  const doChange = (selected: MateriItemType | null) => {
+  const doChange = (selected: MateriItemType | undefined) => {
     setSelectedMateri(selected)
 
     onChange && onChange(selected)
@@ -114,7 +114,7 @@ export default function Materi({
       <div>
         <div
           onClick={() => {
-            setCheckedMateriId(selectedMateri?.id ?? null)
+            setCheckedMateriId(selectedMateri?.id)
             doShow()
           }}
         >
@@ -136,7 +136,7 @@ export default function Materi({
               <SelectedMateri
                 materi={selectedMateri}
                 onRemove={() => {
-                  doChange(null)
+                  doChange(undefined)
                 }}
               />
             )}
@@ -178,7 +178,7 @@ export default function Materi({
                 weight="medium"
                 variant="dark"
                 className={cn({ 'cursor-pointer': activeFolder })}
-                onClick={() => activeFolder && setActiveFolder(null)}
+                onClick={() => activeFolder && setActiveFolder(undefined)}
               >
                 Bank Materi dan Tugas
               </Text>
@@ -222,7 +222,7 @@ export default function Materi({
                   const selected = dataMateri.find(
                     (val) => val.id === checkedMateriId
                   )
-                  doChange(selected ?? null)
+                  doChange(selected)
                   doHide()
                 }}
               >

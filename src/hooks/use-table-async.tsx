@@ -8,8 +8,8 @@ import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
 
 export type SortType = {
-  name: string | null
-  direction: 'asc' | 'desc' | null
+  name?: string
+  direction?: 'asc' | 'desc'
 }
 
 export function useTableAsync<T extends AnyObject>(
@@ -47,8 +47,8 @@ export function useTableAsync<T extends AnyObject>(
    * Handle sorting
    */
   const [sort, setSort] = useState<SortType>({
-    name: null,
-    direction: null,
+    name: undefined,
+    direction: undefined,
   })
 
   function onSort(name: string) {

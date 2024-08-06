@@ -29,7 +29,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
-  const [initialValues, setInitialValues] = useState<FormSchema | null>()
+  const [initialValues, setInitialValues] = useState<FormSchema>()
 
   useEffect(() => {
     setInitialValues({

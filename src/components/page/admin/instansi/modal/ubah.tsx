@@ -51,15 +51,12 @@ const paketOptions: SelectOptionType[] = [
 ]
 
 type UbahModalProps = {
-  showModal?: number | null
-  setShowModal(show: number | null): void
+  showModal?: number
+  setShowModal(show?: number): void
 }
 
-export default function UbahModal({
-  showModal = null,
-  setShowModal,
-}: UbahModalProps) {
-  const [initialValues, setInitialValues] = useState<FormSchema | null>()
+export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
+  const [initialValues, setInitialValues] = useState<FormSchema | undefined>()
 
   useEffect(() => {
     setInitialValues({
@@ -84,7 +81,7 @@ export default function UbahModal({
       title="Ubah Instansi"
       color="warning"
       isOpen={!!showModal}
-      onClose={() => setShowModal(null)}
+      onClose={() => setShowModal(undefined)}
     >
       <Form<FormSchema>
         onSubmit={onSubmit}
@@ -180,7 +177,7 @@ export default function UbahModal({
               submit="Simpan"
               submitColor="warning"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(null)}
+              onCancel={() => setShowModal(undefined)}
             />
           </>
         )}

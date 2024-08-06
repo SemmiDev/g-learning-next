@@ -1,6 +1,4 @@
 import {
-  Button,
-  ButtonSubmit,
   ControlledInput,
   ControlledPassword,
   Form,
@@ -11,8 +9,8 @@ import { z } from '@/utils/zod-id'
 import logoDikti from '@public/images/logo/dikti.png'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import SinkronCardContainer from './card-container'
 import AktifGroupButton from './aktif-group-button'
+import SinkronCardContainer from './card-container'
 
 const formSchema = z.object({
   url: z.string().pipe(required.url()),
@@ -32,7 +30,7 @@ export default function SinkronDiktiCard({
 }: {
   className?: string
 }) {
-  const [initialValues, setInitialValues] = useState<FormSchema | null>()
+  const [initialValues, setInitialValues] = useState<FormSchema>()
   const [active, setActive] = useState(false)
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {

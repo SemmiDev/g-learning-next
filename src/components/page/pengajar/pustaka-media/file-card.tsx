@@ -25,7 +25,7 @@ export type FileType = {
   name: string
   type: 'file' | 'folder'
   fileCount?: number
-  size?: number | null
+  size?: number
   time: string
   icon?: 'video' | 'file'
   link?: string

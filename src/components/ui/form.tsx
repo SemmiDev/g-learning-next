@@ -20,10 +20,10 @@ type FormProps<TFormValues extends FieldValues> = {
   children: (methods: UseFormReturn<TFormValues>) => React.ReactNode
   useFormProps?: UseFormProps<TFormValues>
   validationSchema?: Schema<TFormValues>
-  fieldErrors?: any[] | null
-  formError?: string | string[] | null | any
-  serverError?: ServerErrors<Partial<TFormValues>> | null
-  resetValues?: any | null
+  fieldErrors?: any[]
+  formError?: string | string[] | any
+  serverError?: ServerErrors<Partial<TFormValues>>
+  resetValues?: any
   className?: string
 }
 

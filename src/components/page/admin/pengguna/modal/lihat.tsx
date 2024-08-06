@@ -27,15 +27,15 @@ type DataType = {
 }
 
 type LihatModalProps = {
-  showModal?: number | null
-  setShowModal(show: number | null): void
+  showModal?: number
+  setShowModal(show?: number): void
 }
 
 export default function LihatModal({
-  showModal = null,
+  showModal,
   setShowModal,
 }: LihatModalProps) {
-  const [data, setData] = useState<DataType | null>()
+  const [data, setData] = useState<DataType>()
   const [showBlokir, setShowBlokir] = useState(false)
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function LihatModal({
       title="Detail Pengguna"
       size="sm"
       isOpen={!!showModal}
-      onClose={() => setShowModal(null)}
+      onClose={() => setShowModal(undefined)}
     >
       <div className="flex flex-col items-center p-3">
         <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
@@ -103,7 +103,10 @@ export default function LihatModal({
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(null)}>
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={() => setShowModal(undefined)}
+      >
         <div className="flex-1">
           <Button
             variant="flat-colorful"

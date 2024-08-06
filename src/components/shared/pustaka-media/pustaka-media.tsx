@@ -33,8 +33,8 @@ export default function PustakaMedia({
 }: PustakaMediaProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'xl' | 'full'>('xl')
-  const [activeDrive, setActiveDrive] = useState<number | null>(null)
-  const [activeFolder, setActiveFolder] = useState<FolderItemType | null>(null)
+  const [activeDrive, setActiveDrive] = useState<number>()
+  const [activeFolder, setActiveFolder] = useState<FolderItemType>()
   const [checkedFileIds, setCheckedFileIds] = useState<string[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileItemType[]>(
     Array.isArray(value) ? value : value ? [value] : []
@@ -167,14 +167,14 @@ export default function PustakaMedia({
                   active={activeDrive === idx}
                   onClick={() => {
                     setActiveDrive(idx)
-                    setActiveFolder(null)
+                    setActiveFolder(undefined)
                   }}
                   key={idx}
                 />
               ))}
             </div>
             <div className="flex flex-col flex-1">
-              {activeDrive != null && (
+              {activeDrive && activeDrive >= 0 && (
                 <>
                   <div className="flex justify-between space-x-2 p-3">
                     <Input

@@ -12,7 +12,7 @@ export type KelasProps = {
   label?: string
   placeholder?: string
   value?: KelasItemType
-  onChange?(val: KelasItemType | null): void
+  onChange?(val?: KelasItemType): void
   multiple?: boolean
   error?: string
   errorClassName?: string
@@ -28,9 +28,9 @@ export default function Kelas({
 }: KelasProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
-  const [checkedKelasId, setCheckedKelasId] = useState<string | null>(null)
-  const [selectedKelas, setSelectedKelas] = useState<KelasItemType | null>(
-    value ?? null
+  const [checkedKelasId, setCheckedKelasId] = useState<string>()
+  const [selectedKelas, setSelectedKelas] = useState<KelasItemType | undefined>(
+    value
   )
 
   const handleResize = () => {
@@ -56,7 +56,7 @@ export default function Kelas({
     setShow(false)
   }
 
-  const doChange = (selected: KelasItemType | null) => {
+  const doChange = (selected: KelasItemType | undefined) => {
     setSelectedKelas(selected)
 
     onChange && onChange(selected)
@@ -112,7 +112,7 @@ export default function Kelas({
             }
           )}
           onClick={() => {
-            setCheckedKelasId(selectedKelas?.id ?? null)
+            setCheckedKelasId(selectedKelas?.id)
             doShow()
           }}
         >
@@ -178,7 +178,7 @@ export default function Kelas({
                   const selected = dataKelas.find(
                     (val) => val.id === checkedKelasId
                   )
-                  doChange(selected ?? null)
+                  doChange(selected)
                   doHide()
                 }}
               >

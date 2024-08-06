@@ -12,7 +12,7 @@ type KelasCardProps = {
   program: string
   kelas?: string
   akses?: 'Publik' | 'Private'
-  image?: string | StaticImport | null
+  image?: string | StaticImport
   instansi?: string
   instansiCentang?: boolean
   pengajar: string

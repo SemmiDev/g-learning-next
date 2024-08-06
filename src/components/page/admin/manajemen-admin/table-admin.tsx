@@ -19,9 +19,9 @@ import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
 
 export default function TableAdminCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number | null>()
-  const [showModalUbah, setShowModalUbah] = useState<number | null>()
-  const [showModalHapus, setShowModalHapus] = useState<number | null>(null)
+  const [showModalLihat, setShowModalLihat] = useState<number>()
+  const [showModalUbah, setShowModalUbah] = useState<number>()
+  const [showModalHapus, setShowModalHapus] = useState<number>()
 
   const {
     data,
@@ -148,8 +148,8 @@ export default function TableAdminCard() {
         desc="Apakah Anda yakin ingin menghapus admin ini dari database?"
         color="danger"
         isOpen={!!showModalHapus}
-        onClose={() => setShowModalHapus(null)}
-        onConfirm={() => setShowModalHapus(null)}
+        onClose={() => setShowModalHapus(undefined)}
+        onConfirm={() => setShowModalHapus(undefined)}
         headerIcon="help"
         closeOnCancel
       />

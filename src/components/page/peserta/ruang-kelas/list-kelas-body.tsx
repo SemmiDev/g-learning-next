@@ -29,7 +29,7 @@ export default function ListKelasBody() {
             <KelasCard
               program={i == 0 ? 'Aljabar Linear' : `Sistem Operasi ${i}`}
               kelas="Kelas TI A"
-              image={i == 0 ? imageKelas : null}
+              image={i == 0 ? imageKelas : undefined}
               akses="Publik"
               instansi="UIN ASUTRA Singapore"
               instansiCentang={true}

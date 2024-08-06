@@ -16,7 +16,7 @@ import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 
 export default function TablePenggunaCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number | null>()
+  const [showModalLihat, setShowModalLihat] = useState<number | undefined>()
 
   const {
     data,
