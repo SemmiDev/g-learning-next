@@ -29,20 +29,23 @@ export type TimeProps = {
   date?: MomentProps['date']
   format?: TimeFormat
   seconds?: boolean
-  momentProps?: Omit<MomentProps, 'date' | 'format'>
+  fromNow?: boolean
+  momentProps?: Omit<MomentProps, 'date' | 'format' | 'fromNow'>
 }
 
 export default function Time({
   date,
   format = 'date',
   seconds = false,
+  fromNow,
   momentProps,
 }: TimeProps) {
   return (
     <Moment
       date={date}
-      format={getFormat(format, seconds)}
+      format={!fromNow ? getFormat(format, seconds) : undefined}
       locale="id"
+      fromNow={fromNow}
       {...momentProps}
     />
   )

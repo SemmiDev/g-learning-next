@@ -1,6 +1,6 @@
 'use server'
 
-export async function loadMore() {
+export async function loadMoreAction() {
   return [
     {
       name: 'Coba',

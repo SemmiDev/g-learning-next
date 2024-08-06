@@ -1,6 +1,6 @@
 'use client'
 
-import { loadMore } from '@/actions/peserta/ruang-kelas/kelas'
+import { loadMoreAction } from '@/actions/peserta/ruang-kelas/kelas'
 import {
   ConferenceCard,
   HeaderCard,
@@ -18,17 +18,17 @@ import useInfiniteScroll, {
   ScrollDirection,
 } from 'react-easy-infinite-scroll-hook'
 
-type dataType = {
+type DataType = {
   name: string
   desc: string
 }
 
 export default function DiskusiPage() {
   const [hasMore, setHasMore] = useState(true)
-  const [data, setData] = useState<dataType[]>([])
+  const [data, setData] = useState<DataType[]>([])
 
   const loadData = async () => {
-    const moreData = await loadMore()
+    const moreData = await loadMoreAction()
     setData((prev) => [...prev, ...moreData])
   }
 
@@ -49,7 +49,7 @@ export default function DiskusiPage() {
   const ref = useInfiniteScroll({
     next: loadNext,
     windowScroll: true,
-    rowCount: 100,
+    rowCount: data.length,
     hasMore: { down: hasMore },
   })
 

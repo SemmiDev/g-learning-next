@@ -13,6 +13,7 @@ export const publicRoutes = {
 
 export const pengajarRoutes = {
   profile: '/pengajar/profil',
+  pemberitahuan: '/pengajar/pemberitahuan',
   ruangKelas: '/pengajar/ruang-kelas',
   kelas: '/pengajar/ruang-kelas/kelas',
   bankMateri: '/pengajar/bank-materi',
@@ -27,12 +28,14 @@ export const pengajarRoutes = {
 
 export const pesertaRoutes = {
   profile: '/peserta/profil',
+  pemberitahuan: '/peserta/pemberitahuan',
   ruangKelas: '/peserta/ruang-kelas',
   kelas: '/peserta/ruang-kelas/kelas',
 }
 
 export const adminRoutes = {
   profile: '/admin/profil',
+  pemberitahuan: '/admin/pemberitahuan',
   listInstansi: '/admin/instansi',
   listPengguna: '/admin/pengguna',
   paketInstansi: '/admin/paket-instansi',
@@ -42,6 +45,7 @@ export const adminRoutes = {
 
 export const instansiRoutes = {
   profile: '/instansi/profil',
+  pemberitahuan: '/instansi/pemberitahuan',
 }
 
 export const routes = {

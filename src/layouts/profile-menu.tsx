@@ -10,6 +10,50 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Avatar, Popover } from 'rizzui'
 
+export default function ProfileMenu({
+  buttonClassName,
+  avatarClassName,
+}: {
+  buttonClassName?: string
+  avatarClassName?: string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
+  return (
+    <Popover
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      shadow="sm"
+      placement="bottom-end"
+    >
+      <Popover.Trigger>
+        <button
+          className={cn(
+            'w-9 shrink-0 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-10',
+            buttonClassName
+          )}
+        >
+          <Avatar
+            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
+            name={session?.user?.name ?? ''}
+            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
+          />
+        </button>
+      </Popover.Trigger>
+
+      <Popover.Content className="z-[9999] p-0 dark:bg-gray-100 [&>svg]:dark:fill-gray-100">
+        <DropdownMenu />
+      </Popover.Content>
+    </Popover>
+  )
+}
+
 function DropdownMenu() {
   const router = useRouter()
   const { data: session } = useSession()
@@ -73,49 +117,5 @@ function DropdownMenu() {
         </Button>
       </div>
     </div>
-  )
-}
-
-export default function ProfileMenu({
-  buttonClassName,
-  avatarClassName,
-}: {
-  buttonClassName?: string
-  avatarClassName?: string
-}) {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
-
-  return (
-    <Popover
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      shadow="sm"
-      placement="bottom-end"
-    >
-      <Popover.Trigger>
-        <button
-          className={cn(
-            'w-9 shrink-0 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-10',
-            buttonClassName
-          )}
-        >
-          <Avatar
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-            name={session?.user?.name ?? ''}
-            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
-          />
-        </button>
-      </Popover.Trigger>
-
-      <Popover.Content className="z-[9999] p-0 dark:bg-gray-100 [&>svg]:dark:fill-gray-100">
-        <DropdownMenu />
-      </Popover.Content>
-    </Popover>
   )
 }

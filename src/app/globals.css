@@ -20,7 +20,7 @@
     /* body style */
     --background: 255 255 255; /* #ffffff */
     --foreground: 72 72 72; /* #484848 */
-    --muted: 227 227 227; /* #e3e3e3 */
+    --muted: var(--gray-100);
     --muted-foreground: 146 146 146; /* #929292 */
 
     /* ----------------------------------- */
