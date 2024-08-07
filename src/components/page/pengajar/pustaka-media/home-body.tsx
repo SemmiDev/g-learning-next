@@ -140,7 +140,7 @@ export default function HomePustakaMediaBody() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        {!!activeDrive && activeDrive >= 0 && (
+        {activeDrive !== undefined && (
           <Button
             size="sm"
             variant="outline-colorful"

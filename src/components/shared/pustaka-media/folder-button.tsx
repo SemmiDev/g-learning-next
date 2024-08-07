@@ -23,7 +23,7 @@ export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
       <div className="flex justify-between items-center space-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
         <div className="flex space-x-2 cursor-pointer" onClick={onOpen}>
           <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
-            <BsFolderFill size={20} className="text-primary-lighter" />
+            <BsFolderFill size={20} className="text-primary" />
           </div>
           <div className="flex flex-col">
             <Text

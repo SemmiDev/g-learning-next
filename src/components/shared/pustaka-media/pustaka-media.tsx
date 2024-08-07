@@ -174,7 +174,7 @@ export default function PustakaMedia({
               ))}
             </div>
             <div className="flex flex-col flex-1">
-              {activeDrive && activeDrive >= 0 && (
+              {activeDrive !== undefined && (
                 <>
                   <div className="flex justify-between space-x-2 p-3">
                     <Input
