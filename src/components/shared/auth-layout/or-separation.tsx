@@ -14,7 +14,7 @@ export default function OrSeparation({
       }`}
     >
       <span
-        className={`relative z-10 inline-block bg-white text-sm font-medium text-gray-dark dark:bg-gray-50 ${
+        className={`relative z-10 inline-block bg-[#fafafa] text-sm font-medium text-gray-dark dark:bg-gray-50 ${
           isCenter ? 'p-2.5' : 'pe-2.5'
         }`}
       >
