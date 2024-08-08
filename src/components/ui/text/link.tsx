@@ -3,7 +3,11 @@ import Link, { LinkProps } from 'next/link'
 import { ReactNode } from 'react'
 import { DefaultTextProps, TextSizes, TextWeights } from './text'
 
-type TextLinkProps = LinkProps &
+type TextLinkProps = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  keyof LinkProps
+> &
+  LinkProps &
   Omit<DefaultTextProps, 'color'> & {
     color?:
       | 'default'
@@ -15,7 +19,7 @@ type TextLinkProps = LinkProps &
       | 'gray'
     className?: string
     children?: ReactNode
-  }
+  } & React.RefAttributes<HTMLAnchorElement>
 
 const TextLinkColors = {
   default: 'text-gray hover:text-primary',

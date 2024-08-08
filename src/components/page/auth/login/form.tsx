@@ -9,6 +9,8 @@ import {
   TextLink,
 } from '@/components/ui'
 import { publicRoutes, routes } from '@/config/routes'
+import { required, requiredPassword } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
@@ -17,9 +19,19 @@ import { SubmitHandler } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { TbSelect } from 'react-icons/tb'
 import { Input, Password } from 'rizzui'
-import { LoginSchema, loginSchema } from './schema'
 
-const initialValues: LoginSchema = {
+const formSchema = z.object({
+  email: z.string().pipe(required.email()),
+  password: z.string().pipe(requiredPassword.min(3)),
+})
+
+// type FormSchema = z.infer<typeof formSchema>
+type FormSchema = {
+  email?: string
+  password?: string
+}
+
+const initialValues: FormSchema = {
   email: 'instansi@glearning.com',
   password: '123',
 }
@@ -29,7 +41,7 @@ export default function LoginForm() {
 
   const [showModalUser, setShowModalUser] = useState(false)
 
-  const doLogin = async (data: LoginSchema) => {
+  const doLogin = async (data: FormSchema) => {
     const resLogin = await signIn('credentials', {
       username: data.email,
       password: data.password,
@@ -43,7 +55,7 @@ export default function LoginForm() {
     }
   }
 
-  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     await toast.promise(doLogin(data), {
       loading: <Text>Mencoba masuk...</Text>,
       success: <Text>Berhasil masuk.</Text>,
@@ -53,8 +65,8 @@ export default function LoginForm() {
 
   return (
     <>
-      <Form<LoginSchema>
-        validationSchema={loginSchema}
+      <Form<FormSchema>
+        validationSchema={formSchema}
         onSubmit={onSubmit}
         useFormProps={{
           mode: 'onSubmit',
@@ -90,7 +102,7 @@ export default function LoginForm() {
               />
               <div className="flex items-center justify-end pb-1">
                 <Link
-                  href={publicRoutes.forgotPassword}
+                  href={publicRoutes.lupaPassword}
                   className="h-auto p-0 text-sm font-semibold text-primary hover:text-primary-dark"
                 >
                   Lupa Kata Sandi?
@@ -138,7 +150,7 @@ export default function LoginForm() {
 
       <Text weight="bold" className="mt-6 leading-loose md:mt-7 lg:mt-9">
         Belum punya Akun?{' '}
-        <TextLink href={publicRoutes.signUp} color="primary" weight="semibold">
+        <TextLink href={publicRoutes.daftar} color="primary" weight="semibold">
           Klik di sini untuk mendaftar
         </TextLink>
       </Text>

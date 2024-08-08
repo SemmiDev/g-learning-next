@@ -1,12 +1,12 @@
-import { metaObject } from '@/config/site.config'
-import LoginForm from './login-form'
 import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
+import { metaObject } from '@/config/site.config'
+import LoginForm from '../../../components/page/auth/login/form'
 
 export const metadata = {
   ...metaObject('Masuk'),
 }
 
-export default function SignIn() {
+export default function LoginPage() {
   return (
     <AuthWrapper
       title={

@@ -1,28 +1,29 @@
 'use client'
 
-import toast from 'react-hot-toast'
+import { Button, Form, Input, Text, TextLink } from '@/components/ui'
+import { publicRoutes } from '@/config/routes'
+import { useMedia } from '@/hooks/use-media'
+import { required } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Input } from 'rizzui'
-import { useMedia } from '@/hooks/use-media'
-import { publicRoutes } from '@/config/routes'
-import { z } from '@/utils/zod-id'
-import { Button, Form, Text, TextLink } from '@/components/ui'
+import toast from 'react-hot-toast'
 
-export const forgetPasswordSchema = z.object({
-  email: z.string().email(),
+const formSchema = z.object({
+  email: z.string().pipe(required.email()),
 })
 
-export type ForgetPasswordSchema = z.infer<typeof forgetPasswordSchema>
-
-const initialValues = {
-  email: '',
+// type FormSchema = z.infer<typeof formSchema>
+type FormSchema = {
+  email?: string
 }
 
-export default function ForgetPasswordForm() {
+const initialValues = {}
+
+export default function LupaPasswordForm() {
   const isMedium = useMedia('(max-width: 1200px)', false)
   const [reset, setReset] = useState({})
-  const onSubmit: SubmitHandler<ForgetPasswordSchema> = (data) => {
+  const onSubmit: SubmitHandler<FormSchema> = (data) => {
     console.log(data)
 
     const fetchData = new Promise((resolve, reject) => {
@@ -47,8 +48,8 @@ export default function ForgetPasswordForm() {
 
   return (
     <>
-      <Form<ForgetPasswordSchema>
-        validationSchema={forgetPasswordSchema}
+      <Form<FormSchema>
+        validationSchema={formSchema}
         resetValues={reset}
         onSubmit={onSubmit}
         useFormProps={{
@@ -61,7 +62,7 @@ export default function ForgetPasswordForm() {
               type="email"
               size={isMedium ? 'lg' : 'xl'}
               label="Email"
-              placeholder="Enter your email"
+              placeholder="Masukkan email anda"
               className="[&>label>span]:font-medium"
               {...register('email')}
               error={errors.email?.message}

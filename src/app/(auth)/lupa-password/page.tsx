@@ -1,5 +1,10 @@
 import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
-import ForgetPasswordForm from './forgot-password-form'
+import { metaObject } from '@/config/site.config'
+import LupaPasswordForm from '../../../components/page/auth/lupa-password/form'
+
+export const metadata = {
+  ...metaObject('Lupa Password'),
+}
 
 export default function ForgotPassword() {
   return (
@@ -12,7 +17,7 @@ export default function ForgotPassword() {
         </>
       }
     >
-      <ForgetPasswordForm />
+      <LupaPasswordForm />
     </AuthWrapper>
   )
 }

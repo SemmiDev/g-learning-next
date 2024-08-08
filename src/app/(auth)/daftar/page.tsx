@@ -1,12 +1,12 @@
-import { metaObject } from '@/config/site.config'
-import SignUpForm from './sign-up-form'
 import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
+import { metaObject } from '@/config/site.config'
+import DaftarForm from '../../../components/page/auth/daftar/form'
 
 export const metadata = {
-  ...metaObject('Masuk'),
+  ...metaObject('Daftar'),
 }
 
-export default function SignIn() {
+export default function DaftarPage() {
   return (
     <AuthWrapper
       title={
@@ -18,7 +18,7 @@ export default function SignIn() {
       }
       description="Dengan mendaftar di G-Learning, jelajahi sumber belajar yang beragam dan juga dapat terhubung dengan guru, dosen, siswa dan mahasiswa diseluruh indonesia"
     >
-      <SignUpForm />
+      <DaftarForm />
     </AuthWrapper>
   )
 }
