@@ -51,7 +51,12 @@ export default function AuthWrapper({
         </div>
       </div>
       <div className="hidden w-6/12 lg:flex">
-        <Image src={imageBanner} alt="Auth Banner" className="object-cover" />
+        <Image
+          src={imageBanner}
+          alt="Auth Banner"
+          className="object-cover"
+          priority
+        />
       </div>
     </div>
   )

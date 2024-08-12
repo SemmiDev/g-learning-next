@@ -38,19 +38,6 @@ export const handleActionWithToast = async <T extends ActionPromiseType>(
   }
 }
 
-// export const makeActionPromise = <T extends ActionPromiseType>(
-//   promise: Promise<T>
-// ): Promise<T> => {
-//   return new Promise(async (resolve, reject) => {
-//     const res = await promise
-//     if (res.success) {
-//       resolve(res)
-//     } else {
-//       reject(res)
-//     }
-//   })
-// }
-
 export const makeActionResponse = (
   success: boolean,
   message?: string,
@@ -60,3 +47,24 @@ export const makeActionResponse = (
   message: message ?? (!success ? 'Terjadi kesalahan.' : undefined),
   error: error ?? undefined,
 })
+
+export const makeBasicPostRequestAction = async (
+  url: string,
+  data: Record<string, string | undefined> = {}
+) => {
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    const { success, message, errors } = await res.json()
+
+    return makeActionResponse(success, message, errors)
+  } catch (error) {
+    return makeActionResponse(false)
+  }
+}
