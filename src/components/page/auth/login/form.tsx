@@ -21,19 +21,19 @@ import { TbSelect } from 'react-icons/tb'
 import { Input, Password } from 'rizzui'
 
 const formSchema = z.object({
-  email: z.string().pipe(required.email()),
-  password: z.string().pipe(requiredPassword.min(3)),
+  username: z.string().pipe(required),
+  password: z.string().pipe(requiredPassword.min(8)),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  email?: string
+  username?: string
   password?: string
 }
 
 const initialValues: FormSchema = {
-  email: 'instansi@glearning.com',
-  password: '123',
+  username: 'reazon7@gmail.com',
+  password: 'qwerty123',
 }
 
 export default function LoginForm() {
@@ -42,16 +42,17 @@ export default function LoginForm() {
   const [showModalUser, setShowModalUser] = useState(false)
 
   const doLogin = async (data: FormSchema) => {
-    const resLogin = await signIn('credentials', {
-      username: data.email,
-      password: data.password,
-      redirect: false,
-    })
+    const { ok, error } =
+      (await signIn('credentials', {
+        username: data.username,
+        password: data.password,
+        redirect: false,
+      })) ?? {}
 
-    if (resLogin?.ok) {
+    if (ok) {
       router.replace(routes.dashboard)
     } else {
-      throw new Error()
+      throw error
     }
   }
 
@@ -59,7 +60,7 @@ export default function LoginForm() {
     await toast.promise(doLogin(data), {
       loading: <Text>Mencoba masuk...</Text>,
       success: <Text>Berhasil masuk.</Text>,
-      error: <Text>Username atau password salah!</Text>,
+      error: (error) => <Text>{error}</Text>,
     })
   }
 
@@ -77,12 +78,11 @@ export default function LoginForm() {
           <>
             <div className="space-y-5 lg:space-y-6">
               <Input
-                type="email"
-                label="Alamat Email"
-                placeholder="Tulis alamat email Anda di sini"
+                label="Username/Email"
+                placeholder="Tulis username atau email Anda di sini"
                 className="[&>label>span]:font-medium"
-                {...register('email')}
-                error={errors.email?.message}
+                {...register('username')}
+                error={errors.username?.message}
                 suffix={
                   <ActionIcon
                     size="sm"
@@ -122,15 +122,15 @@ export default function LoginForm() {
               bodyClassName="flex flex-col space-y-2 p-3"
             >
               {[
-                { level: 'Pengajar', email: 'pengajar@glearning.com' },
-                { level: 'Peserta', email: 'peserta@glearning.com' },
-                { level: 'Admin', email: 'admin@glearning.com' },
-                { level: 'Instansi', email: 'instansi@glearning.com' },
-              ].map(({ level, email }, idx) => (
+                { level: 'Pengajar', username: 'pengajar@glearning.com' },
+                { level: 'Peserta', username: 'peserta@glearning.com' },
+                { level: 'Admin', username: 'admin@glearning.com' },
+                { level: 'Instansi', username: 'instansi@glearning.com' },
+              ].map(({ level, username }, idx) => (
                 <div
                   className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"
                   onClick={() => {
-                    setValue('email', email)
+                    setValue('username', username)
                     setShowModalUser(false)
                   }}
                   key={idx}
@@ -139,7 +139,7 @@ export default function LoginForm() {
                     {level}
                   </Text>
                   <Text size="xs" weight="semibold" variant="dark">
-                    {email}
+                    {username}
                   </Text>
                 </div>
               ))}

@@ -41,7 +41,7 @@ export default function ProfileMenu({
         >
           <Avatar
             src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-            name={session?.user?.name ?? ''}
+            name={session?.user?.username ?? ''}
             className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
           />
         </button>
@@ -65,15 +65,15 @@ function DropdownMenu() {
 
   const menuItems = []
 
-  if (session?.level !== 'Instansi') {
+  if (session?.user?.level !== 'Instansi') {
     menuItems.push({
       name: 'Profil Saya',
       href:
-        session?.level === 'Admin'
+        session?.user?.level === 'Admin'
           ? routes.admin.profile
-          : session?.level === 'Pengajar'
+          : session?.user?.level === 'Pengajar'
           ? routes.pengajar.profile
-          : session?.level === 'Peserta'
+          : session?.user?.level === 'Peserta'
           ? routes.peserta.profile
           : '',
     })
@@ -90,7 +90,7 @@ function DropdownMenu() {
           <Title as="h6" weight="semibold">
             {session?.user?.name}
           </Title>
-          <Text>{session?.user?.email}</Text>
+          <Text>{session?.user?.username}</Text>
         </div>
       </div>
       {menuItems.length > 0 && (

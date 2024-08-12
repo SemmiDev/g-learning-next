@@ -5,6 +5,7 @@ export type ActionPromiseType = {
   success: boolean
   message?: string
   error?: string
+  data?: any
 }
 
 export const handleActionWithToast = async <T extends ActionPromiseType>(
@@ -41,16 +42,18 @@ export const handleActionWithToast = async <T extends ActionPromiseType>(
 export const makeActionResponse = (
   success: boolean,
   message?: string,
-  error?: string
+  error?: string,
+  data?: any
 ): ActionPromiseType => ({
   success: success,
   message: message ?? (!success ? 'Terjadi kesalahan.' : undefined),
   error: error ?? undefined,
+  data: data,
 })
 
 export const makeBasicPostRequestAction = async (
   url: string,
-  data: Record<string, string | undefined> = {}
+  payload: Record<string, string | undefined> = {}
 ) => {
   try {
     const res = await fetch(url, {
@@ -58,12 +61,12 @@ export const makeBasicPostRequestAction = async (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     })
 
-    const { success, message, errors } = await res.json()
+    const { success, message, errors, data } = await res.json()
 
-    return makeActionResponse(success, message, errors)
+    return makeActionResponse(success, message, errors, data)
   } catch (error) {
     return makeActionResponse(false)
   }
