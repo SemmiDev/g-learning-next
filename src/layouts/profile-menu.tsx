@@ -10,6 +10,9 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Avatar, Popover } from 'rizzui'
 
+const defaultPhoto =
+  'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp'
+
 export default function ProfileMenu({
   buttonClassName,
   avatarClassName,
@@ -40,7 +43,7 @@ export default function ProfileMenu({
           )}
         >
           <Avatar
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
+            src={session?.user?.image || defaultPhoto}
             name={session?.user?.username ?? ''}
             className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
           />
@@ -83,7 +86,7 @@ function DropdownMenu() {
     <div className="min-w-64 text-left rtl:text-right">
       <div className="flex items-center px-6 pb-5 pt-6">
         <Avatar
-          src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
+          src={session?.user?.image || defaultPhoto}
           name={session?.user?.name ?? ''}
         />
         <div className="ms-3">

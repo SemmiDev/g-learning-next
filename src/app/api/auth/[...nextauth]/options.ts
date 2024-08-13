@@ -1,4 +1,5 @@
 import { makeBasicPostRequestAction } from '@/utils/action'
+import { getIp } from '@/utils/ip'
 import { jwtDecode } from 'jwt-decode'
 import { AuthOptions } from 'next-auth'
 import { AdapterUser } from 'next-auth/adapters'
@@ -10,11 +11,12 @@ import { Session, User } from 'node_modules/next-auth/core/types'
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
+      id: 'normalLogin',
       credentials: {
         username: { label: 'Username', type: 'text ' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req): Promise<User> {
+      async authorize(credentials, req): Promise<User | null> {
         // console.log(credentials)
 
         const { username, password } = credentials ?? {}
@@ -24,7 +26,6 @@ export const authOptions: AuthOptions = {
             id: '1',
             name: 'Nama Pengajar',
             username: 'pengajar@glearning.com',
-            level: 'Pengajar',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlbmdhamFyIiwiaWF0IjoxNTE2MjM5MDIyfQ.8cffnhxieDxB7ufL2Tyckb2k39lgsKrzF3Axp-i4iVc',
           }
         }
@@ -34,7 +35,6 @@ export const authOptions: AuthOptions = {
             id: '2',
             name: 'Nama Peserta',
             username: 'peserta@glearning.com',
-            level: 'Peserta',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlc2VydGEiLCJpYXQiOjE1MTYyMzkwMjJ9.MhaAQ43OFkJrznl-J37Wt30JACuMZLhRdcRpgkl0mhA',
           }
         }
@@ -44,7 +44,6 @@ export const authOptions: AuthOptions = {
             id: '3',
             name: 'Nama Admin',
             username: 'admin@glearning.com',
-            level: 'Admin',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IkFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.Vq_GAU2EbhVQO386WazO6cgxvDDf8Ne9_IZkOsFRzvs',
           }
         }
@@ -54,28 +53,28 @@ export const authOptions: AuthOptions = {
             id: '4',
             name: 'Nama Admin Instansi',
             username: 'instansi@glearning.com',
-            level: 'Instansi',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6Ikluc3RhbnNpIiwiaWF0IjoxNTE2MjM5MDIyfQ.tqIFPLQoImOa13tTuGmM4TQdwFqAfk_-laBhgPryI1w',
           }
         }
 
         // Req to API
         const { success, message, data } = await makeBasicPostRequestAction(
-          `${process.env.API_URL}/auth/login`,
+          `${process.env.API_URL}/auth/masuk`,
           {
             email: username,
             kata_sandi: password,
+            ip: getIp() ?? undefined,
           }
         )
 
-        // console.log('data response', data)
-
         if (success) {
+          const decodedToken = jwtDecode<any>(data?.token?.access_token)
+
           return {
-            id: data?.pengguna?.id,
+            id: decodedToken.id_pengguna,
             name: data?.pengguna?.nama,
             username: data?.pengguna?.username,
-            level: data?.pengguna?.tipe,
+            image: data?.pengguna?.foto,
             jwt: data?.token?.access_token,
             refreshToken: data?.token?.refresh_token,
           }
@@ -84,17 +83,61 @@ export const authOptions: AuthOptions = {
         throw new Error(message)
       },
     }),
+    CredentialsProvider({
+      id: 'withToken',
+      credentials: {},
+      async authorize(credentials, req): Promise<User | null> {
+        const { pengguna, token } = JSON.parse(req.body?.data)
+
+        console.log(pengguna)
+
+        if (pengguna && token) {
+          const decodedToken = jwtDecode<any>(token.access_token)
+
+          return {
+            id: decodedToken.id_pengguna,
+            name: pengguna.nama,
+            username: pengguna.username,
+            image: pengguna.foto,
+            jwt: token.access_token,
+            refreshToken: token.refresh_token,
+          }
+        }
+
+        return null
+      },
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
       async profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          username: profile.email,
-          level: 'Pengajar',
-          jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlbmdhamFyIiwiaWF0IjoxNTE2MjM5MDIyfQ.8cffnhxieDxB7ufL2Tyckb2k39lgsKrzF3Axp-i4iVc',
+        // console.log(profile)
+
+        // Req to API
+        const { success, message, data } = await makeBasicPostRequestAction(
+          `${process.env.API_URL}/auth/masuk-dengan-google`,
+          {
+            id_google: profile.sub,
+            nama: profile.name,
+            email: profile.email,
+            foto: profile.picture,
+          }
+        )
+
+        if (success) {
+          const decodedToken = jwtDecode<any>(data?.token?.access_token)
+
+          return {
+            id: decodedToken.id_pengguna,
+            name: data?.pengguna?.nama,
+            username: data?.pengguna?.username,
+            image: data?.pengguna?.foto,
+            jwt: data?.token?.access_token,
+            refreshToken: data?.token?.refresh_token,
+          }
         }
+
+        throw new Error(message)
       },
     }),
   ],

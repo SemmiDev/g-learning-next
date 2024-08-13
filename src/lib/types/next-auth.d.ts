@@ -8,11 +8,11 @@ declare module 'next-auth' {
       name?: string | null
       username?: string | null
       level?: string | null
+      image?: string | null
     }
   }
   interface User extends DefaultUser {
     username: string
-    level: string
     jwt: string
     refreshToken?: string | null
   }

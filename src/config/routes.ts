@@ -2,7 +2,7 @@ export const authRoutes = {
   login: '/login',
   daftar: '/daftar',
   lupaPassword: '/lupa-password',
-  verifikasiEmail: '/email-verification',
+  verifikasiEmail: '/verifikasi-email',
   resetPassword: '/reset-password',
 }
 

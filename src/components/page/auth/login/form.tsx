@@ -43,7 +43,7 @@ export default function LoginForm() {
 
   const doLogin = async (data: FormSchema) => {
     const { ok, error } =
-      (await signIn('credentials', {
+      (await signIn('normalLogin', {
         username: data.username,
         password: data.password,
         redirect: false,

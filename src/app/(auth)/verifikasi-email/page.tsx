@@ -1,6 +1,6 @@
 'use client'
 
-import VerifikasiEmailBody from '@/components/page/auth/email-verification/body'
+import VerifikasiEmailBody from '@/components/page/auth/verifikasi-email/body'
 import { authRoutes } from '@/config/routes'
 import { redirect, RedirectType } from 'next/navigation'
 

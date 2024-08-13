@@ -1,6 +1,7 @@
 import { verifikasiEmailAction } from '@/actions/auth/verifikasi-email'
 import { Text } from '@/components/ui'
-import { authRoutes } from '@/config/routes'
+import { authRoutes, routes } from '@/config/routes'
+import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 import toast from 'react-hot-toast'
@@ -12,9 +13,22 @@ export default function VerifikasiEmailBody() {
 
   const checkToken = useCallback(async () => {
     const token = searchParams.get('token') ?? ''
-    const { success, message } = await verifikasiEmailAction(token)
+    const { success, data, message } = await verifikasiEmailAction(token)
+
     if (success) {
-      toast.success(<Text>{message}</Text>)
+      const { ok } =
+        (await signIn('withToken', {
+          data: JSON.stringify(data),
+          redirect: false,
+        })) ?? {}
+
+      if (ok) {
+        toast.success(<Text>Akun berhasil divalidasi</Text>)
+        router.replace(routes.dashboard)
+        return
+      }
+    } else {
+      toast.error(<Text>{message}</Text>)
     }
     router.replace(authRoutes.login)
   }, [router, searchParams])
