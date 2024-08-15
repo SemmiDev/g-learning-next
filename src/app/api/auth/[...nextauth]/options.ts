@@ -145,8 +145,37 @@ export const authOptions: AuthOptions = {
     maxAge: 24 * 60 * 60, // session last for 24 hours
   },
   callbacks: {
-    jwt: async ({ token, user }: { token: JWT; user: any }) => {
-      // console.log('jwt callback', token)
+    jwt: async ({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: JWT
+      user: any
+      trigger?: 'signIn' | 'signUp' | 'update'
+      session?: any
+    }) => {
+      // check JWT for API and refresh it
+      const jwt = token.jwt as string
+      const refreshToken = token.refreshToken as string | null | undefined
+      const newToken = await checkJwtAndRefresh(jwt, refreshToken)
+      if (newToken) {
+        console.log('update refresh token')
+
+        return {
+          ...token,
+          jwt: newToken.access_token,
+          refreshToken: newToken.refresh_token,
+        }
+      }
+
+      if (trigger === 'update') {
+        return {
+          ...token,
+          ...session,
+        }
+      }
 
       if (user) {
         return {
@@ -159,15 +188,7 @@ export const authOptions: AuthOptions = {
 
       return token
     },
-    session: async ({
-      session,
-      token,
-      user,
-    }: {
-      session: Session
-      token: JWT
-      user: AdapterUser
-    }) => {
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
       // console.log('session callback', session)
 
       if (token) {
@@ -207,4 +228,34 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: '/login',
   },
+}
+
+async function checkJwtAndRefresh(jwt: string, refreshToken?: string | null) {
+  if (!jwt || !refreshToken) return
+
+  const decodedToken = jwtDecode<any>(jwt ?? '')
+
+  // if JWT for API will be expired one hour from now
+  if (
+    Date.now() + 60 * 60 * 1000 < Date.parse(decodedToken?.expired_at) ||
+    !refreshToken
+  )
+    return
+
+  const decodedRefreshToken = jwtDecode<any>(refreshToken ?? '')
+
+  // if refresh token for request new JWT is not expired
+  if (Date.now() >= Date.parse(decodedRefreshToken?.expired_at)) return
+
+  const refresh = await makeBasicPostRequestAction(
+    `${process.env.API_URL}/auth/perbarui-akses-token`,
+    {
+      refresh_token: refreshToken,
+    }
+  )
+  console.log('result refresh', refresh)
+
+  if (!refresh.success) return
+
+  return refresh.data?.token
 }

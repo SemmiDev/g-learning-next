@@ -1,5 +1,9 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { Text } from '@/components/ui'
+import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
+import { makeParams, makeUrl } from './string'
+import { jwtDecode } from 'jwt-decode'
 
 export type ActionPromiseType = {
   success: boolean
@@ -53,7 +57,7 @@ export const makeActionResponse = (
 
 export const makeBasicPostRequestAction = async (
   url: string,
-  payload: Record<string, string | undefined> = {}
+  payload: Record<string, string | number | undefined> = {}
 ) => {
   try {
     const res = await fetch(url, {
@@ -63,6 +67,33 @@ export const makeBasicPostRequestAction = async (
       },
       body: JSON.stringify(payload),
     })
+
+    if (!res.ok) throw Error('Fetch error')
+
+    const { success, message, errors, data } = await res.json()
+
+    return makeActionResponse(success, message, errors, data)
+  } catch (error) {
+    return makeActionResponse(false)
+  }
+}
+
+export const makeJwtGetRequestAction = async (
+  url: string,
+  params?: Record<string, string | number | undefined>
+) => {
+  try {
+    const { jwt } = (await getServerSession(authOptions)) ?? {}
+
+    const res = await fetch(makeUrl(url, params), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt ?? ''}`,
+      },
+    })
+
+    if (!res.ok) throw Error('Fetch error')
 
     const { success, message, errors, data } = await res.json()
 

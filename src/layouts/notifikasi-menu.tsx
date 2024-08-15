@@ -6,17 +6,18 @@ import { BiSolidBellRing } from 'react-icons/bi'
 
 export default function NotifikasiMenu() {
   const { data: session } = useSession()
+  const level = session?.user?.level
 
   const hasNotif = true
 
   const link =
-    session?.level === 'Admin'
+    level === 'Admin'
       ? routes.admin.pemberitahuan
-      : session?.level === 'Instansi'
+      : level === 'Instansi'
       ? routes.instansi.pemberitahuan
-      : session?.level === 'Pengajar'
+      : level === 'Pengajar'
       ? routes.pengajar.pemberitahuan
-      : session?.level === 'Peserta'
+      : level === 'Peserta'
       ? routes.peserta.pemberitahuan
       : ''
 

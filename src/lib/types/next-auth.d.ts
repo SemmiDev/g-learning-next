@@ -11,6 +11,7 @@ declare module 'next-auth' {
       image?: string | null
     }
   }
+
   interface User extends DefaultUser {
     username: string
     jwt: string

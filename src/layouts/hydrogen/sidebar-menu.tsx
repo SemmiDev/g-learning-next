@@ -30,15 +30,16 @@ export type MenuItemType = {
 export function SidebarMenu() {
   const pathname = usePathname()
   const { data: session } = useSession()
+  const level = session?.user?.level
 
   const menuItems: MenuItemType[] =
-    session?.level === 'Admin'
+    level === 'Admin'
       ? menuItemsAdmin
-      : session?.level === 'Instansi'
+      : level === 'Instansi'
       ? menuItemsInstansi
-      : session?.level === 'Pengajar'
+      : level === 'Pengajar'
       ? menuItemsPengajar
-      : session?.level === 'Peserta'
+      : level === 'Peserta'
       ? menuItemsPeserta
       : []
 

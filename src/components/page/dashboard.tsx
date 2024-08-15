@@ -10,6 +10,8 @@ import { useSession } from 'next-auth/react'
 export default function DashboardBody() {
   const { data: session } = useSession()
 
+  console.log('current session', session)
+
   if (!session) return null
 
   if (session?.user?.level == 'Admin') {

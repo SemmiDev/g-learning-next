@@ -33,7 +33,7 @@ type FormSchema = {
 
 const initialValues: FormSchema = {
   username: 'reazon7@gmail.com',
-  password: 'qwerty123',
+  password: 'password',
 }
 
 export default function LoginForm() {
