@@ -156,13 +156,11 @@ export const authOptions: AuthOptions = {
       trigger?: 'signIn' | 'signUp' | 'update'
       session?: any
     }) => {
-      // check JWT for API and refresh it
+      // check external JWT and refresh it
       const jwt = token.jwt as string
       const refreshToken = token.refreshToken as string | null | undefined
       const newToken = await checkJwtAndRefresh(jwt, refreshToken)
       if (newToken) {
-        console.log('update refresh token')
-
         return {
           ...token,
           jwt: newToken.access_token,
