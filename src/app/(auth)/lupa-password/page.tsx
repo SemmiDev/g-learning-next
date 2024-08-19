@@ -3,19 +3,20 @@ import { metaObject } from '@/config/site.config'
 import LupaPasswordForm from '../../../components/page/auth/lupa-password/form'
 
 export const metadata = {
-  ...metaObject('Lupa Password'),
+  ...metaObject('Lupa Kata Sandi'),
 }
 
-export default function ForgotPassword() {
+export default function LupaPassword() {
   return (
     <AuthWrapper
       title={
         <>
           Bermasalah untuk masuk ke akun?{' '}
-          <br className="hidden sm:inline-block" /> Silahkan reset password
+          <br className="hidden sm:inline-block" /> Silahkan reset kata sandi
           anda.
         </>
       }
+      hideGoogleSignIn
     >
       <LupaPasswordForm />
     </AuthWrapper>

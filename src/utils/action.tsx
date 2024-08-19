@@ -68,8 +68,6 @@ export const makeBasicPostRequestAction = async (
       body: JSON.stringify(payload),
     })
 
-    if (!res.ok) throw Error('Fetch error')
-
     const { success, message, errors, data } = await res.json()
 
     return makeActionResponse(success, message, errors, data)
@@ -92,8 +90,6 @@ export const makeJwtGetRequestAction = async (
         Authorization: `Bearer ${jwt ?? ''}`,
       },
     })
-
-    if (!res.ok) throw Error('Fetch error')
 
     const { success, message, errors, data } = await res.json()
 

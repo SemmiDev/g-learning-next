@@ -1,20 +1,23 @@
 'use client'
 
-import { Button, Form, Input, Text, TextLink } from '@/components/ui'
-import { publicRoutes } from '@/config/routes'
+import { resetPasswordAction } from '@/actions/auth/reset-password'
+import { Button, ControlledInput, Form, Text, TextLink } from '@/components/ui'
+import { authRoutes, publicRoutes } from '@/config/routes'
 import { useMedia } from '@/hooks/use-media'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import toast from 'react-hot-toast'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   email: z.string().pipe(required.email()),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type LupaPassowrdFormSchema = {
   email?: string
 }
 
@@ -22,63 +25,59 @@ const initialValues = {}
 
 export default function LupaPasswordForm() {
   const isMedium = useMedia('(max-width: 1200px)', false)
-  const [reset, setReset] = useState({})
-  const onSubmit: SubmitHandler<FormSchema> = (data) => {
-    console.log(data)
+  const router = useRouter()
 
-    const fetchData = new Promise((resolve, reject) => {
-      setTimeout(Math.floor(Math.random() * 2) ? resolve : reject, 2000)
+  const [formError, setFormError] = useState<string>()
+
+  const onSubmit: SubmitHandler<LupaPassowrdFormSchema> = async (data) => {
+    await handleActionWithToast(resetPasswordAction(data), {
+      loading: 'Mengirim email...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => router.push(authRoutes.login),
+      onError: ({ error }) => setFormError(error),
     })
-
-    toast.promise(fetchData, {
-      loading: <Text>Mengirim email...</Text>,
-      success: (
-        <Text>
-          Link untuk reset password berhasil dikirim ke email berikut:{' '}
-          <Text as="b" className="font-semibold">
-            {data.email}
-          </Text>
-        </Text>
-      ),
-      error: <Text>Gagal mengirim email!</Text>,
-    })
-
-    setReset(initialValues)
   }
 
   return (
     <>
-      <Form<FormSchema>
+      <Form<LupaPassowrdFormSchema>
         validationSchema={formSchema}
-        resetValues={reset}
         onSubmit={onSubmit}
         useFormProps={{
           defaultValues: initialValues,
         }}
       >
-        {({ register, formState: { errors } }) => (
+        {({ control, formState: { errors } }) => (
           <div className="space-y-6">
-            <Input
+            <ControlledInput
+              name="email"
+              control={control}
+              errors={errors}
               type="email"
-              size={isMedium ? 'lg' : 'xl'}
-              label="Email"
-              placeholder="Masukkan email anda"
-              className="[&>label>span]:font-medium"
-              {...register('email')}
-              error={errors.email?.message}
+              label="Alamat Email"
+              placeholder="Tulis alamat email Anda di sini"
             />
+
+            {formError && (
+              <Alert size="sm" variant="flat" color="danger">
+                <Text size="sm" weight="medium">
+                  {formError}
+                </Text>
+              </Alert>
+            )}
+
             <Button
               className="w-full"
               type="submit"
               size={isMedium ? 'lg' : 'xl'}
             >
-              Reset Password
+              Reset Kata Sandi
             </Button>
           </div>
         )}
       </Form>
       <Text weight="semibold" className="mt-6 leading-loose md:mt-7 lg:mt-9">
-        Tidak ingin me-reset password?{' '}
+        Tidak ingin me-reset kata sandi?{' '}
         <TextLink href={publicRoutes.login} color="primary" weight="bold">
           Masuk
         </TextLink>
