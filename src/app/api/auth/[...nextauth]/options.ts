@@ -89,8 +89,6 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req): Promise<User | null> {
         const { pengguna, token } = JSON.parse(req.body?.data)
 
-        console.log(pengguna)
-
         if (pengguna && token) {
           const decodedToken = jwtDecode<any>(token.access_token)
 

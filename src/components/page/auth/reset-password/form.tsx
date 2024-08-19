@@ -10,6 +10,7 @@ import { useMedia } from '@/hooks/use-media'
 import { handleActionWithToast } from '@/utils/action'
 import { requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
@@ -48,13 +49,29 @@ export default function ResetPasswordForm() {
   const [checking, setChecking] = useState(true)
   const [formError, setFormError] = useState<string>()
 
+  const doLogin = async (jsonData: string) => {
+    const { ok } =
+      (await signIn('withToken', {
+        data: jsonData,
+        redirect: false,
+      })) ?? {}
+
+    if (ok) {
+      router.replace(routes.dashboard)
+      return
+    }
+
+    router.replace(authRoutes.login)
+  }
+
   const onSubmit: SubmitHandler<ResetPasswordFormSchema> = async (data) => {
     await handleActionWithToast(
       verifikasiResetPasswordAction({ ...data, token }),
       {
         loading: 'Menyimpan kata sandi baru...',
+        success: () => 'Berhasil menyimpan kata sandi baru',
         onStart: () => setFormError(undefined),
-        onSuccess: () => router.push(authRoutes.login),
+        onSuccess: ({ data }) => doLogin(JSON.stringify(data)),
         onError: ({ error }) => setFormError(error),
       }
     )
