@@ -34,7 +34,7 @@ export default function LupaPasswordForm() {
       loading: 'Mengirim email...',
       onStart: () => setFormError(undefined),
       onSuccess: () => router.push(authRoutes.login),
-      onError: ({ error }) => setFormError(error),
+      onError: ({ message }) => setFormError(message),
     })
   }
 

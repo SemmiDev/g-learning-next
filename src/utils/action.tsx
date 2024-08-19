@@ -15,15 +15,15 @@ export const handleActionWithToast = async <T extends ActionPromiseType>(
   action: Promise<T>,
   {
     loading = 'Loading...',
-    success = (message) => message,
-    error = (message) => message,
+    success = ({ message }: ActionPromiseType) => message,
+    error = ({ message }: ActionPromiseType) => message,
     onStart,
     onSuccess,
     onError,
   }: {
     loading?: string
-    success?(message?: string): string | undefined
-    error?(message?: string): string | undefined
+    success?(message: ActionPromiseType): string | undefined
+    error?(message: ActionPromiseType): string | undefined
     onStart?(): void
     onSuccess?(result: T): void
     onError?(result: T): void
@@ -38,10 +38,10 @@ export const handleActionWithToast = async <T extends ActionPromiseType>(
   toast.dismiss(toastId)
 
   if (res.success) {
-    toast.success(<Text>{success(res.message)}</Text>)
+    toast.success(<Text>{success(res)}</Text>)
     onSuccess && onSuccess(res)
   } else {
-    toast.error(<Text>{error(res.message)}</Text>)
+    toast.error(<Text>{error(res)}</Text>)
     onError && onError(res)
   }
 }
