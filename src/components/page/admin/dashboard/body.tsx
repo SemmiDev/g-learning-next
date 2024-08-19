@@ -7,19 +7,8 @@ import DashboardPenggunaDibannedCard from './pengguna-dibanned-card'
 import DashboardPenggunaanPaketInstansiCard from './penggunaan-paket-instansi-card'
 import DashboardPenggunaanPaketPenggunaCard from './penggunaan-paket-pengguna-card'
 import DashboardPenggunaanPenyimpananCard from './penggunaan-penyimpanan-card'
-import { useEffect } from 'react'
-import { tesAction } from '@/actions/admin/admin/tes'
 
 export default function DashboardBody() {
-  const loadData = async () => {
-    const res = await tesAction()
-    console.log(res)
-  }
-
-  useEffect(() => {
-    loadData()
-  }, [])
-
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-col gap-4 lg:flex-row">

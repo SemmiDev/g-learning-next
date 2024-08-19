@@ -25,8 +25,8 @@ export default function DashboardPenggunaDiblokirCard({
 }) {
   const {
     data,
-    isFirstLoading,
     isLoading,
+    isFetching,
     page,
     onPageChange,
     totalData,
@@ -119,8 +119,8 @@ export default function DashboardPenggunaDiblokirCard({
       <CardSeparator />
       <ControlledAsyncTable
         data={data}
-        isFirstLoading={isFirstLoading}
         isLoading={isLoading}
+        isFetching={isFetching}
         columns={tableColumns}
         rowKey={(record) => record.id}
         filterOptions={{

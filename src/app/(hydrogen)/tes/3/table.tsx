@@ -19,8 +19,8 @@ export default function Tes3Table() {
 
   const {
     data,
-    isFirstLoading,
     isLoading,
+    isFetching,
     page,
     onPageChange,
     totalData,
@@ -83,8 +83,8 @@ export default function Tes3Table() {
     <>
       <ControlledAsyncTable
         data={data}
-        isFirstLoading={isFirstLoading}
         isLoading={isLoading}
+        isFetching={isFetching}
         columns={tableColumns}
         rowKey={(record) => record.id}
         filterOptions={{

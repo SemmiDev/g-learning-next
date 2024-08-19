@@ -20,8 +20,8 @@ export function useTableAsync<T extends AnyObject>(
 ) {
   const [data, setData] = useState<T[]>([])
   const [totalData, setTotalData] = useState(1)
-  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
+  const [isFetching, setIsFetching] = useState(true)
 
   /*
    * Handle row selection
@@ -52,7 +52,7 @@ export function useTableAsync<T extends AnyObject>(
   })
 
   function onSort(name: string) {
-    setIsLoading(true)
+    setIsFetching(true)
 
     const direction =
       sort.name === name && sort.direction === 'asc' ? 'desc' : 'asc'
@@ -121,8 +121,8 @@ export function useTableAsync<T extends AnyObject>(
       setData(resData.data)
       setTotalData(resData.totalData)
 
-      setIsFirstLoading(false)
       setIsLoading(false)
+      setIsFetching(false)
     })()
   }, [action, page, search, sort, filters])
 
@@ -138,8 +138,8 @@ export function useTableAsync<T extends AnyObject>(
   // useTable returns
   return {
     data,
-    isFirstLoading,
     isLoading,
+    isFetching,
     // pagination
     page,
     onPageChange,

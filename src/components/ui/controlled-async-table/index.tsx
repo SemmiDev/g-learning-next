@@ -25,8 +25,8 @@ export type ControlledAsyncTableActionType = {
 }
 
 export type ControlledAsyncTableProps = TableProps & {
-  isFirstLoading?: boolean
   isLoading?: boolean
+  isFetching?: boolean
   showLoadingText?: boolean
   filterElement?: React.ReactElement
   filterOptions?: TableFilterProps
@@ -37,8 +37,8 @@ export type ControlledAsyncTableProps = TableProps & {
 }
 
 export default function ControlledAsyncTable({
-  isFirstLoading,
   isLoading,
+  isFetching,
   filterElement,
   filterOptions,
   paginatorOptions,
@@ -48,7 +48,7 @@ export default function ControlledAsyncTable({
   className,
   ...tableProps
 }: ControlledAsyncTableProps) {
-  if (isFirstLoading) {
+  if (isLoading) {
     return (
       <div className="flex flex-col h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
         <CgSpinner size={40} className="animate-spin text-primary" />
@@ -70,7 +70,7 @@ export default function ControlledAsyncTable({
       <div
         className={cn(
           'relative',
-          isLoading && 'cursor-wait [&_th>div]:cursor-wait'
+          isFetching && 'cursor-wait [&_th>div]:cursor-wait'
         )}
       >
         <Table

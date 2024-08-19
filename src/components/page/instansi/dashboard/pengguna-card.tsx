@@ -23,8 +23,8 @@ export default function DashboardPenggunaCard({
 }) {
   const {
     data,
-    isFirstLoading,
     isLoading,
+    isFetching,
     page,
     onPageChange,
     totalData,
@@ -101,8 +101,8 @@ export default function DashboardPenggunaCard({
       <CardSeparator />
       <ControlledAsyncTable
         data={data}
-        isFirstLoading={isFirstLoading}
         isLoading={isLoading}
+        isFetching={isFetching}
         columns={tableColumns}
         rowKey={(record) => record.id}
         filterOptions={{
