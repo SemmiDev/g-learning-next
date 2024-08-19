@@ -69,7 +69,7 @@ export default function ResetPasswordForm() {
       verifikasiResetPasswordAction({ ...data, token }),
       {
         loading: 'Menyimpan kata sandi baru...',
-        success: () => 'Berhasil menyimpan kata sandi baru',
+        success: 'Berhasil menyimpan kata sandi baru',
         onStart: () => setFormError(undefined),
         onSuccess: ({ data }) => doLogin(JSON.stringify(data)),
         onError: ({ error }) => setFormError(error),
