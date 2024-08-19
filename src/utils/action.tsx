@@ -2,8 +2,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { Text } from '@/components/ui'
 import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
-import { makeParams, makeUrl } from './string'
-import { jwtDecode } from 'jwt-decode'
+import { makeUrl } from './string'
 
 export type ActionPromiseType = {
   success: boolean
