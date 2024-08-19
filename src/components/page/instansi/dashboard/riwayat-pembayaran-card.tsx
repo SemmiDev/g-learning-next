@@ -34,7 +34,10 @@ export default function DashboardRiwayatPembayaranCard({
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tableRiwayatPembayaranAction)
+  } = useTableAsync({
+    key: ['instansi.dashboard.table-riwayat-pembayaran'],
+    action: tableRiwayatPembayaranAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

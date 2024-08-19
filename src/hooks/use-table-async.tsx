@@ -6,27 +6,47 @@ import { AnyObject } from '@/utils/type-interface'
 import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from 'react-use'
 
 export type SortType = {
   name?: string
   direction?: 'asc' | 'desc'
 }
 
-export function useTableAsync<T extends AnyObject>(
+export function useTableAsync<T extends AnyObject>({
+  key,
+  action,
+  initialFilterState,
+}: {
+  key: string[]
   action: (
     actionProps: ControlledAsyncTableActionProps
-  ) => Promise<ControlledAsyncTableActionType>,
+  ) => Promise<ControlledAsyncTableActionType>
   initialFilterState?: Partial<Record<string, any>>
-) {
-  const [data, setData] = useState<T[]>([])
+}) {
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState('')
+  const [filters, setFilters] = useState<Record<string, any>>(
+    initialFilterState ?? {}
+  )
+  const [sort, setSort] = useState<SortType>()
   const [totalData, setTotalData] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isFetching, setIsFetching] = useState(true)
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
+
+  const { data, refetch, isLoading, isFetching } = useQuery({
+    queryKey: key,
+    queryFn: async () => {
+      const resData = await action({ page, search, sort, filters })
+      setTotalData(resData.totalData)
+
+      return resData.data
+    },
+  })
 
   /*
    * Handle row selection
    */
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const onRowSelect = (recordKey: string) => {
     const selectedKeys = [...selectedRowKeys]
     if (selectedKeys.includes(recordKey)) {
@@ -36,9 +56,9 @@ export function useTableAsync<T extends AnyObject>(
     }
   }
   const onSelectAll = () => {
-    if (selectedRowKeys.length === data.length) {
+    if (selectedRowKeys.length === data?.length) {
       setSelectedRowKeys([])
-    } else {
+    } else if (data?.length) {
       setSelectedRowKeys(data.map((record) => record.id))
     }
   }
@@ -46,16 +66,9 @@ export function useTableAsync<T extends AnyObject>(
   /*
    * Handle sorting
    */
-  const [sort, setSort] = useState<SortType>({
-    name: undefined,
-    direction: undefined,
-  })
-
   function onSort(name: string) {
-    setIsFetching(true)
-
     const direction =
-      sort.name === name && sort.direction === 'asc' ? 'desc' : 'asc'
+      sort?.name === name && sort?.direction === 'asc' ? 'desc' : 'asc'
 
     setSort({
       name,
@@ -66,8 +79,6 @@ export function useTableAsync<T extends AnyObject>(
   /*
    * Handle pagination
    */
-  const [page, setPage] = useState(1)
-
   function onPageChange(pageNumber: number) {
     setPage(pageNumber)
   }
@@ -75,11 +86,6 @@ export function useTableAsync<T extends AnyObject>(
   /*
    * Handle Filters and searching
    */
-  const [search, setSearch] = useState('')
-  const [filters, setFilters] = useState<Record<string, any>>(
-    initialFilterState ?? {}
-  )
-
   function updateFilter(columnId: string, filterValue: string | any[]) {
     if (!Array.isArray(filterValue) && !isString(filterValue)) {
       throw new Error('filterValue data type should be string or array of any')
@@ -93,6 +99,9 @@ export function useTableAsync<T extends AnyObject>(
       ...prevFilters,
       [columnId]: filterValue,
     }))
+
+    // set to page 1
+    setPage(1)
   }
 
   /*
@@ -100,10 +109,11 @@ export function useTableAsync<T extends AnyObject>(
    */
   function onSearch(searchValue: string) {
     setSearch(searchValue)
+    setPage(1)
   }
 
   /*
-   * Reset search and filters
+   * Handle Reset search and filters
    */
   function onReset() {
     onSearch('')
@@ -111,35 +121,31 @@ export function useTableAsync<T extends AnyObject>(
     if (initialFilterState) return setFilters(initialFilterState)
   }
 
-  /**
-   * Load data from action
-   */
-  useEffect(() => {
-    ;(async () => {
-      const resData = await action({ page, search, sort, filters })
-
-      setData(resData.data)
-      setTotalData(resData.totalData)
-
-      setIsLoading(false)
-      setIsFetching(false)
-    })()
-  }, [action, page, search, sort, filters])
-
   const isFiltered = !_.isEqual(filters, initialFilterState)
 
   /*
-   * Go to first page when data is filtered and searched
+   * Refetch data with debounce when searching and filtering
+   */
+  useDebounce(
+    () => {
+      refetch()
+    },
+    250,
+    [refetch, search, filters]
+  )
+
+  /*
+   * Refetch data when sorting and change page
    */
   useEffect(() => {
-    onPageChange(1)
-  }, [filters, search])
+    refetch()
+  }, [refetch, sort, page])
 
   // useTable returns
   return {
-    data,
-    isLoading,
-    isFetching,
+    data: (data ?? []) as T[],
+    isLoading: isLoading,
+    isFetching: isFetching,
     // pagination
     page,
     onPageChange,

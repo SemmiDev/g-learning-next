@@ -32,7 +32,10 @@ export default function TablePenggunaDiblokirCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaDiblokirAction)
+  } = useTableAsync({
+    key: ['admin.pengguna.table-diblokir'],
+    action: tablePenggunaDiblokirAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

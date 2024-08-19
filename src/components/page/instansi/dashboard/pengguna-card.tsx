@@ -32,7 +32,10 @@ export default function DashboardPenggunaCard({
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAction)
+  } = useTableAsync({
+    key: ['instansi.dashboard.table-pengguna'],
+    action: tablePenggunaAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

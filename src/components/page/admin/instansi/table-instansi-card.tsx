@@ -34,7 +34,10 @@ export default function TableInstansiCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tableInstansiAction)
+  } = useTableAsync({
+    key: ['admin.instansi.table'],
+    action: tableInstansiAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

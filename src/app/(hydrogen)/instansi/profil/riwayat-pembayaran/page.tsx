@@ -27,7 +27,10 @@ export default function RiwayatPembayaranPage() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tableRiwayatPembayaranAction)
+  } = useTableAsync({
+    key: ['instansi.profil.riwayat-pembayaran.table'],
+    action: tableRiwayatPembayaranAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

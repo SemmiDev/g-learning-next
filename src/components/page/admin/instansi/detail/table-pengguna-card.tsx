@@ -29,7 +29,10 @@ export default function TablePenggunaCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAction)
+  } = useTableAsync({
+    key: ['admin.instansi.detail.table'],
+    action: tablePenggunaAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

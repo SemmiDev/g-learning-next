@@ -34,7 +34,10 @@ export default function TableAdminCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tableAdminAction)
+  } = useTableAsync({
+    key: ['admin.manajemen-admin.table'],
+    action: tableAdminAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

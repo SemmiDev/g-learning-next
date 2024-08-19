@@ -32,7 +32,10 @@ export default function TablePenggunaAktifCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAktifAction)
+  } = useTableAsync({
+    key: ['admin.pengguna.table'],
+    action: tablePenggunaAktifAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

@@ -30,7 +30,10 @@ export default function TablePenggunaAktifCard() {
     onSort,
     search,
     onSearch,
-  } = useTableAsync(tablePenggunaAction)
+  } = useTableAsync({
+    key: ['instansi.profil.pengguna.table'],
+    action: tablePenggunaAction,
+  })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {

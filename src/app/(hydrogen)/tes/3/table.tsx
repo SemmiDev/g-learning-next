@@ -32,9 +32,13 @@ export default function Tes3Table() {
     updateFilter,
     isFiltered,
     onReset,
-  } = useTableAsync(tesAsyncAction, {
-    nama: '',
-    email: '',
+  } = useTableAsync({
+    key: ['tes'],
+    action: tesAsyncAction,
+    initialFilterState: {
+      nama: '',
+      email: '',
+    },
   })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
