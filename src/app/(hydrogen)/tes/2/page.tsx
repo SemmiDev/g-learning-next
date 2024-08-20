@@ -10,6 +10,8 @@ import {
   ControlledMateri,
   ControlledPustakaMedia,
   ControlledSelect,
+  ControlledSwitch,
+  ControlledTextarea,
   ControlledUploadFile,
   Form,
   Materi,
@@ -33,7 +35,8 @@ const options: SelectOptionType[] = [
 
 const formSchema = z.object({
   // tesInput: z.string().pipe(required),
-  tesNumber: z.string().pipe(required),
+  tesTextarea: z.string().pipe(required),
+  // tesNumber: z.string().pipe(required),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
@@ -41,12 +44,14 @@ const formSchema = z.object({
   // tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
   // tesFiles: z.array(z.any()).superRefine(arrayRequired),
+  // tesSwitch: z.boolean(),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   // tesInput?: string
-  tesNumber?: number | string
+  tesTextarea?: string
+  // tesNumber?: number | string
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
@@ -54,9 +59,12 @@ type FormSchema = {
   // tesMateri?: MateriItemType
   // tesDate?: Date
   // tesFiles?: UploadFileType[]
+  // tesSwitch: boolean
 }
 
-const initialValues: FormSchema = {}
+const initialValues: FormSchema = {
+  // tesSwitch: false,
+}
 
 export default function Tes2Page() {
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
@@ -82,12 +90,20 @@ export default function Tes2Page() {
             placeholder="Input disini"
             errors={errors}
           /> */}
-          <ControlledInputNumber
+          <ControlledTextarea
+            name="tesTextarea"
+            control={control}
+            label="Textarea"
+            placeholder="Textarea disini"
+            errors={errors}
+            required
+          />
+          {/* <ControlledInputNumber
             name="tesNumber"
             control={control}
             errors={errors}
             label="Tes Number"
-          />
+          /> */}
           {/* <ControlledInputRupiah
             name="tesRupiah"
             control={control}
@@ -143,6 +159,12 @@ export default function Tes2Page() {
             maxSize={{ size: 100, metric: 'MB' }}
             errors={errors}
             multiple
+          /> */}
+          {/* <ControlledSwitch
+            name="tesSwitch"
+            control={control}
+            label="Tes Switch"
+            errors={errors}
           /> */}
           <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
             Submit
