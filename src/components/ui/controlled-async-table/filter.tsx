@@ -12,7 +12,7 @@ import {
 import ActionIcon from '../button/action-icon'
 import Button from '../button/button'
 import Drawer from '../drawer'
-import Input from '../input'
+import Input from '../input/input'
 import Title from '../text/title'
 
 function FilterDrawerView({

@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { NumberInput, NumberInputProps } from 'rizzui'
 import Input from './input'
 
-export type InputRupiahProps = Omit<
+export type InputNumberProps = Omit<
   NumberInputProps,
   'formatType' | 'onChange'
 > & {
@@ -11,20 +11,21 @@ export type InputRupiahProps = Omit<
   error?: string
 }
 
-export default function InputRupiah({
+export default function InputNumber({
   label,
   onChange,
   onBlur,
   error,
+  customInput = Input as React.ComponentType<unknown>,
   ...props
-}: InputRupiahProps) {
+}: InputNumberProps) {
   return (
     <NumberInput
       // @ts-ignore
       label={label}
       formatType={'numeric'}
       displayType="input"
-      customInput={CustomInput as React.ComponentType<unknown>}
+      customInput={customInput}
       thousandSeparator="."
       decimalSeparator=","
       onChange={onChange}
@@ -32,11 +33,5 @@ export default function InputRupiah({
       error={error}
       {...props}
     />
-  )
-}
-
-function CustomInput({ ...props }) {
-  return (
-    <Input prefix="Rp" className="[&_.rizzui-input-field]:ps-1" {...props} />
   )
 }

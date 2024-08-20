@@ -7,19 +7,19 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import Input, { InputProps } from '../input/input'
+import InputNumber, { InputNumberProps } from '../input/input-number'
 
-export type ControlledInputProps<
+export type ControlledInputNumberProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Omit<InputProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<InputNumberProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledInput<
+export default function ControlledInputNumber<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -28,13 +28,13 @@ export default function ControlledInput<
   errors,
   onChange,
   ...props
-}: ControlledInputProps<TFieldValues, TName>) {
+}: ControlledInputNumberProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Input
+        <InputNumber
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)

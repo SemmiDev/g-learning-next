@@ -25,6 +25,9 @@ import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
 import ControlledInput, { ControlledInputProps } from './controlled/input'
+import ControlledInputNumber, {
+  ControlledInputNumberProps,
+} from './controlled/input-number'
 import ControlledInputRupiah, {
   ControlledInputRupiahProps,
 } from './controlled/input-rupiah'
@@ -57,8 +60,9 @@ import Drawer, { DrawerProps } from './drawer'
 import FileIcon from './file/file-icon'
 import FileListItem, { FileListItemType } from './file/file-list-item'
 import { Form } from './form'
-import Input, { InputProps } from './input'
-import InputRupiah, { InputRupiahProps } from './input-rupiah'
+import Input, { InputProps } from './input/input'
+import InputNumber, { InputNumberProps } from './input/input-number'
+import InputRupiah, { InputRupiahProps } from './input/input-rupiah'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
@@ -107,6 +111,7 @@ export {
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
+  ControlledInputNumber,
   ControlledInputRupiah,
   ControlledKelas,
   ControlledMateri,
@@ -125,6 +130,7 @@ export {
   FileListItem,
   Form,
   Input,
+  InputNumber,
   InputRupiah,
   Kelas,
   LineGroup,
@@ -169,6 +175,7 @@ export {
   type ButtonVariants,
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,
+  type ControlledInputNumberProps,
   type ControlledInputProps,
   type ControlledInputRupiahProps,
   type ControlledKelasProps,
@@ -185,6 +192,7 @@ export {
   type DatePickerProps,
   type DrawerProps,
   type FileListItemType,
+  type InputNumberProps,
   type InputProps,
   type InputRupiahProps,
   type KelasItemType,
