@@ -1,7 +1,5 @@
 import cn from '@/utils/class-names'
 import { Input as RizInput, InputProps as RizInputProps } from 'rizzui'
-import Text from '../text/text'
-import { TextSpan } from '..'
 import Label from '../label'
 
 export type InputProps = RizInputProps & {
@@ -35,7 +33,7 @@ export default function Input({
       }}
       // disable arrowup and arrowdown (step for type number), comma and point if phoneNumber
       onKeyDown={
-        phoneNumber
+        props.type === 'number' && phoneNumber
           ? (e) => {
               if (['ArrowUp', 'ArrowDown', ',', '.'].includes(e.key)) {
                 e.preventDefault()

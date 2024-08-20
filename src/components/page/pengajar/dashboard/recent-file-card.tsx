@@ -23,7 +23,6 @@ export default function DashboardRecentFileCard() {
     {
       id: 'a2',
       name: 'Penjelasan singkat Alur Sistem Informasi',
-      size: null,
       time: '13 Januari 2024',
       icon: 'video',
       link: 'https://www.example.com',

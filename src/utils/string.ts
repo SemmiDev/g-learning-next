@@ -16,3 +16,9 @@ export const makeUrl = (
 ) => {
   return url + (params ? '?' : '') + makeParams(params)
 }
+
+export const cleanQuill = (value: string | undefined) => {
+  if (value === '<p><br></p>') return
+
+  return value
+}

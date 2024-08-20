@@ -1,8 +1,6 @@
 import { makeBasicPostRequestAction } from '@/utils/action'
-import { getIp } from '@/utils/ip'
 import { jwtDecode } from 'jwt-decode'
 import { AuthOptions } from 'next-auth'
-import { AdapterUser } from 'next-auth/adapters'
 import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
@@ -63,7 +61,11 @@ export const authOptions: AuthOptions = {
           {
             email: username,
             kata_sandi: password,
-            ip: getIp() ?? undefined,
+            ip:
+              getIp(
+                req.headers?.['x-forwarded-for'],
+                req.headers?.['x-real-ip']
+              ) ?? undefined,
           }
         )
 
@@ -254,4 +256,14 @@ async function checkJwtAndRefresh(jwt: string, refreshToken?: string | null) {
   if (!refresh.success) return
 
   return refresh.data?.token
+}
+
+function getIp(forwardedFor: string | undefined, realIp: string | undefined) {
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0].trim()
+  }
+
+  if (realIp) return realIp.trim()
+
+  return null
 }

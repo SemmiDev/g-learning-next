@@ -103,3 +103,38 @@ export const makeJwtGetRequestAction = async (
     return makeActionResponse(false)
   }
 }
+
+const makeJwtDataRequestAction = async (
+  url: string,
+  method: 'POST' | 'PUT',
+  payload: Record<string, string | number | undefined> = {}
+) => {
+  try {
+    const { jwt } = (await getServerSession(authOptions)) ?? {}
+
+    const res = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt ?? ''}`,
+      },
+      body: JSON.stringify(payload),
+    })
+
+    const { success, message, errors, data } = await res.json()
+
+    return makeActionResponse(success, message, errors, data)
+  } catch (error) {
+    return makeActionResponse(false)
+  }
+}
+
+export const makeJwtPostRequestAction = (
+  url: string,
+  payload: Record<string, string | number | undefined> = {}
+) => makeJwtDataRequestAction(url, 'POST', payload)
+
+export const makeJwtPutRequestAction = (
+  url: string,
+  payload: Record<string, string | number | undefined> = {}
+) => makeJwtDataRequestAction(url, 'PUT', payload)

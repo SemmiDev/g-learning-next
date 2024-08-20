@@ -1,3 +1,4 @@
+import LengkapiProfilBody from '@/components/page/pengguna/lengkapi-profil/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
@@ -23,6 +24,7 @@ export default function LengkapiProfilPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      <LengkapiProfilBody />
     </>
   )
 }
