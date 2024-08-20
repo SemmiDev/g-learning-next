@@ -5,11 +5,13 @@ import { useCallback, useRef } from 'react'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
+import Label from './label'
 import TextLabel from './text/label'
 
 export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   error?: string
   label?: React.ReactNode
+  required?: boolean
   className?: string
   labelClassName?: string
   errorClassName?: string
@@ -20,6 +22,7 @@ export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
 export default function QuillEditor({
   id,
   label,
+  required,
   error,
   className,
   labelClassName,
@@ -71,7 +74,9 @@ export default function QuillEditor({
   return (
     <div className={cn(className)}>
       {label && (
-        <TextLabel className={cn('mb-1.5', labelClassName)}>{label}</TextLabel>
+        <TextLabel className={cn('mb-1.5', labelClassName)}>
+          <Label label={label} required={required} />
+        </TextLabel>
       )}
       <ReactQuill
         ref={quillRef}

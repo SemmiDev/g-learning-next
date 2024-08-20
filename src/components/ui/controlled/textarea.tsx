@@ -9,6 +9,7 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import { Textarea, TextareaProps } from 'rizzui'
+import Label from '../label'
 
 export type ControlledTextareaProps<
   TFieldValues extends FieldValues,
@@ -24,6 +25,8 @@ export default function ControlledTextarea<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
+  label,
+  required,
   name,
   control,
   errors,
@@ -38,6 +41,7 @@ export default function ControlledTextarea<
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
         <Textarea
+          label={<Label label={label} required={required} />}
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
           rows={rows}
           onChange={(val) => {

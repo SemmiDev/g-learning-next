@@ -1,6 +1,13 @@
 'use client'
 
-import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  Input,
+  Label,
+  Modal,
+  Text,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -10,6 +17,7 @@ import SelectedKelas from './selected-kelas'
 
 export type KelasProps = {
   label?: string
+  required?: boolean
   placeholder?: string
   value?: KelasItemType
   onChange?(val?: KelasItemType): void
@@ -20,6 +28,7 @@ export type KelasProps = {
 
 export default function Kelas({
   label,
+  required,
   placeholder = 'Klik di sini untuk memilih kelas',
   value,
   onChange,
@@ -100,7 +109,7 @@ export default function Kelas({
       <div>
         {label && (
           <label className="text-gray-dark font-semibold mb-1.5 block">
-            {label}
+            <Label label={label} required={required} />
           </label>
         )}
         <div

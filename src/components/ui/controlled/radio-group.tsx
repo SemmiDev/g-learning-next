@@ -11,6 +11,7 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import { FieldError, Radio } from 'rizzui'
+import Label from '../label'
 import TextLabel from '../text/label'
 
 export type RadioGroupOptionType = AnyObject & {
@@ -27,6 +28,7 @@ export type ControlledRadioGroupProps<
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   label?: ReactNode
+  required?: boolean
   options?: TGroupOption[]
   onChange?(value: any): void
   className?: string
@@ -44,6 +46,7 @@ export default function ControlledRadio<
   control,
   errors,
   label,
+  required,
   options,
   onChange,
   className,
@@ -56,7 +59,9 @@ export default function ControlledRadio<
   return (
     <div className={className}>
       {label && (
-        <TextLabel className={cn('mb-1', labelClassName)}>{label}</TextLabel>
+        <TextLabel className={cn('mb-1', labelClassName)}>
+          <Label label={label} required={required} />
+        </TextLabel>
       )}
       <div className={cn('flex gap-4', groupClassName)}>
         <Controller
