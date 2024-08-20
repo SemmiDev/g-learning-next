@@ -4,20 +4,24 @@ import { AnyObject } from '@/utils/type-interface'
 import { useId } from 'react'
 import ReactSelect, { Props as ReactSelectProps } from 'react-select'
 import { FieldError } from 'rizzui'
-import Label from '../label'
 import TextLabel from '../text/label'
-import { makeClassNames } from './style'
+import { ClassNamesType, makeClassNames } from './style'
+import Label from '../label'
 
 export type SelectOptionType = AnyObject & {
   label: string
   value: string
 }
 
-export type SelectProps<OptionType> = ReactSelectProps<OptionType> & {
+export type SelectProps<OptionType> = Omit<
+  ReactSelectProps<OptionType>,
+  'classNames'
+> & {
   label?: string
   required?: boolean
   error?: string
   errorClassName?: string
+  classNames?: ClassNamesType
 }
 
 export default function Select<OptionType>({

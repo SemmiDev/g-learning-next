@@ -5,7 +5,7 @@ import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
 import Label from '../label'
 import TextLabel from '../text/label'
-import { makeClassNames } from './style'
+import { ClassNamesType, makeClassNames } from './style'
 
 export type AsyncPaginateSelectActionProps<OptionType> = {
   search: string
@@ -57,7 +57,7 @@ export default function AsyncPaginateSelect<
       <AsyncPaginate<OptionType, Group, { page: number }, IsMulti>
         unstyled={true}
         classNames={{
-          ...makeClassNames(undefined, !!error),
+          ...makeClassNames(classNames, !!error),
           ...classNames,
         }}
         loadOptions={async (search, loadedOptions, { page } = { page: 1 }) => {

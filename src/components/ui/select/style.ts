@@ -51,10 +51,7 @@ export type ClassNamesType = {
   noOptionsMessage?: string
 }
 
-export const makeClassNames = (
-  classNames?: ClassNamesConfig<any>,
-  error?: boolean
-) => ({
+export const makeClassNames = (classNames?: any, error?: boolean) => ({
   control: ({ isFocused }: { isFocused: boolean }) =>
     cn(
       controlStyles.base,
