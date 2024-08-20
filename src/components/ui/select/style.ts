@@ -1,4 +1,5 @@
 import cn from '@/utils/class-names'
+import { ClassNamesConfig } from 'react-select'
 
 const controlStyles = {
   base: 'h-10 border rounded-md bg-white ring-[0.6px] hover:cursor-pointer',
@@ -51,7 +52,7 @@ export type ClassNamesType = {
 }
 
 export const makeClassNames = (
-  classNames?: ClassNamesType,
+  classNames?: ClassNamesConfig<any>,
   error?: boolean
 ) => ({
   control: ({ isFocused }: { isFocused: boolean }) =>

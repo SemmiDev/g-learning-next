@@ -63,6 +63,7 @@ import { Form } from './form'
 import Input, { InputProps } from './input/input'
 import InputNumber, { InputNumberProps } from './input/input-number'
 import InputRupiah, { InputRupiahProps } from './input/input-rupiah'
+import Label from './label'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
@@ -133,6 +134,7 @@ export {
   InputNumber,
   InputRupiah,
   Kelas,
+  Label,
   LineGroup,
   Materi,
   Modal,
