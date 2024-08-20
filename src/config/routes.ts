@@ -35,6 +35,11 @@ export const pesertaRoutes = {
   kelas: '/peserta/ruang-kelas/kelas',
 }
 
+export const penggunaRoutes = {
+  profile: '/pengguna/profil',
+  lengkapiProfile: '/pengguna/lengkapi-profil',
+}
+
 export const adminRoutes = {
   profile: '/admin/profil',
   pemberitahuan: '/admin/pemberitahuan',
@@ -55,6 +60,7 @@ export const routes = {
   blank: '/blank',
   pengajar: pengajarRoutes,
   peserta: pesertaRoutes,
+  pengguna: penggunaRoutes,
   admin: adminRoutes,
   instansi: instansiRoutes,
 }
