@@ -3,12 +3,18 @@
 import {
   ButtonSubmit,
   ControlledAsyncPaginateSelect,
+  ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
   ControlledInputRupiah,
+  ControlledMateri,
+  ControlledPustakaMedia,
   ControlledSelect,
   ControlledUploadFile,
   Form,
+  Materi,
+  MateriItemType,
+  PustakaMediaFileType,
   SelectOptionType,
   UploadFileType,
 } from '@/components/ui'
@@ -28,7 +34,7 @@ const options: SelectOptionType[] = [
 const formSchema = z.object({
   // tesInput: z.string().pipe(required),
   tesNumber: z.string().pipe(required),
-  tesRupiah: z.string().pipe(required),
+  // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
@@ -41,9 +47,9 @@ const formSchema = z.object({
 type FormSchema = {
   // tesInput?: string
   tesNumber?: number | string
-  tesRupiah?: number | string
-  tesSelect?: SelectOptionType
-  tesAsyncSelect?: SelectOptionType
+  // tesRupiah?: number | string
+  // tesSelect?: SelectOptionType
+  // tesAsyncSelect?: SelectOptionType
   // tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesDate?: Date
@@ -82,12 +88,12 @@ export default function Tes2Page() {
             errors={errors}
             label="Tes Number"
           />
-          <ControlledInputRupiah
+          {/* <ControlledInputRupiah
             name="tesRupiah"
             control={control}
             errors={errors}
             label="Tes Rupiah"
-          />
+          /> */}
           {/* <ControlledSelect
             name="tesSelect"
             control={control}
@@ -117,12 +123,11 @@ export default function Tes2Page() {
             errors={errors}
             multiple
           /> */}
-          {/* <Controller
+          {/* <ControlledMateri
             name="tesMateri"
             control={control}
-            render={({ field: { value, onChange } }) => (
-              <Materi label="Pilih Materi" value={value} onChange={onChange} />
-            )}
+            label="Pilih Materi"
+            errors={errors}
           /> */}
           {/* <ControlledDatePicker
             name="tesDate"
