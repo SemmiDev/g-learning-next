@@ -249,7 +249,7 @@ async function checkJwtAndRefresh(jwt: string, refreshToken?: string | null) {
       refresh_token: refreshToken,
     }
   )
-  console.log('result refresh', refresh)
+  // console.log('result refresh', refresh)
 
   if (!refresh.success) return
 
