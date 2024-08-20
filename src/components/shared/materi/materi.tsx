@@ -1,6 +1,13 @@
 'use client'
 
-import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  Input,
+  Label,
+  Modal,
+  Text,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
@@ -12,6 +19,7 @@ import SelectedMateri from './selected-materi'
 
 export type MateriProps = {
   label?: string
+  required?: boolean
   placeholder?: string
   value?: MateriItemType
   onChange?(val?: MateriItemType): void
@@ -22,6 +30,7 @@ export type MateriProps = {
 
 export default function Materi({
   label,
+  required,
   placeholder = 'Klik di sini untuk memilih dari bank materi',
   value,
   onChange,
@@ -120,7 +129,7 @@ export default function Materi({
         >
           {label && (
             <label className="text-gray-dark font-semibold mb-1.5 block">
-              {label}
+              <Label label={label} required={required} />
             </label>
           )}
           <div

@@ -1,6 +1,13 @@
 'use client'
 
-import { Button, CardSeparator, Input, Modal, Text } from '@/components/ui'
+import {
+  Button,
+  CardSeparator,
+  Input,
+  Label,
+  Modal,
+  Text,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
 import { removeFromList } from '@/utils/list'
 import { useEffect, useState } from 'react'
@@ -14,6 +21,7 @@ import SelectedFile from './selected-file'
 
 export type PustakaMediaProps = {
   label?: string
+  required?: boolean
   placeholder?: string
   value?: FileItemType | FileItemType[]
   onChange?(val: FileItemType | FileItemType[]): void
@@ -24,6 +32,7 @@ export type PustakaMediaProps = {
 
 export default function PustakaMedia({
   label,
+  required,
   placeholder = 'Klik di sini untuk memilih dari pustaka media',
   value,
   onChange,
@@ -124,7 +133,7 @@ export default function PustakaMedia({
         >
           {label && (
             <label className="text-gray-dark font-semibold mb-1.5 block">
-              {label}
+              <Label label={label} required={required} />
             </label>
           )}
           <div

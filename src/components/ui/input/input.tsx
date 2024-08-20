@@ -1,11 +1,17 @@
 import cn from '@/utils/class-names'
 import { Input as RizInput, InputProps as RizInputProps } from 'rizzui'
+import Text from '../text/text'
+import { TextSpan } from '..'
+import Label from '../label'
 
 export type InputProps = RizInputProps & {
+  required?: boolean
   phoneNumber?: boolean
 }
 
 export default function Input({
+  label,
+  required,
   labelClassName,
   inputClassName,
   onFocus,
@@ -15,6 +21,7 @@ export default function Input({
 }: InputProps) {
   return (
     <RizInput
+      label={<Label label={label} required={required} />}
       labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
       inputClassName={cn('[&_input::placeholder]:opacity-80', inputClassName)}
       placeholder=" "

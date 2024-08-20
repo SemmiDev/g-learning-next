@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { ReactNode, useCallback, useState } from 'react'
 import { DropzoneOptions, FileWithPath, useDropzone } from 'react-dropzone'
 import { FieldError } from 'rizzui'
+import Label from '../label'
 import Text from '../text/text'
 import { UploadFileItem, UploadFileItemRejected } from './file-item'
 
@@ -24,7 +25,8 @@ export type UploadFileProps = Omit<
   DropzoneOptions,
   'onDrop' | 'validator' | 'maxSize' | 'minSize'
 > & {
-  label?: string
+  label?: ReactNode
+  required?: boolean
   placeholder?: string
   desc?: string
   onChange?(files: UploadFileType[] | UploadFileType): void
@@ -38,6 +40,7 @@ export type UploadFileProps = Omit<
 
 export default function UploadFile({
   label,
+  required,
   placeholder = 'Seret berkas kamu ke sini atau klik untuk upload',
   desc,
   multiple = false,
@@ -101,7 +104,7 @@ export default function UploadFile({
     <div className={className}>
       {label && (
         <label className="text-gray-dark font-semibold mb-1.5 block">
-          {label}
+          {<Label label={label} required={required} />}
         </label>
       )}
       <div

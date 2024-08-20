@@ -10,6 +10,7 @@ import ReactDatePicker, {
 import 'react-datepicker/dist/react-datepicker.css'
 import { PiCalendarBlank, PiCaretDownBold } from 'react-icons/pi'
 import { Input, InputProps } from 'rizzui'
+import Label from './label'
 registerLocale('id', id)
 
 const calendarContainerClasses = {
@@ -52,6 +53,7 @@ export interface DatePickerProps<selectsRange extends boolean | undefined>
 }
 
 export const DatePicker = ({
+  required,
   customInput,
   showPopperArrow = false,
   dateFormat = 'dd MMMM yyyy',
@@ -68,7 +70,7 @@ export const DatePicker = ({
   const handleCalenderOpen = () => setIsCalenderOpen(true)
   const handleCalenderClose = () => setIsCalenderOpen(false)
 
-  const { labelClassName, ...otherInputProps } = inputProps ?? {}
+  const { label, labelClassName, ...otherInputProps } = inputProps ?? {}
 
   return (
     <div
@@ -90,6 +92,7 @@ export const DatePicker = ({
                   )}
                 />
               }
+              label={<Label label={label} required={required} />}
               labelClassName={cn(
                 'text-gray-dark font-semibold',
                 labelClassName

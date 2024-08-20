@@ -3,8 +3,9 @@
 import { GroupBase, OptionsOrGroups } from 'react-select'
 import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
+import Label from '../label'
 import TextLabel from '../text/label'
-import { defaultClassNames } from './style'
+import { makeClassNames } from './style'
 
 export type AsyncPaginateSelectActionProps<OptionType> = {
   search: string
@@ -23,6 +24,7 @@ export type AsyncPaginateSelectProps<
   'loadOptions'
 > & {
   label?: string
+  required?: boolean
   action(
     props: AsyncPaginateSelectActionProps<OptionType>
   ): Promise<AsyncPaginateSelectActionType>
@@ -37,6 +39,7 @@ export default function AsyncPaginateSelect<
   Group extends GroupBase<OptionType> = GroupBase<OptionType>
 >({
   label,
+  required,
   action,
   construct,
   classNames,
@@ -46,11 +49,15 @@ export default function AsyncPaginateSelect<
 }: AsyncPaginateSelectProps<OptionType, IsMulti, Group>) {
   return (
     <div className="react-select">
-      {label && <TextLabel className="mb-1.5">{label}</TextLabel>}
+      {label && (
+        <TextLabel className="mb-1.5">
+          <Label label={label} required={required} />
+        </TextLabel>
+      )}
       <AsyncPaginate<OptionType, Group, { page: number }, IsMulti>
         unstyled={true}
         classNames={{
-          ...defaultClassNames(!!error),
+          ...makeClassNames(undefined, !!error),
           ...classNames,
         }}
         loadOptions={async (search, loadedOptions, { page } = { page: 1 }) => {
