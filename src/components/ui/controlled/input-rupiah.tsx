@@ -7,7 +7,7 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import InputRupiah, { InputRupiahProps } from '../input/input-rupiah'
+import InputRupiah, { InputRupiahProps } from '../input/rupiah'
 
 export type ControlledInputRupiahProps<
   TFieldValues extends FieldValues,

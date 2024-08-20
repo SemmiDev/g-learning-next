@@ -1,5 +1,5 @@
 import Input from './input'
-import InputNumber, { InputNumberProps } from './input-number'
+import InputNumber, { InputNumberProps } from './number'
 
 export type InputRupiahProps = InputNumberProps
 

@@ -5,7 +5,6 @@ import { TextSpan } from '..'
 import Label from '../label'
 
 export type InputProps = RizInputProps & {
-  required?: boolean
   phoneNumber?: boolean
 }
 

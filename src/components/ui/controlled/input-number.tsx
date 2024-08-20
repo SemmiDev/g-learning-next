@@ -7,7 +7,7 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import InputNumber, { InputNumberProps } from '../input/input-number'
+import InputNumber, { InputNumberProps } from '../input/number'
 
 export type ControlledInputNumberProps<
   TFieldValues extends FieldValues,
