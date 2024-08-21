@@ -14,7 +14,7 @@ import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
-import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
@@ -52,14 +52,14 @@ export default function UbahModal({
   setShowModal,
   data,
 }: UbahModalProps) {
-  const router = useRouter()
+  const queryClient = useQueryClient()
 
   const onSubmit: SubmitHandler<UbahProfileFormSchema> = async (data) => {
     await handleActionWithToast(ubahProfileAction(data), {
       loading: 'Menyimpan...',
       onSuccess: () => {
         setShowModal(false)
-        router.refresh()
+        queryClient.invalidateQueries({ queryKey: ['pengguna.profil'] })
       },
     })
   }

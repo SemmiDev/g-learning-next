@@ -1,6 +1,6 @@
 'use client'
 
-import { dataProfileAction, DataType } from '@/actions/pengguna/profil/data'
+import { dataProfileAction } from '@/actions/pengguna/profil/data'
 import {
   Button,
   Card,
@@ -13,25 +13,20 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import defaultPhoto from '@public/images/default-profile.webp'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import UbahButton from './ubah-button'
 import UbahFotoButton from './ubah-foto-button'
 import UbahSandiButton from './ubah-sandi-button'
-import { useQuery } from '@tanstack/react-query'
 
-export default function ProfilBody({
-  prefetchData,
-}: {
-  prefetchData: DataType | undefined
-}) {
+export default function ProfilBody() {
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
     queryFn: async () => {
-      const { data: resData } = await dataProfileAction()
-      return resData
+      const { data } = await dataProfileAction()
+      return data
     },
-    initialData: prefetchData,
   })
 
   return (
