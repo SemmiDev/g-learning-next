@@ -14,7 +14,7 @@ export type SortType = {
   direction?: 'asc' | 'desc'
 }
 
-export function useTableAsync<T extends AnyObject>({
+export function useTableAsync<T extends AnyObject = AnyObject>({
   key,
   action,
   initialFilterState,
@@ -22,7 +22,7 @@ export function useTableAsync<T extends AnyObject>({
   key: string[]
   action: (
     actionProps: ControlledAsyncTableActionProps
-  ) => Promise<ControlledAsyncTableActionType>
+  ) => Promise<ControlledAsyncTableActionType<T>>
   initialFilterState?: Partial<Record<string, any>>
 }) {
   const [page, setPage] = useState(1)
@@ -34,7 +34,12 @@ export function useTableAsync<T extends AnyObject>({
   const [totalData, setTotalData] = useState(1)
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
-  const { data, refetch, isLoading, isFetching } = useQuery({
+  const {
+    data = [],
+    refetch,
+    isLoading,
+    isFetching,
+  } = useQuery<T[]>({
     queryKey: key,
     queryFn: async () => {
       const resData = await action({ page, search, sort, filters })
@@ -55,10 +60,11 @@ export function useTableAsync<T extends AnyObject>({
       setSelectedRowKeys([...selectedKeys, recordKey])
     }
   }
+
   const onSelectAll = () => {
-    if (selectedRowKeys.length === data?.length) {
+    if (selectedRowKeys.length === data.length) {
       setSelectedRowKeys([])
-    } else if (data?.length) {
+    } else if (data.length) {
       setSelectedRowKeys(data.map((record) => record.id))
     }
   }
@@ -143,7 +149,7 @@ export function useTableAsync<T extends AnyObject>({
 
   // useTable returns
   return {
-    data: (data ?? []) as T[],
+    data,
     isLoading: isLoading,
     isFetching: isFetching,
     // pagination

@@ -19,8 +19,9 @@ export type ControlledAsyncTableActionProps = {
   sort?: SortType
   filters?: AnyObject
 }
-export type ControlledAsyncTableActionType = {
-  data: any[]
+
+export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
+  data: T[]
   totalData: number
 }
 
