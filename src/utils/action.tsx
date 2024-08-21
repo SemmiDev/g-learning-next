@@ -38,12 +38,16 @@ export const handleActionWithToast = async <T extends ActionPromiseType>(
   toast.dismiss(toastId)
 
   if (res.success) {
-    toast.success(
-      <Text>{typeof success === 'string' ? success : success(res)}</Text>
-    )
+    success &&
+      toast.success(
+        <Text>{typeof success === 'string' ? success : success(res)}</Text>
+      )
+
     onSuccess && onSuccess(res)
   } else {
-    toast.error(<Text>{typeof error === 'string' ? error : error(res)}</Text>)
+    error &&
+      toast.error(<Text>{typeof error === 'string' ? error : error(res)}</Text>)
+
     onError && onError(res)
   }
 }
