@@ -44,7 +44,7 @@ const jenisKelaminOptions: RadioGroupOptionType[] = [
 type UbahModalProps = {
   showModal: boolean
   setShowModal(show: boolean): void
-  data: DataType
+  data: DataType | undefined
 }
 
 export default function UbahModal({
@@ -77,12 +77,12 @@ export default function UbahModal({
         useFormProps={{
           mode: 'onSubmit',
           defaultValues: {
-            nama: data.nama,
-            nik: data.nik,
-            jenisKelamin: data.jenis_kelamin,
-            kontak: data.hp,
-            website: data.situs_web,
-            bio: data.bio,
+            nama: data?.nama,
+            nik: data?.nik,
+            jenisKelamin: data?.jenis_kelamin,
+            kontak: data?.hp,
+            website: data?.situs_web,
+            bio: data?.bio,
           },
         }}
       >

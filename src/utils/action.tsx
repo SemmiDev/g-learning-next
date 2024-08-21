@@ -3,12 +3,13 @@ import { Text } from '@/components/ui'
 import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
 import { makeUrl } from './string'
+import { AnyObject } from './type-interface'
 
-export type ActionPromiseType = {
+export type ActionPromiseType<T = AnyObject> = {
   success: boolean
   message?: string
   error?: string
-  data?: any
+  data?: T
 }
 
 export const handleActionWithToast = async <T extends ActionPromiseType>(
@@ -52,19 +53,19 @@ export const handleActionWithToast = async <T extends ActionPromiseType>(
   }
 }
 
-export const makeActionResponse = (
+export const makeActionResponse = <T extends AnyObject>(
   success: boolean,
   message?: string,
   error?: string,
-  data?: any
-): ActionPromiseType => ({
+  data?: T
+): ActionPromiseType<T> => ({
   success: success,
   message: message ?? (!success ? 'Terjadi kesalahan.' : undefined),
   error: error ?? undefined,
   data: data,
 })
 
-export const makeBasicPostRequestAction = async (
+export const makeBasicPostRequestAction = async <T extends AnyObject>(
   url: string,
   payload: Record<string, string | number | undefined> = {}
 ) => {
@@ -79,13 +80,13 @@ export const makeBasicPostRequestAction = async (
 
     const { success, message, errors, data } = await res.json()
 
-    return makeActionResponse(success, message, errors, data)
+    return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
-    return makeActionResponse(false)
+    return makeActionResponse<T>(false)
   }
 }
 
-export const makeJwtGetRequestAction = async (
+export const makeJwtGetRequestAction = async <T extends AnyObject>(
   url: string,
   params?: Record<string, string | number | undefined>
 ) => {
@@ -102,13 +103,13 @@ export const makeJwtGetRequestAction = async (
 
     const { success, message, errors, data } = await res.json()
 
-    return makeActionResponse(success, message, errors, data)
+    return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
-    return makeActionResponse(false)
+    return makeActionResponse<T>(false)
   }
 }
 
-const makeJwtDataRequestAction = async (
+const makeJwtDataRequestAction = async <T extends AnyObject>(
   url: string,
   method: 'POST' | 'PUT',
   payload: Record<string, string | number | undefined | null> = {}
@@ -130,18 +131,18 @@ const makeJwtDataRequestAction = async (
     const { success, message, errors, data } = await res.json()
     // console.log({ success, message, errors, data })
 
-    return makeActionResponse(success, message, errors, data)
+    return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
-    return makeActionResponse(false)
+    return makeActionResponse<T>(false)
   }
 }
 
-export const makeJwtPostRequestAction = (
+export const makeJwtPostRequestAction = <T extends AnyObject>(
   url: string,
   payload: Record<string, string | number | undefined | null> = {}
-) => makeJwtDataRequestAction(url, 'POST', payload)
+) => makeJwtDataRequestAction<T>(url, 'POST', payload)
 
-export const makeJwtPutRequestAction = (
+export const makeJwtPutRequestAction = <T extends AnyObject>(
   url: string,
   payload: Record<string, string | number | undefined | null> = {}
-) => makeJwtDataRequestAction(url, 'PUT', payload)
+) => makeJwtDataRequestAction<T>(url, 'PUT', payload)

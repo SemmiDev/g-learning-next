@@ -22,4 +22,4 @@ export type DataType = {
 }
 
 export const dataProfileAction = () =>
-  makeJwtGetRequestAction(`${process.env.API_URL}/pengguna`)
+  makeJwtGetRequestAction<DataType>(`${process.env.API_URL}/pengguna`)

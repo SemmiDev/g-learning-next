@@ -5,7 +5,7 @@ import { Button } from '@/components/ui'
 import { useState } from 'react'
 import UbahModal from './modal/ubah'
 
-export default function UbahButton({ data }: { data: DataType }) {
+export default function UbahButton({ data }: { data: DataType | undefined }) {
   const [showModal, setShowModal] = useState(false)
 
   return (
