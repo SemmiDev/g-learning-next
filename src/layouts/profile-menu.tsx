@@ -3,15 +3,13 @@
 import { Button, Text, Title } from '@/components/ui'
 import { publicRoutes, routes } from '@/config/routes'
 import cn from '@/utils/class-names'
+import defaultPhoto from '@public/images/default-profile.webp'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Avatar, Popover } from 'rizzui'
-
-const defaultPhoto =
-  'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp'
 
 export default function ProfileMenu({
   buttonClassName,
@@ -23,6 +21,7 @@ export default function ProfileMenu({
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const { data: session } = useSession()
+  const user = session?.user
 
   useEffect(() => {
     setIsOpen(false)
@@ -43,8 +42,8 @@ export default function ProfileMenu({
           )}
         >
           <Avatar
-            src={session?.user?.image || defaultPhoto}
-            name={session?.user?.username ?? ''}
+            src={user?.image || defaultPhoto.src}
+            name={user?.username ?? ''}
             className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
           />
         </button>
@@ -60,6 +59,8 @@ export default function ProfileMenu({
 function DropdownMenu() {
   const router = useRouter()
   const { data: session } = useSession()
+  const user = session?.user
+  const level = user?.level
 
   const logout = async () => {
     await signOut({ redirect: false })
@@ -68,15 +69,17 @@ function DropdownMenu() {
 
   const menuItems = []
 
-  if (session?.user?.level !== 'Instansi') {
+  if (level !== 'Instansi') {
     menuItems.push({
       name: 'Profil Saya',
       href:
-        session?.user?.level === 'Admin'
+        level === 'Admin'
           ? routes.admin.profile
-          : session?.user?.level === 'Pengajar'
+          : level === 'Pengguna'
+          ? routes.pengguna.profile
+          : level === 'Pengajar'
           ? routes.pengajar.profile
-          : session?.user?.level === 'Peserta'
+          : level === 'Peserta'
           ? routes.peserta.profile
           : '',
     })
@@ -85,15 +88,12 @@ function DropdownMenu() {
   return (
     <div className="min-w-64 text-left rtl:text-right">
       <div className="flex items-center px-6 pb-5 pt-6">
-        <Avatar
-          src={session?.user?.image || defaultPhoto}
-          name={session?.user?.name ?? ''}
-        />
+        <Avatar src={user?.image || defaultPhoto.src} name={user?.name ?? ''} />
         <div className="ms-3">
           <Title as="h6" weight="semibold">
-            {session?.user?.name}
+            {user?.name}
           </Title>
-          <Text>{session?.user?.username}</Text>
+          <Text>{user?.username}</Text>
         </div>
       </div>
       {menuItems.length > 0 && (

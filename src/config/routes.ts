@@ -38,6 +38,7 @@ export const pesertaRoutes = {
 export const penggunaRoutes = {
   profile: '/pengguna/profil',
   lengkapiProfile: '/pengguna/lengkapi-profil',
+  pemberitahuan: '/pengguna/pemberitahuan',
 }
 
 export const adminRoutes = {

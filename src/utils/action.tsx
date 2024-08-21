@@ -107,9 +107,11 @@ export const makeJwtGetRequestAction = async (
 const makeJwtDataRequestAction = async (
   url: string,
   method: 'POST' | 'PUT',
-  payload: Record<string, string | number | undefined> = {}
+  payload: Record<string, string | number | undefined | null> = {}
 ) => {
   try {
+    // console.log(payload)
+
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
     const res = await fetch(url, {
@@ -122,6 +124,7 @@ const makeJwtDataRequestAction = async (
     })
 
     const { success, message, errors, data } = await res.json()
+    // console.log({ success, message, errors, data })
 
     return makeActionResponse(success, message, errors, data)
   } catch (error) {
@@ -131,10 +134,10 @@ const makeJwtDataRequestAction = async (
 
 export const makeJwtPostRequestAction = (
   url: string,
-  payload: Record<string, string | number | undefined> = {}
+  payload: Record<string, string | number | undefined | null> = {}
 ) => makeJwtDataRequestAction(url, 'POST', payload)
 
 export const makeJwtPutRequestAction = (
   url: string,
-  payload: Record<string, string | number | undefined> = {}
+  payload: Record<string, string | number | undefined | null> = {}
 ) => makeJwtDataRequestAction(url, 'PUT', payload)

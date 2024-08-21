@@ -5,9 +5,10 @@ import Image from 'next/image'
 export type ThumbnailProps = {
   size: number
   rounded?: 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
-  src: string | StaticImport
+  src?: string | StaticImport
   alt: string
   bordered?: boolean
+  priority?: boolean
   className?: string
 }
 
@@ -17,6 +18,7 @@ export default function Thumbnail({
   src,
   alt,
   bordered,
+  priority,
   className,
 }: ThumbnailProps) {
   return (
@@ -36,7 +38,16 @@ export default function Thumbnail({
         height: `${size}px`,
       }}
     >
-      <Image src={src} alt={alt} className="object-cover" />
+      {src && (
+        <Image
+          src={src}
+          alt={alt}
+          width={size}
+          height={size}
+          priority={priority}
+          className="object-cover"
+        />
+      )}
     </figure>
   )
 }

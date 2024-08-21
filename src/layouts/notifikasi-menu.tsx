@@ -13,6 +13,8 @@ export default function NotifikasiMenu() {
   const link =
     level === 'Admin'
       ? routes.admin.pemberitahuan
+      : level === 'Pengguna'
+      ? routes.pengguna.pemberitahuan
       : level === 'Instansi'
       ? routes.instansi.pemberitahuan
       : level === 'Pengajar'

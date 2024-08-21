@@ -22,7 +22,9 @@ import { Input, Password } from 'rizzui'
 
 const formSchema = z.object({
   username: z.string().pipe(required),
-  password: z.string().pipe(requiredPassword.min(8)),
+  password: z
+    .string()
+    .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
 })
 
 // type FormSchema = z.infer<typeof formSchema>

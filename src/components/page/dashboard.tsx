@@ -9,24 +9,25 @@ import { useSession } from 'next-auth/react'
 
 export default function DashboardBody() {
   const { data: session } = useSession()
+  const level = session?.user?.level
 
   // console.log('current session', session)
 
   if (!session) return null
 
-  if (session?.user?.level == 'Admin') {
+  if (level == 'Admin') {
     return <DashboardAdminBody />
   }
 
-  if (session?.user?.level == 'Instansi') {
+  if (level == 'Instansi') {
     return <DashboardInstansiBody />
   }
 
-  if (session?.user?.level == 'Pengajar') {
+  if (level == 'Pengajar') {
     return <DashboardPengajarBody />
   }
 
-  if (session?.user?.level == 'Peserta') {
+  if (level == 'Peserta') {
     return <DashboardPesertaBody />
   }
 
