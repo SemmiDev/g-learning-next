@@ -54,8 +54,8 @@ export default function UbahModal({
 }: UbahModalProps) {
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<UbahProfileFormSchema> = (data) => {
-    handleActionWithToast(ubahProfileAction(data), {
+  const onSubmit: SubmitHandler<UbahProfileFormSchema> = async (data) => {
+    await handleActionWithToast(ubahProfileAction(data), {
       loading: 'Menyimpan...',
       onSuccess: () => {
         setShowModal(false)
