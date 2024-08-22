@@ -180,7 +180,7 @@ export default function TableAdminCard() {
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}
         onConfirm={handleHapus}
-        headerIcon="help"
+        headerIcon="warning"
         closeOnCancel
       />
     </>
