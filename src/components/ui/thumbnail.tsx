@@ -5,7 +5,7 @@ import Image from 'next/image'
 export type ThumbnailProps = {
   size: number
   rounded?: 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
-  src?: string | StaticImport
+  src: string | StaticImport | undefined
   alt: string
   bordered?: boolean
   priority?: boolean
@@ -24,7 +24,7 @@ export default function Thumbnail({
   return (
     <figure
       className={cn(
-        'flex justify-center items-center overflow-clip',
+        'overflow-clip',
         !!rounded
           ? rounded !== 'base'
             ? `rounded-${rounded}`
@@ -45,7 +45,7 @@ export default function Thumbnail({
           width={size}
           height={size}
           priority={priority}
-          className="object-cover"
+          className="w-full h-full object-cover"
         />
       )}
     </figure>
