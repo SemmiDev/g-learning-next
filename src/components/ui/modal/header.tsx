@@ -5,6 +5,7 @@ import { MdOutlineClose } from 'react-icons/md'
 import ActionIcon from '../button/action-icon'
 import Text from '../text/text'
 import Title from '../text/title'
+import { Loader } from 'rizzui'
 
 type ColorType =
   | 'dark-gray'
@@ -35,6 +36,7 @@ const HeaderIcon = ({ icon }: { icon?: IconType }) => {
 
 export type ModalHeaderProps = {
   title: string
+  isLoading?: boolean
   color?: ColorType
   icon?: IconType
   desc?: string
@@ -45,6 +47,7 @@ export type ModalHeaderProps = {
 
 export default function ModalHeader({
   title,
+  isLoading,
   color = 'dark-gray',
   icon,
   desc,
@@ -78,9 +81,14 @@ export default function ModalHeader({
       )}
     >
       <div>
-        <Title as="h4" weight="semibold" className="modal-title text-white">
-          {title}
-        </Title>
+        <div className="flex space-x-2">
+          <Title as="h4" weight="semibold" className="modal-title text-white">
+            {title}
+          </Title>
+          {isLoading && (
+            <Loader size="sm" variant="pulse" className="text-white" />
+          )}
+        </div>
         {desc && (
           <Text
             size="sm"
