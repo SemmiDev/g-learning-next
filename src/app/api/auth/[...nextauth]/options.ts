@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
             id: '1',
             name: 'Nama Pengajar',
             username: 'pengajar@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlbmdhamFyIiwiaWF0IjoxNTE2MjM5MDIyfQ.8cffnhxieDxB7ufL2Tyckb2k39lgsKrzF3Axp-i4iVc',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6InBlbmdhamFyQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiUGVuZ2FqYXIiLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.xoVt-Sse4UENfMshdGSCY5m8lsqZSI3p-lsFiVn4xNs',
           }
         }
 
@@ -33,7 +33,7 @@ export const authOptions: AuthOptions = {
             id: '2',
             name: 'Nama Peserta',
             username: 'peserta@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IlBlc2VydGEiLCJpYXQiOjE1MTYyMzkwMjJ9.MhaAQ43OFkJrznl-J37Wt30JACuMZLhRdcRpgkl0mhA',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6InBlc2VydGFAZ2xlYXJuaW5nLmNvbSIsInRpcGUiOiJQZXNlcnRhIiwiaXNzdWVkX2F0IjoiMjAyNC0wOC0yMlQwODozNDowNy45ODE4NDAwMzcrMDc6MDAiLCJleHBpcmVkX2F0IjoiMjAyNC0wOC0yMlQxMDozNDowNy45ODE4NDAwOTcrMDc6MDAifQ.bdLA9sFbXnr5JtV4BQNce1c0ocyykzdYQYczjnu4psQ',
           }
         }
 
@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
             id: '3',
             name: 'Nama Admin',
             username: 'admin@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6IkFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.Vq_GAU2EbhVQO386WazO6cgxvDDf8Ne9_IZkOsFRzvs',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiQWRtaW4iLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.zrNRs5A5x-9WX5AxtmHmZ7SjsSF1DZdoRBVJrkpSxpk',
           }
         }
 
@@ -51,7 +51,7 @@ export const authOptions: AuthOptions = {
             id: '4',
             name: 'Nama Admin Instansi',
             username: 'instansi@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZXZlbCI6Ikluc3RhbnNpIiwiaWF0IjoxNTE2MjM5MDIyfQ.tqIFPLQoImOa13tTuGmM4TQdwFqAfk_-laBhgPryI1w',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6Imluc3RhbnNpQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiSW5zdGFuc2kiLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.45pU23Ljkyy_Jqs4ZXyLo9nUDvoDifLPoILG-5aDJbc',
           }
         }
 
