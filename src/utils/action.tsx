@@ -86,9 +86,17 @@ export const makeBasicPostRequestAction = async <T extends AnyObject>(
   }
 }
 
+type GetRequestParamsType = {
+  current_page?: number
+  per_page?: number
+  keyword?: string
+  sort_by?: string
+  order?: string
+} & Record<string, string | number | undefined>
+
 export const makeJwtGetRequestAction = async <T extends AnyObject>(
   url: string,
-  params?: Record<string, string | number | undefined>
+  params?: GetRequestParamsType
 ) => {
   try {
     const { jwt } = (await getServerSession(authOptions)) ?? {}

@@ -5,7 +5,6 @@ import {
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
 import { makeJwtGetRequestAction } from '@/utils/action'
-import { AnyObject } from '@/utils/type-interface'
 import _ from 'lodash'
 
 export type DataType = {
@@ -31,7 +30,6 @@ export const tableAdminAction = async ({
   page = 1,
   search = '',
   sort,
-  filters,
 }: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
   const { data } = await makeJwtGetRequestAction<ResDataType>(
     `${process.env.API_URL}/admin/akun`,
@@ -49,6 +47,6 @@ export const tableAdminAction = async ({
         _.pick(item, ['id', 'nama', 'username', 'terakhir_login'])
       ) ?? [],
     perPage: data?.page_info?.per_page,
-    totalData: data?.page_info?.per_page,
+    totalData: data?.page_info?.total_data,
   }
 }
