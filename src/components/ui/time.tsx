@@ -30,6 +30,7 @@ export type TimeProps = {
   format?: TimeFormat
   seconds?: boolean
   fromNow?: boolean
+  empty?: string
   momentProps?: Omit<MomentProps, 'date' | 'format' | 'fromNow'>
 }
 
@@ -38,8 +39,17 @@ export default function Time({
   format = 'date',
   seconds = false,
   fromNow,
+  empty,
   momentProps,
 }: TimeProps) {
+  if (
+    empty !== undefined &&
+    empty !== null &&
+    (!date || date === '0001-01-01T00:00:00Z')
+  ) {
+    return <time>{empty}</time>
+  }
+
   return (
     <Moment
       date={date}
