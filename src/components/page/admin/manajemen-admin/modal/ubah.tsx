@@ -1,16 +1,23 @@
+import { lihatAdminAction } from '@/actions/admin/admin/lihat-admin'
+import { ubahAdminAction } from '@/actions/admin/admin/ubah-admin'
 import {
   CardSeparator,
   ControlledInput,
   ControlledPassword,
   Form,
+  Loader,
   Modal,
   ModalFooterButtons,
+  Text,
   TextSpan,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
-import { useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
@@ -29,8 +36,7 @@ const formSchema = z
     }
   )
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type UbahAdminFormSchema = {
   nama?: string
   username?: string
   password?: string
@@ -38,96 +44,134 @@ type FormSchema = {
 }
 
 type UbahModalProps = {
-  showModal?: number
-  setShowModal(show?: number): void
+  id?: string
+  setId(id?: string): void
 }
 
-export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
-  const [initialValues, setInitialValues] = useState<FormSchema>()
+export default function UbahModal({ id, setId }: UbahModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
 
-  useEffect(() => {
-    setInitialValues({
-      nama: 'Nama Asli',
-      username: 'Admin',
+  const {
+    data: initialValues,
+    isLoading,
+    isFetching,
+  } = useQuery<UbahAdminFormSchema>({
+    queryKey: ['admin.manajemen-admin.table.lihat', id],
+    queryFn: async () => {
+      if (!id) return {}
+
+      const { data } = await lihatAdminAction(id)
+
+      return {
+        nama: data?.nama,
+        username: data?.username,
+      }
+    },
+  })
+
+  const onSubmit: SubmitHandler<UbahAdminFormSchema> = async (data) => {
+    if (!id) return
+
+    await handleActionWithToast(ubahAdminAction(id, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setId(undefined)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.manajemen-admin.table'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
     })
-  }, [showModal])
-
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
   }
 
   return (
     <Modal
       title="Ubah Admin"
+      isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={!!showModal}
-      onClose={() => setShowModal(undefined)}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
     >
-      <Form<FormSchema>
-        onSubmit={onSubmit}
-        validationSchema={formSchema}
-        useFormProps={{
-          mode: 'onSubmit',
-          defaultValues: initialValues ?? {},
-        }}
-      >
-        {({ control, formState: { errors, isSubmitting } }) => (
-          <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledInput
-                name="username"
-                control={control}
-                errors={errors}
-                label="Username"
-                placeholder="Username admin"
+      {isLoading ? (
+        <Loader height={336} />
+      ) : (
+        <Form<UbahAdminFormSchema>
+          onSubmit={onSubmit}
+          validationSchema={formSchema}
+          useFormProps={{
+            mode: 'onSubmit',
+            defaultValues: initialValues,
+            values: initialValues,
+          }}
+        >
+          {({ control, formState: { errors, isSubmitting } }) => (
+            <>
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledInput
+                  name="username"
+                  control={control}
+                  errors={errors}
+                  label="Username"
+                  placeholder="Username admin"
+                />
+
+                <ControlledInput
+                  name="nama"
+                  control={control}
+                  errors={errors}
+                  label="Nama Lengkap"
+                  placeholder="Nama lengkap admin"
+                />
+
+                <ControlledPassword
+                  name="password"
+                  control={control}
+                  errors={errors}
+                  label={
+                    <TextSpan>
+                      Kata Sandi Baru{' '}
+                      <small>(Kosongkan jika tidak ingin mengganti)</small>
+                    </TextSpan>
+                  }
+                  placeholder="Kata sandi baru admin"
+                />
+
+                <ControlledPassword
+                  name="ulangiPassword"
+                  control={control}
+                  errors={errors}
+                  label={
+                    <TextSpan>
+                      Ulangi Kata Sandi Baru{' '}
+                      <small>(Kosongkan jika tidak ingin mengganti)</small>
+                    </TextSpan>
+                  }
+                  placeholder="Ketik ulang kata sandi baru"
+                />
+
+                {formError && (
+                  <Alert size="sm" variant="flat" color="danger">
+                    <Text size="sm" weight="medium">
+                      {formError}
+                    </Text>
+                  </Alert>
+                )}
+              </div>
+
+              <CardSeparator />
+
+              <ModalFooterButtons
+                submit="Simpan"
+                submitColor="warning"
+                isSubmitting={isSubmitting}
+                onCancel={() => setId(undefined)}
               />
-
-              <ControlledInput
-                name="nama"
-                control={control}
-                errors={errors}
-                label="Nama Lengkap"
-                placeholder="Nama lengkap admin"
-              />
-
-              <ControlledPassword
-                name="password"
-                control={control}
-                errors={errors}
-                label={
-                  <TextSpan>
-                    Kata Sandi Baru{' '}
-                    <small>(Kosongkan jika tidak ingin mengganti)</small>
-                  </TextSpan>
-                }
-                placeholder="Kata sandi baru admin"
-              />
-
-              <ControlledPassword
-                name="ulangiPassword"
-                control={control}
-                errors={errors}
-                label={
-                  <TextSpan>
-                    Ulangi Kata Sandi Baru{' '}
-                    <small>(Kosongkan jika tidak ingin mengganti)</small>
-                  </TextSpan>
-                }
-                placeholder="Ketik ulang kata sandi baru"
-              />
-            </div>
-
-            <CardSeparator />
-
-            <ModalFooterButtons
-              submit="Simpan"
-              submitColor="warning"
-              isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(undefined)}
-            />
-          </>
-        )}
-      </Form>
+            </>
+          )}
+        </Form>
+      )}
     </Modal>
   )
 }

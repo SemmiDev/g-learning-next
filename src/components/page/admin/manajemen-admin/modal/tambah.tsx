@@ -1,3 +1,4 @@
+import { tambahAdminAction } from '@/actions/admin/admin/tambah-admin'
 import {
   CardSeparator,
   ControlledInput,
@@ -5,32 +6,40 @@ import {
   Form,
   Modal,
   ModalFooterButtons,
+  Text,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
     nama: z.string().pipe(required),
     username: z.string().pipe(required),
-    password: z.string().pipe(requiredPassword),
-    ulangiPassword: z.string().pipe(requiredPassword),
+    password: z
+      .string()
+      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
+    ulangiPassword: z
+      .string()
+      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
   })
   .refine((data) => data.password === data.ulangiPassword, {
     message: 'Password dan ulangi password harus sama.',
     path: ['ulangiPassword'],
   })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahAdminFormSchema = {
   nama?: string
   username?: string
   password?: string
   ulangiPassword?: string
 }
 
-const initialValues: FormSchema = {}
+const initialValues: TambahAdminFormSchema = {}
 
 export default function TambahModal({
   showModal = false,
@@ -39,8 +48,21 @@ export default function TambahModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const onSubmit: SubmitHandler<TambahAdminFormSchema> = async (data) => {
+    await handleActionWithToast(tambahAdminAction(data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.manajemen-admin.table'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -49,7 +71,7 @@ export default function TambahModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<FormSchema>
+      <Form<TambahAdminFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -91,6 +113,14 @@ export default function TambahModal({
                 label="Ulangi Kata Sandi"
                 placeholder="Ketik ulang kata sandi"
               />
+
+              {formError && (
+                <Alert size="sm" variant="flat" color="danger">
+                  <Text size="sm" weight="medium">
+                    {formError}
+                  </Text>
+                </Alert>
+              )}
             </div>
 
             <CardSeparator />

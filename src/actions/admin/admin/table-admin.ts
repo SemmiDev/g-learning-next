@@ -4,6 +4,28 @@ import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestAction } from '@/utils/action'
+import { AnyObject } from '@/utils/type-interface'
+import _ from 'lodash'
+
+export type DataType = {
+  id: string
+  nama: string
+  username: string
+  terakhir_login: string
+}
+
+type ResDataType = {
+  list: DataType[]
+  page_info: {
+    current_page: number
+    per_page: number
+    total_data: number
+    last_page: number
+    from: number
+    to: number
+  }
+}
 
 export const tableAdminAction = async ({
   page = 1,
@@ -11,13 +33,22 @@ export const tableAdminAction = async ({
   sort,
   filters,
 }: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
-  const data = [...Array(10)].map((_, idx) => ({
-    id: idx + 1,
-    nama: 'Nama Asli',
-    username: 'admin',
-    email: 'admin@gmail.com',
-    lastLogin: '02 Desember 2023',
-  }))
+  const { data } = await makeJwtGetRequestAction<ResDataType>(
+    `${process.env.API_URL}/admin/akun`,
+    {
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.direction,
+    }
+  )
 
-  return { data: data, totalData: 50 }
+  return {
+    data:
+      data?.list?.map((item) =>
+        _.pick(item, ['id', 'nama', 'username', 'terakhir_login'])
+      ) ?? [],
+    perPage: data?.page_info?.per_page,
+    totalData: data?.page_info?.per_page,
+  }
 }

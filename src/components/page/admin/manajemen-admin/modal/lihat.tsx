@@ -1,14 +1,15 @@
+import { lihatAdminAction } from '@/actions/admin/admin/lihat-admin'
 import {
   CardSeparator,
+  Loader,
   Modal,
   ModalFooterButtons,
   TextBordered,
+  Time,
 } from '@/components/ui'
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
 type DetailType = {
-  foto?: string | StaticImport
   nama: string
   username: string
   email?: string
@@ -16,45 +17,50 @@ type DetailType = {
 }
 
 type UbahModalProps = {
-  showModal?: number
-  setShowModal(show?: number): void
+  id?: string
+  setId(id?: string): void
 }
 
-export default function LihatModal({
-  showModal,
-  setShowModal,
-}: UbahModalProps) {
-  const [data, setData] = useState<DetailType>()
+export default function LihatModal({ id, setId }: UbahModalProps) {
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['admin.manajemen-admin.table.lihat', id],
+    queryFn: async () => {
+      if (!id) return null
 
-  useEffect(() => {
-    setData({
-      nama: 'Nama Asli',
-      username: 'Admin',
-      email: 'admin@gmail.com',
-      kontak: '0812 3456 7890',
-    })
-  }, [showModal])
+      const { data } = await lihatAdminAction(id)
+      return data
+    },
+  })
 
   return (
     <Modal
       title="Detail Admin"
+      isLoading={!isLoading && isFetching}
       color="info"
-      isOpen={!!showModal}
-      onClose={() => setShowModal(undefined)}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
     >
-      <div className="flex flex-col gap-4 p-3">
-        <TextBordered label="Nama Lengkap">{data?.nama}</TextBordered>
-        <TextBordered label="Username">{data?.username}</TextBordered>
-        <TextBordered label="Email">{data?.email || '-'}</TextBordered>
-        <TextBordered label="Nomor Kontak">{data?.kontak || '-'}</TextBordered>
-      </div>
+      {isLoading ? (
+        <Loader height={336} />
+      ) : (
+        <div className="flex flex-col gap-4 p-3">
+          <TextBordered label="Nama Lengkap">{data?.nama}</TextBordered>
+          <TextBordered label="Username">{data?.username}</TextBordered>
+          <TextBordered label="Nomor Kontak">{data?.hp || '-'}</TextBordered>
+          <TextBordered label="Terakhir Login">
+            <Time
+              date={data?.terakhir_login}
+              format="datetime"
+              empty="-"
+              seconds
+            />
+          </TextBordered>
+        </div>
+      )}
 
       <CardSeparator />
 
-      <ModalFooterButtons
-        cancel="Tutup"
-        onCancel={() => setShowModal(undefined)}
-      />
+      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)} />
     </Modal>
   )
 }

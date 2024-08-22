@@ -9,13 +9,16 @@ import {
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
+  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -53,14 +56,17 @@ export default function UbahModal({
   data,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<UbahProfileFormSchema> = async (data) => {
     await handleActionWithToast(ubahProfileAction(data), {
       loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
       onSuccess: () => {
         setShowModal(false)
         queryClient.invalidateQueries({ queryKey: ['pengguna.profil'] })
       },
+      onError: ({ message }) => setFormError(message),
     })
   }
 
@@ -142,6 +148,14 @@ export default function UbahModal({
                 placeholder="Biodata Diri"
                 errors={errors}
               />
+
+              {formError && (
+                <Alert size="sm" variant="flat" color="danger">
+                  <Text size="sm" weight="medium">
+                    {formError}
+                  </Text>
+                </Alert>
+              )}
             </div>
 
             <CardSeparator />

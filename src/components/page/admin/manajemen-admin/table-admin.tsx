@@ -7,6 +7,7 @@ import {
   renderTableCellText,
   TableCellText,
   TableHeaderCell,
+  Time,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
@@ -17,17 +18,21 @@ import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
+import { handleActionWithToast } from '@/utils/action'
+import { hapusAdminAction } from '@/actions/admin/admin/hapus-admin'
 
 export default function TableAdminCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number>()
-  const [showModalUbah, setShowModalUbah] = useState<number>()
-  const [showModalHapus, setShowModalHapus] = useState<number>()
+  const [idLihat, setIdLihat] = useState<string>()
+  const [idUbah, setIdUbah] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
 
   const {
     data,
     isLoading,
     isFetching,
+    refetch,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -57,28 +62,38 @@ export default function TableAdminCard() {
       }),
     },
     {
-      title: <TableHeaderCell title="Username" />,
+      title: (
+        <TableHeaderCell
+          title="Username"
+          sortable
+          sort={getSortDirection(sort, 'username')}
+        />
+      ),
       dataIndex: 'username',
       render: renderTableCellText,
-    },
-    {
-      title: <TableHeaderCell title="Email" />,
-      dataIndex: 'email',
-      render: (value: string) => <TableCellText>{value || '-'}</TableCellText>,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('username')
+        },
+      }),
     },
     {
       title: (
         <TableHeaderCell
-          title="Last Login"
+          title="Terakhir Login"
           sortable
-          sort={getSortDirection(sort, 'lastLogin')}
+          sort={getSortDirection(sort, 'terakhir_login')}
         />
       ),
-      dataIndex: 'lastLogin',
-      render: renderTableCellText,
+      dataIndex: 'terakhir_login',
+      render: (value: string) => (
+        <TableCellText>
+          <Time date={value} format="datetime" empty="-" seconds />
+        </TableCellText>
+      ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('lastLogin')
+          onSort('terakhir_login')
         },
       }),
     },
@@ -93,7 +108,7 @@ export default function TableAdminCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setShowModalLihat(row.id)}
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -102,7 +117,7 @@ export default function TableAdminCard() {
             size="sm"
             variant="text-colorful"
             color="warning"
-            onClick={() => setShowModalUbah(row.id)}
+            onClick={() => setIdUbah(row.id)}
           >
             <BsPencilSquare />
           </ActionIconTooltip>
@@ -111,7 +126,7 @@ export default function TableAdminCard() {
             size="sm"
             variant="text-colorful"
             color="danger"
-            onClick={() => setShowModalHapus(row.id)}
+            onClick={() => setIdHapus(row.id)}
           >
             <LuTrash />
           </ActionIconTooltip>
@@ -119,6 +134,18 @@ export default function TableAdminCard() {
       ),
     },
   ]
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusAdminAction(idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+        refetch()
+      },
+    })
+  }
 
   return (
     <>
@@ -135,24 +162,24 @@ export default function TableAdminCard() {
             onSearchChange: (e) => onSearch(e.target.value),
           }}
           paginatorOptions={{
-            pageSize: 10,
             current: page,
+            pageSize: perPage,
             total: totalData,
             onChange: (page) => onPageChange(page),
           }}
         />
       </Card>
 
-      <UbahModal showModal={showModalUbah} setShowModal={setShowModalUbah} />
-      <LihatModal showModal={showModalLihat} setShowModal={setShowModalLihat} />
+      <UbahModal id={idUbah} setId={setIdUbah} />
+      <LihatModal id={idLihat} setId={setIdLihat} />
 
       <ModalConfirm
         title="Hapus Admin"
         desc="Apakah Anda yakin ingin menghapus admin ini dari database?"
         color="danger"
-        isOpen={!!showModalHapus}
-        onClose={() => setShowModalHapus(undefined)}
-        onConfirm={() => setShowModalHapus(undefined)}
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
         headerIcon="help"
         closeOnCancel
       />

@@ -18,7 +18,7 @@ const formSchema = z
   .object({
     passwordLama: z
       .string()
-      .pipe(required.min(8, 'Kata sandi minimal 8 karakter')),
+      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
     passwordBaru: z
       .string()
       .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
