@@ -64,6 +64,7 @@ import Input, { InputProps } from './input/input'
 import InputNumber, { InputNumberProps } from './input/number'
 import InputRupiah, { InputRupiahProps } from './input/rupiah'
 import Label from './label'
+import Loader, { LoaderProps } from './loader'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFooterButtons from './modal/footer-buttons'
@@ -136,6 +137,7 @@ export {
   Kelas,
   Label,
   LineGroup,
+  Loader,
   Materi,
   Modal,
   ModalConfirm,
@@ -199,6 +201,7 @@ export {
   type InputRupiahProps,
   type KelasItemType,
   type KelasProps,
+  type LoaderProps,
   type MateriItemType,
   type MateriProps,
   type ModalProps,
