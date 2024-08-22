@@ -111,7 +111,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
 
 const makeJwtDataRequestAction = async <T extends AnyObject>(
   url: string,
-  method: 'POST' | 'PUT',
+  method: 'POST' | 'PUT' | 'DELETE',
   payload: Record<string, string | number | undefined | null> = {}
 ) => {
   try {
@@ -146,3 +146,6 @@ export const makeJwtPutRequestAction = <T extends AnyObject>(
   url: string,
   payload: Record<string, string | number | undefined | null> = {}
 ) => makeJwtDataRequestAction<T>(url, 'PUT', payload)
+
+export const makeJwtDeleteRequestAction = <T extends AnyObject>(url: string) =>
+  makeJwtDataRequestAction<T>(url, 'DELETE')
