@@ -31,7 +31,7 @@ export default function TablePagination({
       )}
     >
       {!setPageSize ? (
-        total && (
+        total !== undefined && (
           <div className="hidden sm:inline-flex">
             <Text size="2xs" variant="lighter">
               Menampilkan {props.current} dari {Math.ceil(total / pageSize)}{' '}

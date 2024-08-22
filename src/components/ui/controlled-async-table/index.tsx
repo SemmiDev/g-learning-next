@@ -22,7 +22,8 @@ export type ControlledAsyncTableActionProps = {
 
 export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
   data: T[]
-  totalData: number
+  totalData?: number
+  perPage?: number
 }
 
 export type ControlledAsyncTableProps = TableProps & {
