@@ -1,13 +1,13 @@
-import { Toaster } from 'react-hot-toast'
-import { ThemeProvider } from '@/components/theme-provider'
 import { inter, lexendDeca } from '@/app/fonts'
+import '@/app/globals.css'
+import NextProgress from '@/components/next-progress'
+import QueryProvider from '@/components/query-provider'
+import SessionProvide from '@/components/session-provider'
+import { ThemeProvider } from '@/components/theme-provider'
 import { siteConfig } from '@/config/site.config'
 import { cn } from '@/utils/class-names'
-import NextProgress from '@/components/next-progress'
 import { getServerSession } from 'next-auth'
-import SessionProvide from '@/components/session-provider'
-
-import '@/app/globals.css'
+import { Toaster } from 'react-hot-toast'
 
 export const metadata = {
   title: siteConfig.title,
@@ -29,7 +29,9 @@ export default async function RootLayout({
       >
         <ThemeProvider>
           <NextProgress />
-          <SessionProvide session={session}>{children}</SessionProvide>
+          <SessionProvide session={session}>
+            <QueryProvider>{children}</QueryProvider>
+          </SessionProvide>
           <Toaster />
         </ThemeProvider>
       </body>
