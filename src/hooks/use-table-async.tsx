@@ -3,10 +3,10 @@ import {
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
 import { AnyObject } from '@/utils/type-interface'
+import { useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { useDebounce } from 'react-use'
 
 export type SortType = {
@@ -34,7 +34,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
     initialFilterState ?? {}
   )
   const [sort, setSort] = useState<SortType>()
-  const [totalData, setTotalData] = useState(1)
+  const [totalData, setTotalData] = useState(0)
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
   const {
@@ -45,11 +45,17 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   } = useQuery<T[]>({
     queryKey: key,
     queryFn: async () => {
-      const resData = await action({ page, search, sort, filters })
-      setTotalData(resData.totalData ?? 0)
-      setPerPage(resData.perPage ?? defaultPerPage)
+      const { data } = await action({
+        page,
+        search,
+        sort,
+        filters,
+      })
 
-      return resData.data
+      setTotalData(data?.pagination?.totalData ?? 0)
+      setPerPage(data?.pagination?.perPage ?? defaultPerPage)
+
+      return data?.list ?? []
     },
   })
 

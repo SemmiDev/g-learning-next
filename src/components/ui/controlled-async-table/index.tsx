@@ -21,9 +21,20 @@ export type ControlledAsyncTableActionProps = {
 }
 
 export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
-  data: T[]
-  totalData?: number
-  perPage?: number
+  success: boolean
+  message?: string
+  error?: string
+  data?: {
+    list?: T[]
+    pagination?: {
+      page?: number
+      perPage?: number
+      totalData?: number
+      lastPage?: number
+      from?: number
+      to?: number
+    }
+  }
 }
 
 export type ControlledAsyncTableProps = TableProps & {

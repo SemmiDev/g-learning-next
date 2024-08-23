@@ -1,30 +1,31 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { Text } from '@/components/ui'
+import { ControlledAsyncTableActionType } from '@/components/ui/controlled-async-table'
 import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
 
-export type ActionPromiseType<T = AnyObject> = {
+export type ActionResponseType<T = AnyObject> = {
   success: boolean
   message?: string
   error?: string
   data?: T
 }
 
-export const handleActionWithToast = async <T extends ActionPromiseType>(
+export const handleActionWithToast = async <T extends ActionResponseType>(
   action: Promise<T>,
   {
     loading = 'Loading...',
-    success = ({ message }: ActionPromiseType) => message,
-    error = ({ message }: ActionPromiseType) => message,
+    success = ({ message }: ActionResponseType) => message,
+    error = ({ message }: ActionResponseType) => message,
     onStart,
     onSuccess,
     onError,
   }: {
     loading?: string
-    success?: string | ((message: ActionPromiseType) => string | undefined)
-    error?: string | ((message: ActionPromiseType) => string | undefined)
+    success?: string | ((message: ActionResponseType) => string | undefined)
+    error?: string | ((message: ActionResponseType) => string | undefined)
     onStart?(): void
     onSuccess?(result: T): void
     onError?(result: T): void
@@ -58,12 +59,45 @@ export const makeActionResponse = <T extends AnyObject>(
   message?: string,
   error?: string,
   data?: T
-): ActionPromiseType<T> => ({
+): ActionResponseType<T> => ({
   success: success,
   message: message ?? (!success ? 'Terjadi kesalahan.' : undefined),
   error: error ?? undefined,
   data: data,
 })
+
+export type ActionResponseTableDataType<T extends AnyObject = AnyObject> = {
+  list: T[]
+  page_info: {
+    current_page: number
+    per_page: number
+    total_data: number
+    last_page: number
+    from: number
+    to: number
+  }
+}
+
+export const makeTableActionResponse = <T extends AnyObject>(
+  actionResponse: ActionResponseType<ActionResponseTableDataType<T>>
+): ControlledAsyncTableActionType<T> => {
+  const { list, page_info } = actionResponse?.data ?? {}
+
+  return {
+    ...actionResponse,
+    data: {
+      list: list,
+      pagination: {
+        page: page_info?.current_page,
+        perPage: page_info?.per_page,
+        totalData: page_info?.total_data,
+        lastPage: page_info?.last_page,
+        from: page_info?.from,
+        to: page_info?.to,
+      },
+    },
+  }
+}
 
 export const makeBasicPostRequestAction = async <T extends AnyObject>(
   url: string,
