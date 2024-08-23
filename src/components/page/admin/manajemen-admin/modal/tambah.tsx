@@ -20,12 +20,8 @@ const formSchema = z
   .object({
     nama: z.string().pipe(required),
     username: z.string().pipe(required),
-    password: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
-    ulangiPassword: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
+    password: z.string().pipe(requiredPassword),
+    ulangiPassword: z.string().pipe(requiredPassword),
   })
   .refine((data) => data.password === data.ulangiPassword, {
     message: 'Password dan ulangi password harus sama.',

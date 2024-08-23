@@ -1,19 +1,25 @@
+import { ubahFotoAction } from '@/actions/pengguna/profil/ubah-foto'
 import {
   CardSeparator,
   ControlledUploadFile,
   Form,
   Modal,
   ModalFooterButtons,
+  Text,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   foto: z.any().superRefine(objectRequired),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   foto?: any
 }
@@ -27,8 +33,25 @@ export default function UbahFotoModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
+  const [formError, setFormError] = useState<string>()
+  const { update: updateSession } = useSession()
+  const queryClient = useQueryClient()
+
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+    const form = new FormData()
+    form.append('foto', data.foto)
+
+    await handleActionWithToast(ubahFotoAction(form), {
+      loading: 'Mengunggah...',
+      error: ({ message }) => message,
+      onStart: () => setFormError(undefined),
+      onSuccess: async ({ data }) => {
+        setShowModal(false)
+        queryClient.invalidateQueries({ queryKey: ['pengguna.profil'] })
+        await updateSession({ picture: data?.foto })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -55,6 +78,14 @@ export default function UbahFotoModal({
                   errors={errors}
                   accept={{ 'image/*': [] }}
                 />
+
+                {formError && (
+                  <Alert size="sm" variant="flat" color="danger">
+                    <Text size="sm" weight="medium">
+                      {formError}
+                    </Text>
+                  </Alert>
+                )}
               </div>
 
               <CardSeparator />

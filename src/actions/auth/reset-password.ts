@@ -10,7 +10,7 @@ export const resetPasswordAction = (data: LupaPassowrdFormSchema) =>
   })
 
 export const verifikasiTokenResetPasswordAction = (token: string) =>
-  makeBasicPostRequestAction(
+  makeBasicPostRequestAction<{ valid: boolean }>(
     `${process.env.API_URL}/auth/verifikasi-token-reset-password`,
     {
       token: token,

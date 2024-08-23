@@ -11,7 +11,7 @@ export default function DashboardBody() {
   const { data: session } = useSession()
   const level = session?.user?.level
 
-  // console.log('current session', session)
+  console.log('current session', session)
 
   if (!session) return null
 

@@ -187,7 +187,7 @@ export const authOptions: AuthOptions = {
       return token
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      // console.log('session callback', session)
+      // console.log('session callback', session, token)
 
       if (token) {
         const jwtToken = token.jwt as string
@@ -198,6 +198,7 @@ export const authOptions: AuthOptions = {
           ...session.user,
           username: decoded.username,
           level: decoded.tipe,
+          image: token.picture,
         }
         session.jwt = jwtToken
         session.refreshToken = token.refreshToken as string
@@ -233,7 +234,7 @@ async function checkJwtAndRefresh(jwt: string, refreshToken?: string | null) {
 
   const decodedToken = jwtDecode<any>(jwt ?? '')
 
-  // if JWT for API will be expired one hour from now
+  // if JWT for API will not be expired one hour from now
   if (
     Date.now() + 60 * 60 * 1000 < Date.parse(decodedToken?.expired_at) ||
     !refreshToken

@@ -4,4 +4,7 @@ const message = 'Wajib diisi'
 
 export const required = z.string().trim().min(1, { message: message })
 
-export const requiredPassword = z.string().min(1, { message: message })
+export const requiredPassword = z
+  .string()
+  .min(1, { message: message })
+  .min(8, 'Kata sandi minimal 8 karakter')

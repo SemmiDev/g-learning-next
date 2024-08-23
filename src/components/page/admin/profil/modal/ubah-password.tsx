@@ -1,28 +1,31 @@
+import { ubahPassowrdAction } from '@/actions/admin/profil/ubah-password'
 import {
   CardSeparator,
   ControlledPassword,
   Form,
   Modal,
   ModalFooterButtons,
+  Text,
 } from '@/components/ui'
-import { required } from '@/utils/validations/pipe'
+import { handleActionWithToast } from '@/utils/action'
+import { requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
-    passwordLama: z.string().pipe(required),
-    passwordBaru: z.string().pipe(required),
-    ulangiPassword: z.string().pipe(required),
+    passwordLama: z.string().pipe(requiredPassword),
+    passwordBaru: z.string().pipe(requiredPassword),
+    ulangiPassword: z.string().pipe(requiredPassword),
   })
   .refine((data) => data.passwordBaru === data.ulangiPassword, {
     message: 'Password baru dan ulangi password baru harus sama.',
     path: ['ulangiPassword'],
   })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+type UbahPasswordFormSchema = {
   passwordLama?: string
   passwordBaru?: string
   ulangiPassword?: string
@@ -33,14 +36,22 @@ type UbahModalProps = {
   setShowModal(show: boolean): void
 }
 
-export default function UbahSandiModal({
+const initialValues = {}
+
+export default function UbahPasswordModal({
   showModal,
   setShowModal,
 }: UbahModalProps) {
-  const [initialValues, setInitialValues] = useState<FormSchema>()
+  const [formError, setFormError] = useState<string>()
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const onSubmit: SubmitHandler<UbahPasswordFormSchema> = async (data) => {
+    await handleActionWithToast(ubahPassowrdAction(data), {
+      loading: 'Menyimpan...',
+      error: ({ message }) => message,
+      onStart: () => setFormError(undefined),
+      onSuccess: () => setShowModal(false),
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -50,12 +61,12 @@ export default function UbahSandiModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<FormSchema>
+      <Form<UbahPasswordFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
           mode: 'onSubmit',
-          defaultValues: initialValues ?? {},
+          defaultValues: initialValues,
         }}
       >
         {({ control, formState: { errors, isSubmitting } }) => (
@@ -84,6 +95,14 @@ export default function UbahSandiModal({
                 label="Ulangi Kata Sandi Baru"
                 placeholder="Ulangi Kata Sandi Baru"
               />
+
+              {formError && (
+                <Alert size="sm" variant="flat" color="danger">
+                  <Text size="sm" weight="medium">
+                    {formError}
+                  </Text>
+                </Alert>
+              )}
             </div>
 
             <CardSeparator />

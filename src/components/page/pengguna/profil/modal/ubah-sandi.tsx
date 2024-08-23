@@ -8,7 +8,7 @@ import {
   Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { required, requiredPassword } from '@/utils/validations/pipe'
+import { requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
@@ -16,15 +16,9 @@ import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
-    passwordLama: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
-    passwordBaru: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
-    ulangiPassword: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
+    passwordLama: z.string().pipe(requiredPassword),
+    passwordBaru: z.string().pipe(requiredPassword),
+    ulangiPassword: z.string().pipe(requiredPassword),
   })
   .refine((data) => data.passwordBaru === data.ulangiPassword, {
     message: 'Password baru dan ulangi password baru harus sama.',
@@ -50,10 +44,9 @@ export default function UbahSandiModal({
 }: UbahModalProps) {
   const [formError, setFormError] = useState<string>()
 
-  const onSubmit: SubmitHandler<UbahPasswordFormSchema> = (data) => {
-    handleActionWithToast(ubahPassowrdAction(data), {
+  const onSubmit: SubmitHandler<UbahPasswordFormSchema> = async (data) => {
+    await handleActionWithToast(ubahPassowrdAction(data), {
       loading: 'Menyimpan...',
-      success: 'Berhasil mengubah kata sandi',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),
       onSuccess: () => setShowModal(false),

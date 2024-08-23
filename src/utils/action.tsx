@@ -36,6 +36,7 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
   const toastId = toast.loading(<Text>{loading}</Text>)
 
   const res = await action
+  // console.log(res)
 
   toast.dismiss(toastId)
 
@@ -61,7 +62,7 @@ export const makeActionResponse = <T extends AnyObject>(
   data?: T
 ): ActionResponseType<T> => ({
   success: success,
-  message: message ?? (!success ? 'Terjadi kesalahan.' : undefined),
+  message: message ?? (!success ? 'Terjadi kesalahan' : undefined),
   error: error ?? undefined,
   data: data,
 })
@@ -99,9 +100,11 @@ export const makeTableActionResponse = <T extends AnyObject>(
   }
 }
 
+type PayloadType = Record<string, string | number | undefined | null> | FormData
+
 export const makeBasicPostRequestAction = async <T extends AnyObject>(
   url: string,
-  payload: Record<string, string | number | undefined> = {}
+  payload: PayloadType = {}
 ) => {
   try {
     const res = await fetch(url, {
@@ -138,7 +141,6 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
     const res = await fetch(makeUrl(url, params), {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt ?? ''}`,
       },
     })
@@ -154,20 +156,24 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
 const makeJwtDataRequestAction = async <T extends AnyObject>(
   url: string,
   method: 'POST' | 'PUT' | 'DELETE',
-  payload: Record<string, string | number | undefined | null> = {}
+  payload: PayloadType = {}
 ) => {
   try {
-    // console.log(payload)
+    console.log(payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
+
+    const headerContentType = !(payload instanceof FormData)
+      ? { 'Content-Type': 'application/json' }
+      : null
 
     const res = await fetch(url, {
       method,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt ?? ''}`,
+        ...headerContentType,
       },
-      body: JSON.stringify(payload),
+      body: payload instanceof FormData ? payload : JSON.stringify(payload),
     })
 
     const { success, message, errors, data } = await res.json()
@@ -181,12 +187,12 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
 
 export const makeJwtPostRequestAction = <T extends AnyObject>(
   url: string,
-  payload: Record<string, string | number | undefined | null> = {}
+  payload: PayloadType = {}
 ) => makeJwtDataRequestAction<T>(url, 'POST', payload)
 
 export const makeJwtPutRequestAction = <T extends AnyObject>(
   url: string,
-  payload: Record<string, string | number | undefined | null> = {}
+  payload: PayloadType = {}
 ) => makeJwtDataRequestAction<T>(url, 'PUT', payload)
 
 export const makeJwtDeleteRequestAction = <T extends AnyObject>(url: string) =>

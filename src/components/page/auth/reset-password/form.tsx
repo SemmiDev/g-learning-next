@@ -20,12 +20,8 @@ import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
-    password: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
-    ulangiPassword: z
-      .string()
-      .pipe(requiredPassword.min(8, 'Kata sandi minimal 8 karakter')),
+    password: z.string().pipe(requiredPassword),
+    ulangiPassword: z.string().pipe(requiredPassword),
   })
   .refine((data) => data.password === data.ulangiPassword, {
     message: 'Kata sandi dan ulangi kata sandi harus sama.',
@@ -80,7 +76,7 @@ export default function ResetPasswordForm() {
   const checkToken = useCallback(async () => {
     const { success, data } = await verifikasiTokenResetPasswordAction(token)
 
-    if (!success || !data.valid) {
+    if (!success || !data?.valid) {
       toast.error(
         <Text>Permintaan reset kata sandi tidak valid atau sudah expired.</Text>
       )

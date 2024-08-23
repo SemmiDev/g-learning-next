@@ -1,5 +1,5 @@
 import { dataProfileAction } from '@/actions/pengguna/profil/data'
-import ProfilBody from '@/components/page/pengguna/profil/body'
+import ProfileBody from '@/components/page/pengguna/profil/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
@@ -40,7 +40,7 @@ export default async function ProfilePage() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ProfilBody />
+        <ProfileBody />
       </HydrationBoundary>
     </>
   )
