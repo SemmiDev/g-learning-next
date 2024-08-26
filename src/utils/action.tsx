@@ -100,7 +100,7 @@ export const makeTableActionResponse = <T extends AnyObject>(
   }
 }
 
-type PayloadType = Record<string, string | number | undefined | null> | FormData
+type PayloadType = Record<string, any> | FormData
 
 export const makeBasicPostRequestAction = async <T extends AnyObject>(
   url: string,
@@ -159,7 +159,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
   payload: PayloadType = {}
 ) => {
   try {
-    console.log(payload)
+    // console.log(payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 

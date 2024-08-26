@@ -21,7 +21,7 @@ export const tableAdminAction = async ({
   page = 1,
   search = '',
   sort,
-}: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
+}: ControlledAsyncTableActionProps = {}): Promise<ControlledAsyncTableActionType> => {
   const resData = await makeJwtGetRequestAction<
     ActionResponseTableDataType<DataType>
   >(`${process.env.API_URL}/admin/akun`, {

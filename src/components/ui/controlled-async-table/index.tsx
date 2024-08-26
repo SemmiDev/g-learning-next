@@ -14,7 +14,7 @@ import { CgSpinner } from 'react-icons/cg'
 import { Title } from 'rizzui'
 
 export type ControlledAsyncTableActionProps = {
-  page: number
+  page?: number
   search?: string
   sort?: SortType
   filters?: AnyObject
@@ -82,8 +82,8 @@ export default function ControlledAsyncTable({
 
       <div
         className={cn(
-          'relative',
-          isFetching && 'cursor-wait [&_th>div]:cursor-wait'
+          'relative'
+          // isFetching && 'cursor-wait [&_th>div]:cursor-wait'
         )}
       >
         {isFetching && (
