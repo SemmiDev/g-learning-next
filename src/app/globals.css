@@ -652,7 +652,7 @@ select:-webkit-autofill:focus {
 
 /* year dropdown */
 .react-datepicker .react-datepicker__year-dropdown {
-  @apply h-80;
+  @apply h-80 overflow-y-auto;
 }
 
 /* month dropdown */

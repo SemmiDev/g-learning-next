@@ -1,4 +1,4 @@
-import { lihatAdminAction } from '@/actions/admin/admin/lihat-admin'
+import { lihatAdminAction } from '@/actions/admin/admin/lihat'
 import {
   CardSeparator,
   Loader,

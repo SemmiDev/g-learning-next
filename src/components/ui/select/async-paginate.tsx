@@ -5,7 +5,7 @@ import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
 import Label from '../label'
 import TextLabel from '../text/label'
-import { ClassNamesType, makeClassNames } from './style'
+import { makeClassNames } from './style'
 
 export type AsyncPaginateSelectActionProps<OptionType> = {
   search: string

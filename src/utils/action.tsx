@@ -153,13 +153,25 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
   }
 }
 
+export const makeJwtGetRequestTableAction = async <T extends AnyObject>(
+  url: string,
+  params?: GetRequestParamsType
+) => {
+  const resData = await makeJwtGetRequestAction<ActionResponseTableDataType<T>>(
+    url,
+    params
+  )
+
+  return makeTableActionResponse(resData)
+}
+
 const makeJwtDataRequestAction = async <T extends AnyObject>(
   url: string,
   method: 'POST' | 'PUT' | 'DELETE',
   payload: PayloadType = {}
 ) => {
   try {
-    // console.log(payload)
+    // console.log('Send Request', payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -177,7 +189,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
     })
 
     const { success, message, errors, data } = await res.json()
-    // console.log({ success, message, errors, data })
+    // console.log('Response', { success, message, errors, data })
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {

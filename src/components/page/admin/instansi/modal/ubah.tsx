@@ -1,19 +1,30 @@
+import { lihatInstansiAction } from '@/actions/admin/instansi/lihat'
+import { ubahInstansiAction } from '@/actions/admin/instansi/ubah'
+import { paketInstansiSelectDataAction } from '@/actions/async-select/paket-instansi'
 import {
   CardSeparator,
+  ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
   ControlledPassword,
   ControlledSelect,
   Form,
+  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
+  Text,
+  TextSpan,
 } from '@/components/ui'
-import { required } from '@/utils/validations/pipe'
+import { handleActionWithToast } from '@/utils/action'
+import { selectOption } from '@/utils/object'
+import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
-import { useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -24,11 +35,10 @@ const formSchema = z.object({
   paket: z.any().superRefine(objectRequired),
   jatuhTempo: z.date(),
   usernameAdmin: z.string().pipe(required),
-  passwordAdmin: z.string().pipe(required),
+  passwordAdmin: z.string().pipe(requiredPassword).optional().or(z.literal('')),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type UbahInstansiFormSchema = {
   nama?: string
   kontak?: string
   pimpinan?: string
@@ -41,147 +51,205 @@ type FormSchema = {
 }
 
 const jenisOptions: SelectOptionType[] = [
-  { value: 'jenis1', label: 'Jenis 1', jargon: 'ok' },
-  { value: 'jenis2', label: 'Jenis 2' },
-]
-
-const paketOptions: SelectOptionType[] = [
-  { value: 'paket1', label: 'Paket 1' },
-  { value: 'paket2', label: 'Paket 2' },
+  selectOption('Instansi'),
+  selectOption('Bimbel'),
 ]
 
 type UbahModalProps = {
-  showModal?: number
-  setShowModal(show?: number): void
+  id?: string
+  setId(id?: string): void
 }
 
-export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
-  const [initialValues, setInitialValues] = useState<FormSchema | undefined>()
+export default function UbahModal({ id, setId }: UbahModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
 
-  useEffect(() => {
-    setInitialValues({
-      nama: 'Instansi Saya',
-      kontak: '08676876',
-      pimpinan: 'Pimpinan Saya',
-      kontakPimpinan: '08798789',
-      jenis: { value: 'jenis2', label: 'Jenis 2' },
-      paket: { value: 'paket1', label: 'Paket 1' },
-      jatuhTempo: new Date(),
-      usernameAdmin: 'admin',
-      passwordAdmin: 'adminok123',
+  const {
+    data: initialValues,
+    isLoading,
+    isFetching,
+  } = useQuery<UbahInstansiFormSchema>({
+    queryKey: ['admin.manajemen-admin.table.ubah', id],
+    queryFn: async () => {
+      if (!id) return {}
+
+      const { data } = await lihatInstansiAction(id)
+
+      return {
+        nama: data?.instansi?.nama,
+        kontak: data?.instansi?.telepon_instansi,
+        pimpinan: data?.instansi?.nama_pimpinan,
+        kontakPimpinan: data?.instansi?.telepon_pimpinan,
+        jenis: data?.instansi?.jenis
+          ? selectOption(data?.instansi?.jenis)
+          : undefined,
+        paket: data?.paket_instansi?.id
+          ? {
+              value: data?.paket_instansi?.id,
+              label: data?.paket_instansi?.nama ?? '',
+            }
+          : undefined,
+        jatuhTempo: data?.instansi?.jatuh_tempo
+          ? new Date(Date.parse(data?.instansi?.jatuh_tempo))
+          : undefined,
+        usernameAdmin: data?.pengguna?.username,
+      }
+    },
+  })
+
+  const onSubmit: SubmitHandler<UbahInstansiFormSchema> = async (data) => {
+    if (!id) return
+
+    await handleActionWithToast(ubahInstansiAction(id, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setId(undefined)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.instansi.table'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
     })
-  }, [showModal])
-
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
   }
 
   return (
     <Modal
       title="Ubah Instansi"
+      isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={!!showModal}
-      onClose={() => setShowModal(undefined)}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
     >
-      <Form<FormSchema>
-        onSubmit={onSubmit}
-        validationSchema={formSchema}
-        useFormProps={{
-          mode: 'onSubmit',
-          defaultValues: initialValues ?? {},
-        }}
-      >
-        {({ control, formState: { errors, isSubmitting } }) => (
-          <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledInput
-                name="nama"
-                control={control}
-                errors={errors}
-                label="Nama Instansi"
-                placeholder="Nama Instansi"
+      {isLoading ? (
+        <Loader height={336} />
+      ) : (
+        <Form<UbahInstansiFormSchema>
+          onSubmit={onSubmit}
+          validationSchema={formSchema}
+          useFormProps={{
+            mode: 'onSubmit',
+            defaultValues: initialValues,
+            values: initialValues,
+          }}
+        >
+          {({ control, formState: { errors, isSubmitting } }) => (
+            <>
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledInput
+                  name="nama"
+                  control={control}
+                  errors={errors}
+                  label="Nama Instansi"
+                  placeholder="Nama Instansi"
+                  required
+                />
+
+                <ControlledInput
+                  name="kontak"
+                  control={control}
+                  errors={errors}
+                  label="Nomor Kontak Instansi"
+                  placeholder="08xxxxxxx"
+                  required
+                />
+
+                <ControlledInput
+                  name="pimpinan"
+                  control={control}
+                  errors={errors}
+                  label="Nama Pimpinan"
+                  placeholder="Nama Pimpinan"
+                  required
+                />
+
+                <ControlledInput
+                  name="kontakPimpinan"
+                  control={control}
+                  errors={errors}
+                  label="Nomor Kontak Pimpinan"
+                  placeholder="08xxxxxxx"
+                  required
+                />
+
+                <ControlledSelect
+                  name="jenis"
+                  control={control}
+                  options={jenisOptions}
+                  label="Jenis Instansi"
+                  placeholder="Pilih Jenis Instansi"
+                  errors={errors}
+                  required
+                />
+
+                <ControlledAsyncPaginateSelect
+                  name="paket"
+                  control={control}
+                  label="Paket"
+                  placeholder="Pilih Paket"
+                  action={paketInstansiSelectDataAction}
+                  construct={(data) => ({
+                    label: data.nama,
+                    value: data.id,
+                  })}
+                  errors={errors}
+                  required
+                />
+
+                <ControlledDatePicker
+                  name="jatuhTempo"
+                  control={control}
+                  errors={errors}
+                  label="Tanggal Jatuh Tempo"
+                  placeholder="Tanggal Jatuh Tempo"
+                  showMonthDropdown
+                  showYearDropdown
+                  required
+                />
+
+                <ControlledInput
+                  name="usernameAdmin"
+                  control={control}
+                  errors={errors}
+                  label="Username Admin Instansi"
+                  placeholder="Username Admin Instansi"
+                  required
+                />
+
+                <ControlledPassword
+                  name="passwordAdmin"
+                  control={control}
+                  errors={errors}
+                  label={
+                    <TextSpan>
+                      Kata Sandi Baru Admin Instansi{' '}
+                      <small>(Kosongkan jika tidak ingin mengganti)</small>
+                    </TextSpan>
+                  }
+                  placeholder="Kata Sandi untuk Admin Instansi"
+                />
+
+                {formError && (
+                  <Alert size="sm" variant="flat" color="danger">
+                    <Text size="sm" weight="medium">
+                      {formError}
+                    </Text>
+                  </Alert>
+                )}
+              </div>
+
+              <CardSeparator />
+
+              <ModalFooterButtons
+                submit="Simpan"
+                submitColor="warning"
+                isSubmitting={isSubmitting}
+                onCancel={() => setId(undefined)}
               />
-
-              <ControlledInput
-                name="kontak"
-                control={control}
-                errors={errors}
-                label="Nomor Kontak Instansi"
-                placeholder="08xxxxxxx"
-              />
-
-              <ControlledInput
-                name="pimpinan"
-                control={control}
-                errors={errors}
-                label="Nama Pimpinan"
-                placeholder="Nama Pimpinan"
-              />
-
-              <ControlledInput
-                name="kontakPimpinan"
-                control={control}
-                errors={errors}
-                label="Nomor Kontak Pimpinan"
-                placeholder="08xxxxxxx"
-              />
-
-              <ControlledSelect
-                name="jenis"
-                control={control}
-                options={jenisOptions}
-                label="Jenis Instansi"
-                placeholder="Pilih Jenis Instansi"
-                errors={errors}
-                isClearable
-              />
-
-              <ControlledSelect
-                name="paket"
-                control={control}
-                options={paketOptions}
-                label="Paket"
-                placeholder="Pilih Paket"
-                errors={errors}
-                isClearable
-              />
-
-              <ControlledDatePicker
-                name="jatuhTempo"
-                control={control}
-                errors={errors}
-                label="Tanggal Jatuh Tempo"
-                placeholder="Tanggal Jatuh Tempo"
-              />
-
-              <ControlledInput
-                name="usernameAdmin"
-                control={control}
-                errors={errors}
-                label="Username Admin Kampus"
-                placeholder="Username Admin Kampus"
-              />
-
-              <ControlledPassword
-                name="passwordAdmin"
-                control={control}
-                errors={errors}
-                label="Kata Sandi Admin Kampus"
-                placeholder="Kata Sandi untuk Admin Kampus"
-              />
-            </div>
-
-            <CardSeparator />
-
-            <ModalFooterButtons
-              submit="Simpan"
-              submitColor="warning"
-              isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(undefined)}
-            />
-          </>
-        )}
-      </Form>
+            </>
+          )}
+        </Form>
+      )}
     </Modal>
   )
 }

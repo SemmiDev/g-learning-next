@@ -1,4 +1,5 @@
-import { tableInstansiAction } from '@/actions/admin/instansi/table-instansi'
+import { hapusInstansiAction } from '@/actions/admin/instansi/hapus'
+import { tableInstansiAction } from '@/actions/admin/instansi/table'
 import {
   ActionIconTooltip,
   Card,
@@ -6,11 +7,13 @@ import {
   ModalConfirm,
   renderTableCellText,
   TableHeaderCell,
+  Time,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { renderTableCellTextCenter } from '@/components/ui/table'
+import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { handleActionWithToast } from '@/utils/action'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -20,11 +23,12 @@ import { LuEye, LuTrash } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
 
 export default function TableInstansiCard() {
-  const [showModalUbah, setShowModalUbah] = useState<number | undefined>()
-  const [showModalHapus, setShowModalHapus] = useState<number | undefined>()
+  const [idUbah, setIdUbah] = useState<string | undefined>()
+  const [idHapus, setIdHapus] = useState<string | undefined>()
 
   const {
     data,
+    refetch,
     isLoading,
     isFetching,
     page,
@@ -43,7 +47,7 @@ export default function TableInstansiCard() {
     {
       title: (
         <TableHeaderCell
-          title="Nama"
+          title="Nama Instansi"
           sortable
           sort={getSortDirection(sort, 'nama')}
         />
@@ -58,23 +62,35 @@ export default function TableInstansiCard() {
     },
     {
       title: <TableHeaderCell title="Paket" align="center" />,
-      dataIndex: 'paket',
+      dataIndex: 'nama_paket',
       render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Pengguna" align="center" />,
-      dataIndex: 'jumlahPengguna',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_pengguna',
+      render: (value: number, row: any) => (
+        <TableCellText align="center">
+          {value}/{row.batas_pengguna}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
-      dataIndex: 'jumlahPenyimpanan',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_penyimpanan_terpakai',
+      render: (value: number, row: any) => (
+        <TableCellText align="center">
+          {value}/{row.batas_penyimpanan}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'jumlahKelas',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_kelas',
+      render: (value: number, row: any) => (
+        <TableCellText align="center">
+          {value}/{row.batas_kelas}
+        </TableCellText>
+      ),
     },
     {
       title: (
@@ -82,14 +98,18 @@ export default function TableInstansiCard() {
           title="Tanggal Jatuh Tempo"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'jatuhTempo')}
+          sort={getSortDirection(sort, 'jatuh_tempo')}
         />
       ),
-      dataIndex: 'jatuhTempo',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jatuh_tempo',
+      render: (value: string) => (
+        <TableCellText align="center">
+          <Time date={value} />
+        </TableCellText>
+      ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('jatuhTempo')
+          onSort('jatuh_tempo')
         },
       }),
     },
@@ -113,7 +133,7 @@ export default function TableInstansiCard() {
             size="sm"
             variant="text-colorful"
             color="warning"
-            onClick={() => setShowModalUbah(row.id)}
+            onClick={() => setIdUbah(row.id)}
           >
             <BsPencilSquare />
           </ActionIconTooltip>
@@ -122,7 +142,7 @@ export default function TableInstansiCard() {
             size="sm"
             variant="text-colorful"
             color="danger"
-            onClick={() => setShowModalHapus(row.id)}
+            onClick={() => setIdHapus(row.id)}
           >
             <LuTrash />
           </ActionIconTooltip>
@@ -130,6 +150,18 @@ export default function TableInstansiCard() {
       ),
     },
   ]
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusInstansiAction(idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+        refetch()
+      },
+    })
+  }
 
   return (
     <>
@@ -154,15 +186,15 @@ export default function TableInstansiCard() {
         />
       </Card>
 
-      <UbahModal showModal={showModalUbah} setShowModal={setShowModalUbah} />
+      <UbahModal id={idUbah} setId={setIdUbah} />
 
       <ModalConfirm
         title="Hapus Instansi"
         desc="Apakah Anda yakin ingin menghapus instansi ini dari database?"
         color="danger"
-        isOpen={!!showModalHapus}
-        onClose={() => setShowModalHapus(undefined)}
-        onConfirm={() => setShowModalHapus(undefined)}
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
         headerIcon="help"
         closeOnCancel
       />

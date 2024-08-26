@@ -1,5 +1,8 @@
+import { tambahInstansiAction } from '@/actions/admin/instansi/tambah'
+import { paketInstansiSelectDataAction } from '@/actions/async-select/paket-instansi'
 import {
   CardSeparator,
+  ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
   ControlledPassword,
@@ -8,11 +11,17 @@ import {
   Modal,
   ModalFooterButtons,
   SelectOptionType,
+  Text,
 } from '@/components/ui'
-import { required } from '@/utils/validations/pipe'
+import { handleActionWithToast } from '@/utils/action'
+import { selectOption } from '@/utils/object'
+import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -23,33 +32,27 @@ const formSchema = z.object({
   paket: z.any().superRefine(objectRequired),
   jatuhTempo: z.date(),
   usernameAdmin: z.string().pipe(required),
-  passwordAdmin: z.string().pipe(required),
+  passwordAdmin: z.string().pipe(requiredPassword),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahInstansiFormSchema = {
   nama?: string
   kontak?: string
   pimpinan?: string
   kontakPimpinan?: string
-  jenis?: string
-  paket?: string
+  jenis?: SelectOptionType
+  paket?: SelectOptionType
   jatuhTempo?: Date
   usernameAdmin?: string
   passwordAdmin?: string
 }
 
 const jenisOptions: SelectOptionType[] = [
-  { value: 'jenis1', label: 'Jenis 1', jargon: 'ok' },
-  { value: 'jenis2', label: 'Jenis 2' },
+  selectOption('Instansi'),
+  selectOption('Bimbel'),
 ]
 
-const paketOptions: SelectOptionType[] = [
-  { value: 'paket1', label: 'Paket 1' },
-  { value: 'paket2', label: 'Paket 2' },
-]
-
-const initialValues: FormSchema = {}
+const initialValues: TambahInstansiFormSchema = {}
 
 export default function TambahModal({
   showModal = false,
@@ -58,8 +61,21 @@ export default function TambahModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const onSubmit: SubmitHandler<TambahInstansiFormSchema> = async (data) => {
+    await handleActionWithToast(tambahInstansiAction(data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.instansi.table'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -68,7 +84,7 @@ export default function TambahModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<FormSchema>
+      <Form<TambahInstansiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -85,6 +101,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nama Instansi"
                 placeholder="Nama Instansi"
+                required
               />
 
               <ControlledInput
@@ -93,6 +110,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nomor Kontak Instansi"
                 placeholder="08xxxxxxx"
+                required
               />
 
               <ControlledInput
@@ -101,6 +119,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nama Pimpinan"
                 placeholder="Nama Pimpinan"
+                required
               />
 
               <ControlledInput
@@ -109,6 +128,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nomor Kontak Pimpinan"
                 placeholder="08xxxxxxx"
+                required
               />
 
               <ControlledSelect
@@ -118,17 +138,21 @@ export default function TambahModal({
                 label="Jenis Instansi"
                 placeholder="Pilih Jenis Instansi"
                 errors={errors}
-                isClearable
+                required
               />
 
-              <ControlledSelect
+              <ControlledAsyncPaginateSelect
                 name="paket"
                 control={control}
-                options={paketOptions}
                 label="Paket"
                 placeholder="Pilih Paket"
+                action={paketInstansiSelectDataAction}
+                construct={(data) => ({
+                  label: data.nama,
+                  value: data.id,
+                })}
                 errors={errors}
-                isClearable
+                required
               />
 
               <ControlledDatePicker
@@ -137,23 +161,36 @@ export default function TambahModal({
                 errors={errors}
                 label="Tanggal Jatuh Tempo"
                 placeholder="Tanggal Jatuh Tempo"
+                showMonthDropdown
+                showYearDropdown
+                required
               />
 
               <ControlledInput
                 name="usernameAdmin"
                 control={control}
                 errors={errors}
-                label="Username Admin Kampus"
-                placeholder="Username Admin Kampus"
+                label="Username Admin Instansi"
+                placeholder="Username Admin Instansi"
+                required
               />
 
               <ControlledPassword
                 name="passwordAdmin"
                 control={control}
                 errors={errors}
-                label="Kata Sandi Admin Kampus"
-                placeholder="Kata Sandi untuk Admin Kampus"
+                label="Kata Sandi Admin Instansi"
+                placeholder="Kata Sandi untuk Admin Instansi"
+                required
               />
+
+              {formError && (
+                <Alert size="sm" variant="flat" color="danger">
+                  <Text size="sm" weight="medium">
+                    {formError}
+                  </Text>
+                </Alert>
+              )}
             </div>
 
             <CardSeparator />

@@ -1,5 +1,5 @@
-import { lihatAdminAction } from '@/actions/admin/admin/lihat-admin'
-import { ubahAdminAction } from '@/actions/admin/admin/ubah-admin'
+import { lihatAdminAction } from '@/actions/admin/admin/lihat'
+import { ubahAdminAction } from '@/actions/admin/admin/ubah'
 import {
   CardSeparator,
   ControlledInput,
@@ -12,7 +12,7 @@ import {
   TextSpan,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { required } from '@/utils/validations/pipe'
+import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -23,8 +23,12 @@ const formSchema = z
   .object({
     nama: z.string().pipe(required),
     username: z.string().pipe(required),
-    password: z.string().optional(),
-    ulangiPassword: z.string().optional(),
+    password: z.string().pipe(requiredPassword).optional().or(z.literal('')),
+    ulangiPassword: z
+      .string()
+      .pipe(requiredPassword)
+      .optional()
+      .or(z.literal('')),
   })
   .refine(
     (data) =>
@@ -115,6 +119,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   errors={errors}
                   label="Username"
                   placeholder="Username admin"
+                  required
                 />
 
                 <ControlledInput
@@ -123,6 +128,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   errors={errors}
                   label="Nama Lengkap"
                   placeholder="Nama lengkap admin"
+                  required
                 />
 
                 <ControlledPassword

@@ -1,4 +1,5 @@
-import { tableAdminAction } from '@/actions/admin/admin/table-admin'
+import { hapusAdminAction } from '@/actions/admin/admin/hapus'
+import { tableAdminAction } from '@/actions/admin/admin/table'
 import {
   ActionIconTooltip,
   Card,
@@ -11,6 +12,7 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { handleActionWithToast } from '@/utils/action'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
@@ -18,8 +20,6 @@ import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
-import { handleActionWithToast } from '@/utils/action'
-import { hapusAdminAction } from '@/actions/admin/admin/hapus-admin'
 
 export default function TableAdminCard() {
   const [idLihat, setIdLihat] = useState<string>()

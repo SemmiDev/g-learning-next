@@ -1,4 +1,4 @@
-import { tableAdminAction } from '@/actions/admin/admin/table-admin'
+import { tableAdminAction } from '@/actions/admin/admin/table'
 import ManajemenAdminBody from '@/components/page/admin/manajemen-admin/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'

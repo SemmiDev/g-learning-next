@@ -1,4 +1,4 @@
-import { tambahAdminAction } from '@/actions/admin/admin/tambah-admin'
+import { tambahAdminAction } from '@/actions/admin/admin/tambah'
 import {
   CardSeparator,
   ControlledInput,
@@ -84,6 +84,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Username"
                 placeholder="Username admin"
+                required
               />
 
               <ControlledInput
@@ -92,6 +93,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nama Lengkap"
                 placeholder="Nama lengkap admin"
+                required
               />
 
               <ControlledPassword
@@ -100,6 +102,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Kata Sandi"
                 placeholder="Kata sandi admin"
+                required
               />
 
               <ControlledPassword
@@ -108,6 +111,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Ulangi Kata Sandi"
                 placeholder="Ketik ulang kata sandi"
+                required
               />
 
               {formError && (
