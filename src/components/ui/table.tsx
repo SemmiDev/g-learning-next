@@ -159,9 +159,9 @@ export function TableHeaderCell({
       {sortable && (
         <div className="inline-flex">
           {sort === 'asc' ? (
-            <TbCaretDownFilled className={cn(iconClassName)} />
-          ) : sort === 'desc' ? (
             <TbCaretUpFilled className={cn(iconClassName)} />
+          ) : sort === 'desc' ? (
+            <TbCaretDownFilled className={cn(iconClassName)} />
           ) : (
             <TbCaretUpDownFilled className={cn(iconClassName)} />
           )}
