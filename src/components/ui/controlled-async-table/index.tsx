@@ -61,19 +61,6 @@ export default function ControlledAsyncTable({
   className,
   ...tableProps
 }: ControlledAsyncTableProps) {
-  if (isLoading) {
-    return (
-      <div className="flex flex-col h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
-        <CgSpinner size={40} className="animate-spin text-primary" />
-        {showLoadingText ? (
-          <Title as="h6" className="-me-2 mt-4 font-medium text-gray-500">
-            Loading...
-          </Title>
-        ) : null}
-      </div>
-    )
-  }
-
   return (
     <>
       {!isEmpty(filterOptions) && (
@@ -95,6 +82,7 @@ export default function ControlledAsyncTable({
         )}
         <Table
           rowKey={(record) => record.id}
+          isLoading={isLoading}
           className={cn(className)}
           {...tableProps}
         />

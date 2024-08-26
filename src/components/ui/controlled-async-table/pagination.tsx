@@ -34,8 +34,14 @@ export default function TablePagination({
         total !== undefined && (
           <div className="hidden sm:inline-flex">
             <Text size="2xs" variant="lighter">
-              Menampilkan {props.current} dari {Math.ceil(total / pageSize)}{' '}
-              halaman
+              {!!total ? (
+                <>
+                  Menampilkan {props.current} dari {Math.ceil(total / pageSize)}{' '}
+                  halaman
+                </>
+              ) : (
+                <>Halaman kosong</>
+              )}
             </Text>
           </div>
         )
@@ -57,16 +63,18 @@ export default function TablePagination({
         </div>
       )}
 
-      <Pagination
-        total={total}
-        pageSize={pageSize}
-        defaultCurrent={1}
-        showLessItems={true}
-        className="select-none"
-        prevIconClassName="py-0 text-gray !leading-[26px]"
-        nextIconClassName="py-0 text-gray !leading-[26px]"
-        {...props}
-      />
+      {!!total && (
+        <Pagination
+          total={total}
+          pageSize={pageSize}
+          defaultCurrent={1}
+          showLessItems={true}
+          className="select-none"
+          prevIconClassName="py-0 text-gray !leading-[26px]"
+          nextIconClassName="py-0 text-gray !leading-[26px]"
+          {...props}
+        />
+      )}
     </div>
   )
 }

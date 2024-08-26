@@ -51,6 +51,7 @@ export interface TableProps
   striped?: boolean
   /** Add custom classes for extra style */
   className?: string
+  isLoading?: boolean
 }
 
 /**
@@ -61,6 +62,7 @@ export default function Table({
   striped,
   variant = 'default',
   emptyText,
+  isLoading,
   className,
   ...props
 }: TableProps) {
@@ -76,13 +78,17 @@ export default function Table({
       )}
       emptyText={
         emptyText || (
-          <div className="flex flex-col items-center py-5 lg:py-8">
-            <figure className="size-24">
-              <Image src={emptyIcon} alt="Data Kosong" />
-            </figure>
-            <Text size="sm" weight="semibold" variant="dark" className="mt-4">
-              Data Masih Kosong
-            </Text>
+          <div className="flex flex-col justify-center items-center h-56 py-5 lg:py-8">
+            {!isLoading && (
+              <>
+                <figure className="size-24">
+                  <Image src={emptyIcon} alt="Data Kosong" />
+                </figure>
+                <Text size="sm" weight="medium" className="mt-4">
+                  Data Masih Kosong
+                </Text>
+              </>
+            )}
           </div>
         )
       }
