@@ -190,7 +190,7 @@ export const makeJwtGetRequestSelectDataAction = async <T extends AnyObject>(
     ActionResponsePaginationDataType<T>
   >(url, params)
 
-  return makeSelectDataActionResponse(resData)
+  return makeSelectDataActionResponse<T>(resData)
 }
 
 const makeJwtDataRequestAction = async <T extends AnyObject>(

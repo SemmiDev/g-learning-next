@@ -11,13 +11,11 @@ import AsyncPaginateSelect, {
   AsyncPaginateSelectProps,
 } from '../select/async-paginate'
 import { SelectOptionType } from '../select/select'
-import { AnyObject } from '@/utils/type-interface'
 
 export type ControlledAsyncPaginateSelectProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType,
-  TData extends AnyObject
+  OptionType extends SelectOptionType
 > = Omit<
   AsyncPaginateSelectProps<OptionType>,
   'value' | 'onChange' | 'onBlur'
@@ -31,15 +29,14 @@ export type ControlledAsyncPaginateSelectProps<
 export default function ControlledAsyncPaginateSelect<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType = SelectOptionType,
-  TData extends AnyObject = AnyObject
+  OptionType extends SelectOptionType = SelectOptionType
 >({
   name,
   control,
   errors,
   onChange,
   ...props
-}: ControlledAsyncPaginateSelectProps<TFieldValues, TName, OptionType, TData>) {
+}: ControlledAsyncPaginateSelectProps<TFieldValues, TName, OptionType>) {
   return (
     <Controller
       control={control}

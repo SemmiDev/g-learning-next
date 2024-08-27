@@ -1,26 +1,29 @@
 'use client'
 
+import { AnyObject } from '@/utils/type-interface'
 import { GroupBase, OptionsOrGroups } from 'react-select'
 import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
 import Label from '../label'
 import TextLabel from '../text/label'
 import { makeClassNames } from './style'
-import { AnyObject } from '@/utils/type-interface'
 
 export type AsyncPaginateSelectActionProps<OptionType> = {
   search: string
   loadedOptions: OptionsOrGroups<OptionType, GroupBase<OptionType>>
   page: number
 }
-export type AsyncPaginateSelectActionType<T> = { list: T[]; hasMore: boolean }
+export type AsyncPaginateSelectActionType<T extends AnyObject> = {
+  list: T[]
+  hasMore: boolean
+}
 
 export type AsyncPaginateSelectProps<
   OptionType,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<OptionType> = GroupBase<OptionType>,
   Additional = { page: number },
-  T extends AnyObject = AnyObject
+  TData extends AnyObject = AnyObject
 > = Omit<
   AsyncPaginateProps<OptionType, Group, Additional, IsMulti>,
   'loadOptions'
@@ -29,8 +32,8 @@ export type AsyncPaginateSelectProps<
   required?: boolean
   action(
     props: AsyncPaginateSelectActionProps<OptionType>
-  ): Promise<AsyncPaginateSelectActionType<T>>
-  construct(data: any): OptionType
+  ): Promise<AsyncPaginateSelectActionType<TData>>
+  construct(data: TData): OptionType
   error?: string
   errorClassName?: string
 }
