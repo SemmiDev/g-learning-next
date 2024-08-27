@@ -24,6 +24,5 @@ export const listPaketPenggunaAction = async ({
       keyword: search,
       sort_by: sort?.name,
       order: sort?.direction,
-      per_page: 10,
     }
   )

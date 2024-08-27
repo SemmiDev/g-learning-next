@@ -2,7 +2,7 @@
 
 import { TambahPaketPenggunaFormSchema } from '@/components/page/admin/paket-pengguna/modal/tambah'
 import { makeJwtPostRequestAction } from '@/utils/action'
-import { fileSizeUnitScale } from '@/utils/bytes'
+import { FILE_SIZE_UNIT_SCALE } from '@/utils/bytes'
 
 export const tambahPaketPenggunaAction = (
   data: TambahPaketPenggunaFormSchema
@@ -12,7 +12,7 @@ export const tambahPaketPenggunaAction = (
     batas_penyimpanan:
       parseInt(data.totalPenyimpanan + '') *
       Math.pow(
-        fileSizeUnitScale,
+        FILE_SIZE_UNIT_SCALE,
         data.totalPenyimpananUnit?.value === 'GB'
           ? 1
           : data.totalPenyimpananUnit?.value === 'TB'

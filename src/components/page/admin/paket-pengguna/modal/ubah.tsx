@@ -1,0 +1,239 @@
+import { lihatPaketPenggunaAction } from '@/actions/admin/paket-pengguna/lihat'
+import { ubahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/ubah'
+import {
+  CardSeparator,
+  ControlledInput,
+  ControlledInputRupiah,
+  ControlledSelect,
+  Form,
+  Loader,
+  Modal,
+  ModalFooterButtons,
+  SelectOptionType,
+  Text,
+} from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { FILE_SIZE_UNIT_SCALE } from '@/utils/bytes'
+import { selectOption } from '@/utils/object'
+import { required } from '@/utils/validations/pipe'
+import { objectRequired } from '@/utils/validations/refine'
+import { rupiahToNumber } from '@/utils/validations/transform'
+import { z } from '@/utils/zod-id'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
+
+const units = ['MB', 'GB', 'TB'] as const
+const getSize = (
+  megabytes: number
+): {
+  size: number
+  unit: (typeof units)[number]
+} => {
+  const pow = Math.floor(Math.log(megabytes) / Math.log(FILE_SIZE_UNIT_SCALE))
+  const scale = Math.pow(FILE_SIZE_UNIT_SCALE, pow)
+  const mod = megabytes % scale
+
+  if (mod === 0) {
+    return {
+      size: megabytes / scale,
+      unit: units[pow],
+    }
+  }
+
+  return {
+    size: megabytes,
+    unit: units[0],
+  }
+}
+
+const formSchema = z.object({
+  nama: z.string().pipe(required),
+  totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
+  totalPenyimpananUnit: z.any().superRefine(objectRequired),
+  limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
+  limitAnggotaKelas: z.string().pipe(required).pipe(z.coerce.number()),
+  harga: z
+    .string()
+    .pipe(required)
+    .transform(rupiahToNumber)
+    .pipe(z.coerce.number()),
+})
+
+export type UbahPaketPenggunaFormSchema = {
+  nama?: string
+  totalPenyimpanan?: number | string
+  totalPenyimpananUnit?: SelectOptionType
+  limitKelas?: number | string
+  limitAnggotaKelas?: number | string
+  harga?: number | string
+}
+
+const sizeUnitOptions: SelectOptionType[] = [
+  selectOption('MB'),
+  selectOption('GB'),
+  selectOption('TB'),
+]
+
+type UbahModalProps = {
+  id?: string
+  setId(id?: string): void
+}
+
+export default function UbahModal({ id, setId }: UbahModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const {
+    data: initialValues,
+    isLoading,
+    isFetching,
+  } = useQuery<UbahPaketPenggunaFormSchema>({
+    queryKey: ['admin.paket-pengguna.table.ubah', id],
+    queryFn: async () => {
+      if (!id) return {}
+
+      const { data } = await lihatPaketPenggunaAction(id)
+
+      const { size, unit } = getSize(data?.batas_penyimpanan ?? 0)
+
+      return {
+        nama: data?.nama,
+        totalPenyimpanan: size + '',
+        totalPenyimpananUnit: selectOption(unit),
+        limitKelas: data?.batas_kelas + '',
+        limitAnggotaKelas: data?.batas_anggota_kelas + '',
+        harga: data?.harga + '',
+      }
+    },
+  })
+
+  const onSubmit: SubmitHandler<UbahPaketPenggunaFormSchema> = async (data) => {
+    if (!id) return
+
+    await handleActionWithToast(ubahPaketPenggunaAction(id, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setId(undefined)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.paket-pengguna.list'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  return (
+    <Modal
+      title="Ubah Paket Pengguna"
+      isLoading={!isLoading && isFetching}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
+    >
+      {isLoading || !id ? (
+        <Loader height={482} />
+      ) : (
+        <Form<UbahPaketPenggunaFormSchema>
+          onSubmit={onSubmit}
+          validationSchema={formSchema}
+          useFormProps={{
+            mode: 'onSubmit',
+            defaultValues: initialValues,
+            values: initialValues,
+          }}
+        >
+          {({ control, formState: { errors, isSubmitting } }) => (
+            <>
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledInput
+                  name="nama"
+                  control={control}
+                  errors={errors}
+                  label="Nama Paket"
+                  placeholder="Nama Paket"
+                  required
+                />
+
+                <div className="flex">
+                  <ControlledInput
+                    name="totalPenyimpanan"
+                    control={control}
+                    errors={errors}
+                    type="number"
+                    min={0}
+                    label="Total Penyimpanan"
+                    placeholder="Total Penyimpanan"
+                    className="flex-1"
+                    inputClassName="rounded-r-none"
+                    required
+                  />
+
+                  <ControlledSelect
+                    name="totalPenyimpananUnit"
+                    control={control}
+                    options={sizeUnitOptions}
+                    placeholder="Unit"
+                    defaultValue={sizeUnitOptions[0]}
+                    className="w-24 mt-[26px]"
+                    classNames={{ control: 'rounded-l-none' }}
+                  />
+                </div>
+
+                <ControlledInput
+                  name="limitKelas"
+                  control={control}
+                  errors={errors}
+                  type="number"
+                  min={0}
+                  label="Limit Kelas"
+                  placeholder="Jumlah maksimal kelas yang bisa dibuka"
+                  suffix="Kelas"
+                  required
+                />
+
+                <ControlledInput
+                  name="limitAnggotaKelas"
+                  control={control}
+                  errors={errors}
+                  type="number"
+                  min={0}
+                  label="Limit Anggota Kelas"
+                  placeholder="Jumlah maksimal anggota kelas"
+                  suffix="Orang"
+                  required
+                />
+
+                <ControlledInputRupiah
+                  name="harga"
+                  control={control}
+                  errors={errors}
+                  label="Harga/bulan"
+                  placeholder="Harga paket"
+                  required
+                />
+
+                {formError && (
+                  <Alert size="sm" variant="flat" color="danger">
+                    <Text size="sm" weight="medium">
+                      {formError}
+                    </Text>
+                  </Alert>
+                )}
+              </div>
+
+              <CardSeparator />
+
+              <ModalFooterButtons
+                submit="Simpan"
+                isSubmitting={isSubmitting}
+                onCancel={() => setId(undefined)}
+              />
+            </>
+          )}
+        </Form>
+      )}
+    </Modal>
+  )
+}

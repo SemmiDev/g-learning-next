@@ -98,7 +98,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       isOpen={!!id}
       onClose={() => setId(undefined)}
     >
-      {isLoading ? (
+      {isLoading || !id ? (
         <Loader height={336} />
       ) : (
         <Form<UbahAdminFormSchema>

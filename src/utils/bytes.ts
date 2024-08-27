@@ -1,16 +1,14 @@
-export const fileSizeUnitScale = 1024
+export const FILE_SIZE_UNIT_SCALE = 1024 as const
 
 export const fileSizeToKB = (size: number, unit: 'MB' | 'GB' | 'TB') => {
-  const unitSize =
-    unit === 'MB'
-      ? fileSizeUnitScale
-      : unit === 'GB'
-      ? Math.pow(fileSizeUnitScale, 2)
+  const scale =
+    unit === 'GB'
+      ? Math.pow(FILE_SIZE_UNIT_SCALE, 2)
       : unit === 'TB'
-      ? Math.pow(fileSizeUnitScale, 3)
-      : 1
+      ? Math.pow(FILE_SIZE_UNIT_SCALE, 3)
+      : FILE_SIZE_UNIT_SCALE
 
-  return size * unitSize
+  return size * scale
 }
 
 export const formatBytes = (
@@ -21,13 +19,15 @@ export const formatBytes = (
   if (!+kilobytes) return '0 KB'
 
   const dm = decimals < 0 ? 0 : decimals
-  const sizes = ['KB', 'MB', 'GB', 'TB']
+  const units = ['KB', 'MB', 'GB', 'TB'] as const
 
-  const i = Math.floor(Math.log(kilobytes) / Math.log(fileSizeUnitScale))
+  const unitSize = Math.floor(
+    Math.log(kilobytes) / Math.log(FILE_SIZE_UNIT_SCALE)
+  )
 
   return `${parseFloat(
-    (kilobytes / Math.pow(fileSizeUnitScale, i)).toFixed(dm)
-  )}${nospace ? '' : ' '}${sizes[i]}`
+    (kilobytes / Math.pow(FILE_SIZE_UNIT_SCALE, unitSize)).toFixed(dm)
+  )}${nospace ? '' : ' '}${units[unitSize]}`
 }
 
 export type FileSizeUnit = 'B' | 'KB' | 'MB' | 'GB'
@@ -40,11 +40,11 @@ export const checkMaxFileSize = (
 ) => {
   const unitSize =
     unit === 'KB'
-      ? fileSizeUnitScale
+      ? FILE_SIZE_UNIT_SCALE
       : unit === 'MB'
-      ? Math.pow(fileSizeUnitScale, 2)
+      ? Math.pow(FILE_SIZE_UNIT_SCALE, 2)
       : unit === 'GB'
-      ? Math.pow(fileSizeUnitScale, 3)
+      ? Math.pow(FILE_SIZE_UNIT_SCALE, 3)
       : 1
   const maxSize = max * unitSize
 

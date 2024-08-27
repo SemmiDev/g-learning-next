@@ -66,7 +66,6 @@ export default function TambahModal({
   const onSubmit: SubmitHandler<TambahPaketPenggunaFormSchema> = async (
     data
   ) => {
-    console.log('form data', data)
     await handleActionWithToast(tambahPaketPenggunaAction(data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
@@ -103,6 +102,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nama Paket"
                 placeholder="Nama Paket"
+                required
               />
 
               <div className="flex">
@@ -116,6 +116,7 @@ export default function TambahModal({
                   placeholder="Total Penyimpanan"
                   className="flex-1"
                   inputClassName="rounded-r-none"
+                  required
                 />
 
                 <ControlledSelect
@@ -138,6 +139,7 @@ export default function TambahModal({
                 label="Limit Kelas"
                 placeholder="Jumlah maksimal kelas yang bisa dibuka"
                 suffix="Kelas"
+                required
               />
 
               <ControlledInput
@@ -149,6 +151,7 @@ export default function TambahModal({
                 label="Limit Anggota Kelas"
                 placeholder="Jumlah maksimal anggota kelas"
                 suffix="Orang"
+                required
               />
 
               <ControlledInputRupiah
@@ -157,6 +160,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Harga/bulan"
                 placeholder="Harga paket"
+                required
               />
 
               {formError && (

@@ -9,6 +9,7 @@ import { handleActionWithToast } from '@/utils/action'
 import { fileSizeToKB } from '@/utils/bytes'
 import { useMemo, useState } from 'react'
 import TambahModal from './modal/tambah'
+import UbahModal from './modal/ubah'
 import PaketItemCard, { PaketItemType } from './paket-item-card'
 
 export default function PaketPenggunaBody() {
@@ -110,7 +111,7 @@ export default function PaketPenggunaBody() {
         showModal={showTambahModal}
         setShowModal={setShowTambahModal}
       />
-      {/* <UbahModal id={idUbah} setId={setIdUbah} /> */}
+      <UbahModal id={idUbah} setId={setIdUbah} />
 
       <ModalConfirm
         title="Hapus Admin"

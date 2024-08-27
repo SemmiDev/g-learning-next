@@ -14,6 +14,7 @@ import { CgSpinner } from 'react-icons/cg'
 
 export type ControlledAsyncTableActionProps = {
   page?: number
+  perPage?: number
   search?: string
   sort?: SortType
   filters?: AnyObject
@@ -66,12 +67,7 @@ export default function ControlledAsyncTable({
         <TableFilter {...filterOptions}>{filterElement}</TableFilter>
       )}
 
-      <div
-        className={cn(
-          'relative'
-          // isFetching && 'cursor-wait [&_th>div]:cursor-wait'
-        )}
-      >
+      <div className="relative">
         {isFetching && (
           <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10">
             <div className="size-10 rounded-full bg-white/50">

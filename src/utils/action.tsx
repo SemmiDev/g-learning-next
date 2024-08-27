@@ -1,11 +1,11 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { Text } from '@/components/ui'
 import { ControlledAsyncTableActionType } from '@/components/ui/controlled-async-table'
+import { AsyncPaginateSelectActionType } from '@/components/ui/select/async-paginate'
 import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
-import { AsyncPaginateSelectActionType } from '@/components/ui/select/async-paginate'
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
@@ -176,7 +176,7 @@ export const makeJwtGetRequestTableAction = async <T extends AnyObject>(
     ActionResponsePaginationDataType<T>
   >(url, {
     ...params,
-    per_page: 10,
+    per_page: params?.per_page ?? 10,
   })
 
   return makeTableActionResponse(resData)
