@@ -1,16 +1,16 @@
-import { RefinementCtx } from 'zod'
-import { checkMaxFileSize, FileSizeMetric } from '../bytes'
-import { z } from '../zod-id'
 import { UploadFileType } from '@/components/ui/upload-file/upload-file'
+import { RefinementCtx } from 'zod'
+import { checkMaxFileSize, FileSizeUnit } from '../bytes'
+import { z } from '../zod-id'
 
 export const maxUploadFileSize =
   ({
     max,
-    metric,
+    unit,
     desc = 'berkas',
   }: {
     max: number
-    metric: FileSizeMetric
+    unit: FileSizeUnit
     desc?: string
   }) =>
   (files: UploadFileType[] | UploadFileType, ctx: RefinementCtx) => {
@@ -19,10 +19,10 @@ export const maxUploadFileSize =
     }
 
     for (const file of files) {
-      if (file && checkMaxFileSize(file.size, max, metric)) {
+      if (file && checkMaxFileSize(file.size, max, unit)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: `Ukuran ${desc} maksimal ${max}${metric}`,
+          message: `Ukuran ${desc} maksimal ${max}${unit}`,
         })
       }
     }

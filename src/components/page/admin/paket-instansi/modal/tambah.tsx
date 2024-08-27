@@ -18,11 +18,11 @@ import { SubmitHandler } from 'react-hook-form'
 const formSchema = z.object({
   nama: z.string().pipe(required),
   totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
-  totalPenyimpananMetric: z.any().superRefine(objectRequired),
+  totalPenyimpananUnit: z.any().superRefine(objectRequired),
   penyimpananPengajar: z.string().pipe(required).pipe(z.coerce.number()),
-  penyimpananPengajarMetric: z.any().superRefine(objectRequired),
+  penyimpananPengajarUnit: z.any().superRefine(objectRequired),
   penyimpananPeserta: z.string().pipe(required).pipe(z.coerce.number()),
-  penyimpananPesertaMetric: z.any().superRefine(objectRequired),
+  penyimpananPesertaUnit: z.any().superRefine(objectRequired),
   limitUser: z.string().pipe(required).pipe(z.coerce.number()),
   limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
   limitKelasPengajar: z.string().pipe(required).pipe(z.coerce.number()),
@@ -37,18 +37,18 @@ const formSchema = z.object({
 type FormSchema = {
   nama?: string
   totalPenyimpanan?: number | string
-  totalPenyimpananMetric?: SelectOptionType
+  totalPenyimpananUnit?: SelectOptionType
   penyimpananPengajar?: number | string
-  penyimpananPengajarMetric?: SelectOptionType
+  penyimpananPengajarUnit?: SelectOptionType
   penyimpananPeserta?: number | string
-  penyimpananPesertaMetric?: SelectOptionType
+  penyimpananPesertaUnit?: SelectOptionType
   limitUser?: number | string
   limitKelas?: number | string
   limitKelasPengajar?: number | string
   harga?: number | string
 }
 
-const sizeMetricOptions: SelectOptionType[] = [
+const sizeUnitOptions: SelectOptionType[] = [
   selectOption('MB'),
   selectOption('GB'),
   selectOption('TB'),
@@ -106,11 +106,11 @@ export default function TambahModal({
                 />
 
                 <ControlledSelect
-                  name="totalPenyimpananMetric"
+                  name="totalPenyimpananUnit"
                   control={control}
-                  options={sizeMetricOptions}
-                  placeholder="Metric"
-                  defaultValue={sizeMetricOptions[0]}
+                  options={sizeUnitOptions}
+                  placeholder="Unit"
+                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />
@@ -129,11 +129,11 @@ export default function TambahModal({
                   inputClassName="rounded-r-none"
                 />
                 <ControlledSelect
-                  name="penyimpananPengajarMetric"
+                  name="penyimpananPengajarUnit"
                   control={control}
-                  options={sizeMetricOptions}
-                  placeholder="Metric"
-                  defaultValue={sizeMetricOptions[0]}
+                  options={sizeUnitOptions}
+                  placeholder="Unit"
+                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />
@@ -152,11 +152,11 @@ export default function TambahModal({
                   inputClassName="rounded-r-none"
                 />
                 <ControlledSelect
-                  name="penyimpananPesertaMetric"
+                  name="penyimpananPesertaUnit"
                   control={control}
-                  options={sizeMetricOptions}
-                  placeholder="Metric"
-                  defaultValue={sizeMetricOptions[0]}
+                  options={sizeUnitOptions}
+                  placeholder="Unit"
+                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />

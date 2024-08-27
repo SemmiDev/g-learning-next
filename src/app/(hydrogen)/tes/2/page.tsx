@@ -156,7 +156,7 @@ export default function Tes2Page() {
             control={control}
             desc="(Tipe berkas yang bisa di-upload adalah: xls, xlsx dengan ukuran
               maksimal 10 MB untuk setiap berkas yang dipilih)"
-            maxSize={{ size: 100, metric: 'MB' }}
+            maxSize={{ size: 100, unit: 'MB' }}
             errors={errors}
             multiple
           /> */}

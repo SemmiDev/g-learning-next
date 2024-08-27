@@ -1,14 +1,14 @@
-export const filesizeToKB = (size: number, metric: 'MB' | 'GB' | 'TB') => {
-  const metricSize =
-    metric === 'MB'
+export const filesizeToKB = (size: number, unit: 'MB' | 'GB' | 'TB') => {
+  const unitSize =
+    unit === 'MB'
       ? 1024
-      : metric === 'GB'
+      : unit === 'GB'
       ? 1024 * 1024
-      : metric === 'TB'
+      : unit === 'TB'
       ? 1024 * 1024 * 1024
       : 1
 
-  return size * metricSize
+  return size * unitSize
 }
 
 export const formatBytes = (
@@ -29,23 +29,23 @@ export const formatBytes = (
   }${sizes[i]}`
 }
 
-export type FileSizeMetric = 'B' | 'KB' | 'MB' | 'GB'
+export type FileSizeUnit = 'B' | 'KB' | 'MB' | 'GB'
 
 // return true if more than max size
 export const checkMaxFileSize = (
   size: number,
   max: number,
-  metric: FileSizeMetric
+  unit: FileSizeUnit
 ) => {
-  const metricSize =
-    metric === 'KB'
+  const unitSize =
+    unit === 'KB'
       ? 1024
-      : metric === 'MB'
+      : unit === 'MB'
       ? 1024 * 1024
-      : metric === 'GB'
+      : unit === 'GB'
       ? 1024 * 1024 * 1024
       : 1
-  const maxSize = max * metricSize
+  const maxSize = max * unitSize
 
   return size > maxSize
 }

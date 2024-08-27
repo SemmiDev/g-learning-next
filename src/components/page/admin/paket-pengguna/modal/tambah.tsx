@@ -18,7 +18,7 @@ import { SubmitHandler } from 'react-hook-form'
 const formSchema = z.object({
   nama: z.string().pipe(required),
   totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
-  totalPenyimpananMetric: z.any().superRefine(objectRequired),
+  totalPenyimpananUnit: z.any().superRefine(objectRequired),
   limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
   harga: z
     .string()
@@ -31,12 +31,12 @@ const formSchema = z.object({
 type FormSchema = {
   nama?: string
   totalPenyimpanan?: number | string
-  totalPenyimpananMetric?: SelectOptionType
+  totalPenyimpananUnit?: SelectOptionType
   limitKelas?: number | string
   harga?: number | string
 }
 
-const sizeMetricOptions: SelectOptionType[] = [
+const sizeUnitOptions: SelectOptionType[] = [
   selectOption('MB'),
   selectOption('GB'),
   selectOption('TB'),
@@ -94,11 +94,11 @@ export default function TambahModal({
                 />
 
                 <ControlledSelect
-                  name="totalPenyimpananMetric"
+                  name="totalPenyimpananUnit"
                   control={control}
-                  options={sizeMetricOptions}
-                  placeholder="Metric"
-                  defaultValue={sizeMetricOptions[0]}
+                  options={sizeUnitOptions}
+                  placeholder="Unit"
+                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />

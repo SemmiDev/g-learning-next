@@ -1,6 +1,6 @@
 'use client'
 
-import { checkMaxFileSize, FileSizeMetric } from '@/utils/bytes'
+import { checkMaxFileSize, FileSizeUnit } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { removeFromList } from '@/utils/list'
 import dropIcon from '@public/icons/dropzone.svg'
@@ -18,7 +18,7 @@ export type UploadFileType = FileWithPath & {
 
 export type UploadFileSize = {
   size: number
-  metric: FileSizeMetric
+  unit: FileSizeUnit
 }
 
 export type UploadFileProps = Omit<
@@ -78,13 +78,10 @@ export default function UploadFile({
     multiple: multiple,
     onDrop: onDrop,
     validator: (file) => {
-      if (
-        maxSize &&
-        checkMaxFileSize(file.size, maxSize.size, maxSize.metric)
-      ) {
+      if (maxSize && checkMaxFileSize(file.size, maxSize.size, maxSize.unit)) {
         return {
           code: 'size-maximum',
-          message: `Ukuran berkas maksimal ${maxSize.size}${maxSize.metric}`,
+          message: `Ukuran berkas maksimal ${maxSize.size}${maxSize.unit}`,
         }
       }
       return null
