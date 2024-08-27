@@ -3,8 +3,9 @@ import Pagination, { type PaginationProps } from '@/components/ui/pagination'
 import { Select } from 'rizzui'
 import cn from '@/utils/class-names'
 import Text from '../text/text'
+import { useMemo } from 'react'
 
-const paginationLimitOptions = [5, 10, 15, 20, 25].map((v, idx) => ({
+const paginationLimitOptions = [5, 10, 15, 20, 25, 50].map((v, idx) => ({
   id: idx,
   label: String(v),
   value: v,
@@ -13,16 +14,23 @@ const paginationLimitOptions = [5, 10, 15, 20, 25].map((v, idx) => ({
 export type TablePaginationProps = {
   pageSize: number
   setPageSize?: React.Dispatch<React.SetStateAction<number>>
+  isLoading?: boolean
   paginatorClassName?: string
 } & PaginationProps
 
 export default function TablePagination({
   pageSize,
   setPageSize,
+  isLoading,
   total,
   paginatorClassName,
   ...props
 }: TablePaginationProps) {
+  const totalPage = useMemo(
+    () => Math.ceil((total ?? 0) / pageSize),
+    [total, pageSize]
+  )
+
   return (
     <div
       className={cn(
@@ -34,10 +42,11 @@ export default function TablePagination({
         total !== undefined && (
           <div className="hidden sm:inline-flex">
             <Text size="2xs" variant="lighter">
-              {!!total ? (
+              {isLoading ? (
+                <>Loading...</>
+              ) : !!total ? (
                 <>
-                  Menampilkan {props.current} dari {Math.ceil(total / pageSize)}{' '}
-                  halaman
+                  Menampilkan {props.current} dari {totalPage} halaman
                 </>
               ) : (
                 <>Halaman kosong</>
@@ -63,7 +72,7 @@ export default function TablePagination({
         </div>
       )}
 
-      {!!total && (
+      {totalPage > 1 && (
         <Pagination
           total={total}
           pageSize={pageSize}

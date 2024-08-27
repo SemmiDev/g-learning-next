@@ -11,7 +11,6 @@ import { AnyObject } from '@/utils/type-interface'
 import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import { CgSpinner } from 'react-icons/cg'
-import { Title } from 'rizzui'
 
 export type ControlledAsyncTableActionProps = {
   page?: number
@@ -91,6 +90,7 @@ export default function ControlledAsyncTable({
 
       {!isEmpty(paginatorOptions) && (
         <TablePagination
+          isLoading={isFetching}
           paginatorClassName={paginatorClassName}
           {...paginatorOptions}
         />

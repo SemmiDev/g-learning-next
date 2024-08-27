@@ -1,3 +1,4 @@
+import { tambahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/tambah'
 import {
   CardSeparator,
   ControlledInput,
@@ -7,19 +8,25 @@ import {
   Modal,
   ModalFooterButtons,
   SelectOptionType,
+  Text,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { rupiahToNumber } from '@/utils/validations/transform'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
   totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
   totalPenyimpananUnit: z.any().superRefine(objectRequired),
   limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
+  limitAnggotaKelas: z.string().pipe(required).pipe(z.coerce.number()),
   harga: z
     .string()
     .pipe(required)
@@ -27,12 +34,12 @@ const formSchema = z.object({
     .pipe(z.coerce.number()),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahPaketPenggunaFormSchema = {
   nama?: string
   totalPenyimpanan?: number | string
   totalPenyimpananUnit?: SelectOptionType
   limitKelas?: number | string
+  limitAnggotaKelas?: number | string
   harga?: number | string
 }
 
@@ -42,7 +49,9 @@ const sizeUnitOptions: SelectOptionType[] = [
   selectOption('TB'),
 ]
 
-const initialValues: FormSchema = {}
+const initialValues: TambahPaketPenggunaFormSchema = {
+  totalPenyimpananUnit: selectOption('MB'),
+}
 
 export default function TambahModal({
   showModal = false,
@@ -51,8 +60,24 @@ export default function TambahModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const onSubmit: SubmitHandler<TambahPaketPenggunaFormSchema> = async (
+    data
+  ) => {
     console.log('form data', data)
+    await handleActionWithToast(tambahPaketPenggunaAction(data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.paket-pengguna.list'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -61,7 +86,7 @@ export default function TambahModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<FormSchema>
+      <Form<TambahPaketPenggunaFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -115,6 +140,17 @@ export default function TambahModal({
                 suffix="Kelas"
               />
 
+              <ControlledInput
+                name="limitAnggotaKelas"
+                control={control}
+                errors={errors}
+                type="number"
+                min={0}
+                label="Limit Anggota Kelas"
+                placeholder="Jumlah maksimal anggota kelas"
+                suffix="Orang"
+              />
+
               <ControlledInputRupiah
                 name="harga"
                 control={control}
@@ -122,6 +158,14 @@ export default function TambahModal({
                 label="Harga/bulan"
                 placeholder="Harga paket"
               />
+
+              {formError && (
+                <Alert size="sm" variant="flat" color="danger">
+                  <Text size="sm" weight="medium">
+                    {formError}
+                  </Text>
+                </Alert>
+              )}
             </div>
 
             <CardSeparator />

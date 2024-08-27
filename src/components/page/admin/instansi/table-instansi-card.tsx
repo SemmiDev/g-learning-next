@@ -21,6 +21,7 @@ import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 
 export default function TableInstansiCard() {
   const [idUbah, setIdUbah] = useState<string | undefined>()
@@ -79,7 +80,8 @@ export default function TableInstansiCard() {
       dataIndex: 'jumlah_penyimpanan_terpakai',
       render: (value: number, row: any) => (
         <TableCellText align="center">
-          {value}/{row.batas_penyimpanan}
+          {formatBytes(fileSizeToKB(value, 'MB'))}/
+          {formatBytes(fileSizeToKB(row.batas_penyimpanan, 'MB'))}
         </TableCellText>
       ),
     },

@@ -1,5 +1,5 @@
 import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
-import { filesizeToKB, formatBytes } from '@/utils/bytes'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { Dropdown } from 'rizzui'
@@ -8,9 +8,9 @@ export default function DashboardRuangPenyimpananCard() {
   const data = [
     {
       name: 'Penyimpanan Tersedia',
-      value: filesizeToKB(1, 'GB') - filesizeToKB(310, 'MB'),
+      value: fileSizeToKB(1, 'GB') - fileSizeToKB(310, 'MB'),
     },
-    { name: 'Total Digunakan', value: filesizeToKB(310, 'MB') },
+    { name: 'Total Digunakan', value: fileSizeToKB(310, 'MB') },
   ]
   const COLORS = ['#BFDBFE', '#0070F3']
 

@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
+import { AsyncPaginateSelectActionType } from '@/components/ui/select/async-paginate'
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
@@ -67,20 +68,23 @@ export const makeActionResponse = <T extends AnyObject>(
   data: data,
 })
 
-export type ActionResponseTableDataType<T extends AnyObject = AnyObject> = {
-  list: T[]
-  page_info: {
-    current_page: number
-    per_page: number
-    total_data: number
-    last_page: number
-    from: number
-    to: number
+export type ActionResponsePaginationDataType<T extends AnyObject = AnyObject> =
+  {
+    list: T[]
+    page_info: {
+      has_previous_page: boolean
+      has_next_page: boolean
+      current_page: number
+      per_page: number
+      total_data: number
+      last_page: number
+      from: number
+      to: number
+    }
   }
-}
 
 export const makeTableActionResponse = <T extends AnyObject>(
-  actionResponse: ActionResponseType<ActionResponseTableDataType<T>>
+  actionResponse: ActionResponseType<ActionResponsePaginationDataType<T>>
 ): ControlledAsyncTableActionType<T> => {
   const { list, page_info } = actionResponse?.data ?? {}
 
@@ -97,6 +101,17 @@ export const makeTableActionResponse = <T extends AnyObject>(
         to: page_info?.to,
       },
     },
+  }
+}
+
+export const makeSelectDataActionResponse = <T extends AnyObject>(
+  actionResponse: ActionResponseType<ActionResponsePaginationDataType<T>>
+): AsyncPaginateSelectActionType<T> => {
+  const { list, page_info } = actionResponse?.data ?? {}
+
+  return {
+    list: list ?? [],
+    hasMore: !!page_info?.has_next_page,
   }
 }
 
@@ -157,12 +172,25 @@ export const makeJwtGetRequestTableAction = async <T extends AnyObject>(
   url: string,
   params?: GetRequestParamsType
 ) => {
-  const resData = await makeJwtGetRequestAction<ActionResponseTableDataType<T>>(
-    url,
-    params
-  )
+  const resData = await makeJwtGetRequestAction<
+    ActionResponsePaginationDataType<T>
+  >(url, {
+    ...params,
+    per_page: 10,
+  })
 
   return makeTableActionResponse(resData)
+}
+
+export const makeJwtGetRequestSelectDataAction = async <T extends AnyObject>(
+  url: string,
+  params?: GetRequestParamsType
+) => {
+  const resData = await makeJwtGetRequestAction<
+    ActionResponsePaginationDataType<T>
+  >(url, params)
+
+  return makeSelectDataActionResponse(resData)
 }
 
 const makeJwtDataRequestAction = async <T extends AnyObject>(

@@ -1,13 +1,13 @@
 import { Card, CardSeparator, Text, Title } from '@/components/ui'
-import { filesizeToKB, formatBytes } from '@/utils/bytes'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 
 export default function DashboardTotalRuangPenyimpananCard() {
   const data = [
-    { name: 'Penyimpanan Tersedia', value: filesizeToKB(400, 'GB') },
+    { name: 'Penyimpanan Tersedia', value: fileSizeToKB(400, 'GB') },
     {
       name: 'Total Digunakan',
-      value: filesizeToKB(100, 'GB'),
+      value: fileSizeToKB(100, 'GB'),
     },
   ]
   const COLORS = ['#2563EB', '#DCDCDC']
