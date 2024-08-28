@@ -1,29 +1,35 @@
-import { DeleteActionType } from '@/utils/action'
-import { makeHandleDelete } from '@/utils/handle'
+import { DeleteActionType, handleActionWithToast } from '@/utils/action'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export function useHandleDelete({
   action,
   refetchKey,
+  loading = 'Menghapus...',
 }: {
   action: DeleteActionType
   refetchKey?: QueryKey
+  loading?: string
 }) {
   const queryClient = useQueryClient()
   const [id, setId] = useState<string>()
 
-  const handle = makeHandleDelete(action, id, {
-    onSuccess: () => {
-      setId(undefined)
+  const handle = () => {
+    if (!id) return
 
-      if (!refetchKey) return
+    handleActionWithToast(action(id), {
+      loading,
+      onSuccess: () => {
+        setId(undefined)
 
-      queryClient.invalidateQueries({
-        queryKey: refetchKey,
-      })
-    },
-  })
+        if (!refetchKey) return
+
+        queryClient.invalidateQueries({
+          queryKey: refetchKey,
+        })
+      },
+    })
+  }
 
   return { handle, id, setId }
 }

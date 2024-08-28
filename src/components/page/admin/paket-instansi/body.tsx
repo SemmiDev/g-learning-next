@@ -17,6 +17,7 @@ const queryKey = ['admin.paket-instansi.list'] as const
 export default function PaketInstansiBody() {
   const [showTambahModal, setShowTambahModal] = useState(false)
   const [idUbah, setIdUbah] = useState<string>()
+
   const {
     handle: handleHapus,
     id: idHapus,
