@@ -77,7 +77,6 @@ export default function TambahModal({
   const onSubmit: SubmitHandler<TambahPaketInstansiFormSchema> = async (
     data
   ) => {
-    // console.log('form data', data)
     await handleActionWithToast(tambahPaketInstansiAction(data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),

@@ -11,23 +11,33 @@ import { useMemo, useState } from 'react'
 import TambahModal from './modal/tambah'
 import UbahModal from './modal/ubah'
 import PaketItemCard, { PaketItemType } from './paket-item-card'
+import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+
+const queryKey = ['admin.paket-pengguna.list'] as const
 
 export default function PaketPenggunaBody() {
   const [showTambahModal, setShowTambahModal] = useState(false)
   const [idUbah, setIdUbah] = useState<string>()
-  const [idHapus, setIdHapus] = useState<string>()
+
+  const {
+    handle: handleHapus,
+    id: idHapus,
+    setId: setIdHapus,
+  } = useHandleDelete({
+    action: hapusPaketPenggunaAction,
+    refetchKey: queryKey,
+  })
 
   const {
     data,
     isLoading,
     isFetching,
-    refetch,
     page,
     perPage,
     onPageChange,
     totalData,
   } = useTableAsync({
-    key: ['admin.paket-pengguna.list'],
+    queryKey,
     action: listPaketPenggunaAction,
   })
 
@@ -43,18 +53,6 @@ export default function PaketPenggunaBody() {
       })),
     [data]
   )
-
-  const handleHapus = () => {
-    if (!idHapus) return
-
-    handleActionWithToast(hapusPaketPenggunaAction(idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
-        refetch()
-      },
-    })
-  }
 
   return (
     <>
@@ -88,6 +86,7 @@ export default function PaketPenggunaBody() {
               pageSize={perPage}
               total={totalData}
               isLoading={isFetching}
+              paginatorClassName="px-0"
               onChange={(page) => onPageChange(page)}
             />
           </>

@@ -33,7 +33,7 @@ export default function Tes3Table() {
     isFiltered,
     onReset,
   } = useTableAsync({
-    key: ['tes'],
+    queryKey: ['tes'],
     action: tesAsyncAction,
     initialFilterState: {
       nama: '',

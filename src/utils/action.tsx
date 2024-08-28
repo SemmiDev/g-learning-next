@@ -237,3 +237,7 @@ export const makeJwtPutRequestAction = <T extends AnyObject>(
 
 export const makeJwtDeleteRequestAction = <T extends AnyObject>(url: string) =>
   makeJwtDataRequestAction<T>(url, 'DELETE')
+
+export type DeleteActionType<T extends AnyObject = AnyObject> = (
+  id: string
+) => Promise<ActionResponseType<T>>

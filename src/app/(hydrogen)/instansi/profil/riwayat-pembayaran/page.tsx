@@ -28,7 +28,7 @@ export default function RiwayatPembayaranPage() {
     search,
     onSearch,
   } = useTableAsync({
-    key: ['instansi.profil.riwayat-pembayaran.table'],
+    queryKey: ['instansi.profil.riwayat-pembayaran.table'],
     action: tableRiwayatPembayaranAction,
   })
 

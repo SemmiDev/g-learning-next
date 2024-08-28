@@ -12,8 +12,9 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { routes } from '@/config/routes'
+import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { handleActionWithToast } from '@/utils/action'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -21,15 +22,23 @@ import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
-import { fileSizeToKB, formatBytes } from '@/utils/bytes'
+
+const queryKey = ['admin.instansi.table'] as const
 
 export default function TableInstansiCard() {
   const [idUbah, setIdUbah] = useState<string | undefined>()
-  const [idHapus, setIdHapus] = useState<string | undefined>()
+
+  const {
+    handle: handleHapus,
+    id: idHapus,
+    setId: setIdHapus,
+  } = useHandleDelete({
+    action: hapusInstansiAction,
+    refetchKey: queryKey,
+  })
 
   const {
     data,
-    refetch,
     isLoading,
     isFetching,
     page,
@@ -40,7 +49,7 @@ export default function TableInstansiCard() {
     search,
     onSearch,
   } = useTableAsync({
-    key: ['admin.instansi.table'],
+    queryKey,
     action: tableInstansiAction,
   })
 
@@ -152,18 +161,6 @@ export default function TableInstansiCard() {
       ),
     },
   ]
-
-  const handleHapus = () => {
-    if (!idHapus) return
-
-    handleActionWithToast(hapusInstansiAction(idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
-        refetch()
-      },
-    })
-  }
 
   return (
     <>

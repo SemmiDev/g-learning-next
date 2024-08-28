@@ -35,7 +35,7 @@ export default function DashboardRiwayatPembayaranCard({
     search,
     onSearch,
   } = useTableAsync({
-    key: ['instansi.dashboard.table-riwayat-pembayaran'],
+    queryKey: ['instansi.dashboard.table-riwayat-pembayaran'],
     action: tableRiwayatPembayaranAction,
   })
 

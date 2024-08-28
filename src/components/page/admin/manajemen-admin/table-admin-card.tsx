@@ -11,8 +11,8 @@ import {
   Time,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { handleActionWithToast } from '@/utils/action'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
@@ -21,16 +21,25 @@ import { LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
 
+const queryKey = ['admin.manajemen-admin.table'] as const
+
 export default function TableAdminCard() {
   const [idLihat, setIdLihat] = useState<string>()
   const [idUbah, setIdUbah] = useState<string>()
-  const [idHapus, setIdHapus] = useState<string>()
+
+  const {
+    handle: handleHapus,
+    id: idHapus,
+    setId: setIdHapus,
+  } = useHandleDelete({
+    action: hapusAdminAction,
+    refetchKey: queryKey,
+  })
 
   const {
     data,
     isLoading,
     isFetching,
-    refetch,
     page,
     perPage,
     onPageChange,
@@ -40,7 +49,7 @@ export default function TableAdminCard() {
     search,
     onSearch,
   } = useTableAsync({
-    key: ['admin.manajemen-admin.table'],
+    queryKey,
     action: tableAdminAction,
   })
 
@@ -134,18 +143,6 @@ export default function TableAdminCard() {
       ),
     },
   ]
-
-  const handleHapus = () => {
-    if (!idHapus) return
-
-    handleActionWithToast(hapusAdminAction(idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
-        refetch()
-      },
-    })
-  }
 
   return (
     <>

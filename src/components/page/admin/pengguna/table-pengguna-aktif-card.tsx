@@ -33,7 +33,7 @@ export default function TablePenggunaAktifCard() {
     search,
     onSearch,
   } = useTableAsync({
-    key: ['admin.pengguna.table'],
+    queryKey: ['admin.pengguna.table'],
     action: tablePenggunaAktifAction,
   })
 

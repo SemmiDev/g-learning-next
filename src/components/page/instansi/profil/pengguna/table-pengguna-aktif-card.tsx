@@ -31,7 +31,7 @@ export default function TablePenggunaAktifCard() {
     search,
     onSearch,
   } = useTableAsync({
-    key: ['instansi.profil.pengguna.table'],
+    queryKey: ['instansi.profil.pengguna.table'],
     action: tablePenggunaAction,
   })
 

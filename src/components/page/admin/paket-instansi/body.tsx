@@ -4,30 +4,38 @@ import { hapusPaketInstansiAction } from '@/actions/admin/paket-instansi/hapus'
 import { listPaketInstansiAction } from '@/actions/admin/paket-instansi/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { handleActionWithToast } from '@/utils/action'
 import { fileSizeToKB } from '@/utils/bytes'
 import { useMemo, useState } from 'react'
 import TambahModal from './modal/tambah'
 import UbahModal from './modal/ubah'
 import PaketItemCard, { PaketItemType } from './paket-item-card'
 
+const queryKey = ['admin.paket-instansi.list'] as const
+
 export default function PaketInstansiBody() {
   const [showTambahModal, setShowTambahModal] = useState(false)
   const [idUbah, setIdUbah] = useState<string>()
-  const [idHapus, setIdHapus] = useState<string>()
+  const {
+    handle: handleHapus,
+    id: idHapus,
+    setId: setIdHapus,
+  } = useHandleDelete({
+    action: hapusPaketInstansiAction,
+    refetchKey: queryKey,
+  })
 
   const {
     data,
     isLoading,
     isFetching,
-    refetch,
     page,
     perPage,
     onPageChange,
     totalData,
   } = useTableAsync({
-    key: ['admin.paket-instansi.list'],
+    queryKey,
     action: listPaketInstansiAction,
   })
 
@@ -49,18 +57,6 @@ export default function PaketInstansiBody() {
       })),
     [data]
   )
-
-  const handleHapus = () => {
-    if (!idHapus) return
-
-    handleActionWithToast(hapusPaketInstansiAction(idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
-        refetch()
-      },
-    })
-  }
 
   return (
     <>
@@ -94,6 +90,7 @@ export default function PaketInstansiBody() {
               pageSize={perPage}
               total={totalData}
               isLoading={isFetching}
+              paginatorClassName="px-0"
               onChange={(page) => onPageChange(page)}
             />
           </>

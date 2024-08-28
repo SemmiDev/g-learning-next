@@ -4,7 +4,7 @@ import {
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
 import { AnyObject } from '@/utils/type-interface'
-import { useQuery } from '@tanstack/react-query'
+import { QueryKey, useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
@@ -19,11 +19,11 @@ export type SortType = {
 const defaultPerPage = 10
 
 export function useTableAsync<T extends AnyObject = AnyObject>({
-  key,
+  queryKey,
   action,
   initialFilterState,
 }: {
-  key: string[]
+  queryKey: QueryKey
   action: (
     actionProps: ControlledAsyncTableActionProps
   ) => Promise<ControlledAsyncTableActionType<T>>
@@ -45,7 +45,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
     isLoading,
     isFetching,
   } = useQuery<T[]>({
-    queryKey: key,
+    queryKey,
     queryFn: async () => {
       const { data, success, message } = await action({
         page,

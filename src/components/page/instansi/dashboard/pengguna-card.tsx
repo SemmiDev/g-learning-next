@@ -33,7 +33,7 @@ export default function DashboardPenggunaCard({
     search,
     onSearch,
   } = useTableAsync({
-    key: ['instansi.dashboard.table-pengguna'],
+    queryKey: ['instansi.dashboard.table-pengguna'],
     action: tablePenggunaAction,
   })
 

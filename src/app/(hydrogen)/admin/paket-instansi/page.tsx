@@ -1,7 +1,14 @@
+import { listPaketInstansiAction } from '@/actions/admin/paket-instansi/list'
 import PaketInstansiBody from '@/components/page/admin/paket-instansi/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { makeAsyncTableQueryData } from '@/utils/query-data'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
 
 export const metadata = {
   ...metaObject('Paket Instansi'),
@@ -20,11 +27,19 @@ const pageHeader = {
   ],
 }
 
-export default function PaketInstansiPage() {
+export default async function PaketInstansiPage() {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.paket-instansi.list'],
+    queryFn: async () => await makeAsyncTableQueryData(listPaketInstansiAction),
+  })
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-      <PaketInstansiBody />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PaketInstansiBody />
+      </HydrationBoundary>
     </>
   )
 }

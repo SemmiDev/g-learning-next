@@ -33,7 +33,7 @@ export default function TablePenggunaDiblokirCard() {
     search,
     onSearch,
   } = useTableAsync({
-    key: ['admin.pengguna.table-diblokir'],
+    queryKey: ['admin.pengguna.table-diblokir'],
     action: tablePenggunaDiblokirAction,
   })
 
