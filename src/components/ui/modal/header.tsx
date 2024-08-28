@@ -17,9 +17,15 @@ type ColorType =
   | 'danger'
   | 'black'
 
-type IconType = 'warning' | 'info' | 'help' | ReactNode
+type IconType = 'warning' | 'info' | 'help'
 
-const HeaderIcon = ({ icon }: { icon?: IconType }) => {
+const HeaderIcon = ({
+  icon,
+  customIcon,
+}: {
+  icon?: IconType
+  customIcon: ReactNode
+}) => {
   const size = 20
 
   switch (icon) {
@@ -30,7 +36,7 @@ const HeaderIcon = ({ icon }: { icon?: IconType }) => {
     case 'help':
       return <LuHelpCircle size={size} className="text-white" />
     default:
-      return icon
+      return customIcon
   }
 }
 
@@ -39,6 +45,7 @@ export type ModalHeaderProps = {
   isLoading?: boolean
   color?: ColorType
   icon?: IconType
+  customIcon?: ReactNode
   desc?: string
   className?: string
   closeButton?: boolean
@@ -50,6 +57,7 @@ export default function ModalHeader({
   isLoading,
   color = 'dark-gray',
   icon,
+  customIcon,
   desc,
   className,
   closeButton,
@@ -102,7 +110,7 @@ export default function ModalHeader({
         )}
       </div>
       <div className="flex items-center space-x-2">
-        <HeaderIcon icon={icon} />
+        <HeaderIcon icon={icon} customIcon={customIcon} />
         {closeButton && onClose && (
           <ActionIcon
             size="sm"
