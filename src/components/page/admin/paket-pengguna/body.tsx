@@ -114,7 +114,7 @@ export default function PaketPenggunaBody() {
       <UbahModal id={idUbah} setId={setIdUbah} />
 
       <ModalConfirm
-        title="Hapus Admin"
+        title="Hapus Paket"
         desc="Apakah Anda yakin ingin menghapus paket ini?"
         color="danger"
         isOpen={!!idHapus}

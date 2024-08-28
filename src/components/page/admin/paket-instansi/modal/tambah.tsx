@@ -1,18 +1,23 @@
+import { tambahPaketInstansiAction } from '@/actions/admin/paket-instansi/tambah'
 import {
   CardSeparator,
   ControlledInput,
   ControlledInputRupiah,
   ControlledSelect,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { rupiahToNumber } from '@/utils/validations/transform'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
@@ -33,8 +38,7 @@ const formSchema = z.object({
     .pipe(z.coerce.number()),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahPaketInstansiFormSchema = {
   nama?: string
   totalPenyimpanan?: number | string
   totalPenyimpananUnit?: SelectOptionType
@@ -54,7 +58,11 @@ const sizeUnitOptions: SelectOptionType[] = [
   selectOption('TB'),
 ]
 
-const initialValues: FormSchema = {}
+const initialValues: TambahPaketInstansiFormSchema = {
+  totalPenyimpananUnit: sizeUnitOptions[0],
+  penyimpananPesertaUnit: sizeUnitOptions[0],
+  penyimpananPengajarUnit: sizeUnitOptions[0],
+}
 
 export default function TambahModal({
   showModal = false,
@@ -63,8 +71,24 @@ export default function TambahModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const onSubmit: SubmitHandler<TambahPaketInstansiFormSchema> = async (
+    data
+  ) => {
+    // console.log('form data', data)
+    await handleActionWithToast(tambahPaketInstansiAction(data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['admin.paket-instansi.list'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -73,7 +97,7 @@ export default function TambahModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<FormSchema>
+      <Form<TambahPaketInstansiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -90,6 +114,7 @@ export default function TambahModal({
                 errors={errors}
                 label="Nama Paket"
                 placeholder="Nama Paket"
+                required
               />
 
               <div className="flex">
@@ -103,6 +128,7 @@ export default function TambahModal({
                   placeholder="Total Penyimpanan"
                   className="flex-1"
                   inputClassName="rounded-r-none"
+                  required
                 />
 
                 <ControlledSelect
@@ -110,7 +136,6 @@ export default function TambahModal({
                   control={control}
                   options={sizeUnitOptions}
                   placeholder="Unit"
-                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />
@@ -127,13 +152,13 @@ export default function TambahModal({
                   placeholder="Limit Penyimpanan Pengajar"
                   className="flex-1"
                   inputClassName="rounded-r-none"
+                  required
                 />
                 <ControlledSelect
                   name="penyimpananPengajarUnit"
                   control={control}
                   options={sizeUnitOptions}
                   placeholder="Unit"
-                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />
@@ -150,13 +175,13 @@ export default function TambahModal({
                   placeholder="Limit Penyimpanan Peserta"
                   className="flex-1"
                   inputClassName="rounded-r-none"
+                  required
                 />
                 <ControlledSelect
                   name="penyimpananPesertaUnit"
                   control={control}
                   options={sizeUnitOptions}
                   placeholder="Unit"
-                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />
@@ -171,6 +196,7 @@ export default function TambahModal({
                 label="Limit User"
                 placeholder="Jumlah maksimal user yang mendaftar"
                 suffix="User"
+                required
               />
 
               <ControlledInput
@@ -182,6 +208,7 @@ export default function TambahModal({
                 label="Limit Kelas"
                 placeholder="Jumlah maksimal kelas yang bisa dibuka"
                 suffix="Kelas"
+                required
               />
 
               <ControlledInput
@@ -193,6 +220,7 @@ export default function TambahModal({
                 label="Limit Kelas/pengajar"
                 placeholder="Jumlah default maksimal kelas yang bisa dibuka oleh pengajar"
                 suffix="Kelas"
+                required
               />
 
               <ControlledInputRupiah
@@ -201,7 +229,10 @@ export default function TambahModal({
                 errors={errors}
                 label="Harga/bulan"
                 placeholder="Harga paket"
+                required
               />
+
+              <FormError error={formError} />
             </div>
 
             <CardSeparator />

@@ -3,16 +3,15 @@ import {
   CardSeparator,
   ControlledPassword,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
-  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
@@ -96,13 +95,7 @@ export default function UbahPasswordModal({
                 placeholder="Ulangi Kata Sandi Baru"
               />
 
-              {formError && (
-                <Alert size="sm" variant="flat" color="danger">
-                  <Text size="sm" weight="medium">
-                    {formError}
-                  </Text>
-                </Alert>
-              )}
+              <FormError error={formError} />
             </div>
 
             <CardSeparator />

@@ -1,24 +1,66 @@
 'use client'
 
-import { Button, Title } from '@/components/ui'
+import { hapusPaketInstansiAction } from '@/actions/admin/paket-instansi/hapus'
+import { listPaketInstansiAction } from '@/actions/admin/paket-instansi/list'
+import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useTableAsync } from '@/hooks/use-table-async'
+import { handleActionWithToast } from '@/utils/action'
 import { fileSizeToKB } from '@/utils/bytes'
-import PaketItemCard, { PaketItemType } from './paket-item-card'
+import { useMemo, useState } from 'react'
 import TambahModal from './modal/tambah'
-import { useState } from 'react'
+import UbahModal from './modal/ubah'
+import PaketItemCard, { PaketItemType } from './paket-item-card'
 
 export default function PaketInstansiBody() {
   const [showTambahModal, setShowTambahModal] = useState(false)
+  const [idUbah, setIdUbah] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
 
-  const listPaket: PaketItemType[] = [...Array(10)].map((_) => ({
-    nama: 'Nama Paket',
-    totalPenyimpanan: fileSizeToKB(1, 'TB'),
-    penyimpananPengajar: fileSizeToKB(10, 'GB'),
-    penyimpananPeserta: fileSizeToKB(1, 'GB'),
-    limitUser: 5000,
-    limitKelas: 500,
-    limitKelasPengajar: 5,
-    harga: 5000000,
-  }))
+  const {
+    data,
+    isLoading,
+    isFetching,
+    refetch,
+    page,
+    perPage,
+    onPageChange,
+    totalData,
+  } = useTableAsync({
+    key: ['admin.paket-instansi.list'],
+    action: listPaketInstansiAction,
+  })
+
+  const list: PaketItemType[] = useMemo(
+    () =>
+      data.map((item) => ({
+        id: item.id,
+        nama: item.nama,
+        totalPenyimpanan: fileSizeToKB(item.batas_penyimpanan, 'MB'),
+        penyimpananPengajar: fileSizeToKB(
+          item.batas_penyimpanan_pengajar,
+          'MB'
+        ),
+        penyimpananPeserta: fileSizeToKB(item.batas_penyimpanan_peserta, 'MB'),
+        limitUser: item.batas_pengguna,
+        limitKelas: item.batas_kelas,
+        limitKelasPengajar: item.batas_kelas_pengajar,
+        harga: item.harga,
+      })),
+    [data]
+  )
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusPaketInstansiAction(idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+        refetch()
+      },
+    })
+  }
 
   return (
     <>
@@ -27,21 +69,65 @@ export default function PaketInstansiBody() {
           <Title as="h4" size="1.5xl" weight="semibold">
             List Paket Instansi
           </Title>
-          <Button size="sm" onClick={() => setShowTambahModal(true)}>
-            Buat Paket Baru
-          </Button>
+          {!!list.length && (
+            <Button size="sm" onClick={() => setShowTambahModal(true)}>
+              Buat Paket Baru
+            </Button>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
-          {listPaket.map((paket, idx) => (
-            <PaketItemCard paket={paket} key={idx} />
-          ))}
-        </div>
+        {list.length ? (
+          <>
+            <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
+              {list.map((item) => (
+                <PaketItemCard
+                  key={item.id}
+                  paket={item}
+                  onEdit={() => setIdUbah(item.id)}
+                  onDelete={() => setIdHapus(item.id)}
+                />
+              ))}
+            </div>
+
+            <TablePagination
+              current={page}
+              pageSize={perPage}
+              total={totalData}
+              isLoading={isFetching}
+              onChange={(page) => onPageChange(page)}
+            />
+          </>
+        ) : (
+          <div className="flex flex-col justify-center items-center space-y-2 h-64">
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <>
+                <Text weight="medium">Paket Masih Kosong</Text>
+                <Button onClick={() => setShowTambahModal(true)}>
+                  Buat Paket Baru
+                </Button>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       <TambahModal
         showModal={showTambahModal}
         setShowModal={setShowTambahModal}
+      />
+      <UbahModal id={idUbah} setId={setIdUbah} />
+
+      <ModalConfirm
+        title="Hapus Paket"
+        desc="Apakah Anda yakin ingin menghapus paket ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="warning"
+        closeOnCancel
       />
     </>
   )

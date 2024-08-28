@@ -60,6 +60,7 @@ import Drawer, { DrawerProps } from './drawer'
 import FileIcon from './file/file-icon'
 import FileListItem, { FileListItemType } from './file/file-list-item'
 import { Form } from './form'
+import FormError, { FormErrorProps } from './form-error'
 import Input, { InputProps } from './input/input'
 import InputNumber, { InputNumberProps } from './input/number'
 import InputRupiah, { InputRupiahProps } from './input/rupiah'
@@ -131,6 +132,7 @@ export {
   FileIcon,
   FileListItem,
   Form,
+  FormError,
   Input,
   InputNumber,
   InputRupiah,
@@ -196,6 +198,7 @@ export {
   type DatePickerProps,
   type DrawerProps,
   type FileListItemType,
+  type FormErrorProps,
   type InputNumberProps,
   type InputProps,
   type InputRupiahProps,

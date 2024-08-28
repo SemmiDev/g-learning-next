@@ -3,9 +3,9 @@ import {
   CardSeparator,
   ControlledUploadFile,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
-  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
@@ -14,7 +14,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   foto: z.any().superRefine(objectRequired),
@@ -79,13 +78,7 @@ export default function UbahFotoModal({
                   accept={{ 'image/*': [] }}
                 />
 
-                {formError && (
-                  <Alert size="sm" variant="flat" color="danger">
-                    <Text size="sm" weight="medium">
-                      {formError}
-                    </Text>
-                  </Alert>
-                )}
+                <FormError error={formError} />
               </div>
 
               <CardSeparator />

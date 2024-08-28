@@ -13,7 +13,10 @@ export type ControlledSelectProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
   OptionType extends SelectOptionType
-> = Omit<SelectProps<OptionType>, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<
+  SelectProps<OptionType>,
+  'value' | 'defaultValue' | 'onChange' | 'onBlur'
+> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>

@@ -11,6 +11,17 @@ export const fileSizeToKB = (size: number, unit: 'MB' | 'GB' | 'TB') => {
   return size * scale
 }
 
+export const fileSizeToMB = (size: number, unit: 'MB' | 'GB' | 'TB') => {
+  const scale =
+    unit === 'GB'
+      ? FILE_SIZE_UNIT_SCALE
+      : unit === 'TB'
+      ? Math.pow(FILE_SIZE_UNIT_SCALE, 2)
+      : 1
+
+  return size * scale
+}
+
 export const formatBytes = (
   kilobytes: number,
   decimals = 2,

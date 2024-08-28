@@ -6,6 +6,7 @@ import {
   ControlledInput,
   ControlledPassword,
   Form,
+  FormError,
   Text,
   TextLink,
 } from '@/components/ui'
@@ -16,7 +17,7 @@ import { z } from '@/utils/zod-id'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert, Checkbox } from 'rizzui'
+import { Checkbox } from 'rizzui'
 
 const formSchema = z
   .object({
@@ -129,13 +130,7 @@ export default function DaftarForm() {
               />
             </div>
 
-            {formError && (
-              <Alert size="sm" variant="flat" color="danger">
-                <Text size="sm" weight="medium">
-                  {formError}
-                </Text>
-              </Alert>
-            )}
+            <FormError error={formError} />
 
             <ButtonSubmit
               className="w-full"

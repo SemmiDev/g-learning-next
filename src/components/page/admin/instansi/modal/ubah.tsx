@@ -9,11 +9,11 @@ import {
   ControlledPassword,
   ControlledSelect,
   Form,
+  FormError,
   Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
-  Text,
   TextSpan,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
@@ -24,7 +24,6 @@ import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -229,13 +228,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   placeholder="Kata Sandi untuk Admin Instansi"
                 />
 
-                {formError && (
-                  <Alert size="sm" variant="flat" color="danger">
-                    <Text size="sm" weight="medium">
-                      {formError}
-                    </Text>
-                  </Alert>
-                )}
+                <FormError error={formError} />
               </div>
 
               <CardSeparator />

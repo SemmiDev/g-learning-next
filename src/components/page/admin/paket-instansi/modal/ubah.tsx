@@ -1,5 +1,5 @@
-import { lihatPaketPenggunaAction } from '@/actions/admin/paket-pengguna/lihat'
-import { ubahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/ubah'
+import { lihatPaketInstansiAction } from '@/actions/admin/paket-instansi/lihat'
+import { ubahPaketInstansiAction } from '@/actions/admin/paket-instansi/ubah'
 import {
   CardSeparator,
   ControlledInput,
@@ -51,8 +51,13 @@ const formSchema = z.object({
   nama: z.string().pipe(required),
   totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
   totalPenyimpananUnit: z.any().superRefine(objectRequired),
+  penyimpananPengajar: z.string().pipe(required).pipe(z.coerce.number()),
+  penyimpananPengajarUnit: z.any().superRefine(objectRequired),
+  penyimpananPeserta: z.string().pipe(required).pipe(z.coerce.number()),
+  penyimpananPesertaUnit: z.any().superRefine(objectRequired),
+  limitUser: z.string().pipe(required).pipe(z.coerce.number()),
   limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
-  limitAnggotaKelas: z.string().pipe(required).pipe(z.coerce.number()),
+  limitKelasPengajar: z.string().pipe(required).pipe(z.coerce.number()),
   harga: z
     .string()
     .pipe(required)
@@ -60,12 +65,17 @@ const formSchema = z.object({
     .pipe(z.coerce.number()),
 })
 
-export type UbahPaketPenggunaFormSchema = {
+export type UbahPaketInstansiFormSchema = {
   nama?: string
   totalPenyimpanan?: number | string
   totalPenyimpananUnit?: SelectOptionType
+  penyimpananPengajar?: number | string
+  penyimpananPengajarUnit?: SelectOptionType
+  penyimpananPeserta?: number | string
+  penyimpananPesertaUnit?: SelectOptionType
+  limitUser?: number | string
   limitKelas?: number | string
-  limitAnggotaKelas?: number | string
+  limitKelasPengajar?: number | string
   harga?: number | string
 }
 
@@ -88,36 +98,49 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahPaketPenggunaFormSchema>({
-    queryKey: ['admin.paket-pengguna.table.ubah', id],
+  } = useQuery<UbahPaketInstansiFormSchema>({
+    queryKey: ['admin.paket-instansi.table.ubah', id],
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatPaketPenggunaAction(id)
+      const { data } = await lihatPaketInstansiAction(id)
 
-      const { size, unit } = getSize(data?.batas_penyimpanan ?? 0)
+      const { size: totalSize, unit: totalUnit } = getSize(
+        data?.batas_penyimpanan ?? 0
+      )
+      const { size: pengajarSize, unit: pengajarUnit } = getSize(
+        data?.batas_penyimpanan_pengajar ?? 0
+      )
+      const { size: pesertaSize, unit: pesertaUnit } = getSize(
+        data?.batas_penyimpanan_peserta ?? 0
+      )
 
       return {
         nama: data?.nama,
-        totalPenyimpanan: size + '',
-        totalPenyimpananUnit: selectOption(unit),
+        totalPenyimpanan: totalSize + '',
+        totalPenyimpananUnit: selectOption(totalUnit),
+        penyimpananPengajar: pengajarSize + '',
+        penyimpananPengajarUnit: selectOption(pengajarUnit),
+        penyimpananPeserta: pesertaSize + '',
+        penyimpananPesertaUnit: selectOption(pesertaUnit),
+        limitUser: data?.batas_pengguna + '',
         limitKelas: data?.batas_kelas + '',
-        limitAnggotaKelas: data?.batas_anggota_kelas + '',
+        limitKelasPengajar: data?.batas_kelas_pengajar + '',
         harga: data?.harga + '',
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahPaketPenggunaFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahPaketInstansiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahPaketPenggunaAction(id, data), {
+    await handleActionWithToast(ubahPaketInstansiAction(id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         setId(undefined)
         queryClient.invalidateQueries({
-          queryKey: ['admin.paket-pengguna.list'],
+          queryKey: ['admin.paket-instansi.list'],
         })
       },
       onError: ({ message }) => setFormError(message),
@@ -126,7 +149,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
 
   return (
     <Modal
-      title="Ubah Paket Pengguna"
+      title="Ubah Paket Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
@@ -135,7 +158,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       {isLoading || !id ? (
         <Loader height={482} />
       ) : (
-        <Form<UbahPaketPenggunaFormSchema>
+        <Form<UbahPaketInstansiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -180,6 +203,64 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   />
                 </div>
 
+                <div className="flex">
+                  <ControlledInput
+                    name="penyimpananPengajar"
+                    control={control}
+                    errors={errors}
+                    type="number"
+                    min={0}
+                    label="Limit Penyimpanan Pengajar"
+                    placeholder="Limit Penyimpanan Pengajar"
+                    className="flex-1"
+                    inputClassName="rounded-r-none"
+                    required
+                  />
+                  <ControlledSelect
+                    name="penyimpananPengajarUnit"
+                    control={control}
+                    options={sizeUnitOptions}
+                    placeholder="Unit"
+                    className="w-24 mt-[26px]"
+                    classNames={{ control: 'rounded-l-none' }}
+                  />
+                </div>
+
+                <div className="flex">
+                  <ControlledInput
+                    name="penyimpananPeserta"
+                    control={control}
+                    errors={errors}
+                    type="number"
+                    min={0}
+                    label="Limit Penyimpanan Peserta"
+                    placeholder="Limit Penyimpanan Peserta"
+                    className="flex-1"
+                    inputClassName="rounded-r-none"
+                    required
+                  />
+                  <ControlledSelect
+                    name="penyimpananPesertaUnit"
+                    control={control}
+                    options={sizeUnitOptions}
+                    placeholder="Unit"
+                    className="w-24 mt-[26px]"
+                    classNames={{ control: 'rounded-l-none' }}
+                  />
+                </div>
+
+                <ControlledInput
+                  name="limitUser"
+                  control={control}
+                  errors={errors}
+                  type="number"
+                  min={0}
+                  label="Limit User"
+                  placeholder="Jumlah maksimal user yang mendaftar"
+                  suffix="User"
+                  required
+                />
+
                 <ControlledInput
                   name="limitKelas"
                   control={control}
@@ -193,14 +274,14 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                 />
 
                 <ControlledInput
-                  name="limitAnggotaKelas"
+                  name="limitKelasPengajar"
                   control={control}
                   errors={errors}
                   type="number"
                   min={0}
-                  label="Limit Anggota Kelas"
-                  placeholder="Jumlah maksimal anggota kelas"
-                  suffix="Orang"
+                  label="Limit Kelas/pengajar"
+                  placeholder="Jumlah default maksimal kelas yang bisa dibuka oleh pengajar"
+                  suffix="Kelas"
                   required
                 />
 

@@ -41,7 +41,8 @@ export type AsyncPaginateSelectProps<
 export default function AsyncPaginateSelect<
   OptionType,
   IsMulti extends boolean = boolean,
-  Group extends GroupBase<OptionType> = GroupBase<OptionType>
+  Group extends GroupBase<OptionType> = GroupBase<OptionType>,
+  TData extends AnyObject = AnyObject
 >({
   label,
   required,
@@ -51,7 +52,13 @@ export default function AsyncPaginateSelect<
   error,
   errorClassName,
   ...props
-}: AsyncPaginateSelectProps<OptionType, IsMulti, Group>) {
+}: AsyncPaginateSelectProps<
+  OptionType,
+  IsMulti,
+  Group,
+  { page: number },
+  TData
+>) {
   return (
     <div className="react-select">
       {label && (

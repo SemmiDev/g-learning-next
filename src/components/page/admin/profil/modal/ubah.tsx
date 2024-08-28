@@ -5,11 +5,11 @@ import {
   ControlledInput,
   ControlledRadioGroup,
   Form,
+  FormError,
   Loader,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
-  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
@@ -19,7 +19,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -125,13 +124,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
                   phoneNumber
                 />
 
-                {formError && (
-                  <Alert size="sm" variant="flat" color="danger">
-                    <Text size="sm" weight="medium">
-                      {formError}
-                    </Text>
-                  </Alert>
-                )}
+                <FormError error={formError} />
               </div>
 
               <CardSeparator />

@@ -5,10 +5,10 @@ import {
   ControlledInputRupiah,
   ControlledSelect,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
-  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
@@ -19,7 +19,6 @@ import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -50,7 +49,7 @@ const sizeUnitOptions: SelectOptionType[] = [
 ]
 
 const initialValues: TambahPaketPenggunaFormSchema = {
-  totalPenyimpananUnit: selectOption('MB'),
+  totalPenyimpananUnit: sizeUnitOptions[0],
 }
 
 export default function TambahModal({
@@ -124,7 +123,6 @@ export default function TambahModal({
                   control={control}
                   options={sizeUnitOptions}
                   placeholder="Unit"
-                  defaultValue={sizeUnitOptions[0]}
                   className="w-24 mt-[26px]"
                   classNames={{ control: 'rounded-l-none' }}
                 />
@@ -163,13 +161,7 @@ export default function TambahModal({
                 required
               />
 
-              {formError && (
-                <Alert size="sm" variant="flat" color="danger">
-                  <Text size="sm" weight="medium">
-                    {formError}
-                  </Text>
-                </Alert>
-              )}
+              <FormError error={formError} />
             </div>
 
             <CardSeparator />

@@ -4,7 +4,14 @@ import {
   verifikasiResetPasswordAction,
   verifikasiTokenResetPasswordAction,
 } from '@/actions/auth/reset-password'
-import { Button, ControlledPassword, Form, Text, Title } from '@/components/ui'
+import {
+  Button,
+  ControlledPassword,
+  Form,
+  FormError,
+  Text,
+  Title,
+} from '@/components/ui'
 import { authRoutes, routes } from '@/config/routes'
 import { useMedia } from '@/hooks/use-media'
 import { handleActionWithToast } from '@/utils/action'
@@ -16,7 +23,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { CgSpinner } from 'react-icons/cg'
-import { Alert } from 'rizzui'
 
 const formSchema = z
   .object({
@@ -138,13 +144,7 @@ export default function ResetPasswordForm() {
               placeholder="Tulis ulang kata sandi baru Anda di sini"
             />
 
-            {formError && (
-              <Alert size="sm" variant="flat" color="danger">
-                <Text size="sm" weight="medium">
-                  {formError}
-                </Text>
-              </Alert>
-            )}
+            <FormError error={formError} />
 
             <Button
               className="w-full"

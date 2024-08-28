@@ -1,7 +1,14 @@
 'use client'
 
 import { resetPasswordAction } from '@/actions/auth/reset-password'
-import { Button, ControlledInput, Form, Text, TextLink } from '@/components/ui'
+import {
+  Button,
+  ControlledInput,
+  Form,
+  FormError,
+  Text,
+  TextLink,
+} from '@/components/ui'
 import { authRoutes, publicRoutes } from '@/config/routes'
 import { useMedia } from '@/hooks/use-media'
 import { handleActionWithToast } from '@/utils/action'
@@ -10,7 +17,6 @@ import { z } from '@/utils/zod-id'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   email: z.string().pipe(required.email()),
@@ -58,13 +64,7 @@ export default function LupaPasswordForm() {
               placeholder="Tulis alamat email Anda di sini"
             />
 
-            {formError && (
-              <Alert size="sm" variant="flat" color="danger">
-                <Text size="sm" weight="medium">
-                  {formError}
-                </Text>
-              </Alert>
-            )}
+            <FormError error={formError} />
 
             <Button
               className="w-full"

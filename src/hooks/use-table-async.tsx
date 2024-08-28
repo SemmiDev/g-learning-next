@@ -1,3 +1,4 @@
+import { Text } from '@/components/ui'
 import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
@@ -7,6 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useDebounce } from 'react-use'
 
 export type SortType = {
@@ -45,12 +47,18 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   } = useQuery<T[]>({
     queryKey: key,
     queryFn: async () => {
-      const { data } = await action({
+      const { data, success, message } = await action({
         page,
         search,
         sort,
         filters,
       })
+
+      if (!success) {
+        toast.error(<Text>{message}</Text>)
+
+        return []
+      }
 
       setTotalData(data?.pagination?.totalData ?? 0)
       setPerPage(data?.pagination?.perPage ?? defaultPerPage)

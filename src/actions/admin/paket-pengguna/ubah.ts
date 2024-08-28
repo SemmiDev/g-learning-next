@@ -2,7 +2,8 @@
 
 import { UbahPaketPenggunaFormSchema } from '@/components/page/admin/paket-pengguna/modal/ubah'
 import { makeJwtPutRequestAction } from '@/utils/action'
-import { FILE_SIZE_UNIT_SCALE } from '@/utils/bytes'
+import { fileSizeToMB } from '@/utils/bytes'
+import { mustBe } from '@/utils/must-be'
 
 export const ubahPaketPenggunaAction = (
   id: string,
@@ -10,16 +11,10 @@ export const ubahPaketPenggunaAction = (
 ) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/paket-pengguna/${id}`, {
     nama: data.nama,
-    batas_penyimpanan:
-      parseInt(data.totalPenyimpanan + '') *
-      Math.pow(
-        FILE_SIZE_UNIT_SCALE,
-        data.totalPenyimpananUnit?.value === 'GB'
-          ? 1
-          : data.totalPenyimpananUnit?.value === 'TB'
-          ? 2
-          : 0
-      ),
+    batas_penyimpanan: fileSizeToMB(
+      parseInt(data.totalPenyimpanan + ''),
+      mustBe(data.totalPenyimpananUnit?.value, ['MB', 'GB', 'TB'], 'MB')
+    ),
     batas_kelas: data.limitKelas,
     batas_anggota_kelas: data.limitAnggotaKelas,
     harga: data.harga,
