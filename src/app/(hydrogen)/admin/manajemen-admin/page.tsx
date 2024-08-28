@@ -31,7 +31,7 @@ export default async function ManajemenAdminPage() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ['admin.manajemen-admin.table'],
-    queryFn: async () => await makeAsyncTableQueryData(tableAdminAction),
+    queryFn: makeAsyncTableQueryData(tableAdminAction),
   })
 
   return (

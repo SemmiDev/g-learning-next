@@ -31,7 +31,7 @@ export default async function ListInstansiPage() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ['admin.instansi.table'],
-    queryFn: async () => await makeAsyncTableQueryData(tableInstansiAction),
+    queryFn: makeAsyncTableQueryData(tableInstansiAction),
   })
 
   return (

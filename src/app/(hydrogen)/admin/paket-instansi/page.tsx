@@ -31,7 +31,7 @@ export default async function PaketInstansiPage() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ['admin.paket-instansi.list'],
-    queryFn: async () => await makeAsyncTableQueryData(listPaketInstansiAction),
+    queryFn: makeAsyncTableQueryData(listPaketInstansiAction),
   })
 
   return (
