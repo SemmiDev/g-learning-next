@@ -3,6 +3,7 @@ import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
+import { DEFAULT_DATA_PER_PAGE } from '@/config/const'
 import { AnyObject } from '@/utils/type-interface'
 import { QueryKey, useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
@@ -16,8 +17,6 @@ export type SortType = {
   direction?: 'asc' | 'desc'
 }
 
-const defaultPerPage = 10
-
 export function useTableAsync<T extends AnyObject = AnyObject>({
   queryKey,
   action,
@@ -28,10 +27,10 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   action: (
     actionProps: ControlledAsyncTableActionProps
   ) => Promise<ControlledAsyncTableActionType<T>>
-  actionParams?: AnyObject
+  actionParams: AnyObject
   initialFilterState?: Partial<Record<string, any>>
 }) {
-  const [perPage, setPerPage] = useState(defaultPerPage)
+  const [perPage, setPerPage] = useState(DEFAULT_DATA_PER_PAGE)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<Record<string, any>>(
@@ -64,7 +63,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
       }
 
       setTotalData(data?.pagination?.totalData ?? 0)
-      setPerPage(data?.pagination?.perPage ?? defaultPerPage)
+      setPerPage(data?.pagination?.perPage ?? DEFAULT_DATA_PER_PAGE)
 
       return data?.list ?? []
     },

@@ -1,17 +1,19 @@
 import { lihatPenggunaInstansiAction } from '@/actions/admin/instansi/pengguna/lihat'
 import {
+  Button,
   CardSeparator,
   Loader,
   Modal,
   ModalFooterButtons,
   Text,
+  Thumbnail,
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
-import imagePhoto from '@public/images/photo.png'
+import defaultPhoto from '@public/images/default-profile.webp'
 import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { ReactNode } from 'react'
 
 type LihatModalProps = {
@@ -20,30 +22,34 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, setId }: LihatModalProps) {
+  const { id: idInstansi }: { id: string } = useParams()
+
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.instansi.detail.detail-pengguna', id],
-    queryFn: makeSimpleQueryDataWithId(lihatPenggunaInstansiAction, id),
+    queryFn: async () => {
+      if (!id) return null
+
+      const { data } = await lihatPenggunaInstansiAction(idInstansi, id)
+
+      return data
+    },
   })
 
   return (
-    <Modal
-      isLoading={!isLoading && isFetching}
-      size="sm"
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
-    >
+    <Modal size="sm" isOpen={!!id} onClose={() => setId(undefined)}>
       {isLoading ? (
         <Loader height={410} />
       ) : (
         <>
           <div className="flex flex-col items-center p-3">
-            <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
-              <Image
-                src={imagePhoto}
-                alt="foto profil"
-                className="object-contain"
-              />
-            </figure>
+            <Thumbnail
+              src={data?.foto || defaultPhoto}
+              size={150}
+              alt="foto profil"
+              className="shrink-0 mb-2"
+              bordered
+              priority
+            />
             <Title size="1.5xl" weight="semibold">
               {data?.nama}
             </Title>
@@ -61,8 +67,18 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
             <tbody>
               <DataRow label="Username">{data?.username}</DataRow>
               <DataRow label="Kontak">{data?.hp || '-'}</DataRow>
-              <DataRow label="Email">{'-'}</DataRow>
-              <DataRow label="Website">{data?.situs_web || '-'}</DataRow>
+              <DataRow label="Email">{data?.email || '-'}</DataRow>
+              <DataRow label="Website">
+                {data?.situs_web ? (
+                  <Link href={data?.situs_web} target="_blank">
+                    <Button variant="text-colorful" className="h-auto p-0">
+                      {data?.situs_web}
+                    </Button>
+                  </Link>
+                ) : (
+                  '-'
+                )}
+              </DataRow>
               <DataRow label="Jenis Kelamin">
                 {data?.jenis_kelamin || '-'}
               </DataRow>

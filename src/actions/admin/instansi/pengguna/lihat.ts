@@ -3,26 +3,23 @@
 import { makeJwtGetRequestAction } from '@/utils/action'
 
 type DataType = {
-  id: string
-  username: string
-  tipe: string
-  nik: string
+  id_pengguna_instansi: string
   nama: string
-  jenis_kelamin: string
-  bio: string
-  hp: string
-  situs_web: string
-  kuota_upload: number
+  tipe: string
   foto: string
-  diblokir: number
-  keterangan_blokir: string
-  tanggal_blokir: string
-  instansi: string
+  bio: string
+  username: string
+  hp: string
+  email: string
+  situs_web: string
+  jenis_kelamin: string
   paket: string
-  jenis_akun: string
 }
 
-export const lihatPenggunaInstansiAction = (id: string) =>
+export const lihatPenggunaInstansiAction = (
+  idInstansi: string,
+  idPengguna: string
+) =>
   makeJwtGetRequestAction<DataType>(
-    `${process.env.API_URL}/admin/profil-pengguna/${id}`
+    `${process.env.API_URL}/admin/instansi/${idInstansi}/anggota/${idPengguna}`
   )

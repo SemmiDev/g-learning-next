@@ -12,16 +12,13 @@ import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import { CgSpinner } from 'react-icons/cg'
 
-export type ControlledAsyncTableActionProps<
-  TFilters extends AnyObject = AnyObject,
-  TParams extends AnyObject = AnyObject
-> = {
+export type ControlledAsyncTableActionProps = {
   page?: number
   perPage?: number
   search?: string
   sort?: SortType
-  filters?: TFilters
-  params?: TParams
+  filters?: AnyObject
+  params?: AnyObject
 }
 
 export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
