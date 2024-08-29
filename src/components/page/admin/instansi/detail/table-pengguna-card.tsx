@@ -7,16 +7,21 @@ import {
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { renderTableCellTextCenter } from '@/components/ui/table'
+import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { angka } from '@/utils/text'
+import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 
 export default function TablePenggunaCard() {
   const [showModalLihat, setShowModalLihat] = useState<number | undefined>()
+
+  const { id }: { id: string } = useParams()
 
   const {
     data,
@@ -32,6 +37,7 @@ export default function TablePenggunaCard() {
   } = useTableAsync({
     queryKey: ['admin.instansi.detail.table'],
     action: tablePenggunaAction,
+    actionParams: { id },
   })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
@@ -53,18 +59,27 @@ export default function TablePenggunaCard() {
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
+      dataIndex: 'jenis_akun',
       render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
-      dataIndex: 'penyimpanan',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_penyimpanan_terpakai',
+      render: (value: number, row: any) => (
+        <TableCellText align="center">
+          {formatBytes(value)}/
+          {formatBytes(fileSizeToKB(row.batas_penyimpanan, 'MB'))}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'kelas',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_kelas_terpakai',
+      render: (value: number, row: any) => (
+        <TableCellText align="center">
+          {angka(value)}/{angka(row.batas_kelas)}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,

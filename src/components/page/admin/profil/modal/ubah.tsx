@@ -13,6 +13,7 @@ import {
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -49,10 +50,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: async () => {
-      const { data } = await dataProfileAction()
-      return data
-    },
+    queryFn: makeSimpleQueryData(dataProfileAction),
   })
 
   const onSubmit: SubmitHandler<UbahProfileFormSchema> = async (data) => {

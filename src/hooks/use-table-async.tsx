@@ -21,12 +21,14 @@ const defaultPerPage = 10
 export function useTableAsync<T extends AnyObject = AnyObject>({
   queryKey,
   action,
+  actionParams,
   initialFilterState,
 }: {
   queryKey: QueryKey
   action: (
     actionProps: ControlledAsyncTableActionProps
   ) => Promise<ControlledAsyncTableActionType<T>>
+  actionParams?: AnyObject
   initialFilterState?: Partial<Record<string, any>>
 }) {
   const [perPage, setPerPage] = useState(defaultPerPage)
@@ -52,6 +54,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
         search,
         sort,
         filters,
+        params: actionParams,
       })
 
       if (!success) {

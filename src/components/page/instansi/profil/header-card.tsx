@@ -44,8 +44,8 @@ export default function HeaderCard({ className }: { className?: string }) {
             />
             <HeaderItem
               Icon={LuSave}
-              label="Penyimpanan/siswa"
-              value="100MB/siswa"
+              label="Penyimpanan/peserta"
+              value="100MB/peserta"
             />
             <HeaderItem Icon={LuPackage} label="Total kelas" value="500" />
             <HeaderItem Icon={LuServer} label="Kelas/pengajar" value="50" />

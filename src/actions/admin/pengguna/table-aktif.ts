@@ -84,5 +84,18 @@ export const tablePenggunaAktifAction = async ({
     },
   ]
 
-  return { data: data, totalData: 50 }
+  return {
+    success: true,
+    data: {
+      list: data,
+      pagination: {
+        page: 1,
+        lastPage: 1,
+        perPage: 10,
+        totalData: 10,
+        from: 1,
+        to: 1,
+      },
+    },
+  }
 }

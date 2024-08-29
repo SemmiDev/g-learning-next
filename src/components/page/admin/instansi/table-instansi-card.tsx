@@ -15,6 +15,7 @@ import { routes } from '@/config/routes'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
+import { angka } from '@/utils/text'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -80,7 +81,7 @@ export default function TableInstansiCard() {
       dataIndex: 'jumlah_pengguna',
       render: (value: number, row: any) => (
         <TableCellText align="center">
-          {value}/{row.batas_pengguna}
+          {angka(value)}/{angka(row.batas_pengguna)}
         </TableCellText>
       ),
     },
@@ -89,7 +90,7 @@ export default function TableInstansiCard() {
       dataIndex: 'jumlah_penyimpanan_terpakai',
       render: (value: number, row: any) => (
         <TableCellText align="center">
-          {formatBytes(fileSizeToKB(value, 'MB'))}/
+          {formatBytes(value)}/
           {formatBytes(fileSizeToKB(row.batas_penyimpanan, 'MB'))}
         </TableCellText>
       ),
@@ -99,7 +100,7 @@ export default function TableInstansiCard() {
       dataIndex: 'jumlah_kelas',
       render: (value: number, row: any) => (
         <TableCellText align="center">
-          {value}/{row.batas_kelas}
+          {angka(value)}/{angka(row.batas_kelas)}
         </TableCellText>
       ),
     },
@@ -129,7 +130,7 @@ export default function TableInstansiCard() {
       className: 'action',
       render: (_: any, row: any) => (
         <div className="flex justify-center">
-          <Link href={`${routes.admin.listInstansi}/detail`}>
+          <Link href={`${routes.admin.listInstansi}/detail/${row.id}`}>
             <ActionIconTooltip
               tooltip="Detail"
               size="sm"

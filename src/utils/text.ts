@@ -1,3 +1,5 @@
+import { formatNumberSeparator } from './format-number'
+
 export const angka = (
   value: number,
   options?: {
@@ -5,12 +7,11 @@ export const angka = (
     maximumFractionDigits?: number
   }
 ) => {
-  const numberFormatter = new Intl.NumberFormat('id-ID', {
-    style: 'decimal',
+  const formattedNumber = formatNumberSeparator(value, {
     maximumFractionDigits: options?.maximumFractionDigits ?? 0,
   })
 
-  return (options?.prefix || '') + numberFormatter.format(value)
+  return (options?.prefix || '') + formattedNumber
 }
 
 export const rupiah = (

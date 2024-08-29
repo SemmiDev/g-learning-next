@@ -3,6 +3,7 @@ import ProfileBody from '@/components/page/admin/profil/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   dehydrate,
   HydrationBoundary,
@@ -30,10 +31,7 @@ export default async function ProfilePage() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ['admin.profil'],
-    queryFn: async () => {
-      const { data } = await dataProfileAction()
-      return data
-    },
+    queryFn: makeSimpleQueryData(dataProfileAction),
   })
 
   return (

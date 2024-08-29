@@ -1,4 +1,4 @@
-import { tablePenggunaDiblokirAction } from '@/actions/admin/pengguna/table-pengguna-diblokir'
+import { tablePenggunaDiblokirAction } from '@/actions/admin/pengguna/table-diblokir'
 import {
   ActionIconTooltip,
   Card,

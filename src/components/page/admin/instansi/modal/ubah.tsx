@@ -68,7 +68,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
     isLoading,
     isFetching,
   } = useQuery<UbahInstansiFormSchema>({
-    queryKey: ['admin.manajemen-admin.table.ubah', id],
+    queryKey: ['admin.instansi.table.ubah', id],
     queryFn: async () => {
       if (!id) return {}
 

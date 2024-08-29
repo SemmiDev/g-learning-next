@@ -10,6 +10,7 @@ import {
   Thumbnail,
   Title,
 } from '@/components/ui'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import defaultPhoto from '@public/images/default-profile.webp'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
@@ -25,10 +26,7 @@ export default function ProfileBody() {
 
   const { data } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: async () => {
-      const { data } = await dataProfileAction()
-      return data
-    },
+    queryFn: makeSimpleQueryData(dataProfileAction),
   })
 
   return (

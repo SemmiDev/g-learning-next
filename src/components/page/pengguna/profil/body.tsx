@@ -13,6 +13,7 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import defaultPhoto from '@public/images/default-profile.webp'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -29,10 +30,7 @@ export default function ProfileBody() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: async () => {
-      const { data } = await dataProfileAction()
-      return data
-    },
+    queryFn: makeSimpleQueryData(dataProfileAction),
   })
 
   return (

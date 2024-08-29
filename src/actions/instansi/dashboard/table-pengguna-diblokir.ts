@@ -49,5 +49,18 @@ export const tablePenggunaDiblokirAction = async ({
     },
   ]
 
-  return { data: data, totalData: 10 }
+  return {
+    success: true,
+    data: {
+      list: data,
+      pagination: {
+        page: 1,
+        lastPage: 1,
+        perPage: 5,
+        totalData: 5,
+        from: 1,
+        to: 1,
+      },
+    },
+  }
 }

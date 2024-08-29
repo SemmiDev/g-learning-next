@@ -1,6 +1,5 @@
 'use client'
 
-import { tablePenggunaDiblokirAction } from '@/actions/admin/pengguna/table-pengguna-diblokir'
 import {
   ActionIconTooltip,
   Card,
@@ -19,6 +18,7 @@ import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatDiblokirModal from './modal/lihat-diblokir'
+import { tablePenggunaDiblokirAction } from '@/actions/instansi/dashboard/table-pengguna-diblokir'
 
 export default function TablePenggunaDiblokirCard() {
   const [showModalLihat, setShowModalLihat] = useState<number>()

@@ -1,12 +1,13 @@
-import {
-  ValueType,
-  NameType,
-} from 'recharts/types/component/DefaultTooltipContent'
-import { TooltipProps } from 'recharts'
-import { Text } from 'rizzui'
-import cn from '@/utils/class-names'
 import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
-import { formatNumberSeparator, formatNumberShort } from '@/utils/format-number'
+import cn from '@/utils/class-names'
+import { formatNumberShort } from '@/utils/format-number'
+import { angka } from '@/utils/text'
+import { TooltipProps } from 'recharts'
+import {
+  NameType,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent'
+import { Text } from 'rizzui'
 
 function isValidHexColor(colorCode: string) {
   const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
@@ -69,7 +70,7 @@ export function CustomTooltip({
                 {format === 'short'
                   ? formatNumberShort(item.value)
                   : format === 'separator'
-                  ? formatNumberSeparator(item.value, {
+                  ? angka(item.value, {
                       maximumFractionDigits: 2,
                     })
                   : item.value}
