@@ -22,7 +22,7 @@ type DataType = {
   jenis_akun: string
 }
 
-export const lihatInstansiAction = (id: string) =>
+export const lihatPenggunaInstansiAction = (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/admin/profil-pengguna/${id}`
   )

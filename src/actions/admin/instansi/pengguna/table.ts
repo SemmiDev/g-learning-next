@@ -14,7 +14,7 @@ type DataType = {
   batas_kelas: number
 }
 
-export const tablePenggunaAction = async ({
+export const tablePenggunaInstansiAction = async ({
   page = 1,
   search = '',
   sort,

@@ -16,12 +16,12 @@ type DetailType = {
   kontak?: string
 }
 
-type UbahModalProps = {
+type LihatModalProps = {
   id?: string
   setId(id?: string): void
 }
 
-export default function LihatModal({ id, setId }: UbahModalProps) {
+export default function LihatModal({ id, setId }: LihatModalProps) {
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.manajemen-admin.table.lihat', id],
     queryFn: async () => {

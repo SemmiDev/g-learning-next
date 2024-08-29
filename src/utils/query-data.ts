@@ -16,9 +16,11 @@ export const makeSimpleQueryData =
 export const makeSimpleQueryDataWithId =
   <T extends AnyObject>(
     action: (id: string) => Promise<ActionResponseType<T>>,
-    id: string
+    id: string | undefined
   ) =>
   async () => {
+    if (!id) return null
+
     const { data } = await action(id)
 
     return data

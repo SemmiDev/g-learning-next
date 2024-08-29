@@ -1,4 +1,4 @@
-import { tablePenggunaAction } from '@/actions/admin/instansi/pengguna/table'
+import { tablePenggunaInstansiAction } from '@/actions/admin/instansi/pengguna/table'
 import {
   ActionIconTooltip,
   Card,
@@ -19,7 +19,7 @@ import LihatModal from './modal/lihat'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 
 export default function TablePenggunaCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number | undefined>()
+  const [idLihat, setIdLihat] = useState<string | undefined>()
 
   const { id }: { id: string } = useParams()
 
@@ -35,8 +35,8 @@ export default function TablePenggunaCard() {
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: ['admin.instansi.detail.table'],
-    action: tablePenggunaAction,
+    queryKey: ['admin.instansi.detail.table-pengguna'],
+    action: tablePenggunaInstansiAction,
     actionParams: { id },
   })
 
@@ -92,7 +92,7 @@ export default function TablePenggunaCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setShowModalLihat(row.id)}
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -124,7 +124,7 @@ export default function TablePenggunaCard() {
         />
       </Card>
 
-      <LihatModal showModal={showModalLihat} setShowModal={setShowModalLihat} />
+      <LihatModal id={idLihat} setId={setIdLihat} />
     </>
   )
 }
