@@ -24,7 +24,7 @@ type LihatModalProps = {
 export default function LihatModal({ id, setId }: LihatModalProps) {
   const { id: idInstansi }: { id: string } = useParams()
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['admin.instansi.detail.detail-pengguna', id],
     queryFn: async () => {
       if (!id) return null
