@@ -7,9 +7,11 @@ const sRange = [70, 90]
 const lRange = [30, 50]
 
 const generateHSL = (name: string): HSL => {
-  const h = hashToRangeNumber(name, hRange[0], hRange[1])
-  const s = hashToRangeNumber(name, sRange[0], sRange[1])
-  const l = hashToRangeNumber(name, lRange[0], lRange[1])
+  const h = hashToRangeNumber(name, hRange[1], hRange[0])
+  const s = hashToRangeNumber(name, sRange[1], sRange[0])
+  const l = hashToRangeNumber(name, lRange[1], lRange[0])
+  console.log([h, s, l])
+
   return [h, s, l]
 }
 
