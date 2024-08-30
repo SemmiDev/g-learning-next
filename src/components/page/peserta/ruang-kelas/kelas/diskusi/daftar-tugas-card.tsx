@@ -1,4 +1,4 @@
-import { Card, CardSeparator, Text, Thumbnail, Title } from '@/components/ui'
+import { Card, CardSeparator, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsClipboard2Plus } from 'react-icons/bs'
 
