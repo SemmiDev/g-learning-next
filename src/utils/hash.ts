@@ -3,6 +3,11 @@ export const hashToRangeNumber = (
   max: number,
   min: number = 0
 ) => {
+  if (min > max)
+    throw new Error(
+      'Function hashToRangeNumber: Min number can not bigger than max number!'
+    )
+
   var hash = 0,
     i,
     chr
