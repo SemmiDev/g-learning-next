@@ -1,22 +1,19 @@
 'use client'
 
-import { Button, Text, Title } from '@/components/ui'
+import { Button, Text, Thumbnail, Title } from '@/components/ui'
 import { publicRoutes, routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import defaultPhoto from '@public/images/default-profile.webp'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Avatar, Popover } from 'rizzui'
+import { Popover } from 'rizzui'
 
 export default function ProfileMenu({
   buttonClassName,
-  avatarClassName,
 }: {
   buttonClassName?: string
-  avatarClassName?: string
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
@@ -41,10 +38,12 @@ export default function ProfileMenu({
             buttonClassName
           )}
         >
-          <Avatar
-            src={user?.image || defaultPhoto.src}
-            name={user?.username ?? ''}
-            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
+          <Thumbnail
+            src={user?.image || undefined}
+            alt="foto profil"
+            size={40}
+            avatar={user?.name ?? ''}
+            rounded="full"
           />
         </button>
       </Popover.Trigger>
@@ -88,7 +87,13 @@ function DropdownMenu() {
   return (
     <div className="min-w-64 text-left rtl:text-right">
       <div className="flex items-center px-6 pb-5 pt-6">
-        <Avatar src={user?.image || defaultPhoto.src} name={user?.name ?? ''} />
+        <Thumbnail
+          src={user?.image || undefined}
+          alt="foto profil"
+          size={40}
+          avatar={user?.name ?? ''}
+          rounded="full"
+        />
         <div className="ms-3">
           <Title as="h6" weight="semibold">
             {user?.name}
