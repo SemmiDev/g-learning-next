@@ -2,7 +2,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { Text } from '@/components/ui'
 import { ControlledAsyncTableActionType } from '@/components/ui/controlled-async-table'
 import { AsyncPaginateSelectActionType } from '@/components/ui/select/async-paginate'
-import { DEFAULT_DATA_PER_PAGE } from '@/config/const'
+import { CONSOLE_LOG_REQUEST, DEFAULT_DATA_PER_PAGE } from '@/config/const'
 import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
 import { makeUrl } from './string'
@@ -38,7 +38,6 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
   const toastId = toast.loading(<Text>{loading}</Text>)
 
   const res = await action
-  // console.log(res)
 
   toast.dismiss(toastId)
 
@@ -152,7 +151,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
   params?: GetRequestParamsType
 ) => {
   try {
-    // console.log('Send Request', params)
+    if (CONSOLE_LOG_REQUEST) console.log('Send Request', makeUrl(url, params))
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -164,7 +163,9 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
     })
 
     const { success, message, errors, data } = await res.json()
-    // console.log('Response', { success, message, errors, data })
+
+    if (CONSOLE_LOG_REQUEST)
+      console.log('Response', { success, message, errors, data })
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
@@ -203,7 +204,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
   payload: PayloadType = {}
 ) => {
   try {
-    // console.log('Send Request', payload)
+    if (CONSOLE_LOG_REQUEST) console.log('Send Request', url, payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -221,7 +222,9 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
     })
 
     const { success, message, errors, data } = await res.json()
-    // console.log('Response', { success, message, errors, data })
+
+    if (CONSOLE_LOG_REQUEST)
+      console.log('Response', { success, message, errors, data })
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {

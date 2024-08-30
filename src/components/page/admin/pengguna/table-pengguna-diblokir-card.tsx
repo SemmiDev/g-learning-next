@@ -19,7 +19,7 @@ import { LuEye } from 'react-icons/lu'
 import LihatDiblokirModal from './modal/lihat-diblokir'
 
 export default function TablePenggunaDiblokirCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number>()
+  const [idLihat, setIdLihat] = useState<string>()
 
   const {
     data,
@@ -47,7 +47,6 @@ export default function TablePenggunaDiblokirCard() {
         />
       ),
       dataIndex: 'nama',
-      key: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
@@ -57,9 +56,12 @@ export default function TablePenggunaDiblokirCard() {
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
-      key: 'jenis',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jenis_akun',
+      render: (value: string[]) => (
+        <TableCellText align="center">
+          {value.length ? value.join(', ') : '-'}
+        </TableCellText>
+      ),
     },
     {
       title: (
@@ -67,11 +69,10 @@ export default function TablePenggunaDiblokirCard() {
           title="Tanggal/Waktu Blokir"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'waktuBlokir')}
+          sort={getSortDirection(sort, 'tanggal_blokir')}
         />
       ),
-      dataIndex: 'waktuBlokir',
-      key: 'waktuBlokir',
+      dataIndex: 'tanggal_blokir',
       render: (value: string) => (
         <TableCellText align="center">
           <Time date={value} format="datetime" />
@@ -79,15 +80,16 @@ export default function TablePenggunaDiblokirCard() {
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('waktuBlokir')
+          onSort('tanggal_blokir')
         },
       }),
     },
     {
       title: <TableHeaderCell title="Keterangan" align="center" />,
-      dataIndex: 'keterangan',
-      key: 'keterangan',
-      render: renderTableCellTextCenter,
+      dataIndex: 'keterangan_blokir',
+      render: (value: any) => (
+        <TableCellText align="center">{value || '-'}</TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
@@ -99,7 +101,7 @@ export default function TablePenggunaDiblokirCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setShowModalLihat(row.id)}
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -120,7 +122,7 @@ export default function TablePenggunaDiblokirCard() {
           isLoading={isLoading}
           isFetching={isFetching}
           columns={tableColumns}
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           filterOptions={{
             searchTerm: search,
             onSearchClear: () => onSearch(''),
@@ -135,10 +137,7 @@ export default function TablePenggunaDiblokirCard() {
         />
       </Card>
 
-      <LihatDiblokirModal
-        showModal={showModalLihat}
-        setShowModal={setShowModalLihat}
-      />
+      <LihatDiblokirModal id={idLihat} setId={setIdLihat} />
     </>
   )
 }

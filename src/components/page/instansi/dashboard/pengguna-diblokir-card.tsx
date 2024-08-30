@@ -125,7 +125,7 @@ export default function DashboardPenggunaDiblokirCard({
         isLoading={isLoading}
         isFetching={isFetching}
         columns={tableColumns}
-        rowKey={(record) => record.id}
+        rowKey={(row) => row.id}
         filterOptions={{
           searchTerm: search,
           searchSize: 'sm',

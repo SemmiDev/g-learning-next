@@ -16,7 +16,7 @@ export default function KehadiranPresensiCard({
       </Title>
       <div className="relative">
         <Table
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           variant="elegant"
           columns={columns}
           data={data}

@@ -261,7 +261,7 @@ export default function DiskusiDetailTugasPage() {
           </div>
           <div className="relative">
             <Table
-              rowKey={(record) => record.id}
+              rowKey={(row) => row.id}
               variant="elegant"
               columns={tableColumns}
               data={tableData}

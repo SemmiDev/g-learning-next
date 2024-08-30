@@ -24,8 +24,8 @@ type LihatModalProps = {
 export default function LihatModal({ id, setId }: LihatModalProps) {
   const { id: idInstansi }: { id: string } = useParams()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin.instansi.detail.detail-pengguna', id],
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['admin.instansi.detail.table-pengguna.lihat', id],
     queryFn: async () => {
       if (!id) return null
 
@@ -36,8 +36,14 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
   })
 
   return (
-    <Modal size="sm" isOpen={!!id} onClose={() => setId(undefined)}>
-      {isLoading ? (
+    <Modal
+      title="Detail Pengguna"
+      isLoading={!isLoading && isFetching}
+      size="sm"
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
+    >
+      {isLoading || !id ? (
         <Loader height={410} />
       ) : (
         <>
@@ -56,9 +62,10 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
             <Text size="sm" weight="semibold" variant="dark" className="mb-2">
               {data?.tipe || '-'}
             </Text>
-            <Text size="sm" weight="medium" variant="dark" align="center">
-              <SanitizeHTML html={data?.bio || '-'} />
-            </Text>
+            <SanitizeHTML
+              html={data?.bio || '-'}
+              className="text-sm font-medium text-gray-dark text-center"
+            />
           </div>
 
           <CardSeparator />

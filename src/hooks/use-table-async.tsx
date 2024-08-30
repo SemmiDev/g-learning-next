@@ -85,7 +85,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
     if (selectedRowKeys.length === data.length) {
       setSelectedRowKeys([])
     } else if (data.length) {
-      setSelectedRowKeys(data.map((record) => record.id))
+      setSelectedRowKeys(data.map((row) => row.id))
     }
   }
 

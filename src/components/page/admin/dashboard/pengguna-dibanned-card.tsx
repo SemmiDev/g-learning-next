@@ -158,7 +158,7 @@ export default function DashboardPenggunaDibannedCard({
       </div>
       <div className="relative">
         <Table
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           columns={tableColumns}
           data={tableData}
           className="[&_.rc-table-container]:!border-0 [&_.rc-table-cell]:px-2 [&_th.rc-table-cell]:py-2 [&_td.rc-table-cell]:py-1 [&_th.rc-table-cell]:bg-gray-50/40 [&_.rc-table-cell]:border [&_.rc-table-cell]:!border-muted"

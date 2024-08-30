@@ -77,7 +77,7 @@ export default function ControlledAsyncTable({
           </div>
         )}
         <Table
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           isLoading={isLoading}
           className={cn(className)}
           {...tableProps}

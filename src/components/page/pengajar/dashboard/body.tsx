@@ -259,7 +259,7 @@ export default function DashboardBody() {
           </Title>
           <CardSeparator />
           <Table
-            rowKey={(record) => record.id}
+            rowKey={(row) => row.id}
             variant="elegant"
             columns={tableJadwalColumns}
             data={tableJadwalData}
@@ -292,7 +292,7 @@ export default function DashboardBody() {
         </Title>
         <CardSeparator />
         <Table
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           variant="elegant"
           columns={tableKursusColumns}
           data={tableKursusData}

@@ -1,66 +1,28 @@
 'use server'
 
-import {
-  ControlledAsyncTableActionProps,
-  ControlledAsyncTableActionType,
-} from '@/components/ui/controlled-async-table'
+import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableAction } from '@/utils/action'
+
+type DataType = {
+  id: string
+  nama: string
+  jenis_akun: string
+  instansi: string
+  keterangan_blokir: string
+  tanggal_blokir: string
+}
 
 export const tablePenggunaDiblokirAction = async ({
   page = 1,
   search = '',
   sort,
-  filters,
-}: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
-  const data = [
+}: ControlledAsyncTableActionProps) =>
+  makeJwtGetRequestTableAction<DataType>(
+    `${process.env.API_URL}/admin/pengguna-blokir`,
     {
-      id: 1,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      waktuBlokir: '2022-12-03 13:00',
-      keterangan: 'Akun Palsu',
-    },
-    {
-      id: 2,
-      nama: 'Terra diagtora',
-      jenis: 'Siswa',
-      waktuBlokir: '2022-12-03 13:00',
-      keterangan: 'Menyebabkan Kekacauan',
-    },
-    {
-      id: 3,
-      nama: 'Terra diagtora',
-      jenis: 'Siswa',
-      waktuBlokir: '2022-12-03 13:00',
-      keterangan: 'Akun Palsu',
-    },
-    {
-      id: 4,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      waktuBlokir: '2022-12-03 13:00',
-      keterangan: 'Akun Palsu',
-    },
-    {
-      id: 5,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      waktuBlokir: '2022-12-03 13:00',
-      keterangan: 'Akun Palsu',
-    },
-  ]
-
-  return {
-    success: true,
-    data: {
-      list: data,
-      pagination: {
-        page: 1,
-        lastPage: 1,
-        perPage: 5,
-        totalData: 5,
-        from: 1,
-        to: 1,
-      },
-    },
-  }
-}
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.direction,
+    }
+  )

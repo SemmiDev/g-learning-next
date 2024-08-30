@@ -1,101 +1,26 @@
 'use server'
 
-import {
-  ControlledAsyncTableActionProps,
-  ControlledAsyncTableActionType,
-} from '@/components/ui/controlled-async-table'
+import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableAction } from '@/utils/action'
+
+export type DataType = {
+  id: string
+  nama: string
+  instansi: string
+  jenis_akun: string
+}
 
 export const tablePenggunaAktifAction = async ({
   page = 1,
   search = '',
   sort,
-  filters,
-}: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
-  const data = [
+}: ControlledAsyncTableActionProps) =>
+  makeJwtGetRequestTableAction<DataType>(
+    `${process.env.API_URL}/admin/pengguna-aktif`,
     {
-      id: 1,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 2,
-      jenis: 'Pengajar',
-    },
-    {
-      id: 2,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 1,
-      jenis: 'Pengajar, Peserta',
-    },
-    {
-      id: 3,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 0,
-      jenis: 'Peserta',
-    },
-    {
-      id: 4,
-      nama: 'Terra diagtora',
-      instansi: 'Umum',
-      instansiMore: 0,
-      jenis: 'Peserta',
-    },
-    {
-      id: 5,
-      nama: 'Terra diagtora',
-      instansi: 'Universitas Riau',
-      instansiMore: 1,
-      jenis: 'Pengajar',
-    },
-    {
-      id: 6,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 2,
-      jenis: 'Pengajar',
-    },
-    {
-      id: 7,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 2,
-      jenis: 'Pengajar, Peserta',
-    },
-    {
-      id: 8,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 2,
-      jenis: 'Pengajar',
-    },
-    {
-      id: 9,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 2,
-      jenis: 'Pengajar',
-    },
-    {
-      id: 10,
-      nama: 'Terra diagtora',
-      instansi: 'UIN SUSKA RIAU',
-      instansiMore: 2,
-      jenis: 'Pengajar',
-    },
-  ]
-
-  return {
-    success: true,
-    data: {
-      list: data,
-      pagination: {
-        page: 1,
-        lastPage: 1,
-        perPage: 10,
-        totalData: 10,
-        from: 1,
-        to: 1,
-      },
-    },
-  }
-}
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.direction,
+    }
+  )

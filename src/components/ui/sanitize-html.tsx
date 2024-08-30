@@ -10,11 +10,12 @@ type OptionsType = {
 
 type SanitizeHTMLProps = {
   html: string
+  className?: string
   options?: sanitizeHtml.IOptions
 }
 
 const defaultOptions = {
-  allowedTags: ['b', 'i', 'em', 'strong', 'a', 'img'],
+  allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'img'],
   allowedAttributes: {
     a: ['href'],
     img: ['src', 'referrerpolicy'],
@@ -26,6 +27,13 @@ const sanitize = (dirty: string, options?: sanitizeHtml.IOptions) => ({
   __html: sanitizeHtml(dirty, { ...defaultOptions, ...options }),
 })
 
-export const SanitizeHTML = ({ html, options }: SanitizeHTMLProps) => (
-  <div dangerouslySetInnerHTML={sanitize(html, options)} />
+export const SanitizeHTML = ({
+  html,
+  className,
+  options,
+}: SanitizeHTMLProps) => (
+  <div
+    dangerouslySetInnerHTML={sanitize(html, options)}
+    className={className}
+  />
 )

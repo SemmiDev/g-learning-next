@@ -122,7 +122,7 @@ export default function TablePenggunaDiblokirCard() {
           isLoading={isLoading}
           isFetching={isFetching}
           columns={tableColumns}
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           filterOptions={{
             searchTerm: search,
             onSearchClear: () => onSearch(''),

@@ -10,7 +10,7 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
+import { TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -19,7 +19,7 @@ import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 
 export default function TablePenggunaAktifCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number>()
+  const [idLihat, setIdLihat] = useState<string>()
 
   const {
     data,
@@ -57,12 +57,12 @@ export default function TablePenggunaAktifCard() {
     {
       title: <TableHeaderCell title="Instansi" align="center" />,
       dataIndex: 'instansi',
-      render: (value: string, row: any) => (
+      render: (value: string[]) => (
         <div className="flex justify-center items-center space-x-1">
-          <TableCellText>{value}</TableCellText>
-          {!!row.instansiMore && (
+          <TableCellText>{value.length > 0 ? value[0] : 'Umum'}</TableCellText>
+          {value.length > 1 && (
             <Badge size="sm" variant="flat" color="gray">
-              +{row.instansiMore}
+              +{value.length - 1}
             </Badge>
           )}
         </div>
@@ -70,8 +70,12 @@ export default function TablePenggunaAktifCard() {
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jenis_akun',
+      render: (value: string[]) => (
+        <TableCellText align="center">
+          {value.length ? value.join(', ') : '-'}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
@@ -84,7 +88,7 @@ export default function TablePenggunaAktifCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setShowModalLihat(row.id)}
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -105,7 +109,7 @@ export default function TablePenggunaAktifCard() {
           isLoading={isLoading}
           isFetching={isFetching}
           columns={tableColumns}
-          rowKey={(record) => record.id}
+          rowKey={(row) => row.id}
           filterOptions={{
             searchTerm: search,
             onSearchClear: () => onSearch(''),
@@ -120,7 +124,7 @@ export default function TablePenggunaAktifCard() {
         />
       </Card>
 
-      <LihatModal showModal={showModalLihat} setShowModal={setShowModalLihat} />
+      <LihatModal id={idLihat} setId={setIdLihat} />
     </>
   )
 }

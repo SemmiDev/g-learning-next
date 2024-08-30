@@ -7,6 +7,7 @@ import {
   TextBordered,
   Time,
 } from '@/components/ui'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 
 type DetailType = {
@@ -24,12 +25,7 @@ type LihatModalProps = {
 export default function LihatModal({ id, setId }: LihatModalProps) {
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.manajemen-admin.table.lihat', id],
-    queryFn: async () => {
-      if (!id) return null
-
-      const { data } = await lihatAdminAction(id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithId(lihatAdminAction, id),
   })
 
   return (
