@@ -27,7 +27,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   action: (
     actionProps: ControlledAsyncTableActionProps
   ) => Promise<ControlledAsyncTableActionType<T>>
-  actionParams: AnyObject
+  actionParams?: AnyObject
   initialFilterState?: Partial<Record<string, any>>
 }) {
   const [perPage, setPerPage] = useState(DEFAULT_DATA_PER_PAGE)

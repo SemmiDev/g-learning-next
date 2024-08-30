@@ -35,7 +35,7 @@ export default function TablePenggunaCard() {
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: ['admin.instansi.detail.table-pengguna'],
+    queryKey: ['admin.instansi.detail.table-pengguna', id],
     action: tablePenggunaInstansiAction,
     actionParams: { id },
   })

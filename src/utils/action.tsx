@@ -152,6 +152,8 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
   params?: GetRequestParamsType
 ) => {
   try {
+    // console.log('Send Request', params)
+
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
     const res = await fetch(makeUrl(url, params), {
@@ -162,6 +164,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
     })
 
     const { success, message, errors, data } = await res.json()
+    // console.log('Response', { success, message, errors, data })
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {

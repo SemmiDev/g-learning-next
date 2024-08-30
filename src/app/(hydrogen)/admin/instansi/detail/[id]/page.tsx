@@ -1,4 +1,5 @@
 import { lihatInstansiAction } from '@/actions/admin/instansi/lihat'
+import { tablePenggunaInstansiAction } from '@/actions/admin/instansi/pengguna/table'
 import DetailInstansiBody from '@/components/page/admin/instansi/detail/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
@@ -44,6 +45,14 @@ export default async function ListInstansiPage({
   await queryClient.prefetchQuery({
     queryKey: ['admin.instansi.detail', id],
     queryFn: makeSimpleQueryDataWithId(lihatInstansiAction, id),
+  })
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.instansi.detail.table-pengguna', id],
+    queryFn: async () => {
+      const { data } = await tablePenggunaInstansiAction({ params: { id } })
+
+      return data?.list ?? []
+    },
   })
 
   return (
