@@ -1,12 +1,14 @@
 import cn from '@/utils/class-names'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
+import ImageName from './image-with-name'
 
 export type ThumbnailProps = {
   size: number
   rounded?: 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
   src: string | StaticImport | undefined
   alt: string
+  avatar?: string
   bordered?: boolean
   priority?: boolean
   className?: string
@@ -17,6 +19,7 @@ export default function Thumbnail({
   rounded = 'base',
   src,
   alt,
+  avatar,
   bordered,
   priority,
   className,
@@ -38,7 +41,7 @@ export default function Thumbnail({
         height: `${size}px`,
       }}
     >
-      {src && (
+      {src ? (
         <Image
           src={src}
           alt={alt}
@@ -47,6 +50,8 @@ export default function Thumbnail({
           priority={priority}
           className="w-full h-full object-cover"
         />
+      ) : (
+        avatar && <ImageName name={avatar} size={size} />
       )}
     </figure>
   )
