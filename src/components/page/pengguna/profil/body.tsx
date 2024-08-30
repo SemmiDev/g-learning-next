@@ -14,7 +14,6 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryData } from '@/utils/query-data'
-import defaultPhoto from '@public/images/default-profile.webp'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'

@@ -11,7 +11,6 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
-import defaultPhoto from '@public/images/default-profile.webp'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import BlokirModal from './blokir'

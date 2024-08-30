@@ -11,7 +11,6 @@ import {
   Title,
 } from '@/components/ui'
 import { makeSimpleQueryData } from '@/utils/query-data'
-import defaultPhoto from '@public/images/default-profile.webp'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
