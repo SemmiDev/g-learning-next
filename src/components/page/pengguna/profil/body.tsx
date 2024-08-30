@@ -65,10 +65,11 @@ export default function ProfileBody() {
                   <LuCamera />
                 </ActionIconTooltip>
                 <Thumbnail
-                  src={data?.foto || defaultPhoto}
+                  src={data?.foto}
                   size={150}
                   rounded="md"
                   alt="profil"
+                  avatar={data?.nama}
                   bordered
                   priority
                 />

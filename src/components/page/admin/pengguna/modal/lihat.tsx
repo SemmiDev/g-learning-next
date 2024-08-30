@@ -42,9 +42,10 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
         <>
           <div className="flex flex-col items-center p-3">
             <Thumbnail
-              src={data?.foto || defaultPhoto}
+              src={data?.foto}
               size={150}
               alt="foto profil"
+              avatar={data?.nama}
               className="shrink-0 mb-2"
               bordered
               priority

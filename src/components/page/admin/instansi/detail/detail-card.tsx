@@ -54,6 +54,7 @@ export default function DetailCard({ className }: { className?: string }) {
               src={data?.instansi?.logo}
               size={150}
               alt="logo instansi"
+              avatar={data?.instansi?.nama}
               className="shrink-0"
               bordered
               priority
