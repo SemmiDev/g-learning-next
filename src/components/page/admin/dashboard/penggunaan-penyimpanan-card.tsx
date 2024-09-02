@@ -1,6 +1,18 @@
-import { Card, CardSeparator, Text, Title } from '@/components/ui'
+import { chartPenggunaanPenyimpananAction } from '@/actions/admin/dashboard/chart-penggunaan-penyimpanan'
+import {
+  Card,
+  CardSeparator,
+  Select,
+  SelectOptionType,
+  Text,
+  Title,
+} from '@/components/ui'
 import { CustomTooltip } from '@/components/ui/chart/custom-tooltip'
+import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
+import { selectOption } from '@/utils/object'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -12,11 +24,21 @@ import {
 } from 'recharts'
 import SimpleBar from 'simplebar-react'
 
+const optionsTahun: SelectOptionType[] = [...Array(10)].map((_, idx) =>
+  selectOption(`${2024 + idx}`)
+)
+
+const formatBulan = (bulan: string) => {
+  const short = bulan.substring(0, 3)
+  if (short.toLowerCase() === 'agu') return 'Ags'
+  return short
+}
+
 const CustomYAxisTick = ({ x, y, payload }: any) => {
   return (
     <g transform={`translate(${x},${y})`}>
       <text x={0} y={0} dy={16} textAnchor="end" className="fill-gray-500">
-        {`${payload.value}`}GB
+        {formatBytes(payload.value)}
       </text>
     </g>
   )
@@ -27,77 +49,61 @@ type ChartDataType = {
   size: number
 }
 
+type DashboardPenggunaanPenyimpananCardProps = {
+  className?: string
+}
+
 export default function DashboardPenggunaanPenyimpananCard({
   className,
-}: {
-  className?: string
-}) {
-  const data: ChartDataType[] = [
-    {
-      month: 'Jan',
-      size: 50,
+}: DashboardPenggunaanPenyimpananCardProps) {
+  const [tahun, setTahun] = useState(new Date().getFullYear())
+
+  const { data = { list: [], total: 0 } } = useQuery({
+    queryKey: ['admin.dashboard.penggunaan-penyimpanan', tahun],
+    queryFn: async () => {
+      const { data } = await chartPenggunaanPenyimpananAction(tahun)
+
+      const list: ChartDataType[] =
+        data?.list.map((item) => ({
+          month: formatBulan(item.bulan),
+          size: item.ukuran,
+        })) ?? []
+
+      const total = list.map((item) => item.size).reduce((a, b) => b + a, 0)
+
+      return { list, total }
     },
-    {
-      month: 'Feb',
-      size: 60,
-    },
-    {
-      month: 'Mar',
-      size: 80,
-    },
-    {
-      month: 'Apr',
-      size: 50,
-    },
-    {
-      month: 'Mei',
-      size: 100,
-    },
-    {
-      month: 'Jun',
-      size: 30,
-    },
-    {
-      month: 'Jul',
-      size: 80,
-    },
-    {
-      month: 'Ags',
-      size: 80,
-    },
-    {
-      month: 'Sep',
-      size: 50,
-    },
-    {
-      month: 'Okt',
-      size: 90,
-    },
-    {
-      month: 'Nov',
-      size: 120,
-    },
-    {
-      month: 'Des',
-      size: 50,
-    },
-  ]
+  })
 
   return (
     <Card className={cn('p-0', className)}>
-      <Title as="h4" size="1.5xl" weight="semibold" className="p-2">
-        Penggunaan Paket Pengguna
-      </Title>
+      <div className="flex justify-between items-center space-x-2 p-2">
+        <Title as="h4" size="1.5xl" weight="semibold">
+          Penggunaan Penyimpanan
+        </Title>
+        <Select
+          placeholder="Pilih nama hari"
+          options={optionsTahun}
+          onChange={(item: any) => setTahun(item.value)}
+          defaultValue={selectOption(tahun + '')}
+          className="flex-1"
+        />
+      </div>
       <CardSeparator />
       <div className="p-2">
-        <Text size="sm" weight="medium" variant="lighter">
-          Total penyimpanan
-        </Text>
+        <div className="flex items-center space-x-2">
+          <Text size="sm" weight="medium" variant="lighter">
+            Total penyimpanan
+          </Text>
+          <Text as="span" size="1.5xl" weight="semibold" variant="dark">
+            {formatBytes(data.total)}
+          </Text>
+        </div>
         <SimpleBar>
           <div className="h-80 w-full pt-9">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={data}
+                data={data.list}
                 margin={{ left: 16 }}
                 className="[&_.recharts-tooltip-cursor]:fill-opacity-20 [&_.recharts-cartesian-axis-tick-value]:fill-gray-500 [&_.recharts-cartesian-axis.yAxis]:-translate-y-3 rtl:[&_.recharts-cartesian-axis.yAxis]:-translate-x-12 [&_.recharts-cartesian-grid-vertical]:opacity-0"
               >
@@ -108,7 +114,11 @@ export default function DashboardPenggunaanPenyimpananCard({
                   tickLine={false}
                   tick={<CustomYAxisTick />}
                 />
-                <Tooltip content={<CustomTooltip suffix="GB" />} />
+                <Tooltip
+                  content={
+                    <CustomTooltip format={(value) => formatBytes(value)} />
+                  }
+                />
                 <Bar dataKey="size" fill="#357AF6" stackId="a" />
               </BarChart>
             </ResponsiveContainer>

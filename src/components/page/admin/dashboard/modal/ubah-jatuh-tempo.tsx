@@ -63,7 +63,7 @@ export default function UbahJatuhTempoModal({
       color="warning"
       isOpen={!!id}
       onClose={() => setJatuhTempo(undefined)}
-      className="[&_.rizzui-modal-overlay~div]:overflow-visible"
+      className="[&>div]:justify-start [&>div]:pt-20 [&_.rizzui-modal-overlay~div]:overflow-visible"
     >
       <Form<UbahJatuhTempoFormSchema>
         onSubmit={onSubmit}

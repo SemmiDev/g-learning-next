@@ -18,7 +18,7 @@ export interface CustomTooltipProps extends TooltipProps<ValueType, NameType> {
   prefix?: string
   suffix?: string
   className?: string
-  format?: 'short' | 'separator'
+  format?: 'short' | 'separator' | ((value: any) => any)
 }
 
 export function CustomTooltip({
@@ -73,6 +73,8 @@ export function CustomTooltip({
                   ? angka(item.value, {
                       maximumFractionDigits: 2,
                     })
+                  : format
+                  ? format(item.value)
                   : item.value}
                 {suffix && suffix}
               </Text>
