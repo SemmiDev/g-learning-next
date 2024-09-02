@@ -82,7 +82,7 @@ export default function DashboardPenggunaanPenyimpananCard({
           Penggunaan Penyimpanan
         </Title>
         <Select
-          placeholder="Pilih nama hari"
+          placeholder="Pilih Tahun"
           options={optionsTahun}
           onChange={(item: any) => setTahun(item.value)}
           defaultValue={selectOption(tahun + '')}
