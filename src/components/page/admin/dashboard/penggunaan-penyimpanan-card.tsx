@@ -25,7 +25,7 @@ import {
 import SimpleBar from 'simplebar-react'
 
 const optionsTahun: SelectOptionType<number>[] = [...Array(10)].map((_, idx) =>
-  selectOption(2024 + idx)
+  selectOption(2024 - idx)
 )
 
 const formatBulan = (bulan: string) => {
