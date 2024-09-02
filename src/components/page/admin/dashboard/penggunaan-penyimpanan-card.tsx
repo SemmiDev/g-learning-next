@@ -24,8 +24,8 @@ import {
 } from 'recharts'
 import SimpleBar from 'simplebar-react'
 
-const optionsTahun: SelectOptionType[] = [...Array(10)].map((_, idx) =>
-  selectOption(`${2024 + idx}`)
+const optionsTahun: SelectOptionType<number>[] = [...Array(10)].map((_, idx) =>
+  selectOption(2024 + idx)
 )
 
 const formatBulan = (bulan: string) => {
@@ -84,8 +84,10 @@ export default function DashboardPenggunaanPenyimpananCard({
         <Select
           placeholder="Pilih Tahun"
           options={optionsTahun}
-          onChange={(item: any) => setTahun(item.value)}
-          defaultValue={selectOption(tahun + '')}
+          onChange={(item) => {
+            if (item?.value) setTahun(item?.value)
+          }}
+          defaultValue={selectOption(tahun)}
           className="flex-1"
         />
       </div>

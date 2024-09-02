@@ -1,7 +1,7 @@
 import { AnyObject } from './type-interface'
 
-const makeOption = (value: string, attrs?: AnyObject) => ({
-  label: value,
+const makeOption = <T>(value: T, attrs?: AnyObject) => ({
+  label: value + '',
   value: value,
   ...attrs,
 })

@@ -7,14 +7,17 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
+import { GroupBase } from 'react-select'
 import Select, { SelectOptionType, SelectProps } from '../select/select'
 
 export type ControlledSelectProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType
+  TOption extends SelectOptionType,
+  IsMulti extends boolean,
+  Group extends GroupBase<TOption>
 > = Omit<
-  SelectProps<OptionType>,
+  SelectProps<TOption>,
   'value' | 'defaultValue' | 'onChange' | 'onBlur'
 > & {
   name: TName
@@ -26,14 +29,16 @@ export type ControlledSelectProps<
 export default function ControlledSelect<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType = SelectOptionType
+  TOption extends SelectOptionType = SelectOptionType,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<TOption> = GroupBase<TOption>
 >({
   name,
   control,
   errors,
   onChange,
   ...props
-}: ControlledSelectProps<TFieldValues, TName, OptionType>) {
+}: ControlledSelectProps<TFieldValues, TName, TOption, IsMulti, Group>) {
   return (
     <Controller
       control={control}

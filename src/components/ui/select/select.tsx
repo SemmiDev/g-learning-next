@@ -2,21 +2,22 @@
 
 import { AnyObject } from '@/utils/type-interface'
 import { useId } from 'react'
-import ReactSelect, { Props as ReactSelectProps } from 'react-select'
+import ReactSelect, { GroupBase, Props as ReactSelectProps } from 'react-select'
 import { FieldError } from 'rizzui'
+import Label from '../label'
 import TextLabel from '../text/label'
 import { ClassNamesType, makeClassNames } from './style'
-import Label from '../label'
 
-export type SelectOptionType = AnyObject & {
+export type SelectOptionType<T = string> = AnyObject & {
   label: string
-  value: string
+  value: T
 }
 
-export type SelectProps<OptionType> = Omit<
-  ReactSelectProps<OptionType>,
-  'classNames'
-> & {
+export type SelectProps<
+  TOption,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<TOption> = GroupBase<TOption>
+> = Omit<ReactSelectProps<TOption, IsMulti, Group>, 'classNames'> & {
   label?: string
   required?: boolean
   error?: string
@@ -24,14 +25,18 @@ export type SelectProps<OptionType> = Omit<
   classNames?: ClassNamesType
 }
 
-export default function Select<OptionType>({
+export default function Select<
+  TOption,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<TOption> = GroupBase<TOption>
+>({
   label,
   required,
   classNames,
   error,
   errorClassName,
   ...props
-}: SelectProps<OptionType>) {
+}: SelectProps<TOption, IsMulti, Group>) {
   return (
     <div className="react-select">
       {label && (
@@ -39,7 +44,7 @@ export default function Select<OptionType>({
           <Label label={label} required={required} />
         </TextLabel>
       )}
-      <ReactSelect
+      <ReactSelect<TOption, IsMulti, Group>
         unstyled={true}
         classNames={makeClassNames(classNames, !!error)}
         instanceId={useId()}
