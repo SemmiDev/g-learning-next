@@ -1,11 +1,12 @@
 import { Card, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { angka } from '@/utils/text'
 import { ComponentType } from 'react'
 import { IconBaseProps } from 'react-icons/lib'
 
 type DashboardCountCardProps = {
   label: string
-  count: string
+  count: number
   Icon: ComponentType<IconBaseProps>
   iconFigureClassName?: string
 }
@@ -30,7 +31,7 @@ export default function DashboardCountCard({
         {label}
       </Text>
       <Text size="1.5xl" weight="semibold" variant="dark">
-        {count}
+        {angka(count)}
       </Text>
     </Card>
   )

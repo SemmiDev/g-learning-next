@@ -1,5 +1,8 @@
+import { chartPenggunaanPaketInstansiAction } from '@/actions/admin/dashboard/chart-penggunaan-paket-instansi'
 import { Card, CardSeparator, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryData } from '@/utils/query-data'
+import { useQuery } from '@tanstack/react-query'
 import {
   PolarAngleAxis,
   RadialBar,
@@ -8,39 +11,46 @@ import {
 } from 'recharts'
 import SimpleBar from 'simplebar-react'
 
+const COLORS = ['#2563EB', '#F1416C', '#00D42F', '#BEBEBE'] as const
+
 type ChartDataType = {
   name: string
   count: number
   fill: string
 }
 
+type ChartType = {
+  list: ChartDataType[]
+  max: number
+}
+
+type DashboardPenggunaanPaketInstansiCardProps = {
+  className?: string
+}
+
 export default function DashboardPenggunaanPaketInstansiCard({
   className,
-}: {
-  className?: string
-}) {
-  const data: ChartDataType[] = [
-    {
-      name: 'Advance',
-      count: 80,
-      fill: '#2563EB',
+}: DashboardPenggunaanPaketInstansiCardProps) {
+  const { data = { list: [], max: 0 } } = useQuery<ChartType>({
+    queryKey: ['admin.dashboard.penggunaan-paket-instansi'],
+    queryFn: async () => {
+      const { data } = await chartPenggunaanPaketInstansiAction()
+
+      const list: ChartDataType[] =
+        data?.list.map((item, idx) => ({
+          name: item.nama_paket,
+          count: item.total,
+          fill: COLORS[idx % COLORS.length],
+        })) ?? []
+
+      const max = Math.max(...(data?.list.map((item) => item.total) ?? []))
+
+      return {
+        list,
+        max,
+      }
     },
-    {
-      name: 'Premium',
-      count: 100,
-      fill: '#F1416C',
-    },
-    {
-      name: 'Basic',
-      count: 132,
-      fill: '#00D42F',
-    },
-    {
-      name: 'Lainnya',
-      count: 40,
-      fill: '#BEBEBE',
-    },
-  ]
+  })
 
   return (
     <Card className={cn('p-0', className)}>
@@ -56,11 +66,11 @@ export default function DashboardPenggunaanPaketInstansiCard({
                 innerRadius="35%"
                 outerRadius="100%"
                 barSize={12}
-                data={data.slice().reverse()}
+                data={data?.list.slice().reverse()}
               >
                 <PolarAngleAxis
                   type="number"
-                  domain={[0, 150]}
+                  domain={[0, data.max]}
                   dataKey={'count'}
                   tick={false}
                 />
@@ -74,7 +84,7 @@ export default function DashboardPenggunaanPaketInstansiCard({
             </ResponsiveContainer>
           </div>
         </SimpleBar>
-        <CustomLegend data={data} className="flex-1 shrink-0" />
+        <CustomLegend data={data.list} className="flex-1 shrink-0" />
       </div>
     </Card>
   )
@@ -84,7 +94,7 @@ function CustomLegend({
   data,
   className,
 }: {
-  data: any[]
+  data: ChartDataType[]
   className?: string
 }) {
   return (

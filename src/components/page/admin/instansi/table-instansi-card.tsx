@@ -43,6 +43,7 @@ export default function TableInstansiCard() {
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -178,8 +179,8 @@ export default function TableInstansiCard() {
             onSearchChange: (e) => onSearch(e.target.value),
           }}
           paginatorOptions={{
-            pageSize: 10,
             current: page,
+            pageSize: perPage,
             total: totalData,
             onChange: (page) => onPageChange(page),
           }}

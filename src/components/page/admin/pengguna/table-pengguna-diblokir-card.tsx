@@ -10,7 +10,7 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
+import { TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
@@ -26,6 +26,7 @@ export default function TablePenggunaDiblokirCard() {
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -129,8 +130,8 @@ export default function TablePenggunaDiblokirCard() {
             onSearchChange: (e) => onSearch(e.target.value),
           }}
           paginatorOptions={{
-            pageSize: 5,
             current: page,
+            pageSize: perPage,
             total: totalData,
             onChange: (page) => onPageChange(page),
           }}

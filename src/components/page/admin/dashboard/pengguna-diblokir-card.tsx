@@ -1,12 +1,8 @@
+import { tablePenggunaDiblokirAction } from '@/actions/admin/dashboard/table-diblokir'
 import {
-  DataType,
-  tableJatuhTempoAction,
-} from '@/actions/admin/dashboard/table-jatuh-tempo'
-import {
-  ActionIcon,
+  ActionIconTooltip,
   Card,
   CardSeparator,
-  renderTableCellText,
   TableHeaderCell,
   Time,
   Title,
@@ -14,7 +10,7 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
   getSortDirection,
-  renderTableCellTextCenter,
+  renderTableCellText,
   TableCellText,
 } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
@@ -22,17 +18,17 @@ import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
-import { BsPencilSquare } from 'react-icons/bs'
-import UbahJatuhTempoModal from './modal/ubah-jatuh-tempo'
+import { LuEye } from 'react-icons/lu'
+import LihatDiblokirModal from './modal/lihat-diblokir'
 
-type DashboardJatuhTempoCardProps = {
+type DashboardPenggunaDiblokirCardProps = {
   className?: string
 }
 
-export default function DashboardJatuhTempoCard({
+export default function DashboardPenggunaDiblokirCard({
   className,
-}: DashboardJatuhTempoCardProps) {
-  const [ubahJatuhTempo, setUbahJatuhTempo] = useState<DataType | undefined>()
+}: DashboardPenggunaDiblokirCardProps) {
+  const [idLihat, setIdLihat] = useState<string>()
 
   const {
     data,
@@ -47,54 +43,78 @@ export default function DashboardJatuhTempoCard({
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: ['admin.dashboard.table-jatuh-tempo'],
-    action: tableJatuhTempoAction,
+    queryKey: ['admin.dashboard.table-pengguna-diblokir'],
+    action: tablePenggunaDiblokirAction,
   })
 
   const tableColumns: ColumnsType<DefaultRecordType> = [
     {
-      title: <TableHeaderCell title="Nama Instansi" />,
-      dataIndex: 'nama',
-      render: renderTableCellText,
-    },
-    {
-      title: <TableHeaderCell title="Paket" align="center" />,
-      dataIndex: 'paket',
-      render: renderTableCellTextCenter,
-    },
-    {
       title: (
         <TableHeaderCell
-          title="Tangal Jatuh Tempo"
-          align="center"
+          title="Nama Pengguna"
           sortable
-          sort={getSortDirection(sort, 'jatuh_tempo')}
+          sort={getSortDirection(sort, 'nama')}
         />
       ),
-      dataIndex: 'jatuh_tempo',
-      render: (value: string) => (
-        <TableCellText align="center">
-          <Time date={value} />
-        </TableCellText>
-      ),
+      dataIndex: 'nama',
+      render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('jatuh_tempo')
+          onSort('nama')
         },
       }),
     },
     {
+      title: <TableHeaderCell title="Jenis Akun" align="center" />,
+      dataIndex: 'jenis_akun',
+      render: (value: string[]) => (
+        <TableCellText align="center">
+          {value.length ? value.join(', ') : '-'}
+        </TableCellText>
+      ),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Tanggal/Waktu Blokir"
+          align="center"
+          sortable
+          sort={getSortDirection(sort, 'tanggal_blokir')}
+        />
+      ),
+      dataIndex: 'tanggal_blokir',
+      render: (value: string) => (
+        <TableCellText align="center">
+          <Time date={value} format="datetime" />
+        </TableCellText>
+      ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('tanggal_blokir')
+        },
+      }),
+    },
+    {
+      title: <TableHeaderCell title="Keterangan" align="center" />,
+      dataIndex: 'keterangan_blokir',
+      render: (value: any) => (
+        <TableCellText align="center">{value || '-'}</TableCellText>
+      ),
+    },
+    {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_, row: any) => (
+      width: 70,
+      render: (_: any, row: any) => (
         <div className="flex justify-center">
-          <ActionIcon
+          <ActionIconTooltip
+            tooltip="Lihat"
             size="sm"
             variant="text-colorful"
-            color="warning"
-            onClick={() => setUbahJatuhTempo(row)}
+            color="info"
+            onClick={() => setIdLihat(row.id)}
           >
-            <BsPencilSquare />
-          </ActionIcon>
+            <LuEye />
+          </ActionIconTooltip>
         </div>
       ),
     },
@@ -110,7 +130,7 @@ export default function DashboardJatuhTempoCard({
           variant="dark"
           className="m-2"
         >
-          Jatuh Tempo Pembayaran
+          Pengguna yang Diblokir
         </Title>
         <CardSeparator />
 
@@ -137,10 +157,7 @@ export default function DashboardJatuhTempoCard({
         />
       </Card>
 
-      <UbahJatuhTempoModal
-        jatuhTempo={ubahJatuhTempo}
-        setJatuhTempo={setUbahJatuhTempo}
-      />
+      <LihatDiblokirModal id={idLihat} setId={setIdLihat} />
     </>
   )
 }

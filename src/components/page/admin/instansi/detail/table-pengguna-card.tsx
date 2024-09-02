@@ -28,6 +28,7 @@ export default function TablePenggunaCard() {
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -116,8 +117,8 @@ export default function TablePenggunaCard() {
             onSearchChange: (e) => onSearch(e.target.value),
           }}
           paginatorOptions={{
-            pageSize: 10,
             current: page,
+            pageSize: perPage,
             total: totalData,
             onChange: (page) => onPageChange(page),
           }}

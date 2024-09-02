@@ -41,10 +41,7 @@ export default function LihatDiblokirModal({ id, setId }: LihatModalProps) {
         setIdBukaBlokir(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['admin.pengguna.table'],
-        })
-        queryClient.invalidateQueries({
-          queryKey: ['admin.pengguna.table-diblokir'],
+          queryKey: ['admin.dashboard.table-pengguna-diblokir'],
         })
       },
     })
