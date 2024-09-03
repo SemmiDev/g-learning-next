@@ -4,13 +4,14 @@ import { SortType } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import emptyIcon from '@public/icons/empty.svg'
 import Image from 'next/image'
-import RcTable from 'rc-table'
+import RcTable, { TableProps as RcTableProps } from 'rc-table'
 import {
   TbCaretDownFilled,
   TbCaretUpDownFilled,
   TbCaretUpFilled,
 } from 'react-icons/tb'
 import Text, { TextProps } from './text/text'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T
 
@@ -39,10 +40,10 @@ const classes = {
     '[&_.rc-table-row:nth-child(2n)_.rc-table-cell]:bg-gray-100/50 [&_.rc-table-row:hover]:bg-transparent',
 }
 
-type RCTableProps = ExtractProps<typeof RcTable>
+// type RCTableProps = ExtractProps<typeof RcTable>
 
-export interface TableProps
-  extends Omit<RCTableProps, 'className' | 'emptyText'> {
+export interface TableProps<TData extends DefaultRecordType>
+  extends Omit<RcTableProps<TData>, 'className' | 'emptyText'> {
   /** Set empty text, it will only appear when table has no data */
   emptyText?: React.ReactElement
   /** The variants of the component are: */
@@ -58,14 +59,14 @@ export interface TableProps
  *  React table component with useful functions. Under the hood we are using `rc-table` package,
  * you can check their official documentation for more details -> https://www.npmjs.com/package/rc-table
  */
-export default function Table({
+export default function Table<TData extends DefaultRecordType>({
   striped,
   variant = 'default',
   emptyText,
   isLoading,
   className,
   ...props
-}: TableProps) {
+}: TableProps<TData>) {
   return (
     <RcTable
       className={cn(

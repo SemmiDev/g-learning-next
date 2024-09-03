@@ -9,6 +9,7 @@ import { SortType } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { AnyObject } from '@/utils/type-interface'
 import isEmpty from 'lodash/isEmpty'
+import { DefaultRecordType } from 'rc-table/lib/interface'
 import React from 'react'
 import { CgSpinner } from 'react-icons/cg'
 
@@ -38,19 +39,20 @@ export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
   }
 }
 
-export type ControlledAsyncTableProps = TableProps & {
-  isLoading?: boolean
-  isFetching?: boolean
-  showLoadingText?: boolean
-  filterElement?: React.ReactElement
-  filterOptions?: TableFilterProps
-  paginatorOptions?: TablePaginationProps
-  tableFooter?: React.ReactNode
-  className?: string
-  paginatorClassName?: string
-}
+export type ControlledAsyncTableProps<TData extends DefaultRecordType> =
+  TableProps<TData> & {
+    isLoading?: boolean
+    isFetching?: boolean
+    showLoadingText?: boolean
+    filterElement?: React.ReactElement
+    filterOptions?: TableFilterProps
+    paginatorOptions?: TablePaginationProps
+    tableFooter?: React.ReactNode
+    className?: string
+    paginatorClassName?: string
+  }
 
-export default function ControlledAsyncTable({
+export default function ControlledAsyncTable<TData extends DefaultRecordType>({
   isLoading,
   isFetching,
   filterElement,
@@ -61,7 +63,7 @@ export default function ControlledAsyncTable({
   paginatorClassName,
   className,
   ...tableProps
-}: ControlledAsyncTableProps) {
+}: ControlledAsyncTableProps<TData>) {
   return (
     <>
       {!isEmpty(filterOptions) && (

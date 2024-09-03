@@ -11,7 +11,7 @@ import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
-import { tesAsyncAction } from './actions'
+import { DataType, tesAsyncAction } from './actions'
 import FilterElement from './filter-element'
 
 export default function Tes3Table() {
@@ -41,7 +41,7 @@ export default function Tes3Table() {
     },
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: <TableHeaderCell title="#" align="center" />,
       width: 20,
@@ -56,7 +56,6 @@ export default function Tes3Table() {
         />
       ),
       dataIndex: 'nama',
-      key: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
@@ -73,7 +72,6 @@ export default function Tes3Table() {
         />
       ),
       dataIndex: 'email',
-      key: 'email',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {

@@ -4,9 +4,8 @@ import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
-import { wait } from '@/utils/wait'
 
-type DataType = {
+export type DataType = {
   id: string
   nama: string
   email: string
