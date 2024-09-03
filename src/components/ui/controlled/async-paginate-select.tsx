@@ -8,16 +8,23 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import AsyncPaginateSelect, {
+  AdditionalData,
   AsyncPaginateSelectProps,
 } from '../select/async-paginate'
 import { SelectOptionType } from '../select/select'
+import { GroupBase } from 'react-select'
+import { AnyObject } from '@/utils/type-interface'
 
 export type ControlledAsyncPaginateSelectProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType
+  TOption extends SelectOptionType,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<TOption> = GroupBase<TOption>,
+  TData extends AnyObject = AnyObject,
+  Additional extends AdditionalData = AdditionalData
 > = Omit<
-  AsyncPaginateSelectProps<OptionType>,
+  AsyncPaginateSelectProps<TOption, IsMulti, Group, TData, Additional>,
   'value' | 'onChange' | 'onBlur'
 > & {
   name: TName
@@ -29,14 +36,24 @@ export type ControlledAsyncPaginateSelectProps<
 export default function ControlledAsyncPaginateSelect<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-  OptionType extends SelectOptionType = SelectOptionType
+  TOption extends SelectOptionType = SelectOptionType,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<TOption> = GroupBase<TOption>,
+  TData extends AnyObject = AnyObject
 >({
   name,
   control,
   errors,
   onChange,
   ...props
-}: ControlledAsyncPaginateSelectProps<TFieldValues, TName, OptionType>) {
+}: ControlledAsyncPaginateSelectProps<
+  TFieldValues,
+  TName,
+  TOption,
+  IsMulti,
+  Group,
+  TData
+>) {
   return (
     <Controller
       control={control}
@@ -49,7 +66,7 @@ export default function ControlledAsyncPaginateSelect<
           }}
           onBlur={onBlur}
           value={value}
-          error={errors ? (errors[name]?.message as string) : undefined}
+          error={errors ? errors[name]?.message?.toString() : undefined}
           {...props}
         />
       )}

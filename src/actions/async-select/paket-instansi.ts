@@ -9,10 +9,10 @@ export type DataType = {
   tipe: string
 }
 
-export const paketInstansiSelectDataAction = async <OptionType>({
+export const paketInstansiSelectDataAction = async ({
   page,
   search,
-}: AsyncPaginateSelectActionProps<OptionType>) =>
+}: AsyncPaginateSelectActionProps) =>
   makeJwtGetRequestSelectDataAction<DataType>(
     `${process.env.API_URL}/admin/paket-instansi`,
     {

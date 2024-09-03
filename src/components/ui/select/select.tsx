@@ -8,10 +8,10 @@ import Label from '../label'
 import TextLabel from '../text/label'
 import { ClassNamesType, makeClassNames } from './style'
 
-export type SelectOptionType<T = string> = AnyObject & {
+export type SelectOptionType<T = string> = {
   label: string
   value: T
-}
+} & AnyObject
 
 export type SelectProps<
   TOption,

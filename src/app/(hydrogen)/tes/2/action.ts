@@ -6,12 +6,19 @@ import {
 } from '@/components/ui/select/async-paginate'
 import { wait } from '@/utils/wait'
 
-export const tesAsyncAction = async <OptionType>({
+type DataType = {
+  id: string
+  nama: string
+}
+
+export const tesAsyncAction = async ({
+  page,
   search,
   loadedOptions,
-  page,
-}: AsyncPaginateSelectActionProps<OptionType>): Promise<AsyncPaginateSelectActionType> => {
-  await wait(1000)
+}: AsyncPaginateSelectActionProps): Promise<
+  AsyncPaginateSelectActionType<DataType>
+> => {
+  await wait(500)
 
   let data = []
   for (let i = 0; i < 10; i++) {
@@ -20,5 +27,5 @@ export const tesAsyncAction = async <OptionType>({
     data.push({ nama: `${page}${rndm.toUpperCase()}`, id: rndm })
   }
 
-  return { data: data, hasMore: page < 5 }
+  return { list: data, hasMore: page < 5 }
 }

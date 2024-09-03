@@ -7,42 +7,49 @@ import { FieldError } from 'rizzui'
 import Label from '../label'
 import TextLabel from '../text/label'
 import { makeClassNames } from './style'
+import { SelectOptionType } from './select'
 
-export type AsyncPaginateSelectActionProps<OptionType> = {
+export type AsyncPaginateSelectActionProps<
+  TOption extends SelectOptionType = SelectOptionType
+> = {
   search: string
-  loadedOptions: OptionsOrGroups<OptionType, GroupBase<OptionType>>
+  loadedOptions: OptionsOrGroups<TOption, GroupBase<TOption>>
   page: number
 }
-export type AsyncPaginateSelectActionType<T extends AnyObject> = {
+
+export type AsyncPaginateSelectActionType<T extends AnyObject = AnyObject> = {
   list: T[]
   hasMore: boolean
 }
 
+export type AdditionalData = { page: number } & AnyObject
+
 export type AsyncPaginateSelectProps<
-  OptionType,
+  TOption extends SelectOptionType,
   IsMulti extends boolean = boolean,
-  Group extends GroupBase<OptionType> = GroupBase<OptionType>,
-  Additional = { page: number },
-  TData extends AnyObject = AnyObject
+  Group extends GroupBase<TOption> = GroupBase<TOption>,
+  TData extends AnyObject = AnyObject,
+  Additional extends AdditionalData = AdditionalData
 > = Omit<
-  AsyncPaginateProps<OptionType, Group, Additional, IsMulti>,
+  AsyncPaginateProps<TOption, Group, Additional, IsMulti>,
   'loadOptions'
 > & {
   label?: string
   required?: boolean
-  action(
-    props: AsyncPaginateSelectActionProps<OptionType>
-  ): Promise<AsyncPaginateSelectActionType<TData>>
-  construct(data: TData): OptionType
+  action: (
+    props: AsyncPaginateSelectActionProps<TOption>
+  ) => Promise<AsyncPaginateSelectActionType<TData>>
+  construct: (data: TData) => TOption
   error?: string
   errorClassName?: string
 }
 
 export default function AsyncPaginateSelect<
-  OptionType,
-  IsMulti extends boolean = boolean,
-  Group extends GroupBase<OptionType> = GroupBase<OptionType>,
-  TData extends AnyObject = AnyObject
+  TOption extends SelectOptionType,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<TOption> = GroupBase<TOption>,
+  TData extends AnyObject = AnyObject,
+  Additional extends AdditionalData = AdditionalData
 >({
   label,
   required,
@@ -52,13 +59,7 @@ export default function AsyncPaginateSelect<
   error,
   errorClassName,
   ...props
-}: AsyncPaginateSelectProps<
-  OptionType,
-  IsMulti,
-  Group,
-  { page: number },
-  TData
->) {
+}: AsyncPaginateSelectProps<TOption, IsMulti, Group, TData, Additional>) {
   return (
     <div className="react-select">
       {label && (
@@ -66,13 +67,14 @@ export default function AsyncPaginateSelect<
           <Label label={label} required={required} />
         </TextLabel>
       )}
-      <AsyncPaginate<OptionType, Group, { page: number }, IsMulti>
+      <AsyncPaginate<TOption, Group, Additional, IsMulti>
         unstyled={true}
         classNames={{
           ...makeClassNames(classNames, !!error),
           ...classNames,
         }}
-        loadOptions={async (search, loadedOptions, { page } = { page: 1 }) => {
+        loadOptions={async (search, loadedOptions, additional) => {
+          const { page } = additional ?? { page: 1 }
           const { list, hasMore } = await action({
             search,
             loadedOptions,
@@ -84,7 +86,7 @@ export default function AsyncPaginateSelect<
             hasMore: hasMore,
             additional: {
               page: page + 1,
-            },
+            } as Additional,
           }
         }}
         {...props}

@@ -26,6 +26,7 @@ import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { tesAsyncAction } from './action'
 import { parseNumber } from '@/utils/parse-number'
+import AsyncPaginateSelect from '@/components/ui/select/async-paginate'
 
 const options: SelectOptionType[] = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -35,11 +36,11 @@ const options: SelectOptionType[] = [
 
 const formSchema = z.object({
   // tesInput: z.string().pipe(required),
-  tesTextarea: z.string().pipe(required),
+  // tesTextarea: z.string().pipe(required),
   // tesNumber: z.string().pipe(required),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
-  // tesAsyncSelect: z.any().superRefine(objectRequired),
+  tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
   // tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
@@ -50,11 +51,11 @@ const formSchema = z.object({
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   // tesInput?: string
-  tesTextarea?: string
+  // tesTextarea?: string
   // tesNumber?: number | string
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
-  // tesAsyncSelect?: SelectOptionType
+  tesAsyncSelect?: SelectOptionType
   // tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesDate?: Date
@@ -90,14 +91,14 @@ export default function Tes2Page() {
             placeholder="Input disini"
             errors={errors}
           /> */}
-          <ControlledTextarea
+          {/* <ControlledTextarea
             name="tesTextarea"
             control={control}
             label="Textarea"
             placeholder="Textarea disini"
             errors={errors}
             required
-          />
+          /> */}
           {/* <ControlledInputNumber
             name="tesNumber"
             control={control}
@@ -119,7 +120,7 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           /> */}
-          {/* <ControlledAsyncPaginateSelect
+          <ControlledAsyncPaginateSelect
             name="tesAsyncSelect"
             control={control}
             label="Async Paginate Select"
@@ -131,6 +132,27 @@ export default function Tes2Page() {
             })}
             errors={errors}
             isClearable
+          />
+          {/* <Controller
+            control={control}
+            name="tesAsyncSelect"
+            render={({ field: { value, onChange: setValue, onBlur } }) => (
+              <AsyncPaginateSelect
+                label="Async Paginate Select"
+                placeholder="Pilih Satu"
+                action={tesAsyncAction}
+                construct={(data) => ({
+                  label: data.nama,
+                  value: data.id,
+                })}
+                onChange={(val) => {
+                  setValue(val)
+                }}
+                onBlur={onBlur}
+                value={value}
+                error={errors['tesAsyncSelect']?.message?.toString()}
+              />
+            )}
           /> */}
           {/* <ControlledPustakaMedia
             name="tesMedia"

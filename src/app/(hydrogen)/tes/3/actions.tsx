@@ -32,5 +32,18 @@ export const tesAsyncAction = async ({
     }
   })
 
-  return { data: data, totalData: 50 }
+  return {
+    success: true,
+    data: {
+      list: data,
+      pagination: {
+        page: 1,
+        lastPage: 1,
+        perPage: 5,
+        totalData: 10,
+        from: 1,
+        to: 1,
+      },
+    },
+  }
 }
