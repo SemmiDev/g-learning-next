@@ -7,7 +7,6 @@ import { TableHeaderCell, Text } from '@/components/ui'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 
 const COLORS = ['#FFD1D1', '#D68585', '#B92E5D', '#6D1A36']
 
@@ -19,7 +18,60 @@ export default function PresensiPage() {
     { name: 'Alpha', value: 5 },
   ]
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableData = [
+    {
+      id: 1,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      hadir: 12,
+      izin: 4,
+      sakit: 1,
+      alpha: 1,
+    },
+    {
+      id: 2,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      hadir: 12,
+      izin: 4,
+      sakit: 1,
+      alpha: 1,
+    },
+    {
+      id: 3,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      hadir: 12,
+      izin: 4,
+      sakit: 1,
+      alpha: 1,
+    },
+    {
+      id: 4,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      hadir: 12,
+      izin: 4,
+      sakit: 1,
+      alpha: 1,
+    },
+    {
+      id: 5,
+      nama: 'Annitsa Bestweden',
+      email: 'email@namaweb.com',
+      image: imagePhoto,
+      hadir: 12,
+      izin: 4,
+      sakit: 1,
+      alpha: 1,
+    },
+  ]
+
+  const tableColumns: ColumnsType<(typeof tableData)[number]> = [
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
@@ -86,59 +138,6 @@ export default function PresensiPage() {
           {value}
         </Text>
       ),
-    },
-  ]
-
-  const tableData = [
-    {
-      id: 1,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      hadir: 12,
-      izin: 4,
-      sakit: 1,
-      alpha: 1,
-    },
-    {
-      id: 2,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      hadir: 12,
-      izin: 4,
-      sakit: 1,
-      alpha: 1,
-    },
-    {
-      id: 3,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      hadir: 12,
-      izin: 4,
-      sakit: 1,
-      alpha: 1,
-    },
-    {
-      id: 4,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      hadir: 12,
-      izin: 4,
-      sakit: 1,
-      alpha: 1,
-    },
-    {
-      id: 5,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      hadir: 12,
-      izin: 4,
-      sakit: 1,
-      alpha: 1,
     },
   ]
 

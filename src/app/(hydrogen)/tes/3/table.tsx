@@ -9,9 +9,8 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
-import { DataType, tesAsyncAction } from './actions'
+import { tesAsyncAction } from './actions'
 import FilterElement from './filter-element'
 
 export default function Tes3Table() {

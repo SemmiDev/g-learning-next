@@ -15,7 +15,6 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatDiblokirModal from './modal/lihat-diblokir'
@@ -39,7 +38,7 @@ export default function TablePenggunaDiblokirCard() {
     action: tablePenggunaDiblokirAction,
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: (
         <TableHeaderCell

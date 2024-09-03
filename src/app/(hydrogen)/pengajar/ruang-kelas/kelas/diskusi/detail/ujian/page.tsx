@@ -18,7 +18,6 @@ import { routes } from '@/config/routes'
 import imagePhoto from '@public/images/photo.png'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCardChecklist, BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -26,74 +25,6 @@ import { RiArrowLeftLine } from 'react-icons/ri'
 import { Dropdown, Input } from 'rizzui'
 
 export default function DiskusiDetailUjianPage() {
-  const tableColumns: ColumnsType<DefaultRecordType> = [
-    {
-      title: <TableHeaderCell title="No" className="justify-center" />,
-      dataIndex: 'no',
-      key: 'no',
-      render: (_: string, __: any, idx: number) => (
-        <Text size="sm" weight="medium" variant="dark" className="text-center">
-          {idx + 1}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nama Peserta" />,
-      dataIndex: 'nama',
-      key: 'nama',
-      render: (_: string, row: any) => (
-        <div className="flex space-x-3">
-          <Thumbnail src={row.image} alt="profil" size={40} rounded="md" />
-          <div className="flex flex-col justify-center">
-            <Text size="sm" weight="semibold" variant="dark">
-              {row.nama}
-            </Text>
-            <Text
-              size="2xs"
-              weight="medium"
-              variant="lighter"
-              className="mt-0.5"
-            >
-              {row.email}
-            </Text>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Tanggal & Waktu Pengerjaan" />,
-      dataIndex: 'tanggal',
-      key: 'tanggal',
-      render: (_: string, row: any) => (
-        <Text size="sm" weight="medium" variant="dark">
-          {row.tanggal}
-          <br />
-          {row.jam}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: (value: string) => (
-        <Text size="sm" weight="medium" variant="dark" className="text-center">
-          {value ?? '-'}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: () => (
-        <div className="flex justify-end">
-          <DropdownNilaiAction />
-        </div>
-      ),
-    },
-  ]
-
   const tableData = [
     {
       id: 1,
@@ -139,6 +70,69 @@ export default function DiskusiDetailUjianPage() {
       tanggal: '15 Des 24',
       jam: '15 : 36',
       nilai: 85,
+    },
+  ]
+
+  const tableColumns: ColumnsType<(typeof tableData)[number]> = [
+    {
+      title: <TableHeaderCell title="No" className="justify-center" />,
+      dataIndex: 'no',
+      render: (_: string, __: any, idx: number) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {idx + 1}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Nama Peserta" />,
+      dataIndex: 'nama',
+      render: (_: string, row: any) => (
+        <div className="flex space-x-3">
+          <Thumbnail src={row.image} alt="profil" size={40} rounded="md" />
+          <div className="flex flex-col justify-center">
+            <Text size="sm" weight="semibold" variant="dark">
+              {row.nama}
+            </Text>
+            <Text
+              size="2xs"
+              weight="medium"
+              variant="lighter"
+              className="mt-0.5"
+            >
+              {row.email}
+            </Text>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Tanggal & Waktu Pengerjaan" />,
+      dataIndex: 'tanggal',
+      render: (_: string, row: any) => (
+        <Text size="sm" weight="medium" variant="dark">
+          {row.tanggal}
+          <br />
+          {row.jam}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Nilai" className="justify-center" />,
+      dataIndex: 'nilai',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {value ?? '-'}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="" />,
+      dataIndex: 'nilai',
+      render: () => (
+        <div className="flex justify-end">
+          <DropdownNilaiAction />
+        </div>
+      ),
     },
   ]
 

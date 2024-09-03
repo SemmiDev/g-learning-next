@@ -11,7 +11,6 @@ import {
 import { useTableAsync } from '@/hooks/use-table-async'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { LuDownload } from 'react-icons/lu'
 
 export default function ProfilRiwayatPembayaranBody() {
@@ -31,7 +30,7 @@ export default function ProfilRiwayatPembayaranBody() {
     action: tableRiwayatPembayaranAction,
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: (
         <TableHeaderCell

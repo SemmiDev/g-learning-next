@@ -2,12 +2,12 @@ import { Card, Pagination, Table, Text, Title } from '@/components/ui'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 
-export default function KehadiranPresensiCard({
+export default function KehadiranPresensiCard<T extends DefaultRecordType>({
   columns,
   data,
 }: {
-  columns: ColumnsType<DefaultRecordType>
-  data: DefaultRecordType[]
+  columns: ColumnsType<T>
+  data: T[]
 }) {
   return (
     <Card className="col-span-3 p-0 lg:col-span-2">

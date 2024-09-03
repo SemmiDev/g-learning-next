@@ -19,7 +19,6 @@ import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -27,90 +26,6 @@ import { RiArrowLeftLine } from 'react-icons/ri'
 import { Dropdown, Input } from 'rizzui'
 
 export default function DiskusiDetailTugasPage() {
-  const tableColumns: ColumnsType<DefaultRecordType> = [
-    {
-      title: <TableHeaderCell title="No" className="justify-center" />,
-      dataIndex: 'no',
-      key: 'no',
-      render: (_: string, __: any, idx: number) => (
-        <Text size="sm" weight="medium" variant="dark" className="text-center">
-          {idx + 1}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nama Peserta" />,
-      dataIndex: 'nama',
-      key: 'nama',
-      render: (_: string, row: any) => (
-        <div className="flex space-x-3">
-          <Image
-            src={row.image}
-            alt="profil"
-            className="w-10 h-10 rounded-md"
-          />
-          <div className="flex flex-col justify-center">
-            <Text size="sm" weight="semibold" variant="dark">
-              {row.nama}
-            </Text>
-            <Text
-              size="2xs"
-              weight="medium"
-              variant="lighter"
-              className="mt-0.5"
-            >
-              {row.email}
-            </Text>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Waktu Pengumpulan" />,
-      dataIndex: 'tanggal',
-      key: 'tanggal',
-      render: (_: string, row: any) => (
-        <Text size="sm" weight="medium" variant="dark">
-          {row.tanggal}
-          <br />
-          {row.jam}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: (value: string) => (
-        <Text size="sm" weight="medium" variant="dark" className="text-center">
-          {value ?? '-'}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: (_: string, row: any) => {
-        if (row.nilai != null) {
-          return (
-            <div className="flex justify-end">
-              <DropdownNilaiAction />
-            </div>
-          )
-        }
-
-        return (
-          <Link href={`${routes.pengajar.kelas}/tugas/detail`}>
-            <Button size="sm" variant="solid" className="whitespace-nowrap">
-              Cek Tugas
-            </Button>
-          </Link>
-        )
-      },
-    },
-  ]
-
   const tableData = [
     {
       id: 1,
@@ -156,6 +71,85 @@ export default function DiskusiDetailTugasPage() {
       tanggal: '15 Des 24',
       jam: '15 : 36',
       nilai: null,
+    },
+  ]
+
+  const tableColumns: ColumnsType<(typeof tableData)[number]> = [
+    {
+      title: <TableHeaderCell title="No" className="justify-center" />,
+      dataIndex: 'no',
+      render: (_: string, __: any, idx: number) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {idx + 1}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Nama Peserta" />,
+      dataIndex: 'nama',
+      render: (_: string, row: any) => (
+        <div className="flex space-x-3">
+          <Image
+            src={row.image}
+            alt="profil"
+            className="w-10 h-10 rounded-md"
+          />
+          <div className="flex flex-col justify-center">
+            <Text size="sm" weight="semibold" variant="dark">
+              {row.nama}
+            </Text>
+            <Text
+              size="2xs"
+              weight="medium"
+              variant="lighter"
+              className="mt-0.5"
+            >
+              {row.email}
+            </Text>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Waktu Pengumpulan" />,
+      dataIndex: 'tanggal',
+      render: (_: string, row: any) => (
+        <Text size="sm" weight="medium" variant="dark">
+          {row.tanggal}
+          <br />
+          {row.jam}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Nilai" className="justify-center" />,
+      dataIndex: 'nilai',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {value ?? '-'}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="" />,
+      dataIndex: 'nilai',
+      render: (_: string, row: any) => {
+        if (row.nilai != null) {
+          return (
+            <div className="flex justify-end">
+              <DropdownNilaiAction />
+            </div>
+          )
+        }
+
+        return (
+          <Link href={`${routes.pengajar.kelas}/tugas/detail`}>
+            <Button size="sm" variant="solid" className="whitespace-nowrap">
+              Cek Tugas
+            </Button>
+          </Link>
+        )
+      },
     },
   ]
 

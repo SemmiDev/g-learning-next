@@ -15,7 +15,6 @@ import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { LuEye } from 'react-icons/lu'
 
 export default function DashboardPenggunaDiblokirCard({
@@ -39,7 +38,7 @@ export default function DashboardPenggunaDiblokirCard({
     action: tablePenggunaDiblokirAction,
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: (
         <TableHeaderCell

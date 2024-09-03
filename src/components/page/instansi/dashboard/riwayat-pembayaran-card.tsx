@@ -15,7 +15,6 @@ import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { LuDownload } from 'react-icons/lu'
 
 export default function DashboardRiwayatPembayaranCard({
@@ -39,7 +38,7 @@ export default function DashboardRiwayatPembayaranCard({
     action: tableRiwayatPembayaranAction,
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: (
         <TableHeaderCell

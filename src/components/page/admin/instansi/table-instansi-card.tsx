@@ -18,7 +18,6 @@ import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { angka } from '@/utils/text'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
@@ -55,7 +54,7 @@ export default function TableInstansiCard() {
     action: tableInstansiAction,
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: (
         <TableHeaderCell

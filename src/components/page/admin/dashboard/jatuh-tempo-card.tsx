@@ -20,7 +20,6 @@ import {
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import UbahJatuhTempoModal from './modal/ubah-jatuh-tempo'
@@ -51,7 +50,7 @@ export default function DashboardJatuhTempoCard({
     action: tableJatuhTempoAction,
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: <TableHeaderCell title="Nama Instansi" />,
       dataIndex: 'nama',

@@ -9,14 +9,13 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { angka } from '@/utils/text'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
-import { DefaultRecordType } from 'rc-table/lib/interface'
 import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
-import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 
 export default function TablePenggunaCard() {
   const [idLihat, setIdLihat] = useState<string | undefined>()
@@ -41,7 +40,7 @@ export default function TablePenggunaCard() {
     actionParams: { id },
   })
 
-  const tableColumns: ColumnsType<DefaultRecordType> = [
+  const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: (
         <TableHeaderCell
