@@ -37,7 +37,7 @@ export const pesertaRoutes = {
 
 export const penggunaRoutes = {
   profile: '/pengguna/profil',
-  lengkapiProfile: '/pengguna/lengkapi-profil',
+  lengkapiProfil: '/pengguna/lengkapi-profil',
   pemberitahuan: '/pengguna/pemberitahuan',
 }
 
@@ -52,8 +52,11 @@ export const adminRoutes = {
 }
 
 export const instansiRoutes = {
-  profile: '/instansi/profil',
   pemberitahuan: '/instansi/pemberitahuan',
+  profile: '/instansi/profil',
+  profilePengguna: '/instansi/profil/pengguna',
+  profileRiwayatPembayaran: '/instansi/profil/riwayat-pembayaran',
+  profileSinkron: '/instansi/profil/sinkron',
 }
 
 export const routes = {

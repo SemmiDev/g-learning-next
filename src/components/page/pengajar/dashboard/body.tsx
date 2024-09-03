@@ -31,7 +31,7 @@ export default function DashboardBody() {
         <div className="flex items-center space-x-2">
           <Image
             src={row.image}
-            alt="profile"
+            alt="profil"
             className="w-10 h-10 rounded-md object-cover"
           />
           <Text size="sm" weight="semibold" variant="dark">
@@ -137,7 +137,7 @@ export default function DashboardBody() {
         <div className="flex items-center space-x-2">
           <Image
             src={row.image}
-            alt="profile"
+            alt="profil"
             className="w-10 h-10 rounded-md object-cover"
           />
           <Text size="sm" weight="semibold" variant="dark">

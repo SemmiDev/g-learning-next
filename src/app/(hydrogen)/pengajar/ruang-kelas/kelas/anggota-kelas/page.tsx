@@ -68,7 +68,7 @@ export default function AnggotaKelasPage() {
                     <div className="flex space-x-3 p-2">
                       <Image
                         src={imagePhoto}
-                        alt="profile"
+                        alt="profil"
                         className="w-10 h-10 rounded-md"
                       />
                       <div className="flex flex-col justify-center">
@@ -127,7 +127,7 @@ export default function AnggotaKelasPage() {
                   <Checkbox size="sm" iconClassName="h-3 top-1" />
                   <Image
                     src={imagePhoto}
-                    alt="profile"
+                    alt="profil"
                     className="w-[38px] h-[38px] rounded-md"
                   />
                   <div className="flex flex-col">

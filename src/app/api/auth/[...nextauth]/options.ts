@@ -196,6 +196,7 @@ export const authOptions: AuthOptions = {
         // add extra data to session
         session.user = {
           ...session.user,
+          name: token.name,
           username: decoded.username,
           level: decoded.tipe,
           image: token.picture,

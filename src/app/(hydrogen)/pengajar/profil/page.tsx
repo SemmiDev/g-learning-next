@@ -33,7 +33,7 @@ const pageHeader = {
   ],
 }
 
-export default function ProfilePage() {
+export default function ProfilPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />

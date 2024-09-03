@@ -1,6 +1,6 @@
 'use client'
 
-import { dataProfileAction } from '@/actions/pengguna/profil/data'
+import { dataProfilAction } from '@/actions/pengguna/profil/data'
 import {
   ActionIconTooltip,
   Button,
@@ -22,14 +22,14 @@ import UbahPasswordModal from '../../admin/profil/modal/ubah-password'
 import UbahModal from './modal/ubah'
 import UbahFotoModal from './modal/ubah-foto'
 
-export default function ProfileBody() {
+export default function ProfilBody() {
   const [showUbahModal, setShowUbahModal] = useState(false)
   const [showFotoModal, setShowFotoModal] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryData(dataProfileAction),
+    queryFn: makeSimpleQueryData(dataProfilAction),
   })
 
   return (

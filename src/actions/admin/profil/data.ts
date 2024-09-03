@@ -21,5 +21,5 @@ export type DataType = {
   email: { id: string; email: string }[]
 }
 
-export const dataProfileAction = () =>
+export const dataProfilAction = () =>
   makeJwtGetRequestAction<DataType>(`${process.env.API_URL}/pengguna`)

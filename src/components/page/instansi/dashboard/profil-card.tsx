@@ -1,46 +1,59 @@
-import { ActionIcon, Card, Text, Title } from '@/components/ui'
+import { dataProfilAction } from '@/actions/instansi/profil/data'
+import { ActionIcon, Card, Text, Thumbnail, Title } from '@/components/ui'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { angka, rupiah } from '@/utils/text'
-import logo from '@public/images/instansi-logo.png'
+import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { BsGear } from 'react-icons/bs'
 import { LuCalendar, LuCreditCard, LuPackage } from 'react-icons/lu'
-import BackgroundProfile from './background-pattern'
-import ProfileItem from './profile-item'
+import BackgroundProfil from './background-pattern'
+import ProfilItem from './profil-item'
+import Link from 'next/link'
+import { routes } from '@/config/routes'
 
-export default function DashboardProfileCard() {
+export default function DashboardProfilCard() {
   const { data: session } = useSession()
+
+  const { data } = useQuery({
+    queryKey: ['instansi.profil'],
+    queryFn: makeSimpleQueryData(dataProfilAction),
+  })
 
   return (
     <Card className="flex flex-col p-0">
       <div className="relative h-[250px]">
-        <BackgroundProfile
+        <BackgroundProfil
           persistentKey={`${session?.jwt ?? ''}${new Date()
             .toJSON()
             .slice(0, 10)}`}
           className="absolute w-full h-[150px]"
         />
         <div className="absolute flex flex-col items-center pt-4 pb-4 m-auto left-0 right-0">
-          <figure className="size-[150px] bg-white border border-muted rounded-md shadow-sm mb-2">
-            <Image
-              src={logo}
-              alt="logo instansi"
-              className="object-contain w-full h-full"
-            />
-          </figure>
-          <Title size="1.5xl">UIN SUSKA RIAU</Title>
+          <Thumbnail
+            src={data?.instansi?.logo}
+            size={150}
+            alt="logo instansi"
+            avatar={data?.instansi?.nama}
+            className="shrink-0 bg-white shadow-sm mb-2"
+            rounded="md"
+            bordered
+            priority
+          />
+          <Title size="1.5xl">{data?.instansi.nama}</Title>
           <div className="flex items-center">
             <Text size="xs" weight="medium" variant="lighter" className="me-1">
-              Tipe sinkron: Misca
+              Tipe sinkron: {data?.instansi.tipe_sinkron || '-'}
             </Text>
-            <ActionIcon size="sm" variant="outline" color="warning">
-              <BsGear size={12} />
-            </ActionIcon>
+            <Link href={`${routes.instansi.profileSinkron}`}>
+              <ActionIcon size="sm" variant="outline" color="warning">
+                <BsGear size={12} />
+              </ActionIcon>
+            </Link>
           </div>
         </div>
       </div>
       <div className="flex space-x-3 p-2">
-        <ProfileItem
+        <ProfilItem
           Icon={LuPackage}
           label={'Jenis Paket\nyang digunakan'}
           value="Premium"
@@ -48,7 +61,7 @@ export default function DashboardProfileCard() {
           color="blue"
           className="w-1/3"
         />
-        <ProfileItem
+        <ProfilItem
           Icon={LuCalendar}
           label={'Tanggal Pembayaran\nSelanjutnya'}
           value="01/12/2024"
@@ -56,7 +69,7 @@ export default function DashboardProfileCard() {
           color="green"
           className="w-1/3"
         />
-        <ProfileItem
+        <ProfilItem
           Icon={LuCreditCard}
           label={'Biaya\nPaket'}
           value={rupiah(5000000)}
@@ -66,7 +79,7 @@ export default function DashboardProfileCard() {
         />
       </div>
       <div className="flex space-x-3 p-2">
-        <ProfileItem
+        <ProfilItem
           Icon={LuPackage}
           label={'Limit\nPengguna'}
           value={angka(10000)}
@@ -74,7 +87,7 @@ export default function DashboardProfileCard() {
           color="blue"
           className="w-1/3"
         />
-        <ProfileItem
+        <ProfilItem
           Icon={LuCalendar}
           label={'Limit\nPembukaan Kelas'}
           value={angka(5000)}
@@ -82,7 +95,7 @@ export default function DashboardProfileCard() {
           color="green"
           className="w-1/3"
         />
-        <ProfileItem
+        <ProfilItem
           Icon={LuCreditCard}
           label={'Limit Kelas\nTiap Pengajar'}
           value={angka(50)}

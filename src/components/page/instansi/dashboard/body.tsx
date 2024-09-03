@@ -1,6 +1,6 @@
 import DashboardPenggunaCard from './pengguna-card'
 import DashboardPenggunaDiblokirCard from './pengguna-diblokir-card'
-import DashboardProfileCard from './profile-card'
+import DashboardProfilCard from './profil-card'
 import DashboardRiwayatPembayaranCard from './riwayat-pembayaran-card'
 import DashboardTotalKelasCard from './total-kelas-card'
 import DashboardTotalPenggunaCard from './total-pengguna-card'
@@ -10,7 +10,7 @@ export default function DashboardBody() {
   return (
     <div className="flex flex-wrap gap-4">
       <div className="flex flex-col space-y-4 w-full lg:w-7/12">
-        <DashboardProfileCard />
+        <DashboardProfilCard />
         <DashboardPenggunaCard />
         <DashboardRiwayatPembayaranCard />
       </div>

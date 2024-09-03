@@ -1,5 +1,5 @@
-import { dataProfileAction } from '@/actions/pengguna/profil/data'
-import { ubahProfileAction } from '@/actions/pengguna/profil/ubah-data'
+import { dataProfilAction } from '@/actions/pengguna/profil/data'
+import { ubahProfilAction } from '@/actions/pengguna/profil/ubah-data'
 import {
   CardSeparator,
   ControlledInput,
@@ -31,7 +31,7 @@ const formSchema = z.object({
   bio: z.string().optional(),
 })
 
-export type UbahProfileFormSchema = {
+export type UbahProfilFormSchema = {
   nama?: string
   nik?: string
   kontak?: string
@@ -57,11 +57,11 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryData(dataProfileAction),
+    queryFn: makeSimpleQueryData(dataProfilAction),
   })
 
-  const onSubmit: SubmitHandler<UbahProfileFormSchema> = async (data) => {
-    await handleActionWithToast(ubahProfileAction(data), {
+  const onSubmit: SubmitHandler<UbahProfilFormSchema> = async (data) => {
+    await handleActionWithToast(ubahProfilAction(data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
@@ -73,7 +73,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
     })
   }
 
-  const initialValues: UbahProfileFormSchema = {
+  const initialValues: UbahProfilFormSchema = {
     nama: data?.nama,
     nik: data?.nik,
     jenisKelamin: data?.jenis_kelamin,
@@ -93,7 +93,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       {isLoading ? (
         <Loader height={512} />
       ) : (
-        <Form<UbahProfileFormSchema>
+        <Form<UbahProfilFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{

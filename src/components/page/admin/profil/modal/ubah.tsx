@@ -1,5 +1,5 @@
-import { dataProfileAction } from '@/actions/admin/profil/data'
-import { ubahProfileAction } from '@/actions/admin/profil/ubah-data'
+import { dataProfilAction } from '@/actions/admin/profil/data'
+import { ubahProfilAction } from '@/actions/admin/profil/ubah-data'
 import {
   CardSeparator,
   ControlledInput,
@@ -27,7 +27,7 @@ const formSchema = z.object({
   jenisKelamin: z.string().optional(),
 })
 
-type UbahProfileFormSchema = {
+type UbahProfilFormSchema = {
   nama?: string
   kontak?: string
   jenisKelamin?: string
@@ -50,11 +50,11 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: makeSimpleQueryData(dataProfileAction),
+    queryFn: makeSimpleQueryData(dataProfilAction),
   })
 
-  const onSubmit: SubmitHandler<UbahProfileFormSchema> = async (data) => {
-    await handleActionWithToast(ubahProfileAction(data), {
+  const onSubmit: SubmitHandler<UbahProfilFormSchema> = async (data) => {
+    await handleActionWithToast(ubahProfilAction(data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: async () => {
@@ -66,7 +66,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
     })
   }
 
-  const initialValues: UbahProfileFormSchema = {
+  const initialValues: UbahProfilFormSchema = {
     nama: data?.nama,
     kontak: data?.hp,
     jenisKelamin: data?.jenis_kelamin,
@@ -83,7 +83,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       {isLoading ? (
         <Loader height={336} />
       ) : (
-        <Form<UbahProfileFormSchema>
+        <Form<UbahProfilFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{

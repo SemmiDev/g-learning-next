@@ -45,15 +45,15 @@ const bgList = [
   bgp20,
 ]
 
-type BackgroundProfileProps = {
+type BackgroundProfilProps = {
   persistentKey: string
   className?: string
 }
 
-export default function BackgroundProfile({
+export default function BackgroundProfil({
   persistentKey,
   className,
-}: BackgroundProfileProps) {
+}: BackgroundProfilProps) {
   const bgp = bgList[hashToRangeNumber(persistentKey, bgList.length - 1)]
 
   return (

@@ -1,10 +1,10 @@
 'use server'
 
-import { UbahProfileFormSchema } from '@/components/page/pengguna/profil/modal/ubah'
+import { UbahProfilFormSchema } from '@/components/page/pengguna/profil/modal/ubah'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahProfileAction = (data: UbahProfileFormSchema) =>
+export const ubahProfilAction = (data: UbahProfilFormSchema) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/pengguna`, {
     nama: data.nama,
     nik: data.nik,

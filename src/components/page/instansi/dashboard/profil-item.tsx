@@ -3,7 +3,7 @@ import cn from '@/utils/class-names'
 import { ComponentType } from 'react'
 import { IconBaseProps } from 'react-icons/lib'
 
-export default function ProfileItem({
+export default function ProfilItem({
   Icon,
   label,
   value,

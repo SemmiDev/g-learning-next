@@ -1,5 +1,3 @@
-'use client'
-
 import SinkronDiktiCard from '@/components/page/instansi/profil/sinkron/dikti-card'
 import SinkronSmartCard from '@/components/page/instansi/profil/sinkron/smart-card'
 

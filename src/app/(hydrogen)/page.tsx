@@ -21,7 +21,7 @@ export default async function Home() {
   if (session?.user?.level === 'Pengguna') {
     const { success, data } = await cekKelengkapanProfilAction()
     if (success && !data.nik) {
-      redirect(routes.pengguna.lengkapiProfile)
+      redirect(routes.pengguna.lengkapiProfil)
     }
   }
 

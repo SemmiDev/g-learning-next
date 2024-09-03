@@ -1,5 +1,5 @@
-import { dataProfileAction } from '@/actions/pengguna/profil/data'
-import ProfileBody from '@/components/page/pengguna/profil/body'
+import { dataProfilAction } from '@/actions/pengguna/profil/data'
+import ProfilBody from '@/components/page/pengguna/profil/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
@@ -27,18 +27,18 @@ const pageHeader = {
   ],
 }
 
-export default async function ProfilePage() {
+export default async function ProfilPage() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryData(dataProfileAction),
+    queryFn: makeSimpleQueryData(dataProfilAction),
   })
 
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ProfileBody />
+        <ProfilBody />
       </HydrationBoundary>
     </>
   )

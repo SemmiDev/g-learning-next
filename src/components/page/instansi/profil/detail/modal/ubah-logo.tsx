@@ -1,34 +1,58 @@
+import { ubahLogoAction } from '@/actions/instansi/profil/ubah-logo'
 import {
   CardSeparator,
   ControlledUploadFile,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   logo: z.any().superRefine(objectRequired),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   logo?: any
 }
 
 const initialValues: FormSchema = {}
 
+type UbahLogoModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+}
+
 export default function UbahLogoModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+}: UbahLogoModalProps) {
+  const [formError, setFormError] = useState<string>()
+  const { update: updateSession } = useSession()
+  const queryClient = useQueryClient()
+
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+    const form = new FormData()
+    form.append('logo', data.logo)
+
+    await handleActionWithToast(ubahLogoAction(form), {
+      loading: 'Mengunggah...',
+      error: ({ message }) => message,
+      onStart: () => setFormError(undefined),
+      onSuccess: async ({ data }) => {
+        setShowModal(false)
+        queryClient.invalidateQueries({ queryKey: ['instansi.profil'] })
+        await updateSession({ picture: data?.logo })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -55,6 +79,8 @@ export default function UbahLogoModal({
                   errors={errors}
                   accept={{ 'image/*': [] }}
                 />
+
+                <FormError error={formError} />
               </div>
 
               <CardSeparator />

@@ -92,7 +92,7 @@ export default function DiskusiDetailPage() {
                   <div className="flex space-x-3">
                     <Image
                       src={imagePhoto}
-                      alt="profile"
+                      alt="profil"
                       className="w-10 h-10 rounded-md"
                     />
                     <div className="flex flex-col">

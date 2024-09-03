@@ -14,7 +14,7 @@ export default function KomentarSectionFull({
   return (
     <div className={cn('flex flex-col', className)}>
       <div className="flex items-center space-x-2">
-        <Image src={imagePhoto} alt="profile" className="w-8 h-8 rounded-md" />
+        <Image src={imagePhoto} alt="profil" className="w-8 h-8 rounded-md" />
         <Textarea
           className="flex-1"
           rows={2}
@@ -38,11 +38,7 @@ export default function KomentarSectionFull({
       </div>
       <div className="space-y-4 ps-4 mt-2">
         <div className="flex space-x-2">
-          <Image
-            src={imagePhoto}
-            alt="profile"
-            className="w-8 h-8 rounded-md"
-          />
+          <Image src={imagePhoto} alt="profil" className="w-8 h-8 rounded-md" />
           <div className="flex flex-col items-start text-gray-dark">
             <Text weight="semibold">Anjal Karman</Text>
             <Text weight="medium">
@@ -73,11 +69,7 @@ export default function KomentarSectionFull({
           </div>
         </div>
         <div className="flex space-x-2">
-          <Image
-            src={imagePhoto}
-            alt="profile"
-            className="w-8 h-8 rounded-md"
-          />
+          <Image src={imagePhoto} alt="profil" className="w-8 h-8 rounded-md" />
           <div className="flex flex-col items-start text-gray-dark">
             <Text weight="semibold">Anjal Karman</Text>
             <Text weight="medium">
@@ -104,7 +96,7 @@ export default function KomentarSectionFull({
           <div className="flex space-x-2">
             <Image
               src={imagePhoto}
-              alt="profile"
+              alt="profil"
               className="w-8 h-8 rounded-md"
             />
             <div className="flex flex-col items-start text-gray-dark">
@@ -140,7 +132,7 @@ export default function KomentarSectionFull({
             <div className="flex space-x-2">
               <Image
                 src={imagePhoto}
-                alt="profile"
+                alt="profil"
                 className="w-8 h-8 rounded-md"
               />
               <div className="flex flex-col items-start text-gray-dark">
@@ -161,7 +153,7 @@ export default function KomentarSectionFull({
             <div className="flex space-x-2">
               <Image
                 src={imagePhoto}
-                alt="profile"
+                alt="profil"
                 className="w-8 h-8 rounded-md"
               />
               <div className="flex flex-col items-start text-gray-dark">
@@ -182,7 +174,7 @@ export default function KomentarSectionFull({
             <div className="flex space-x-2">
               <Image
                 src={imagePhoto}
-                alt="profile"
+                alt="profil"
                 className="w-8 h-8 rounded-md"
               />
               <div className="flex flex-col items-start text-gray-dark">

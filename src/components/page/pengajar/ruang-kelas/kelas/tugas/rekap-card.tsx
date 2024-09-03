@@ -42,7 +42,7 @@ export default function RekapTugasCard() {
         <div className="flex space-x-3">
           <Image
             src={row.image}
-            alt="profile"
+            alt="profil"
             className="w-10 h-10 rounded-md"
           />
           <div className="flex flex-col justify-center">

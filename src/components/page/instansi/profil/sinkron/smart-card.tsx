@@ -1,3 +1,5 @@
+'use client'
+
 import { ControlledInput, Form, ModalFooterButtons } from '@/components/ui'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
