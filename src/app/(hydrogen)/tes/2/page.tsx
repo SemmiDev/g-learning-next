@@ -14,6 +14,7 @@ import {
   ControlledTextarea,
   ControlledUploadFile,
   Form,
+  InputNumber,
   Materi,
   MateriItemType,
   PustakaMediaFileType,
@@ -27,6 +28,8 @@ import { Controller, SubmitHandler } from 'react-hook-form'
 import { tesAsyncAction } from './action'
 import { parseNumber } from '@/utils/parse-number'
 import AsyncPaginateSelect from '@/components/ui/select/async-paginate'
+import { inputToNumber } from '@/utils/validations/transform'
+import { NumberInput } from 'rizzui'
 
 const options: SelectOptionType[] = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -37,7 +40,7 @@ const options: SelectOptionType[] = [
 const formSchema = z.object({
   // tesInput: z.string().pipe(required),
   // tesTextarea: z.string().pipe(required),
-  // tesNumber: z.string().pipe(required),
+  tesNumber: z.string().pipe(required),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
@@ -52,7 +55,7 @@ const formSchema = z.object({
 type FormSchema = {
   // tesInput?: string
   // tesTextarea?: string
-  // tesNumber?: number | string
+  tesNumber?: number | string
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
@@ -97,12 +100,14 @@ export default function Tes2Page() {
             errors={errors}
             required
           /> */}
-          {/* <ControlledInputNumber
+          <ControlledInputNumber
             name="tesNumber"
             control={control}
             errors={errors}
             label="Tes Number"
-          /> */}
+            placeholder="Input disini"
+          />
+          <InputNumber />
           {/* <ControlledInputRupiah
             name="tesRupiah"
             control={control}
