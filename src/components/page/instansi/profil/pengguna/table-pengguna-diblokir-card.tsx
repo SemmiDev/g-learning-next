@@ -1,6 +1,6 @@
 'use client'
 
-import { tablePenggunaDiblokirAction } from '@/actions/instansi/profil/table-pengguna-diblokir'
+import { tablePenggunaDiblokirAction } from '@/actions/instansi/profil/pengguna/table-diblokir'
 import {
   ActionIconTooltip,
   Card,
@@ -20,7 +20,7 @@ import { LuEye } from 'react-icons/lu'
 import LihatDiblokirModal from './modal/lihat-diblokir'
 
 export default function TablePenggunaDiblokirCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number>()
+  const [idLihat, setIdLihat] = useState<string>()
 
   const {
     data,
@@ -48,7 +48,6 @@ export default function TablePenggunaDiblokirCard() {
         />
       ),
       dataIndex: 'nama',
-      key: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
@@ -58,8 +57,7 @@ export default function TablePenggunaDiblokirCard() {
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
-      key: 'jenis',
+      dataIndex: 'jenis_akun',
       render: renderTableCellTextCenter,
     },
     {
@@ -68,11 +66,10 @@ export default function TablePenggunaDiblokirCard() {
           title="Tanggal/Waktu Blokir"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'waktuBlokir')}
+          sort={getSortDirection(sort, 'tanggal_blokir')}
         />
       ),
-      dataIndex: 'waktuBlokir',
-      key: 'waktuBlokir',
+      dataIndex: 'tanggal_blokir',
       render: (value: string) => (
         <TableCellText align="center">
           <Time date={value} format="datetime" />
@@ -80,27 +77,26 @@ export default function TablePenggunaDiblokirCard() {
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('waktuBlokir')
+          onSort('tanggal_blokir')
         },
       }),
     },
     {
       title: <TableHeaderCell title="Keterangan" align="center" />,
-      dataIndex: 'keterangan',
-      key: 'keterangan',
+      dataIndex: 'keterangan_blokir',
       render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       width: 70,
-      render: (_: any, row: any) => (
+      render: (_: any, row) => (
         <div className="flex justify-center">
           <ActionIconTooltip
             tooltip="Lihat"
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setShowModalLihat(row.id)}
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -136,10 +132,7 @@ export default function TablePenggunaDiblokirCard() {
         />
       </Card>
 
-      <LihatDiblokirModal
-        showModal={showModalLihat}
-        setShowModal={setShowModalLihat}
-      />
+      <LihatDiblokirModal id={idLihat} setId={setIdLihat} />
     </>
   )
 }

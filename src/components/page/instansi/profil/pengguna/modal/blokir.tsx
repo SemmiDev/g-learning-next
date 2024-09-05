@@ -1,3 +1,4 @@
+import { blokirPenggunaAction } from '@/actions/instansi/profil/pengguna/blokir'
 import {
   CardSeparator,
   ControlledInput,
@@ -6,32 +7,52 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   alasan: z.string().pipe(required),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type BlokirPenggunaFormSchema = {
   alasan?: string
 }
 
-const initialValues: FormSchema = {}
+const initialValues: BlokirPenggunaFormSchema = {}
 
 type BlokirModalProps = {
-  showModal: boolean
-  setShowModal(show: boolean): void
+  id: string | undefined
+  setId(id?: string): void
+  setIdLihat(id?: string): void
 }
 
 export default function BlokirModal({
-  showModal,
-  setShowModal,
+  id,
+  setId,
+  setIdLihat,
 }: BlokirModalProps) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const queryClient = useQueryClient()
+
+  const onSubmit: SubmitHandler<BlokirPenggunaFormSchema> = async (data) => {
+    if (!id) return
+
+    await handleActionWithToast(blokirPenggunaAction(id, data), {
+      loading: 'Menyimpan...',
+      onSuccess: () => {
+        setId(undefined)
+        setIdLihat(undefined)
+
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.pengguna.table'],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.pengguna.table-diblokir'],
+        })
+      },
+    })
   }
 
   return (
@@ -40,11 +61,11 @@ export default function BlokirModal({
       size="sm"
       color="danger"
       headerClassName="[&_.modal-title]:text-lg"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
       closeButton={false}
     >
-      <Form<FormSchema>
+      <Form<BlokirPenggunaFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -56,7 +77,7 @@ export default function BlokirModal({
           <>
             <div className="space-y-3 p-3">
               <Text weight="semibold" variant="dark" className="text-center">
-                Yakin ingin memblokir pengguna ini di instansi anda? Tuliskan
+                Yakin ingin memblokir pengguna ini dari instansi anda? Tuliskan
                 alasan pemblokiran
               </Text>
 
@@ -76,7 +97,7 @@ export default function BlokirModal({
               isSubmitting={isSubmitting}
               cancel="Batal"
               onCancel={() => {
-                setShowModal(false)
+                setId(undefined)
               }}
             />
           </>

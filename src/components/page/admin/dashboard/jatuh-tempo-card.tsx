@@ -84,7 +84,7 @@ export default function DashboardJatuhTempoCard({
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_, row: any) => (
+      render: (_, row) => (
         <div className="flex justify-center">
           <ActionIcon
             size="sm"

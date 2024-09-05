@@ -38,7 +38,6 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
     <Modal
       title="Detail Pengguna"
       isLoading={!isLoading && isFetching}
-      size="sm"
       isOpen={!!id}
       onClose={() => setId(undefined)}
     >

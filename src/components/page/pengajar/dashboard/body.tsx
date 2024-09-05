@@ -27,7 +27,7 @@ export default function DashboardBody() {
       title: <TableHeaderCell title="Nama Kelas" />,
       dataIndex: 'kelas',
       key: 'kelas',
-      render: (value: string, row: any) => (
+      render: (value: string, row) => (
         <div className="flex items-center space-x-2">
           <Image
             src={row.image}
@@ -72,7 +72,7 @@ export default function DashboardBody() {
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: string, row: any) => {
+      render: (_: string, row) => {
         return (
           <Link
             href={`${routes.pengajar.kelas}`}
@@ -133,7 +133,7 @@ export default function DashboardBody() {
       title: <TableHeaderCell title="Nama Kursus" />,
       dataIndex: 'nama',
       key: 'nama',
-      render: (value: string, row: any) => (
+      render: (value: string, row) => (
         <div className="flex items-center space-x-2">
           <Image
             src={row.image}
@@ -160,7 +160,7 @@ export default function DashboardBody() {
       title: <TableHeaderCell title="Progress" />,
       dataIndex: 'progress',
       key: 'progress',
-      render: (value: string, row: any) => (
+      render: (value: string, row) => (
         <Text size="sm" weight="medium" variant="dark">
           {value}/{row.progress} Modul
         </Text>
@@ -178,7 +178,7 @@ export default function DashboardBody() {
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: string, row: any) => {
+      render: (_: string, row) => {
         return (
           <div className="flex justify-center">
             <Button variant="text-colorful">Mulai Belajar</Button>

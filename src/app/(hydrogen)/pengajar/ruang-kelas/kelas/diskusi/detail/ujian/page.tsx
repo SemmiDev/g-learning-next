@@ -86,7 +86,7 @@ export default function DiskusiDetailUjianPage() {
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
-      render: (_: string, row: any) => (
+      render: (_: string, row) => (
         <div className="flex space-x-3">
           <Thumbnail src={row.image} alt="profil" size={40} rounded="md" />
           <div className="flex flex-col justify-center">
@@ -108,7 +108,7 @@ export default function DiskusiDetailUjianPage() {
     {
       title: <TableHeaderCell title="Tanggal & Waktu Pengerjaan" />,
       dataIndex: 'tanggal',
-      render: (_: string, row: any) => (
+      render: (_: string, row) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
           <br />

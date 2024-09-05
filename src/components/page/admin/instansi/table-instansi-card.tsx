@@ -79,7 +79,7 @@ export default function TableInstansiCard() {
     {
       title: <TableHeaderCell title="Jumlah Pengguna" align="center" />,
       dataIndex: 'jumlah_pengguna',
-      render: (value: number, row: any) => (
+      render: (value: number, row) => (
         <TableCellText align="center">
           {angka(value)}/{angka(row.batas_pengguna)}
         </TableCellText>
@@ -88,7 +88,7 @@ export default function TableInstansiCard() {
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
       dataIndex: 'jumlah_penyimpanan_terpakai',
-      render: (value: number, row: any) => (
+      render: (value: number, row) => (
         <TableCellText align="center">
           {formatBytes(value)}/
           {formatBytes(fileSizeToKB(row.batas_penyimpanan, 'MB'))}
@@ -98,7 +98,7 @@ export default function TableInstansiCard() {
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
       dataIndex: 'jumlah_kelas',
-      render: (value: number, row: any) => (
+      render: (value: number, row) => (
         <TableCellText align="center">
           {angka(value)}/{angka(row.batas_kelas)}
         </TableCellText>
@@ -128,7 +128,7 @@ export default function TableInstansiCard() {
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       className: 'action',
-      render: (_: any, row: any) => (
+      render: (_: any, row) => (
         <div className="flex justify-center">
           <Link href={`${routes.admin.listInstansi}/detail/${row.id}`}>
             <ActionIconTooltip

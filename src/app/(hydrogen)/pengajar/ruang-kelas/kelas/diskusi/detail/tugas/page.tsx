@@ -87,7 +87,7 @@ export default function DiskusiDetailTugasPage() {
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
-      render: (_: string, row: any) => (
+      render: (_: string, row) => (
         <div className="flex space-x-3">
           <Image
             src={row.image}
@@ -113,7 +113,7 @@ export default function DiskusiDetailTugasPage() {
     {
       title: <TableHeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
-      render: (_: string, row: any) => (
+      render: (_: string, row) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
           <br />
@@ -133,7 +133,7 @@ export default function DiskusiDetailTugasPage() {
     {
       title: <TableHeaderCell title="" />,
       dataIndex: 'nilai',
-      render: (_: string, row: any) => {
+      render: (_: string, row) => {
         if (row.nilai != null) {
           return (
             <div className="flex justify-end">

@@ -76,7 +76,7 @@ export default function PresensiPage() {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       key: 'nama',
-      render: (_: string, row: any) => (
+      render: (_: string, row) => (
         <div className="flex space-x-3">
           <Image
             src={row.image}

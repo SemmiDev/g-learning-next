@@ -1,15 +1,19 @@
+import { lihatPenggunaAction } from '@/actions/instansi/profil/pengguna/lihat'
 import {
   Button,
   CardSeparator,
+  Loader,
   Modal,
   ModalFooterButtons,
-  ReadMore,
   Text,
+  Thumbnail,
   Title,
 } from '@/components/ui'
-import imagePhoto from '@public/images/photo.png'
-import Image from 'next/image'
-import { ReactNode, useEffect, useState } from 'react'
+import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
+import { ReactNode, useState } from 'react'
 import BlokirModal from './blokir'
 
 type DataType = {
@@ -24,88 +28,93 @@ type DataType = {
 }
 
 type LihatModalProps = {
-  showModal?: number
-  setShowModal(show?: number): void
+  id: string | undefined
+  setId(id?: string): void
 }
 
-export default function LihatModal({
-  showModal,
-  setShowModal,
-}: LihatModalProps) {
-  const [data, setData] = useState<DataType>()
-  const [showBlokir, setShowBlokir] = useState(false)
+export default function LihatModal({ id, setId }: LihatModalProps) {
+  const [idBlokir, setIdBlokir] = useState<string>()
 
-  useEffect(() => {
-    setData({
-      nama: 'Annitsa Bestweden',
-      level: 'Pengajar',
-      deskripsi:
-        'Seorang dosen senior di Fakultas Ekonomi dengan keahlian di bidang Ekonomi Makro, Kebijakan Publik, dan Pembangunan Ekonomi. Saya telah menempuh pendidikan di Universitas Harvard, Universitas Indonesia, dan Universitas Gadjah Mada. Dengan lebih dari 12 tahun pengalaman mengajar dan meneliti, saya berkomitmen untuk memberikan pendidikan berkualitas dan berkontribusi dalam penelitian yang bermanfaat bagi masyarakat. Saya aktif menerbitkan artikel ilmiah dan terlibat dalam proyek penelitian kolaboratif',
-      username: 'anbes',
-      kontak: '0812 3456 7890',
-      email: 'halo@anbes.com',
-      website: 'anbes.com',
-      jenisKelamin: 'Perempuan',
-    })
-  }, [showModal])
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['instansi.profil.pengguna.table.lihat', id],
+    queryFn: makeSimpleQueryDataWithId(lihatPenggunaAction, id),
+  })
 
   return (
     <Modal
       title="Detail Pengguna"
-      size="sm"
-      isOpen={!!showModal}
-      onClose={() => setShowModal(undefined)}
+      isLoading={!isLoading && isFetching}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
     >
-      <div className="flex flex-col items-center p-3">
-        <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
-          <Image
-            src={imagePhoto}
-            alt="foto profil"
-            className="object-contain"
-          />
-        </figure>
-        <Title size="1.5xl" weight="semibold">
-          {data?.nama}
-        </Title>
-        <Text size="sm" weight="semibold" variant="dark" className="mb-2">
-          {data?.level || '-'}
-        </Text>
-        <Text size="sm" weight="medium" variant="dark" align="center">
-          <ReadMore truncate={115}>{data?.deskripsi || '-'}</ReadMore>
-        </Text>
-      </div>
+      {isLoading || !id ? (
+        <Loader height={440} />
+      ) : (
+        <>
+          <div className="flex flex-col items-center p-3">
+            <Thumbnail
+              src={data?.foto}
+              size={150}
+              alt="foto profil"
+              avatar={data?.nama}
+              className="shrink-0 mb-2"
+              bordered
+              priority
+            />
+            <Title size="1.5xl" weight="semibold">
+              {data?.nama}
+            </Title>
+            <Text size="sm" weight="semibold" variant="dark" className="mb-2">
+              {data?.jenis_akun?.length ? data?.jenis_akun.join(', ') : '-'}
+            </Text>
+            <SanitizeHTML
+              html={data?.bio || '-'}
+              className="text-sm font-medium text-gray-dark text-center"
+            />
+          </div>
+
+          <CardSeparator />
+
+          <table className="mx-3">
+            <tbody>
+              <DataRow label="Username">{data?.username}</DataRow>
+              <DataRow label="Kontak">{data?.hp || '-'}</DataRow>
+              <DataRow label="Email">{data?.email || '-'}</DataRow>
+              <DataRow label="Website">
+                {data?.situs_web ? (
+                  <Link href={data?.situs_web} target="_blank">
+                    <Button variant="text-colorful" className="h-auto p-0">
+                      {data?.situs_web}
+                    </Button>
+                  </Link>
+                ) : (
+                  '-'
+                )}
+              </DataRow>
+              <DataRow label="Jenis Kelamin">
+                {data?.jenis_kelamin || '-'}
+              </DataRow>
+            </tbody>
+          </table>
+        </>
+      )}
 
       <CardSeparator />
 
-      <table className="mx-3">
-        <tbody>
-          <DataRow label="Username">{data?.username}</DataRow>
-          <DataRow label="Kontak">{data?.kontak || '-'}</DataRow>
-          <DataRow label="Email">{data?.email || '-'}</DataRow>
-          <DataRow label="Website">{data?.website || '-'}</DataRow>
-          <DataRow label="Jenis Kelamin">{data?.jenisKelamin || '-'}</DataRow>
-        </tbody>
-      </table>
-
-      <CardSeparator />
-
-      <ModalFooterButtons
-        cancel="Tutup"
-        onCancel={() => setShowModal(undefined)}
-      >
+      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)}>
         <div className="flex-1">
           <Button
             variant="flat-colorful"
             color="danger"
             className="w-full"
-            onClick={() => setShowBlokir(true)}
+            onClick={() => setIdBlokir(id)}
           >
             Blokir
           </Button>
         </div>
       </ModalFooterButtons>
 
-      <BlokirModal showModal={showBlokir} setShowModal={setShowBlokir} />
+      <BlokirModal id={idBlokir} setId={setIdBlokir} setIdLihat={setId} />
     </Modal>
   )
 }

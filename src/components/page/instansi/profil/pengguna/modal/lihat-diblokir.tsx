@@ -1,16 +1,22 @@
+import { bukaBlokirPenggunaAction } from '@/actions/instansi/profil/pengguna/buka-blokir'
+import { lihatPenggunaAction } from '@/actions/instansi/profil/pengguna/lihat'
 import {
   Button,
   CardSeparator,
   Modal,
   ModalConfirm,
   ModalFooterButtons,
-  ReadMore,
   Text,
   Title,
 } from '@/components/ui'
+import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { handleActionWithToast } from '@/utils/action'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import imagePhoto from '@public/images/photo.png'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
-import { ReactNode, useEffect, useState } from 'react'
+import Link from 'next/link'
+import { ReactNode, useState } from 'react'
 
 type DataType = {
   nama: string
@@ -25,39 +31,44 @@ type DataType = {
 }
 
 type LihatModalProps = {
-  showModal?: number
-  setShowModal(show?: number): void
+  id: string | undefined
+  setId(id?: string): void
 }
 
-export default function LihatDiblokirModal({
-  showModal,
-  setShowModal,
-}: LihatModalProps) {
-  const [data, setData] = useState<DataType>()
-  const [showBukaBlokir, setShowBukaBlokir] = useState(false)
+export default function LihatDiblokirModal({ id, setId }: LihatModalProps) {
+  const queryClient = useQueryClient()
+  const [idBukaBlokir, setIdBukaBlokir] = useState<string>()
 
-  useEffect(() => {
-    setData({
-      nama: 'Annitsa Bestweden',
-      level: 'Pengajar',
-      deskripsi:
-        'Seorang dosen senior di Fakultas Ekonomi dengan keahlian di bidang Ekonomi Makro, Kebijakan Publik, dan Pembangunan Ekonomi. Saya telah menempuh pendidikan di Universitas Harvard, Universitas Indonesia, dan Universitas Gadjah Mada. Dengan lebih dari 12 tahun pengalaman mengajar dan meneliti, saya berkomitmen untuk memberikan pendidikan berkualitas dan berkontribusi dalam penelitian yang bermanfaat bagi masyarakat. Saya aktif menerbitkan artikel ilmiah dan terlibat dalam proyek penelitian kolaboratif',
-      username: 'anbes',
-      kontak: '0812 3456 7890',
-      email: 'halo@anbes.com',
-      website: 'anbes.com',
-      jenisKelamin: 'Perempuan',
-      alasanBlokir:
-        'Akun dicuri dan digunakan oleh pihak lain, ini merupakan contoh alasan blokir',
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['admin.pengguna.table.lihat', id],
+    queryFn: makeSimpleQueryDataWithId(lihatPenggunaAction, id),
+  })
+
+  const handleBukaBlokir = () => {
+    if (!id) return
+
+    handleActionWithToast(bukaBlokirPenggunaAction(id), {
+      loading: 'Memproses...',
+      onSuccess: () => {
+        setId(undefined)
+        setIdBukaBlokir(undefined)
+
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.pengguna.table'],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.pengguna.table-diblokir'],
+        })
+      },
     })
-  }, [showModal])
+  }
 
   return (
     <Modal
       title="Detail Pengguna yang Diblokir"
       size="md"
-      isOpen={!!showModal}
-      onClose={() => setShowModal(undefined)}
+      isOpen={!!id}
+      onClose={() => setId(undefined)}
     >
       <div className="flex flex-col items-center p-3">
         <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
@@ -71,11 +82,12 @@ export default function LihatDiblokirModal({
           {data?.nama}
         </Title>
         <Text size="sm" weight="semibold" variant="dark" className="mb-2">
-          {data?.level || '-'}
+          {data?.jenis_akun?.length ? data?.jenis_akun.join(', ') : '-'}
         </Text>
-        <Text size="sm" weight="medium" variant="dark" align="center">
-          <ReadMore truncate={115}>{data?.deskripsi || '-'}</ReadMore>
-        </Text>
+        <SanitizeHTML
+          html={data?.bio || '-'}
+          className="text-sm font-medium text-gray-dark text-center"
+        />
       </div>
 
       <CardSeparator />
@@ -83,22 +95,31 @@ export default function LihatDiblokirModal({
       <table className="mx-3">
         <tbody>
           <DataRow label="Username">{data?.username}</DataRow>
-          <DataRow label="Kontak">{data?.kontak || '-'}</DataRow>
+          <DataRow label="Kontak">{data?.hp || '-'}</DataRow>
           <DataRow label="Email">{data?.email || '-'}</DataRow>
-          <DataRow label="Website">{data?.website || '-'}</DataRow>
-          <DataRow label="Jenis Kelamin">{data?.jenisKelamin || '-'}</DataRow>
-          <DataRow label="Alasan Diblokir">{data?.alasanBlokir || '-'}</DataRow>
+          <DataRow label="Website">
+            {data?.situs_web ? (
+              <Link href={data?.situs_web} target="_blank">
+                <Button variant="text-colorful" className="h-auto p-0">
+                  {data?.situs_web}
+                </Button>
+              </Link>
+            ) : (
+              '-'
+            )}
+          </DataRow>
+          <DataRow label="Jenis Kelamin">{data?.jenis_kelamin || '-'}</DataRow>
+          <DataRow label="Alasan Diblokir">
+            {data?.keterangan_blokir || '-'}
+          </DataRow>
         </tbody>
       </table>
 
       <CardSeparator />
 
-      <ModalFooterButtons
-        cancel="Tutup"
-        onCancel={() => setShowModal(undefined)}
-      >
+      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)}>
         <div className="flex-1">
-          <Button className="w-full" onClick={() => setShowBukaBlokir(true)}>
+          <Button className="w-full" onClick={() => setIdBukaBlokir(id)}>
             Buka Blokir
           </Button>
         </div>
@@ -108,9 +129,9 @@ export default function LihatDiblokirModal({
         title="Buka Blokir"
         desc="Yakin ingin membuka blokir pengguna ini di instansi anda?"
         confirmColor="primary"
-        isOpen={showBukaBlokir}
-        onConfirm={() => setShowBukaBlokir(false)}
-        onClose={() => setShowBukaBlokir(false)}
+        isOpen={!!idBukaBlokir}
+        onConfirm={handleBukaBlokir}
+        onClose={() => setIdBukaBlokir(undefined)}
         closeOnCancel
       />
     </Modal>

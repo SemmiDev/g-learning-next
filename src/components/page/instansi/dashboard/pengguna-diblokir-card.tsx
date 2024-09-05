@@ -92,7 +92,7 @@ export default function DashboardPenggunaDiblokirCard({
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: any, row: any) => (
+      render: (_: any, row) => (
         <div className="flex justify-center">
           <ActionIconTooltip
             tooltip="Lihat"

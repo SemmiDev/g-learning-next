@@ -1,22 +1,25 @@
 'use client'
 
-import { tablePenggunaAction } from '@/actions/instansi/profil/table-pengguna'
+import { tablePenggunaAction } from '@/actions/instansi/profil/pengguna/table'
 import { ActionIconTooltip, Card, CardSeparator, Title } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
   getSortDirection,
   renderTableCellText,
   renderTableCellTextCenter,
+  TableCellText,
   TableHeaderCell,
 } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
+import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
 import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 
 export default function TablePenggunaAktifCard() {
-  const [showModalLihat, setShowModalLihat] = useState<number>()
+  const [idLihat, setIdLihat] = useState<string>()
 
   const {
     data,
@@ -53,31 +56,40 @@ export default function TablePenggunaAktifCard() {
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
+      dataIndex: 'jenis_akun',
       render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan" align="center" />,
-      dataIndex: 'penyimpanan',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_penyimpanan',
+      render: (value: number, row) => (
+        <TableCellText align="center">
+          {formatBytes(value)}/
+          {formatBytes(fileSizeToKB(row.batas_penyimpanan, 'MB'))}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'jumlahKelas',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_kelas',
+      render: (value: number, row) => (
+        <TableCellText align="center">
+          {angka(value)}/{angka(row.batas_kelas)}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       className: 'action',
       width: 70,
-      render: (_: any, row: any) => (
+      render: (_, row) => (
         <div className="flex justify-center">
           <ActionIconTooltip
             tooltip="Lihat"
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setShowModalLihat(row.id)}
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -113,7 +125,7 @@ export default function TablePenggunaAktifCard() {
         />
       </Card>
 
-      <LihatModal showModal={showModalLihat} setShowModal={setShowModalLihat} />
+      <LihatModal id={idLihat} setId={setIdLihat} />
     </>
   )
 }
