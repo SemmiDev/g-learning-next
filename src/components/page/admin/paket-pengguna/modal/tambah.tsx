@@ -14,7 +14,7 @@ import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
-import { rupiahToNumber } from '@/utils/validations/transform'
+import { inputToNumber } from '@/utils/validations/transform'
 import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -29,7 +29,7 @@ const formSchema = z.object({
   harga: z
     .string()
     .pipe(required)
-    .transform(rupiahToNumber)
+    .transform(inputToNumber)
     .pipe(z.coerce.number()),
 })
 

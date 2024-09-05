@@ -40,7 +40,7 @@ const formSchema = z.object({
   // tesNumber: z.string().pipe(required),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
-  tesAsyncSelect: z.any().superRefine(objectRequired),
+  // tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
   // tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
@@ -55,7 +55,7 @@ type FormSchema = {
   // tesNumber?: number | string
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
-  tesAsyncSelect?: SelectOptionType
+  // tesAsyncSelect?: SelectOptionType
   // tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesDate?: Date
@@ -63,9 +63,7 @@ type FormSchema = {
   // tesSwitch: boolean
 }
 
-const initialValues: FormSchema = {
-  // tesSwitch: false,
-}
+const initialValues: FormSchema = {}
 
 export default function Tes2Page() {
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
@@ -120,7 +118,7 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           /> */}
-          <ControlledAsyncPaginateSelect
+          {/* <ControlledAsyncPaginateSelect
             name="tesAsyncSelect"
             control={control}
             label="Async Paginate Select"
@@ -132,7 +130,7 @@ export default function Tes2Page() {
             })}
             errors={errors}
             isClearable
-          />
+          /> */}
           {/* <Controller
             control={control}
             name="tesAsyncSelect"
