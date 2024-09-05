@@ -77,7 +77,7 @@ export default function DiskusiDetailUjianPage() {
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
-      render: (_: string, __: any, idx: number) => (
+      render: (_: string, __, idx: number) => (
         <Text size="sm" weight="medium" variant="dark" className="text-center">
           {idx + 1}
         </Text>

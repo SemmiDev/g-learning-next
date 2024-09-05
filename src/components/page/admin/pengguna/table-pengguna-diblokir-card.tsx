@@ -87,14 +87,14 @@ export default function TablePenggunaDiblokirCard() {
     {
       title: <TableHeaderCell title="Keterangan" align="center" />,
       dataIndex: 'keterangan_blokir',
-      render: (value: any) => (
+      render: (value: string) => (
         <TableCellText align="center">{value || '-'}</TableCellText>
       ),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       width: 70,
-      render: (_: any, row) => (
+      render: (_, row) => (
         <div className="flex justify-center">
           <ActionIconTooltip
             tooltip="Lihat"

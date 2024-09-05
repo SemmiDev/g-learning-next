@@ -87,7 +87,7 @@ export default function ProfilRiwayatPembayaranBody() {
     {
       title: <TableHeaderCell title="Invoice" align="center" />,
       width: 70,
-      render: (_: any, row) => (
+      render: (_, row) => (
         <div className="flex justify-center">
           <ActionIconTooltip
             tooltip="Unduh"

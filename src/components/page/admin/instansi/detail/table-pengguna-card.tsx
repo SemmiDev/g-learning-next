@@ -85,7 +85,7 @@ export default function TablePenggunaCard() {
       title: <TableHeaderCell title="Aksi" align="center" />,
       className: 'action',
       width: 60,
-      render: (_: any, row) => (
+      render: (_, row) => (
         <div className="flex justify-center">
           <ActionIconTooltip
             tooltip="Lihat"

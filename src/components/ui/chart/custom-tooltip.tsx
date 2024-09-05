@@ -2,6 +2,7 @@ import { addSpacesToCamelCase } from '@/utils/add-spaces-to-camel-case'
 import cn from '@/utils/class-names'
 import { formatNumberShort } from '@/utils/format-number'
 import { angka } from '@/utils/text'
+import { ReactNode } from 'react'
 import { TooltipProps } from 'recharts'
 import {
   NameType,
@@ -18,7 +19,7 @@ export interface CustomTooltipProps extends TooltipProps<ValueType, NameType> {
   prefix?: string
   suffix?: string
   className?: string
-  format?: 'short' | 'separator' | ((value: any) => any)
+  format?: 'short' | 'separator' | ((value: any) => ReactNode)
 }
 
 export function CustomTooltip({

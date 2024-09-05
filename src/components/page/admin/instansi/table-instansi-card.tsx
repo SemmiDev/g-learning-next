@@ -128,7 +128,7 @@ export default function TableInstansiCard() {
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       className: 'action',
-      render: (_: any, row) => (
+      render: (_, row) => (
         <div className="flex justify-center">
           <Link href={`${routes.admin.listInstansi}/detail/${row.id}`}>
             <ActionIconTooltip
