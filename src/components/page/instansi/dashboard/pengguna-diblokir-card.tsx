@@ -27,6 +27,7 @@ export default function DashboardPenggunaDiblokirCard({
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -133,8 +134,8 @@ export default function DashboardPenggunaDiblokirCard({
           className: 'p-2',
         }}
         paginatorOptions={{
-          pageSize: 5,
           current: page,
+          pageSize: perPage,
           total: totalData,
           onChange: (page) => onPageChange(page),
           paginatorClassName: 'p-2',

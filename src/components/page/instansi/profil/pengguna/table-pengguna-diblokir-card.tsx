@@ -27,6 +27,7 @@ export default function TablePenggunaDiblokirCard() {
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -124,8 +125,8 @@ export default function TablePenggunaDiblokirCard() {
             onSearchChange: (e) => onSearch(e.target.value),
           }}
           paginatorOptions={{
-            pageSize: 5,
             current: page,
+            pageSize: perPage,
             total: totalData,
             onChange: (page) => onPageChange(page),
           }}

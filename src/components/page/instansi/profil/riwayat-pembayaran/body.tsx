@@ -1,6 +1,6 @@
 'use client'
 
-import { tableRiwayatPembayaranAction } from '@/actions/instansi/profil/table-riwayat-pembayaran'
+import { tableRiwayatPembayaranAction } from '@/actions/instansi/profil/riwayat-pembayaran/table'
 import { ActionIconTooltip, Card, TableHeaderCell, Time } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
@@ -19,6 +19,7 @@ export default function ProfilRiwayatPembayaranBody() {
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -36,11 +37,10 @@ export default function ProfilRiwayatPembayaranBody() {
         <TableHeaderCell
           title="Tanggal"
           sortable
-          sort={getSortDirection(sort, 'tanggal')}
+          sort={getSortDirection(sort, 'tanggal_pembayaran')}
         />
       ),
-      dataIndex: 'tanggal',
-      key: 'tanggal',
+      dataIndex: 'tanggal_pembayaran',
       render: (value: string) => (
         <TableCellText>
           <Time date={value} />
@@ -48,40 +48,37 @@ export default function ProfilRiwayatPembayaranBody() {
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('tanggal')
+          onSort('tanggal_pembayaran')
         },
       }),
     },
     {
       title: <TableHeaderCell title="Jenis Paket" align="center" />,
-      dataIndex: 'jenis',
-      key: 'jenis',
+      dataIndex: 'nama_paket',
       render: renderTableCellTextCenter,
     },
     {
       title: (
         <TableHeaderCell
-          title="Biaya (Rp)"
+          title="Biaya"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'biaya')}
+          sort={getSortDirection(sort, 'nominal')}
         />
       ),
-      dataIndex: 'biaya',
-      key: 'biaya',
+      dataIndex: 'nominal',
       render: (value: number) => (
         <TableCellText align="center">{angka(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('biaya')
+          onSort('nominal')
         },
       }),
     },
     {
       title: <TableHeaderCell title="No. Invoice" align="center" />,
-      dataIndex: 'invoice',
-      key: 'invoice',
+      dataIndex: 'nomor_invoice',
       render: renderTableCellTextCenter,
     },
     {
@@ -116,8 +113,8 @@ export default function ProfilRiwayatPembayaranBody() {
           onSearchChange: (e) => onSearch(e.target.value),
         }}
         paginatorOptions={{
-          pageSize: 5,
           current: page,
+          pageSize: perPage,
           total: totalData,
           onChange: (page) => onPageChange(page),
         }}

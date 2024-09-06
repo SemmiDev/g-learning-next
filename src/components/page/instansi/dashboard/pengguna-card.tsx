@@ -25,6 +25,7 @@ export default function DashboardPenggunaCard({
     isLoading,
     isFetching,
     page,
+    perPage,
     onPageChange,
     totalData,
     sort,
@@ -115,8 +116,8 @@ export default function DashboardPenggunaCard({
           className: 'p-2',
         }}
         paginatorOptions={{
-          pageSize: 5,
           current: page,
+          pageSize: perPage,
           total: totalData,
           onChange: (page) => onPageChange(page),
           paginatorClassName: 'p-2',
