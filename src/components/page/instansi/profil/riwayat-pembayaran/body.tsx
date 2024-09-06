@@ -9,7 +9,7 @@ import {
   TableCellText,
 } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { angka } from '@/utils/text'
+import { rupiah } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
 import { LuDownload } from 'react-icons/lu'
 
@@ -68,7 +68,7 @@ export default function ProfilRiwayatPembayaranBody() {
       ),
       dataIndex: 'nominal',
       render: (value: number) => (
-        <TableCellText align="center">{angka(value)}</TableCellText>
+        <TableCellText align="center">{rupiah(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {
