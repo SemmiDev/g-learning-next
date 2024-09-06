@@ -9,18 +9,17 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { tesAsyncAction } from './actions'
 import FilterElement from './filter-element'
 
 export default function Tes3Table() {
-  const [pageSize, setPageSize] = useState(5)
-
   const {
     data,
     isLoading,
     isFetching,
     page,
+    perPage,
+    setPerPage,
     onPageChange,
     totalData,
     sort,
@@ -103,9 +102,9 @@ export default function Tes3Table() {
           />
         }
         paginatorOptions={{
-          pageSize,
-          setPageSize,
           current: page,
+          pageSize: perPage,
+          setPageSize: setPerPage,
           total: totalData,
           onChange: (page) => onPageChange(page),
           paginatorClassName: 'px-0',

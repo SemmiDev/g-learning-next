@@ -22,6 +22,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   action,
   actionParams,
   initialFilterState,
+  initialPerPage = DEFAULT_DATA_PER_PAGE,
 }: {
   queryKey: QueryKey
   action: (
@@ -29,8 +30,9 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   ) => Promise<ControlledAsyncTableActionType<T>>
   actionParams?: AnyObject
   initialFilterState?: Partial<Record<string, any>>
+  initialPerPage?: number
 }) {
-  const [perPage, setPerPage] = useState(DEFAULT_DATA_PER_PAGE)
+  const [perPage, setPerPage] = useState(initialPerPage)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<Record<string, any>>(
@@ -54,6 +56,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
         sort,
         filters,
         params: actionParams,
+        perPage,
       })
 
       if (!success) {
@@ -165,7 +168,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
    */
   useEffect(() => {
     refetch()
-  }, [refetch, sort, page])
+  }, [refetch, sort, page, perPage])
 
   // useTable returns
   return {
@@ -175,9 +178,10 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
     refetch,
     // pagination
     page,
-    perPage,
     onPageChange,
     totalData,
+    perPage,
+    setPerPage,
     // sorting
     sort,
     onSort,

@@ -16,13 +16,20 @@ export const tesAsyncAction = async ({
   search = '',
   sort,
   filters,
+  perPage,
 }: ControlledAsyncTableActionProps): Promise<
   ControlledAsyncTableActionType<DataType>
 > => {
   // await wait(3000)
 
-  const data = [...Array(5)].map((v, idx) => {
-    const no = idx + 1 + ''
+  const realPerPage = perPage ?? 5
+
+  const totalData = 100
+  const lastPage = Math.floor(totalData / realPerPage)
+  const startFrom = (page - 1) * realPerPage
+
+  const data = [...Array(realPerPage)].map((v, idx) => {
+    const no = startFrom + idx + 1 + ''
 
     return {
       id: no,
@@ -36,12 +43,10 @@ export const tesAsyncAction = async ({
     data: {
       list: data,
       pagination: {
-        page: 1,
-        lastPage: 1,
-        perPage: 5,
-        totalData: 10,
-        from: 1,
-        to: 1,
+        page: page,
+        lastPage: lastPage,
+        perPage: realPerPage,
+        totalData: totalData,
       },
     },
   }
