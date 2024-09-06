@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { NumberInput, NumberInputProps } from 'rizzui'
 import Input from './input'
+import { inputToNumber } from '@/utils/validations/transform'
 
 export type InputNumberProps = Omit<
   NumberInputProps,
@@ -28,7 +29,10 @@ export default function InputNumber({
       customInput={customInput}
       thousandSeparator="."
       decimalSeparator=","
-      onChange={onChange}
+      onChange={(e) =>
+        onChange &&
+        onChange(e.target.value ? inputToNumber(e.target.value) : undefined)
+      }
       onBlur={onBlur}
       error={error}
       {...props}

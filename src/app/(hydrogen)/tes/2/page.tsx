@@ -14,7 +14,6 @@ import {
   ControlledTextarea,
   ControlledUploadFile,
   Form,
-  InputNumber,
   Materi,
   MateriItemType,
   PustakaMediaFileType,
@@ -40,7 +39,7 @@ const options: SelectOptionType[] = [
 const formSchema = z.object({
   // tesInput: z.string().pipe(required),
   // tesTextarea: z.string().pipe(required),
-  tesNumber: z.string().pipe(required),
+  tesNumber: z.number(),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
@@ -55,7 +54,7 @@ const formSchema = z.object({
 type FormSchema = {
   // tesInput?: string
   // tesTextarea?: string
-  tesNumber?: number | string
+  tesNumber?: number
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
@@ -107,7 +106,6 @@ export default function Tes2Page() {
             label="Tes Number"
             placeholder="Input disini"
           />
-          <InputNumber />
           {/* <ControlledInputRupiah
             name="tesRupiah"
             control={control}

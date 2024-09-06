@@ -40,7 +40,7 @@ export default function ControlledInputNumber<
             setValue(val)
           }}
           onBlur={onBlur}
-          value={value ?? ''}
+          value={value}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />
