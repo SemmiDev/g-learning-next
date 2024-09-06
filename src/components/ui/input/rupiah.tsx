@@ -1,11 +1,13 @@
 import Input from './input'
-import InputNumber, { InputNumberProps } from './number'
+import InputNumberSeparator, {
+  InputNumberSeparatorProps,
+} from './number-separator'
 
-export type InputRupiahProps = InputNumberProps
+export type InputRupiahProps = InputNumberSeparatorProps
 
 export default function InputRupiah({ ...props }: InputRupiahProps) {
   return (
-    <InputNumber
+    <InputNumberSeparator
       customInput={CustomRupiahInput as React.ComponentType<unknown>}
       {...props}
     />

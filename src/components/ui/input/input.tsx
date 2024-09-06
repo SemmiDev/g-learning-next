@@ -7,17 +7,19 @@ export type InputProps = RizInputProps & {
 }
 
 export default function Input({
+  type,
   label,
   required,
   labelClassName,
   inputClassName,
   onFocus,
-  phoneNumber,
   onKeyDown,
+  phoneNumber,
   ...props
 }: InputProps) {
   return (
     <RizInput
+      type={type}
       label={<Label label={label} required={required} />}
       labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
       inputClassName={cn('[&_input::placeholder]:opacity-80', inputClassName)}
@@ -25,7 +27,7 @@ export default function Input({
       onFocus={(e) => {
         onFocus && onFocus(e)
 
-        if (props.type === 'number') {
+        if (type === 'number') {
           e.target.addEventListener('wheel', (e) => e.preventDefault(), {
             passive: false,
           })
@@ -33,7 +35,7 @@ export default function Input({
       }}
       // disable arrowup and arrowdown (step for type number), comma and point if phoneNumber
       onKeyDown={
-        props.type === 'number' && phoneNumber
+        type === 'number' && phoneNumber
           ? (e) => {
               if (['ArrowUp', 'ArrowDown', ',', '.'].includes(e.key)) {
                 e.preventDefault()

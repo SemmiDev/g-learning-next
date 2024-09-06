@@ -28,6 +28,9 @@ import ControlledInput, { ControlledInputProps } from './controlled/input'
 import ControlledInputNumber, {
   ControlledInputNumberProps,
 } from './controlled/input-number'
+import ControlledInputNumberSeparator, {
+  ControlledInputNumberSeparatorProps,
+} from './controlled/input-number-separator'
 import ControlledInputRupiah, {
   ControlledInputRupiahProps,
 } from './controlled/input-rupiah'
@@ -63,6 +66,9 @@ import { Form } from './form'
 import FormError, { FormErrorProps } from './form-error'
 import Input, { InputProps } from './input/input'
 import InputNumber, { InputNumberProps } from './input/number'
+import InputNumberSeparator, {
+  InputNumberSeparatorProps,
+} from './input/number-separator'
 import InputRupiah, { InputRupiahProps } from './input/rupiah'
 import Label from './label'
 import Loader, { LoaderProps } from './loader'
@@ -115,6 +121,7 @@ export {
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
+  ControlledInputNumberSeparator,
   ControlledInputRupiah,
   ControlledKelas,
   ControlledMateri,
@@ -135,6 +142,7 @@ export {
   FormError,
   Input,
   InputNumber,
+  InputNumberSeparator,
   InputRupiah,
   Kelas,
   Label,
@@ -182,6 +190,7 @@ export {
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,
   type ControlledInputNumberProps,
+  type ControlledInputNumberSeparatorProps,
   type ControlledInputProps,
   type ControlledInputRupiahProps,
   type ControlledKelasProps,
@@ -200,6 +209,7 @@ export {
   type FileListItemType,
   type FormErrorProps,
   type InputNumberProps,
+  type InputNumberSeparatorProps,
   type InputProps,
   type InputRupiahProps,
   type KelasItemType,

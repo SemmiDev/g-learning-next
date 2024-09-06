@@ -7,19 +7,21 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import InputNumber, { InputNumberProps } from '../input/number'
+import InputNumberSeparator, {
+  InputNumberSeparatorProps,
+} from '../input/number-separator'
 
-export type ControlledInputNumberProps<
+export type ControlledInputNumberSeparatorProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Omit<InputNumberProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<InputNumberSeparatorProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledInputNumber<
+export default function ControlledInputNumberSeparator<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -28,19 +30,19 @@ export default function ControlledInputNumber<
   errors,
   onChange,
   ...props
-}: ControlledInputNumberProps<TFieldValues, TName>) {
+}: ControlledInputNumberSeparatorProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <InputNumber
+        <InputNumberSeparator
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)
           }}
           onBlur={onBlur}
-          value={value ?? ''}
+          value={value}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />

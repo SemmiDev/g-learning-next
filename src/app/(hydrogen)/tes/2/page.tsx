@@ -6,6 +6,7 @@ import {
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
+  ControlledInputNumberSeparator,
   ControlledInputRupiah,
   ControlledMateri,
   ControlledPustakaMedia,
@@ -37,8 +38,10 @@ const options: SelectOptionType[] = [
 ]
 
 const formSchema = z.object({
-  // tesInput: z.string().pipe(required),
+  tesInput: z.string().pipe(required),
   // tesTextarea: z.string().pipe(required),
+  tesInputNumber: z.number(),
+  tesInputPhone: z.string().pipe(required),
   tesNumber: z.number(),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
@@ -52,8 +55,10 @@ const formSchema = z.object({
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  // tesInput?: string
+  tesInput?: string
   // tesTextarea?: string
+  tesInputNumber?: number
+  tesInputPhone?: string
   tesNumber?: number
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
@@ -84,13 +89,13 @@ export default function Tes2Page() {
       {({ control, formState: { errors, isSubmitting } }) => (
         <div className="space-y-4">
           <div>{JSON.stringify(errors)}</div>
-          {/* <ControlledInput
+          <ControlledInput
             name="tesInput"
             control={control}
             label="Input"
             placeholder="Input disini"
             errors={errors}
-          /> */}
+          />
           {/* <ControlledTextarea
             name="tesTextarea"
             control={control}
@@ -100,6 +105,22 @@ export default function Tes2Page() {
             required
           /> */}
           <ControlledInputNumber
+            name="tesInputNumber"
+            control={control}
+            label="Input Number"
+            placeholder="Input disini"
+            errors={errors}
+          />
+          <ControlledInput
+            name="tesInputPhone"
+            control={control}
+            type="number"
+            label="Input Phone"
+            placeholder="Input disini"
+            errors={errors}
+            phoneNumber
+          />
+          <ControlledInputNumberSeparator
             name="tesNumber"
             control={control}
             errors={errors}

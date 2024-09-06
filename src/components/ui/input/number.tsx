@@ -1,40 +1,35 @@
-import { ReactNode } from 'react'
-import { NumberInput, NumberInputProps } from 'rizzui'
-import Input from './input'
-import { inputToNumber } from '@/utils/validations/transform'
+import cn from '@/utils/class-names'
+import Label from '../label'
+import Input, { InputProps } from './input'
 
 export type InputNumberProps = Omit<
-  NumberInputProps,
-  'formatType' | 'onChange'
+  InputProps,
+  'type' | 'onChange' | 'phoneNumber'
 > & {
-  label?: ReactNode
-  onChange?(value: any): void
-  error?: string
+  onChange?(value?: number): void
 }
 
 export default function InputNumber({
   label,
+  required,
+  labelClassName,
+  inputClassName,
   onChange,
-  onBlur,
-  error,
-  customInput = Input as React.ComponentType<unknown>,
+  onFocus,
+  onKeyDown,
   ...props
 }: InputNumberProps) {
   return (
-    <NumberInput
-      // @ts-ignore
-      label={label}
-      formatType={'numeric'}
-      displayType="input"
-      customInput={customInput}
-      thousandSeparator="."
-      decimalSeparator=","
-      onChange={(e) =>
+    <Input
+      type="number"
+      label={<Label label={label} required={required} />}
+      labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
+      inputClassName={cn('[&_input::placeholder]:opacity-80', inputClassName)}
+      placeholder=" "
+      onChange={(e) => {
         onChange &&
-        onChange(e.target.value ? inputToNumber(e.target.value) : undefined)
-      }
-      onBlur={onBlur}
-      error={error}
+          onChange(e.target.value ? parseFloat(e.target.value) : undefined)
+      }}
       {...props}
     />
   )
