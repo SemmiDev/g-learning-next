@@ -9,6 +9,7 @@ import {
   ModalFooterButtons,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import { parseDate } from '@/utils/date'
 import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -37,7 +38,7 @@ export default function UbahJatuhTempoModal({
   const { id, jatuh_tempo } = jatuhTempo ?? {}
 
   const initialValues = {
-    jatuhTempo: jatuh_tempo ? new Date(Date.parse(jatuh_tempo)) : undefined,
+    jatuhTempo: parseDate(jatuh_tempo),
   }
 
   const onSubmit: SubmitHandler<UbahJatuhTempoFormSchema> = async (data) => {
@@ -63,7 +64,6 @@ export default function UbahJatuhTempoModal({
       color="warning"
       isOpen={!!id}
       onClose={() => setJatuhTempo(undefined)}
-      className="[&>div]:justify-start [&>div]:pt-20 [&_.rizzui-modal-overlay~div]:overflow-visible"
     >
       <Form<UbahJatuhTempoFormSchema>
         onSubmit={onSubmit}

@@ -83,7 +83,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      {isLoading ? (
+      {isLoading || !showModal ? (
         <Loader height={547} />
       ) : (
         <Form<UbahProfilFormSchema>

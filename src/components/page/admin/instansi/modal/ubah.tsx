@@ -1,6 +1,6 @@
+import { paketInstansiSelectDataAction } from '@/actions/admin/async-select/paket-instansi'
 import { lihatInstansiAction } from '@/actions/admin/instansi/lihat'
 import { ubahInstansiAction } from '@/actions/admin/instansi/ubah'
-import { paketInstansiSelectDataAction } from '@/actions/async-select/paket-instansi'
 import {
   CardSeparator,
   ControlledAsyncPaginateSelect,
@@ -17,6 +17,7 @@ import {
   TextSpan,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import { parseDate } from '@/utils/date'
 import { selectOption } from '@/utils/object'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -88,9 +89,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
               label: data?.paket_instansi?.nama ?? '',
             }
           : undefined,
-        jatuhTempo: data?.instansi?.jatuh_tempo
-          ? new Date(Date.parse(data?.instansi?.jatuh_tempo))
-          : undefined,
+        jatuhTempo: parseDate(data?.instansi?.jatuh_tempo),
         usernameAdmin: data?.pengguna?.username,
       }
     },

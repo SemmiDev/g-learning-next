@@ -36,7 +36,7 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
       isOpen={!!id}
       onClose={() => setId(undefined)}
     >
-      {isLoading ? (
+      {isLoading || !id ? (
         <Loader height={336} />
       ) : (
         <div className="flex flex-col gap-4 p-3">

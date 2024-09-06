@@ -48,6 +48,7 @@ export const adminRoutes = {
   listPengguna: '/admin/pengguna',
   paketInstansi: '/admin/paket-instansi',
   paketPengguna: '/admin/paket-pengguna',
+  pembayaranInstansi: '/admin/pembayaran-instansi',
   manajemenAdmin: '/admin/manajemen-admin',
 }
 

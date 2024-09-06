@@ -1,5 +1,5 @@
 import { tambahInstansiAction } from '@/actions/admin/instansi/tambah'
-import { paketInstansiSelectDataAction } from '@/actions/async-select/paket-instansi'
+import { paketInstansiSelectDataAction } from '@/actions/admin/async-select/paket-instansi'
 import {
   CardSeparator,
   ControlledAsyncPaginateSelect,

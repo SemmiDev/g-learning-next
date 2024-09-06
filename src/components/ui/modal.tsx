@@ -15,6 +15,7 @@ export type ModalProps = Omit<RizModalProps, 'onClose'> &
     headerIcon?: ModalHeaderProps['icon']
     headerCustomIcon?: ModalHeaderProps['customIcon']
     bodyClassName?: string
+    overflow?: boolean
   }
 
 export default function Modal({
@@ -29,6 +30,8 @@ export default function Modal({
   containerClassName,
   headerClassName,
   bodyClassName,
+  className,
+  overflow,
   closeButton = true,
   onClose,
   ...props
@@ -38,6 +41,13 @@ export default function Modal({
       overlayClassName={cn('cursor-auto', overlayClassName)}
       containerClassName={cn('overflow-clip', containerClassName)}
       onClose={onClose ?? (() => null)}
+      className={cn(
+        {
+          '[&>div]:justify-start [&>div]:pt-20 [&_.rizzui-modal-overlay~div]:overflow-visible':
+            overflow,
+        },
+        className
+      )}
       {...props}
     >
       {title && (
