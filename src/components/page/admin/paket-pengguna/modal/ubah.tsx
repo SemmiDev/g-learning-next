@@ -3,6 +3,7 @@ import { ubahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/ubah'
 import {
   CardSeparator,
   ControlledInput,
+  ControlledInputNumber,
   ControlledInputRupiah,
   ControlledSelect,
   Form,
@@ -17,7 +18,6 @@ import { FILE_SIZE_UNIT_SCALE } from '@/utils/bytes'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
-import { inputToNumber } from '@/utils/validations/transform'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -49,24 +49,20 @@ const getSize = (
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
-  totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
+  totalPenyimpanan: z.number(),
   totalPenyimpananUnit: z.any().superRefine(objectRequired),
-  limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
-  limitAnggotaKelas: z.string().pipe(required).pipe(z.coerce.number()),
-  harga: z
-    .string()
-    .pipe(required)
-    .transform(inputToNumber)
-    .pipe(z.coerce.number()),
+  limitKelas: z.number(),
+  limitAnggotaKelas: z.number(),
+  harga: z.number(),
 })
 
 export type UbahPaketPenggunaFormSchema = {
   nama?: string
-  totalPenyimpanan?: number | string
+  totalPenyimpanan?: number
   totalPenyimpananUnit?: SelectOptionType
-  limitKelas?: number | string
-  limitAnggotaKelas?: number | string
-  harga?: number | string
+  limitKelas?: number
+  limitAnggotaKelas?: number
+  harga?: number
 }
 
 const sizeUnitOptions: SelectOptionType[] = [
@@ -99,11 +95,11 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
 
       return {
         nama: data?.nama,
-        totalPenyimpanan: size + '',
+        totalPenyimpanan: size,
         totalPenyimpananUnit: selectOption(unit),
-        limitKelas: data?.batas_kelas + '',
-        limitAnggotaKelas: data?.batas_anggota_kelas + '',
-        harga: data?.harga + '',
+        limitKelas: data?.batas_kelas,
+        limitAnggotaKelas: data?.batas_anggota_kelas,
+        harga: data?.harga,
       }
     },
   })
@@ -157,11 +153,10 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                 />
 
                 <div className="flex">
-                  <ControlledInput
+                  <ControlledInputNumber
                     name="totalPenyimpanan"
                     control={control}
                     errors={errors}
-                    type="number"
                     min={0}
                     label="Total Penyimpanan"
                     placeholder="Total Penyimpanan"
@@ -180,11 +175,10 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   />
                 </div>
 
-                <ControlledInput
+                <ControlledInputNumber
                   name="limitKelas"
                   control={control}
                   errors={errors}
-                  type="number"
                   min={0}
                   label="Limit Kelas"
                   placeholder="Jumlah maksimal kelas yang bisa dibuka"
@@ -192,11 +186,10 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   required
                 />
 
-                <ControlledInput
+                <ControlledInputNumber
                   name="limitAnggotaKelas"
                   control={control}
                   errors={errors}
-                  type="number"
                   min={0}
                   label="Limit Anggota Kelas"
                   placeholder="Jumlah maksimal anggota kelas"
@@ -208,6 +201,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                   name="harga"
                   control={control}
                   errors={errors}
+                  min={0}
                   label="Harga/bulan"
                   placeholder="Harga paket"
                   required

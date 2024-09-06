@@ -2,6 +2,7 @@ import { tambahPaketInstansiAction } from '@/actions/admin/paket-instansi/tambah
 import {
   CardSeparator,
   ControlledInput,
+  ControlledInputNumber,
   ControlledInputRupiah,
   ControlledSelect,
   Form,
@@ -14,7 +15,6 @@ import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
-import { inputToNumber } from '@/utils/validations/transform'
 import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -22,34 +22,30 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
-  totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
+  totalPenyimpanan: z.number(),
   totalPenyimpananUnit: z.any().superRefine(objectRequired),
-  penyimpananPengajar: z.string().pipe(required).pipe(z.coerce.number()),
+  penyimpananPengajar: z.number(),
   penyimpananPengajarUnit: z.any().superRefine(objectRequired),
-  penyimpananPeserta: z.string().pipe(required).pipe(z.coerce.number()),
+  penyimpananPeserta: z.number(),
   penyimpananPesertaUnit: z.any().superRefine(objectRequired),
-  limitUser: z.string().pipe(required).pipe(z.coerce.number()),
-  limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
-  limitKelasPengajar: z.string().pipe(required).pipe(z.coerce.number()),
-  harga: z
-    .string()
-    .pipe(required)
-    .transform(inputToNumber)
-    .pipe(z.coerce.number()),
+  limitUser: z.number(),
+  limitKelas: z.number(),
+  limitKelasPengajar: z.number(),
+  harga: z.number(),
 })
 
 export type TambahPaketInstansiFormSchema = {
   nama?: string
-  totalPenyimpanan?: number | string
+  totalPenyimpanan?: number
   totalPenyimpananUnit?: SelectOptionType
-  penyimpananPengajar?: number | string
+  penyimpananPengajar?: number
   penyimpananPengajarUnit?: SelectOptionType
-  penyimpananPeserta?: number | string
+  penyimpananPeserta?: number
   penyimpananPesertaUnit?: SelectOptionType
-  limitUser?: number | string
-  limitKelas?: number | string
-  limitKelasPengajar?: number | string
-  harga?: number | string
+  limitUser?: number
+  limitKelas?: number
+  limitKelasPengajar?: number
+  harga?: number
 }
 
 const sizeUnitOptions: SelectOptionType[] = [
@@ -117,11 +113,10 @@ export default function TambahModal({
               />
 
               <div className="flex">
-                <ControlledInput
+                <ControlledInputNumber
                   name="totalPenyimpanan"
                   control={control}
                   errors={errors}
-                  type="number"
                   min={0}
                   label="Total Penyimpanan"
                   placeholder="Total Penyimpanan"
@@ -141,11 +136,10 @@ export default function TambahModal({
               </div>
 
               <div className="flex">
-                <ControlledInput
+                <ControlledInputNumber
                   name="penyimpananPengajar"
                   control={control}
                   errors={errors}
-                  type="number"
                   min={0}
                   label="Limit Penyimpanan Pengajar"
                   placeholder="Limit Penyimpanan Pengajar"
@@ -164,11 +158,10 @@ export default function TambahModal({
               </div>
 
               <div className="flex">
-                <ControlledInput
+                <ControlledInputNumber
                   name="penyimpananPeserta"
                   control={control}
                   errors={errors}
-                  type="number"
                   min={0}
                   label="Limit Penyimpanan Peserta"
                   placeholder="Limit Penyimpanan Peserta"
@@ -186,11 +179,10 @@ export default function TambahModal({
                 />
               </div>
 
-              <ControlledInput
+              <ControlledInputNumber
                 name="limitUser"
                 control={control}
                 errors={errors}
-                type="number"
                 min={0}
                 label="Limit User"
                 placeholder="Jumlah maksimal user yang mendaftar"
@@ -198,11 +190,10 @@ export default function TambahModal({
                 required
               />
 
-              <ControlledInput
+              <ControlledInputNumber
                 name="limitKelas"
                 control={control}
                 errors={errors}
-                type="number"
                 min={0}
                 label="Limit Kelas"
                 placeholder="Jumlah maksimal kelas yang bisa dibuka"
@@ -210,11 +201,10 @@ export default function TambahModal({
                 required
               />
 
-              <ControlledInput
+              <ControlledInputNumber
                 name="limitKelasPengajar"
                 control={control}
                 errors={errors}
-                type="number"
                 min={0}
                 label="Limit Kelas/pengajar"
                 placeholder="Jumlah default maksimal kelas yang bisa dibuka oleh pengajar"
@@ -226,6 +216,7 @@ export default function TambahModal({
                 name="harga"
                 control={control}
                 errors={errors}
+                min={0}
                 label="Harga/bulan"
                 placeholder="Harga paket"
                 required

@@ -12,15 +12,15 @@ export const ubahPaketInstansiAction = (
   makeJwtPutRequestAction(`${process.env.API_URL}/admin/paket-instansi/${id}`, {
     nama: data.nama,
     batas_penyimpanan: fileSizeToMB(
-      parseInt(data.totalPenyimpanan + ''),
+      data.totalPenyimpanan || 0,
       mustBe(data.totalPenyimpananUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_penyimpanan_pengajar: fileSizeToMB(
-      parseInt(data.penyimpananPengajar + ''),
+      data.penyimpananPengajar || 0,
       mustBe(data.penyimpananPengajarUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_penyimpanan_peserta: fileSizeToMB(
-      parseInt(data.penyimpananPeserta + ''),
+      data.penyimpananPeserta || 0,
       mustBe(data.penyimpananPesertaUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_pengguna: data.limitUser,

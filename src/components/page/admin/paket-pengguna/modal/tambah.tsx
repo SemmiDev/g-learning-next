@@ -2,6 +2,7 @@ import { tambahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/tambah
 import {
   CardSeparator,
   ControlledInput,
+  ControlledInputNumber,
   ControlledInputRupiah,
   ControlledSelect,
   Form,
@@ -14,7 +15,6 @@ import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
-import { inputToNumber } from '@/utils/validations/transform'
 import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -22,24 +22,20 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
-  totalPenyimpanan: z.string().pipe(required).pipe(z.coerce.number()),
+  totalPenyimpanan: z.number(),
   totalPenyimpananUnit: z.any().superRefine(objectRequired),
-  limitKelas: z.string().pipe(required).pipe(z.coerce.number()),
-  limitAnggotaKelas: z.string().pipe(required).pipe(z.coerce.number()),
-  harga: z
-    .string()
-    .pipe(required)
-    .transform(inputToNumber)
-    .pipe(z.coerce.number()),
+  limitKelas: z.number(),
+  limitAnggotaKelas: z.number(),
+  harga: z.number(),
 })
 
 export type TambahPaketPenggunaFormSchema = {
   nama?: string
-  totalPenyimpanan?: number | string
+  totalPenyimpanan?: number
   totalPenyimpananUnit?: SelectOptionType
-  limitKelas?: number | string
-  limitAnggotaKelas?: number | string
-  harga?: number | string
+  limitKelas?: number
+  limitAnggotaKelas?: number
+  harga?: number
 }
 
 const sizeUnitOptions: SelectOptionType[] = [
@@ -105,11 +101,10 @@ export default function TambahModal({
               />
 
               <div className="flex">
-                <ControlledInput
+                <ControlledInputNumber
                   name="totalPenyimpanan"
                   control={control}
                   errors={errors}
-                  type="number"
                   min={0}
                   label="Total Penyimpanan"
                   placeholder="Total Penyimpanan"
@@ -128,11 +123,10 @@ export default function TambahModal({
                 />
               </div>
 
-              <ControlledInput
+              <ControlledInputNumber
                 name="limitKelas"
                 control={control}
                 errors={errors}
-                type="number"
                 min={0}
                 label="Limit Kelas"
                 placeholder="Jumlah maksimal kelas yang bisa dibuka"
@@ -140,11 +134,10 @@ export default function TambahModal({
                 required
               />
 
-              <ControlledInput
+              <ControlledInputNumber
                 name="limitAnggotaKelas"
                 control={control}
                 errors={errors}
-                type="number"
                 min={0}
                 label="Limit Anggota Kelas"
                 placeholder="Jumlah maksimal anggota kelas"
@@ -156,6 +149,7 @@ export default function TambahModal({
                 name="harga"
                 control={control}
                 errors={errors}
+                min={0}
                 label="Harga/bulan"
                 placeholder="Harga paket"
                 required

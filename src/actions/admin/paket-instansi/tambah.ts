@@ -2,7 +2,7 @@
 
 import { TambahPaketInstansiFormSchema } from '@/components/page/admin/paket-instansi/modal/tambah'
 import { makeJwtPostRequestAction } from '@/utils/action'
-import { FILE_SIZE_UNIT_SCALE, fileSizeToMB } from '@/utils/bytes'
+import { fileSizeToMB } from '@/utils/bytes'
 import { mustBe } from '../../../utils/must-be'
 
 export const tambahPaketInstansiAction = (
@@ -11,15 +11,15 @@ export const tambahPaketInstansiAction = (
   makeJwtPostRequestAction(`${process.env.API_URL}/admin/paket-instansi`, {
     nama: data.nama,
     batas_penyimpanan: fileSizeToMB(
-      parseInt(data.totalPenyimpanan + ''),
+      data.totalPenyimpanan || 0,
       mustBe(data.totalPenyimpananUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_penyimpanan_pengajar: fileSizeToMB(
-      parseInt(data.penyimpananPengajar + ''),
+      data.penyimpananPengajar || 0,
       mustBe(data.penyimpananPengajarUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_penyimpanan_peserta: fileSizeToMB(
-      parseInt(data.penyimpananPeserta + ''),
+      data.penyimpananPeserta || 0,
       mustBe(data.penyimpananPesertaUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_pengguna: data.limitUser,

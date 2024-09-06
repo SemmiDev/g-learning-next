@@ -4,14 +4,13 @@ import { hapusPaketPenggunaAction } from '@/actions/admin/paket-pengguna/hapus'
 import { listPaketPenggunaAction } from '@/actions/admin/paket-pengguna/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { handleActionWithToast } from '@/utils/action'
 import { fileSizeToKB } from '@/utils/bytes'
 import { useMemo, useState } from 'react'
 import TambahModal from './modal/tambah'
 import UbahModal from './modal/ubah'
 import PaketItemCard, { PaketItemType } from './paket-item-card'
-import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 
 const queryKey = ['admin.paket-pengguna.list'] as const
 

@@ -12,7 +12,7 @@ export const ubahPaketPenggunaAction = (
   makeJwtPutRequestAction(`${process.env.API_URL}/paket-pengguna/${id}`, {
     nama: data.nama,
     batas_penyimpanan: fileSizeToMB(
-      parseInt(data.totalPenyimpanan + ''),
+      data.totalPenyimpanan || 0,
       mustBe(data.totalPenyimpananUnit?.value, ['MB', 'GB', 'TB'], 'MB')
     ),
     batas_kelas: data.limitKelas,
