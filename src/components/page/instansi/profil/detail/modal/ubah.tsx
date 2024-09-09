@@ -1,5 +1,5 @@
-import { dataProfilAction } from '@/actions/instansi/profil/data'
-import { ubahProfilAction } from '@/actions/instansi/profil/ubah-data'
+import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
+import { ubahProfilAction } from '@/actions/instansi/profil/detail/ubah-data'
 import {
   CardSeparator,
   ControlledInput,

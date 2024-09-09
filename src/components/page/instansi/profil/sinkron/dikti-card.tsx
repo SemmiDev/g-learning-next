@@ -1,42 +1,93 @@
-'use client'
-
+import { aktifSinkronAction } from '@/actions/instansi/profil/sinkron/aktif'
+import { dataSinkronAction } from '@/actions/instansi/profil/sinkron/data'
+import { ubahSinkronDiktiAction } from '@/actions/instansi/profil/sinkron/tipe-dikti'
 import {
   ControlledInput,
   ControlledPassword,
   Form,
   ModalFooterButtons,
+  Text,
 } from '@/components/ui'
-import { required } from '@/utils/validations/pipe'
+import { handleActionWithToast } from '@/utils/action'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoDikti from '@public/images/logo/dikti.png'
-import { useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
 
+const TIPE = 'Feeder'
+
 const formSchema = z.object({
-  url: z.string().pipe(required.url()),
-  username: z.string().pipe(required),
-  password: z.string().pipe(required),
+  url: z.string().url().optional().or(z.literal('')),
+  username: z.string().optional(),
+  password: z.string().optional(),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type SinkronDiktiFormSchema = {
   url?: string
   username?: string
   password?: string
 }
 
-export default function SinkronDiktiCard({
-  className,
-}: {
-  className?: string
-}) {
-  const [initialValues, setInitialValues] = useState<FormSchema>()
-  const [active, setActive] = useState(false)
+const queryKey = ['instansi.profil.sinkron'] as const
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+type SinkronDiktiCardProps = {
+  className?: string
+}
+
+export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
+  const queryClient = useQueryClient()
+
+  const { data } = useQuery({
+    queryKey: queryKey,
+    queryFn: makeSimpleQueryData(dataSinkronAction),
+  })
+
+  type DataType = NonNullable<typeof data>
+
+  const initialValues = {
+    url: data?.url_ws_feeder,
+    username: data?.username_feeder,
+    password: data?.kata_sandi_feeder,
+  }
+
+  const active = data?.tipe_sinkron === TIPE
+
+  const onSubmit: SubmitHandler<SinkronDiktiFormSchema> = async (data) => {
+    await handleActionWithToast(ubahSinkronDiktiAction(data), {
+      loading: 'Menyimpan...',
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
+
+  const handleActivate = async (val: boolean) => {
+    if (
+      (!val && data?.tipe_sinkron !== TIPE) ||
+      (val && data?.tipe_sinkron === TIPE)
+    ) {
+      return
+    }
+
+    await handleActionWithToast(aktifSinkronAction(val ? TIPE : ''), {
+      success: `${
+        val ? 'Mengaktifkan' : 'Menonaktifkan'
+      } sinkronasi Feeder PDDIKTI.`,
+      onSuccess: () => {
+        queryClient.setQueryData(queryKey, (oldData: DataType) => ({
+          ...oldData,
+          tipe_sinkron: val
+            ? TIPE
+            : oldData.tipe_sinkron === TIPE
+            ? ''
+            : oldData.tipe_sinkron,
+        }))
+      },
+    })
   }
 
   return (
@@ -49,16 +100,17 @@ export default function SinkronDiktiCard({
     >
       <AktifGroupButton
         active={active}
-        onActivate={() => setActive(true)}
-        onDeactivate={() => setActive(false)}
+        onActivate={() => handleActivate(true)}
+        onDeactivate={() => handleActivate(false)}
       />
 
-      <Form<FormSchema>
+      <Form<SinkronDiktiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
           mode: 'onSubmit',
-          defaultValues: initialValues ?? {},
+          defaultValues: initialValues,
+          values: initialValues,
         }}
       >
         {({ control, reset, formState: { errors, isSubmitting } }) => (
@@ -68,6 +120,7 @@ export default function SinkronDiktiCard({
                 name="url"
                 control={control}
                 errors={errors}
+                type="url"
                 label="URL Feeder"
                 placeholder="URL Feeder"
               />
@@ -90,7 +143,7 @@ export default function SinkronDiktiCard({
             </div>
 
             <ModalFooterButtons
-              submit="Sambungkan"
+              submit="Simpan"
               isSubmitting={isSubmitting}
               cancel="Batal"
               onCancel={() => reset()}

@@ -1,6 +1,6 @@
 'use client'
 
-import { dataProfilAction } from '@/actions/instansi/profil/data'
+import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import {
   ActionIconTooltip,
   Button,

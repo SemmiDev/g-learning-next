@@ -1,12 +1,22 @@
-import SinkronDiktiCard from '@/components/page/instansi/profil/sinkron/dikti-card'
-import SinkronSmartCard from '@/components/page/instansi/profil/sinkron/smart-card'
+import { dataSinkronAction } from '@/actions/instansi/profil/sinkron/data'
+import SinkronBody from '@/components/page/instansi/profil/sinkron/body'
+import { makeSimpleQueryData } from '@/utils/query-data'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
 
-export default function SinkronPage() {
+export default async function SinkronPage() {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ['instansi.profil.sinkron'],
+    queryFn: makeSimpleQueryData(dataSinkronAction),
+  })
+
   return (
-    <div className="flex flex-wrap items-start gap-4">
-      <SinkronDiktiCard className="w-full md:flex-1" />
-      <SinkronSmartCard className="w-full md:flex-1" />
-      <div className="hidden flex-1 lg:block"></div>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <SinkronBody />
+    </HydrationBoundary>
   )
 }

@@ -1,4 +1,4 @@
-import { ubahLogoAction } from '@/actions/instansi/profil/ubah-logo'
+import { ubahLogoAction } from '@/actions/instansi/profil/detail/ubah-logo'
 import {
   CardSeparator,
   ControlledUploadFile,

@@ -1,33 +1,86 @@
-'use client'
-
-import { ControlledInput, Form, ModalFooterButtons } from '@/components/ui'
-import { required } from '@/utils/validations/pipe'
+import { aktifSinkronAction } from '@/actions/instansi/profil/sinkron/aktif'
+import { dataSinkronAction } from '@/actions/instansi/profil/sinkron/data'
+import {
+  ControlledInput,
+  Form,
+  ModalFooterButtons,
+  Text,
+} from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoGci from '@public/images/logo/gci.png'
-import { useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
+import { ubahSinkronSmartAction } from '@/actions/instansi/profil/sinkron/tipe-smart'
+
+const TIPE = 'Smart'
 
 const formSchema = z.object({
-  token: z.string().pipe(required),
+  token: z.string().optional(),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type SinkronSmartFormSchema = {
   token?: string
 }
 
-export default function SinkronSmartCard({
-  className,
-}: {
-  className?: string
-}) {
-  const [initialValues, setInitialValues] = useState<FormSchema>()
-  const [active, setActive] = useState(true)
+const queryKey = ['instansi.profil.sinkron'] as const
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+type SinkronSmartCardProps = {
+  className?: string
+}
+
+export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
+  const queryClient = useQueryClient()
+
+  const { data } = useQuery({
+    queryKey: queryKey,
+    queryFn: makeSimpleQueryData(dataSinkronAction),
+  })
+
+  type DataType = NonNullable<typeof data>
+
+  const initialValues = {
+    token: data?.token_smart,
+  }
+
+  const active = data?.tipe_sinkron === TIPE
+
+  const onSubmit: SubmitHandler<SinkronSmartFormSchema> = async (data) => {
+    await handleActionWithToast(ubahSinkronSmartAction(data), {
+      loading: 'Menyimpan...',
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
+
+  const handleActivate = async (val: boolean) => {
+    if (
+      (!val && data?.tipe_sinkron !== TIPE) ||
+      (val && data?.tipe_sinkron === TIPE)
+    ) {
+      return
+    }
+
+    await handleActionWithToast(aktifSinkronAction(val ? TIPE : ''), {
+      success: `${
+        val ? 'Mengaktifkan' : 'Menonaktifkan'
+      } sinkronasi Smart Feeder.`,
+      onSuccess: () => {
+        queryClient.setQueryData(queryKey, (oldData: DataType) => ({
+          ...oldData,
+          tipe_sinkron: val
+            ? TIPE
+            : oldData.tipe_sinkron === TIPE
+            ? ''
+            : oldData.tipe_sinkron,
+        }))
+      },
+    })
   }
 
   return (
@@ -40,16 +93,17 @@ export default function SinkronSmartCard({
     >
       <AktifGroupButton
         active={active}
-        onActivate={() => setActive(true)}
-        onDeactivate={() => setActive(false)}
+        onActivate={() => handleActivate(true)}
+        onDeactivate={() => handleActivate(false)}
       />
 
-      <Form<FormSchema>
+      <Form<SinkronSmartFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
           mode: 'onSubmit',
-          defaultValues: initialValues ?? {},
+          defaultValues: initialValues,
+          values: initialValues,
         }}
       >
         {({ control, reset, formState: { errors, isSubmitting } }) => (
@@ -65,7 +119,7 @@ export default function SinkronSmartCard({
             </div>
 
             <ModalFooterButtons
-              submit="Sambungkan"
+              submit="Simpan"
               isSubmitting={isSubmitting}
               cancel="Batal"
               onCancel={() => reset()}

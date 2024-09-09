@@ -1,4 +1,4 @@
-import { dataProfilAction } from '@/actions/instansi/profil/data'
+import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import HeaderCard from '@/components/page/instansi/profil/header-card'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'

@@ -1,4 +1,4 @@
-import { dataProfilAction } from '@/actions/instansi/profil/data'
+import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import { ActionIcon, Card, Text, Thumbnail, Title } from '@/components/ui'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { angka, rupiah } from '@/utils/text'

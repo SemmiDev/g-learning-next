@@ -1,6 +1,6 @@
 'use client'
 
-import { dataProfilAction } from '@/actions/instansi/profil/data'
+import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import { Card, TabGroup, Thumbnail, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
