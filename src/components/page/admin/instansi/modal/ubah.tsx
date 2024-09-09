@@ -56,8 +56,8 @@ const jenisOptions: SelectOptionType[] = [
 ]
 
 type UbahModalProps = {
-  id?: string
-  setId(id?: string): void
+  id: string | undefined
+  setId: (id?: string) => void
 }
 
 export default function UbahModal({ id, setId }: UbahModalProps) {
@@ -106,6 +106,12 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
         queryClient.invalidateQueries({
           queryKey: ['admin.instansi.table'],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['admin.instansi.table.ubah', id],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['admin.instansi.detail', id],
+        })
       },
       onError: ({ message }) => setFormError(message),
     })
@@ -119,7 +125,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       isOpen={!!id}
       onClose={() => setId(undefined)}
     >
-      {isLoading ? (
+      {isLoading || !id ? (
         <Loader height={336} />
       ) : (
         <Form<UbahInstansiFormSchema>
