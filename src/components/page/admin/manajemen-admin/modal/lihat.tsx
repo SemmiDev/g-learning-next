@@ -40,8 +40,8 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
         <Loader height={336} />
       ) : (
         <div className="flex flex-col gap-4 p-3">
-          <TextBordered label="Nama Lengkap">{data?.nama}</TextBordered>
-          <TextBordered label="Username">{data?.username}</TextBordered>
+          <TextBordered label="Nama Lengkap">{data?.nama || '-'}</TextBordered>
+          <TextBordered label="Username">{data?.username || '-'}</TextBordered>
           <TextBordered label="Nomor Kontak">{data?.hp || '-'}</TextBordered>
           <TextBordered label="Terakhir Login">
             <Time
