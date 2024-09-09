@@ -13,6 +13,8 @@ import { rupiah } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
 import { LuDownload } from 'react-icons/lu'
 
+const queryKey = ['instansi.profil.riwayat-pembayaran.table'] as const
+
 export default function ProfilRiwayatPembayaranBody() {
   const {
     data,
@@ -27,7 +29,7 @@ export default function ProfilRiwayatPembayaranBody() {
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: ['instansi.profil.riwayat-pembayaran.table'],
+    queryKey: queryKey,
     action: tableRiwayatPembayaranAction,
   })
 

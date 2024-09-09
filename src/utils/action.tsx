@@ -8,6 +8,8 @@ import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
 
+const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.'
+
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
   message?: string
@@ -63,7 +65,7 @@ export const makeActionResponse = <T extends AnyObject>(
   data?: T
 ): ActionResponseType<T> => ({
   success: success,
-  message: message ?? (!success ? 'Terjadi kesalahan' : undefined),
+  message: message ?? (!success ? 'Terjadi kesalahan!' : undefined),
   error: error ?? undefined,
   data: data,
 })
@@ -134,7 +136,7 @@ export const makeBasicPostRequestAction = async <T extends AnyObject>(
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
-    return makeActionResponse<T>(false)
+    return makeActionResponse<T>(false, API_UNREACHABLE_MESSAGE)
   }
 }
 
@@ -169,7 +171,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
-    return makeActionResponse<T>(false)
+    return makeActionResponse<T>(false, API_UNREACHABLE_MESSAGE)
   }
 }
 
@@ -228,7 +230,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
 
     return makeActionResponse<T>(success, message, errors, data)
   } catch (error) {
-    return makeActionResponse<T>(false)
+    return makeActionResponse<T>(false, API_UNREACHABLE_MESSAGE)
   }
 }
 

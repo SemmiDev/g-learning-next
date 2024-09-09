@@ -1,4 +1,3 @@
-import { Text } from '@/components/ui'
 import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
@@ -9,7 +8,6 @@ import { QueryKey, useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { useDebounce } from 'react-use'
 
 export type SortType = {
@@ -60,8 +58,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
       })
 
       if (!success) {
-        toast.error(<Text>{message}</Text>)
-
+        console.error(message)
         return []
       }
 
