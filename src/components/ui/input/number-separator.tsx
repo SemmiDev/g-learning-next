@@ -8,7 +8,7 @@ export type InputNumberSeparatorProps = Omit<
   'formatType' | 'onChange'
 > & {
   label?: ReactNode
-  onChange?(value?: number): void
+  onChange?(value: number | null): void
   error?: string
 }
 
@@ -31,7 +31,7 @@ export default function InputNumberSeparator({
       decimalSeparator=","
       onChange={(e) =>
         onChange &&
-        onChange(e.target.value ? inputToNumber(e.target.value) : undefined)
+        onChange(e.target.value ? inputToNumber(e.target.value) : null)
       }
       onBlur={onBlur}
       error={error}

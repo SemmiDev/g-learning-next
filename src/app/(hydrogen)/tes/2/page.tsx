@@ -38,11 +38,11 @@ const options: SelectOptionType[] = [
 ]
 
 const formSchema = z.object({
-  tesInput: z.string().pipe(required),
+  tesInput: z.string().optional(),
   // tesTextarea: z.string().pipe(required),
-  tesInputNumber: z.number(),
-  tesInputPhone: z.string().pipe(required),
-  tesNumber: z.number(),
+  tesInputNumber: z.number().nullish(),
+  tesInputPhone: z.string().optional(),
+  tesNumber: z.number().nullish(),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
@@ -57,9 +57,9 @@ const formSchema = z.object({
 type FormSchema = {
   tesInput?: string
   // tesTextarea?: string
-  tesInputNumber?: number
+  tesInputNumber?: number | null
   tesInputPhone?: string
-  tesNumber?: number
+  tesNumber?: number | null
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
@@ -70,7 +70,10 @@ type FormSchema = {
   // tesSwitch: boolean
 }
 
-const initialValues: FormSchema = {}
+const initialValues: FormSchema = {
+  tesInputNumber: 900,
+  tesNumber: 900,
+}
 
 export default function Tes2Page() {
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {

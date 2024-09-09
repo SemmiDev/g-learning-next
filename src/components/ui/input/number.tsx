@@ -6,7 +6,7 @@ export type InputNumberProps = Omit<
   InputProps,
   'type' | 'onChange' | 'phoneNumber'
 > & {
-  onChange?(value?: number): void
+  onChange?(value: number | null): void
 }
 
 export default function InputNumber({
@@ -27,8 +27,7 @@ export default function InputNumber({
       inputClassName={cn('[&_input::placeholder]:opacity-80', inputClassName)}
       placeholder=" "
       onChange={(e) => {
-        onChange &&
-          onChange(e.target.value ? parseFloat(e.target.value) : undefined)
+        onChange && onChange(e.target.value ? parseFloat(e.target.value) : null)
       }}
       {...props}
     />
