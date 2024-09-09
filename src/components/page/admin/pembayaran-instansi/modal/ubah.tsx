@@ -86,7 +86,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       onClose={() => setId(undefined)}
       overflow
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={336} />
       ) : (
         <Form<UbahPembayaranInstansiFormSchema>
