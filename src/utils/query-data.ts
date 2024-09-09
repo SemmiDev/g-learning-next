@@ -8,9 +8,13 @@ import { ActionResponseType } from './action'
 export const makeSimpleQueryData =
   <T extends AnyObject>(action: () => Promise<ActionResponseType<T>>) =>
   async () => {
-    const { data } = await action()
+    const { data, success, message } = await action()
 
-    return data
+    if (!success) {
+      console.error(message)
+    }
+
+    return data ?? ({} as T)
   }
 
 export const makeSimpleQueryDataWithId =
@@ -21,9 +25,13 @@ export const makeSimpleQueryDataWithId =
   async () => {
     if (!id) return null
 
-    const { data } = await action(id)
+    const { data, success, message } = await action(id)
 
-    return data
+    if (!success) {
+      console.error(message)
+    }
+
+    return data ?? ({} as T)
   }
 
 export const makeAsyncTableQueryData =
@@ -34,7 +42,11 @@ export const makeAsyncTableQueryData =
     actionProps: ControlledAsyncTableActionProps = {}
   ) =>
   async () => {
-    const { data } = await action(actionProps)
+    const { data, success, message } = await action(actionProps)
+
+    if (!success) {
+      console.error(message)
+    }
 
     return data?.list ?? []
   }
