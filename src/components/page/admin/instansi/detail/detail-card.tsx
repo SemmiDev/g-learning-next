@@ -24,8 +24,10 @@ import {
 } from 'react-icons/lu'
 import DetailItem from './detail-item'
 import UbahLogoModal from './modal/ubah-logo'
+import UbahModal from '../modal/ubah'
 
 export default function DetailCard({ className }: { className?: string }) {
+  const [idUbah, setIdUbah] = useState<string | undefined>()
   const [showLogoModal, setShowLogoModal] = useState(false)
 
   const { id }: { id: string } = useParams()
@@ -130,7 +132,7 @@ export default function DetailCard({ className }: { className?: string }) {
           </div>
         </div>
         <div>
-          <ActionIcon size="sm" variant="outline">
+          <ActionIcon size="sm" variant="outline" onClick={() => setIdUbah(id)}>
             <BsGear />
           </ActionIcon>
         </div>
@@ -140,6 +142,8 @@ export default function DetailCard({ className }: { className?: string }) {
         showModal={showLogoModal}
         setShowModal={setShowLogoModal}
       />
+
+      <UbahModal id={idUbah} setId={setIdUbah} />
     </>
   )
 }
