@@ -1,8 +1,15 @@
+import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import { cekKelengkapanProfilAction } from '@/actions/pengguna/dashboard/cek-kelengkapan-profil'
 import DashboardBody from '@/components/page/dashboard'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { makeSimpleQueryData } from '@/utils/query-data'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { authOptions } from '../api/auth/[...nextauth]/options'
@@ -26,10 +33,21 @@ export default async function Home() {
     }
   }
 
+  const queryClient = new QueryClient()
+
+  if (level === 'Instansi') {
+    await queryClient.prefetchQuery({
+      queryKey: ['instansi.profil'],
+      queryFn: makeSimpleQueryData(dataProfilAction),
+    })
+  }
+
   return (
     <>
       <PageHeader title={pageHeader.title} />
-      <DashboardBody />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <DashboardBody />
+      </HydrationBoundary>
     </>
   )
 }
