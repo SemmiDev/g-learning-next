@@ -37,7 +37,7 @@ export default function UjianPage() {
           />
           <Dropdown>
             <Dropdown.Trigger>
-              <Button size="sm" variant="outline">
+              <Button as="span" size="sm" variant="outline">
                 Terbaru <BsChevronDown className="ml-2 w-5" />
               </Button>
             </Dropdown.Trigger>

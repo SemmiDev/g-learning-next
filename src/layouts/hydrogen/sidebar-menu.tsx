@@ -9,6 +9,7 @@ import { Collapse } from 'rizzui'
 import { menuItemsAdmin } from './menu-items/admin'
 import { menuItemsInstansi } from './menu-items/instansi'
 import { menuItemsPengajar } from './menu-items/pengajar'
+import { menuItemsPengguna } from './menu-items/pengguna'
 import { menuItemsPeserta } from './menu-items/peserta'
 import StatusBadge from './status-badge'
 
@@ -37,6 +38,8 @@ export function SidebarMenu() {
       ? menuItemsAdmin
       : level === 'Instansi'
       ? menuItemsInstansi
+      : level === 'Pengguna'
+      ? menuItemsPengguna
       : level === 'Pengajar'
       ? menuItemsPengajar
       : level === 'Peserta'

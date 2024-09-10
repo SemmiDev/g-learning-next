@@ -50,7 +50,7 @@ export default function SoalCard({
         </div>
         <Dropdown placement="bottom-end">
           <Dropdown.Trigger>
-            <ActionIcon size="sm" variant="outline-hover">
+            <ActionIcon as="span" size="sm" variant="outline-hover">
               <BsThreeDotsVertical size={14} />
             </ActionIcon>
           </Dropdown.Trigger>

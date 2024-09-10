@@ -128,7 +128,7 @@ export default function DashboardBody() {
     },
   ]
 
-  const tableKursusColumns = [
+  const tableKursusColumns: ColumnsType<DefaultRecordType> = [
     {
       title: <TableHeaderCell title="Nama Kursus" />,
       dataIndex: 'nama',

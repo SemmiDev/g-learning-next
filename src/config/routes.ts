@@ -39,6 +39,16 @@ export const penggunaRoutes = {
   profile: '/pengguna/profil',
   lengkapiProfil: '/pengguna/lengkapi-profil',
   pemberitahuan: '/pengguna/pemberitahuan',
+  ruangKelas: '/pengguna/ruang-kelas',
+  kelas: '/pengguna/ruang-kelas/kelas',
+  bankMateri: '/pengguna/bank-materi',
+  bankSoal: '/pengguna/bank-soal',
+  ruangKursus: {
+    instruktur: '/pengguna/ruang-kursus/instruktur',
+    peserta: '/pengguna/ruang-kursus/peserta',
+  },
+  transaksi: '/pengguna/transaksi',
+  pustakaMedia: '/pengguna/pustaka-media',
 }
 
 export const adminRoutes = {

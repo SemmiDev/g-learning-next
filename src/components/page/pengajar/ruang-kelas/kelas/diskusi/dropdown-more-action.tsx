@@ -7,7 +7,7 @@ export default function DropdownMoreAction() {
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
-        <Button size="sm" variant="text">
+        <Button as="span" size="sm" variant="text">
           <BsThreeDots size={18} />
         </Button>
       </Dropdown.Trigger>

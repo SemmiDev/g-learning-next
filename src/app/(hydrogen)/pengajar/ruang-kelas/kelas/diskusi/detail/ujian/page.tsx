@@ -255,7 +255,7 @@ export default function DiskusiDetailUjianPage() {
             <div className="flex space-x-2">
               <Dropdown>
                 <Dropdown.Trigger>
-                  <Button size="sm" variant="outline">
+                  <Button as="span" size="sm" variant="outline">
                     Nilai Tertinggi <BsChevronDown className="ml-2 w-5" />
                   </Button>
                 </Dropdown.Trigger>
@@ -280,7 +280,7 @@ export default function DiskusiDetailUjianPage() {
               </Dropdown>
               <Dropdown>
                 <Dropdown.Trigger>
-                  <Button size="sm" variant="outline">
+                  <Button as="span" size="sm" variant="outline">
                     <BiFilterAlt size={16} />
                   </Button>
                 </Dropdown.Trigger>

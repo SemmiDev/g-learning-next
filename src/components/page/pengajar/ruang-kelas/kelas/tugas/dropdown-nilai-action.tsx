@@ -6,7 +6,7 @@ export default function DropdownNilaiAction() {
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
-        <Button size="sm" variant="outline">
+        <Button as="span" size="sm" variant="outline">
           <BsThreeDots size={18} />
         </Button>
       </Dropdown.Trigger>
