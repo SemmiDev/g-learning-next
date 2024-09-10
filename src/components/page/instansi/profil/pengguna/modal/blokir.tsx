@@ -51,6 +51,12 @@ export default function BlokirModal({
         queryClient.invalidateQueries({
           queryKey: ['instansi.profil.pengguna.table-diblokir'],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.dashboard.table-pengguna'],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.dashboard.table-pengguna-diblokir'],
+        })
       },
     })
   }

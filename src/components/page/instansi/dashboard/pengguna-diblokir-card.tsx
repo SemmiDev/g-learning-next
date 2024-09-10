@@ -15,13 +15,17 @@ import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
+import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
+import LihatDiblokirModal from '../profil/pengguna/modal/lihat-diblokir'
 
 export default function DashboardPenggunaDiblokirCard({
   className,
 }: {
   className?: string
 }) {
+  const [idLihat, setIdLihat] = useState<string>()
+
   const {
     data,
     isLoading,
@@ -96,6 +100,7 @@ export default function DashboardPenggunaDiblokirCard({
             size="sm"
             variant="text-colorful"
             color="info"
+            onClick={() => setIdLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -105,39 +110,43 @@ export default function DashboardPenggunaDiblokirCard({
   ]
 
   return (
-    <Card className={cn('p-0', className)}>
-      <Title
-        as="h4"
-        size="1.5xl"
-        weight="semibold"
-        variant="dark"
-        className="m-2"
-      >
-        Pengguna yang Diblokir
-      </Title>
-      <CardSeparator />
-      <ControlledAsyncTable
-        data={data}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        columns={tableColumns}
-        rowKey={(row) => row.id}
-        filterOptions={{
-          searchTerm: search,
-          searchSize: 'sm',
-          onSearchClear: () => onSearch(''),
-          onSearchChange: (e) => onSearch(e.target.value),
-          className: 'p-2',
-        }}
-        paginatorOptions={{
-          current: page,
-          pageSize: perPage,
-          total: totalData,
-          onChange: (page) => onPageChange(page),
-          paginatorClassName: 'p-2',
-        }}
-        className="[&_.rc-table-cell]:px-2 [&_th.rc-table-cell]:py-2 [&_td.rc-table-cell]:py-1"
-      />
-    </Card>
+    <>
+      <Card className={cn('p-0', className)}>
+        <Title
+          as="h4"
+          size="1.5xl"
+          weight="semibold"
+          variant="dark"
+          className="m-2"
+        >
+          Pengguna yang Diblokir
+        </Title>
+        <CardSeparator />
+        <ControlledAsyncTable
+          data={data}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          columns={tableColumns}
+          rowKey={(row) => row.id}
+          filterOptions={{
+            searchTerm: search,
+            searchSize: 'sm',
+            onSearchClear: () => onSearch(''),
+            onSearchChange: (e) => onSearch(e.target.value),
+            className: 'p-2',
+          }}
+          paginatorOptions={{
+            current: page,
+            pageSize: perPage,
+            total: totalData,
+            onChange: (page) => onPageChange(page),
+            paginatorClassName: 'p-2',
+          }}
+          className="[&_.rc-table-cell]:px-2 [&_th.rc-table-cell]:py-2 [&_td.rc-table-cell]:py-1"
+        />
+      </Card>
+
+      <LihatDiblokirModal id={idLihat} setId={setIdLihat} />
+    </>
   )
 }

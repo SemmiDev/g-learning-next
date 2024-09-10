@@ -59,6 +59,12 @@ export default function LihatDiblokirModal({ id, setId }: LihatModalProps) {
         queryClient.invalidateQueries({
           queryKey: ['instansi.profil.pengguna.table-diblokir'],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.dashboard.table-pengguna'],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.dashboard.table-pengguna-diblokir'],
+        })
       },
     })
   }
