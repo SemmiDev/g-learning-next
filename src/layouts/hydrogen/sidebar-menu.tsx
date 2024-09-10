@@ -1,4 +1,3 @@
-import StatusBadge from '@/components/get-status-badge'
 import { Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useSession } from 'next-auth/react'
@@ -11,6 +10,7 @@ import { menuItemsAdmin } from './menu-items/admin'
 import { menuItemsInstansi } from './menu-items/instansi'
 import { menuItemsPengajar } from './menu-items/pengajar'
 import { menuItemsPeserta } from './menu-items/peserta'
+import StatusBadge from './status-badge'
 
 export type MenuDropdownItemType = {
   name: string

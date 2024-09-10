@@ -1,7 +1,7 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { Badge } from './ui'
+import { Badge } from '../../components/ui'
 
 const classes = {
   base: 'text-xs px-2 duration-200 py-0.5 font-normal capitalize border tracking-wider font-lexend bg-opacity-50 dark:bg-opacity-40 dark:text-opacity-90 dark:text-gray-dark dark:backdrop-blur',
