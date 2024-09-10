@@ -5,7 +5,6 @@ import { processData } from '@/utils/process-data'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { angka, rupiah } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { BsGear } from 'react-icons/bs'
 import { LuCalendar, LuCreditCard, LuPackage } from 'react-icons/lu'
@@ -13,8 +12,6 @@ import BackgroundProfil from './background-pattern'
 import ProfilItem from './profil-item'
 
 export default function DashboardProfilCard() {
-  const { data: session } = useSession()
-
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
     queryFn: makeSimpleQueryData(dataProfilAction),
@@ -24,7 +21,7 @@ export default function DashboardProfilCard() {
     <Card className="flex flex-col p-0">
       <div className="relative h-[250px]">
         <BackgroundProfil
-          persistentKey={`${session?.jwt ?? ''}${new Date()
+          persistentKey={`${data?.instansi?.nama}${new Date()
             .toJSON()
             .slice(0, 10)}`}
           className="absolute w-full h-[150px]"
