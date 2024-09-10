@@ -17,10 +17,11 @@ const pageHeader = {
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
+  const level = session?.user?.level
 
-  if (session?.user?.level === 'Pengguna') {
+  if (level === 'Pengguna') {
     const { success, data } = await cekKelengkapanProfilAction()
-    if (success && !data.nik) {
+    if (success && !data?.nik) {
       redirect(routes.pengguna.lengkapiProfil)
     }
   }

@@ -49,7 +49,6 @@ export default function DashboardPenggunaDiblokirCard({
         />
       ),
       dataIndex: 'nama',
-      key: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
@@ -59,8 +58,7 @@ export default function DashboardPenggunaDiblokirCard({
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
-      key: 'jenis',
+      dataIndex: 'jenis_akun',
       render: renderTableCellTextCenter,
     },
     {
@@ -69,11 +67,10 @@ export default function DashboardPenggunaDiblokirCard({
           title="Tanggal/Waktu Blokir"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'waktuBlokir')}
+          sort={getSortDirection(sort, 'tanggal_blokir')}
         />
       ),
-      dataIndex: 'waktuBlokir',
-      key: 'waktuBlokir',
+      dataIndex: 'tanggal_blokir',
       render: (value: string) => (
         <TableCellText align="center">
           <Time date={value} format="datetime" />
@@ -81,14 +78,13 @@ export default function DashboardPenggunaDiblokirCard({
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('waktuBlokir')
+          onSort('tanggal_blokir')
         },
       }),
     },
     {
       title: <TableHeaderCell title="Keterangan" align="center" />,
-      dataIndex: 'keterangan',
-      key: 'keterangan',
+      dataIndex: 'keterangan_blokir',
       render: renderTableCellTextCenter,
     },
     {

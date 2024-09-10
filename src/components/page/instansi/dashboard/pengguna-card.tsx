@@ -9,9 +9,11 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { renderTableCellTextCenter } from '@/components/ui/table'
+import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
+import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
 import { LuEye } from 'react-icons/lu'
 
@@ -47,7 +49,6 @@ export default function DashboardPenggunaCard({
         />
       ),
       dataIndex: 'nama',
-      key: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
@@ -57,21 +58,27 @@ export default function DashboardPenggunaCard({
     },
     {
       title: <TableHeaderCell title="Jenis Akun" align="center" />,
-      dataIndex: 'jenis',
-      key: 'jenis',
+      dataIndex: 'jenis_akun',
       render: renderTableCellTextCenter,
     },
     {
       title: <TableHeaderCell title="Jumlah Kelas" align="center" />,
-      dataIndex: 'jumlahKelas',
-      key: 'jumlahKelas',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_kelas',
+      render: (value: number, row) => (
+        <TableCellText align="center">
+          {angka(value)}/{angka(row.batas_kelas)}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Jumlah Penyimpanan (GB)" align="center" />,
-      dataIndex: 'penyimpanan',
-      key: 'penyimpanan',
-      render: renderTableCellTextCenter,
+      dataIndex: 'jumlah_penyimpanan',
+      render: (value: number, row) => (
+        <TableCellText align="center">
+          {formatBytes(value)}/
+          {formatBytes(fileSizeToKB(row.batas_penyimpanan, 'MB'))}
+        </TableCellText>
+      ),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,

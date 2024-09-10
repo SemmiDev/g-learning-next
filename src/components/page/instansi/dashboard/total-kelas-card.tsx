@@ -1,16 +1,25 @@
+import { totalKelasAction } from '@/actions/instansi/dashboard/total-kelas'
 import { Card, CardSeparator, Text, Title } from '@/components/ui'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { angka } from '@/utils/text'
+import { useQuery } from '@tanstack/react-query'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 
+const COLORS = ['#F1416C', '#DCDCDC']
+
 export default function DashboardTotalKelasCard() {
-  const data = [
-    { name: 'Kuota Tersedia', value: 1000 },
+  const { data } = useQuery({
+    queryKey: ['instansi.dashboard.total-kelas'],
+    queryFn: makeSimpleQueryData(totalKelasAction),
+  })
+
+  const chartData = [
+    { name: 'Kuota Tersedia', value: data?.tersedia ?? 0 },
     {
       name: 'Kuota Digunakan',
-      value: 500,
+      value: data?.digunakan ?? 0,
     },
   ]
-  const COLORS = ['#F1416C', '#DCDCDC']
 
   return (
     <Card className="flex flex-col w-full p-0">
@@ -24,7 +33,7 @@ export default function DashboardTotalKelasCard() {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart className="[&_.recharts-layer:focus]:outline-none [&_.recharts-sector:focus]:outline-none dark:[&_.recharts-text.recharts-label]:first-of-type:fill-white">
             <Pie
-              data={data}
+              data={chartData}
               cornerRadius={40}
               innerRadius={90}
               outerRadius={110}
@@ -38,9 +47,11 @@ export default function DashboardTotalKelasCard() {
               <Label
                 width={30}
                 position="center"
-                content={<CustomLabel data={data.map((item) => item.value)} />}
+                content={
+                  <CustomLabel data={chartData.map((item) => item.value)} />
+                }
               ></Label>
-              {data.map((_, index) => (
+              {chartData.map((_, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
@@ -51,7 +62,7 @@ export default function DashboardTotalKelasCard() {
         </ResponsiveContainer>
       </div>
       <div className="px-4 pb-4">
-        {data.map((item, index) => (
+        {chartData.map((item, index) => (
           <div
             key={item.name}
             className="flex items-center justify-between border-b border-muted pb-3 mb-3 last:mb-0 last:border-0 last:pb-0"

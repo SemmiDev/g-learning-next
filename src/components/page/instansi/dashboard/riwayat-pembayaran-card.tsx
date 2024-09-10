@@ -45,11 +45,10 @@ export default function DashboardRiwayatPembayaranCard({
         <TableHeaderCell
           title="Tanggal"
           sortable
-          sort={getSortDirection(sort, 'tanggal')}
+          sort={getSortDirection(sort, 'tanggal_pembayaran')}
         />
       ),
-      dataIndex: 'tanggal',
-      key: 'tanggal',
+      dataIndex: 'tanggal_pembayaran',
       render: (value: string) => (
         <TableCellText>
           <Time date={value} />
@@ -57,14 +56,13 @@ export default function DashboardRiwayatPembayaranCard({
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('tanggal')
+          onSort('tanggal_pembayaran')
         },
       }),
     },
     {
       title: <TableHeaderCell title="Jenis Paket" align="center" />,
-      dataIndex: 'jenis',
-      key: 'jenis',
+      dataIndex: 'nama_paket',
       render: renderTableCellTextCenter,
     },
     {
@@ -73,24 +71,22 @@ export default function DashboardRiwayatPembayaranCard({
           title="Biaya (Rp)"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'biaya')}
+          sort={getSortDirection(sort, 'nominal')}
         />
       ),
-      dataIndex: 'biaya',
-      key: 'biaya',
+      dataIndex: 'nominal',
       render: (value: number) => (
         <TableCellText align="center">{angka(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('biaya')
+          onSort('nominal')
         },
       }),
     },
     {
       title: <TableHeaderCell title="No. Invoice" align="center" />,
-      dataIndex: 'invoice',
-      key: 'invoice',
+      dataIndex: 'nomor_invoice',
       render: renderTableCellTextCenter,
     },
     {

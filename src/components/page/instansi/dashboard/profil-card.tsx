@@ -1,15 +1,16 @@
 import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import { ActionIcon, Card, Text, Thumbnail, Title } from '@/components/ui'
+import { routes } from '@/config/routes'
+import { processData } from '@/utils/process-data'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { angka, rupiah } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { BsGear } from 'react-icons/bs'
 import { LuCalendar, LuCreditCard, LuPackage } from 'react-icons/lu'
 import BackgroundProfil from './background-pattern'
 import ProfilItem from './profil-item'
-import Link from 'next/link'
-import { routes } from '@/config/routes'
 
 export default function DashboardProfilCard() {
   const { data: session } = useSession()
@@ -56,7 +57,7 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuPackage}
           label={'Jenis Paket\nyang digunakan'}
-          value="Premium"
+          value={data?.paket_instansi?.nama || '-'}
           variant="solid"
           color="blue"
           className="w-1/3"
@@ -64,7 +65,8 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCalendar}
           label={'Tanggal Pembayaran\nSelanjutnya'}
-          value="01/12/2024"
+          // TODO
+          value="-"
           variant="solid"
           color="green"
           className="w-1/3"
@@ -72,7 +74,11 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCreditCard}
           label={'Biaya\nPaket'}
-          value={rupiah(5000000)}
+          value={
+            data?.paket_instansi?.harga
+              ? rupiah(data?.paket_instansi?.harga)
+              : '-'
+          }
           variant="solid"
           color="red"
           className="w-1/3"
@@ -82,7 +88,11 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuPackage}
           label={'Limit\nPengguna'}
-          value={angka(10000)}
+          value={processData(
+            data?.paket_instansi?.batas_pengguna,
+            (val) => angka(val),
+            '-'
+          )}
           variant="outline"
           color="blue"
           className="w-1/3"
@@ -90,7 +100,11 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCalendar}
           label={'Limit\nPembukaan Kelas'}
-          value={angka(5000)}
+          value={processData(
+            data?.paket_instansi?.batas_kelas,
+            (val) => angka(val),
+            '-'
+          )}
           variant="outline"
           color="green"
           className="w-1/3"
@@ -98,7 +112,11 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCreditCard}
           label={'Limit Kelas\nTiap Pengajar'}
-          value={angka(50)}
+          value={processData(
+            data?.paket_instansi?.batas_kelas_pengajar,
+            (val) => angka(val),
+            '-'
+          )}
           variant="outline"
           color="red"
           className="w-1/3"

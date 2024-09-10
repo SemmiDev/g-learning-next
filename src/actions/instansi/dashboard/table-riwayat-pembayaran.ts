@@ -1,66 +1,33 @@
 'use server'
 
-import {
-  ControlledAsyncTableActionProps,
-  ControlledAsyncTableActionType,
-} from '@/components/ui/controlled-async-table'
+import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableAction } from '@/utils/action'
+
+type DataType = {
+  id: string
+  id_instansi: string
+  id_paket_instansi: string
+  tanggal_pembayaran: string
+  nominal: number
+  nomor_pesanan: string
+  nomor_invoice: string
+  status: string
+  jenis_pembayaran: string
+  nama_instansi: string
+  nama_paket: string
+}
 
 export const tableRiwayatPembayaranAction = async ({
   page = 1,
   search = '',
   sort,
-  filters,
-}: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
-  const data = [
+}: ControlledAsyncTableActionProps) =>
+  makeJwtGetRequestTableAction<DataType>(
+    `${process.env.API_URL}/instansi/riwayat-pembayaran`,
     {
-      id: 1,
-      tanggal: '2024-01-12',
-      jenis: 'Advance',
-      biaya: 5000000,
-      invoice: 'INV/01/04/24',
-    },
-    {
-      id: 2,
-      tanggal: '2024-04-12',
-      jenis: 'Advance',
-      biaya: 5000000,
-      invoice: 'INV/01/04/24',
-    },
-    {
-      id: 3,
-      tanggal: '2024-07-12',
-      jenis: 'Premium',
-      biaya: 3000000,
-      invoice: 'INV/01/04/24',
-    },
-    {
-      id: 4,
-      tanggal: '2024-10-14',
-      jenis: 'Premium',
-      biaya: 3000000,
-      invoice: 'INV/01/04/24',
-    },
-    {
-      id: 5,
-      tanggal: '2023-01-11',
-      jenis: 'Basic',
-      biaya: 1500000,
-      invoice: 'INV/01/04/24',
-    },
-  ]
-
-  return {
-    success: true,
-    data: {
-      list: data,
-      pagination: {
-        page: 1,
-        lastPage: 1,
-        perPage: 5,
-        totalData: 5,
-        from: 1,
-        to: 1,
-      },
-    },
-  }
-}
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.direction,
+    }
+  )

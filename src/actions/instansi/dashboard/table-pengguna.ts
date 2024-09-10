@@ -1,66 +1,29 @@
 'use server'
 
-import {
-  ControlledAsyncTableActionProps,
-  ControlledAsyncTableActionType,
-} from '@/components/ui/controlled-async-table'
+import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableAction } from '@/utils/action'
+
+type DataType = {
+  id: string
+  nama: string
+  jenis_akun: string
+  jumlah_kelas: number
+  batas_kelas: number
+  jumlah_penyimpanan: number
+  batas_penyimpanan: number
+}
 
 export const tablePenggunaAction = async ({
   page = 1,
   search = '',
   sort,
-  filters,
-}: ControlledAsyncTableActionProps): Promise<ControlledAsyncTableActionType> => {
-  const data = [
+}: ControlledAsyncTableActionProps) =>
+  makeJwtGetRequestTableAction<DataType>(
+    `${process.env.API_URL}/instansi/pengguna`,
     {
-      id: 1,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
-    },
-    {
-      id: 2,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
-    },
-    {
-      id: 3,
-      nama: 'Terra diagtora',
-      jenis: 'Siswa',
-      jumlahKelas: '12/50',
-      penyimpanan: '0/0',
-    },
-    {
-      id: 4,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
-    },
-    {
-      id: 5,
-      nama: 'Terra diagtora',
-      jenis: 'Pengajar',
-      jumlahKelas: '12/50',
-      penyimpanan: '3/10',
-    },
-  ]
-
-  return {
-    success: true,
-    data: {
-      list: data,
-      pagination: {
-        page: 1,
-        lastPage: 1,
-        perPage: 5,
-        totalData: 5,
-        from: 1,
-        to: 1,
-      },
-    },
-  }
-}
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.direction,
+    }
+  )

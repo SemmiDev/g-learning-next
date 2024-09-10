@@ -19,6 +19,7 @@ import {
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { selectOption } from '@/utils/object'
+import { processData } from '@/utils/process-data'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -80,9 +81,11 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
         kontak: data?.instansi?.telepon_instansi,
         pimpinan: data?.instansi?.nama_pimpinan,
         kontakPimpinan: data?.instansi?.telepon_pimpinan,
-        jenis: data?.instansi?.jenis
-          ? selectOption(data?.instansi?.jenis)
-          : undefined,
+        jenis: processData(
+          data?.instansi?.jenis,
+          (val) => selectOption(val),
+          undefined
+        ),
         paket: data?.paket_instansi?.id
           ? {
               value: data?.paket_instansi?.id,
