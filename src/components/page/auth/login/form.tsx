@@ -126,6 +126,8 @@ export default function LoginForm() {
                 { level: 'Peserta', username: 'peserta@glearning.com' },
                 { level: 'Admin', username: 'admin@glearning.com' },
                 { level: 'Instansi', username: 'instansi@glearning.com' },
+                { level: 'Pengguna 1', username: 'reazon7@gmail.com' },
+                { level: 'Pengguna 2', username: 'sammidev4@gmail.com' },
               ].map(({ level, username }, idx) => (
                 <div
                   className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
 
-const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.'
+const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
@@ -244,8 +244,10 @@ export const makeJwtPutRequestAction = <T extends AnyObject>(
   payload: PayloadType = {}
 ) => makeJwtDataRequestAction<T>(url, 'PUT', payload)
 
-export const makeJwtDeleteRequestAction = <T extends AnyObject>(url: string) =>
-  makeJwtDataRequestAction<T>(url, 'DELETE')
+export const makeJwtDeleteRequestAction = <T extends AnyObject>(
+  url: string,
+  payload: PayloadType = {}
+) => makeJwtDataRequestAction<T>(url, 'DELETE', payload)
 
 export type DeleteActionType<T extends AnyObject = AnyObject> = (
   id: string

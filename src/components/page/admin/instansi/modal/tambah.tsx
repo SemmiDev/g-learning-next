@@ -1,5 +1,5 @@
-import { tambahInstansiAction } from '@/actions/admin/instansi/tambah'
 import { paketInstansiSelectDataAction } from '@/actions/admin/async-select/paket-instansi'
+import { tambahInstansiAction } from '@/actions/admin/instansi/tambah'
 import {
   CardSeparator,
   ControlledAsyncPaginateSelect,
@@ -53,13 +53,15 @@ const jenisOptions: SelectOptionType[] = [
 
 const initialValues: TambahInstansiFormSchema = {}
 
+type TambahModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+}
+
 export default function TambahModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+}: TambahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
