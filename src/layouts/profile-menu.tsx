@@ -56,10 +56,10 @@ export default function ProfileMenu({
 }
 
 const linkProfiles = {
-  Admin: routes.admin.pemberitahuan,
-  Pengguna: routes.pengguna.pemberitahuan,
-  Pengajar: routes.pengajar.pemberitahuan,
-  Peserta: routes.peserta.pemberitahuan,
+  Admin: routes.admin.profile,
+  Pengguna: routes.pengguna.profile,
+  Pengajar: routes.pengajar.profile,
+  Peserta: routes.peserta.profile,
 }
 
 function DropdownMenu() {
