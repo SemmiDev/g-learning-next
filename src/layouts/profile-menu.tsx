@@ -55,6 +55,13 @@ export default function ProfileMenu({
   )
 }
 
+const linkProfiles = {
+  Admin: routes.admin.pemberitahuan,
+  Pengguna: routes.pengguna.pemberitahuan,
+  Pengajar: routes.pengajar.pemberitahuan,
+  Peserta: routes.peserta.pemberitahuan,
+}
+
 function DropdownMenu() {
   const router = useRouter()
   const { data: session } = useSession()
@@ -68,19 +75,15 @@ function DropdownMenu() {
 
   const menuItems = []
 
-  if (level !== 'Instansi') {
+  const linkProfile =
+    level && level in linkProfiles
+      ? linkProfiles[level as keyof typeof linkProfiles]
+      : null
+
+  if (linkProfile) {
     menuItems.push({
       name: 'Profil Saya',
-      href:
-        level === 'Admin'
-          ? routes.admin.profile
-          : level === 'Pengguna'
-          ? routes.pengguna.profile
-          : level === 'Pengajar'
-          ? routes.pengajar.profile
-          : level === 'Peserta'
-          ? routes.peserta.profile
-          : '',
+      href: linkProfile,
     })
   }
 

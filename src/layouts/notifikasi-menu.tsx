@@ -4,6 +4,14 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { BiSolidBellRing } from 'react-icons/bi'
 
+const links = {
+  Admin: routes.admin.pemberitahuan,
+  Instansi: routes.instansi.pemberitahuan,
+  Pengguna: routes.pengguna.pemberitahuan,
+  Pengajar: routes.pengajar.pemberitahuan,
+  Peserta: routes.peserta.pemberitahuan,
+}
+
 export default function NotifikasiMenu() {
   const { data: session } = useSession()
   const level = session?.user?.level
@@ -11,17 +19,9 @@ export default function NotifikasiMenu() {
   const hasNotif = true
 
   const link =
-    level === 'Admin'
-      ? routes.admin.pemberitahuan
-      : level === 'Pengguna'
-      ? routes.pengguna.pemberitahuan
-      : level === 'Instansi'
-      ? routes.instansi.pemberitahuan
-      : level === 'Pengajar'
-      ? routes.pengajar.pemberitahuan
-      : level === 'Peserta'
-      ? routes.peserta.pemberitahuan
-      : ''
+    level && level in links ? links[level as keyof typeof links] : null
+
+  if (!link) return null
 
   return (
     <Link href={link}>

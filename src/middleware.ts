@@ -15,9 +15,12 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // hanya untuk yg sudah login atau hanya bisa mengakses route publik
+        const regexTes = /^\/tes\/.+/
+        // hanya untuk yg sudah login atau hanya bisa mengakses route publik atau halaman testing
         return (
-          Object.values(publicRoutes).includes(req.nextUrl.pathname) || !!token
+          !!req.nextUrl.pathname.match(regexTes) ||
+          Object.values(publicRoutes).includes(req.nextUrl.pathname) ||
+          !!token
         )
       },
     },

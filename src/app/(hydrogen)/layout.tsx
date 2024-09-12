@@ -9,15 +9,15 @@ type LayoutProps = {
 }
 
 export default function DefaultLayout({ children }: LayoutProps) {
-  const { data: session } = useSession()
+  // const { data: session } = useSession()
 
-  if (!session?.expires) {
-    return (
-      <div className="flex justify-center items-center h-svh">
-        <CgSpinner size={40} className="text-primary animate-spin" />
-      </div>
-    )
-  }
+  // if (!session?.expires) {
+  //   return (
+  //     <div className="flex justify-center items-center h-svh">
+  //       <CgSpinner size={40} className="text-primary animate-spin" />
+  //     </div>
+  //   )
+  // }
 
   return <HydrogenLayout>{children}</HydrogenLayout>
 }
