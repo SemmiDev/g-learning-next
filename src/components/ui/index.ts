@@ -71,6 +71,7 @@ import InputNumberSeparator, {
 } from './input/number-separator'
 import InputRupiah, { InputRupiahProps } from './input/rupiah'
 import Label from './label'
+import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
 import Loader, { LoaderProps } from './loader'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
@@ -147,6 +148,7 @@ export {
   Kelas,
   Label,
   LineGroup,
+  LinkOrDiv,
   Loader,
   Materi,
   Modal,
@@ -214,6 +216,7 @@ export {
   type InputRupiahProps,
   type KelasItemType,
   type KelasProps,
+  type LinkOrDivProps,
   type LoaderProps,
   type MateriItemType,
   type MateriProps,

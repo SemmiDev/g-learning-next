@@ -1,4 +1,5 @@
 import cn from '@/utils/class-names'
+import { forwardRef } from 'react'
 import { Input as RizInput, InputProps as RizInputProps } from 'rizzui'
 import Label from '../label'
 
@@ -6,19 +7,23 @@ export type InputProps = RizInputProps & {
   phoneNumber?: boolean
 }
 
-export default function Input({
-  type,
-  label,
-  required,
-  labelClassName,
-  inputClassName,
-  onFocus,
-  onKeyDown,
-  phoneNumber,
-  ...props
-}: InputProps) {
+export default forwardRef<HTMLInputElement, InputProps>(function Input(
+  {
+    type,
+    label,
+    required,
+    labelClassName,
+    inputClassName,
+    onFocus,
+    onKeyDown,
+    phoneNumber,
+    ...props
+  }: InputProps,
+  ref
+) {
   return (
     <RizInput
+      ref={ref}
       type={type}
       label={<Label label={label} required={required} />}
       labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
@@ -46,4 +51,4 @@ export default function Input({
       {...props}
     />
   )
-}
+})

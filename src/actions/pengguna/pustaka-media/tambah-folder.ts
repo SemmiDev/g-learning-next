@@ -1,6 +1,6 @@
 'use server'
 
-import { TambahFolderFormSchema } from '@/components/page/pengguna/pustaka-media/modal/tambah'
+import { TambahFolderFormSchema } from '@/components/page/pengguna/pustaka-media/modal/tambah-folder'
 import { makeJwtPostRequestAction } from '@/utils/action'
 
 export const tambahFolderAction = (

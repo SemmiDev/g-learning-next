@@ -1,4 +1,4 @@
-import { ActionIcon, Time, Title } from '@/components/ui'
+import { ActionIcon, LinkOrDiv, Time, Title } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import iconFolder from '@public/icons/folder.svg'
@@ -96,6 +96,14 @@ export default function FileCard({
   onDelete,
   className,
 }: FileCardProps) {
+  const linkingProps = {
+    href: file.link,
+    target: '_blank',
+    onClick: () => {
+      file.type === 'folder' && onFolderClick && onFolderClick(file)
+    },
+  }
+
   return (
     <div
       className={cn(
@@ -103,67 +111,68 @@ export default function FileCard({
         className
       )}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
-          {file.type == 'folder' ? (
-            <figure className="size-5">
-              <Image src={iconFolder} alt="folder" />
-            </figure>
-          ) : (
-            <FileIcon file={file} />
-          )}
-        </div>
-        <Dropdown placement="bottom-end">
-          <Dropdown.Trigger>
-            <ActionIcon as="span" size="sm" variant="outline-hover">
-              <BsThreeDotsVertical size={14} />
-            </ActionIcon>
-          </Dropdown.Trigger>
-          <Dropdown.Menu className="w-30 divide-y">
-            {file.type == 'file' && file.link && (
-              <div className="mb-2">
-                <Link href={file.link} target="_blank">
-                  <Dropdown.Item className="text-gray-dark">
-                    <BsDownload className="text-primary mr-2 h-4 w-4" />
-                    Unduh
-                  </Dropdown.Item>
-                </Link>
-              </div>
+      <div className="flex">
+        <LinkOrDiv className="flex-1 h-[60px] cursor-pointer" {...linkingProps}>
+          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
+            {file.type == 'folder' ? (
+              <figure className="size-5">
+                <Image src={iconFolder} alt="folder" />
+              </figure>
+            ) : (
+              <FileIcon file={file} />
             )}
-            {file.type == 'folder' && (
-              <div className="mb-2">
+          </div>
+        </LinkOrDiv>
+        <div className="flex flex-col">
+          <Dropdown placement="bottom-end">
+            <Dropdown.Trigger>
+              <ActionIcon as="span" size="sm" variant="outline-hover">
+                <BsThreeDotsVertical size={14} />
+              </ActionIcon>
+            </Dropdown.Trigger>
+            <Dropdown.Menu className="w-30 divide-y">
+              {file.type == 'file' && file.icon == 'file' && file.link && (
+                <div className="mb-2">
+                  <Link href={file.link} target="_blank">
+                    <Dropdown.Item className="text-gray-dark">
+                      <BsDownload className="text-primary mr-2 h-4 w-4" />
+                      Unduh
+                    </Dropdown.Item>
+                  </Link>
+                </div>
+              )}
+              {file.type == 'folder' && (
+                <div className="mb-2">
+                  <Dropdown.Item
+                    className="text-gray-dark"
+                    onClick={() => onEdit && onEdit(file)}
+                  >
+                    <BsPencil className="text-warning mr-2 h-4 w-4" />
+                    Ubah
+                  </Dropdown.Item>
+                </div>
+              )}
+              <div
+                className={cn({
+                  'mt-2 pt-2':
+                    file.type == 'folder' ||
+                    (file.type == 'file' && file.icon == 'file' && file.link),
+                })}
+              >
                 <Dropdown.Item
                   className="text-gray-dark"
-                  onClick={() => onEdit && onEdit(file)}
+                  onClick={() => onDelete && onDelete(file)}
                 >
-                  <BsPencil className="text-warning mr-2 h-4 w-4" />
-                  Ubah
+                  <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                  Hapus
                 </Dropdown.Item>
               </div>
-            )}
-            <div
-              className={cn({
-                'mt-2 pt-2':
-                  file.type == 'folder' || (file.type == 'file' && file.link),
-              })}
-            >
-              <Dropdown.Item
-                className="text-gray-dark"
-                onClick={() => onDelete && onDelete(file)}
-              >
-                <BsTrash3 className="text-danger mr-2 h-4 w-4" />
-                Hapus
-              </Dropdown.Item>
-            </div>
-          </Dropdown.Menu>
-        </Dropdown>
+            </Dropdown.Menu>
+          </Dropdown>
+          <LinkOrDiv className="flex-1 cursor-pointer" {...linkingProps} />
+        </div>
       </div>
-      <div
-        className="cursor-pointer"
-        onClick={() =>
-          file.type === 'folder' && onFolderClick && onFolderClick(file)
-        }
-      >
+      <LinkOrDiv className="cursor-pointer" {...linkingProps}>
         <Title
           as="h4"
           size="base"
@@ -186,16 +195,20 @@ export default function FileCard({
         ) : (
           <ul className="flex list-inside list-disc gap-3.5">
             <li className="list-none text-sm text-gray-lighter">
-              {file.size ? formatBytes(file.size, 2) : file.time}
+              {file.size ? (
+                formatBytes(file.size, 2)
+              ) : (
+                <Time date={file.time} format="date" />
+              )}
             </li>
-            {file.size && (
+            {!!file.size && (
               <li className="text-sm text-gray-lighter">
                 <Time date={file.time} format="date" />
               </li>
             )}
           </ul>
         )}
-      </div>
+      </LinkOrDiv>
     </div>
   )
 }

@@ -34,7 +34,7 @@ type TambahModalProps = {
   idFolder: string | undefined
 }
 
-export default function TambahModal({
+export default function TambahFolderModal({
   show = false,
   setShow,
   refetchKey,
