@@ -3,6 +3,7 @@
 import { Button, Text, Thumbnail, Title } from '@/components/ui'
 import { publicRoutes, routes } from '@/config/routes'
 import cn from '@/utils/class-names'
+import { useQueryClient } from '@tanstack/react-query'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
@@ -63,6 +64,7 @@ const linkProfiles = {
 }
 
 function DropdownMenu() {
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { data: session } = useSession()
   const user = session?.user
@@ -70,6 +72,7 @@ function DropdownMenu() {
 
   const logout = async () => {
     await signOut({ redirect: false })
+    queryClient.invalidateQueries()
     router.replace(publicRoutes.login)
   }
 

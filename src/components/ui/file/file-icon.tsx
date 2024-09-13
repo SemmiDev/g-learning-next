@@ -12,6 +12,7 @@ import {
   BsFiletypeXls,
   BsFiletypeXlsx,
 } from 'react-icons/bs'
+import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
 
 type FileIconProps = {
   filename: string
@@ -38,6 +39,10 @@ export default function FileIcon({ filename, iconSize = 20 }: FileIconProps) {
       return <BsFiletypeTxt size={iconSize} className="text-danger" />
     case 'svg':
       return <BsFiletypeSvg size={iconSize} className="text-primary" />
+    case 'mp3':
+      return <LuFileAudio size={iconSize} className="text-primary" />
+    case 'mp4':
+      return <LuFileVideo size={iconSize} className="text-primary" />
     case 'jpg':
     case 'jpeg':
     case 'png':

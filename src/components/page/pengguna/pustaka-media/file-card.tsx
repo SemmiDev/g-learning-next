@@ -1,4 +1,4 @@
-import { ActionIcon, LinkOrDiv, Time, Title } from '@/components/ui'
+import { ActionIcon, LinkOrDiv, Thumbnail, Time, Title } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import iconFolder from '@public/icons/folder.svg'
@@ -7,84 +7,106 @@ import Link from 'next/link'
 import {
   BsDownload,
   BsFileEarmarkText,
-  BsFileImage,
+  BsFileEarmarkZip,
   BsFiletypeDoc,
   BsFiletypeDocx,
   BsFiletypePdf,
   BsFiletypePpt,
   BsFiletypePptx,
+  BsFiletypeSvg,
+  BsFiletypeTxt,
   BsFiletypeXls,
   BsFiletypeXlsx,
   BsFillPlayBtnFill,
+  BsGlobe,
   BsPencil,
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
+import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
 import { Dropdown } from 'rizzui'
 
 export type FileType = {
   id: string
   name: string
-  type: 'file' | 'folder'
+  folder: boolean
   extension?: string
   fileCount?: number
   size?: number
   time: string
-  icon?: 'video' | 'file'
+  type?: 'link' | 'audio' | 'video' | 'image'
   link?: string
   driveId?: string
 }
 
 const iconSize = 20 as const
 
-const FileIcon = ({ file }: { file: FileType }) => {
-  if (file.icon == 'video') {
-    return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
+const Icon = ({ file }: { file: FileType }) => {
+  if (file.type === 'link') {
+    if (file.link && file.link.match(/.*youtube.*/)) {
+      return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
+    } else {
+      return <BsGlobe size={iconSize} className="text-success" />
+    }
+  }
+  if (file.type === 'audio') {
+    return <LuFileAudio size={iconSize} className="text-primary" />
+  }
+  if (file.type === 'video') {
+    return <LuFileVideo size={iconSize} className="text-primary" />
   }
 
   const extension = file.extension ?? (file.link ?? file.name).split('.').pop()
 
-  let icon
   switch (extension) {
     case 'doc':
-      icon = <BsFiletypeDoc size={iconSize} className="text-primary" />
-      break
+      return <BsFiletypeDoc size={iconSize} className="text-primary" />
     case 'docx':
-      icon = <BsFiletypeDocx size={iconSize} className="text-primary" />
-      break
+      return <BsFiletypeDocx size={iconSize} className="text-primary" />
     case 'xls':
-      icon = <BsFiletypeXls size={iconSize} className="text-success" />
-      break
+      return <BsFiletypeXls size={iconSize} className="text-success" />
     case 'xlsx':
-      icon = <BsFiletypeXlsx size={iconSize} className="text-success" />
-      break
+      return <BsFiletypeXlsx size={iconSize} className="text-success" />
     case 'ppt':
-      icon = <BsFiletypePpt size={iconSize} className="text-orange-600" />
-      break
+      return <BsFiletypePpt size={iconSize} className="text-orange-600" />
     case 'pptx':
-      icon = <BsFiletypePptx size={iconSize} className="text-orange-600" />
-      break
+      return <BsFiletypePptx size={iconSize} className="text-orange-600" />
     case 'pdf':
-      icon = <BsFiletypePdf size={iconSize} className="text-danger" />
-      break
-    case 'jpg':
-    case 'jpeg':
-    case 'png':
-    case 'bmp':
-      icon = <BsFileImage size={iconSize} className="text-primary" />
-      break
+      return <BsFiletypePdf size={iconSize} className="text-danger" />
+    case 'txt':
+      return <BsFiletypeTxt size={iconSize} className="text-danger" />
+    case 'svg':
+      return <BsFiletypeSvg size={iconSize} className="text-primary" />
+    case 'zip':
+    case 'rar':
+    case '7zip':
+    case 'gz':
+      return <BsFileEarmarkZip size={iconSize} className="text-primary" />
     default:
-      icon = <BsFileEarmarkText size={iconSize} className="text-primary" />
-      break
+      return <BsFileEarmarkText size={iconSize} className="text-primary" />
   }
+}
 
-  return icon
+const FileIcon = ({ file }: { file: FileType }) => {
+  return (
+    <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
+      {file.folder ? (
+        <figure className="size-5">
+          <Image src={iconFolder} alt="folder" />
+        </figure>
+      ) : file.type === 'image' ? (
+        <Thumbnail src={file.link} alt="thumbnail" size={44} rounded="md" />
+      ) : (
+        <Icon file={file} />
+      )}
+    </div>
+  )
 }
 
 type FileCardProps = {
   file: FileType
   onFolderClick?: (file: FileType) => void
-  onEdit?: (file: FileType) => void
+  onEditFolder?: (file: FileType) => void
   onDelete?: (file: FileType) => void
   className?: string
 }
@@ -92,7 +114,7 @@ type FileCardProps = {
 export default function FileCard({
   file,
   onFolderClick,
-  onEdit,
+  onEditFolder,
   onDelete,
   className,
 }: FileCardProps) {
@@ -100,7 +122,7 @@ export default function FileCard({
     href: file.link,
     target: '_blank',
     onClick: () => {
-      file.type === 'folder' && onFolderClick && onFolderClick(file)
+      file.folder && onFolderClick && onFolderClick(file)
     },
   }
 
@@ -113,15 +135,7 @@ export default function FileCard({
     >
       <div className="flex">
         <LinkOrDiv className="flex-1 h-[60px] cursor-pointer" {...linkingProps}>
-          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
-            {file.type == 'folder' ? (
-              <figure className="size-5">
-                <Image src={iconFolder} alt="folder" />
-              </figure>
-            ) : (
-              <FileIcon file={file} />
-            )}
-          </div>
+          <FileIcon file={file} />
         </LinkOrDiv>
         <div className="flex flex-col">
           <Dropdown placement="bottom-end">
@@ -131,7 +145,7 @@ export default function FileCard({
               </ActionIcon>
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-30 divide-y">
-              {file.type == 'file' && file.icon == 'file' && file.link && (
+              {!file.folder && file.type !== 'link' && file.link && (
                 <div className="mb-2">
                   <Link href={file.link} target="_blank">
                     <Dropdown.Item className="text-gray-dark">
@@ -141,11 +155,11 @@ export default function FileCard({
                   </Link>
                 </div>
               )}
-              {file.type == 'folder' && (
+              {file.folder && (
                 <div className="mb-2">
                   <Dropdown.Item
                     className="text-gray-dark"
-                    onClick={() => onEdit && onEdit(file)}
+                    onClick={() => onEditFolder && onEditFolder(file)}
                   >
                     <BsPencil className="text-warning mr-2 h-4 w-4" />
                     Ubah
@@ -155,8 +169,8 @@ export default function FileCard({
               <div
                 className={cn({
                   'mt-2 pt-2':
-                    file.type == 'folder' ||
-                    (file.type == 'file' && file.icon == 'file' && file.link),
+                    file.folder ||
+                    (!file.folder && file.type !== 'link' && file.link),
                 })}
               >
                 <Dropdown.Item
@@ -183,7 +197,7 @@ export default function FileCard({
         >
           {file.name}
         </Title>
-        {file.type == 'folder' ? (
+        {file.folder ? (
           <ul className="flex list-inside list-disc gap-3.5">
             <li className="list-none text-sm text-gray-lighter">
               {file.fileCount} Berkas

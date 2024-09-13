@@ -136,6 +136,7 @@ export default function UploadFile({
                     weight="medium"
                     variant="lighter"
                     className="mt-1"
+                    align="center"
                   >
                     {desc}
                   </Text>

@@ -35,7 +35,7 @@ export default function Header() {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         placement="left"
-        customSize="320px"
+        customSize={320}
         overlayClassName="cursor-default dark:bg-opacity-40 dark:backdrop-blur-md"
         containerClassName="dark:bg-gray-100"
         className="z-[9999]"

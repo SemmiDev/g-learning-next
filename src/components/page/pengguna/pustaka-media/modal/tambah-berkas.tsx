@@ -43,7 +43,7 @@ const initialValues: TambahBerkasFormSchema = {
 type TambahModalProps = {
   show: boolean
   setShow(show: boolean): void
-  refetchKey: QueryKey
+  refetchKeys: QueryKey[]
   idInstansi: string | undefined
   idFolder: string | undefined
 }
@@ -51,7 +51,7 @@ type TambahModalProps = {
 export default function TambahBerkasModal({
   show = false,
   setShow,
-  refetchKey,
+  refetchKeys,
   idInstansi,
   idFolder,
 }: TambahModalProps) {
@@ -80,7 +80,9 @@ export default function TambahBerkasModal({
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         setShow(false)
-        queryClient.invalidateQueries({ queryKey: refetchKey })
+        for (const refetchKey of refetchKeys) {
+          queryClient.invalidateQueries({ queryKey: refetchKey })
+        }
       },
       onError: ({ message }) => setFormError(message),
     })
@@ -111,7 +113,7 @@ export default function TambahBerkasModal({
           <>
             <div className="flex flex-col gap-4 p-3">
               <div>
-                <TextLabel>Link YouTube</TextLabel>
+                <TextLabel>Link YouTube atau Media Lainnya</TextLabel>
                 <div className="space-y-2">
                   {watch('youtube')?.map((_, idx) => {
                     return (
@@ -124,7 +126,7 @@ export default function TambahBerkasModal({
                           error={errors.youtube?.[idx]?.label?.message}
                         />
                         <Input
-                          placeholder="Masukkan link YouTube"
+                          placeholder="Masukkan link"
                           labelClassName="text-gray-dark font-semibold"
                           className="flex-1"
                           {...register(`youtube.${idx}.link`)}
@@ -170,7 +172,9 @@ export default function TambahBerkasModal({
                 name="files"
                 control={control}
                 errors={errors}
+                desc="(Tipe file yang bisa diupload adalah: pdf, pptx, xls, xlsx, doc, docx, png, jpeg, jpg, gif, mp4, rar, zip dengan ukuran maksimal 100 MB untuk setiap file yang dipilih )"
                 multiple
+                maxSize={{ size: 100, unit: 'MB' }}
               />
 
               <FormError error={formError} />

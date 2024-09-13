@@ -3,7 +3,14 @@
 import { driveInfoAction } from '@/actions/pengguna/pustaka-media/drive-info'
 import { hapusBerkasAction } from '@/actions/pengguna/pustaka-media/hapus'
 import { listFileAction } from '@/actions/pengguna/pustaka-media/list-file'
-import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import {
+  Button,
+  Loader,
+  ModalConfirm,
+  Text,
+  TextSpan,
+  Title,
+} from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
@@ -13,8 +20,10 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
 import DriveButton from './drive-button'
 import FileCard, { FileType } from './file-card'
-import TambahFolderModal from './modal/tambah-folder'
 import TambahBerkasModal from './modal/tambah-berkas'
+import TambahFolderModal from './modal/tambah-folder'
+import UbahFolderModal from './modal/ubah-folder'
+import { BiSolidChevronRight } from 'react-icons/bi'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -32,6 +41,13 @@ type DriveType = {
   size: number
 }
 
+type FolderType = {
+  id: string
+  name: string
+}
+
+const queryKeyDrive = ['pengguna.pustaka-media.drives']
+
 export default function PustakaMediaBody() {
   const queryClient = useQueryClient()
   const [activeDrive, setActiveDrive] = useState<string | null>()
@@ -41,9 +57,11 @@ export default function PustakaMediaBody() {
   const [fileHapus, setFileHapus] = useState<FileType>()
   const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
   const [showModalTambahBerkas, setShowModalTambahBerkas] = useState(false)
+  const [idUbahFolder, setIdUbahFolder] = useState<string>()
+  const [listFolder, setListFolder] = useState<FolderType[]>([])
 
   const { data: drives = [] } = useQuery<DriveType[]>({
-    queryKey: ['pengguna.pustaka-media.drives'],
+    queryKey: queryKeyDrive,
     queryFn: async () => {
       const { data } = await driveInfoAction()
 
@@ -102,18 +120,26 @@ export default function PustakaMediaBody() {
           time: item.created_at,
           link: item.url,
           extension: item.ekstensi,
-          type: item.tipe === 'Folder' ? 'folder' : 'file',
+          folder: item.tipe === 'Folder',
           fileCount: item.tipe !== 'Folder' ? item.total_files : undefined,
           size: item.tipe !== 'Folder' ? item.ukuran : undefined,
-          icon:
-            item.tipe === 'Video' || item.url.match(/.*youtube.*/)
+          type:
+            item.tipe === 'Audio'
+              ? 'audio'
+              : item.tipe === 'Video'
               ? 'video'
-              : 'file',
+              : item.tipe === 'Gambar'
+              ? 'image'
+              : item.tipe === 'Teks'
+              ? 'link'
+              : undefined,
           driveId: item.id_instansi ?? undefined,
         })) ?? []
       )
     },
   })
+
+  const currentDrive = drives.filter((item) => item.id === activeDrive)[0]
 
   useEffect(() => {
     refetchFiles()
@@ -133,13 +159,12 @@ export default function PustakaMediaBody() {
 
     handleActionWithToast(hapusBerkasAction(fileHapus.id), {
       loading: 'Menghapus berkas...',
-      success: `Berhasil menghapus ${
-        fileHapus.type === 'folder' ? 'folder' : 'berkas'
-      }`,
+      success: `Berhasil menghapus ${fileHapus.folder ? 'folder' : 'berkas'}`,
       onSuccess: () => {
         setFileHapus(undefined)
 
         queryClient.invalidateQueries({ queryKey })
+        queryClient.invalidateQueries({ queryKey: queryKeyDrive })
       },
     })
   }
@@ -154,19 +179,49 @@ export default function PustakaMediaBody() {
             onClick={() => {
               setActiveDrive(drive.id)
               setActiveFolder(undefined)
+              setListFolder([])
             }}
             key={drive.id ?? 'personal'}
           />
         ))}
       </div>
-      <Title
-        as="h4"
-        size="1.5xl"
-        weight="semibold"
-        className="leading-tight mb-3"
-      >
-        Pustaka Media
-      </Title>
+      <div className="flex flex-wrap items-center gap-y-1 mb-3">
+        <Title as="h4" size="1.5xl" weight="semibold" className="leading-tight">
+          {activeDrive === undefined
+            ? 'Pustaka Media'
+            : activeDrive === null
+            ? 'Penyimpanan Personal'
+            : currentDrive.name}
+        </Title>
+        {listFolder.length > 0 &&
+          listFolder.map((folder, idx) => (
+            <div key={folder.id} className="flex items-center">
+              <BiSolidChevronRight size={18} className="mx-2" />
+              {idx === listFolder.length - 1 ? (
+                <TextSpan
+                  size="sm"
+                  weight="semibold"
+                  color="gray"
+                  variant="dark"
+                >
+                  {folder.name}
+                </TextSpan>
+              ) : (
+                <Button
+                  fontWeight="semibold"
+                  variant="text"
+                  className="text-gray-dark h-auto p-0"
+                  onClick={() => {
+                    setActiveFolder(folder.id)
+                    setListFolder((list) => [...list.slice(0, idx + 1)])
+                  }}
+                >
+                  {folder.name}
+                </Button>
+              )}
+            </div>
+          ))}
+      </div>
       <div className="flex justify-between gap-2 flex-wrap">
         <div className="flex space-x-2">
           <Input
@@ -230,9 +285,17 @@ export default function PustakaMediaBody() {
             <FileCard
               key={file.id}
               file={file}
+              onEditFolder={(file) => setIdUbahFolder(file.id)}
               onDelete={(file) => setFileHapus(file)}
               onFolderClick={(file) => {
                 setActiveFolder(file.id)
+                setListFolder((list) => [
+                  ...list,
+                  {
+                    name: file.name,
+                    id: file.id,
+                  },
+                ])
 
                 const drive = drives.filter(
                   (d) => d.id === (file.driveId ?? null)
@@ -265,15 +328,21 @@ export default function PustakaMediaBody() {
       <TambahBerkasModal
         show={showModalTambahBerkas}
         setShow={setShowModalTambahBerkas}
-        refetchKey={queryKey}
+        refetchKeys={[queryKey, ['pengguna.pustaka-media.drives']]}
         idInstansi={activeDrive ?? undefined}
         idFolder={activeFolder}
+      />
+
+      <UbahFolderModal
+        id={idUbahFolder}
+        setId={setIdUbahFolder}
+        refetchKeys={[queryKey, ['pengguna.pustaka-media.drives']]}
       />
 
       <ModalConfirm
         title={`Hapus Berkas`}
         desc={`Apakah Anda yakin ingin menghapus ${
-          fileHapus?.type === 'folder' ? 'folder' : 'berkas'
+          fileHapus?.folder ? 'folder' : 'berkas'
         } ini?`}
         color="danger"
         isOpen={!!fileHapus}
