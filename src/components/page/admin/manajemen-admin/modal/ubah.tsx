@@ -55,12 +55,14 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
+  const queryKey = ['admin.manajemen-admin.table.ubah', id]
+
   const {
     data: initialValues,
     isLoading,
     isFetching,
   } = useQuery<UbahAdminFormSchema>({
-    queryKey: ['admin.manajemen-admin.table.ubah', id],
+    queryKey,
     queryFn: async () => {
       if (!id) return {}
 
@@ -80,10 +82,14 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setId(undefined)
         queryClient.invalidateQueries({
           queryKey: ['admin.manajemen-admin.table'],
         })
+        queryClient.setQueryData(queryKey, (oldData: UbahAdminFormSchema) => ({
+          ...oldData,
+          ...data,
+        }))
+        setId(undefined)
       },
       onError: ({ message }) => setFormError(message),
     })

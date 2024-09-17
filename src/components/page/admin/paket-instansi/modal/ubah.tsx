@@ -90,12 +90,14 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
+  const queryKey = ['admin.paket-instansi.table.ubah', id]
+
   const {
     data: initialValues,
     isLoading,
     isFetching,
   } = useQuery<UbahPaketInstansiFormSchema>({
-    queryKey: ['admin.paket-instansi.table.ubah', id],
+    queryKey,
     queryFn: async () => {
       if (!id) return {}
 
@@ -134,10 +136,17 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setId(undefined)
         queryClient.invalidateQueries({
           queryKey: ['admin.paket-instansi.list'],
         })
+        queryClient.setQueryData(
+          queryKey,
+          (oldData: UbahPaketInstansiFormSchema) => ({
+            ...oldData,
+            ...data,
+          })
+        )
+        setId(undefined)
       },
       onError: ({ message }) => setFormError(message),
     })

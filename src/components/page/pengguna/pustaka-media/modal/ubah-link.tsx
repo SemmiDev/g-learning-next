@@ -1,5 +1,5 @@
 import { lihatBerkasAction } from '@/actions/pengguna/pustaka-media/lihat-berkas'
-import { ubahFolderAction } from '@/actions/pengguna/pustaka-media/ubah-folder'
+import { ubahLinkAction } from '@/actions/pengguna/pustaka-media/ubah-link'
 import {
   CardSeparator,
   ControlledInput,
@@ -18,35 +18,35 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
-  deskripsi: z.string().optional(),
+  link: z.string().pipe(required),
 })
 
-export type UbahFolderFormSchema = {
+export type UbahLinkFormSchema = {
   nama?: string
-  deskripsi?: string
+  link?: string
 }
 
 type UbahModalProps = {
   id: string | undefined
   setId(id?: string): void
-  refetchKeys: QueryKey[]
+  refetchKey: QueryKey
 }
 
-export default function UbahFolderModal({
+export default function UbahLinkModal({
   id,
   setId,
-  refetchKeys,
+  refetchKey,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['pengguna.pustaka-media.files.ubah-folder', id]
+  const queryKey = ['pengguna.pustaka-media.files.ubah-link', id]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahFolderFormSchema>({
+  } = useQuery<UbahLinkFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return {}
@@ -55,22 +55,20 @@ export default function UbahFolderModal({
 
       return {
         nama: data?.nama,
-        deskripsi: data?.deskripsi,
+        link: data?.url,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahFolderFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahLinkFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahFolderAction(id, data), {
+    await handleActionWithToast(ubahLinkAction(id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        for (const refetchKey of refetchKeys) {
-          queryClient.invalidateQueries({ queryKey: refetchKey })
-        }
-        queryClient.setQueryData(queryKey, (oldData: UbahFolderFormSchema) => ({
+        queryClient.invalidateQueries({ queryKey: refetchKey })
+        queryClient.setQueryData(queryKey, (oldData: UbahLinkFormSchema) => ({
           ...oldData,
           ...data,
         }))
@@ -82,7 +80,7 @@ export default function UbahFolderModal({
 
   return (
     <Modal
-      title="Ubah Folder"
+      title="Ubah Link"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
@@ -91,7 +89,7 @@ export default function UbahFolderModal({
       {isLoading || !id ? (
         <Loader height={236} />
       ) : (
-        <Form<UbahFolderFormSchema>
+        <Form<UbahLinkFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -107,17 +105,18 @@ export default function UbahFolderModal({
                   name="nama"
                   control={control}
                   errors={errors}
-                  label="Nama Folder"
-                  placeholder="Nama Folder"
+                  label="Label"
+                  placeholder="Label Link"
                   required
                 />
 
                 <ControlledInput
-                  name="deskripsi"
+                  name="link"
                   control={control}
                   errors={errors}
-                  label="Tulis deskripsi folder jika ada"
-                  placeholder="Deskripsi"
+                  type="url"
+                  label="Link"
+                  placeholder="Masukkan link"
                 />
 
                 <FormError error={formError} />

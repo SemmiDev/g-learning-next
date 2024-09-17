@@ -15,6 +15,7 @@ import { handleActionWithToast } from '@/utils/action'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
+import { BiSolidChevronRight } from 'react-icons/bi'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
@@ -22,8 +23,9 @@ import DriveButton from './drive-button'
 import FileCard, { FileType } from './file-card'
 import TambahBerkasModal from './modal/tambah-berkas'
 import TambahFolderModal from './modal/tambah-folder'
+import UbahFileModal from './modal/ubah-file'
 import UbahFolderModal from './modal/ubah-folder'
-import { BiSolidChevronRight } from 'react-icons/bi'
+import UbahLinkModal from './modal/ubah-link'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -58,6 +60,8 @@ export default function PustakaMediaBody() {
   const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
   const [showModalTambahBerkas, setShowModalTambahBerkas] = useState(false)
   const [idUbahFolder, setIdUbahFolder] = useState<string>()
+  const [idUbahLink, setIdUbahLink] = useState<string>()
+  const [idUbahFile, setIdUbahFile] = useState<string>()
   const [listFolder, setListFolder] = useState<FolderType[]>([])
 
   const { data: drives = [] } = useQuery<DriveType[]>({
@@ -167,6 +171,16 @@ export default function PustakaMediaBody() {
         queryClient.invalidateQueries({ queryKey: queryKeyDrive })
       },
     })
+  }
+
+  const handleEdit = (file: FileType) => {
+    if (file.folder) {
+      setIdUbahFolder(file.id)
+    } else if (file.type === 'link') {
+      setIdUbahLink(file.id)
+    } else {
+      setIdUbahFile(file.id)
+    }
   }
 
   return (
@@ -285,7 +299,7 @@ export default function PustakaMediaBody() {
             <FileCard
               key={file.id}
               file={file}
-              onEditFolder={(file) => setIdUbahFolder(file.id)}
+              onEdit={handleEdit}
               onDelete={(file) => setFileHapus(file)}
               onFolderClick={(file) => {
                 setActiveFolder(file.id)
@@ -337,6 +351,18 @@ export default function PustakaMediaBody() {
         id={idUbahFolder}
         setId={setIdUbahFolder}
         refetchKeys={[queryKey, ['pengguna.pustaka-media.drives']]}
+      />
+
+      <UbahLinkModal
+        id={idUbahLink}
+        setId={setIdUbahLink}
+        refetchKey={queryKey}
+      />
+
+      <UbahFileModal
+        id={idUbahFile}
+        setId={setIdUbahFile}
+        refetchKey={queryKey}
       />
 
       <ModalConfirm

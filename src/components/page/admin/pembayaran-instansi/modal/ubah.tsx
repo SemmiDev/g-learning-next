@@ -40,12 +40,14 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
+  const queryKey = ['admin.pembayaran-instansi.table.ubah', id]
+
   const {
     data: initialValues,
     isLoading,
     isFetching,
   } = useQuery<UbahPembayaranInstansiFormSchema>({
-    queryKey: ['admin.pembayaran-instansi.table.ubah', id],
+    queryKey,
     queryFn: async () => {
       if (!id) return {}
 
@@ -68,10 +70,17 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setId(undefined)
         queryClient.invalidateQueries({
           queryKey: ['admin.pembayaran-instansi.table'],
         })
+        queryClient.setQueryData(
+          queryKey,
+          (oldData: UbahPembayaranInstansiFormSchema) => ({
+            ...oldData,
+            ...data,
+          })
+        )
+        setId(undefined)
       },
       onError: ({ message }) => setFormError(message),
     })

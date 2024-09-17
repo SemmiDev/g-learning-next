@@ -106,7 +106,7 @@ const FileIcon = ({ file }: { file: FileType }) => {
 type FileCardProps = {
   file: FileType
   onFolderClick?: (file: FileType) => void
-  onEditFolder?: (file: FileType) => void
+  onEdit?: (file: FileType) => void
   onDelete?: (file: FileType) => void
   className?: string
 }
@@ -114,7 +114,7 @@ type FileCardProps = {
 export default function FileCard({
   file,
   onFolderClick,
-  onEditFolder,
+  onEdit,
   onDelete,
   className,
 }: FileCardProps) {
@@ -144,9 +144,9 @@ export default function FileCard({
                 <BsThreeDotsVertical size={14} />
               </ActionIcon>
             </Dropdown.Trigger>
-            <Dropdown.Menu className="w-30 divide-y">
+            <Dropdown.Menu className="w-30 divide-y !py-0">
               {!file.folder && file.type !== 'link' && file.link && (
-                <div className="mb-2">
+                <div className="py-2">
                   <Link href={file.link} target="_blank">
                     <Dropdown.Item className="text-gray-dark">
                       <BsDownload className="text-primary mr-2 h-4 w-4" />
@@ -155,24 +155,16 @@ export default function FileCard({
                   </Link>
                 </div>
               )}
-              {file.folder && (
-                <div className="mb-2">
-                  <Dropdown.Item
-                    className="text-gray-dark"
-                    onClick={() => onEditFolder && onEditFolder(file)}
-                  >
-                    <BsPencil className="text-warning mr-2 h-4 w-4" />
-                    Ubah
-                  </Dropdown.Item>
-                </div>
-              )}
-              <div
-                className={cn({
-                  'mt-2 pt-2':
-                    file.folder ||
-                    (!file.folder && file.type !== 'link' && file.link),
-                })}
-              >
+              <div className="py-2">
+                <Dropdown.Item
+                  className="text-gray-dark"
+                  onClick={() => onEdit && onEdit(file)}
+                >
+                  <BsPencil className="text-warning mr-2 h-4 w-4" />
+                  Ubah
+                </Dropdown.Item>
+              </div>
+              <div className="py-2">
                 <Dropdown.Item
                   className="text-gray-dark"
                   onClick={() => onDelete && onDelete(file)}

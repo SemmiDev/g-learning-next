@@ -1,0 +1,10 @@
+'use server'
+
+import { UbahLinkFormSchema } from '@/components/page/pengguna/pustaka-media/modal/ubah-link'
+import { makeJwtPutRequestAction } from '@/utils/action'
+
+export const ubahLinkAction = (id: string, data: UbahLinkFormSchema) =>
+  makeJwtPutRequestAction(`${process.env.API_URL}/pustaka-media/berkas/${id}`, {
+    nama: data.nama,
+    link: data.link,
+  })
