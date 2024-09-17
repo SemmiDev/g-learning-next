@@ -23,7 +23,7 @@ import DriveButton from './drive-button'
 import FileCard, { FileType } from './file-card'
 import TambahBerkasModal from './modal/tambah-berkas'
 import TambahFolderModal from './modal/tambah-folder'
-import UbahFileModal from './modal/ubah-file'
+import UbahFileModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
 
@@ -326,10 +326,6 @@ export default function PustakaMediaBody() {
           </Text>
         </div>
       )}
-
-      {/* <div className="flex justify-center mt-4">
-        <Button>Tampilkan Lebih banyak</Button>
-      </div> */}
 
       <TambahFolderModal
         show={showModalTambahFolder}

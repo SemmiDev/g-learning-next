@@ -1,5 +1,5 @@
 import { lihatBerkasAction } from '@/actions/pengguna/pustaka-media/lihat-berkas'
-import { ubahFileAction } from '@/actions/pengguna/pustaka-media/ubah-file'
+import { ubahBerkasAction } from '@/actions/pengguna/pustaka-media/ubah-berkas'
 import {
   CardSeparator,
   ControlledInput,
@@ -20,7 +20,7 @@ const formSchema = z.object({
   nama: z.string().pipe(required),
 })
 
-export type UbahFileFormSchema = {
+export type UbahBerkasFormSchema = {
   nama?: string
 }
 
@@ -30,7 +30,7 @@ type UbahModalProps = {
   refetchKey: QueryKey
 }
 
-export default function UbahFileModal({
+export default function UbahBerkasModal({
   id,
   setId,
   refetchKey,
@@ -38,13 +38,13 @@ export default function UbahFileModal({
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['pengguna.pustaka-media.files.ubah-file', id]
+  const queryKey = ['pengguna.pustaka-media.berkass.ubah-berkas', id]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahFileFormSchema>({
+  } = useQuery<UbahBerkasFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return {}
@@ -53,20 +53,20 @@ export default function UbahFileModal({
 
       return {
         nama: data?.nama,
-        file: data?.url,
+        berkas: data?.url,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahFileFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahBerkasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahFileAction(id, data), {
+    await handleActionWithToast(ubahBerkasAction(id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: refetchKey })
-        queryClient.setQueryData(queryKey, (oldData: UbahFileFormSchema) => ({
+        queryClient.setQueryData(queryKey, (oldData: UbahBerkasFormSchema) => ({
           ...oldData,
           ...data,
         }))
@@ -78,7 +78,7 @@ export default function UbahFileModal({
 
   return (
     <Modal
-      title="Ubah File"
+      title="Ubah Berkas"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
@@ -87,7 +87,7 @@ export default function UbahFileModal({
       {isLoading || !id ? (
         <Loader height={236} />
       ) : (
-        <Form<UbahFileFormSchema>
+        <Form<UbahBerkasFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -103,8 +103,8 @@ export default function UbahFileModal({
                   name="nama"
                   control={control}
                   errors={errors}
-                  label="Label"
-                  placeholder="Label File"
+                  label="Nama Berkas"
+                  placeholder="Masukkan nama berkas"
                   required
                 />
 

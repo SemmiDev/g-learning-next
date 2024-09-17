@@ -38,15 +38,15 @@ const options: SelectOptionType[] = [
 ]
 
 const formSchema = z.object({
-  tesInput: z.string().optional(),
+  // tesInput: z.string().optional(),
   // tesTextarea: z.string().pipe(required),
-  tesInputNumber: z.number().nullish(),
-  tesInputPhone: z.string().optional(),
-  tesNumber: z.number().nullish(),
+  // tesInputNumber: z.number().nullish(),
+  // tesInputPhone: z.string().optional(),
+  // tesNumber: z.number().nullish(),
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
-  // tesMedia: z.array(z.any()).superRefine(arrayRequired),
+  tesMedia: z.array(z.any()).superRefine(arrayRequired),
   // tesMateri: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
   // tesFiles: z.array(z.any()).superRefine(arrayRequired),
@@ -55,15 +55,15 @@ const formSchema = z.object({
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  tesInput?: string
+  // tesInput?: string
   // tesTextarea?: string
-  tesInputNumber?: number | null
-  tesInputPhone?: string
-  tesNumber?: number | null
+  // tesInputNumber?: number | null
+  // tesInputPhone?: string
+  // tesNumber?: number | null
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
-  // tesMedia?: PustakaMediaFileType[]
+  tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesDate?: Date
   // tesFiles?: UploadFileType[]
@@ -71,8 +71,8 @@ type FormSchema = {
 }
 
 const initialValues: FormSchema = {
-  tesInputNumber: 900,
-  tesNumber: 900,
+  // tesInputNumber: 900,
+  // tesNumber: 900,
 }
 
 export default function Tes2Page() {
@@ -92,13 +92,13 @@ export default function Tes2Page() {
       {({ control, formState: { errors, isSubmitting } }) => (
         <div className="space-y-4">
           <div>{JSON.stringify(errors)}</div>
-          <ControlledInput
+          {/* <ControlledInput
             name="tesInput"
             control={control}
             label="Input"
             placeholder="Input disini"
             errors={errors}
-          />
+          /> */}
           {/* <ControlledTextarea
             name="tesTextarea"
             control={control}
@@ -107,14 +107,14 @@ export default function Tes2Page() {
             errors={errors}
             required
           /> */}
-          <ControlledInputNumber
+          {/* <ControlledInputNumber
             name="tesInputNumber"
             control={control}
             label="Input Number"
             placeholder="Input disini"
             errors={errors}
-          />
-          <ControlledInput
+          /> */}
+          {/* <ControlledInput
             name="tesInputPhone"
             control={control}
             type="number"
@@ -122,14 +122,14 @@ export default function Tes2Page() {
             placeholder="Input disini"
             errors={errors}
             phoneNumber
-          />
-          <ControlledInputNumberSeparator
+          /> */}
+          {/* <ControlledInputNumberSeparator
             name="tesNumber"
             control={control}
             errors={errors}
             label="Tes Number"
             placeholder="Input disini"
-          />
+          /> */}
           {/* <ControlledInputRupiah
             name="tesRupiah"
             control={control}
@@ -158,34 +158,13 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           /> */}
-          {/* <Controller
-            control={control}
-            name="tesAsyncSelect"
-            render={({ field: { value, onChange: setValue, onBlur } }) => (
-              <AsyncPaginateSelect
-                label="Async Paginate Select"
-                placeholder="Pilih Satu"
-                action={tesAsyncAction}
-                construct={(data) => ({
-                  label: data.nama,
-                  value: data.id,
-                })}
-                onChange={(val) => {
-                  setValue(val)
-                }}
-                onBlur={onBlur}
-                value={value}
-                error={errors['tesAsyncSelect']?.message?.toString()}
-              />
-            )}
-          /> */}
-          {/* <ControlledPustakaMedia
+          <ControlledPustakaMedia
             name="tesMedia"
             control={control}
             label="Pilih Berkas"
             errors={errors}
             multiple
-          /> */}
+          />
           {/* <ControlledMateri
             name="tesMateri"
             control={control}
