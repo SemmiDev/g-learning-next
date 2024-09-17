@@ -98,7 +98,7 @@ export default function PustakaMedia({
   const [idUbahFolder, setIdUbahFolder] = useState<string>()
   const [idUbahLink, setIdUbahLink] = useState<string>()
   const [idUbahFile, setIdUbahFile] = useState<string>()
-  const [checkedFileIds, setCheckedFileIds] = useState<string[]>([])
+  const [checkedFiles, setCheckedFiles] = useState<FileType[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
     Array.isArray(value) ? value : value ? [value] : []
   )
@@ -244,7 +244,7 @@ export default function PustakaMedia({
       <div>
         <div
           onClick={() => {
-            setCheckedFileIds(selectedFiles.map((file) => file.id))
+            setCheckedFiles([...selectedFiles])
             setShow(true)
           }}
         >
@@ -402,18 +402,20 @@ export default function PustakaMedia({
                           file={file}
                           onEdit={handleUbah}
                           onDelete={(file) => setFileHapus(file)}
-                          checked={checkedFileIds.indexOf(file.id) >= 0}
+                          checked={checkedFiles.some(
+                            (item) => item.id === file.id
+                          )}
                           onChange={(val) => {
                             if (multiple) {
                               if (val) {
-                                setCheckedFileIds([...checkedFileIds, file.id])
+                                setCheckedFiles([...checkedFiles, file])
                               } else {
-                                setCheckedFileIds(
-                                  removeFromList(checkedFileIds, file.id)
+                                setCheckedFiles(
+                                  removeFromList(checkedFiles, file)
                                 )
                               }
                             } else {
-                              setCheckedFileIds([file.id])
+                              setCheckedFiles([file])
                             }
                           }}
                           multiple={multiple}
@@ -432,9 +434,7 @@ export default function PustakaMedia({
                 size="sm"
                 className="w-36"
                 onClick={() => {
-                  const selected = files.filter(
-                    (val) => checkedFileIds.indexOf(val.id) >= 0
-                  )
+                  const selected = [...checkedFiles]
                   doChange(selected)
                   setShow(false)
                 }}
