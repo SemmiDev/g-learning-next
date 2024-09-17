@@ -9,6 +9,7 @@ import {
   CardSeparator,
   Input,
   Label,
+  Loader,
   Modal,
   ModalConfirm,
   Text,
@@ -36,6 +37,7 @@ import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
 import SelectedFile from './selected-file'
+import { useSession } from 'next-auth/react'
 
 export type DriveType = {
   id: string | null
@@ -85,6 +87,7 @@ export default function PustakaMedia({
   error,
   errorClassName,
 }: PustakaMediaProps) {
+  const { status } = useSession()
   const queryClient = useQueryClient()
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'xl' | 'full'>('xl')
@@ -239,6 +242,14 @@ export default function PustakaMedia({
     }
   }
 
+  if (status === 'unauthenticated') {
+    return (
+      <div className="text-danger text-sm font-semibold border border-danger rounded-md ring-[0.6px] ring-muted min-h-10 uppercase py-2 px-[0.875rem]">
+        Penggunaan pustaka media mengharuskan untuk login!
+      </div>
+    )
+  }
+
   return (
     <>
       <div>
@@ -378,48 +389,52 @@ export default function PustakaMedia({
                       ))}
                   </div>
                   <div className="flex flex-col">
-                    {files.map((file) =>
-                      file.folder ? (
-                        <FolderButton
-                          key={file.id}
-                          file={file}
-                          onOpen={(file) => {
-                            setActiveFolder(file.id)
-                            setListFolder((list) => [
-                              ...list,
-                              {
-                                name: file.name,
-                                id: file.id,
-                              },
-                            ])
-                          }}
-                          onEdit={(file) => setIdUbahFolder(file.id)}
-                          onDelete={(file) => setFileHapus(file)}
-                        />
-                      ) : (
-                        <FileButton
-                          key={file.id}
-                          file={file}
-                          onEdit={handleUbah}
-                          onDelete={(file) => setFileHapus(file)}
-                          checked={checkedFiles.some(
-                            (item) => item.id === file.id
-                          )}
-                          onChange={(val) => {
-                            if (multiple) {
-                              if (val) {
-                                setCheckedFiles([...checkedFiles, file])
+                    {isLoadingFiles ? (
+                      <Loader height={200} />
+                    ) : (
+                      files.map((file) =>
+                        file.folder ? (
+                          <FolderButton
+                            key={file.id}
+                            file={file}
+                            onOpen={(file) => {
+                              setActiveFolder(file.id)
+                              setListFolder((list) => [
+                                ...list,
+                                {
+                                  name: file.name,
+                                  id: file.id,
+                                },
+                              ])
+                            }}
+                            onEdit={(file) => setIdUbahFolder(file.id)}
+                            onDelete={(file) => setFileHapus(file)}
+                          />
+                        ) : (
+                          <FileButton
+                            key={file.id}
+                            file={file}
+                            onEdit={handleUbah}
+                            onDelete={(file) => setFileHapus(file)}
+                            checked={checkedFiles.some(
+                              (item) => item.id === file.id
+                            )}
+                            onChange={(val) => {
+                              if (multiple) {
+                                if (val) {
+                                  setCheckedFiles([...checkedFiles, file])
+                                } else {
+                                  setCheckedFiles(
+                                    removeFromList(checkedFiles, file)
+                                  )
+                                }
                               } else {
-                                setCheckedFiles(
-                                  removeFromList(checkedFiles, file)
-                                )
+                                setCheckedFiles([file])
                               }
-                            } else {
-                              setCheckedFiles([file])
-                            }
-                          }}
-                          multiple={multiple}
-                        />
+                            }}
+                            multiple={multiple}
+                          />
+                        )
                       )
                     )}
                   </div>

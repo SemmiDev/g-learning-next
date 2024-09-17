@@ -1,6 +1,7 @@
 import { ActionIcon, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import { BsEye, BsFileEarmarkFill, BsFillPlayBtnFill } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { MdOutlineFileDownload } from 'react-icons/md'
 
 export type FileItemType = {
@@ -37,12 +38,15 @@ export default function RecentFileItem({ file }: FileButtonProps) {
             >
               {file.name}
             </Text>
-            <ul className="flex list-inside list-disc gap-3.5">
-              <li className="list-none text-sm text-gray-lighter">
-                {file.size ? formatBytes(file.size, 2) : file.time}
-              </li>
-              {file.size && (
-                <li className="text-sm text-gray-lighter">{file.time}</li>
+            <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+              <li>{file.size ? formatBytes(file.size, 2) : file.time}</li>
+              {!!file.size && (
+                <>
+                  <li>
+                    <GoDotFill size={10} />
+                  </li>
+                  <li className="text-sm text-gray-lighter">{file.time}</li>
+                </>
               )}
             </ul>
           </div>

@@ -1,6 +1,7 @@
 import { ActionIcon, FileIcon, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsDownload, BsThreeDotsVertical } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { GrShare } from 'react-icons/gr'
 import { Dropdown } from 'rizzui'
 
@@ -27,7 +28,7 @@ export default function BerkasCard({
     >
       <div className="flex items-start justify-between">
         <figure className="flex items-center justify-center size-11 rounded-md bg-gray-50 mb-4">
-          <FileIcon filename={file.name} />
+          <FileIcon file={file} />
         </figure>
         <div className="flex">
           <Dropdown placement="bottom-end">
@@ -57,9 +58,12 @@ export default function BerkasCard({
       >
         {file.name}
       </Text>
-      <ul className="flex list-inside list-disc gap-3.5">
-        <li className="list-none text-sm text-gray-lighter">{file.size}</li>
-        <li className="text-sm text-gray-lighter">{file.time}</li>
+      <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+        <li>{file.size}</li>
+        <li>
+          <GoDotFill size={10} />
+        </li>
+        <li>{file.time}</li>
       </ul>
       <Text size="sm" title={file.desc} className="truncate">
         {file.desc}

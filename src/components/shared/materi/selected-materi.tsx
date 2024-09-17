@@ -1,6 +1,7 @@
 import { ActionIcon, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsClipboardPlus, BsFileEarmarkRichtext } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { MdClose } from 'react-icons/md'
 import { MateriItemType } from './materi-button'
 
@@ -40,13 +41,12 @@ export default function SelectedMateri({
           >
             {materi.name}
           </Text>
-          <ul className="flex list-inside list-disc gap-3.5">
-            <li className="list-none text-sm text-gray-lighter">
-              {materi.time}
+          <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+            <li>{materi.time}</li>
+            <li>
+              <GoDotFill size={10} />
             </li>
-            <li className="text-sm text-gray-lighter">
-              {materi.fileCount} berkas
-            </li>
+            <li>{materi.fileCount} berkas</li>
           </ul>
         </div>
       </div>

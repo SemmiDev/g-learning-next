@@ -9,6 +9,7 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { Dropdown } from 'rizzui'
 
 type FileCardProps = {
@@ -98,17 +99,18 @@ export default function FileCard({
           {file.name}
         </Title>
         {file.folder ? (
-          <ul className="flex list-inside list-disc gap-3.5">
-            <li className="list-none text-sm text-gray-lighter">
-              {file.fileCount} Berkas
+          <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+            <li>{file.fileCount} Berkas</li>
+            <li>
+              <GoDotFill size={10} />
             </li>
-            <li className="text-sm text-gray-lighter">
+            <li>
               <Time date={file.time} format="date" />
             </li>
           </ul>
         ) : (
-          <ul className="flex list-inside list-disc gap-3.5">
-            <li className="list-none text-sm text-gray-lighter">
+          <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+            <li>
               {file.size ? (
                 formatBytes(file.size, 2)
               ) : (
@@ -116,9 +118,14 @@ export default function FileCard({
               )}
             </li>
             {!!file.size && (
-              <li className="text-sm text-gray-lighter">
-                <Time date={file.time} format="date" />
-              </li>
+              <>
+                <li>
+                  <GoDotFill size={10} />
+                </li>
+                <li>
+                  <Time date={file.time} format="date" />
+                </li>
+              </>
             )}
           </ul>
         )}

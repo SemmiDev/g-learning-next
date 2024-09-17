@@ -69,7 +69,7 @@ const Icon = ({ file }: { file: FileType }) => {
 
 export const FileIcon = ({ file }: { file: FileType }) => {
   return (
-    <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
+    <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 shrink-0">
       {file.folder ? (
         <figure className="size-5">
           <Image src={iconFolder} alt="folder" />

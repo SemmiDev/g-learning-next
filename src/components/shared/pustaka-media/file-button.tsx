@@ -1,20 +1,17 @@
 import {
-  ActionIcon,
   ActionIconTooltip,
   FileIcon,
   LinkOrDiv,
-  ModalConfirm,
   Text,
   Time,
 } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
-import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsEye, BsPencil } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Checkbox, Radio } from 'rizzui'
 import { FileType } from './pustaka-media'
-import Link from 'next/link'
 
 export type FileButtonProps = {
   file: FileType
@@ -35,27 +32,29 @@ export default function FileButton({
 }: FileButtonProps) {
   return (
     <>
-      <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
-        {multiple ? (
-          <Checkbox
-            size="sm"
-            className="px-3"
-            iconClassName="h-4 top-0.5 left"
-            checked={checked}
-            onChange={(e) => {
-              onChange && onChange(e.target.checked)
-            }}
-          />
-        ) : (
-          <Radio
-            name="pustaka_media_radio"
-            value={file.id}
-            size="sm"
-            className="px-3"
-            checked={checked}
-            onChange={() => onChange && onChange(true)}
-          />
-        )}
+      <label className="flex border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
+        <div className="mt-3">
+          {multiple ? (
+            <Checkbox
+              size="sm"
+              className="px-3"
+              iconClassName="h-4 top-0.5 left"
+              checked={checked}
+              onChange={(e) => {
+                onChange && onChange(e.target.checked)
+              }}
+            />
+          ) : (
+            <Radio
+              name="pustaka_media_radio"
+              value={file.id}
+              size="sm"
+              className="px-3"
+              checked={checked}
+              onChange={() => onChange && onChange(true)}
+            />
+          )}
+        </div>
         <div className="flex flex-1 justify-between items-center space-x-2">
           <div className="flex space-x-2">
             <FileIcon file={file} />
@@ -68,8 +67,8 @@ export default function FileButton({
               >
                 {file.name}
               </Text>
-              <ul className="flex list-inside list-disc gap-3.5">
-                <li className="list-none text-sm text-gray-lighter">
+              <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+                <li>
                   {file.size ? (
                     formatBytes(file.size, 2)
                   ) : (
@@ -77,14 +76,19 @@ export default function FileButton({
                   )}
                 </li>
                 {!!file.size && (
-                  <li className="text-sm text-gray-lighter">
-                    <Time date={file.time} />
-                  </li>
+                  <>
+                    <li>
+                      <GoDotFill size={10} />
+                    </li>
+                    <li>
+                      <Time date={file.time} />
+                    </li>
+                  </>
                 )}
               </ul>
             </div>
           </div>
-          <div className="flex space-x-1 pr-4">
+          <div className="flex flex-wrap justify-end space-x-1 pr-4">
             <LinkOrDiv href={file.link} target="_blank">
               <ActionIconTooltip
                 tooltip="Lihat"

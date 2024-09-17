@@ -1,5 +1,6 @@
 import { ActionIcon, FileIcon, Text, Time } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
+import { GoDotFill } from 'react-icons/go'
 import { MdClose } from 'react-icons/md'
 import { FileType } from './pustaka-media'
 
@@ -22,8 +23,8 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
           >
             {file.name}
           </Text>
-          <ul className="flex list-inside list-disc gap-3.5">
-            <li className="list-none text-sm text-gray-lighter">
+          <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+            <li>
               {file.size ? (
                 formatBytes(file.size, 2)
               ) : (
@@ -31,9 +32,14 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
               )}
             </li>
             {!!file.size && (
-              <li className="text-sm text-gray-lighter">
-                <Time date={file.time} />
-              </li>
+              <>
+                <li>
+                  <GoDotFill size={10} />
+                </li>
+                <li>
+                  <Time date={file.time} />
+                </li>
+              </>
             )}
           </ul>
         </div>

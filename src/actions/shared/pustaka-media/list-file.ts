@@ -1,7 +1,13 @@
 'use server'
 
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { SortType } from '@/hooks/use-table-async'
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import {
+  makeActionResponse,
+  makeJwtGetRequestTableAction,
+  makeTableActionResponse,
+} from '@/utils/action'
+import { getServerSession } from 'next-auth'
 
 export type DataType = {
   id: string
@@ -34,8 +40,11 @@ export const listFileAction = async ({
   idInstansi?: string
   idFolder?: string
   sort?: SortType
-}) =>
-  makeJwtGetRequestTableAction<DataType>(
+}) => {
+  const { user } = (await getServerSession(authOptions)) ?? {}
+  if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
+
+  return await makeJwtGetRequestTableAction<DataType>(
     `${process.env.API_URL}/pustaka-media`,
     {
       current_page: page,
@@ -48,3 +57,4 @@ export const listFileAction = async ({
       id_parent: idFolder,
     }
   )
+}
