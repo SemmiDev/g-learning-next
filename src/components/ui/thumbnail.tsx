@@ -5,6 +5,7 @@ import ImageName from './image-with-name'
 
 export type ThumbnailProps = {
   size: number
+  resize?: number //resized image size by nextjs, default is same as size
   rounded?: 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
   src: string | StaticImport | undefined
   alt: string
@@ -16,6 +17,7 @@ export type ThumbnailProps = {
 
 export default function Thumbnail({
   size,
+  resize,
   rounded = 'base',
   src,
   alt,
@@ -45,8 +47,8 @@ export default function Thumbnail({
         <Image
           src={src}
           alt={alt}
-          width={size}
-          height={size}
+          width={resize ?? size}
+          height={resize ?? size}
           priority={priority}
           className="w-full h-full object-cover"
         />

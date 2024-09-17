@@ -1,7 +1,9 @@
+import { FileType } from '@/components/shared/pustaka-media/pustaka-media'
+import iconFolder from '@public/icons/folder.svg'
+import Image from 'next/image'
 import {
   BsFileEarmarkText,
   BsFileEarmarkZip,
-  BsFileImage,
   BsFiletypeDoc,
   BsFiletypeDocx,
   BsFiletypePdf,
@@ -11,16 +13,32 @@ import {
   BsFiletypeTxt,
   BsFiletypeXls,
   BsFiletypeXlsx,
+  BsFillPlayBtnFill,
+  BsGlobe,
 } from 'react-icons/bs'
 import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
+import Thumbnail from '../thumbnail'
 
-type FileIconProps = {
-  filename: string
-  iconSize?: number
-}
+const iconSize = 20 as const
 
-export default function FileIcon({ filename, iconSize = 20 }: FileIconProps) {
-  switch (filename.split('.').pop()) {
+const Icon = ({ file }: { file: FileType }) => {
+  if (file.type === 'link') {
+    if (file.link && file.link.match(/.*youtube.*/)) {
+      return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
+    } else {
+      return <BsGlobe size={iconSize} className="text-success" />
+    }
+  }
+  if (file.type === 'audio') {
+    return <LuFileAudio size={iconSize} className="text-primary" />
+  }
+  if (file.type === 'video') {
+    return <LuFileVideo size={iconSize} className="text-primary" />
+  }
+
+  const extension = file.extension ?? (file.link ?? file.name).split('.').pop()
+
+  switch (extension) {
     case 'doc':
       return <BsFiletypeDoc size={iconSize} className="text-primary" />
     case 'docx':
@@ -39,15 +57,6 @@ export default function FileIcon({ filename, iconSize = 20 }: FileIconProps) {
       return <BsFiletypeTxt size={iconSize} className="text-danger" />
     case 'svg':
       return <BsFiletypeSvg size={iconSize} className="text-primary" />
-    case 'mp3':
-      return <LuFileAudio size={iconSize} className="text-primary" />
-    case 'mp4':
-      return <LuFileVideo size={iconSize} className="text-primary" />
-    case 'jpg':
-    case 'jpeg':
-    case 'png':
-    case 'bmp':
-      return <BsFileImage size={iconSize} className="text-primary" />
     case 'zip':
     case 'rar':
     case '7zip':
@@ -56,4 +65,26 @@ export default function FileIcon({ filename, iconSize = 20 }: FileIconProps) {
     default:
       return <BsFileEarmarkText size={iconSize} className="text-primary" />
   }
+}
+
+export const FileIcon = ({ file }: { file: FileType }) => {
+  return (
+    <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
+      {file.folder ? (
+        <figure className="size-5">
+          <Image src={iconFolder} alt="folder" />
+        </figure>
+      ) : file.type === 'image' ? (
+        <Thumbnail
+          src={file.link}
+          alt="thumbnail"
+          size={44}
+          resize={100}
+          rounded="md"
+        />
+      ) : (
+        <Icon file={file} />
+      )}
+    </div>
+  )
 }

@@ -38,7 +38,7 @@ export default function UbahBerkasModal({
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['pengguna.pustaka-media.berkass.ubah-berkas', id]
+  const queryKey = ['shared.pustaka-media.berkass.ubah-berkas', id]
 
   const {
     data: initialValues,

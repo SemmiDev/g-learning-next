@@ -1,5 +1,5 @@
 import { lihatBerkasAction } from '@/actions/shared/pustaka-media/lihat-berkas'
-import { ubahBerkasAction } from '@/actions/shared/pustaka-media/ubah-berkas'
+import { ubahFolderAction } from '@/actions/shared/pustaka-media/ubah-folder'
 import {
   CardSeparator,
   ControlledInput,
@@ -18,33 +18,35 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
+  deskripsi: z.string().optional(),
 })
 
-export type UbahBerkasFormSchema = {
+export type UbahFolderFormSchema = {
   nama?: string
+  deskripsi?: string
 }
 
 type UbahModalProps = {
   id: string | undefined
   setId(id?: string): void
-  refetchKey: QueryKey
+  refetchKeys: QueryKey[]
 }
 
-export default function UbahBerkasModal({
+export default function UbahFolderModal({
   id,
   setId,
-  refetchKey,
+  refetchKeys,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['pengguna.pustaka-media.berkass.ubah-berkas', id]
+  const queryKey = ['shared.pustaka-media.files.ubah-folder', id]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahBerkasFormSchema>({
+  } = useQuery<UbahFolderFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return {}
@@ -53,20 +55,22 @@ export default function UbahBerkasModal({
 
       return {
         nama: data?.nama,
-        berkas: data?.url,
+        deskripsi: data?.deskripsi,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahBerkasFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahFolderFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBerkasAction(id, data), {
+    await handleActionWithToast(ubahFolderAction(id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: refetchKey })
-        queryClient.setQueryData(queryKey, (oldData: UbahBerkasFormSchema) => ({
+        for (const refetchKey of refetchKeys) {
+          queryClient.invalidateQueries({ queryKey: refetchKey })
+        }
+        queryClient.setQueryData(queryKey, (oldData: UbahFolderFormSchema) => ({
           ...oldData,
           ...data,
         }))
@@ -78,7 +82,7 @@ export default function UbahBerkasModal({
 
   return (
     <Modal
-      title="Ubah Berkas"
+      title="Ubah Folder"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
@@ -87,7 +91,7 @@ export default function UbahBerkasModal({
       {isLoading || !id ? (
         <Loader height={236} />
       ) : (
-        <Form<UbahBerkasFormSchema>
+        <Form<UbahFolderFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -103,9 +107,17 @@ export default function UbahBerkasModal({
                   name="nama"
                   control={control}
                   errors={errors}
-                  label="Nama Berkas"
-                  placeholder="Masukkan nama berkas"
+                  label="Nama Folder"
+                  placeholder="Nama Folder"
                   required
+                />
+
+                <ControlledInput
+                  name="deskripsi"
+                  control={control}
+                  errors={errors}
+                  label="Tulis deskripsi folder jika ada"
+                  placeholder="Deskripsi"
                 />
 
                 <FormError error={formError} />

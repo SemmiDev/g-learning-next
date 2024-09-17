@@ -1,8 +1,13 @@
 'use client'
 
-import { driveInfoAction } from '@/actions/pengguna/pustaka-media/drive-info'
-import { hapusBerkasAction } from '@/actions/pengguna/pustaka-media/hapus'
-import { listFileAction } from '@/actions/pengguna/pustaka-media/list-file'
+import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
+import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
+import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
+import {
+  DriveType,
+  FileType,
+  FolderType,
+} from '@/components/shared/pustaka-media/pustaka-media'
 import {
   Button,
   Loader,
@@ -20,10 +25,10 @@ import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
 import DriveButton from './drive-button'
-import FileCard, { FileType } from './file-card'
+import FileCard from './file-card'
 import TambahBerkasModal from './modal/tambah-berkas'
 import TambahFolderModal from './modal/tambah-folder'
-import UbahFileModal from './modal/ubah-berkas'
+import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
 
@@ -36,18 +41,6 @@ const sortData = {
 
 type SortDataType = keyof typeof sortData
 
-type DriveType = {
-  id: string | null
-  name: string
-  used: number
-  size: number
-}
-
-type FolderType = {
-  id: string
-  name: string
-}
-
 const queryKeyDrive = ['pengguna.pustaka-media.drives']
 
 export default function PustakaMediaBody() {
@@ -56,13 +49,13 @@ export default function PustakaMediaBody() {
   const [activeFolder, setActiveFolder] = useState<string>()
   const [sort, setSort] = useState<SortDataType>('terbaru')
   const [search, setSearch] = useState('')
+  const [listFolder, setListFolder] = useState<FolderType[]>([])
   const [fileHapus, setFileHapus] = useState<FileType>()
   const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
   const [showModalTambahBerkas, setShowModalTambahBerkas] = useState(false)
   const [idUbahFolder, setIdUbahFolder] = useState<string>()
   const [idUbahLink, setIdUbahLink] = useState<string>()
   const [idUbahFile, setIdUbahFile] = useState<string>()
-  const [listFolder, setListFolder] = useState<FolderType[]>([])
 
   const { data: drives = [] } = useQuery<DriveType[]>({
     queryKey: queryKeyDrive,
@@ -125,7 +118,7 @@ export default function PustakaMediaBody() {
           link: item.url,
           extension: item.ekstensi,
           folder: item.tipe === 'Folder',
-          fileCount: item.tipe !== 'Folder' ? item.total_files : undefined,
+          fileCount: item.tipe === 'Folder' ? item.total_files : undefined,
           size: item.tipe !== 'Folder' ? item.ukuran : undefined,
           type:
             item.tipe === 'Audio'
@@ -173,7 +166,7 @@ export default function PustakaMediaBody() {
     })
   }
 
-  const handleEdit = (file: FileType) => {
+  const handleUbah = (file: FileType) => {
     if (file.folder) {
       setIdUbahFolder(file.id)
     } else if (file.type === 'link') {
@@ -299,7 +292,7 @@ export default function PustakaMediaBody() {
             <FileCard
               key={file.id}
               file={file}
-              onEdit={handleEdit}
+              onEdit={handleUbah}
               onDelete={(file) => setFileHapus(file)}
               onFolderClick={(file) => {
                 setActiveFolder(file.id)
@@ -355,7 +348,7 @@ export default function PustakaMediaBody() {
         refetchKey={queryKey}
       />
 
-      <UbahFileModal
+      <UbahBerkasModal
         id={idUbahFile}
         setId={setIdUbahFile}
         refetchKey={queryKey}

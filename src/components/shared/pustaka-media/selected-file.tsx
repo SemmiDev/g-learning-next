@@ -1,10 +1,9 @@
 import { ActionIcon, FileIcon, Text } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
-import { BsFillPlayBtnFill } from 'react-icons/bs'
 import { MdClose } from 'react-icons/md'
-import { FileItemType } from './file-button'
+import { FileType } from './pustaka-media'
 
-type SelectedFileProps = { file: FileItemType; onRemove?(): void }
+type SelectedFileProps = { file: FileType; onRemove?(): void }
 
 export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
   return (
@@ -13,13 +12,7 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex space-x-2">
-        <div className="flex items-center justify-center size-11 shrink-0 rounded-md bg-gray-50">
-          {file.type === 'link-video' ? (
-            <BsFillPlayBtnFill size={20} className="text-danger-dark" />
-          ) : (
-            <FileIcon filename={file.name} />
-          )}
-        </div>
+        <FileIcon file={file} />
         <div className="flex flex-col">
           <Text
             weight="semibold"

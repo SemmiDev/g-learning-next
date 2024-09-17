@@ -1,25 +1,28 @@
-import { ActionIcon, FileIcon, ModalConfirm, Text } from '@/components/ui'
+import {
+  ActionIcon,
+  ActionIconTooltip,
+  FileIcon,
+  LinkOrDiv,
+  ModalConfirm,
+  Text,
+  Time,
+} from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
-import { BsEye, BsFillPlayBtnFill } from 'react-icons/bs'
+import { BsEye, BsPencil } from 'react-icons/bs'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Checkbox, Radio } from 'rizzui'
-
-export type FileItemType = {
-  id: string
-  name: string
-  size?: number | null
-  time: string
-  type: 'link-video' | 'file'
-  link: string
-}
+import { FileType } from './pustaka-media'
+import Link from 'next/link'
 
 export type FileButtonProps = {
-  file: FileItemType
+  file: FileType
   checked?: boolean
   onChange?(val: boolean): void
   multiple: boolean
+  onEdit?: (file: FileType) => void
+  onDelete?: (file: FileType) => void
 }
 
 export default function FileButton({
@@ -27,9 +30,9 @@ export default function FileButton({
   checked = false,
   onChange,
   multiple,
+  onEdit,
+  onDelete,
 }: FileButtonProps) {
-  const [showModalHapus, setShowModalHapus] = useState(false)
-
   return (
     <>
       <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
@@ -55,13 +58,7 @@ export default function FileButton({
         )}
         <div className="flex flex-1 justify-between items-center space-x-2">
           <div className="flex space-x-2">
-            <div className="flex size-11 items-center justify-center rounded-md shrink-0 bg-gray-50">
-              {file.type === 'link-video' ? (
-                <BsFillPlayBtnFill size={20} className="text-danger-dark" />
-              ) : (
-                <FileIcon filename={file.name} />
-              )}
-            </div>
+            <FileIcon file={file} />
             <div className="flex flex-col">
               <Text
                 weight="semibold"
@@ -73,54 +70,71 @@ export default function FileButton({
               </Text>
               <ul className="flex list-inside list-disc gap-3.5">
                 <li className="list-none text-sm text-gray-lighter">
-                  {file.size ? formatBytes(file.size, 2) : file.time}
+                  {file.size ? (
+                    formatBytes(file.size, 2)
+                  ) : (
+                    <Time date={file.time} />
+                  )}
                 </li>
-                {file.size && (
-                  <li className="text-sm text-gray-lighter">{file.time}</li>
+                {!!file.size && (
+                  <li className="text-sm text-gray-lighter">
+                    <Time date={file.time} />
+                  </li>
                 )}
               </ul>
             </div>
           </div>
           <div className="flex space-x-1 pr-4">
-            <ActionIcon
-              size="sm"
-              variant="outline-hover-colorful"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <BsEye />
-            </ActionIcon>
-            {file.type === 'file' && (
-              <ActionIcon
+            <LinkOrDiv href={file.link} target="_blank">
+              <ActionIconTooltip
+                tooltip="Lihat"
                 size="sm"
                 variant="outline-hover-colorful"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
               >
-                <MdOutlineFileDownload />
-              </ActionIcon>
+                <BsEye />
+              </ActionIconTooltip>
+            </LinkOrDiv>
+            {file.type !== 'link' && (
+              <LinkOrDiv href={file.link} target="_blank">
+                <ActionIconTooltip
+                  tooltip="Unduh"
+                  size="sm"
+                  variant="outline-hover-colorful"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                  }}
+                >
+                  <MdOutlineFileDownload />
+                </ActionIconTooltip>
+              </LinkOrDiv>
             )}
-            <ActionIcon
+            <ActionIconTooltip
+              tooltip="Ubah"
+              size="sm"
+              variant="outline-hover-colorful"
+              color="warning"
+              onClick={() => onEdit && onEdit(file)}
+            >
+              <BsPencil />
+            </ActionIconTooltip>
+            <ActionIconTooltip
+              tooltip="Hapus"
               size="sm"
               variant="outline-hover-colorful"
               color="danger"
               onClick={(e) => {
                 e.stopPropagation()
-                setShowModalHapus(true)
+                onDelete && onDelete(file)
               }}
             >
               <BiTrashAlt />
-            </ActionIcon>
+            </ActionIconTooltip>
           </div>
         </div>
       </label>
-
-      <ModalConfirm
-        title="Hapus Berkas"
-        desc="Anda yakin ingin menghapus berkas ini?"
-        isOpen={showModalHapus}
-        onClose={() => setShowModalHapus(false)}
-        onConfirm={() => setShowModalHapus(false)}
-        closeOnCancel
-      />
     </>
   )
 }

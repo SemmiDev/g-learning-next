@@ -1,5 +1,5 @@
 import { lihatBerkasAction } from '@/actions/shared/pustaka-media/lihat-berkas'
-import { ubahBerkasAction } from '@/actions/shared/pustaka-media/ubah-berkas'
+import { ubahLinkAction } from '@/actions/shared/pustaka-media/ubah-link'
 import {
   CardSeparator,
   ControlledInput,
@@ -18,10 +18,12 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
+  link: z.string().pipe(required),
 })
 
-export type UbahBerkasFormSchema = {
+export type UbahLinkFormSchema = {
   nama?: string
+  link?: string
 }
 
 type UbahModalProps = {
@@ -30,7 +32,7 @@ type UbahModalProps = {
   refetchKey: QueryKey
 }
 
-export default function UbahBerkasModal({
+export default function UbahLinkModal({
   id,
   setId,
   refetchKey,
@@ -38,13 +40,13 @@ export default function UbahBerkasModal({
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['pengguna.pustaka-media.berkass.ubah-berkas', id]
+  const queryKey = ['shared.pustaka-media.files.ubah-link', id]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahBerkasFormSchema>({
+  } = useQuery<UbahLinkFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return {}
@@ -53,20 +55,20 @@ export default function UbahBerkasModal({
 
       return {
         nama: data?.nama,
-        berkas: data?.url,
+        link: data?.url,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahBerkasFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahLinkFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBerkasAction(id, data), {
+    await handleActionWithToast(ubahLinkAction(id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: refetchKey })
-        queryClient.setQueryData(queryKey, (oldData: UbahBerkasFormSchema) => ({
+        queryClient.setQueryData(queryKey, (oldData: UbahLinkFormSchema) => ({
           ...oldData,
           ...data,
         }))
@@ -78,7 +80,7 @@ export default function UbahBerkasModal({
 
   return (
     <Modal
-      title="Ubah Berkas"
+      title="Ubah Link"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
@@ -87,7 +89,7 @@ export default function UbahBerkasModal({
       {isLoading || !id ? (
         <Loader height={236} />
       ) : (
-        <Form<UbahBerkasFormSchema>
+        <Form<UbahLinkFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -103,9 +105,18 @@ export default function UbahBerkasModal({
                   name="nama"
                   control={control}
                   errors={errors}
-                  label="Nama Berkas"
-                  placeholder="Masukkan nama berkas"
+                  label="Label"
+                  placeholder="Label Link"
                   required
+                />
+
+                <ControlledInput
+                  name="link"
+                  control={control}
+                  errors={errors}
+                  type="url"
+                  label="Link"
+                  placeholder="Masukkan link"
                 />
 
                 <FormError error={formError} />

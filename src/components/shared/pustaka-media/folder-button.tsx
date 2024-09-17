@@ -1,27 +1,32 @@
-import { ActionIcon, Text } from '@/components/ui'
-import ModalConfirm from '@/components/ui/modal/confirm'
+import { ActionIconTooltip, Text } from '@/components/ui'
 import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsFolderFill, BsPencil } from 'react-icons/bs'
 import { LuFolderSearch } from 'react-icons/lu'
-
-export type FolderItemType = {
-  name: string
-  fileCount: number
-}
+import { FileType } from './pustaka-media'
 
 export type FolderButtonProps = {
-  folder: FolderItemType
-  onOpen?(): void
+  file: FileType
+  onOpen?: (file: FileType) => void
+  onEdit?: (file: FileType) => void
+  onDelete?: (file: FileType) => void
 }
 
-export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
+export default function FolderButton({
+  file,
+  onOpen,
+  onEdit,
+  onDelete,
+}: FolderButtonProps) {
   const [showModalHapus, setShowModalHapus] = useState(false)
 
   return (
     <>
       <div className="flex justify-between items-center space-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
-        <div className="flex space-x-2 cursor-pointer" onClick={onOpen}>
+        <div
+          className="flex space-x-2 cursor-pointer pe-2"
+          onClick={() => onOpen && onOpen(file)}
+        >
           <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
             <BsFolderFill size={20} className="text-primary" />
           </div>
@@ -29,55 +34,46 @@ export default function FolderButton({ folder, onOpen }: FolderButtonProps) {
             <Text
               weight="semibold"
               variant="dark"
-              title={folder.name}
+              title={file.name}
               className="truncate"
             >
-              {folder.name}
+              {file.name}
             </Text>
             <Text size="sm" variant="lighter">
-              {folder.fileCount} Berkas
+              {file.fileCount} Berkas
             </Text>
           </div>
         </div>
         <div className="flex space-x-1">
-          <ActionIcon
+          <ActionIconTooltip
+            tooltip="Buka Folder"
             size="sm"
             variant="outline-hover-colorful"
             color="primary"
-            onClick={onOpen}
+            onClick={() => onOpen && onOpen(file)}
           >
             <LuFolderSearch />
-          </ActionIcon>
-          <ActionIcon
+          </ActionIconTooltip>
+          <ActionIconTooltip
+            tooltip="Ubah"
             size="sm"
             variant="outline-hover-colorful"
             color="warning"
-            onClick={(e) => e.stopPropagation()}
+            onClick={() => onEdit && onEdit(file)}
           >
             <BsPencil />
-          </ActionIcon>
-          <ActionIcon
+          </ActionIconTooltip>
+          <ActionIconTooltip
+            tooltip="Hapus"
             size="sm"
             variant="outline-hover-colorful"
             color="danger"
-            onClick={(e) => {
-              e.stopPropagation()
-              setShowModalHapus(true)
-            }}
+            onClick={() => onDelete && onDelete(file)}
           >
             <BiTrashAlt />
-          </ActionIcon>
+          </ActionIconTooltip>
         </div>
       </div>
-
-      <ModalConfirm
-        title="Hapus Folder"
-        desc="Anda yakin ingin menghapus folder ini?"
-        isOpen={showModalHapus}
-        onClose={() => setShowModalHapus(false)}
-        onConfirm={() => setShowModalHapus(false)}
-        closeOnCancel
-      />
     </>
   )
 }
