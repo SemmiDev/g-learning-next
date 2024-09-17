@@ -11,7 +11,9 @@ import {
 import {
   Button,
   Loader,
+  Modal,
   ModalConfirm,
+  ModalDocumentPreview,
   Text,
   TextSpan,
   Title,
@@ -56,6 +58,7 @@ export default function PustakaMediaBody() {
   const [idUbahFolder, setIdUbahFolder] = useState<string>()
   const [idUbahLink, setIdUbahLink] = useState<string>()
   const [idUbahFile, setIdUbahFile] = useState<string>()
+  const [urlPreview, setUrlPreview] = useState<string>()
 
   const { data: drives = [] } = useQuery<DriveType[]>({
     queryKey: queryKeyDrive,
@@ -294,6 +297,15 @@ export default function PustakaMediaBody() {
               file={file}
               onEdit={handleUbah}
               onDelete={(file) => setFileHapus(file)}
+              onFileClick={(file) => {
+                if (
+                  ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
+                    file.extension ?? ''
+                  )
+                ) {
+                  setUrlPreview(file.link)
+                }
+              }}
               onFolderClick={(file) => {
                 setActiveFolder(file.id)
                 setListFolder((list) => [
@@ -309,6 +321,13 @@ export default function PustakaMediaBody() {
                 )[0]
                 setActiveDrive(drive.id)
               }}
+              pointer={
+                file.folder ||
+                file.type === 'link' ||
+                ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
+                  file.extension ?? ''
+                )
+              }
             />
           ))}
         </div>
@@ -352,6 +371,11 @@ export default function PustakaMediaBody() {
         id={idUbahFile}
         setId={setIdUbahFile}
         refetchKey={queryKey}
+      />
+
+      <ModalDocumentPreview
+        openUrl={urlPreview}
+        onClose={() => setUrlPreview(undefined)}
       />
 
       <ModalConfirm

@@ -14,24 +14,34 @@ import { Dropdown } from 'rizzui'
 
 type FileCardProps = {
   file: FileType
+  onFileClick?: (file: FileType) => void
   onFolderClick?: (file: FileType) => void
   onEdit?: (file: FileType) => void
   onDelete?: (file: FileType) => void
+  pointer?: boolean
   className?: string
 }
 
 export default function FileCard({
   file,
+  onFileClick,
   onFolderClick,
   onEdit,
   onDelete,
+  pointer = true,
   className,
 }: FileCardProps) {
   const linkingProps = {
-    href: file.link,
+    href: !file.folder && file.type === 'link' ? file.link : undefined,
     target: '_blank',
     onClick: () => {
-      file.folder && onFolderClick && onFolderClick(file)
+      console.log(file)
+
+      if (file.folder) {
+        onFolderClick && onFolderClick(file)
+      } else if (file.type !== 'link') {
+        onFileClick && onFileClick(file)
+      }
     },
   }
 
@@ -43,7 +53,10 @@ export default function FileCard({
       )}
     >
       <div className="flex">
-        <LinkOrDiv className="flex-1 h-[60px] cursor-pointer" {...linkingProps}>
+        <LinkOrDiv
+          className={cn('flex-1 h-[60px]', { 'cursor-pointer': pointer })}
+          {...linkingProps}
+        >
           <FileIcon file={file} />
         </LinkOrDiv>
         <div className="flex flex-col">
@@ -84,10 +97,16 @@ export default function FileCard({
               </div>
             </Dropdown.Menu>
           </Dropdown>
-          <LinkOrDiv className="flex-1 cursor-pointer" {...linkingProps} />
+          <LinkOrDiv
+            className={cn('flex-1', { 'cursor-pointer': pointer })}
+            {...linkingProps}
+          />
         </div>
       </div>
-      <LinkOrDiv className="cursor-pointer" {...linkingProps}>
+      <LinkOrDiv
+        className={cn({ 'cursor-pointer': pointer })}
+        {...linkingProps}
+      >
         <Title
           as="h4"
           size="base"

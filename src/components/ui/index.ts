@@ -75,6 +75,9 @@ import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
 import Loader, { LoaderProps } from './loader'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
+import ModalDocumentPreview, {
+  ModalDocumentPreviewProps,
+} from './modal/document-preview'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
@@ -153,6 +156,7 @@ export {
   Materi,
   Modal,
   ModalConfirm,
+  ModalDocumentPreview,
   ModalFooterButtons,
   ModalHeader,
   Pagination,
@@ -220,6 +224,7 @@ export {
   type LoaderProps,
   type MateriItemType,
   type MateriProps,
+  type ModalDocumentPreviewProps,
   type ModalProps,
   type PaginationProps,
   type PasswordProps,
