@@ -35,6 +35,8 @@ export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
       lastPage?: number
       from?: number
       to?: number
+      hasNextPage?: boolean
+      hasPrevPage?: boolean
     }
   }
 }

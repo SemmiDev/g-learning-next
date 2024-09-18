@@ -11,7 +11,6 @@ import {
 import {
   Button,
   Loader,
-  Modal,
   ModalConfirm,
   ModalDocumentPreview,
   Text,
@@ -379,7 +378,7 @@ export default function PustakaMediaBody() {
       />
 
       <ModalConfirm
-        title={`Hapus Berkas`}
+        title="Hapus Berkas"
         desc={`Apakah Anda yakin ingin menghapus ${
           fileHapus?.folder ? 'folder' : 'berkas'
         } ini?`}

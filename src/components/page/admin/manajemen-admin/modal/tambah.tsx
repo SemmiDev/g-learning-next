@@ -36,13 +36,15 @@ export type TambahAdminFormSchema = {
 
 const initialValues: TambahAdminFormSchema = {}
 
+type TambahModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+}
+
 export default function TambahModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+}: TambahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 

@@ -101,6 +101,8 @@ export const makeTableActionResponse = <T extends AnyObject>(
         lastPage: page_info?.last_page,
         from: page_info?.from,
         to: page_info?.to,
+        hasNextPage: page_info?.has_next_page,
+        hasPrevPage: page_info?.has_previous_page,
       },
     },
   }
