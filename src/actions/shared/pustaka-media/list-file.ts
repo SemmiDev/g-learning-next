@@ -11,7 +11,7 @@ import { getServerSession } from 'next-auth'
 
 export type DataType = {
   id: string
-  id_parent: string
+  id_parent: string | null
   nama: string
   deskripsi: string
   content: string

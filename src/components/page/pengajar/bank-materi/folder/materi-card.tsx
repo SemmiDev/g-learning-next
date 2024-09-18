@@ -8,6 +8,7 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { Dropdown } from 'rizzui'
 
 export type MateriType = {
@@ -98,8 +99,11 @@ export default function MateriCard({
         {materi.desc}
       </Text>
 
-      <ul className="flex list-inside list-disc text-sm text-gray-lighter gap-3.5 mb-2">
-        <li className="list-none">{materi.time}</li>
+      <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">
+        <li>{materi.time}</li>
+        <li>
+          <GoDotFill size={10} />
+        </li>
         <li>{materi.fileCount} berkas</li>
       </ul>
 

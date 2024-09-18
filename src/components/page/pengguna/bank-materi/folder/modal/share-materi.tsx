@@ -9,6 +9,7 @@ import {
   ModalFooterButtons,
   RadioGroupOptionType,
   Text,
+  Time,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { objectRequired } from '@/utils/validations/refine'
@@ -75,15 +76,13 @@ const optionsTipePresensi: RadioGroupOptionType[] = [
 ]
 
 type ShareMateriModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-  materi?: MateriType
+  materi: MateriType | undefined
+  setMateri(materi?: MateriType): void
 }
 
 export default function ShareMateriModal({
-  showModal = false,
-  setShowModal,
   materi,
+  setMateri,
 }: ShareMateriModalProps) {
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
@@ -93,8 +92,8 @@ export default function ShareMateriModal({
     <Modal
       title={`Bagikan ${materi?.type} ke kelas`}
       size="lg"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      isOpen={!!materi}
+      onClose={() => setMateri(undefined)}
       className="[&_.pointer-events-none]:overflow-visible"
     >
       <Form<FormSchema>
@@ -134,7 +133,9 @@ export default function ShareMateriModal({
                     {materi?.name}
                   </Text>
                   <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-                    <li>{materi?.time}</li>
+                    <li>
+                      <Time date={materi?.time} />
+                    </li>
                     <li>
                       <GoDotFill size={10} />
                     </li>
@@ -208,7 +209,7 @@ export default function ShareMateriModal({
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={() => setMateri(undefined)}
             />
           </>
         )}

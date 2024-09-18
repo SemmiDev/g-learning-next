@@ -1,5 +1,6 @@
-import { ActionIcon, Button, Text, Title } from '@/components/ui'
+import { ActionIcon, Button, Text, Time, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { stripHtml } from '@/utils/text'
 import { BiShareAlt } from 'react-icons/bi'
 import {
   BsClipboardPlus,
@@ -8,6 +9,7 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { Dropdown } from 'rizzui'
 
 export type MateriType = {
@@ -21,15 +23,21 @@ export type MateriType = {
 
 type MateriCardProps = {
   materi: MateriType
+  onShare?: (materi: MateriType) => void
+  onEdit?: (materi: MateriType) => void
+  onDelete?: (materi: MateriType) => void
   className?: string
-  onShare?(): void
 }
 
 export default function MateriCard({
   materi,
-  className,
   onShare,
+  onEdit,
+  onDelete,
+  className,
 }: MateriCardProps) {
+  const strippedDesc = stripHtml(materi.desc)
+
   return (
     <div
       className={cn(
@@ -71,15 +79,21 @@ export default function MateriCard({
               <BsThreeDotsVertical size={14} />
             </ActionIcon>
           </Dropdown.Trigger>
-          <Dropdown.Menu className="w-30 divide-y">
-            <div className="mb-2">
-              <Dropdown.Item className="text-gray-dark">
+          <Dropdown.Menu className="w-30 divide-y !py-0">
+            <div className="py-2">
+              <Dropdown.Item
+                className="text-gray-dark"
+                onClick={() => onEdit && onEdit(materi)}
+              >
                 <BsPencil className="text-orange mr-2 h-4 w-4" />
                 Ubah
               </Dropdown.Item>
             </div>
-            <div className="mt-2 pt-2">
-              <Dropdown.Item className="text-gray-dark">
+            <div className="py-2">
+              <Dropdown.Item
+                className="text-gray-dark"
+                onClick={() => onDelete && onDelete(materi)}
+              >
                 <BsTrash3 className="text-danger mr-2 h-4 w-4" />
                 Hapus
               </Dropdown.Item>
@@ -93,18 +107,28 @@ export default function MateriCard({
         weight="medium"
         variant="dark"
         className="line-clamp-2"
-        title={materi.desc}
+        title={strippedDesc}
       >
-        {materi.desc}
+        {strippedDesc.slice(0, 100)}
+        {strippedDesc.length > 100 && '...'}
       </Text>
 
-      <ul className="flex list-inside list-disc text-sm text-gray-lighter gap-3.5 mb-2">
-        <li className="list-none">{materi.time}</li>
+      <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">
+        <li>
+          <Time date={materi.time} />
+        </li>
+        <li>
+          <GoDotFill size={10} />
+        </li>
         <li>{materi.fileCount} berkas</li>
       </ul>
 
       <div className="flex gap-2">
-        <Button size="sm" className="flex-1" onClick={onShare}>
+        <Button
+          size="sm"
+          className="flex-1"
+          onClick={() => onShare && onShare(materi)}
+        >
           <BiShareAlt className="mr-2" />
           <Text size="xs" weight="medium" className="text-nowrap">
             Bagikan {materi.type === 'tugas' ? 'Tugas' : 'Materi'}

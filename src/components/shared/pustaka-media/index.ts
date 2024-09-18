@@ -1,7 +1,9 @@
 'use client'
 
-import PustakaMedia, { PustakaMediaProps } from './pustaka-media'
-import { FileItemType as PustakaMediaFileType } from './file-button'
+import PustakaMedia, {
+  PustakaMediaProps,
+  FileType as PustakaMediaFileType,
+} from './pustaka-media'
 
 export { type PustakaMediaFileType, type PustakaMediaProps }
 

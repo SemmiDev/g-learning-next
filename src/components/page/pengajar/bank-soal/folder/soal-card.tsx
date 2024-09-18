@@ -9,6 +9,7 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { Dropdown } from 'rizzui'
 
 export type SoalType = {
@@ -81,8 +82,11 @@ export default function SoalCard({
         {soal.desc}
       </Text>
 
-      <ul className="flex list-inside list-disc text-sm text-gray-lighter gap-3.5 mb-2">
-        <li className="list-none">{soal.time}</li>
+      <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">
+        <li>{soal.time}</li>
+        <li>
+          <GoDotFill size={10} />
+        </li>
         <li>{soal.count} Soal</li>
       </ul>
 

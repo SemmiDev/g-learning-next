@@ -37,8 +37,6 @@ export default function TambahKategoriModal({
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahKategoriFormSchema> = async (data) => {
-    // console.log('form data', data)
-
     await handleActionWithToast(tambahKategoriBankMateriAction(data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),

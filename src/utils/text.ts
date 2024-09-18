@@ -25,3 +25,7 @@ export const rupiah = (
     prefix: options?.prefix || 'Rp ',
     maximumFractionDigits: options?.maximumFractionDigits,
   })
+
+export const stripHtml = (html: string) => {
+  return html.replace(/(<([^>]+)>)/gi, '')
+}

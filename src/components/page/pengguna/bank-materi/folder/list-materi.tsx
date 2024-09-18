@@ -1,31 +1,85 @@
 'use client'
 
-import { Button, Title } from '@/components/ui'
-import { useState } from 'react'
+import { hapusBankMateriAction } from '@/actions/pengguna/bank-materi/hapus'
+import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
+import { Button, ModalConfirm, Title } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import _ from 'lodash'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
 import MateriCard, { MateriType } from './materi-card'
 import ShareMateriModal from './modal/share-materi'
 import TambahMateriModal from './modal/tambah-materi'
+import UbahMateriModal from './modal/ubah-materi'
 
 export default function ListMateriBody() {
-  const [showModalTambahMateri, setShowModalTambahMateri] = useState(false)
-  const [showModalShareMateri, setShowModalShareMateri] = useState(false)
-  const [shareMateri, setShareMateri] = useState<MateriType | undefined>()
+  const queryClient = useQueryClient()
+  const [search, setSearch] = useState('')
+  const [shareMateri, setShareMateri] = useState<MateriType>()
+  const [showModalTambah, setShowModalTambah] = useState(false)
+  const [idUbah, setIdUbah] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
 
-  // data contoh
-  const listMateri: MateriType[] = [...Array(12)].map((_, idx) => {
-    const type = (idx + 2) % 3 === 0 ? 'tugas' : 'materi'
+  const { kategori: idKategori }: { kategori: string } = useParams()
 
-    return {
-      id: idx + 1 + '',
-      name: `Judul dari ${type}nya nanti ada disini ya`,
-      desc: `Penjelasan singkat terkait ${type} yang dibuat nanti akan muncul disini`,
-      time: '12 Mar 2024 13:00',
-      fileCount: 4,
-      type: type,
-    }
+  const queryKey = ['pengguna.bank-materi.list', idKategori]
+
+  const { data, refetch, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listBankMateriAction({
+        page,
+        search,
+        params: {
+          idKategori,
+        },
+      })
+
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.bank_ajar.id,
+          name: item.bank_ajar.judul,
+          desc: item.bank_ajar.deskripsi,
+          time: item.bank_ajar.created_at,
+          fileCount: item.total_file_bank_ajar,
+          type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
+        })) as MateriType[],
+        pagination: data?.pagination,
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
   })
+
+  const list = data?.pages.flatMap((page) => page.list) ?? []
+
+  useEffect(() => {
+    if (search === '') {
+      refetch()
+      return
+    }
+
+    _.debounce(refetch, 250)()
+  }, [refetch, search])
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusBankMateriAction(idKategori, idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
 
   return (
     <>
@@ -45,41 +99,59 @@ export default function ListMateriBody() {
           clearable={true}
           className="w-72 sm:w-96"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onClear={() => setSearch('')}
         />
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambahMateri(true)}
+          onClick={() => setShowModalTambah(true)}
         >
           Tambah Materi
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
-        {listMateri.map((materi, idx) => (
+        {list.map((materi, idx) => (
           <MateriCard
             materi={materi}
+            onEdit={(materi) => setIdUbah(materi.id)}
+            onDelete={(materi) => setIdHapus(materi.id)}
             onShare={() => {
               setShareMateri(materi)
-              setShowModalShareMateri(true)
             }}
             key={idx}
           />
         ))}
       </div>
-      <div className="flex justify-center mt-4">
-        <Button>Tampilkan Lebih banyak</Button>
-      </div>
+
+      {hasNextPage && (
+        <div className="flex justify-center mt-4">
+          <Button onClick={() => fetchNextPage()}>
+            Tampilkan Lebih banyak
+          </Button>
+        </div>
+      )}
 
       <TambahMateriModal
-        showModal={showModalTambahMateri}
-        setShowModal={setShowModalTambahMateri}
+        showModal={showModalTambah}
+        setShowModal={setShowModalTambah}
       />
 
-      <ShareMateriModal
-        showModal={showModalShareMateri}
-        setShowModal={setShowModalShareMateri}
-        materi={shareMateri}
+      <UbahMateriModal id={idUbah} setId={setIdUbah} />
+
+      <ModalConfirm
+        title="Hapus Bank Materi"
+        desc="Apakah Anda yakin ingin menghapus bank materi ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="help"
+        closeOnCancel
       />
+
+      <ShareMateriModal materi={shareMateri} setMateri={setShareMateri} />
     </>
   )
 }

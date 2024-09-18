@@ -17,7 +17,7 @@ const queryKey = ['pengguna.bank-materi.kategori']
 
 export default function ListKategoriMateriBody() {
   const [search, setSearch] = useState('')
-  const [showModalTambahKategori, setShowModalTambahKategori] = useState(false)
+  const [showModalTambah, setShowModalTambah] = useState(false)
   const [idUbah, setIdUbah] = useState<string>()
 
   const { data, refetch, hasNextPage, fetchNextPage } = useInfiniteQuery({
@@ -89,7 +89,7 @@ export default function ListKategoriMateriBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambahKategori(true)}
+          onClick={() => setShowModalTambah(true)}
         >
           Tambah Kategori Baru
         </Button>
@@ -114,8 +114,8 @@ export default function ListKategoriMateriBody() {
       )}
 
       <TambahKategoriModal
-        showModal={showModalTambahKategori}
-        setShowModal={setShowModalTambahKategori}
+        showModal={showModalTambah}
+        setShowModal={setShowModalTambah}
       />
 
       <UbahKategoriModal id={idUbah} setId={setIdUbah} />
