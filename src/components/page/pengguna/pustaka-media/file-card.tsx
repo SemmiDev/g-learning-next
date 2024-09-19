@@ -1,5 +1,11 @@
-import { FileType } from '@/components/shared/pustaka-media/pustaka-media'
-import { ActionIcon, FileIcon, LinkOrDiv, Time, Title } from '@/components/ui'
+import {
+  ActionIcon,
+  FileIcon,
+  LinkOrDiv,
+  PustakaMediaFileType,
+  Time,
+  Title,
+} from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
@@ -13,11 +19,11 @@ import { GoDotFill } from 'react-icons/go'
 import { Dropdown } from 'rizzui'
 
 type FileCardProps = {
-  file: FileType
-  onFileClick?: (file: FileType) => void
-  onFolderClick?: (file: FileType) => void
-  onEdit?: (file: FileType) => void
-  onDelete?: (file: FileType) => void
+  file: PustakaMediaFileType
+  onFileClick?: (file: PustakaMediaFileType) => void
+  onFolderClick?: (file: PustakaMediaFileType) => void
+  onEdit?: (file: PustakaMediaFileType) => void
+  onDelete?: (file: PustakaMediaFileType) => void
   pointer?: boolean
   className?: string
 }
@@ -35,8 +41,6 @@ export default function FileCard({
     href: !file.folder && file.type === 'link' ? file.link : undefined,
     target: '_blank',
     onClick: () => {
-      console.log(file)
-
       if (file.folder) {
         onFolderClick && onFolderClick(file)
       } else if (file.type !== 'link') {

@@ -1,16 +1,17 @@
-import { Button, FileIcon, Text } from '@/components/ui'
+import {
+  Button,
+  FileIcon,
+  LinkOrDiv,
+  PustakaMediaFileType,
+  Text,
+} from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
 
-export type FileListItemType = {
-  name: string
-  size: number
-  link?: string
-}
-
 type FileListItemProps = {
-  file: FileListItemType
+  file: PustakaMediaFileType
+  onPreview?: (file: PustakaMediaFileType) => void
   download?: boolean
   className?: string
   onDelete?(): void
@@ -18,10 +19,35 @@ type FileListItemProps = {
 
 export default function FileListItem({
   file,
+  onPreview,
   download = false,
   className,
   onDelete,
 }: FileListItemProps) {
+  const linkingProps = {
+    href: !file.folder && file.type === 'link' ? file.link : undefined,
+    target: '_blank',
+    onClick: () => {
+      if (
+        !file.folder &&
+        file.type !== 'link' &&
+        file.link &&
+        ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
+          file.extension ?? ''
+        )
+      ) {
+        onPreview && onPreview(file)
+      }
+    },
+  }
+
+  const pointer =
+    file.folder ||
+    file.type === 'link' ||
+    ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
+      file.extension ?? ''
+    )
+
   return (
     <div
       className={cn(
@@ -31,18 +57,30 @@ export default function FileListItem({
     >
       <div className="flex items-center">
         <figure className="flex justify-center items-center size-11">
-          <FileIcon filename={file.name} />
+          <FileIcon
+            file={file}
+            fullThumbnail={false}
+            thumbnailClassName="-ms-1"
+          />
         </figure>
         <div className="flex flex-col">
-          <Text size="sm" weight="semibold" color="primary">
-            {file.name}
-          </Text>
-          <Text size="xs" variant="dark">
-            {formatBytes(file.size)}
-          </Text>
+          <LinkOrDiv
+            className={cn({ 'cursor-pointer': pointer })}
+            {...linkingProps}
+          >
+            <Text size="sm" weight="semibold" color="primary">
+              {file.name}
+            </Text>
+          </LinkOrDiv>
+          {!!file.size && (
+            <Text size="xs" variant="dark">
+              {formatBytes(file.size)}
+            </Text>
+          )}
         </div>
       </div>
       {download &&
+        file.type !== 'link' &&
         (file.link ? (
           <Link href={file.link} target="_blank">
             <Button size="sm" variant="text" className="text-sm">

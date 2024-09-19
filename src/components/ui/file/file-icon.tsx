@@ -18,6 +18,7 @@ import {
 } from 'react-icons/bs'
 import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
 import Thumbnail from '../thumbnail'
+import cn from '@/utils/class-names'
 
 const iconSize = 20 as const
 
@@ -67,9 +68,25 @@ const Icon = ({ file }: { file: FileType }) => {
   }
 }
 
-export const FileIcon = ({ file }: { file: FileType }) => {
+type FileIconProps = {
+  file: FileType
+  fullThumbnail?: boolean
+  className?: string
+  thumbnailClassName?: string
+}
+export const FileIcon = ({
+  file,
+  fullThumbnail = true,
+  className,
+  thumbnailClassName,
+}: FileIconProps) => {
   return (
-    <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 shrink-0">
+    <div
+      className={cn(
+        'flex size-11 items-center justify-center rounded-md bg-gray-50 shrink-0',
+        className
+      )}
+    >
       {file.folder ? (
         <figure className="size-5">
           <Image src={iconFolder} alt="folder" />
@@ -78,9 +95,10 @@ export const FileIcon = ({ file }: { file: FileType }) => {
         <Thumbnail
           src={file.link}
           alt="thumbnail"
-          size={44}
+          size={fullThumbnail ? 44 : 36}
           resize={100}
           rounded="md"
+          className={thumbnailClassName}
         />
       ) : (
         <Icon file={file} />

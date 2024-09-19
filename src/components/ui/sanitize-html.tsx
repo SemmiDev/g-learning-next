@@ -15,7 +15,7 @@ type SanitizeHTMLProps = {
 }
 
 const defaultOptions = {
-  allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'img'],
+  allowedTags: ['p', 'b', 'i', 'em', 'u', 's', 'strong', 'a', 'img'],
   allowedAttributes: {
     a: ['href'],
     img: ['src', 'referrerpolicy'],

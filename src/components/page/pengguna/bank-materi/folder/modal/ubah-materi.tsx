@@ -45,7 +45,7 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
 
   const { kategori: idKategori }: { kategori: string } = useParams()
 
-  const queryKey = ['pengguna.bank-materi.kategori.ubah', idKategori, id]
+  const queryKey = ['pengguna.bank-materi.ubah', idKategori, id]
 
   const {
     data: initialValues,

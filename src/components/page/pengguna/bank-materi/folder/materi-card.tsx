@@ -24,6 +24,7 @@ export type MateriType = {
 type MateriCardProps = {
   materi: MateriType
   onShare?: (materi: MateriType) => void
+  onDetail?: (materi: MateriType) => void
   onEdit?: (materi: MateriType) => void
   onDelete?: (materi: MateriType) => void
   className?: string
@@ -32,6 +33,7 @@ type MateriCardProps = {
 export default function MateriCard({
   materi,
   onShare,
+  onDetail,
   onEdit,
   onDelete,
   className,
@@ -102,13 +104,7 @@ export default function MateriCard({
         </Dropdown>
       </div>
 
-      <Text
-        size="sm"
-        weight="medium"
-        variant="dark"
-        className="line-clamp-2"
-        title={strippedDesc}
-      >
+      <Text size="sm" weight="medium" variant="dark" className="line-clamp-2">
         {strippedDesc.slice(0, 100)}
         {strippedDesc.length > 100 && '...'}
       </Text>
@@ -134,7 +130,12 @@ export default function MateriCard({
             Bagikan {materi.type === 'tugas' ? 'Tugas' : 'Materi'}
           </Text>
         </Button>
-        <Button size="sm" variant="outline" className="flex-1">
+        <Button
+          size="sm"
+          variant="outline"
+          className="flex-1"
+          onClick={() => onDetail && onDetail(materi)}
+        >
           <Text size="xs" weight="medium">
             Detail
           </Text>

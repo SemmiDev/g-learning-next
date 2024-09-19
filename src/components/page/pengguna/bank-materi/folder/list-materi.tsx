@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
 import MateriCard, { MateriType } from './materi-card'
+import LihatMateriModal from './modal/lihat-materi'
 import ShareMateriModal from './modal/share-materi'
 import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
@@ -20,6 +21,7 @@ export default function ListMateriBody() {
   const [search, setSearch] = useState('')
   const [shareMateri, setShareMateri] = useState<MateriType>()
   const [showModalTambah, setShowModalTambah] = useState(false)
+  const [idLihat, setIdLihat] = useState<string>()
   const [idUbah, setIdUbah] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
@@ -112,16 +114,18 @@ export default function ListMateriBody() {
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
-        {list.map((materi, idx) => (
-          <MateriCard
-            materi={materi}
-            onEdit={(materi) => setIdUbah(materi.id)}
-            onDelete={(materi) => setIdHapus(materi.id)}
-            onShare={() => {
-              setShareMateri(materi)
-            }}
-            key={idx}
-          />
+        {list.map((materi) => (
+          <div key={materi.id}>
+            <MateriCard
+              materi={materi}
+              onEdit={(materi) => setIdUbah(materi.id)}
+              onDelete={(materi) => setIdHapus(materi.id)}
+              onDetail={(materi) => setIdLihat(materi.id)}
+              onShare={() => {
+                setShareMateri(materi)
+              }}
+            />
+          </div>
         ))}
       </div>
 
@@ -139,6 +143,8 @@ export default function ListMateriBody() {
       />
 
       <UbahMateriModal id={idUbah} setId={setIdUbah} />
+
+      <LihatMateriModal id={idLihat} setId={setIdLihat} />
 
       <ModalConfirm
         title="Hapus Bank Materi"
