@@ -17,23 +17,23 @@ export default function ModalImagePreview({
       size="md"
       rounded="none"
       isOpen={!!openUrl}
-      containerClassName="relative bg-transparent"
+      containerClassName="relative w-fit"
       onClose={onClose}
     >
       {!!openUrl && (
         <>
-          {/* <Loader
+          <Loader
             variant="spinner"
             color="primary"
             size="lg"
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
-          /> */}
+          />
           <Image
             src={openUrl}
             alt="Preview"
             width={500}
             height={500}
-            className="z-10"
+            className="relative z-10"
           />
         </>
       )}
