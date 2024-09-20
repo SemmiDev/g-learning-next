@@ -22,7 +22,7 @@ import cn from '@/utils/class-names'
 
 const iconSize = 20 as const
 
-const Icon = ({ file }: { file: FileType }) => {
+const Icon = ({ file }: { file: Partial<FileType> }) => {
   if (file.type === 'link') {
     if (file.link && file.link.match(/.*youtube.*/)) {
       return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
@@ -37,7 +37,8 @@ const Icon = ({ file }: { file: FileType }) => {
     return <LuFileVideo size={iconSize} className="text-primary" />
   }
 
-  const extension = file.extension ?? (file.link ?? file.name).split('.').pop()
+  const extension =
+    file.extension ?? (file.link ?? file.name ?? '').split('.').pop()
 
   switch (extension) {
     case 'doc':
@@ -69,7 +70,7 @@ const Icon = ({ file }: { file: FileType }) => {
 }
 
 type FileIconProps = {
-  file: FileType
+  file: Partial<FileType>
   fullThumbnail?: boolean
   className?: string
   thumbnailClassName?: string

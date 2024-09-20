@@ -2,9 +2,10 @@ import { lihatBankMateriAction } from '@/actions/pengguna/bank-materi/lihat'
 import {
   CardSeparator,
   FileListItem,
+  FilePreviewType,
   Loader,
   Modal,
-  ModalDocumentPreview,
+  ModalFilePreview,
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
@@ -20,7 +21,7 @@ type LihatMateriModalProps = {
 }
 
 export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
-  const [urlPreview, setUrlPreview] = useState<string>()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idKategori }: { id: string } = useParams()
 
@@ -36,25 +37,25 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
   })
 
   const files: PustakaMediaFileType[] = (data?.daftar_file_bank_ajar ?? []).map(
-    (file) => ({
-      id: file.id,
-      name: file.nama,
-      time: file.created_at,
-      link: file.url,
-      extension: file.ekstensi,
-      size: file.ukuran,
+    (item) => ({
+      id: item.id,
+      name: item.nama,
+      time: item.created_at,
+      link: item.url,
+      extension: item.ekstensi,
+      size: item.ukuran,
       folder: false,
       type:
-        file.tipe === 'Audio'
+        item.tipe === 'Audio'
           ? 'audio'
-          : file.tipe === 'Video'
+          : item.tipe === 'Video'
           ? 'video'
-          : file.tipe === 'Gambar'
+          : item.tipe === 'Gambar'
           ? 'image'
-          : file.tipe === 'Teks'
+          : item.tipe === 'Teks'
           ? 'link'
           : undefined,
-      driveId: file.id_instansi ?? undefined,
+      driveId: item.id_instansi ?? undefined,
     })
   )
 
@@ -66,7 +67,7 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
       onClose={() => setId(undefined)}
     >
       {isLoading || !id ? (
-        <Loader height={410} />
+        <Loader height={330} />
       ) : (
         <>
           <table className="mx-3">
@@ -78,14 +79,23 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
               </DataRow>
               <DataRow label="Berkas">
                 <div className="flex flex-col gap-1">
-                  {files.map((file) => (
-                    <FileListItem
-                      key={file.id}
-                      file={file}
-                      onPreview={(file) => setUrlPreview(file.link)}
-                      download
-                    />
-                  ))}
+                  {files.length > 0
+                    ? files.map((file) => (
+                        <FileListItem
+                          key={file.id}
+                          file={file}
+                          onPreview={(file) => {
+                            if (!file.link) return
+
+                            setFilePreview({
+                              url: file.link,
+                              extension: file.extension,
+                            })
+                          }}
+                          download
+                        />
+                      ))
+                    : '-'}
                 </div>
               </DataRow>
             </tbody>
@@ -93,9 +103,9 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
         </>
       )}
 
-      <ModalDocumentPreview
-        openUrl={urlPreview}
-        onClose={() => setUrlPreview(undefined)}
+      <ModalFilePreview
+        file={filePreview}
+        onClose={() => setFilePreview(undefined)}
       />
 
       <CardSeparator />

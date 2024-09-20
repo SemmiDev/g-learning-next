@@ -25,7 +25,11 @@ import { ReactNode } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
-  nik: z.string().pipe(required.min(20, 'NIK minimal 20 karakter')),
+  nik: z
+    .string()
+    .pipe(
+      required.min(16, 'NIK harus 16 karakter').max(16, 'NIK harus 16 karakter')
+    ),
   kontak: z.string().optional(),
   website: z.string().optional(),
   jenisKelamin: z.string().optional(),

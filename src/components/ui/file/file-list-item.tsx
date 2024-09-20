@@ -1,6 +1,7 @@
 import {
   Button,
   FileIcon,
+  isPreviewableFile,
   LinkOrDiv,
   PustakaMediaFileType,
   Text,
@@ -32,9 +33,7 @@ export default function FileListItem({
         !file.folder &&
         file.type !== 'link' &&
         file.link &&
-        ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
-          file.extension ?? ''
-        )
+        isPreviewableFile(file.link, file.extension)
       ) {
         onPreview && onPreview(file)
       }
@@ -44,9 +43,7 @@ export default function FileListItem({
   const pointer =
     file.folder ||
     file.type === 'link' ||
-    ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
-      file.extension ?? ''
-    )
+    isPreviewableFile(file.name, file.extension)
 
   return (
     <div

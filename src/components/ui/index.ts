@@ -61,7 +61,7 @@ import ControlledUploadFile, {
 import { DatePicker, DatePickerProps } from './datepicker'
 import Drawer, { DrawerProps } from './drawer'
 import { FileIcon } from './file/file-icon'
-import FileListItem, { FileListItemType } from './file/file-list-item'
+import FileListItem from './file/file-list-item'
 import { Form } from './form'
 import FormError, { FormErrorProps } from './form-error'
 import Input, { InputProps } from './input/input'
@@ -75,9 +75,11 @@ import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
 import Loader, { LoaderProps } from './loader'
 import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
-import ModalDocumentPreview, {
-  ModalDocumentPreviewProps,
-} from './modal/document-preview'
+import ModalFilePreview, {
+  FilePreviewType,
+  ModalFilePreviewProps,
+  isPreviewableFile,
+} from './modal/file-preview/file'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
 import Pagination, { PaginationProps } from './pagination'
@@ -156,7 +158,7 @@ export {
   Materi,
   Modal,
   ModalConfirm,
-  ModalDocumentPreview,
+  ModalFilePreview,
   ModalFooterButtons,
   ModalHeader,
   Pagination,
@@ -182,6 +184,7 @@ export {
   Title,
   UploadFile,
   getSortDirection,
+  isPreviewableFile,
   renderTableCellNumber,
   renderTableCellText,
   type ActionIconProps,
@@ -212,7 +215,7 @@ export {
   type ControlledUploadFileProps,
   type DatePickerProps,
   type DrawerProps,
-  type FileListItemType,
+  type FilePreviewType,
   type FormErrorProps,
   type InputNumberProps,
   type InputNumberSeparatorProps,
@@ -224,7 +227,7 @@ export {
   type LoaderProps,
   type MateriItemType,
   type MateriProps,
-  type ModalDocumentPreviewProps,
+  type ModalFilePreviewProps,
   type ModalProps,
   type PaginationProps,
   type PasswordProps,

@@ -62,25 +62,25 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
         tipe: data?.bank_ajar.tipe ?? 'Materi',
         judul: data?.bank_ajar.judul ?? '',
         catatan: data?.bank_ajar.deskripsi ?? '',
-        berkas: (data?.daftar_file_bank_ajar ?? []).map((file) => ({
-          id: file.id,
-          name: file.nama,
-          time: file.created_at,
-          link: file.url,
-          extension: file.ekstensi,
-          size: file.ukuran,
+        berkas: (data?.daftar_file_bank_ajar ?? []).map((item) => ({
+          id: item.id,
+          name: item.nama,
+          time: item.created_at,
+          link: item.url,
+          extension: item.ekstensi,
+          size: item.ukuran,
           folder: false,
           type:
-            file.tipe === 'Audio'
+            item.tipe === 'Audio'
               ? 'audio'
-              : file.tipe === 'Video'
+              : item.tipe === 'Video'
               ? 'video'
-              : file.tipe === 'Gambar'
+              : item.tipe === 'Gambar'
               ? 'image'
-              : file.tipe === 'Teks'
+              : item.tipe === 'Teks'
               ? 'link'
               : undefined,
-          driveId: file.id_instansi ?? undefined,
+          driveId: item.id_instansi ?? undefined,
         })),
       }
     },

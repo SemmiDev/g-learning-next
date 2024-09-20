@@ -10,14 +10,16 @@ import {
 } from '@/components/shared/pustaka-media/pustaka-media'
 import {
   Button,
+  FilePreviewType,
   Loader,
   ModalConfirm,
-  ModalDocumentPreview,
+  ModalFilePreview,
   Text,
   TextSpan,
   Title,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import { isDocumentExt } from '@/utils/media-check'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -57,7 +59,7 @@ export default function PustakaMediaBody() {
   const [idUbahFolder, setIdUbahFolder] = useState<string>()
   const [idUbahLink, setIdUbahLink] = useState<string>()
   const [idUbahFile, setIdUbahFile] = useState<string>()
-  const [urlPreview, setUrlPreview] = useState<string>()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { data: drives = [] } = useQuery<DriveType[]>({
     queryKey: queryKeyDrive,
@@ -297,13 +299,12 @@ export default function PustakaMediaBody() {
               onEdit={handleUbah}
               onDelete={(file) => setFileHapus(file)}
               onFileClick={(file) => {
-                if (
-                  ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
-                    file.extension ?? ''
-                  )
-                ) {
-                  setUrlPreview(file.link)
-                }
+                if (!file.link) return
+
+                setFilePreview({
+                  url: file.link,
+                  extension: file.extension,
+                })
               }}
               onFolderClick={(file) => {
                 setActiveFolder(file.id)
@@ -323,9 +324,7 @@ export default function PustakaMediaBody() {
               pointer={
                 file.folder ||
                 file.type === 'link' ||
-                ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(
-                  file.extension ?? ''
-                )
+                isDocumentExt(file.name, file.extension)
               }
             />
           ))}
@@ -372,9 +371,9 @@ export default function PustakaMediaBody() {
         refetchKey={queryKey}
       />
 
-      <ModalDocumentPreview
-        openUrl={urlPreview}
-        onClose={() => setUrlPreview(undefined)}
+      <ModalFilePreview
+        file={filePreview}
+        onClose={() => setFilePreview(undefined)}
       />
 
       <ModalConfirm

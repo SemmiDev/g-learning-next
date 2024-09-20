@@ -3,9 +3,9 @@ import { ReactNode } from 'react'
 import { FileError } from 'react-dropzone'
 import { BiTrashAlt } from 'react-icons/bi'
 import ActionIcon from '../button/action-icon'
-import FileIcon from '../file/file-icon'
 import Text from '../text/text'
 import { UploadFileType } from './upload-file'
+import { FileIcon } from '../file/file-icon'
 
 const IconWrapper = ({ children }: { children: ReactNode }) => {
   return (
@@ -34,7 +34,12 @@ const FileUploadIcon = ({ file }: { file: UploadFileType }) => {
 
   return (
     <IconWrapper>
-      <FileIcon filename={file.name} />
+      <FileIcon
+        file={{
+          name: file.name,
+          folder: false,
+        }}
+      />
     </IconWrapper>
   )
 }

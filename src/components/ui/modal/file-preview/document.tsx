@@ -1,8 +1,8 @@
 import { Loader } from 'rizzui'
-import Button from '../button/button'
-import Modal from '../modal'
+import Button from '../../button/button'
+import Modal from '../../modal'
 
-export type ModalDocumentPreviewProps = {
+type ModalDocumentPreviewProps = {
   openUrl: string | undefined
   onClose: () => void
 }
@@ -29,7 +29,7 @@ export default function ModalDocumentPreview({
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
           />
           <iframe
-            src={`https://docs.google.com/gview?url=${encodeURI(
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(
               openUrl
             )}&embedded=true`}
             className="relative w-full h-screen z-10"
