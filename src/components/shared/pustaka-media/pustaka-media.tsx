@@ -7,11 +7,13 @@ import {
   ActionIconTooltip,
   Button,
   CardSeparator,
+  FilePreviewType,
   Input,
   Label,
   Loader,
   Modal,
   ModalConfirm,
+  ModalFilePreview,
   Text,
   TextSpan,
 } from '@/components/ui'
@@ -20,6 +22,7 @@ import cn from '@/utils/class-names'
 import { removeFromList } from '@/utils/list'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import {
@@ -37,7 +40,6 @@ import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
 import SelectedFile from './selected-file'
-import { useSession } from 'next-auth/react'
 
 export type DriveType = {
   id: string | null
@@ -101,6 +103,7 @@ export default function PustakaMedia({
   const [idUbahFolder, setIdUbahFolder] = useState<string>()
   const [idUbahLink, setIdUbahLink] = useState<string>()
   const [idUbahFile, setIdUbahFile] = useState<string>()
+  const [previewFile, setPreviewFile] = useState<FilePreviewType>()
   const [checkedFiles, setCheckedFiles] = useState<FileType[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
     Array.isArray(value) ? value : value ? [value] : []
@@ -416,6 +419,14 @@ export default function PustakaMedia({
                             file={file}
                             onEdit={handleUbah}
                             onDelete={(file) => setFileHapus(file)}
+                            onPreview={(file) => {
+                              if (!file.link) return
+
+                              setPreviewFile({
+                                url: file.link,
+                                extension: file.extension,
+                              })
+                            }}
                             checked={checkedFiles.some(
                               (item) => item.id === file.id
                             )}
@@ -501,6 +512,11 @@ export default function PustakaMedia({
         id={idUbahFile}
         setId={setIdUbahFile}
         refetchKey={queryKey}
+      />
+
+      <ModalFilePreview
+        file={previewFile}
+        onClose={() => setPreviewFile(undefined)}
       />
 
       <ModalConfirm

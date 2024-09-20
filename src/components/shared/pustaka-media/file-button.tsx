@@ -1,6 +1,7 @@
 import {
   ActionIconTooltip,
   FileIcon,
+  isPreviewableFile,
   LinkOrDiv,
   Text,
   Time,
@@ -20,6 +21,7 @@ export type FileButtonProps = {
   multiple: boolean
   onEdit?: (file: FileType) => void
   onDelete?: (file: FileType) => void
+  onPreview?: (file: FileType) => void
 }
 
 export default function FileButton({
@@ -29,6 +31,7 @@ export default function FileButton({
   multiple,
   onEdit,
   onDelete,
+  onPreview,
 }: FileButtonProps) {
   return (
     <>
@@ -89,18 +92,26 @@ export default function FileButton({
             </div>
           </div>
           <div className="flex flex-wrap justify-end space-x-1 pr-4">
-            <LinkOrDiv href={file.link} target="_blank">
-              <ActionIconTooltip
-                tooltip="Lihat"
-                size="sm"
-                variant="outline-hover-colorful"
-                onClick={(e) => {
-                  e.stopPropagation()
-                }}
-              >
-                <BsEye />
-              </ActionIconTooltip>
-            </LinkOrDiv>
+            {!!file.link &&
+              (file.type === 'link' ||
+                isPreviewableFile(file.link, file.extension)) && (
+                <LinkOrDiv
+                  href={file.type === 'link' ? file.link : undefined}
+                  target="_blank"
+                >
+                  <ActionIconTooltip
+                    tooltip="Lihat"
+                    size="sm"
+                    variant="outline-hover-colorful"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onPreview && onPreview(file)
+                    }}
+                  >
+                    <BsEye />
+                  </ActionIconTooltip>
+                </LinkOrDiv>
+              )}
             {file.type !== 'link' && (
               <LinkOrDiv href={file.link} target="_blank">
                 <ActionIconTooltip
