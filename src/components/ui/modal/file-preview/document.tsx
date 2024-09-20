@@ -12,7 +12,7 @@ export default function ModalDocumentPreview({
   onClose,
 }: ModalDocumentPreviewProps) {
   return (
-    <Modal size="full" isOpen={!!openUrl}>
+    <Modal size="full" isOpen={!!openUrl} onClose={onClose}>
       <Button
         variant="flat-colorful"
         className="absolute bottom-5 right-7 z-50"
