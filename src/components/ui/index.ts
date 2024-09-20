@@ -60,7 +60,7 @@ import ControlledUploadFile, {
 } from './controlled/upload-file'
 import { DatePicker, DatePickerProps } from './datepicker'
 import Drawer, { DrawerProps } from './drawer'
-import { FileIcon } from './file/file-icon'
+import { FileIcon, FileIconType } from './file/file-icon'
 import FileListItem from './file/file-list-item'
 import { Form } from './form'
 import FormError, { FormErrorProps } from './form-error'
@@ -215,6 +215,7 @@ export {
   type ControlledUploadFileProps,
   type DatePickerProps,
   type DrawerProps,
+  type FileIconType,
   type FilePreviewType,
   type FormErrorProps,
   type InputNumberProps,

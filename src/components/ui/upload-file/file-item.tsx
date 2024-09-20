@@ -34,12 +34,7 @@ const FileUploadIcon = ({ file }: { file: UploadFileType }) => {
 
   return (
     <IconWrapper>
-      <FileIcon
-        file={{
-          name: file.name,
-          folder: false,
-        }}
-      />
+      <FileIcon file={{ name: file.name }} />
     </IconWrapper>
   )
 }

@@ -1,4 +1,5 @@
-import { FileType } from '@/components/shared/pustaka-media/pustaka-media'
+import { PustakaMediaFileType } from '@/components/shared/pustaka-media'
+import cn from '@/utils/class-names'
 import iconFolder from '@public/icons/folder.svg'
 import Image from 'next/image'
 import {
@@ -18,11 +19,18 @@ import {
 } from 'react-icons/bs'
 import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
 import Thumbnail from '../thumbnail'
-import cn from '@/utils/class-names'
 
 const iconSize = 20 as const
 
-const Icon = ({ file }: { file: Partial<FileType> }) => {
+export type FileIconType = {
+  name?: string
+  link?: string
+  folder?: boolean
+  extension?: string
+  type?: PustakaMediaFileType['type']
+}
+
+const Icon = ({ file }: { file: FileIconType }) => {
   if (file.type === 'link') {
     if (file.link && file.link.match(/.*youtube.*/)) {
       return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
@@ -70,11 +78,12 @@ const Icon = ({ file }: { file: Partial<FileType> }) => {
 }
 
 type FileIconProps = {
-  file: Partial<FileType>
+  file: FileIconType
   fullThumbnail?: boolean
   className?: string
   thumbnailClassName?: string
 }
+
 export const FileIcon = ({
   file,
   fullThumbnail = true,

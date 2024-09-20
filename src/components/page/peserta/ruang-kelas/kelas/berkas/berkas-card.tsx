@@ -29,14 +29,7 @@ export default function BerkasCard({
     >
       <div className="flex items-start justify-between">
         <figure className="flex items-center justify-center size-11 rounded-md bg-gray-50 mb-4">
-          <FileIcon
-            file={{
-              id: file.id,
-              name: file.name,
-              folder: false,
-              time: file.time,
-            }}
-          />
+          <FileIcon file={{}} />
         </figure>
         <div className="flex">
           <Dropdown placement="bottom-end">
