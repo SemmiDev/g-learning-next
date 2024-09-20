@@ -11,6 +11,7 @@ import {
 import {
   Button,
   FilePreviewType,
+  isPreviewableFile,
   Loader,
   ModalConfirm,
   ModalFilePreview,
@@ -19,7 +20,6 @@ import {
   Title,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { isDocumentExt } from '@/utils/media-check'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -324,7 +324,7 @@ export default function PustakaMediaBody() {
               pointer={
                 file.folder ||
                 file.type === 'link' ||
-                isDocumentExt(file.name, file.extension)
+                isPreviewableFile(file.name, file.extension)
               }
             />
           ))}
