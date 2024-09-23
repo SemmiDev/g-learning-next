@@ -1,21 +1,96 @@
 'use client'
 
-import { Button, Title } from '@/components/ui'
-import { useState } from 'react'
+import { hapusBankSoalAction } from '@/actions/pengguna/bank-soal/hapus'
+import { lihatKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/lihat'
+import { listBankSoalAction } from '@/actions/pengguna/bank-soal/list'
+import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
+import _ from 'lodash'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
 import TambahSoalModal from './modal/tambah-soal'
+import UbahSoalModal from './modal/ubah-soal'
 import SoalCard, { SoalType } from './soal-card'
 
 export default function ListSoalBody() {
-  const [showModalTambahSoal, setShowModalTambahSoal] = useState(false)
+  const queryClient = useQueryClient()
+  const [search, setSearch] = useState('')
+  const [shareSoal, setShareSoal] = useState<SoalType>()
+  const [showModalTambah, setShowModalTambah] = useState(false)
+  const [idLihat, setIdLihat] = useState<string>()
+  const [idUbah, setIdUbah] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
 
-  const listSoal: SoalType[] = [...Array(12)].map((_) => ({
-    title: 'Soal UTS',
-    desc: 'Penjelasan singkat terkait soal yang dibuat',
-    time: '12 Mar 2024 13:00',
-    count: 100,
-  }))
+  const { kategori: idKategori }: { kategori: string } = useParams()
+
+  const { data: kategori } = useQuery({
+    queryKey: ['pengguna.bank-soal.kategori.lihat', idKategori],
+    queryFn: makeSimpleQueryDataWithId(lihatKategoriBankSoalAction, idKategori),
+  })
+
+  const queryKey = ['pengguna.bank-soal.list', idKategori]
+
+  const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey,
+      queryFn: async ({ pageParam: page }) => {
+        const { data } = await listBankSoalAction({
+          page,
+          search,
+          params: {
+            idKategori,
+          },
+        })
+
+        return {
+          list: (data?.list ?? []).map((item) => ({
+            id: item.id,
+            title: item.judul,
+            desc: item.deskripsi,
+            count: item.total_soal,
+            time: item.created_at,
+          })) as SoalType[],
+          pagination: data?.pagination,
+        }
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) =>
+        lastPage.pagination?.hasNextPage
+          ? (lastPage.pagination?.page ?? 1) + 1
+          : undefined,
+    })
+
+  const list = data?.pages.flatMap((page) => page.list) ?? []
+
+  useEffect(() => {
+    if (search === '') {
+      refetch()
+      return
+    }
+
+    _.debounce(refetch, 250)()
+  }, [refetch, search])
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusBankSoalAction(idKategori, idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
 
   return (
     <>
@@ -25,7 +100,7 @@ export default function ListSoalBody() {
         weight="semibold"
         className="leading-tight mb-3"
       >
-        Bank Soal Aljabar Linier
+        Bank Soal {kategori?.nama_kategori ?? ''}
       </Title>
       <div className="flex justify-between">
         <Input
@@ -39,23 +114,57 @@ export default function ListSoalBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambahSoal(true)}
+          onClick={() => setShowModalTambah(true)}
         >
           Tambah Soal
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
-        {listSoal.map((soal, idx) => (
-          <SoalCard soal={soal} key={idx} />
-        ))}
-      </div>
-      <div className="flex justify-center mt-4">
-        <Button>Tampilkan Lebih banyak</Button>
-      </div>
+
+      {isLoading || (!list.length && isFetching) ? (
+        <Loader height={300} />
+      ) : list.length > 0 ? (
+        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
+          {list.map((soal) => (
+            <SoalCard
+              key={soal.id}
+              onEdit={(soal) => setIdUbah(soal.id)}
+              onDelete={(soal) => setIdHapus(soal.id)}
+              soal={soal}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-72">
+          <Text size="sm" weight="medium">
+            {search ? 'Soal tidak ditemukan' : 'Belum ada soal'}
+          </Text>
+        </div>
+      )}
+
+      {hasNextPage && (
+        <div className="flex justify-center mt-4">
+          <Button onClick={() => fetchNextPage()}>
+            Tampilkan Lebih banyak
+          </Button>
+        </div>
+      )}
 
       <TambahSoalModal
-        showModal={showModalTambahSoal}
-        setShowModal={setShowModalTambahSoal}
+        showModal={showModalTambah}
+        setShowModal={setShowModalTambah}
+      />
+
+      <UbahSoalModal id={idUbah} setId={setIdUbah} />
+
+      <ModalConfirm
+        title="Hapus Bank Soal"
+        desc="Apakah Anda yakin ingin menghapus bank soal ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="help"
+        closeOnCancel
       />
     </>
   )

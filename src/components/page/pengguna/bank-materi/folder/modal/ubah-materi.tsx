@@ -164,7 +164,8 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
               <CardSeparator />
 
               <ModalFooterButtons
-                submit="Ubah Materi"
+                submit="Simpan Materi"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={() => setId(undefined)}
               />

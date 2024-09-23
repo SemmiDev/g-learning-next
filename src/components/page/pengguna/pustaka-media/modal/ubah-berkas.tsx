@@ -115,6 +115,7 @@ export default function UbahBerkasModal({
 
               <ModalFooterButtons
                 submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={() => setId(undefined)}
               />

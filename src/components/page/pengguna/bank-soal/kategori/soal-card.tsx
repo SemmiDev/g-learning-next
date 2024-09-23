@@ -1,7 +1,9 @@
-import { ActionIcon, Button, Text, Title } from '@/components/ui'
+import { ActionIcon, Button, Text, Time, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
+import { stripHtml } from '@/utils/text'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { BiShareAlt } from 'react-icons/bi'
 import {
   BsFileEarmarkRichtext,
@@ -13,19 +15,31 @@ import { GoDotFill } from 'react-icons/go'
 import { Dropdown } from 'rizzui'
 
 export type SoalType = {
+  id: string
   title: string
   desc: string
   time: string
   count: number
 }
 
+type SoalCardProps = {
+  soal: SoalType
+  onShare?: (soal: SoalType) => void
+  onEdit?: (soal: SoalType) => void
+  onDelete?: (soal: SoalType) => void
+  className?: string
+}
+
 export default function SoalCard({
   soal,
+  onShare,
+  onEdit,
+  onDelete,
   className,
-}: {
-  soal: SoalType
-  className?: string
-}) {
+}: SoalCardProps) {
+  const { kategori: idKategori }: { kategori: string } = useParams()
+  const strippedDesc = stripHtml(soal.desc)
+
   return (
     <div
       className={cn(
@@ -55,15 +69,21 @@ export default function SoalCard({
               <BsThreeDotsVertical size={14} />
             </ActionIcon>
           </Dropdown.Trigger>
-          <Dropdown.Menu className="w-30 divide-y">
-            <div className="mb-2">
-              <Dropdown.Item className="text-gray-dark">
+          <Dropdown.Menu className="w-30 divide-y !py-0">
+            <div className="py-2">
+              <Dropdown.Item
+                className="text-gray-dark"
+                onClick={() => onEdit && onEdit(soal)}
+              >
                 <BsPencil className="text-orange mr-2 h-4 w-4" />
                 Ubah
               </Dropdown.Item>
             </div>
-            <div className="mt-2 pt-2">
-              <Dropdown.Item className="text-gray-dark">
+            <div className="py-2">
+              <Dropdown.Item
+                className="text-gray-dark"
+                onClick={() => onDelete && onDelete(soal)}
+              >
                 <BsTrash3 className="text-danger mr-2 h-4 w-4" />
                 Hapus
               </Dropdown.Item>
@@ -72,18 +92,15 @@ export default function SoalCard({
         </Dropdown>
       </div>
 
-      <Text
-        size="sm"
-        weight="medium"
-        variant="dark"
-        className="line-clamp-2"
-        title={soal.desc}
-      >
-        {soal.desc}
+      <Text size="sm" weight="medium" variant="dark" className="line-clamp-2">
+        {strippedDesc.slice(0, 100)}
+        {strippedDesc.length > 100 && '...'}
       </Text>
 
       <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">
-        <li>{soal.time}</li>
+        <li>
+          <Time date={soal.time} format="datetime" />
+        </li>
         <li>
           <GoDotFill size={10} />
         </li>
@@ -91,14 +108,18 @@ export default function SoalCard({
       </ul>
 
       <div className="flex gap-2">
-        <Button size="sm" className="flex-1">
+        <Button
+          size="sm"
+          className="flex-1"
+          onClick={() => onShare && onShare(soal)}
+        >
           <BiShareAlt className="mr-2" />
           <Text size="xs" weight="medium" className="text-nowrap">
             Bagikan Soal
           </Text>
         </Button>
         <Link
-          href={`${routes.pengajar.bankSoal}/folder/soal`}
+          href={`${routes.pengguna.bankSoal}/${idKategori}/soal/${soal.id}`}
           className="flex-1"
         >
           <Button size="sm" variant="outline" className="w-full">

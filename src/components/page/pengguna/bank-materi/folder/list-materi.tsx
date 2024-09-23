@@ -4,7 +4,11 @@ import { hapusBankMateriAction } from '@/actions/pengguna/bank-materi/hapus'
 import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import _ from 'lodash'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -15,6 +19,8 @@ import LihatMateriModal from './modal/lihat-materi'
 import ShareMateriModal from './modal/share-materi'
 import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
 
 export default function ListMateriBody() {
   const queryClient = useQueryClient()
@@ -26,6 +32,14 @@ export default function ListMateriBody() {
   const [idHapus, setIdHapus] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
+
+  const { data: kategori } = useQuery({
+    queryKey: ['pengguna.bank-materi.kategori.lihat', idKategori],
+    queryFn: makeSimpleQueryDataWithId(
+      lihatKategoriBankMateriAction,
+      idKategori
+    ),
+  })
 
   const queryKey = ['pengguna.bank-materi.list', idKategori]
 
@@ -92,7 +106,7 @@ export default function ListMateriBody() {
         weight="semibold"
         className="leading-tight mb-3"
       >
-        Bank Materi Aljabar Linier
+        Bank Materi {kategori?.nama_kategori ?? ''}
       </Title>
       <div className="flex justify-between">
         <Input
@@ -114,6 +128,7 @@ export default function ListMateriBody() {
           Tambah Materi
         </Button>
       </div>
+
       {isLoading || (!list.length && isFetching) ? (
         <Loader height={300} />
       ) : list.length > 0 ? (

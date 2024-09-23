@@ -20,7 +20,7 @@ const pageHeader = {
   ],
 }
 
-export default function ListFolderBankMateriPage() {
+export default function ListKategoriBankMateriPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />

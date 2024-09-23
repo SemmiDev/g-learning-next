@@ -1,49 +1,72 @@
+import { tambahBankSoalAction } from '@/actions/pengguna/bank-soal/tambah'
 import {
   CardSeparator,
   ControlledInput,
+  ControlledInputNumber,
   ControlledQuillEditor,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
-  gunakan: z.string().pipe(required).pipe(z.coerce.number().min(1)),
-  bobotBenar: z.string().pipe(required).pipe(z.coerce.number()),
-  bobotSalah: z.string().pipe(required).pipe(z.coerce.number()),
-  bobotKosong: z.string().pipe(required).pipe(z.coerce.number()),
+  gunakan: z.number().min(1),
+  bobotBenar: z.number(),
+  bobotSalah: z.number(),
+  bobotKosong: z.number(),
   deskripsi: z.string().optional(),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahSoalFormSchema = {
   judul?: string
-  gunakan?: string | number
-  bobotBenar?: string | number
-  bobotSalah?: string | number
-  bobotKosong?: string | number
+  gunakan?: number
+  bobotBenar?: number
+  bobotSalah?: number
+  bobotKosong?: number
   deskripsi?: string
 }
 
-const initialValues: FormSchema = {
-  bobotBenar: '1',
-  bobotSalah: '0',
-  bobotKosong: '0',
+const initialValues: TambahSoalFormSchema = {
+  bobotBenar: 1,
+  bobotSalah: 0,
+  bobotKosong: 0,
+}
+
+type TambahSoalModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
 }
 
 export default function TambahSoalModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+}: TambahSoalModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const { kategori: idKategori }: { kategori: string } = useParams()
+
+  const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
+    await handleActionWithToast(tambahBankSoalAction(idKategori, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.bank-soal.list', idKategori],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -53,7 +76,7 @@ export default function TambahSoalModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<FormSchema>
+      <Form<TambahSoalFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}
@@ -69,40 +92,36 @@ export default function TambahSoalModal({
                 placeholder="Tulis judul soal di sini"
               />
 
-              <ControlledInput
+              <ControlledInputNumber
                 name="gunakan"
                 control={control}
                 errors={errors}
-                type="number"
                 label="Jumlah Soal Digunakan"
                 placeholder="Jumlah soal yang akan digunakan dari keseluruhan soal"
                 suffix="Soal"
               />
 
               <div className="flex gap-2">
-                <ControlledInput
+                <ControlledInputNumber
                   name="bobotBenar"
                   control={control}
                   errors={errors}
-                  type="number"
                   label="Bobot Benar"
                   placeholder="Nilai jawaban benar"
                   className="flex-1"
                 />
-                <ControlledInput
+                <ControlledInputNumber
                   name="bobotSalah"
                   control={control}
                   errors={errors}
-                  type="number"
                   label="Bobot Salah"
                   placeholder="Nilai jawaban salah"
                   className="flex-1"
                 />
-                <ControlledInput
+                <ControlledInputNumber
                   name="bobotKosong"
                   control={control}
                   errors={errors}
-                  type="number"
                   label="Bobot Kosong"
                   placeholder="Nilai jawaban kosong"
                   className="flex-1"
@@ -117,6 +136,8 @@ export default function TambahSoalModal({
                 placeholder="Buat deskripsi singkat terkait soal"
                 toolbar="minimalist"
               />
+
+              <FormError error={formError} />
             </div>
 
             <CardSeparator />

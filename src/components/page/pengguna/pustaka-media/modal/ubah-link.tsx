@@ -126,6 +126,7 @@ export default function UbahLinkModal({
 
               <ModalFooterButtons
                 submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={() => setId(undefined)}
               />
