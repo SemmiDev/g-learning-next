@@ -99,6 +99,7 @@ export default function PustakaMediaBody() {
   const {
     data: files = [],
     isLoading: isLoadingFiles,
+    isFetching: isFetchingFiles,
     refetch: refetchFiles,
   } = useQuery<FileType[]>({
     queryKey,
@@ -288,7 +289,7 @@ export default function PustakaMediaBody() {
         )}
       </div>
 
-      {isLoadingFiles ? (
+      {isLoadingFiles || (!files.length && isFetchingFiles) ? (
         <Loader height={300} />
       ) : files.length ? (
         <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -330,9 +331,9 @@ export default function PustakaMediaBody() {
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-center h-52">
+        <div className="flex items-center justify-center h-72">
           <Text size="sm" weight="medium">
-            Belum ada berkas
+            {search ? 'Berkas tidak ditemukan' : 'Belum ada berkas'}
           </Text>
         </div>
       )}

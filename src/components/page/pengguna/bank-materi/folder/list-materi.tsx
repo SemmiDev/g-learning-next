@@ -2,7 +2,7 @@
 
 import { hapusBankMateriAction } from '@/actions/pengguna/bank-materi/hapus'
 import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
-import { Button, ModalConfirm, Title } from '@/components/ui'
+import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
@@ -29,35 +29,36 @@ export default function ListMateriBody() {
 
   const queryKey = ['pengguna.bank-materi.list', idKategori]
 
-  const { data, refetch, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey,
-    queryFn: async ({ pageParam: page }) => {
-      const { data } = await listBankMateriAction({
-        page,
-        search,
-        params: {
-          idKategori,
-        },
-      })
+  const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey,
+      queryFn: async ({ pageParam: page }) => {
+        const { data } = await listBankMateriAction({
+          page,
+          search,
+          params: {
+            idKategori,
+          },
+        })
 
-      return {
-        list: (data?.list ?? []).map((item) => ({
-          id: item.bank_ajar.id,
-          name: item.bank_ajar.judul,
-          desc: item.bank_ajar.deskripsi,
-          time: item.bank_ajar.created_at,
-          fileCount: item.total_file_bank_ajar,
-          type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
-        })) as MateriType[],
-        pagination: data?.pagination,
-      }
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.pagination?.hasNextPage
-        ? (lastPage.pagination?.page ?? 1) + 1
-        : undefined,
-  })
+        return {
+          list: (data?.list ?? []).map((item) => ({
+            id: item.bank_ajar.id,
+            name: item.bank_ajar.judul,
+            desc: item.bank_ajar.deskripsi,
+            time: item.bank_ajar.created_at,
+            fileCount: item.total_file_bank_ajar,
+            type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
+          })) as MateriType[],
+          pagination: data?.pagination,
+        }
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) =>
+        lastPage.pagination?.hasNextPage
+          ? (lastPage.pagination?.page ?? 1) + 1
+          : undefined,
+    })
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
@@ -113,21 +114,31 @@ export default function ListMateriBody() {
           Tambah Materi
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
-        {list.map((materi) => (
-          <div key={materi.id}>
-            <MateriCard
-              materi={materi}
-              onEdit={(materi) => setIdUbah(materi.id)}
-              onDelete={(materi) => setIdHapus(materi.id)}
-              onDetail={(materi) => setIdLihat(materi.id)}
-              onShare={() => {
-                setShareMateri(materi)
-              }}
-            />
-          </div>
-        ))}
-      </div>
+      {isLoading || (!list.length && isFetching) ? (
+        <Loader height={300} />
+      ) : list.length > 0 ? (
+        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
+          {list.map((materi) => (
+            <div key={materi.id}>
+              <MateriCard
+                materi={materi}
+                onEdit={(materi) => setIdUbah(materi.id)}
+                onDelete={(materi) => setIdHapus(materi.id)}
+                onDetail={(materi) => setIdLihat(materi.id)}
+                onShare={() => {
+                  setShareMateri(materi)
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-72">
+          <Text size="sm" weight="medium">
+            {search ? 'Materi tidak ditemukan' : 'Belum ada materi'}
+          </Text>
+        </div>
+      )}
 
       {hasNextPage && (
         <div className="flex justify-center mt-4">

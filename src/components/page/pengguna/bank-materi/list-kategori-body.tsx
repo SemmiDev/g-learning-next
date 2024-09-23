@@ -2,9 +2,9 @@
 
 import { hapusKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/hapus'
 import { listKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/list'
-import { Button, ModalConfirm, Title } from '@/components/ui'
+import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -20,29 +20,30 @@ export default function ListKategoriMateriBody() {
   const [showModalTambah, setShowModalTambah] = useState(false)
   const [idUbah, setIdUbah] = useState<string>()
 
-  const { data, refetch, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey,
-    queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKategoriBankMateriAction({
-        page,
-        search,
-      })
+  const { data, isFetching, refetch, hasNextPage, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey,
+      queryFn: async ({ pageParam: page }) => {
+        const { data } = await listKategoriBankMateriAction({
+          page,
+          search,
+        })
 
-      return {
-        list: (data?.list ?? []).map((item) => ({
-          id: item.id,
-          name: item.nama_kategori,
-          count: item.total_materi,
-        })) as KategoriType[],
-        pagination: data?.pagination,
-      }
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.pagination?.hasNextPage
-        ? (lastPage.pagination?.page ?? 1) + 1
-        : undefined,
-  })
+        return {
+          list: (data?.list ?? []).map((item) => ({
+            id: item.id,
+            name: item.nama_kategori,
+            count: item.total_materi,
+          })) as KategoriType[],
+          pagination: data?.pagination,
+        }
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) =>
+        lastPage.pagination?.hasNextPage
+          ? (lastPage.pagination?.page ?? 1) + 1
+          : undefined,
+    })
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
@@ -94,16 +95,27 @@ export default function ListKategoriMateriBody() {
           Tambah Kategori Baru
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {list.map((kategori) => (
-          <KategoriCard
-            key={kategori.id}
-            kategori={kategori}
-            onEdit={(id) => setIdUbah(id)}
-            onDelete={(id) => setIdHapus(id)}
-          />
-        ))}
-      </div>
+
+      {isFetching || (!list.length && isFetching) ? (
+        <Loader height={300} />
+      ) : list.length > 0 ? (
+        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {list.map((kategori) => (
+            <KategoriCard
+              key={kategori.id}
+              kategori={kategori}
+              onEdit={(id) => setIdUbah(id)}
+              onDelete={(id) => setIdHapus(id)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-72">
+          <Text size="sm" weight="medium">
+            {search ? 'Kategori tidak ditemukan' : 'Belum ada kategori'}
+          </Text>
+        </div>
+      )}
 
       {hasNextPage && (
         <div className="flex justify-center mt-4">
