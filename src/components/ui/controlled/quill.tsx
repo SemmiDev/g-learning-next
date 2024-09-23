@@ -53,6 +53,7 @@ export default function ControlledQuillEditor<
           className={cn(
             'col-span-full',
             {
+              '[&_.ql-editor]:min-h-[80px]': size === 'sm',
               '[&_.ql-editor]:min-h-[150px]': size === 'md',
               '[&_.ql-editor]:min-h-[300px]': size === 'lg',
               '[&_.ql-editor]:min-h-[450px]': size === 'xl',

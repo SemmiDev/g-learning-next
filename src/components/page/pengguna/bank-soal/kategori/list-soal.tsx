@@ -25,7 +25,6 @@ export default function ListSoalBody() {
   const [search, setSearch] = useState('')
   const [shareSoal, setShareSoal] = useState<SoalType>()
   const [showModalTambah, setShowModalTambah] = useState(false)
-  const [idLihat, setIdLihat] = useState<string>()
   const [idUbah, setIdUbah] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
@@ -110,6 +109,9 @@ export default function ListSoalBody() {
           clearable={true}
           className="w-72 sm:w-96"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onClear={() => setSearch('')}
         />
         <Button
           size="sm"

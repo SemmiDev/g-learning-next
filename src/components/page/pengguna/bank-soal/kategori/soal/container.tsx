@@ -1,5 +1,8 @@
 'use client'
 
+import { lihatBankSoalAction } from '@/actions/pengguna/bank-soal/lihat'
+import { listSoalAction } from '@/actions/pengguna/bank-soal/soal/list'
+import { tambahSoalAction } from '@/actions/pengguna/bank-soal/soal/tambah'
 import {
   ActionIcon,
   Button,
@@ -8,60 +11,107 @@ import {
   ControlledQuillEditor,
   ControlledRadio,
   Form,
+  FormError,
   Text,
   TextLabel,
   Title,
 } from '@/components/ui'
 import ButtonSubmit from '@/components/ui/button/submit'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { PILIHAN_JAWABAN } from '@/config/const'
+import { handleActionWithToast } from '@/utils/action'
 import { removeIndexFromList } from '@/utils/list'
+import { mustBe } from '@/utils/must-be'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
-import { useState } from 'react'
+import { cleanQuill } from '@/utils/string'
+
+const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
 
 const formSchema = z.object({
   soal: z.string().pipe(required),
-  jawaban: z.array(z.string().pipe(required)),
+  jawaban: z.array(
+    z
+      .string()
+      .transform((val) => cleanQuill(val))
+      .pipe(required)
+  ),
   benar: z.string({ required_error: 'Pilihan jawaban wajib dipilih' }),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahSoalFormSchema = {
   soal?: string
   jawaban: string[]
   benar?: string
 }
 
-const initialValues: FormSchema = {
+const initialValues: TambahSoalFormSchema = {
   jawaban: ['', '', ''],
 }
 
-const abc = ['A', 'B', 'C', 'D', 'E', 'F']
-
 export default function KelolaSoalBody() {
-  const [showModalImportSoal, setShowModalImportSoal] = useState(false)
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+  const [showModalImport, setShowModalImport] = useState(false)
+  const [resetValues, setResetValues] = useState<TambahSoalFormSchema>()
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const {
+    kategori: idKategori,
+    soal: idBankSoal,
+  }: { kategori: string; soal: string } = useParams()
+
+  const { data: dataBankSoal } = useQuery({
+    queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
+    queryFn: async () => {
+      const { data } = await lihatBankSoalAction(idKategori, idBankSoal)
+
+      return data ?? null
+    },
+  })
+
+  const queryKey = ['pengguna.bank-soal.soal.list', idKategori, idBankSoal]
+
+  const { data: listSoal = [] } = useQuery({
+    queryKey,
+    queryFn: async () => {
+      const { data } = await listSoalAction(idBankSoal)
+
+      return data?.list ?? []
+    },
+  })
+
+  const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
+    await handleActionWithToast(tambahSoalAction(idBankSoal, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey })
+        setResetValues({
+          soal: undefined,
+          jawaban: ['', '', ''],
+          benar: undefined,
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
-
-  const listSoal = [...Array(20)].map((_, idx) => ({
-    soal: '<p>hjabsd <b>asjkd</b> hjbs</p>',
-    jawaban: [...Array(4)].map((_, idx) => '<p>etref <b>xss</b> wwqa</p>'),
-  }))
 
   return (
     <>
       <div className="flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start">
         <div className="flex flex-col gap-4 w-full">
           <Card className="flex flex-col p-0">
-            <Form<FormSchema>
+            <Form<TambahSoalFormSchema>
               onSubmit={onSubmit}
               validationSchema={formSchema}
+              resetValues={resetValues}
               useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}
             >
               {({
@@ -73,13 +123,13 @@ export default function KelolaSoalBody() {
                 <>
                   <div className="flex justify-between items-center space-x-2 p-2">
                     <Title as="h6" weight="semibold">
-                      Soal Nomor 21
+                      Soal Nomor {listSoal.length + 1}
                     </Title>
                     <div className="flex space-x-2">
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => setShowModalImportSoal(true)}
+                        onClick={() => setShowModalImport(true)}
                       >
                         Import Soal
                       </Button>
@@ -90,12 +140,14 @@ export default function KelolaSoalBody() {
                   </div>
                   <CardSeparator />
                   <div className="flex flex-col space-y-3 p-2">
+                    <FormError error={formError} />
+
                     <ControlledQuillEditor
                       name="soal"
                       control={control}
                       errors={errors}
                       toolbar="minimalist-image"
-                      size="lg"
+                      size="md"
                       label="Soal"
                       placeholder="Deskripsi soal"
                     />
@@ -107,19 +159,19 @@ export default function KelolaSoalBody() {
                           <FieldError size="md" error={errors.benar?.message} />
                         )}
                       </div>
-                      {watch('jawaban')?.map((item, idx) => (
+                      {watch('jawaban')?.map((_, idx) => (
                         <div className="flex items-center gap-2" key={idx}>
                           <ControlledRadio
                             name="benar"
                             control={control}
-                            value={abc[idx]}
+                            value={PILIHAN_JAWABAN[idx]}
                           />
                           <ControlledQuillEditor
                             name={`jawaban.${idx}`}
                             control={control}
                             placeholder="Deskripsi jawaban"
                             toolbar="minimalist-image"
-                            size="md"
+                            size="sm"
                             className="flex-1"
                             error={errors.jawaban?.[idx]?.message}
                           />
@@ -144,12 +196,15 @@ export default function KelolaSoalBody() {
                         </div>
                       ))}
 
-                      {watch('jawaban').length < abc.length && (
+                      {watch('jawaban').length < PILIHAN_JAWABAN.length && (
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => {
-                            if (watch('jawaban').length >= abc.length) return
+                            if (
+                              watch('jawaban').length >= PILIHAN_JAWABAN.length
+                            )
+                              return
 
                             setValue('jawaban', [...watch('jawaban'), ''])
                           }}
@@ -166,7 +221,7 @@ export default function KelolaSoalBody() {
           </Card>
 
           {listSoal.map((soal, idx) => (
-            <Card className="flex flex-col p-0" key={idx}>
+            <Card key={soal.id} className="flex flex-col p-0">
               <div className="flex justify-between items-center space-x-2 p-2">
                 <Title as="h6" weight="semibold">
                   Soal Nomor {idx + 1}
@@ -184,17 +239,29 @@ export default function KelolaSoalBody() {
               </div>
               <CardSeparator />
               <div className="flex flex-col space-y-3 p-2">
-                <SanitizeHTML html={soal['soal']} />
+                <SanitizeHTML html={soal.pertanyaan} />
                 <div className="flex flex-col space-y-1">
-                  {soal['jawaban'].map((jawaban, jIdx) => (
-                    <div
-                      className="flex space-x-1 items-center"
-                      key={`${idx}${jIdx}`}
-                    >
-                      <Text weight="bold">{abc[jIdx]}. </Text>
-                      <SanitizeHTML html={jawaban} />
-                    </div>
-                  ))}
+                  {PILIHAN_JAWABAN.map((pilihan, jIdx) => {
+                    const jawaban =
+                      soal[
+                        `jawaban_${mustBe(
+                          pilihan.toLowerCase(),
+                          pilihanLower,
+                          'a'
+                        )}`
+                      ].teks
+                    if (!jawaban) return null
+
+                    return (
+                      <div
+                        key={`${soal.id}.${pilihan}`}
+                        className="flex space-x-1 items-center"
+                      >
+                        <Text weight="bold">{pilihan}. </Text>
+                        <SanitizeHTML html={jawaban} />
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </Card>
@@ -203,11 +270,12 @@ export default function KelolaSoalBody() {
         <Card className="flex flex-col lg:w-4/12 p-0">
           <div className="flex flex-col p-2">
             <Title as="h6" weight="semibold">
-              Judul Soal
+              {dataBankSoal?.judul ?? ''}
             </Title>
-            <Text size="sm" weight="medium" variant="lighter">
-              Deskripsi singkatnya di sini
-            </Text>
+            <SanitizeHTML
+              html={dataBankSoal?.deskripsi || '-'}
+              className="text-sm font-medium text-gray-lighter"
+            />
           </div>
           <CardSeparator />
           <div className="flex flex-col space-y-2 p-2">
@@ -235,15 +303,15 @@ export default function KelolaSoalBody() {
             </div>
           </div>
           <CardSeparator />
-          <div className="flex flex-col p-2">
+          {/* <div className="flex flex-col p-2">
             <ButtonSubmit size="sm">Simpan Soal</ButtonSubmit>
-          </div>
+          </div> */}
         </Card>
       </div>
 
       <ImportSoalModal
-        showModal={showModalImportSoal}
-        setShowModal={setShowModalImportSoal}
+        showModal={showModalImport}
+        setShowModal={setShowModalImport}
       />
     </>
   )
