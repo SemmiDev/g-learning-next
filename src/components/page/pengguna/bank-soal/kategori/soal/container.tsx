@@ -12,6 +12,7 @@ import {
   ControlledRadio,
   Form,
   FormError,
+  ModalConfirm,
   Text,
   TextLabel,
   Title,
@@ -32,6 +33,8 @@ import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
 import { cleanQuill } from '@/utils/string'
+import { hapusBankSoalAction } from '@/actions/pengguna/bank-soal/hapus'
+import { hapusSoalAction } from '@/actions/pengguna/bank-soal/soal/hapus'
 
 const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
 
@@ -61,6 +64,8 @@ export default function KelolaSoalBody() {
   const [formError, setFormError] = useState<string>()
   const [showModalImport, setShowModalImport] = useState(false)
   const [resetValues, setResetValues] = useState<TambahSoalFormSchema>()
+  const [idUbah, setIdUbah] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
 
   const {
     kategori: idKategori,
@@ -100,6 +105,19 @@ export default function KelolaSoalBody() {
         })
       },
       onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusSoalAction(idBankSoal, idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
     })
   }
 
@@ -231,7 +249,12 @@ export default function KelolaSoalBody() {
                     <BsPencil className="mr-1" />
                     Ubah Soal
                   </Button>
-                  <Button size="sm" variant="outline" color="danger">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    color="danger"
+                    onClick={() => setIdHapus(soal.id)}
+                  >
                     <BsTrash className="mr-1" />
                     Hapus Soal
                   </Button>
@@ -312,6 +335,17 @@ export default function KelolaSoalBody() {
       <ImportSoalModal
         showModal={showModalImport}
         setShowModal={setShowModalImport}
+      />
+
+      <ModalConfirm
+        title="Hapus Soal"
+        desc="Apakah Anda yakin ingin menghapus soal ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="help"
+        closeOnCancel
       />
     </>
   )
