@@ -2,7 +2,7 @@ import cn from '@/utils/class-names'
 import { forwardRef } from 'react'
 import { TextColors, TextProps, TextSizes, TextWeights } from './text'
 
-export default forwardRef<HTMLInputElement, TextProps>(function TextSpan(
+export default forwardRef<HTMLSpanElement, TextProps>(function TextSpan(
   {
     variant = 'default',
     size,

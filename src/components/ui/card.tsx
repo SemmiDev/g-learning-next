@@ -1,4 +1,5 @@
 import cn from '@/utils/class-names'
+import { forwardRef } from 'react'
 
 export type CardProps = {
   shadow?: 'normal' | 'sm' | 'md' | 'lg' | 'xl'
@@ -7,14 +8,13 @@ export type CardProps = {
   children?: React.ReactNode
 }
 
-export default function Card({
-  shadow = 'normal',
-  rounded = 'md',
-  className,
-  children,
-}: CardProps) {
+export default forwardRef<HTMLDivElement, CardProps>(function Card(
+  { shadow = 'normal', rounded = 'md', className, children }: CardProps,
+  ref
+) {
   return (
     <div
+      ref={ref}
       className={cn(
         'bg-white border border-gray-100 rounded-md overflow-clip p-2',
         shadow == 'normal' ? 'shadow' : `shadow-${shadow}`,
@@ -25,4 +25,4 @@ export default function Card({
       {children}
     </div>
   )
-}
+})

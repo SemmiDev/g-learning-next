@@ -1,6 +1,7 @@
 'use client'
 
 import { lihatBankSoalAction } from '@/actions/pengguna/bank-soal/lihat'
+import { hapusSoalAction } from '@/actions/pengguna/bank-soal/soal/hapus'
 import { listSoalAction } from '@/actions/pengguna/bank-soal/soal/list'
 import { tambahSoalAction } from '@/actions/pengguna/bank-soal/soal/tambah'
 import {
@@ -23,18 +24,16 @@ import { PILIHAN_JAWABAN } from '@/config/const'
 import { handleActionWithToast } from '@/utils/action'
 import { removeIndexFromList } from '@/utils/list'
 import { mustBe } from '@/utils/must-be'
+import { cleanQuill } from '@/utils/string'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { createRef, RefObject, useMemo, useRef, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
-import { cleanQuill } from '@/utils/string'
-import { hapusBankSoalAction } from '@/actions/pengguna/bank-soal/hapus'
-import { hapusSoalAction } from '@/actions/pengguna/bank-soal/soal/hapus'
 
 const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
 
@@ -93,6 +92,11 @@ export default function KelolaSoalBody() {
   })
 
   type DataType = (typeof listSoal)[number]
+
+  const soalRef = useMemo(
+    () => listSoal.map(() => createRef() as RefObject<HTMLDivElement>),
+    [listSoal]
+  )
 
   const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
     await handleActionWithToast(tambahSoalAction(idBankSoal, data), {
@@ -172,6 +176,7 @@ export default function KelolaSoalBody() {
                       size="md"
                       label="Soal"
                       placeholder="Deskripsi soal"
+                      className="text-gray-dark"
                     />
 
                     <div className="space-y-2">
@@ -194,7 +199,7 @@ export default function KelolaSoalBody() {
                             placeholder="Deskripsi jawaban"
                             toolbar="minimalist-image"
                             size="sm"
-                            className="flex-1"
+                            className="flex-1 text-gray-dark"
                             error={errors.jawaban?.[idx]?.message}
                           />
                           {watch('jawaban').length > 3 && (
@@ -243,7 +248,11 @@ export default function KelolaSoalBody() {
           </Card>
 
           {listSoal.map((soal, idx) => (
-            <Card key={soal.id} className="flex flex-col p-0">
+            <Card
+              ref={soalRef[idx]}
+              key={soal.id}
+              className="flex flex-col scroll-m-20 p-0"
+            >
               <div className="flex justify-between items-center space-x-2 p-2">
                 <Title as="h6" weight="semibold">
                   Soal Nomor {idx + 1}
@@ -265,7 +274,7 @@ export default function KelolaSoalBody() {
                 </div>
               </div>
               <CardSeparator />
-              <div className="flex flex-col space-y-3 p-2">
+              <div className="flex flex-col space-y-3 text-gray-dark p-2">
                 <SanitizeHTML html={soal.pertanyaan} />
                 <div className="flex flex-col space-y-1">
                   {PILIHAN_JAWABAN.map((pilihan, jIdx) => {
@@ -294,7 +303,7 @@ export default function KelolaSoalBody() {
             </Card>
           ))}
         </div>
-        <Card className="flex flex-col lg:w-4/12 p-0">
+        <Card className="flex flex-col p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
           <div className="flex flex-col p-2">
             <Title as="h6" weight="semibold">
               {dataBankSoal?.judul ?? ''}
@@ -317,7 +326,16 @@ export default function KelolaSoalBody() {
             <div className="grid grid-cols-10 gap-2 lg:grid-cols-5">
               {listSoal.map((_, idx) => (
                 <div className="flex justify-center items-center" key={idx}>
-                  <Button size="sm" variant="outline" className="size-8">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="size-8"
+                    onClick={() => {
+                      soalRef[idx]?.current?.scrollIntoView({
+                        behavior: 'smooth',
+                      })
+                    }}
+                  >
                     {idx + 1}
                   </Button>
                 </div>
@@ -330,9 +348,6 @@ export default function KelolaSoalBody() {
             </div>
           </div>
           <CardSeparator />
-          {/* <div className="flex flex-col p-2">
-            <ButtonSubmit size="sm">Simpan Soal</ButtonSubmit>
-          </div> */}
         </Card>
       </div>
 
