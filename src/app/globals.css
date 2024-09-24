@@ -1,9 +1,10 @@
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+@import 'react-calendar/dist/Calendar.css';
+@import 'react-quill-new/dist/quill.snow.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import 'react-big-calendar/lib/css/react-big-calendar.css';
-@import 'react-calendar/dist/Calendar.css';
 
 @layer base {
   /* default theme */
@@ -1445,6 +1446,11 @@ div[style='z-index: 1000001;'],
 }
 .react-calendar__month-view__days__day--weekend {
   @apply !text-danger-dark;
+}
+
+/* sanitized html */
+.sanitized-html.ql-editor {
+  padding: 0;
 }
 
 /* custom */

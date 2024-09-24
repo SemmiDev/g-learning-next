@@ -1,14 +1,17 @@
 'use client'
 
 import cn from '@/utils/class-names'
+import QuillResizeImage from 'quill-resize-image'
 import { useCallback, useRef, useState } from 'react'
-import ReactQuill from 'react-quill-new'
+import ReactQuill, { Quill } from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
+import { PustakaMediaFileType } from '../shared/pustaka-media'
+import PilihMediaGambar from '../shared/pustaka-media/pilih-media-gambar'
 import Label from './label'
 import TextLabel from './text/label'
-import PilihMediaGambar from '../shared/pustaka-media/pilih-media-gambar'
-import { PustakaMediaFileType } from '../shared/pustaka-media'
+
+Quill.register('modules/resize', QuillResizeImage)
 
 export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   error?: string
@@ -43,9 +46,14 @@ export default function QuillEditor({
 
   const onPilihGambar = (file: PustakaMediaFileType) => {
     const quill: any = quillRef.current
+
     if (quill) {
       const editor = quill.getEditor()
-      editor.insertEmbed(0, 'image', file.link)
+      editor.insertEmbed(
+        quill.editor.selection.lastRange.index,
+        'image',
+        file.link
+      )
     }
   }
 
@@ -84,6 +92,9 @@ export default function QuillEditor({
       handlers: {
         image: imageHandler,
       },
+    },
+    resize: {
+      locale: {},
     },
   }
 
