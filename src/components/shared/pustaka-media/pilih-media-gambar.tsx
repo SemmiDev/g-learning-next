@@ -1,0 +1,444 @@
+'use client'
+
+import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
+import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
+import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
+import {
+  ActionIconTooltip,
+  Button,
+  CardSeparator,
+  FilePreviewType,
+  Input,
+  Loader,
+  Modal,
+  ModalConfirm,
+  ModalFilePreview,
+  Text,
+  TextSpan,
+} from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import _ from 'lodash'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+import { BiChevronRight } from 'react-icons/bi'
+import {
+  PiFolderPlusFill,
+  PiMagnifyingGlass,
+  PiUploadSimpleBold,
+} from 'react-icons/pi'
+import DriveButton from './drive-button'
+import FileButton from './file-button'
+import FolderButton from './folder-button'
+import TambahBerkasModal from './modal/tambah-berkas'
+import TambahFolderModal from './modal/tambah-folder'
+import UbahBerkasModal from './modal/ubah-berkas'
+import UbahFolderModal from './modal/ubah-folder'
+import UbahLinkModal from './modal/ubah-link'
+import { DriveType, FileType, FolderType } from './pustaka-media'
+
+const queryKeyDrive = ['shared.pustaka-media.drives']
+
+export type PilihMediaProps = {
+  show: boolean
+  setShow: (show: boolean) => void
+  onSelect?(val: FileType): void
+}
+
+export default function PilihMediaGambar({
+  show = false,
+  setShow,
+  onSelect,
+}: PilihMediaProps) {
+  const { status } = useSession()
+  const queryClient = useQueryClient()
+  const [size, setSize] = useState<'xl' | 'full'>('xl')
+  const [activeDrive, setActiveDrive] = useState<string | null>()
+  const [activeFolder, setActiveFolder] = useState<string>()
+  const [search, setSearch] = useState('')
+  const [listFolder, setListFolder] = useState<FolderType[]>([])
+  const [fileHapus, setFileHapus] = useState<FileType>()
+  const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
+  const [showModalTambahBerkas, setShowModalTambahBerkas] = useState(false)
+  const [idUbahFolder, setIdUbahFolder] = useState<string>()
+  const [idUbahLink, setIdUbahLink] = useState<string>()
+  const [idUbahFile, setIdUbahFile] = useState<string>()
+  const [previewFile, setPreviewFile] = useState<FilePreviewType>()
+  const [checkedFile, setCheckedFile] = useState<FileType>()
+
+  const handleResize = () => {
+    if (window.innerWidth < 1280) {
+      setSize('full')
+    } else {
+      setSize('xl')
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+    handleResize()
+  }, [])
+
+  const { data: drives = [] } = useQuery<DriveType[]>({
+    queryKey: queryKeyDrive,
+    queryFn: async () => {
+      const { data } = await driveInfoAction()
+
+      const personal = data?.media_personal_info
+      const instansi = data?.daftar_media_instansi_info ?? []
+
+      return [
+        {
+          id: null,
+          name: 'Penyimpanan Personal',
+          size: personal?.kuota_total_in_kb ?? 0,
+          used: personal?.kuota_terpakai_in_kb ?? 0,
+        },
+        ...instansi.map((item) => ({
+          id: item.id_instansi,
+          name: `Penyimpanan ${item.nama_instansi}`,
+          size: item.kuota_total_in_kb,
+          used: item.kuota_terpakai_in_kb,
+        })),
+      ]
+    },
+  })
+
+  const queryKey = [
+    'shared.pustaka-media.files',
+    activeDrive === undefined
+      ? 'none'
+      : activeDrive === null
+      ? 'personal'
+      : activeDrive,
+    activeFolder ?? 'all',
+  ]
+
+  const {
+    data: files = [],
+    isLoading: isLoadingFiles,
+    refetch: refetchFiles,
+  } = useQuery<FileType[]>({
+    queryKey,
+    queryFn: async () => {
+      if (activeDrive === undefined) {
+        return []
+      }
+
+      const { data } = await listFileAction({
+        personal: activeDrive === null,
+        idInstansi: activeDrive ?? undefined,
+        idFolder: activeFolder,
+        search,
+        sort: {
+          name: 'nama',
+          direction: 'asc',
+        },
+        jenis: 'Folder,Gambar',
+      })
+
+      return (
+        data?.list?.map((item) => ({
+          id: item.id,
+          name: item.nama,
+          time: item.created_at,
+          link: item.url,
+          extension: item.ekstensi,
+          folder: item.tipe === 'Folder',
+          fileCount: item.tipe === 'Folder' ? item.total_files : undefined,
+          size: item.tipe !== 'Folder' ? item.ukuran : undefined,
+          type:
+            item.tipe === 'Audio'
+              ? 'audio'
+              : item.tipe === 'Video'
+              ? 'video'
+              : item.tipe === 'Gambar'
+              ? 'image'
+              : item.tipe === 'Teks'
+              ? 'link'
+              : undefined,
+          driveId: item.id_instansi ?? undefined,
+        })) ?? []
+      )
+    },
+  })
+
+  const currentDrive = drives.filter((item) => item.id === activeDrive)[0]
+
+  useEffect(() => {
+    if (search === '') {
+      refetchFiles()
+      return
+    }
+
+    _.debounce(refetchFiles, 250)()
+  }, [search, refetchFiles])
+
+  const handleHapus = () => {
+    if (!fileHapus) return
+
+    handleActionWithToast(hapusBerkasAction(fileHapus.id), {
+      loading: 'Menghapus berkas...',
+      success: `Berhasil menghapus ${fileHapus.folder ? 'folder' : 'berkas'}`,
+      onSuccess: () => {
+        setFileHapus(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+        queryClient.invalidateQueries({ queryKey: queryKeyDrive })
+      },
+    })
+  }
+
+  const handleUbah = (file: FileType) => {
+    if (file.type === 'link') {
+      setIdUbahLink(file.id)
+    } else {
+      setIdUbahFile(file.id)
+    }
+  }
+
+  if (status === 'unauthenticated') {
+    return null
+  }
+
+  return (
+    <>
+      <Modal
+        title="Pustaka Media"
+        size={size}
+        isOpen={show}
+        onClose={() => setShow(false)}
+      >
+        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] xl:min-h-full">
+          <div className="flex flex-col min-h-[400px] lg:flex-row">
+            <div className="flex flex-col lg:w-4/12 lg:border-r lg:border-r-gray-100">
+              {drives.map((drive) => (
+                <DriveButton
+                  key={drive.id}
+                  drive={drive}
+                  active={activeDrive === drive.id}
+                  onClick={() => {
+                    setActiveDrive(drive.id)
+                    setActiveFolder(undefined)
+                    setListFolder([])
+                  }}
+                />
+              ))}
+            </div>
+            <div className="flex flex-col flex-1">
+              {activeDrive !== undefined && (
+                <>
+                  <div className="flex justify-between items-center space-x-2 p-3">
+                    <Input
+                      size="sm"
+                      type="search"
+                      placeholder="Cari Berkas"
+                      clearable={true}
+                      className="w-72 sm:w-96"
+                      prefix={
+                        <PiMagnifyingGlass
+                          size={20}
+                          className="text-gray-lighter"
+                        />
+                      }
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      onClear={() => setSearch('')}
+                    />
+                    <div className="flex space-x-1">
+                      <ActionIconTooltip
+                        tooltip="Tambah Link/Unggah Media"
+                        size="sm"
+                        onClick={() => setShowModalTambahBerkas(true)}
+                      >
+                        <PiUploadSimpleBold />
+                      </ActionIconTooltip>
+                      <ActionIconTooltip
+                        tooltip="Tambah Folder"
+                        size="sm"
+                        onClick={() => setShowModalTambahFolder(true)}
+                      >
+                        <PiFolderPlusFill />
+                      </ActionIconTooltip>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center border-b border-b-gray-100 px-3 pb-3">
+                    <Text weight="medium" variant="dark">
+                      {currentDrive.name}
+                    </Text>
+                    {listFolder.length > 0 &&
+                      listFolder.map((folder, idx) => (
+                        <div key={folder.id} className="flex items-center">
+                          <BiChevronRight size={18} className="mx-1" />
+                          {idx === listFolder.length - 1 ? (
+                            <TextSpan
+                              size="sm"
+                              weight="semibold"
+                              color="gray"
+                              variant="dark"
+                            >
+                              {folder.name}
+                            </TextSpan>
+                          ) : (
+                            <Button
+                              fontWeight="semibold"
+                              variant="text"
+                              className="text-gray-dark h-auto p-0"
+                              onClick={() => {
+                                setActiveFolder(folder.id)
+                                setListFolder((list) => [
+                                  ...list.slice(0, idx + 1),
+                                ])
+                              }}
+                            >
+                              {folder.name}
+                            </Button>
+                          )}
+                        </div>
+                      ))}
+                  </div>
+                  <div className="flex flex-col">
+                    {isLoadingFiles ? (
+                      <Loader height={200} />
+                    ) : (
+                      files.map((file) =>
+                        file.folder ? (
+                          <FolderButton
+                            key={file.id}
+                            file={file}
+                            onOpen={(file) => {
+                              setActiveFolder(file.id)
+                              setListFolder((list) => [
+                                ...list,
+                                {
+                                  name: file.name,
+                                  id: file.id,
+                                },
+                              ])
+                            }}
+                            onEdit={(file) => setIdUbahFolder(file.id)}
+                            onDelete={(file) => {
+                              if (file.fileCount && file.fileCount > 0) {
+                                toast.error(
+                                  <Text>
+                                    Tidak bisa menghapus folder yang memiliki
+                                    berkas. Silahkan gunakan menu pustaka media.
+                                  </Text>
+                                )
+                                return
+                              }
+
+                              setFileHapus(file)
+                            }}
+                          />
+                        ) : (
+                          <FileButton
+                            key={file.id}
+                            file={file}
+                            onEdit={handleUbah}
+                            onDelete={(file) => setFileHapus(file)}
+                            onPreview={(file) => {
+                              if (!file.link) return
+
+                              setPreviewFile({
+                                url: file.link,
+                                extension: file.extension,
+                              })
+                            }}
+                            checked={checkedFile?.id === file.id}
+                            onChange={() => {
+                              setCheckedFile(file)
+                            }}
+                            multiple={false}
+                          />
+                        )
+                      )
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div>
+            <CardSeparator />
+            <div className="flex justify-end space-x-2 p-3">
+              <Button
+                size="sm"
+                className="w-36"
+                onClick={() => {
+                  onSelect && checkedFile && onSelect(checkedFile)
+                  setCheckedFile(undefined)
+                  setShow(false)
+                }}
+                disabled={!checkedFile}
+              >
+                Pilih Gambar
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-36"
+                onClick={() => setShow(false)}
+              >
+                Batal
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <TambahFolderModal
+        show={showModalTambahFolder}
+        setShow={setShowModalTambahFolder}
+        refetchKey={queryKey}
+        idInstansi={activeDrive ?? undefined}
+        idFolder={activeFolder}
+      />
+
+      <TambahBerkasModal
+        show={showModalTambahBerkas}
+        setShow={setShowModalTambahBerkas}
+        refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
+        idInstansi={activeDrive ?? undefined}
+        idFolder={activeFolder}
+      />
+
+      <UbahFolderModal
+        id={idUbahFolder}
+        setId={setIdUbahFolder}
+        refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
+      />
+
+      <UbahLinkModal
+        id={idUbahLink}
+        setId={setIdUbahLink}
+        refetchKey={queryKey}
+      />
+
+      <UbahBerkasModal
+        id={idUbahFile}
+        setId={setIdUbahFile}
+        refetchKey={queryKey}
+      />
+
+      <ModalFilePreview
+        file={previewFile}
+        onClose={() => setPreviewFile(undefined)}
+      />
+
+      <ModalConfirm
+        title={`Hapus Berkas`}
+        desc={`Apakah Anda yakin ingin menghapus ${
+          fileHapus?.folder ? 'folder' : 'berkas'
+        } ini?`}
+        color="danger"
+        isOpen={!!fileHapus}
+        onClose={() => setFileHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="help"
+        closeOnCancel
+      />
+    </>
+  )
+}

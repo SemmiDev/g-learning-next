@@ -8,6 +8,7 @@ import {
   Loader,
   Modal,
   ModalFooterButtons,
+  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
@@ -15,6 +16,7 @@ import { z } from '@/utils/zod-id'
 import { QueryKey, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -81,6 +83,7 @@ export default function UbahBerkasModal({
       title="Ubah Berkas"
       isLoading={!isLoading && isFetching}
       color="warning"
+      headerIcon="warning"
       isOpen={!!id}
       onClose={() => setId(undefined)}
     >
@@ -99,6 +102,19 @@ export default function UbahBerkasModal({
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
+                <Alert color="warning">
+                  <Text
+                    size="sm"
+                    weight="medium"
+                    variant="dark"
+                    className="break-normal"
+                  >
+                    Mengubah nama berkas akan mengubah{' '}
+                    <strong>link berkas</strong>. Pastikan link berkas masih{' '}
+                    <strong>belum digunakan</strong> jika ingin mengubah!
+                  </Text>
+                </Alert>
+
                 <ControlledInput
                   name="nama"
                   control={control}
@@ -115,6 +131,7 @@ export default function UbahBerkasModal({
 
               <ModalFooterButtons
                 submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={() => setId(undefined)}
               />

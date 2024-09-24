@@ -127,6 +127,7 @@ export default function UbahFolderModal({
 
               <ModalFooterButtons
                 submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={() => setId(undefined)}
               />

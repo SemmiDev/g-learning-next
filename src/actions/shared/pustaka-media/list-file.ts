@@ -33,6 +33,7 @@ export const listFileAction = async ({
   idInstansi,
   idFolder,
   sort,
+  jenis,
 }: {
   page?: number
   search?: string
@@ -40,6 +41,7 @@ export const listFileAction = async ({
   idInstansi?: string
   idFolder?: string
   sort?: SortType
+  jenis?: string
 }) => {
   const { user } = (await getServerSession(authOptions)) ?? {}
   if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
@@ -55,6 +57,7 @@ export const listFileAction = async ({
       personal: personal ? 'true' : undefined,
       id_instansi: idInstansi,
       id_parent: idFolder,
+      jenis: jenis,
     }
   )
 }

@@ -44,7 +44,10 @@ export const Form = <
   return (
     <form
       noValidate
-      onSubmit={methods.handleSubmit(onSubmit)}
+      onSubmit={(event) => {
+        event.stopPropagation()
+        methods.handleSubmit(onSubmit)(event)
+      }}
       className={className}
     >
       {children(methods)}

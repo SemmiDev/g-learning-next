@@ -19,6 +19,7 @@ const defaultOptions = {
   allowedAttributes: {
     a: ['href'],
     img: ['src', 'referrerpolicy'],
+    '*': ['style'],
   },
   allowedIframeHostnames: ['www.youtube.com'],
 }

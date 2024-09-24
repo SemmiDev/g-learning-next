@@ -92,6 +92,8 @@ export default function KelolaSoalBody() {
     },
   })
 
+  type DataType = (typeof listSoal)[number]
+
   const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
     await handleActionWithToast(tambahSoalAction(idBankSoal, data), {
       loading: 'Menyimpan...',
@@ -115,7 +117,9 @@ export default function KelolaSoalBody() {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)
-
+        queryClient.setQueryData(queryKey, (oldData: DataType[]) =>
+          oldData.filter((item) => item.id !== idHapus)
+        )
         queryClient.invalidateQueries({ queryKey })
       },
     })
@@ -164,7 +168,7 @@ export default function KelolaSoalBody() {
                       name="soal"
                       control={control}
                       errors={errors}
-                      toolbar="minimalist-image"
+                      toolbar="normal-image"
                       size="md"
                       label="Soal"
                       placeholder="Deskripsi soal"

@@ -1,12 +1,14 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
 import Label from './label'
 import TextLabel from './text/label'
+import PilihMediaGambar from '../shared/pustaka-media/pilih-media-gambar'
+import { PustakaMediaFileType } from '../shared/pustaka-media'
 
 export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   error?: string
@@ -16,7 +18,7 @@ export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   labelClassName?: string
   errorClassName?: string
   toolbarPosition?: 'top' | 'bottom'
-  toolbar?: 'minimalist' | 'minimalist-image' | 'normal'
+  toolbar?: 'minimalist' | 'minimalist-image' | 'normal' | 'normal-image'
 }
 
 export default function QuillEditor({
@@ -32,39 +34,53 @@ export default function QuillEditor({
   toolbarPosition = 'top',
   ...props
 }: QuillEditorProps) {
+  const [showPilihGambar, setShowPilihGambar] = useState(false)
   const quillRef = useRef(null)
+
   const imageHandler = useCallback(() => {
+    setShowPilihGambar(true)
+  }, [])
+
+  const onPilihGambar = (file: PustakaMediaFileType) => {
     const quill: any = quillRef.current
     if (quill) {
       const editor = quill.getEditor()
-      editor.insertEmbed(
-        0,
-        'image',
-        'https://oyster.ignimgs.com/mediawiki/apis.ign.com/monster-hunter-rise/7/70/Monster_Hunter_Rise_-_Monsters_2021-03-27_00-00-56.png'
-      )
+      editor.insertEmbed(0, 'image', file.link)
     }
-  }, [])
+  }
 
-  const listToolbar =
-    toolbar === 'minimalist'
-      ? [['bold', 'italic', 'underline', 'strike', 'clean']]
-      : toolbar === 'minimalist-image'
-      ? [['bold', 'italic', 'underline', 'strike', 'clean', 'image']]
-      : [
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote', 'code-block'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ script: 'sub' }, { script: 'super' }],
-          [{ indent: '-1' }, { indent: '+1' }],
-          [{ color: [] }, { background: [] }],
-          [{ font: [] }],
-          [{ align: [] }],
-          ['clean'],
-        ]
+  const listToolbar = {
+    minimalist: [['bold', 'italic', 'underline', 'strike', 'clean']],
+    'minimalist-image': [
+      ['bold', 'italic', 'underline', 'strike', 'clean', 'image'],
+    ],
+    normal: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ script: 'sub' }, { script: 'super' }],
+      [{ indent: '-1' }, { indent: '+1' }],
+      [{ color: [] }, { background: [] }],
+      [{ font: [] }],
+      [{ align: [] }],
+      ['clean'],
+    ],
+    'normal-image': [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ script: 'sub' }, { script: 'super' }],
+      [{ indent: '-1' }, { indent: '+1' }],
+      [{ color: [] }, { background: [] }],
+      [{ font: [] }],
+      [{ align: [] }],
+      ['clean', 'image'],
+    ],
+  }
 
   const quillModules = {
     toolbar: {
-      container: listToolbar,
+      container: listToolbar[toolbar],
       handlers: {
         image: imageHandler,
       },
@@ -72,30 +88,41 @@ export default function QuillEditor({
   }
 
   return (
-    <div className={cn(className)}>
-      {label && (
-        <TextLabel className={cn('mb-1.5', labelClassName)}>
-          <Label label={label} required={required} />
-        </TextLabel>
-      )}
-      <ReactQuill
-        ref={quillRef}
-        modules={quillModules}
-        className={cn(
-          'react-quill',
-          {
-            'react-quill-toolbar-bottom relative': toolbarPosition === 'bottom',
-            '[&>.ql-container]:!border-[1.8px] [&>.ql-container]:!border-danger [&>.ql-toolbar]:!border-b-danger':
-              error,
-          },
-          className
+    <>
+      <div className={cn(className)}>
+        {label && (
+          <TextLabel className={cn('mb-1.5', labelClassName)}>
+            <Label label={label} required={required} />
+          </TextLabel>
         )}
-        tabIndex={tabIndex}
-        {...props}
-      />
-      {error && (
-        <FieldError size="md" error={error} className={errorClassName} />
+        <ReactQuill
+          ref={quillRef}
+          modules={quillModules}
+          className={cn(
+            'react-quill',
+            {
+              'react-quill-toolbar-bottom relative':
+                toolbarPosition === 'bottom',
+              '[&>.ql-container]:!border-[1.8px] [&>.ql-container]:!border-danger [&>.ql-toolbar]:!border-b-danger':
+                error,
+            },
+            className
+          )}
+          tabIndex={tabIndex}
+          {...props}
+        />
+        {error && (
+          <FieldError size="md" error={error} className={errorClassName} />
+        )}
+      </div>
+
+      {['minimalist-image', 'normal-image'].includes(toolbar) && (
+        <PilihMediaGambar
+          show={showPilihGambar}
+          setShow={setShowPilihGambar}
+          onSelect={onPilihGambar}
+        />
       )}
-    </div>
+    </>
   )
 }
