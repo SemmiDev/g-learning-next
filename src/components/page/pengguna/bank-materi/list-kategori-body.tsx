@@ -20,7 +20,7 @@ export default function ListKategoriMateriBody() {
   const [showModalTambah, setShowModalTambah] = useState(false)
   const [idUbah, setIdUbah] = useState<string>()
 
-  const { data, isFetching, refetch, hasNextPage, fetchNextPage } =
+  const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
@@ -96,7 +96,7 @@ export default function ListKategoriMateriBody() {
         </Button>
       </div>
 
-      {isFetching || (!list.length && isFetching) ? (
+      {isLoading || (!list.length && isFetching) ? (
         <Loader height={300} />
       ) : list.length > 0 ? (
         <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

@@ -38,22 +38,23 @@ export default function QuillEditor({
   ...props
 }: QuillEditorProps) {
   const [showPilihGambar, setShowPilihGambar] = useState(false)
+  const [editorIdx, setEditorIdx] = useState(0)
   const quillRef = useRef(null)
 
   const imageHandler = useCallback(() => {
     setShowPilihGambar(true)
+
+    const quill: any = quillRef.current
+    if (quill) {
+      setEditorIdx(quill.editor?.selection?.lastRange?.index ?? 0)
+    }
   }, [])
 
   const onPilihGambar = (file: PustakaMediaFileType) => {
     const quill: any = quillRef.current
 
     if (quill) {
-      const editor = quill.getEditor()
-      editor.insertEmbed(
-        quill.editor.selection.lastRange.index,
-        'image',
-        file.link
-      )
+      quill.getEditor().insertEmbed(editorIdx, 'image', file.link)
     }
   }
 

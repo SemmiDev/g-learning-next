@@ -66,6 +66,8 @@ export default function KelolaSoalBody() {
   const [idUbah, setIdUbah] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
+  const soalBaruRef = useRef<HTMLDivElement>(null)
+
   const {
     kategori: idKategori,
     soal: idBankSoal,
@@ -133,7 +135,7 @@ export default function KelolaSoalBody() {
     <>
       <div className="flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start">
         <div className="flex flex-col gap-4 w-full">
-          <Card className="flex flex-col p-0">
+          <Card ref={soalBaruRef} className="flex flex-col scroll-m-24 p-0">
             <Form<TambahSoalFormSchema>
               onSubmit={onSubmit}
               validationSchema={formSchema}
@@ -251,7 +253,7 @@ export default function KelolaSoalBody() {
             <Card
               ref={soalRef[idx]}
               key={soal.id}
-              className="flex flex-col scroll-m-20 p-0"
+              className="flex flex-col scroll-m-24 p-0"
             >
               <div className="flex justify-between items-center space-x-2 p-2">
                 <Title as="h6" weight="semibold">
@@ -276,8 +278,8 @@ export default function KelolaSoalBody() {
               <CardSeparator />
               <div className="flex flex-col space-y-3 text-gray-dark p-2">
                 <SanitizeHTML html={soal.pertanyaan} />
-                <div className="flex flex-col space-y-1">
-                  {PILIHAN_JAWABAN.map((pilihan, jIdx) => {
+                <div className="flex flex-col space-y-2">
+                  {PILIHAN_JAWABAN.map((pilihan) => {
                     const jawaban =
                       soal[
                         `jawaban_${mustBe(
@@ -341,7 +343,16 @@ export default function KelolaSoalBody() {
                 </div>
               ))}
               <div className="flex justify-center items-center">
-                <Button size="sm" variant="solid" className="size-8">
+                <Button
+                  size="sm"
+                  variant="solid"
+                  className="size-8"
+                  onClick={() => {
+                    soalBaruRef.current?.scrollIntoView({
+                      behavior: 'smooth',
+                    })
+                  }}
+                >
                   {listSoal.length + 1}
                 </Button>
               </div>
