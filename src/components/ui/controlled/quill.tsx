@@ -22,6 +22,7 @@ export type ControlledQuillEditorProps<
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
   size?: 'sm' | 'md' | 'lg' | 'xl'
+  noMaxHeight?: boolean
 }
 
 export default function ControlledQuillEditor<
@@ -34,6 +35,7 @@ export default function ControlledQuillEditor<
   labelClassName,
   onChange,
   size = 'sm',
+  noMaxHeight,
   className,
   ...props
 }: ControlledQuillEditorProps<TFieldValues, TName>) {
@@ -57,6 +59,7 @@ export default function ControlledQuillEditor<
               '[&_.ql-editor]:min-h-[150px]': size === 'md',
               '[&_.ql-editor]:min-h-[300px]': size === 'lg',
               '[&_.ql-editor]:min-h-[450px]': size === 'xl',
+              '[&_.ql-editor]:max-h-none': noMaxHeight,
             },
             className
           )}

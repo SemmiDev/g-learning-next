@@ -179,6 +179,7 @@ export default function KelolaSoalBody() {
                       label="Soal"
                       placeholder="Deskripsi soal"
                       className="text-gray-dark"
+                      noMaxHeight
                     />
 
                     <div className="space-y-2">
@@ -203,6 +204,7 @@ export default function KelolaSoalBody() {
                             size="sm"
                             className="flex-1 text-gray-dark"
                             error={errors.jawaban?.[idx]?.message}
+                            noMaxHeight
                           />
                           {watch('jawaban').length > 3 && (
                             <ActionIcon
@@ -277,7 +279,7 @@ export default function KelolaSoalBody() {
               </div>
               <CardSeparator />
               <div className="flex flex-col space-y-3 text-gray-dark p-2">
-                <SanitizeHTML html={soal.pertanyaan} />
+                <SanitizeHTML html={soal.pertanyaan} className="font-medium" />
                 <div className="flex flex-col space-y-2">
                   {PILIHAN_JAWABAN.map((pilihan) => {
                     const jawaban =
@@ -295,8 +297,10 @@ export default function KelolaSoalBody() {
                         key={`${soal.id}.${pilihan}`}
                         className="flex space-x-1 items-center"
                       >
-                        <Text weight="bold">{pilihan}. </Text>
-                        <SanitizeHTML html={jawaban} />
+                        <Text size="sm" weight="bold">
+                          {pilihan}.{' '}
+                        </Text>
+                        <SanitizeHTML html={jawaban} className="font-medium" />
                       </div>
                     )
                   })}
