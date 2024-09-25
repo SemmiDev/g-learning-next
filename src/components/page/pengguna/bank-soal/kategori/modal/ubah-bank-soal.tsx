@@ -28,7 +28,7 @@ const formSchema = z.object({
   deskripsi: z.string().optional(),
 })
 
-export type UbahSoalFormSchema = {
+export type UbahBankSoalFormSchema = {
   judul?: string
   gunakan?: number
   bobotBenar?: number
@@ -37,18 +37,15 @@ export type UbahSoalFormSchema = {
   deskripsi?: string
 }
 
-const initialValues: UbahSoalFormSchema = {
-  bobotBenar: 1,
-  bobotSalah: 0,
-  bobotKosong: 0,
-}
-
-type UbahSoalModalProps = {
+type UbahBankSoalModalProps = {
   id: string | undefined
   setId(id?: string): void
 }
 
-export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
+export default function UbahBankSoalModal({
+  id,
+  setId,
+}: UbahBankSoalModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -60,7 +57,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahSoalFormSchema>({
+  } = useQuery<UbahBankSoalFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return {}
@@ -78,7 +75,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
     },
   })
 
-  const onSubmit: SubmitHandler<UbahSoalFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahBankSoalFormSchema> = async (data) => {
     if (!id) return
 
     await handleActionWithToast(ubahBankSoalAction(idKategori, id, data), {
@@ -88,10 +85,13 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
         queryClient.invalidateQueries({
           queryKey: ['pengguna.bank-soal.list', idKategori],
         })
-        queryClient.setQueryData(queryKey, (oldData: UbahSoalFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
+        queryClient.setQueryData(
+          queryKey,
+          (oldData: UbahBankSoalFormSchema) => ({
+            ...oldData,
+            ...data,
+          })
+        )
         setId(undefined)
       },
       onError: ({ message }) => setFormError(message),
@@ -110,7 +110,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
       {isLoading || !id ? (
         <Loader height={447} />
       ) : (
-        <Form<UbahSoalFormSchema>
+        <Form<UbahBankSoalFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{

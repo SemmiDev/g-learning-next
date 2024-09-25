@@ -16,8 +16,8 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
-import TambahSoalModal from './modal/tambah-soal'
-import UbahSoalModal from './modal/ubah-soal'
+import TambahBankSoalModal from './modal/tambah-bank-soal'
+import UbahBankSoalModal from './modal/ubah-bank-soal'
 import SoalCard, { SoalType } from './soal-card'
 
 export default function ListSoalBody() {
@@ -151,12 +151,12 @@ export default function ListSoalBody() {
         </div>
       )}
 
-      <TambahSoalModal
+      <TambahBankSoalModal
         showModal={showModalTambah}
         setShowModal={setShowModalTambah}
       />
 
-      <UbahSoalModal id={idUbah} setId={setIdUbah} />
+      <UbahBankSoalModal id={idUbah} setId={setIdUbah} />
 
       <ModalConfirm
         title="Hapus Bank Soal"

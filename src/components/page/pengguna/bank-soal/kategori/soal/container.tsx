@@ -34,6 +34,8 @@ import { SubmitHandler } from 'react-hook-form'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
+import UbahSoalModal from './modal/ubah'
+import { BiCheck, BiCheckCircle, BiCircle } from 'react-icons/bi'
 
 const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
 
@@ -262,7 +264,12 @@ export default function KelolaSoalBody() {
                   Soal Nomor {idx + 1}
                 </Title>
                 <div className="flex space-x-2">
-                  <Button size="sm" variant="outline" color="warning">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    color="warning"
+                    onClick={() => setIdUbah(soal.id)}
+                  >
                     <BsPencil className="mr-1" />
                     Ubah Soal
                   </Button>
@@ -297,9 +304,17 @@ export default function KelolaSoalBody() {
                         key={`${soal.id}.${pilihan}`}
                         className="flex space-x-1 items-center"
                       >
-                        <Text size="sm" weight="bold">
-                          {pilihan}.{' '}
-                        </Text>
+                        <div className="relative">
+                          <Text size="sm" weight="bold">
+                            {pilihan}.{' '}
+                          </Text>
+                          {pilihan === soal.jawaban_benar && (
+                            <BiCircle
+                              size={23}
+                              className="absolute top-1/2 left-[5.5px] transform -translate-x-1/2 -translate-y-1/2 text-primary stroke-2"
+                            />
+                          )}
+                        </div>
                         <SanitizeHTML html={jawaban} className="font-medium" />
                       </div>
                     )
@@ -370,6 +385,8 @@ export default function KelolaSoalBody() {
         showModal={showModalImport}
         setShowModal={setShowModalImport}
       />
+
+      <UbahSoalModal id={idUbah} setId={setIdUbah} />
 
       <ModalConfirm
         title="Hapus Soal"

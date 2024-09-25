@@ -6,6 +6,7 @@ import ActionIcon from '../button/action-icon'
 import Text from '../text/text'
 import { UploadFileType } from './upload-file'
 import { FileIcon } from '../file/file-icon'
+import { isImageExt } from '@/utils/media-check'
 
 const IconWrapper = ({ children }: { children: ReactNode }) => {
   return (
@@ -16,9 +17,7 @@ const IconWrapper = ({ children }: { children: ReactNode }) => {
 }
 
 const FileUploadIcon = ({ file }: { file: UploadFileType }) => {
-  if (
-    ['jpg', 'jpeg', 'png', 'bmp'].includes(file.name.split('.').pop() ?? '')
-  ) {
+  if (isImageExt(file.name ?? '')) {
     return (
       <figure className="flex justify-center size-11 rounded-md overflow-clip">
         <Image

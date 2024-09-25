@@ -70,6 +70,7 @@ const Icon = ({ file }: { file: FileIconType }) => {
       return <BsFiletypeSvg size={iconSize} className="text-primary" />
     case 'jpg':
     case 'jpeg':
+    case 'jfif':
     case 'png':
     case 'bmp':
       return <BsFileImage size={iconSize} className="text-primary" />

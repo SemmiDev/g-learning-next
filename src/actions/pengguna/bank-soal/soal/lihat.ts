@@ -37,5 +37,5 @@ type DataType = {
 
 export const lihatSoalAction = (idKategori: string, id: string) =>
   makeJwtGetRequestAction<DataType>(
-    `${process.env.API_URL}/kategori-bank-soal/${idKategori}/bank-soal/${id}`
+    `${process.env.API_URL}/bank-soal/${idKategori}/soal/${id}`
   )

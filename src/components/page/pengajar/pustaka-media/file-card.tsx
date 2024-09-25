@@ -64,6 +64,7 @@ const FileIcon = ({ file }: { file: FileType }) => {
       break
     case 'jpg':
     case 'jpeg':
+    case 'jfif':
     case 'png':
     case 'bmp':
       icon = <BsFileImage size={iconSize} className="text-primary" />

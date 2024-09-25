@@ -3,7 +3,7 @@ import {
   Card,
   CardSeparator,
   FileListItem,
-  FileListItemType,
+  PustakaMediaFileType,
   Text,
   Title,
 } from '@/components/ui'
@@ -14,18 +14,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default function MateriCard({ className }: { className?: string }) {
-  const files: FileListItemType[] = [
+  const files: PustakaMediaFileType[] = [
     {
+      id: '1',
       name: 'NamaFile.jpg',
+      folder: false,
       size: 50,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '2',
       name: 'NamaFile.pdf',
+      folder: false,
       size: 280,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '3',
       name: 'NamaFile.ext',
+      folder: false,
       size: 500,
+      time: '2024-09-20T15:55:35+07:00',
     },
   ]
 

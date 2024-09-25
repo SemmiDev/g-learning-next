@@ -26,7 +26,7 @@ const formSchema = z.object({
   deskripsi: z.string().optional(),
 })
 
-export type TambahSoalFormSchema = {
+export type TambahBankSoalFormSchema = {
   judul?: string
   gunakan?: number
   bobotBenar?: number
@@ -35,27 +35,27 @@ export type TambahSoalFormSchema = {
   deskripsi?: string
 }
 
-const initialValues: TambahSoalFormSchema = {
+const initialValues: TambahBankSoalFormSchema = {
   bobotBenar: 1,
   bobotSalah: 0,
   bobotKosong: 0,
 }
 
-type TambahSoalModalProps = {
+type TambahBankSoalModalProps = {
   showModal?: boolean
   setShowModal(show: boolean): void
 }
 
-export default function TambahSoalModal({
+export default function TambahBankSoalModal({
   showModal = false,
   setShowModal,
-}: TambahSoalModalProps) {
+}: TambahBankSoalModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
 
-  const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<TambahBankSoalFormSchema> = async (data) => {
     await handleActionWithToast(tambahBankSoalAction(idKategori, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
@@ -76,7 +76,7 @@ export default function TambahSoalModal({
       isOpen={showModal}
       onClose={() => setShowModal(false)}
     >
-      <Form<TambahSoalFormSchema>
+      <Form<TambahBankSoalFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}

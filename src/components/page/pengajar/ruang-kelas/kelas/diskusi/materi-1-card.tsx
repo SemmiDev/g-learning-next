@@ -50,7 +50,15 @@ export default function MateriCard({ className }: { className?: string }) {
           </div>
         </div>
         <div className="mt-4">
-          <FileListItem file={{ name: 'FileName.ext', size: 120 }} />
+          <FileListItem
+            file={{
+              id: '1',
+              name: 'FileName.ext',
+              folder: false,
+              size: 120,
+              time: '2024-09-20T15:55:35+07:00',
+            }}
+          />
         </div>
       </div>
       <CardSeparator />

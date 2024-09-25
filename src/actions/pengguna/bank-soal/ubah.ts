@@ -1,13 +1,13 @@
 'use server'
 
-import { UbahSoalFormSchema } from '@/components/page/pengguna/bank-soal/kategori/modal/ubah-soal'
+import { UbahBankSoalFormSchema } from '@/components/page/pengguna/bank-soal/kategori/modal/ubah-bank-soal'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
 export const ubahBankSoalAction = (
   idKategori: string,
   id: string,
-  data: UbahSoalFormSchema
+  data: UbahBankSoalFormSchema
 ) =>
   makeJwtPutRequestAction(
     `${process.env.API_URL}/kategori-bank-soal/${idKategori}/bank-soal/${id}`,
