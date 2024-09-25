@@ -5,6 +5,7 @@ import Image from 'next/image'
 import {
   BsFileEarmarkText,
   BsFileEarmarkZip,
+  BsFileImage,
   BsFiletypeDoc,
   BsFiletypeDocx,
   BsFiletypePdf,
@@ -67,6 +68,11 @@ const Icon = ({ file }: { file: FileIconType }) => {
       return <BsFiletypeTxt size={iconSize} className="text-danger" />
     case 'svg':
       return <BsFiletypeSvg size={iconSize} className="text-primary" />
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'bmp':
+      return <BsFileImage size={iconSize} className="text-primary" />
     case 'zip':
     case 'rar':
     case '7zip':
@@ -101,7 +107,7 @@ export const FileIcon = ({
         <figure className="size-5">
           <Image src={iconFolder} alt="folder" />
         </figure>
-      ) : file.type === 'image' ? (
+      ) : file.type === 'image' && file.link ? (
         <Thumbnail
           src={file.link}
           alt="thumbnail"

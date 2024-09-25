@@ -37,7 +37,11 @@ export default function KelasCard({
             className="h-full w-full object-cover"
           />
         ) : (
-          <RandomCoverImage persistentKey={program} alt="kelas" />
+          <RandomCoverImage
+            persistentKey={program}
+            alt="kelas"
+            className="h-full w-full object-cover"
+          />
         )}
       </div>
       <div className="flex justify-between items-start mt-2">

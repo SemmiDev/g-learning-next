@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   FileIcon,
@@ -43,7 +45,7 @@ export default function FileListItem({
   const pointer =
     file.folder ||
     file.type === 'link' ||
-    isPreviewableFile(file.name, file.extension)
+    (!!file.link && isPreviewableFile(file.link, file.extension))
 
   return (
     <div

@@ -4,7 +4,7 @@ import {
   Card,
   CardSeparator,
   FileListItem,
-  FileListItemType,
+  PustakaMediaFileType,
   ReadMore,
   Text,
   Title,
@@ -14,18 +14,27 @@ import Link from 'next/link'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function DiskusiDetailPage() {
-  const files: FileListItemType[] = [
+  const files: PustakaMediaFileType[] = [
     {
+      id: '1',
       name: 'NamaFile.jpg',
+      folder: false,
       size: 50,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '2',
       name: 'NamaFile.pdf',
+      folder: false,
       size: 280,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '3',
       name: 'NamaFile.ext',
+      folder: false,
       size: 500,
+      time: '2024-09-20T15:55:35+07:00',
     },
   ]
 

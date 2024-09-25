@@ -325,7 +325,7 @@ export default function PustakaMediaBody() {
               pointer={
                 file.folder ||
                 file.type === 'link' ||
-                isPreviewableFile(file.name, file.extension)
+                (!!file.link && isPreviewableFile(file.link, file.extension))
               }
             />
           ))}
