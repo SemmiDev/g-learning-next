@@ -1,10 +1,15 @@
 'use client'
 
 import PustakaMedia, {
-  PustakaMediaProps,
+  DriveType as PustakaMediaDriveType,
   FileType as PustakaMediaFileType,
+  PustakaMediaProps,
 } from './pustaka-media'
 
-export { type PustakaMediaFileType, type PustakaMediaProps }
+export {
+  type PustakaMediaDriveType,
+  type PustakaMediaFileType,
+  type PustakaMediaProps,
+}
 
 export default PustakaMedia

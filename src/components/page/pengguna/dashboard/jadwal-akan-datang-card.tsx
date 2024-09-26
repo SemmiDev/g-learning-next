@@ -5,39 +5,61 @@ import {
   CardSeparator,
   TableHeaderCell,
   Text,
+  Time,
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
-import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
+import { getWaktuIndonesia } from '@/utils/client-timezone'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 
+type JadwalAkanDatangCardProps = {
+  className?: string
+}
 export default function JadwalAkanDatangCard({
   className,
-}: {
-  className?: string
-}) {
-  const { data, isLoading, isFetching } = useTableAsync({
+}: JadwalAkanDatangCardProps) {
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['pengguna.dashboard.table-kelas-akan-datang'],
-    action: tableJadwalAkanDatangAction,
+    queryFn: async () => {
+      const { data } = await tableJadwalAkanDatangAction()
+
+      return data?.sort(
+        (a, b) => Date.parse(a.tanggal_mulai) - Date.parse(b.tanggal_mulai)
+      )
+    },
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: <TableHeaderCell title="Nama Kelas" />,
-      dataIndex: 'kelas',
+      dataIndex: 'nama_kelas',
       render: (value: string, row) => (
         <div className="flex items-center space-x-2">
-          <Image
-            src={row.image}
-            alt="profil"
-            className="w-10 h-10 rounded-md object-cover"
-            width={100}
-            height={100}
-          />
+          <figure className="w-10 h-10 rounded-md overflow-clip">
+            {!!row.thumbnail ? (
+              <Image
+                src={row.thumbnail}
+                alt="kelas"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <RandomCoverImage
+                persistentKey={row.id_kelas}
+                alt="kelas"
+                className="h-full w-full object-cover"
+              />
+            )}
+          </figure>
           <Text size="sm" weight="semibold" variant="dark">
             {value}
           </Text>
@@ -46,25 +68,26 @@ export default function JadwalAkanDatangCard({
     },
     {
       title: <TableHeaderCell title="Hari dan Tanggal" />,
-      dataIndex: 'tanggal',
+      dataIndex: 'tanggal_mulai',
       render: (value: string) => (
         <Text size="sm" weight="medium" variant="dark">
-          {value}
+          <Time date={value} format="dateday" />
         </Text>
       ),
     },
     {
       title: <TableHeaderCell title="Jam" />,
-      dataIndex: 'jam',
-      render: (value: string) => (
+      dataIndex: 'tanggal_mulai',
+      render: (value: string, row) => (
         <Text size="sm" weight="medium" variant="dark">
-          {value}
+          <Time date={value} format="time" /> -{' '}
+          <Time date={row.tanggal_sampai} format="time" /> {getWaktuIndonesia()}
         </Text>
       ),
     },
     {
       title: <TableHeaderCell title="Instansi" />,
-      dataIndex: 'instansi',
+      dataIndex: 'nama_instansi',
       render: (value: string) => (
         <Text size="sm" weight="medium" variant="dark">
           {value}
@@ -76,7 +99,7 @@ export default function JadwalAkanDatangCard({
       render: (_: string, row) => {
         return (
           <Link
-            href={`${routes.pengguna.kelas}`}
+            href={`${routes.pengguna.ruangKelas}/${row.id_kelas}`}
             className="flex justify-center"
           >
             <Button variant="text-colorful">Masuk Kelas</Button>
@@ -99,8 +122,9 @@ export default function JadwalAkanDatangCard({
         isLoading={isLoading}
         isFetching={isFetching}
         columns={tableColumns}
-        rowKey={(row) => row.id}
+        rowKey={(row) => row.id_kelas}
         variant="elegant"
+        className="min-h-[382px]"
       />
     </Card>
   )

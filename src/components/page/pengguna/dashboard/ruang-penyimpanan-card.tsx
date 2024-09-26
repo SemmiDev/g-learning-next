@@ -1,18 +1,58 @@
-import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  PustakaMediaDriveType,
+  Text,
+  Title,
+} from '@/components/ui'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { Dropdown } from 'rizzui'
 
+const COLORS = ['#BFDBFE', '#0070F3']
+const queryKeyDrive = ['shared.pustaka-media.drives']
+
 export default function DashboardRuangPenyimpananCard() {
+  const [activeDrive, setActiveDrive] = useState<string | null>(null)
+
+  const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
+    queryKey: queryKeyDrive,
+    queryFn: async () => {
+      const { data } = await driveInfoAction()
+
+      const personal = data?.media_personal_info
+      const instansi = data?.daftar_media_instansi_info ?? []
+
+      return [
+        {
+          id: null,
+          name: 'Personal',
+          size: personal?.kuota_total_in_kb ?? 0,
+          used: personal?.kuota_terpakai_in_kb ?? 0,
+        },
+        ...instansi.map((item) => ({
+          id: item.id_instansi,
+          name: `${item.nama_instansi}`,
+          size: item.kuota_total_in_kb,
+          used: item.kuota_terpakai_in_kb,
+        })),
+      ]
+    },
+  })
+
+  const currentDrive = drives.find((item) => item.id === activeDrive)
   const data = [
     {
       name: 'Penyimpanan Tersedia',
-      value: fileSizeToKB(1, 'GB') - fileSizeToKB(310, 'MB'),
+      value: currentDrive ? currentDrive?.size - currentDrive?.used : 0,
     },
-    { name: 'Total Digunakan', value: fileSizeToKB(310, 'MB') },
+    { name: 'Total Digunakan', value: currentDrive?.used ?? 0 },
   ]
-  const COLORS = ['#BFDBFE', '#0070F3']
 
   return (
     <Card className="flex flex-col w-full p-0 lg:w-5/12">
@@ -23,16 +63,21 @@ export default function DashboardRuangPenyimpananCard() {
         <Dropdown>
           <Dropdown.Trigger>
             <Button as="span" size="sm" variant="outline">
-              Personal <BsChevronDown className="ml-2 w-5" />
+              {drives.filter((item) => item.id === activeDrive)[0]?.name}{' '}
+              <BsChevronDown className="ml-2 w-5" />
             </Button>
           </Dropdown.Trigger>
           <Dropdown.Menu>
-            <Dropdown.Item className="justify-between">
-              <Text size="sm">Personal</Text> <BsCheck size={18} />
-            </Dropdown.Item>
-            <Dropdown.Item className="justify-between">
-              <Text size="sm">UIN SUSKA Riau</Text>
-            </Dropdown.Item>
+            {drives.map((drive) => (
+              <Dropdown.Item
+                key={drive.id ?? 'personal'}
+                className="justify-between"
+                onClick={() => setActiveDrive(drive.id ?? null)}
+              >
+                <Text size="sm">{drive.name}</Text>{' '}
+                {drive.id === activeDrive ? <BsCheck size={18} /> : null}
+              </Dropdown.Item>
+            ))}
           </Dropdown.Menu>
         </Dropdown>
       </div>

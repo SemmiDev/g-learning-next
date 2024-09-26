@@ -1,34 +1,28 @@
-import { ActionIcon, Text } from '@/components/ui'
+import {
+  ActionIcon,
+  FileIcon,
+  isPreviewableFile,
+  LinkOrDiv,
+  PustakaMediaFileType,
+  Text,
+  Time,
+} from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
-import { BsEye, BsFileEarmarkFill, BsFillPlayBtnFill } from 'react-icons/bs'
+import { BsEye } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 import { MdOutlineFileDownload } from 'react-icons/md'
 
-export type FileItemType = {
-  id: string
-  name: string
-  size?: number
-  time: string
-  icon: 'video' | 'file'
-  link: string
-}
-
 type FileButtonProps = {
-  file: FileItemType
+  file: PustakaMediaFileType
+  onPreview?: (file: PustakaMediaFileType) => void
 }
 
-export default function RecentFileItem({ file }: FileButtonProps) {
+export default function RecentFileItem({ file, onPreview }: FileButtonProps) {
   return (
     <div className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 px-4 hover:bg-gray-50/50">
       <div className="flex flex-1 justify-between items-center space-x-2">
         <div className="flex space-x-2">
-          <div className="flex size-11 items-center justify-center rounded-md shrink-0 bg-gray-50">
-            {file.icon === 'video' ? (
-              <BsFillPlayBtnFill size={20} className="text-danger-dark" />
-            ) : (
-              <BsFileEarmarkFill size={20} className="text-purple-900/80" />
-            )}
-          </div>
+          <FileIcon file={file} />
           <div className="flex flex-col">
             <Text
               weight="semibold"
@@ -39,33 +33,53 @@ export default function RecentFileItem({ file }: FileButtonProps) {
               {file.name}
             </Text>
             <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-              <li>{file.size ? formatBytes(file.size, 2) : file.time}</li>
+              <li>
+                {file.size ? (
+                  formatBytes(file.size, 2)
+                ) : (
+                  <Time date={file.time} />
+                )}
+              </li>
               {!!file.size && (
                 <>
                   <li>
                     <GoDotFill size={10} />
                   </li>
-                  <li>{file.time}</li>
+                  <li>
+                    <Time date={file.time} />
+                  </li>
                 </>
               )}
             </ul>
           </div>
         </div>
         <div className="flex space-x-1">
-          <ActionIcon
-            size="sm"
-            variant="outline-hover-colorful"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <BsEye />
-          </ActionIcon>
-          <ActionIcon
-            size="sm"
-            variant="outline-hover-colorful"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <MdOutlineFileDownload />
-          </ActionIcon>
+          {!!file.link &&
+            (file.type === 'link' ||
+              isPreviewableFile(file.link, file.extension)) && (
+              <LinkOrDiv
+                href={file.type === 'link' ? file.link : undefined}
+                target="_blank"
+              >
+                <ActionIcon
+                  size="sm"
+                  variant="outline-hover-colorful"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onPreview && onPreview(file)
+                  }}
+                >
+                  <BsEye />
+                </ActionIcon>
+              </LinkOrDiv>
+            )}
+          {file.type !== 'link' && (
+            <LinkOrDiv href={file.link} target="_blank">
+              <ActionIcon size="sm" variant="outline-hover-colorful">
+                <MdOutlineFileDownload />
+              </ActionIcon>
+            </LinkOrDiv>
+          )}
         </div>
       </div>
     </div>

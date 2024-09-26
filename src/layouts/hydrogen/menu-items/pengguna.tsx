@@ -37,21 +37,21 @@ export const menuItemsPengguna: MenuItemType[] = [
   {
     name: 'Umum',
   },
-  {
-    name: 'Ruang Kursus',
-    href: routes.pengguna.bankSoal,
-    icon: <LuPackage />,
-    dropdownItems: [
-      {
-        name: 'Instruktur',
-        href: routes.pengguna.ruangKursus.instruktur,
-      },
-      {
-        name: 'Peserta',
-        href: routes.pengguna.ruangKursus.peserta,
-      },
-    ],
-  },
+  // {
+  //   name: 'Ruang Kursus',
+  //   href: routes.pengguna.bankSoal,
+  //   icon: <LuPackage />,
+  //   dropdownItems: [
+  //     {
+  //       name: 'Instruktur',
+  //       href: routes.pengguna.ruangKursus.instruktur,
+  //     },
+  //     {
+  //       name: 'Peserta',
+  //       href: routes.pengguna.ruangKursus.peserta,
+  //     },
+  //   ],
+  // },
   {
     name: 'Pustaka Media',
     href: routes.pengguna.pustakaMedia,

@@ -61,12 +61,12 @@ export default function DashboardBody() {
         </Card>
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap items-start gap-4">
         <DashboardRuangPenyimpananCard />
         <DashboardRecentFileCard />
       </div>
 
-      <KursusDiikutiCard className="flex flex-col w-full p-0" />
+      {/* <KursusDiikutiCard className="flex flex-col w-full p-0" /> */}
     </div>
   )
 }

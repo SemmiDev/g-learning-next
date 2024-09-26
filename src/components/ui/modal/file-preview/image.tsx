@@ -14,10 +14,10 @@ export default function ModalImagePreview({
 }: ModalImagePreviewProps) {
   return (
     <Modal
-      size="md"
+      size="sm"
       rounded="none"
       isOpen={!!openUrl}
-      containerClassName="relative w-fit"
+      containerClassName="relative w-fit bg-transparent shadow-none"
       onClose={onClose}
     >
       {!!openUrl && (

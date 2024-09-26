@@ -40,7 +40,6 @@ export const penggunaRoutes = {
   lengkapiProfil: '/pengguna/lengkapi-profil',
   pemberitahuan: '/pengguna/pemberitahuan',
   ruangKelas: '/pengguna/ruang-kelas',
-  kelas: '/pengguna/ruang-kelas/kelas',
   bankMateri: '/pengguna/bank-materi',
   bankSoal: '/pengguna/bank-soal',
   ruangKursus: {

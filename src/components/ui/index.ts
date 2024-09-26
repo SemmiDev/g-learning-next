@@ -1,6 +1,7 @@
 import Kelas, { KelasItemType, KelasProps } from '../shared/kelas'
 import Materi, { MateriItemType, MateriProps } from '../shared/materi'
 import PustakaMedia, {
+  PustakaMediaDriveType,
   PustakaMediaFileType,
   PustakaMediaProps,
 } from '../shared/pustaka-media'
@@ -232,6 +233,7 @@ export {
   type ModalProps,
   type PaginationProps,
   type PasswordProps,
+  type PustakaMediaDriveType,
   type PustakaMediaFileType,
   type PustakaMediaProps,
   type RadioGroupOptionType,

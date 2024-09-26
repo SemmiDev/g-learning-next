@@ -4,77 +4,22 @@ import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
-import imageKelas from '@public/images/list-kelas.png'
+import {
+  makeJwtGetRequestAction,
+  makeJwtGetRequestTableAction,
+} from '@/utils/action'
 
 type DataType = {
-  id: string
-  kelas: string
-  tanggal: string
-  jam: string
-  instansi: string
-  image: string
+  id_kelas: string
+  nama_kelas: string
+  tipe: string
+  thumbnail: string
+  nama_instansi: string
+  tanggal_mulai: string
+  tanggal_sampai: string
 }
 
-export const tableJadwalAkanDatangAction = async ({
-  page = 1,
-  search = '',
-  sort,
-}: ControlledAsyncTableActionProps): Promise<
-  ControlledAsyncTableActionType<DataType>
-> => {
-  const list: DataType[] = [
-    {
-      id: '1',
-      kelas: 'Sistem Informasi',
-      tanggal: 'Kamis, 22 Desember 2023',
-      jam: '15:00-17:00 WIB',
-      instansi: 'UIN SUSKA Riau',
-      image: imageKelas.src,
-    },
-    {
-      id: '2',
-      kelas: 'Biology tingkat lanjut',
-      tanggal: 'Kamis, 22 Desember 2023',
-      jam: '15:00-17:00 WIB',
-      instansi: 'UIN SUSKA Riau',
-      image: imageKelas.src,
-    },
-    {
-      id: '3',
-      kelas: 'Aljabar Linear',
-      tanggal: 'Kamis, 22 Desember 2023',
-      jam: '15:00-17:00 WIB',
-      instansi: 'UIN SUSKA Riau',
-      image: imageKelas.src,
-    },
-    {
-      id: '4',
-      kelas: 'Jaringan dan Keamanan Data',
-      tanggal: 'Kamis, 22 Desember 2023',
-      jam: '15:00-17:00 WIB',
-      instansi: 'UIN SUSKA Riau',
-      image: imageKelas.src,
-    },
-    {
-      id: '5',
-      kelas: 'Human Computer Interaction',
-      tanggal: 'Kamis, 22 Desember 2023',
-      jam: '15:00-17:00 WIB',
-      instansi: 'UIN SUSKA Riau',
-      image: imageKelas.src,
-    },
-  ]
-
-  return {
-    success: true,
-    data: {
-      list,
-      pagination: {
-        page,
-        perPage: 5,
-        lastPage: 1,
-        totalData: list.length,
-      },
-    },
-  }
-}
+export const tableJadwalAkanDatangAction = () =>
+  makeJwtGetRequestAction<DataType[]>(
+    `${process.env.API_URL}/dashboard/jadwal-kelas-mendatang`
+  )
