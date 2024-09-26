@@ -124,7 +124,18 @@ export default function JadwalAkanDatangCard({
         columns={tableColumns}
         rowKey={(row) => row.id_kelas}
         variant="elegant"
-        className="min-h-[382px]"
+        className={cn({
+          '[&_.rc-table-content]:min-h-[382px]': data.length > 0,
+        })}
+        emptyText={
+          <div className="flex flex-col justify-center items-center h-[310px] py-5 lg:py-8">
+            {!isLoading && (
+              <Text size="sm" weight="medium">
+                Jadwal Masih Kosong
+              </Text>
+            )}
+          </div>
+        }
       />
     </Card>
   )

@@ -19,7 +19,7 @@ export default function DashboardBody() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex flex-col gap-4 lg:flex-row">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         <div className="flex flex-col flex-1 space-y-4">
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-2">
             <DashboardCountCard

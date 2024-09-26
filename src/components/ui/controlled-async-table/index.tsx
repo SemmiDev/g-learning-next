@@ -74,8 +74,8 @@ export default function ControlledAsyncTable<TData extends DefaultRecordType>({
 
       <div className="relative">
         {isFetching && (
-          <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10">
-            <div className="size-10 rounded-full bg-white/50">
+          <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 pt-10">
+            <div className="size-10 rounded-full bg-transparent">
               <CgSpinner size={40} className="animate-spin text-primary" />
             </div>
           </div>
