@@ -48,7 +48,7 @@ export default function AnggotaKelasPage() {
                   <Image
                     src={item.image}
                     alt="profil"
-                    className="w-10 h-10 rounded-md"
+                    className="size-10 rounded-md"
                   />
                   <div className="flex flex-col justify-center">
                     <Text size="sm" weight="semibold" variant="dark">

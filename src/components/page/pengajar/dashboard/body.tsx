@@ -32,7 +32,7 @@ export default function DashboardBody() {
           <Image
             src={row.image}
             alt="profil"
-            className="w-10 h-10 rounded-md object-cover"
+            className="size-10 rounded-md object-cover"
           />
           <Text size="sm" weight="semibold" variant="dark">
             {value}
@@ -138,7 +138,7 @@ export default function DashboardBody() {
           <Image
             src={row.image}
             alt="profil"
-            className="w-10 h-10 rounded-md object-cover"
+            className="size-10 rounded-md object-cover"
           />
           <Text size="sm" weight="semibold" variant="dark">
             {value}

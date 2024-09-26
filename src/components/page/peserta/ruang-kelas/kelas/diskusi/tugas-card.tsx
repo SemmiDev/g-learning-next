@@ -18,7 +18,7 @@ export default function TugasCard({ className }: { className?: string }) {
     <Card className={cn('flex flex-col px-0 py-0', className)}>
       <div className="flex justify-between items-start px-4 py-2">
         <div className="flex space-x-3">
-          <Image src={imagePhoto} alt="foto" className="w-12 h-12 rounded-lg" />
+          <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
           <div className="flex flex-col">
             <Text weight="semibold" variant="dark">
               Prabroro Janggar

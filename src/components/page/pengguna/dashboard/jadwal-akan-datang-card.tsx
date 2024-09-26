@@ -5,6 +5,7 @@ import {
   CardSeparator,
   TableHeaderCell,
   Text,
+  Thumbnail,
   Time,
   Title,
 } from '@/components/ui'
@@ -45,23 +46,20 @@ export default function JadwalAkanDatangCard({
       dataIndex: 'nama_kelas',
       render: (value: string, row) => (
         <div className="flex items-center space-x-2">
-          <figure className="size-10 rounded-md overflow-clip">
-            {!!row.thumbnail ? (
-              <Image
-                src={row.thumbnail}
-                alt="kelas"
-                width={100}
-                height={100}
-                className="h-full w-full object-cover"
-              />
-            ) : (
+          <Thumbnail
+            src={row.thumbnail}
+            alt="kelas"
+            size={40}
+            defaultImage={
               <RandomCoverImage
                 persistentKey={row.id_kelas}
                 alt="kelas"
+                width={128}
+                height={128}
                 className="h-full w-full object-cover"
               />
-            )}
-          </figure>
+            }
+          />
           <Text size="sm" weight="semibold" variant="dark">
             {value}
           </Text>

@@ -63,7 +63,13 @@ export default function DiskusiDetailPage() {
           </div>
           <CardSeparator />
           <FileListItem
-            file={{ name: 'NamaFile.ext', size: 50 }}
+            file={{
+              id: '1',
+              name: 'NamaFile.ext',
+              folder: false,
+              size: 50,
+              time: '2024-09-20T15:55:35+07:00',
+            }}
             className="mx-3 my-2"
             download
           />
@@ -93,7 +99,7 @@ export default function DiskusiDetailPage() {
                     <Image
                       src={imagePhoto}
                       alt="profil"
-                      className="w-10 h-10 rounded-md"
+                      className="size-10 rounded-md"
                     />
                     <div className="flex flex-col">
                       <Text size="sm" weight="semibold" variant="dark">

@@ -113,7 +113,7 @@ export const FileIcon = ({
           src={file.link}
           alt="thumbnail"
           size={fullThumbnail ? 44 : 36}
-          resize={100}
+          resize={128}
           rounded="md"
           className={thumbnailClassName}
         />

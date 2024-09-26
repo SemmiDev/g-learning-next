@@ -13,7 +13,7 @@ export default function KomentarSectionZero({
   return (
     <div className={cn('flex flex-col', className)}>
       <div className="flex items-center space-x-2">
-        <Image src={imagePhoto} alt="profil" className="w-8 h-8 rounded-md" />
+        <Image src={imagePhoto} alt="profil" className="size-8 rounded-md" />
         <Textarea
           className="flex-1"
           rows={2}

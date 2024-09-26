@@ -2,6 +2,7 @@ import cn from '@/utils/class-names'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import ImageName from './image-with-name'
+import { ReactNode } from 'react'
 
 export type ThumbnailProps = {
   size: number
@@ -12,6 +13,7 @@ export type ThumbnailProps = {
   avatar?: string
   bordered?: boolean
   priority?: boolean
+  defaultImage?: ReactNode
   className?: string
 }
 
@@ -24,6 +26,7 @@ export default function Thumbnail({
   avatar,
   bordered,
   priority,
+  defaultImage,
   className,
 }: ThumbnailProps) {
   return (
@@ -52,8 +55,10 @@ export default function Thumbnail({
           priority={priority}
           className="w-full h-full object-cover"
         />
+      ) : avatar ? (
+        <ImageName name={avatar} size={size} />
       ) : (
-        avatar && <ImageName name={avatar} size={size} />
+        defaultImage
       )}
     </figure>
   )

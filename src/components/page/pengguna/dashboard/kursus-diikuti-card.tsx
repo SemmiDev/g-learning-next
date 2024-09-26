@@ -32,9 +32,9 @@ export default function KursusDiikutiCard({
           <Image
             src={row.image}
             alt="cover"
-            className="w-10 h-10 rounded-md object-cover"
-            width={100}
-            height={100}
+            className="size-10 rounded-md object-cover"
+            width={128}
+            height={128}
           />
           <Text size="sm" weight="semibold" variant="dark">
             {value}

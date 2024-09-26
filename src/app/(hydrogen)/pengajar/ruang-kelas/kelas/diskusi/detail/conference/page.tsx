@@ -78,7 +78,7 @@ export default function DiskusiDetailConferencePage() {
                     <Image
                       src={imagePhoto}
                       alt="profil"
-                      className="w-10 h-10 rounded-md"
+                      className="size-10 rounded-md"
                     />
                     <div className="flex flex-col">
                       <Text size="sm" weight="semibold" variant="dark">
