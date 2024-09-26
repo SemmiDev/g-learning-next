@@ -45,11 +45,13 @@ export default function JadwalAkanDatangCard({
       dataIndex: 'nama_kelas',
       render: (value: string, row) => (
         <div className="flex items-center space-x-2">
-          <figure className="w-10 h-10 rounded-md overflow-clip">
+          <figure className="size-10 rounded-md overflow-clip">
             {!!row.thumbnail ? (
               <Image
                 src={row.thumbnail}
                 alt="kelas"
+                width={100}
+                height={100}
                 className="h-full w-full object-cover"
               />
             ) : (

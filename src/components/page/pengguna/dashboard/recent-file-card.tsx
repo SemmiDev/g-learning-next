@@ -153,7 +153,7 @@ export default function DashboardRecentFileCard() {
             ))}
           </div>
         ) : (
-          <div className="flex items-center justify-center min-h-[344px]">
+          <div className="flex items-center justify-center min-h-[350px]">
             <Text size="sm" weight="medium">
               {'Belum ada berkas'}
             </Text>
