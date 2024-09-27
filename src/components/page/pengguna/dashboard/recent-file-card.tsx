@@ -18,11 +18,18 @@ import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 import RecentFileItem from './recent-file-item'
+import cn from '@/utils/class-names'
 
 const perPage = 5
 const queryKeyDrive = ['shared.pustaka-media.drives']
 
-export default function DashboardRecentFileCard() {
+type DashboardRecentFileCardProps = {
+  className?: string
+}
+
+export default function DashboardRecentFileCard({
+  className,
+}: DashboardRecentFileCardProps) {
   const [activeDrive, setActiveDrive] = useState<string | null>(null)
   const [page, setPage] = useState(1)
   const [totalData, setTotalData] = useState(0)
@@ -106,7 +113,7 @@ export default function DashboardRecentFileCard() {
 
   return (
     <>
-      <Card className="flex flex-col flex-1 p-0">
+      <Card className={cn('flex flex-col flex-1 p-0', className)}>
         <div className="flex justify-between items-center p-2">
           <Title as="h4" weight="semibold">
             Berkas Terbaru

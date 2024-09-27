@@ -1,14 +1,12 @@
 'use client'
 
 import { dashboardCountAction } from '@/actions/pengguna/dashboard/count'
-import { Card, CardSeparator, Title } from '@/components/ui'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import Calendar from 'react-calendar'
 import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
 import JadwalAkanDatangCard from './jadwal-akan-datang-card'
-import KursusDiikutiCard from './kursus-diikuti-card'
+import KalenderCard from './kalender'
 import DashboardRecentFileCard from './recent-file-card'
 import DashboardRuangPenyimpananCard from './ruang-penyimpanan-card'
 
@@ -45,20 +43,7 @@ export default function DashboardBody() {
 
       <div className="flex flex-wrap items-baseline gap-4">
         <JadwalAkanDatangCard className="flex flex-col w-full p-0 lg:w-7/12" />
-
-        <Card className="flex flex-col flex-1 p-0">
-          <Title as="h4" weight="semibold" className="p-2">
-            Kalender
-          </Title>
-          <CardSeparator />
-          <div className="py-2 px-6">
-            <Calendar
-              prev2Label={false}
-              next2Label={false}
-              className="!w-full !border-0 !bg-transparent !font-inter !text-base"
-            />
-          </div>
-        </Card>
+        <KalenderCard />
       </div>
 
       <div className="flex flex-wrap items-start gap-4">

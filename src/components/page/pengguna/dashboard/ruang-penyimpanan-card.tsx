@@ -7,7 +7,8 @@ import {
   Text,
   Title,
 } from '@/components/ui'
-import { fileSizeToKB, formatBytes } from '@/utils/bytes'
+import { formatBytes } from '@/utils/bytes'
+import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
@@ -17,7 +18,13 @@ import { Dropdown } from 'rizzui'
 const COLORS = ['#BFDBFE', '#0070F3']
 const queryKeyDrive = ['shared.pustaka-media.drives']
 
-export default function DashboardRuangPenyimpananCard() {
+type DashboardRuangPenyimpananCardProps = {
+  className?: string
+}
+
+export default function DashboardRuangPenyimpananCard({
+  className,
+}: DashboardRuangPenyimpananCardProps) {
   const [activeDrive, setActiveDrive] = useState<string | null>(null)
 
   const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
@@ -55,7 +62,7 @@ export default function DashboardRuangPenyimpananCard() {
   ]
 
   return (
-    <Card className="flex flex-col w-full p-0 lg:w-5/12">
+    <Card className={cn('flex flex-col w-full p-0 lg:w-5/12', className)}>
       <div className="flex justify-between items-center p-2">
         <Title as="h4" weight="semibold">
           Ruang Penyimpanan
