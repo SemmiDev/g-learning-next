@@ -27,7 +27,10 @@ import { SubmitHandler } from 'react-hook-form'
 import { BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
 
-const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
+const pilihanLower = PILIHAN_JAWABAN.map(
+  (pilihan) =>
+    pilihan.toLowerCase() as Lowercase<(typeof PILIHAN_JAWABAN)[number]>
+)
 
 const formSchema = z.object({
   soal: z.string().pipe(required),
@@ -78,13 +81,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
 
       const pilihanJawaban = pilihanLower.map(
         (pilihan) =>
-          data?.[
-            `jawaban_${mustBe<'a' | 'b' | 'c' | 'd' | 'e'>(
-              pilihan,
-              pilihanLower,
-              'a'
-            )}`
-          ].teks ?? ''
+          data?.[`jawaban_${mustBe(pilihan, pilihanLower, 'a')}`].teks ?? ''
       )
 
       const maxPilihan = pilihanJawaban.findIndex((pilihan) => !pilihan)
@@ -154,7 +151,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
                   control={control}
                   errors={errors}
                   toolbar="normal-image"
-                  size="md"
+                  size="sm"
                   label="Soal"
                   placeholder="Deskripsi soal"
                   className="text-gray-dark"
@@ -180,7 +177,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
                         control={control}
                         placeholder="Deskripsi jawaban"
                         toolbar="minimalist-image"
-                        size="sm"
+                        size="xs"
                         className="flex-1 text-gray-dark"
                         error={errors.jawaban?.[idx]?.message}
                         noMaxHeight

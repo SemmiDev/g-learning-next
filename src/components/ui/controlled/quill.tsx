@@ -21,7 +21,7 @@ export type ControlledQuillEditorProps<
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   noMaxHeight?: boolean
 }
 

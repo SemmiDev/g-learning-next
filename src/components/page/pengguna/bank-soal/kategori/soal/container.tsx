@@ -37,7 +37,10 @@ import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
 import UbahSoalModal from './modal/ubah'
 
-const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
+const pilihanLower = PILIHAN_JAWABAN.map(
+  (pilihan) =>
+    pilihan.toLowerCase() as Lowercase<(typeof PILIHAN_JAWABAN)[number]>
+)
 
 const formSchema = z.object({
   soal: z.string().pipe(required),
@@ -288,11 +291,11 @@ export default function KelolaSoalBody() {
               <div className="flex flex-col space-y-3 text-gray-dark p-2">
                 <SanitizeHTML html={soal.pertanyaan} className="font-medium" />
                 <div className="flex flex-col space-y-2">
-                  {PILIHAN_JAWABAN.map((pilihan) => {
+                  {PILIHAN_JAWABAN.map((pilihan, idx) => {
                     const jawaban =
                       soal[
                         `jawaban_${mustBe(
-                          pilihan.toLowerCase(),
+                          pilihanLower[idx],
                           pilihanLower,
                           'a'
                         )}`

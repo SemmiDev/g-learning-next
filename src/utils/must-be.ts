@@ -1,10 +1,10 @@
-const isMustBe = <T>(array: readonly unknown[], value: unknown): value is T => {
+const isMustBe = <T>(array: readonly T[], value: unknown): value is T => {
   return array.some((val) => val === value)
 }
 
 export const mustBe = <T>(
   value: unknown,
-  array: readonly unknown[],
+  array: readonly T[],
   defaultValue: T
 ): T => {
   if (isMustBe<T>(array, value)) {
