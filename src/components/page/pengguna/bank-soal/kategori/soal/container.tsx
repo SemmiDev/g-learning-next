@@ -330,7 +330,7 @@ export default function KelolaSoalBody() {
             </Card>
           ))}
         </div>
-        <Card className="flex flex-col p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
+        <Card className="flex flex-col w-full p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
           <div className="flex flex-col p-2">
             <Title as="h6" weight="semibold">
               {dataBankSoal?.judul ?? ''}
@@ -341,18 +341,18 @@ export default function KelolaSoalBody() {
             />
           </div>
           <CardSeparator />
-          <div className="flex flex-col space-y-2 p-2">
+          <div className="flex flex-col pb-2">
             <Text
               size="sm"
               weight="semibold"
               variant="dark"
-              className="text-center"
+              className="text-center my-2"
             >
               Soal yang sudah dibuat
             </Text>
-            <div className="grid grid-cols-10 gap-2 lg:grid-cols-5">
-              {listSoal.map((_, idx) => (
-                <div className="flex justify-center items-center" key={idx}>
+            <div className="grid grid-cols-10 gap-2 max-h-96 overflow-y-auto m-auto px-2 pb-2 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
+              {listSoal.map((soal, idx) => (
+                <div key={soal.id} className="flex justify-center items-center">
                   <Button
                     size="sm"
                     variant="outline"
@@ -367,6 +367,13 @@ export default function KelolaSoalBody() {
                   </Button>
                 </div>
               ))}
+              {/* {[...Array(100)].map((_, idx) => (
+                <div key={idx} className="flex justify-center items-center">
+                  <Button size="sm" variant="outline" className="size-8">
+                    {listSoal.length + idx + 1}
+                  </Button>
+                </div>
+              ))} */}
               <div className="flex justify-center items-center">
                 <Button
                   size="sm"

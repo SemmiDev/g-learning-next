@@ -115,6 +115,9 @@ const config: Config = {
       fontSize: {
         '2xs': ['.625rem', '.75rem'],
       },
+      gridTemplateColumns: {
+        '15': 'repeat(15, minmax(0, 1fr))',
+      },
     },
   },
   plugins: [
