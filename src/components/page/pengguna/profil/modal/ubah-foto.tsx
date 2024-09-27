@@ -25,13 +25,15 @@ type FormSchema = {
 
 const initialValues: FormSchema = {}
 
+type UbahFotoModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+}
+
 export default function UbahFotoModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+}: UbahFotoModalProps) {
   const [formError, setFormError] = useState<string>()
   const { update: updateSession } = useSession()
   const queryClient = useQueryClient()

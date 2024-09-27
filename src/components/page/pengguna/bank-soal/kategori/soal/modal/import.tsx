@@ -1,14 +1,20 @@
+import { importSoalAction } from '@/actions/pengguna/bank-soal/soal/import'
 import {
   CardSeparator,
   ControlledUploadFile,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
   Text,
-  UploadFileType,
 } from '@/components/ui'
+import { API_URL } from '@/config/const'
+import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsExclamationCircle } from 'react-icons/bs'
 
@@ -18,20 +24,41 @@ const formSchema = z.object({
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  berkas?: UploadFileType
+  berkas?: any
 }
 
 const initialValues: FormSchema = {}
 
+type ImportSoalModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+  refetchKey: QueryKey
+}
+
 export default function ImportSoalModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+  refetchKey,
+}: ImportSoalModalProps) {
+  const [formError, setFormError] = useState<string>()
+  const queryClient = useQueryClient()
+
+  const { soal: idBankSoal }: { soal: string } = useParams()
+
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+    const form = new FormData()
+    form.append('file', data.berkas)
+
+    await handleActionWithToast(importSoalAction(idBankSoal, form), {
+      loading: 'Mengunggah...',
+      error: ({ message }) => message,
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({ queryKey: refetchKey })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   return (
@@ -60,7 +87,7 @@ export default function ImportSoalModal({
                   <li>
                     Download dan gunakan template yang sudah disediakan{' '}
                     <a
-                      href="http://www.google.com"
+                      href={`${API_URL}/templates/soal`}
                       target="_blank"
                       className="text-primary hover:text-primary-dark"
                     >
@@ -88,6 +115,8 @@ export default function ImportSoalModal({
                 desc="(Tipe file yang bisa diupload adalah: xls, xlsx dengan ukuran maksimal 100 MB untuk setiap file yang dipilih)"
                 accept={{ 'application/vnd.ms-excel': ['.xls', '.xlsx'] }}
               />
+
+              <FormError error={formError} />
             </div>
 
             <CardSeparator />

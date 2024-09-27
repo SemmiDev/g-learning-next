@@ -31,11 +31,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { createRef, RefObject, useMemo, useRef, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { BiCircle } from 'react-icons/bi'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
 import ImportSoalModal from './modal/import'
 import UbahSoalModal from './modal/ubah'
-import { BiCheck, BiCheckCircle, BiCircle } from 'react-icons/bi'
 
 const pilihanLower = PILIHAN_JAWABAN.map((pilihan) => pilihan.toLowerCase())
 
@@ -384,6 +384,7 @@ export default function KelolaSoalBody() {
       <ImportSoalModal
         showModal={showModalImport}
         setShowModal={setShowModalImport}
+        refetchKey={queryKey}
       />
 
       <UbahSoalModal id={idUbah} setId={setIdUbah} />
