@@ -43,7 +43,10 @@ const pilihanLower = PILIHAN_JAWABAN.map(
 )
 
 const formSchema = z.object({
-  soal: z.string().pipe(required),
+  soal: z
+    .string()
+    .transform((val) => cleanQuill(val))
+    .pipe(required),
   jawaban: z.array(
     z
       .string()
@@ -113,7 +116,7 @@ export default function KelolaSoalBody() {
         queryClient.invalidateQueries({ queryKey })
         setResetValues({
           soal: undefined,
-          jawaban: ['', '', ''],
+          jawaban: data.jawaban.map(() => ''),
           benar: undefined,
         })
       },
