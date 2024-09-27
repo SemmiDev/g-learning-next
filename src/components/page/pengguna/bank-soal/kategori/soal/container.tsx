@@ -291,11 +291,11 @@ export default function KelolaSoalBody() {
               <div className="flex flex-col space-y-3 text-gray-dark p-2">
                 <SanitizeHTML html={soal.pertanyaan} className="font-medium" />
                 <div className="flex flex-col space-y-2">
-                  {PILIHAN_JAWABAN.map((pilihan, idx) => {
+                  {PILIHAN_JAWABAN.map((pilihan) => {
                     const jawaban =
                       soal[
                         `jawaban_${mustBe(
-                          pilihanLower[idx],
+                          pilihan.toLowerCase(),
                           pilihanLower,
                           'a'
                         )}`

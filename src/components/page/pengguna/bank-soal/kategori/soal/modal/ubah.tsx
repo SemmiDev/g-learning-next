@@ -80,8 +80,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
       const { data } = await lihatSoalAction(idBankSoal, id)
 
       const pilihanJawaban = pilihanLower.map(
-        (pilihan) =>
-          data?.[`jawaban_${mustBe(pilihan, pilihanLower, 'a')}`].teks ?? ''
+        (pilihan) => data?.[`jawaban_${pilihan}`].teks ?? ''
       )
 
       const maxPilihan = pilihanJawaban.findIndex((pilihan) => !pilihan)
