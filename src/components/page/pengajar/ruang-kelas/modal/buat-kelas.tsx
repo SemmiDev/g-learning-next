@@ -11,13 +11,12 @@ import {
   RadioGroupOptionType,
   TextLabel,
 } from '@/components/ui'
+import { NAMA_HARI } from '@/config/const'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
 import { Input, Select, SelectOption } from 'rizzui'
-
-const HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 
 const formSchema = z.object({
   program: z.string().pipe(required),
@@ -57,7 +56,7 @@ const optionsJenis: RadioGroupOptionType[] = [
   { label: 'Internal', value: 'Internal' },
 ]
 
-const optionsHari: SelectOption[] = HARI.map((hari) => ({
+const optionsHari: SelectOption[] = NAMA_HARI.map((hari) => ({
   label: hari,
   value: hari,
 }))

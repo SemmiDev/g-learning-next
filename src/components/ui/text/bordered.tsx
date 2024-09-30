@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import TextLabel from './label'
 
 export type TextBorderedProps = {
-  label?: string
+  label?: ReactNode
   children?: ReactNode
   className?: string
 }

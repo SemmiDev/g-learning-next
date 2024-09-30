@@ -1,5 +1,6 @@
 'use client'
 
+import { ReactNode } from 'react'
 import {
   Control,
   Controller,
@@ -20,7 +21,7 @@ export type ControlledDatePickerProps<
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   placeholder?: string
-  label?: string
+  label?: ReactNode
   onChange?(date: any, event: any): void
 }
 

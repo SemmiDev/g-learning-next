@@ -122,7 +122,7 @@ export default function JadwalAkanDatangCard({
         isLoading={isLoading}
         isFetching={isFetching}
         columns={tableColumns}
-        rowKey={(row) => row.id_kelas}
+        rowKey={(row) => row.id_kelas + row.tanggal_mulai}
         variant="elegant"
         className={cn({
           '[&_.rc-table-content]:min-h-[382px]': data.length > 0,

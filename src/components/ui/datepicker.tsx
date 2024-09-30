@@ -8,7 +8,7 @@ import ReactDatePicker, {
   registerLocale,
 } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { PiCalendarBlank, PiCaretDownBold } from 'react-icons/pi'
+import { PiCalendarBlank, PiCaretDownBold, PiTimer } from 'react-icons/pi'
 import { Input, InputProps } from 'rizzui'
 import Label from './label'
 registerLocale('id', id)
@@ -72,6 +72,12 @@ export const DatePicker = ({
 
   const { label, labelClassName, ...otherInputProps } = inputProps ?? {}
 
+  const icon = props.showTimeSelectOnly ? (
+    <PiTimer className="size-5 text-gray-500" />
+  ) : (
+    <PiCalendarBlank className="size-5 text-gray-500" />
+  )
+
   return (
     <div
       className={cn(
@@ -83,7 +89,7 @@ export const DatePicker = ({
         customInput={
           customInput || (
             <Input
-              prefix={<PiCalendarBlank className="h-5 w-5 text-gray-500" />}
+              prefix={icon}
               suffix={
                 <PiCaretDownBold
                   className={cn(
@@ -92,7 +98,9 @@ export const DatePicker = ({
                   )}
                 />
               }
-              label={<Label label={label} required={required} />}
+              label={
+                label ? <Label label={label} required={required} /> : undefined
+              }
               labelClassName={cn(
                 'text-gray-dark font-semibold',
                 labelClassName

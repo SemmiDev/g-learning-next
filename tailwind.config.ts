@@ -118,6 +118,9 @@ const config: Config = {
       gridTemplateColumns: {
         '15': 'repeat(15, minmax(0, 1fr))',
       },
+      flex: {
+        '2': '2 2 0%',
+      },
     },
   },
   plugins: [

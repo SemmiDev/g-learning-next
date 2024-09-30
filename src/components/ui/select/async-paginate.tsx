@@ -1,13 +1,14 @@
 'use client'
 
 import { AnyObject } from '@/utils/type-interface'
+import { ReactNode } from 'react'
 import { GroupBase, OptionsOrGroups } from 'react-select'
 import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
 import Label from '../label'
 import TextLabel from '../text/label'
-import { makeClassNames } from './style'
 import { SelectOptionType } from './select'
+import { makeClassNames } from './style'
 
 export type AsyncPaginateSelectActionProps<
   TOption extends SelectOptionType = SelectOptionType
@@ -34,7 +35,7 @@ export type AsyncPaginateSelectProps<
   AsyncPaginateProps<TOption, Group, Additional, IsMulti>,
   'loadOptions'
 > & {
-  label?: string
+  label?: ReactNode
   required?: boolean
   action: (
     props: AsyncPaginateSelectActionProps<TOption>

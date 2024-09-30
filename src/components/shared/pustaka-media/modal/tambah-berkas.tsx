@@ -43,6 +43,7 @@ const initialValues: TambahBerkasFormSchema = {
 type TambahModalProps = {
   show: boolean
   setShow(show: boolean): void
+  uploadLink: boolean
   refetchKeys: QueryKey[]
   idInstansi: string | undefined
   idFolder: string | undefined
@@ -51,6 +52,7 @@ type TambahModalProps = {
 export default function TambahBerkasModal({
   show = false,
   setShow,
+  uploadLink = true,
   refetchKeys,
   idInstansi,
   idFolder,
@@ -90,7 +92,7 @@ export default function TambahBerkasModal({
 
   return (
     <Modal
-      title="Tambah Link/Unggah Media"
+      title={`${uploadLink ? 'Tambah Link/' : ''}Unggah Media`}
       size="lg"
       isOpen={show}
       onClose={() => setShow(false)}
@@ -112,61 +114,63 @@ export default function TambahBerkasModal({
         }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <div>
-                <TextLabel>Link YouTube atau Media Lainnya</TextLabel>
-                <div className="space-y-2">
-                  {watch('youtube')?.map((_, idx) => {
-                    return (
-                      <div key={idx} className="flex gap-x-2">
-                        <Input
-                          placeholder="Label"
-                          labelClassName="text-gray-dark font-semibold"
-                          className="flex-1"
-                          {...register(`youtube.${idx}.label`)}
-                          error={errors.youtube?.[idx]?.label?.message}
-                        />
-                        <Input
-                          placeholder="Masukkan link"
-                          labelClassName="text-gray-dark font-semibold"
-                          className="flex-1"
-                          {...register(`youtube.${idx}.link`)}
-                          error={errors.youtube?.[idx]?.link?.message}
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline-colorful"
-                          color="danger"
-                          className="mt-2.5"
-                          onClick={() => {
-                            setValue(
-                              'youtube',
-                              watch('youtube').filter(
-                                (__, cIdx) => cIdx !== idx
+              {uploadLink && (
+                <div>
+                  <TextLabel>Link YouTube atau Media Lainnya</TextLabel>
+                  <div className="space-y-2">
+                    {watch('youtube')?.map((_, idx) => {
+                      return (
+                        <div key={idx} className="flex gap-x-2">
+                          <Input
+                            placeholder="Label"
+                            labelClassName="text-gray-dark font-semibold"
+                            className="flex-1"
+                            {...register(`youtube.${idx}.label`)}
+                            error={errors.youtube?.[idx]?.label?.message}
+                          />
+                          <Input
+                            placeholder="Masukkan link"
+                            labelClassName="text-gray-dark font-semibold"
+                            className="flex-1"
+                            {...register(`youtube.${idx}.link`)}
+                            error={errors.youtube?.[idx]?.link?.message}
+                          />
+                          <Button
+                            size="sm"
+                            variant="outline-colorful"
+                            color="danger"
+                            className="mt-2.5"
+                            onClick={() => {
+                              setValue(
+                                'youtube',
+                                watch('youtube').filter(
+                                  (__, cIdx) => cIdx !== idx
+                                )
                               )
-                            )
-                          }}
-                        >
-                          <BsTrash />
-                        </Button>
-                      </div>
-                    )
-                  })}
+                            }}
+                          >
+                            <BsTrash />
+                          </Button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <Button
+                    variant="text-colorful"
+                    onClick={() =>
+                      setValue('youtube', [
+                        ...watch('youtube'),
+                        {
+                          label: '',
+                          link: '',
+                        },
+                      ])
+                    }
+                  >
+                    <BsPlusSquare className="-ms-2 me-2" /> Tambah Link Baru
+                  </Button>
                 </div>
-                <Button
-                  variant="text-colorful"
-                  onClick={() =>
-                    setValue('youtube', [
-                      ...watch('youtube'),
-                      {
-                        label: '',
-                        link: '',
-                      },
-                    ])
-                  }
-                >
-                  <BsPlusSquare className="-ms-2 me-2" /> Tambah Link Baru
-                </Button>
-              </div>
+              )}
 
               <ControlledUploadFile
                 name="files"

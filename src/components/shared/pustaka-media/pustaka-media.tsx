@@ -23,7 +23,7 @@ import { removeFromList } from '@/utils/list'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import {
   PiFolderPlusFill,
@@ -48,6 +48,16 @@ export type DriveType = {
   size: number
 }
 
+const fileTypes = [
+  'image',
+  'audio',
+  'video',
+  'other',
+  'folder',
+  'link',
+] as const
+type FileTypesType = (typeof fileTypes)[number]
+
 export type FileType = {
   id: string
   name: string
@@ -56,7 +66,7 @@ export type FileType = {
   fileCount?: number
   size?: number
   time: string
-  type?: 'link' | 'audio' | 'video' | 'image'
+  type?: FileTypesType
   link?: string
   driveId?: string
 }
@@ -69,7 +79,7 @@ export type FolderType = {
 const queryKeyDrive = ['shared.pustaka-media.drives']
 
 export type PustakaMediaProps = {
-  label?: string
+  label?: ReactNode
   required?: boolean
   placeholder?: string
   value?: FileType | FileType[]
@@ -77,6 +87,7 @@ export type PustakaMediaProps = {
   multiple?: boolean
   error?: string
   errorClassName?: string
+  types?: FileTypesType[]
 }
 
 export default function PustakaMedia({
@@ -88,6 +99,7 @@ export default function PustakaMedia({
   multiple = false,
   error,
   errorClassName,
+  types,
 }: PustakaMediaProps) {
   const { status } = useSession()
   const queryClient = useQueryClient()
@@ -183,6 +195,26 @@ export default function PustakaMedia({
           name: 'nama',
           direction: 'asc',
         },
+        jenis: types
+          ? types
+              ?.map((type) => {
+                switch (type) {
+                  case 'audio':
+                    return 'Audio'
+                  case 'video':
+                    return 'Video'
+                  case 'image':
+                    return 'Gambar'
+                  case 'link':
+                    return 'Teks'
+                  case 'folder':
+                    return 'Folder'
+                  default:
+                    return 'Dokumen'
+                }
+              })
+              .join(',')
+          : undefined,
       })
 
       return (
@@ -494,6 +526,7 @@ export default function PustakaMedia({
         refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
         idInstansi={activeDrive ?? undefined}
         idFolder={activeFolder}
+        uploadLink={!types || (!!types && types?.includes('link'))}
       />
 
       <UbahFolderModal

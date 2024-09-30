@@ -1,7 +1,7 @@
 'use client'
 
 import { AnyObject } from '@/utils/type-interface'
-import { useId } from 'react'
+import { ReactNode, useId } from 'react'
 import ReactSelect, { GroupBase, Props as ReactSelectProps } from 'react-select'
 import { FieldError } from 'rizzui'
 import Label from '../label'
@@ -18,7 +18,7 @@ export type SelectProps<
   IsMulti extends boolean = boolean,
   Group extends GroupBase<TOption> = GroupBase<TOption>
 > = Omit<ReactSelectProps<TOption, IsMulti, Group>, 'classNames'> & {
-  label?: string
+  label?: ReactNode
   required?: boolean
   error?: string
   errorClassName?: string
