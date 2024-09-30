@@ -40,7 +40,7 @@ export default function KelasCard({
 }: KelasCardProps) {
   return (
     <Card className="h-fit">
-      <div className="aspect-[333/130] rounded overflow-clip">
+      <div className="h-32 rounded overflow-clip">
         {!!image ? (
           <Image
             src={image}

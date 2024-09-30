@@ -10,5 +10,6 @@ export const NAMA_HARI = [
   'Sabtu',
   'Minggu',
 ] as const
+export const ZONA_WAKTU = ['WIB', 'WITA', 'WIT'] as const
 
 export const API_URL = 'https://glearning-api-staging.gci.my.id/api/v1'

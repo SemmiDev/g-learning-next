@@ -20,8 +20,10 @@ import {
   TextLabel,
   TextSpan,
 } from '@/components/ui'
-import { NAMA_HARI } from '@/config/const'
+import { NAMA_HARI, ZONA_WAKTU } from '@/config/const'
 import { handleActionWithToast } from '@/utils/action'
+import { parseDateFromTime } from '@/utils/date'
+import { mustBe } from '@/utils/must-be'
 import { radioGroupOption, selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -116,7 +118,14 @@ export default function PengaturanKelasModal({
         kelas: data?.kelas?.sub_judul,
         catatan: data?.kelas?.deskripsi,
         tipe: data?.kelas?.tipe,
-        hariWaktu: [],
+        hariWaktu: (data?.jadwal ?? []).map((item) => ({
+          hari: item.hari,
+          mulai: parseDateFromTime(item.waktu_mulai),
+          sampai: parseDateFromTime(item.waktu_sampai),
+          mulaiWaktu: item.waktu_mulai,
+          sampaiWaktu: item.waktu_sampai,
+          zona: selectOption(mustBe(item.zona_waktu, ZONA_WAKTU, 'WIB')),
+        })),
       }
     },
   })

@@ -1,6 +1,7 @@
 'use server'
 
 import { BuatKelasFormSchema } from '@/components/page/pengguna/ruang-kelas/modal/buat-kelas'
+import { ZONA_WAKTU } from '@/config/const'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
@@ -16,6 +17,6 @@ export const tambahKelasAction = (data: BuatKelasFormSchema) =>
       hari: item.hari,
       waktu_mulai: item.mulaiWaktu,
       waktu_selesai: item.sampaiWaktu,
-      zona_waktu: mustBe(item.zona?.value, ['WIB', 'WITA', 'WIT'], 'WIB'),
+      zona_waktu: mustBe(item.zona?.value, ZONA_WAKTU, 'WIB'),
     })),
   })
