@@ -119,7 +119,7 @@ export default function ListKategoriSoalBody() {
 
       {hasNextPage && (
         <div className="flex justify-center mt-4">
-          <Button onClick={() => fetchNextPage()}>
+          <Button onClick={() => fetchNextPage()} disabled={isFetching}>
             Tampilkan Lebih banyak
           </Button>
         </div>

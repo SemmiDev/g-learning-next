@@ -1,9 +1,11 @@
 'use client'
 
 import { hapusBankMateriAction } from '@/actions/pengguna/bank-materi/hapus'
+import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
 import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -19,8 +21,6 @@ import LihatMateriModal from './modal/lihat-materi'
 import ShareMateriModal from './modal/share-materi'
 import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
-import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
 
 export default function ListMateriBody() {
   const queryClient = useQueryClient()
@@ -157,7 +157,7 @@ export default function ListMateriBody() {
 
       {hasNextPage && (
         <div className="flex justify-center mt-4">
-          <Button onClick={() => fetchNextPage()}>
+          <Button onClick={() => fetchNextPage()} disabled={isFetching}>
             Tampilkan Lebih banyak
           </Button>
         </div>

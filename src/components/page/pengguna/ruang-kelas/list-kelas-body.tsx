@@ -18,7 +18,7 @@ export default function ListKelasBody() {
   const [idPengaturan, setIdPengaturan] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
-  const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
+  const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
@@ -109,6 +109,14 @@ export default function ListKelasBody() {
           <Text size="sm" weight="medium">
             Belum ada kelas
           </Text>
+        </div>
+      )}
+
+      {hasNextPage && (
+        <div className="flex justify-center mt-4">
+          <Button onClick={() => fetchNextPage()} disabled={isFetching}>
+            Tampilkan Lebih banyak
+          </Button>
         </div>
       )}
 
