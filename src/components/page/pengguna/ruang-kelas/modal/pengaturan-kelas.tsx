@@ -153,6 +153,11 @@ export default function PengaturanKelasModal({
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Pengaturan Kelas"
@@ -160,7 +165,7 @@ export default function PengaturanKelasModal({
       size="lg"
       headerClassName="[&_.modal-title]:text-lg"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={450} />
@@ -354,7 +359,7 @@ export default function PengaturanKelasModal({
               <ModalFooterButtons
                 submit="Simpan"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

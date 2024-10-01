@@ -1,0 +1,95 @@
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
+import KelasHeader from '@/components/page/pengguna/ruang-kelas/kelas/header'
+import PageHeader from '@/components/shared/page-header'
+import { Card, TabGroup } from '@/components/ui'
+import { routes } from '@/config/routes'
+import { metaObject } from '@/config/site.config'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
+import { ReactNode } from 'react'
+
+export const metadata = {
+  ...metaObject('Ruang Kelas'),
+}
+
+type KelasLayoutProps = {
+  params: { kelas: string }
+  children: ReactNode
+}
+
+export default async function KelasLayout({
+  params,
+  children,
+}: KelasLayoutProps) {
+  const idKelas = params.kelas
+  const queryClient = new QueryClient()
+
+  const { data } = await lihatKelasAction(idKelas)
+
+  await queryClient.prefetchQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: async () => data,
+  })
+
+  const pageHeader = {
+    title: 'Ruang Kelas',
+    breadcrumb: [
+      {
+        href: routes.dashboard,
+        name: 'Dasbor',
+      },
+      {
+        href: routes.pengguna.ruangKelas,
+        name: 'Ruang Kelas',
+      },
+      {
+        name: data?.kelas.nama_kelas ?? '',
+      },
+    ],
+  }
+
+  return (
+    <>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Card className="flex flex-col">
+          <KelasHeader />
+          <TabGroup
+            className="mt-2 mb-2"
+            path={`${routes.pengguna.ruangKelas}/${idKelas}`}
+            items={[
+              {
+                text: 'Diskusi',
+                slugAlias: 'diskusi',
+              },
+              {
+                text: 'Presensi',
+                slug: 'presensi',
+              },
+              {
+                text: 'Tugas',
+                slug: 'tugas',
+              },
+              {
+                text: 'Ujian',
+                slug: 'ujian',
+              },
+              {
+                text: 'Berkas',
+                slug: 'berkas',
+              },
+              {
+                text: 'Anggota Kelas',
+                slug: 'anggota-kelas',
+              },
+            ]}
+          />
+        </Card>
+        {children}
+      </HydrationBoundary>
+    </>
+  )
+}

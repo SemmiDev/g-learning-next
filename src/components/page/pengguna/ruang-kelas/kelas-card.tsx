@@ -51,7 +51,7 @@ export default function KelasCard({
           />
         ) : (
           <RandomCoverImage
-            persistentKey={program}
+            persistentKey={id}
             alt="kelas"
             width={640}
             height={128}
@@ -118,27 +118,29 @@ export default function KelasCard({
         <ActionIcon variant="outline">
           <BsClipboardPlus size={18} />
         </ActionIcon>
-        <ActionIcon variant="outline">
-          <GrShareOption size={18} />
-        </ActionIcon>
-        <ActionIcon
-          variant="outline"
-          onClick={() => {
-            onPengaturan && onPengaturan(id)
-          }}
-        >
-          <PiGear size={18} />
-        </ActionIcon>
-        {['Privat', 'Publik'].includes(tipe ?? '') && (
-          <ActionIcon
-            variant="outline"
-            color="danger"
-            onClick={() => {
-              onDelete && onDelete(id)
-            }}
-          >
-            <PiTrash size={18} />
-          </ActionIcon>
+        {tipe !== 'Akademik' && (
+          <>
+            <ActionIcon variant="outline">
+              <GrShareOption size={18} />
+            </ActionIcon>
+            <ActionIcon
+              variant="outline"
+              onClick={() => {
+                onPengaturan && onPengaturan(id)
+              }}
+            >
+              <PiGear size={18} />
+            </ActionIcon>
+            <ActionIcon
+              variant="outline"
+              color="danger"
+              onClick={() => {
+                onDelete && onDelete(id)
+              }}
+            >
+              <PiTrash size={18} />
+            </ActionIcon>
+          </>
         )}
       </div>
       <Link href={`${routes.pengguna.ruangKelas}/${id}`}>
