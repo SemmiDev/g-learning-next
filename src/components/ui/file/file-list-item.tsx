@@ -45,7 +45,7 @@ export default function FileListItem({
   const pointer =
     file.folder ||
     file.type === 'link' ||
-    (!!file.link && isPreviewableFile(file.link, file.extension))
+    (!!file.link && isPreviewableFile(file.link, file.extension) && onPreview)
 
   return (
     <div

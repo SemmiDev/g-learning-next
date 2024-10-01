@@ -1,3 +1,4 @@
+import { tambahAktifitasMateriAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-materi'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -8,15 +9,20 @@ import {
   ControlledRadioGroup,
   ControlledSwitch,
   Form,
+  FormError,
   MateriItemType,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
   RadioGroupOptionType,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
 
@@ -57,8 +63,7 @@ const formSchema = z.union([
   isNotShareFs.merge(isNotPenjadwalanFs),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahMateriFormSchema = {
   share: boolean
   materi?: MateriItemType
   judul?: string
@@ -70,11 +75,12 @@ type FormSchema = {
   berkas?: PustakaMediaFileType[]
 }
 
-const initialValues: FormSchema = {
+const initialValues: TambahMateriFormSchema = {
   presensi: 'non-aktif',
-  tipe_presensi: 'manual',
+  tipe_presensi: 'Manual',
   penjadwalan: false,
   share: true,
+  berkas: [],
 }
 
 const optionsPresensi: RadioGroupOptionType[] = [
@@ -83,8 +89,8 @@ const optionsPresensi: RadioGroupOptionType[] = [
 ]
 
 const optionsTipePresensi: RadioGroupOptionType[] = [
-  { label: 'Absensi Manual', value: 'manual' },
-  { label: 'Absensi Otomatis', value: 'otomatis' },
+  { label: 'Absensi Manual', value: 'Manual' },
+  { label: 'Absensi Otomatis', value: 'Otomatis' },
 ]
 
 export default function TambahMateriModal({
@@ -94,8 +100,28 @@ export default function TambahMateriModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const onSubmit: SubmitHandler<TambahMateriFormSchema> = async (data) => {
+    await handleActionWithToast(tambahAktifitasMateriAction(idKelas, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.diskusi.list'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
   }
 
   return (
@@ -104,9 +130,9 @@ export default function TambahMateriModal({
       desc="Lampirkan materi yang ingin Kamu bagikan, dapat berupa gambar, video, link video, atau dokumen"
       size="lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
-      <Form<FormSchema>
+      <Form<TambahMateriFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -137,6 +163,7 @@ export default function TambahMateriModal({
                     errors={errors}
                     label="Judul Materi"
                     placeholder="Tulis judul materi di sini"
+                    required
                   />
 
                   <ControlledQuillEditor
@@ -213,12 +240,16 @@ export default function TambahMateriModal({
               )}
             </div>
 
+            <div className="px-3">
+              <FormError error={formError} />
+            </div>
+
             <CardSeparator />
 
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

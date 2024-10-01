@@ -111,13 +111,18 @@ export default function BuatKelasModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Buat Kelas Baru"
       size="lg"
       headerClassName="[&_.modal-title]:text-lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<BuatKelasFormSchema>
         onSubmit={onSubmit}
@@ -303,7 +308,7 @@ export default function BuatKelasModal({
               <ModalFooterButtons
                 submit="Simpan"
                 isSubmitting={isSubmitting}
-                onCancel={() => setShowModal(false)}
+                onCancel={handleClose}
               />
             </>
           )

@@ -1,9 +1,22 @@
 import { Button } from '@/components/ui'
 import { BsPencil, BsThreeDots, BsTrash3 } from 'react-icons/bs'
-import { PiShareFat } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 
-export default function DropdownMoreAction() {
+type DropdownMoreActionProps = {
+  showEdit?: boolean
+  showDelete?: boolean
+  onEdit?: () => void
+  onDelete?: () => void
+}
+
+export default function DropdownMoreAction({
+  showEdit,
+  showDelete,
+  onEdit,
+  onDelete,
+}: DropdownMoreActionProps) {
+  if (!showEdit && !showDelete) return null
+
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
@@ -11,23 +24,28 @@ export default function DropdownMoreAction() {
           <BsThreeDots size={18} />
         </Button>
       </Dropdown.Trigger>
-      <Dropdown.Menu className="w-32 divide-y">
-        <div className="mb-2">
-          <Dropdown.Item className="text-gray-dark">
-            <BsPencil className="text-warning mr-2 h-4 w-4" />
-            Ubah
-          </Dropdown.Item>
-          <Dropdown.Item className="text-gray-dark">
+      <Dropdown.Menu className="w-32 divide-y !py-0">
+        {showEdit && (
+          <div className="py-2">
+            <Dropdown.Item className="text-gray-dark" onClick={onEdit}>
+              <BsPencil className="text-warning mr-2 h-4 w-4" />
+              Ubah
+            </Dropdown.Item>
+            {/* TODO: fitur bagikan ke kelas lain */}
+            {/* <Dropdown.Item className="text-gray-dark">
             <PiShareFat className="text-primary mr-2 h-4 w-4" />
             Bagikan
-          </Dropdown.Item>
-        </div>
-        <div className="mt-2 pt-2">
-          <Dropdown.Item className="text-gray-dark">
-            <BsTrash3 className="text-danger mr-2 h-4 w-4" />
-            Hapus
-          </Dropdown.Item>
-        </div>
+          </Dropdown.Item> */}
+          </div>
+        )}
+        {showDelete && (
+          <div className="py-2">
+            <Dropdown.Item className="text-gray-dark" onClick={onDelete}>
+              <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+              Hapus
+            </Dropdown.Item>
+          </div>
+        )}
       </Dropdown.Menu>
     </Dropdown>
   )

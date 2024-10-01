@@ -9,11 +9,13 @@ export type DataType = {
   deskripsi: string
   content: string
   ekstensi: string
-  tipe: string
+  tipe: 'Dokumen' | 'Audio' | 'Video' | 'Gambar' | 'Folder' | 'Teks' | null
   url: string
   ukuran: number
   id_pengguna: string
   id_instansi: string | null
+  created_at: string
+  updated_at: string
 }
 
 export const lihatBerkasAction = (id: string) =>

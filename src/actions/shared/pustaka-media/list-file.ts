@@ -16,7 +16,7 @@ export type DataType = {
   deskripsi: string
   content: string
   ekstensi: string
-  tipe: string
+  tipe: 'Dokumen' | 'Audio' | 'Video' | 'Gambar' | 'Folder' | 'Teks' | null
   url: string
   ukuran: number
   id_pengguna: string
