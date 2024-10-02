@@ -1,13 +1,12 @@
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 
-export default function TextLabel({
-  children,
-  className,
-}: {
+type TextLabelProps = {
   children?: ReactNode
   className?: string
-}) {
+}
+
+export default function TextLabel({ children, className }: TextLabelProps) {
   return (
     <label
       className={cn(

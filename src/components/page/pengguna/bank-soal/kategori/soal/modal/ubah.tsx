@@ -8,6 +8,7 @@ import {
   ControlledRadio,
   Form,
   FormError,
+  Label,
   Loader,
   Modal,
   ModalFooterButtons,
@@ -157,11 +158,14 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
                   placeholder="Deskripsi soal"
                   className="text-gray-dark"
                   noMaxHeight
+                  required
                 />
 
                 <div className="space-y-2">
                   <div>
-                    <TextLabel>Pilihan Jawaban</TextLabel>
+                    <TextLabel>
+                      <Label label="Pilihan Jawaban" required />
+                    </TextLabel>
                     {errors.benar?.message && (
                       <FieldError size="md" error={errors.benar?.message} />
                     )}

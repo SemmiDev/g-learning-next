@@ -90,6 +90,7 @@ export default function TambahBankSoalModal({
                 errors={errors}
                 label="Judul Soal"
                 placeholder="Tulis judul soal di sini"
+                required
               />
 
               <ControlledInputNumber
@@ -99,6 +100,7 @@ export default function TambahBankSoalModal({
                 label="Jumlah Soal Digunakan"
                 placeholder="Jumlah soal yang akan digunakan dari keseluruhan soal"
                 suffix="Soal"
+                required
               />
 
               <div className="flex gap-2">
@@ -109,6 +111,7 @@ export default function TambahBankSoalModal({
                   label="Bobot Benar"
                   placeholder="Nilai jawaban benar"
                   className="flex-1"
+                  required
                 />
                 <ControlledInputNumber
                   name="bobotSalah"
@@ -117,6 +120,7 @@ export default function TambahBankSoalModal({
                   label="Bobot Salah"
                   placeholder="Nilai jawaban salah"
                   className="flex-1"
+                  required
                 />
                 <ControlledInputNumber
                   name="bobotKosong"
@@ -125,6 +129,7 @@ export default function TambahBankSoalModal({
                   label="Bobot Kosong"
                   placeholder="Nilai jawaban kosong"
                   className="flex-1"
+                  required
                 />
               </div>
 

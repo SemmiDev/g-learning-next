@@ -13,6 +13,7 @@ import {
   ControlledRadio,
   Form,
   FormError,
+  Label,
   ModalConfirm,
   Text,
   TextLabel,
@@ -188,11 +189,14 @@ export default function KelolaSoalBody() {
                       placeholder="Deskripsi soal"
                       className="text-gray-dark"
                       noMaxHeight
+                      required
                     />
 
                     <div className="space-y-2">
                       <div>
-                        <TextLabel>Pilihan Jawaban</TextLabel>
+                        <TextLabel>
+                          <Label label="Pilihan Jawaban" required />
+                        </TextLabel>
                         {errors.benar?.message && (
                           <FieldError size="md" error={errors.benar?.message} />
                         )}

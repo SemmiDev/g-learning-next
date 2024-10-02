@@ -147,6 +147,7 @@ export default function BuatKelasModal({
                   errors={errors}
                   label="Nama Program"
                   placeholder="Tulis nama program di sini"
+                  required
                 />
 
                 <ControlledInput

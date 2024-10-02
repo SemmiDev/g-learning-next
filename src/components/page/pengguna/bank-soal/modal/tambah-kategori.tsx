@@ -74,6 +74,7 @@ export default function TambahKategoriModal({
                 errors={errors}
                 label="Nama Kategori"
                 placeholder="Tulis nama kategori di sini"
+                required
               />
 
               <FormError error={formError} />
