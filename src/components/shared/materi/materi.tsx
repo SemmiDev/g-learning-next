@@ -1,21 +1,32 @@
 'use client'
 
+import { hapusKategoriMateriAction } from '@/actions/shared/materi/hapus-kategori'
+import { listKategoriMateriAction } from '@/actions/shared/materi/list-kategori'
 import {
   Button,
   CardSeparator,
   Input,
   Label,
   Modal,
+  ModalConfirm,
   Text,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { FieldError } from 'rizzui'
-import FolderButton, { FolderItemType } from './folder-button'
+import KategoriButton, { KategoriItemType } from './kategori-button'
 import MateriButton, { MateriItemType } from './materi-button'
+import TambahKategoriModal from './modal/tambah-kategori'
+import TambahMateriModal from './modal/tambah-materi'
+import UbahKategoriModal from './modal/ubah-kategori'
 import SelectedMateri from './selected-materi'
+
+const queryKeyKategori = ['shared.materi.kategori']
 
 export type MateriProps = {
   label?: string
@@ -37,9 +48,22 @@ export default function Materi({
   error,
   errorClassName,
 }: MateriProps) {
+  const queryClient = useQueryClient()
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
-  const [activeFolder, setActiveFolder] = useState<FolderItemType>()
+
+  const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
+  const [searchKategori, setSearchKategori] = useState('')
+  const [showModalTambahKategori, setShowModalTambahKategori] = useState(false)
+  const [idLihatKategori, setIdLihatKategori] = useState<string>()
+  const [idUbahKategori, setIdUbahKategori] = useState<string>()
+  const [idHapusKategori, setIdHapusKategori] = useState<string>()
+
+  const [searchMateri, setSearchMateri] = useState('')
+  const [idKategoriTambah, setIdKategoriTambah] = useState<string>()
+  const [idLihatMateri, setIdLihatMateri] = useState<string>()
+  const [idUbahMateri, setIdUbahMateri] = useState<string>()
+  const [idHapusMateri, setIdHapusMateri] = useState<string>()
   const [checkedMateriId, setCheckedMateriId] = useState<string>()
   const [selectedMateri, setSelectedMateri] = useState<
     MateriItemType | undefined
@@ -60,25 +84,28 @@ export default function Materi({
     handleResize()
   }, [])
 
-  const doShow = () => {
-    setShow(true)
-  }
-
-  const doHide = () => {
-    setShow(false)
-  }
-
   const doChange = (selected: MateriItemType | undefined) => {
     setSelectedMateri(selected)
 
     onChange && onChange(selected)
   }
 
-  const folders: FolderItemType[] = [
-    { name: 'Aljabar Linear', count: 10 },
-    { name: 'Matematika Diskrit', count: 17 },
-    { name: 'Sistem Informasi', count: 5 },
-  ]
+  const { data: listKategori = [], refetch: refetchKategori } = useQuery<
+    KategoriItemType[]
+  >({
+    queryKey: queryKeyKategori,
+    queryFn: async () => {
+      const { data } = await listKategoriMateriAction({
+        search: searchKategori,
+      })
+
+      return (data?.list ?? []).map((item) => ({
+        id: item.id,
+        name: item.nama_kategori,
+        count: item.total_materi,
+      }))
+    },
+  })
 
   const dataMateri: MateriItemType[] = [
     {
@@ -118,13 +145,36 @@ export default function Materi({
     },
   ]
 
+  useEffect(() => {
+    if (searchKategori === '') {
+      refetchKategori()
+      return
+    }
+
+    _.debounce(refetchKategori, 250)()
+  }, [searchKategori, refetchKategori])
+
+  const handleHapusKategori = () => {
+    if (!idHapusKategori) return
+
+    handleActionWithToast(hapusKategoriMateriAction(idHapusKategori), {
+      loading: 'Menghapus berkas...',
+      onSuccess: () => {
+        setIdHapusKategori(undefined)
+
+        queryClient.invalidateQueries({ queryKey: queryKeyKategori })
+      },
+    })
+  }
+
   return (
     <>
       <div>
         <div
           onClick={() => {
             setCheckedMateriId(selectedMateri?.id)
-            doShow()
+            setShow(true)
+            refetchKategori()
           }}
         >
           {label && (
@@ -163,7 +213,7 @@ export default function Materi({
         title="Bank Materi dan Tugas"
         size={size}
         isOpen={show}
-        onClose={doHide}
+        onClose={() => setShow(false)}
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
           <div className="flex flex-col min-h-[400px]">
@@ -177,31 +227,43 @@ export default function Materi({
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }
+                value={searchKategori}
+                onChange={(e) => setSearchKategori(e.target.value)}
+                onClear={() => setSearchKategori('')}
               />
-              <Button size="sm" onClick={() => {}}>
-                {activeFolder ? 'Tambah Materi' : 'Tambah Folder'}
+              <Button
+                size="sm"
+                onClick={() => {
+                  if (activeKategori) {
+                    setIdKategoriTambah(activeKategori.id)
+                  } else {
+                    setShowModalTambahKategori(true)
+                  }
+                }}
+              >
+                {activeKategori ? 'Tambah Materi' : 'Tambah Kategori'}
               </Button>
             </div>
             <div className="flex items-center border-b border-b-gray-100 px-3 pb-3">
               <Text
                 weight="medium"
                 variant="dark"
-                className={cn({ 'cursor-pointer': activeFolder })}
-                onClick={() => activeFolder && setActiveFolder(undefined)}
+                className={cn({ 'cursor-pointer': activeKategori })}
+                onClick={() => activeKategori && setActiveKategori(undefined)}
               >
                 Bank Materi dan Tugas
               </Text>
-              {activeFolder && (
+              {activeKategori && (
                 <>
                   <BiChevronRight size={24} />
                   <Text weight="medium" variant="dark">
-                    {activeFolder.name}
+                    {activeKategori.name}
                   </Text>
                 </>
               )}
             </div>
             <div className="flex flex-col">
-              {activeFolder
+              {activeKategori
                 ? dataMateri.map((materi, idx) => (
                     <MateriButton
                       materi={materi}
@@ -212,11 +274,13 @@ export default function Materi({
                       key={idx}
                     />
                   ))
-                : folders.map((folder, idx) => (
-                    <FolderButton
-                      folder={folder}
-                      onOpen={() => setActiveFolder(folder)}
-                      key={idx}
+                : listKategori.map((kategori) => (
+                    <KategoriButton
+                      key={kategori.id}
+                      kategori={kategori}
+                      onOpen={(kategori) => setActiveKategori(kategori)}
+                      onEdit={(kategori) => setIdUbahKategori(kategori.id)}
+                      onDelete={(kategori) => setIdHapusKategori(kategori.id)}
                     />
                   ))}
             </div>
@@ -232,7 +296,7 @@ export default function Materi({
                     (val) => val.id === checkedMateriId
                   )
                   doChange(selected)
-                  doHide()
+                  setShow(false)
                 }}
               >
                 Pilih Materi
@@ -241,7 +305,7 @@ export default function Materi({
                 size="sm"
                 variant="outline"
                 className="w-36"
-                onClick={doHide}
+                onClick={() => setShow(false)}
               >
                 Batal
               </Button>
@@ -249,6 +313,29 @@ export default function Materi({
           </div>
         </div>
       </Modal>
+
+      <TambahKategoriModal
+        showModal={showModalTambahKategori}
+        setShowModal={setShowModalTambahKategori}
+      />
+
+      <TambahMateriModal
+        idKategori={idKategoriTambah}
+        setIdKategori={setIdKategoriTambah}
+      />
+
+      <UbahKategoriModal id={idUbahKategori} setId={setIdUbahKategori} />
+
+      <ModalConfirm
+        title="Hapus Kategori"
+        desc="Apakah Anda yakin ingin menghapus kategori materi ini?"
+        color="danger"
+        isOpen={!!idHapusKategori}
+        onClose={() => setIdHapusKategori(undefined)}
+        onConfirm={handleHapusKategori}
+        headerIcon="help"
+        closeOnCancel
+      />
     </>
   )
 }

@@ -5,9 +5,9 @@ import { makeJwtGetRequestTableAction } from '@/utils/action'
 
 export type DataType = {
   id: string
-  total_materi: number
   nama_kategori: string
   id_pengguna: string
+  total_materi: number
 }
 
 export const listKategoriBankMateriAction = async ({
@@ -19,6 +19,8 @@ export const listKategoriBankMateriAction = async ({
     {
       current_page: page,
       keyword: search,
+      sort_by: 'nama_kategori',
+      order: 'asc',
       per_page: 20,
     }
   )

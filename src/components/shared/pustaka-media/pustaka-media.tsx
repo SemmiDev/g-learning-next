@@ -146,7 +146,7 @@ export default function PustakaMedia({
     onChange && onChange(multiple === true ? selected : selected[0])
   }
 
-  const { data: drives = [] } = useQuery<DriveType[]>({
+  const { data: drives = [], refetch: refetchDrives } = useQuery<DriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
       const { data } = await driveInfoAction()
@@ -223,20 +223,18 @@ export default function PustakaMedia({
           : undefined,
       })
 
-      return (
-        data?.list?.map((item) => ({
-          id: item.id,
-          name: item.nama,
-          time: item.created_at,
-          link: item.url,
-          extension: item.ekstensi,
-          folder: getFileIsFolder(item),
-          fileCount: getFileCount(item),
-          size: getFileSize(item),
-          type: getFileType(item),
-          driveId: item.id_instansi ?? undefined,
-        })) ?? []
-      )
+      return (data?.list ?? []).map((item) => ({
+        id: item.id,
+        name: item.nama,
+        time: item.created_at,
+        link: item.url,
+        extension: item.ekstensi,
+        folder: getFileIsFolder(item),
+        fileCount: getFileCount(item),
+        size: getFileSize(item),
+        type: getFileType(item),
+        driveId: item.id_instansi ?? undefined,
+      }))
     },
   })
 
@@ -289,6 +287,7 @@ export default function PustakaMedia({
           onClick={() => {
             setCheckedFiles([...selectedFiles])
             setShow(true)
+            refetchDrives()
           }}
         >
           {label && (
