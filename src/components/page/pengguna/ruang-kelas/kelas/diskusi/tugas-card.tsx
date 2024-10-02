@@ -13,7 +13,7 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { usePengguna } from '@/hooks/use-pengguna'
+import { useSessionPengguna } from '@/hooks/use-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
@@ -37,7 +37,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
   const queryClient = useQueryClient()
   const [idHapus, setIdHapus] = useState<string>()
 
-  const { id: idPengguna } = usePengguna()
+  const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')

@@ -1,3 +1,4 @@
+import { hapusAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/hapus'
 import { DataType } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
 import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
@@ -10,20 +11,19 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionPengguna } from '@/hooks/use-pengguna'
+import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
+import { stripHtml } from '@/utils/text'
 import imagePhoto from '@public/images/photo.png'
+import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { BsCameraVideo } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
 import KomentarSectionFull from './komentar-section-full'
-import { handleActionWithToast } from '@/utils/action'
-import { hapusAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/hapus'
-import { useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useParams } from 'next/navigation'
-import { usePengguna } from '@/hooks/use-pengguna'
-import { stripHtml } from '@/utils/text'
 
 type ConferenceCardProps = {
   kelas: DataKelasType
@@ -39,7 +39,7 @@ export default function ConferenceCard({
   const queryClient = useQueryClient()
   const [idHapus, setIdHapus] = useState<string>()
 
-  const { id: idPengguna } = usePengguna()
+  const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')

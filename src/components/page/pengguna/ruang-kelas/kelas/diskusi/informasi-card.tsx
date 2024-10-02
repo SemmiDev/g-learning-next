@@ -10,11 +10,11 @@ import {
   Time,
   Title,
 } from '@/components/ui'
-import { usePengguna } from '@/hooks/use-pengguna'
+import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionPengguna } from '@/hooks/use-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { stripHtml } from '@/utils/text'
 import imagePhoto from '@public/images/photo.png'
 import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
@@ -22,7 +22,6 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
 import KomentarSectionZero from './komentar-section-zero'
-import { SanitizeHTML } from '@/components/ui/sanitize-html'
 
 type InformasiCardProps = {
   kelas: DataKelasType
@@ -38,7 +37,7 @@ export default function InformasiCard({
   const queryClient = useQueryClient()
   const [idHapus, setIdHapus] = useState<string>()
 
-  const { id: idPengguna } = usePengguna()
+  const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const imageFile = (data.file_aktifitas ?? []).find(
@@ -94,7 +93,7 @@ export default function InformasiCard({
           </Title>
           <SanitizeHTML
             html={data.aktifitas.deskripsi || '-'}
-            className="text-dark"
+            className="text-gray-dark"
           />
           {imageFile && (
             <div className="flex justify-center mt-4">

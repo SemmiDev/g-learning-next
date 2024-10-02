@@ -3,7 +3,7 @@
 import { jwtDecode } from 'jwt-decode'
 import { useSession } from 'next-auth/react'
 
-export function usePengguna() {
+export function useSessionPengguna() {
   const { data: session } = useSession()
 
   const decodedToken = session?.jwt ? jwtDecode<any>(session?.jwt) : {}
