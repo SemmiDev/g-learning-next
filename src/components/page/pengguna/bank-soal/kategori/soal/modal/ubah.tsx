@@ -119,6 +119,11 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Soal"
@@ -126,7 +131,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
       color="warning"
       size="xl"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={447} />
@@ -234,7 +239,7 @@ export default function UbahSoalModal({ id, setId }: UbahSoalModalProps) {
                 submit="Simpan Soal"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

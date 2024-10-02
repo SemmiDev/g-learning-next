@@ -80,13 +80,18 @@ export default function UbahFolderModal({
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Folder"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={236} />
@@ -129,7 +134,7 @@ export default function UbahFolderModal({
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

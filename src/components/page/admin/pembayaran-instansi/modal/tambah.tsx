@@ -63,11 +63,16 @@ export default function TambahModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Tambah Pembayaran Instansi"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
       overflow
     >
       <Form<TambahPembayaranInstansiFormSchema>
@@ -132,7 +137,7 @@ export default function TambahModal({
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

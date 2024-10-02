@@ -98,6 +98,11 @@ export default function UbahBankSoalModal({
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Bank Soal"
@@ -105,7 +110,7 @@ export default function UbahBankSoalModal({
       color="warning"
       size="lg"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={447} />
@@ -189,7 +194,7 @@ export default function UbahBankSoalModal({
                 submit="Simpan Soal"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

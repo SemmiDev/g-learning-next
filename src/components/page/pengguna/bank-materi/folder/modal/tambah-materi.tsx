@@ -73,13 +73,18 @@ export default function TambahMateriModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Tambah Materi Baru"
       desc="Buat materi ajar terkait kelas yang kamu kelola"
       size="lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<TambahMateriFormSchema>
         onSubmit={onSubmit}
@@ -135,7 +140,7 @@ export default function TambahMateriModal({
             <ModalFooterButtons
               submit="Tambah Materi"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

@@ -98,6 +98,11 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Bank Materi"
@@ -105,7 +110,7 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
       color="warning"
       size="lg"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={447} />
@@ -159,7 +164,7 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
                 submit="Simpan Materi"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

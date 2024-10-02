@@ -61,12 +61,17 @@ export default function ImportSoalModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Import Soal"
       size="xl"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<FormSchema>
         onSubmit={onSubmit}
@@ -114,6 +119,7 @@ export default function ImportSoalModal({
                 errors={errors}
                 desc="(Tipe file yang bisa diupload adalah: xls, xlsx dengan ukuran maksimal 100 MB untuk setiap file yang dipilih)"
                 accept={{ 'application/vnd.ms-excel': ['.xls', '.xlsx'] }}
+                required
               />
 
               <FormError error={formError} />
@@ -124,7 +130,7 @@ export default function ImportSoalModal({
             <ModalFooterButtons
               submit="Upload"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

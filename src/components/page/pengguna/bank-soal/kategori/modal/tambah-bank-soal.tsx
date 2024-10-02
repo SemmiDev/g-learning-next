@@ -69,12 +69,17 @@ export default function TambahBankSoalModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Buat Bank Soal Baru"
       size="lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<TambahBankSoalFormSchema>
         onSubmit={onSubmit}
@@ -150,7 +155,7 @@ export default function TambahBankSoalModal({
             <ModalFooterButtons
               submit="Mulai Buat Soal"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

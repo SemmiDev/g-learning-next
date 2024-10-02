@@ -53,12 +53,17 @@ export default function UbahPasswordModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ganti Kata Sandi"
       color="warning"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<UbahPasswordFormSchema>
         onSubmit={onSubmit}
@@ -104,7 +109,7 @@ export default function UbahPasswordModal({
               submit="Simpan Sandi Baru"
               submitColor="warning"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

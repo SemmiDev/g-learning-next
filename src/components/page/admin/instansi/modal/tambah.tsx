@@ -79,12 +79,13 @@ export default function TambahModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
-    <Modal
-      title="Tambah Instansi"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
-    >
+    <Modal title="Tambah Instansi" isOpen={showModal} onClose={handleClose}>
       <Form<TambahInstansiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -193,7 +194,7 @@ export default function TambahModal({
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

@@ -86,13 +86,18 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Pembayaran Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
       overflow
     >
       {isLoading || !id ? (
@@ -152,7 +157,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

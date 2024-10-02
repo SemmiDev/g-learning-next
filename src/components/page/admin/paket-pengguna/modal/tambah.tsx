@@ -74,11 +74,16 @@ export default function TambahModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Tambah Paket Pengguna"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<TambahPaketPenggunaFormSchema>
         onSubmit={onSubmit}
@@ -163,7 +168,7 @@ export default function TambahModal({
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

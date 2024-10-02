@@ -59,8 +59,13 @@ export default function TambahFolderModal({
     )
   }
 
+  const handleClose = () => {
+    setShow(false)
+    setFormError(undefined)
+  }
+
   return (
-    <Modal title="Tambah Folder" isOpen={show} onClose={() => setShow(false)}>
+    <Modal title="Tambah Folder" isOpen={show} onClose={handleClose}>
       <Form<TambahFolderFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -97,7 +102,7 @@ export default function TambahFolderModal({
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
-              onCancel={() => setShow(false)}
+              onCancel={handleClose}
             />
           </>
         )}

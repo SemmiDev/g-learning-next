@@ -53,12 +53,13 @@ export default function UbahFotoModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
-    <Modal
-      title="Ganti Foto Profil"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
-    >
+    <Modal title="Ganti Foto Profil" isOpen={showModal} onClose={handleClose}>
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -86,7 +87,7 @@ export default function UbahFotoModal({
               <ModalFooterButtons
                 submit="Upload"
                 isSubmitting={isSubmitting}
-                onCancel={() => setShowModal(false)}
+                onCancel={handleClose}
               />
             </>
           )

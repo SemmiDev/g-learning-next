@@ -58,12 +58,17 @@ export default function UbahJatuhTempoModal({
     })
   }
 
+  const handleClose = () => {
+    setJatuhTempo(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Jatuh Tempo"
       color="warning"
       isOpen={!!id}
-      onClose={() => setJatuhTempo(undefined)}
+      onClose={handleClose}
     >
       <Form<UbahJatuhTempoFormSchema>
         onSubmit={onSubmit}
@@ -96,7 +101,7 @@ export default function UbahJatuhTempoModal({
               submit="Simpan"
               submitColor="warning"
               isSubmitting={isSubmitting}
-              onCancel={() => setJatuhTempo(undefined)}
+              onCancel={handleClose}
             />
           </>
         )}

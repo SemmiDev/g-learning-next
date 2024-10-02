@@ -78,6 +78,11 @@ export default function UbahBerkasModal({
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Berkas"
@@ -85,7 +90,7 @@ export default function UbahBerkasModal({
       color="warning"
       headerIcon="warning"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={236} />
@@ -133,7 +138,7 @@ export default function UbahBerkasModal({
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

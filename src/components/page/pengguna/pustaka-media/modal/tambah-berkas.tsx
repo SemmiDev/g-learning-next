@@ -88,12 +88,17 @@ export default function TambahBerkasModal({
     })
   }
 
+  const handleClose = () => {
+    setShow(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Tambah Link/Unggah Media"
       size="lg"
       isOpen={show}
-      onClose={() => setShow(false)}
+      onClose={handleClose}
     >
       <Form<TambahBerkasFormSchema>
         onSubmit={onSubmit}
@@ -185,7 +190,7 @@ export default function TambahBerkasModal({
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
-              onCancel={() => setShow(false)}
+              onCancel={handleClose}
             />
           </>
         )}

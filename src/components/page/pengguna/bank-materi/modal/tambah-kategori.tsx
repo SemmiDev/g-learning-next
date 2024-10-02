@@ -50,12 +50,17 @@ export default function TambahKategoriModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Tambah Kategori Baru"
       desc="Buat kategori baru untuk menyimpan materi Kamu"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       <Form<TambahKategoriFormSchema>
         onSubmit={onSubmit}
@@ -85,7 +90,7 @@ export default function TambahKategoriModal({
             <ModalFooterButtons
               submit="Buat Kategori Baru"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

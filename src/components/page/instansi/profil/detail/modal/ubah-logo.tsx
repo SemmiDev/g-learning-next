@@ -55,12 +55,13 @@ export default function UbahLogoModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
-    <Modal
-      title="Ganti Logo Instansi"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
-    >
+    <Modal title="Ganti Logo Instansi" isOpen={showModal} onClose={handleClose}>
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -88,7 +89,7 @@ export default function UbahLogoModal({
               <ModalFooterButtons
                 submit="Upload"
                 isSubmitting={isSubmitting}
-                onCancel={() => setShowModal(false)}
+                onCancel={handleClose}
               />
             </>
           )

@@ -129,13 +129,18 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={336} />
@@ -254,7 +259,7 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

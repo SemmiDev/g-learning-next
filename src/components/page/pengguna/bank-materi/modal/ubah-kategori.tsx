@@ -78,13 +78,18 @@ export default function UbahKategoriModal({
     })
   }
 
+  const handleClose = () => {
+    setId(undefined)
+    setFormError(undefined)
+  }
+
   return (
     <Modal
       title="Ubah Kategori Materi"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={!!id}
-      onClose={() => setId(undefined)}
+      onClose={handleClose}
     >
       {isLoading || !id ? (
         <Loader height={154} />
@@ -119,7 +124,7 @@ export default function UbahKategoriModal({
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

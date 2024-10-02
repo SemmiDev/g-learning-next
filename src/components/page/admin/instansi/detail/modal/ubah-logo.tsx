@@ -11,7 +11,6 @@ import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useQueryClient } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
@@ -56,12 +55,13 @@ export default function UbahLogoModal({
     })
   }
 
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
+  }
+
   return (
-    <Modal
-      title="Ganti Logo Instansi"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
-    >
+    <Modal title="Ganti Logo Instansi" isOpen={showModal} onClose={handleClose}>
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -89,7 +89,7 @@ export default function UbahLogoModal({
               <ModalFooterButtons
                 submit="Upload"
                 isSubmitting={isSubmitting}
-                onCancel={() => setShowModal(false)}
+                onCancel={handleClose}
               />
             </>
           )

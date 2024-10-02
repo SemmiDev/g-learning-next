@@ -53,6 +53,12 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
     queryFn: makeSimpleQueryData(dataProfilAction),
   })
 
+  const initialValues: UbahProfilFormSchema = {
+    nama: data?.nama,
+    kontak: data?.hp,
+    jenisKelamin: data?.jenis_kelamin,
+  }
+
   const onSubmit: SubmitHandler<UbahProfilFormSchema> = async (data) => {
     await handleActionWithToast(ubahProfilAction(data), {
       loading: 'Menyimpan...',
@@ -66,10 +72,9 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
     })
   }
 
-  const initialValues: UbahProfilFormSchema = {
-    nama: data?.nama,
-    kontak: data?.hp,
-    jenisKelamin: data?.jenis_kelamin,
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
   }
 
   return (
@@ -78,7 +83,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
       {isLoading || !showModal ? (
         <Loader height={336} />
@@ -131,7 +136,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setShowModal(false)}
+                onCancel={handleClose}
               />
             </>
           )}
