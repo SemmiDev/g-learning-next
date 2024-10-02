@@ -18,7 +18,7 @@ export const tambahAktifitasMateriAction = (
       tipe_presensi:
         data.presensi === 'aktif'
           ? mustBe(data.tipe_presensi, ['Manual', 'Otomatis'], 'Manual')
-          : undefined,
+          : null,
       waktu_akhir_absen: undefined,
       jadwal: data.jadwal,
       berkas: (data.berkas ?? []).map((item) => item.id),

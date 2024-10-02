@@ -9,7 +9,7 @@ type LayoutProps = {
 }
 
 export default function DefaultLayout({ children }: LayoutProps) {
-  // const { data: session } = useSession()
+  // const { data: session, status } = useSession()
 
   // if (!session?.expires) {
   //   return (

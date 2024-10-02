@@ -14,6 +14,7 @@ import {
   TextBordered,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import { getFileType } from '@/utils/file-properties-from-api'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -70,16 +71,7 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
           extension: item.ekstensi,
           size: item.ukuran,
           folder: false,
-          type:
-            item.tipe === 'Audio'
-              ? 'audio'
-              : item.tipe === 'Video'
-              ? 'video'
-              : item.tipe === 'Gambar'
-              ? 'image'
-              : item.tipe === 'Teks'
-              ? 'link'
-              : undefined,
+          type: getFileType(item),
           driveId: item.id_instansi ?? undefined,
         })),
       }

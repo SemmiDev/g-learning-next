@@ -2,7 +2,7 @@
 
 import { makeJwtGetRequestAction } from '@/utils/action'
 
-type DataType = {
+export type DataType = {
   kelas: {
     id: string
     id_instansi: string | null

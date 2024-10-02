@@ -11,6 +11,7 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
+import { getFileType } from '@/utils/file-properties-from-api'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ReactNode, useState } from 'react'
@@ -45,16 +46,7 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
       extension: item.ekstensi,
       size: item.ukuran,
       folder: false,
-      type:
-        item.tipe === 'Audio'
-          ? 'audio'
-          : item.tipe === 'Video'
-          ? 'video'
-          : item.tipe === 'Gambar'
-          ? 'image'
-          : item.tipe === 'Teks'
-          ? 'link'
-          : undefined,
+      type: getFileType(item),
       driveId: item.id_instansi ?? undefined,
     })
   )

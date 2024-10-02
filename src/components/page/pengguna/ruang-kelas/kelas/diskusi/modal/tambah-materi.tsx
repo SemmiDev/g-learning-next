@@ -93,13 +93,15 @@ const optionsTipePresensi: RadioGroupOptionType[] = [
   { label: 'Absensi Otomatis', value: 'Otomatis' },
 ]
 
+type TambahMateriModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
+}
+
 export default function TambahMateriModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+}: TambahMateriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -112,7 +114,7 @@ export default function TambahMateriModal({
       onSuccess: () => {
         setShowModal(false)
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list'],
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
       },
       onError: ({ message }) => setFormError(message),

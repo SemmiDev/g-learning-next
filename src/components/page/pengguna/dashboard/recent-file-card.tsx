@@ -13,12 +13,13 @@ import {
   Title,
 } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import cn from '@/utils/class-names'
+import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 import RecentFileItem from './recent-file-item'
-import cn from '@/utils/class-names'
 
 const perPage = 5
 const queryKeyDrive = ['shared.pustaka-media.drives']
@@ -90,17 +91,8 @@ export default function DashboardRecentFileCard({
           link: item.url,
           extension: item.ekstensi,
           folder: false,
-          size: item.tipe !== 'Folder' ? item.ukuran : undefined,
-          type:
-            item.tipe === 'Audio'
-              ? 'audio'
-              : item.tipe === 'Video'
-              ? 'video'
-              : item.tipe === 'Gambar'
-              ? 'image'
-              : item.tipe === 'Teks'
-              ? 'link'
-              : undefined,
+          size: getFileSize(item),
+          type: getFileType(item),
           driveId: item.id_instansi ?? undefined,
         })) ?? []
       )

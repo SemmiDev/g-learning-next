@@ -1,3 +1,4 @@
+import { tambahAktifitasConferenceAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-conference'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -5,12 +6,17 @@ import {
   ControlledQuillEditor,
   ControlledRadioGroup,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
 import { Switch } from 'rizzui'
@@ -36,8 +42,7 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahConferenceFormSchema = {
   judul?: string
   catatan?: string
   link?: string
@@ -46,7 +51,7 @@ type FormSchema = {
   jadwal?: Date
 }
 
-const initialValues: FormSchema = {
+const initialValues: TambahConferenceFormSchema = {
   presensi: 'non-aktif',
   penjadwalan: false,
 }
@@ -63,8 +68,31 @@ export default function TambahConferenceModal({
   showModal?: boolean
   setShowModal(show: boolean): void
 }) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const onSubmit: SubmitHandler<TambahConferenceFormSchema> = async (data) => {
+    await handleActionWithToast(
+      tambahAktifitasConferenceAction(idKelas, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          setShowModal(false)
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
   }
 
   return (
@@ -72,9 +100,9 @@ export default function TambahConferenceModal({
       title="Bagikan Conference"
       size="lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
-      <Form<FormSchema>
+      <Form<TambahConferenceFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -96,6 +124,7 @@ export default function TambahConferenceModal({
                 errors={errors}
                 label="Judul Conference"
                 placeholder="Tulis judul conference di sini"
+                required
               />
 
               <ControlledQuillEditor
@@ -113,6 +142,7 @@ export default function TambahConferenceModal({
                 errors={errors}
                 label="Link Conference"
                 placeholder="Tulis link conference di sini"
+                required
               />
 
               <ControlledRadioGroup
@@ -153,12 +183,16 @@ export default function TambahConferenceModal({
               )}
             </div>
 
+            <div className="px-3">
+              <FormError error={formError} />
+            </div>
+
             <CardSeparator />
 
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

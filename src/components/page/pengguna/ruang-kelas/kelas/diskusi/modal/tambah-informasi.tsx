@@ -1,21 +1,30 @@
+import { tambahAktifitasInformasiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-informasi'
 import {
   Button,
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledPustakaMedia,
   ControlledQuillEditor,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
+  PustakaMediaFileType,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
+  berkas: z.array(z.any()),
 })
 
 const formSchema = z.discriminatedUnion('penjadwalan', [
@@ -32,27 +41,50 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahInformasiFormSchema = {
   judul?: string
   catatan?: string
   penjadwalan: boolean
   jadwal?: Date
+  berkas?: PustakaMediaFileType[]
 }
 
-const initialValues: FormSchema = {
+const initialValues: TambahInformasiFormSchema = {
   penjadwalan: false,
+  berkas: [],
+}
+
+type TambahInformasiModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
 }
 
 export default function TambahInformasiModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+}: TambahInformasiModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const onSubmit: SubmitHandler<TambahInformasiFormSchema> = async (data) => {
+    await handleActionWithToast(tambahAktifitasInformasiAction(idKelas, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
   }
 
   return (
@@ -60,9 +92,9 @@ export default function TambahInformasiModal({
       title="Bagikan Informasi"
       size="lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
-      <Form<FormSchema>
+      <Form<TambahInformasiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -84,6 +116,7 @@ export default function TambahInformasiModal({
                 errors={errors}
                 label="Judul Informasi"
                 placeholder="Tulis judul informasi di sini"
+                required
               />
 
               <ControlledQuillEditor
@@ -95,16 +128,13 @@ export default function TambahInformasiModal({
                 placeholder="Buat catatan terkait informasi yang diberikan"
               />
 
-              <div>
-                <label className="text-gray-dark font-semibold mb-1.5 block">
-                  Upload foto atau video
-                </label>
-                <div className="text-gray-lighter text-sm border-2 border-gray-50 rounded-md py-3 px-4">
-                  <Button variant="text" className="h-4 p-0">
-                    Klik di sini untuk memilih foto
-                  </Button>
-                </div>
-              </div>
+              <ControlledPustakaMedia
+                name="berkas"
+                control={control}
+                label="Pilih Berkas"
+                errors={errors}
+                multiple
+              />
             </div>
 
             <CardSeparator />
@@ -129,12 +159,16 @@ export default function TambahInformasiModal({
               )}
             </div>
 
+            <div className="px-3">
+              <FormError error={formError} />
+            </div>
+
             <CardSeparator />
 
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

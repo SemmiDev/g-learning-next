@@ -1,3 +1,4 @@
+import { tambahAktifitasTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-tugas'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -7,14 +8,19 @@ import {
   ControlledQuillEditor,
   ControlledSwitch,
   Form,
+  FormError,
   MateriItemType,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const isShareFs = z.object({
@@ -45,8 +51,7 @@ const formSchema = z.union([
   isNotShareFs.merge(isNotDibatasiWaktuFs),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+export type TambahTugasFormSchema = {
   share: boolean
   materi?: MateriItemType
   judul?: string
@@ -56,20 +61,43 @@ type FormSchema = {
   berkas?: PustakaMediaFileType[]
 }
 
-const initialValues: FormSchema = {
+const initialValues: TambahTugasFormSchema = {
   dibawasiWaktu: false,
   share: true,
+  berkas: [],
+}
+
+type TambahTugasModalProps = {
+  showModal?: boolean
+  setShowModal(show: boolean): void
 }
 
 export default function TambahTugasModal({
   showModal = false,
   setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+}: TambahTugasModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const onSubmit: SubmitHandler<TambahTugasFormSchema> = async (data) => {
+    await handleActionWithToast(tambahAktifitasTugasAction(idKelas, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShowModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+    setFormError(undefined)
   }
 
   return (
@@ -77,9 +105,9 @@ export default function TambahTugasModal({
       title="Bagikan Tugas"
       size="lg"
       isOpen={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={handleClose}
     >
-      <Form<FormSchema>
+      <Form<TambahTugasFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -110,6 +138,7 @@ export default function TambahTugasModal({
                     errors={errors}
                     label="Judul Tugas"
                     placeholder="Tulis judul tugas di sini"
+                    required
                   />
 
                   <ControlledQuillEditor
@@ -152,12 +181,16 @@ export default function TambahTugasModal({
               </div>
             </div>
 
+            <div className="px-3">
+              <FormError error={formError} />
+            </div>
+
             <CardSeparator />
 
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

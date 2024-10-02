@@ -1,4 +1,14 @@
-import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+import { DataType } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  ModalConfirm,
+  Text,
+  Time,
+  Title,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
@@ -7,43 +17,111 @@ import Link from 'next/link'
 import { BsCameraVideo } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
 import KomentarSectionFull from './komentar-section-full'
+import { handleActionWithToast } from '@/utils/action'
+import { hapusAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/hapus'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useParams } from 'next/navigation'
+import { usePengguna } from '@/hooks/use-pengguna'
+import { stripHtml } from '@/utils/text'
 
-export default function ConferenceCard({ className }: { className?: string }) {
+type ConferenceCardProps = {
+  kelas: DataKelasType
+  data: DataType
+  className?: string
+}
+
+export default function ConferenceCard({
+  kelas,
+  data,
+  className,
+}: ConferenceCardProps) {
+  const queryClient = useQueryClient()
+  const [idHapus, setIdHapus] = useState<string>()
+
+  const { id: idPengguna } = usePengguna()
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
+  const imageFile = (data.file_aktifitas ?? []).find(
+    (item) => item.tipe === 'Gambar'
+  )
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusAktifitasAction(idKelas, idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+        })
+      },
+    })
+  }
+
   return (
-    <Card className={cn('flex flex-col px-0 py-0', className)}>
-      <div className="flex justify-between items-start px-4 py-2">
-        <div className="flex space-x-3">
-          <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
-          <div className="flex flex-col">
-            <Text weight="semibold" variant="dark">
-              Prabroro Janggar
-            </Text>
-            <Text size="xs" weight="medium" variant="lighter">
-              30 Menit
-            </Text>
+    <>
+      <Card className={cn('flex flex-col px-0 py-0', className)}>
+        <div className="flex justify-between items-start px-4 py-2">
+          <div className="flex space-x-3">
+            {/* TODO: Foto Pengguna */}
+            <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
+            <div className="flex flex-col">
+              <Text weight="semibold" variant="dark">
+                {/* TODO: Pengguna */}
+                Prabroro Janggar
+              </Text>
+              <Text size="xs" weight="medium" variant="lighter">
+                <Time date={data.aktifitas.created_at} fromNow />
+              </Text>
+            </div>
           </div>
+          {/* TODO: aksi onEdit dan onDelete tergantung role */}
+          <DropdownMoreAction
+            onDelete={() => setIdHapus(data.aktifitas.id)}
+            showDelete={
+              data.aktifitas.id_pembuat === idPengguna ||
+              kelas.peran === 'Pengajar'
+            }
+            showEdit={data.aktifitas.id_pembuat === idPengguna}
+          />
         </div>
-        <DropdownMoreAction />
-      </div>
-      <CardSeparator />
-      <div className="flex flex-col px-4 py-2">
-        <Title as="h4" size="1.5xl" weight="semibold" className="mb-1">
-          Judul Conference
-        </Title>
-        <Text size="sm" variant="dark" className="truncate">
-          Ini merupakan catatan dari sebuah diskui yang telah dibuat, cukup di
-          buat dalam 2 kalimat dan tambahkan.
-        </Text>
-      </div>
-      <CardSeparator />
-      <div className="p-2">
-        <Link href={`${routes.pengguna.ruangKelas}/diskusi/detail/conference`}>
-          <Button size="sm" color="primary" className="w-full">
-            <BsCameraVideo size={16} className="me-2" /> Buka Kelas
-          </Button>
-        </Link>
-        <KomentarSectionFull className="pt-4 px-2 pb-2" />
-      </div>
-    </Card>
+        <CardSeparator />
+        <div className="flex flex-col px-4 py-2">
+          <Title as="h4" size="1.5xl" weight="semibold" className="mb-1">
+            {data.aktifitas.judul}
+          </Title>
+          <Text size="sm" variant="dark" className="truncate">
+            {strippedDesc.slice(0, 100)}
+            {strippedDesc.length > 100 && '...'}
+          </Text>
+        </div>
+        <CardSeparator />
+        <div className="p-2">
+          <Link
+            href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/conference/${data.aktifitas.id}`}
+          >
+            <Button size="sm" color="primary" className="w-full">
+              <BsCameraVideo size={16} className="me-2" /> Buka Kelas
+            </Button>
+          </Link>
+          <KomentarSectionFull className="pt-4 px-2 pb-2" />
+        </div>
+      </Card>
+
+      <ModalConfirm
+        title="Hapus Conference"
+        desc="Apakah Anda yakin ingin menghapus conference ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="help"
+        closeOnCancel
+      />
+    </>
   )
 }

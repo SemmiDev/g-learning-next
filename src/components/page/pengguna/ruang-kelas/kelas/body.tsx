@@ -19,10 +19,10 @@ import { listAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/li
 import DiskusiCard from './diskusi/diskusi-card'
 import { Loader, Text } from '@/components/ui'
 
-const queryKey = ['pengguna.ruang-kelas.diskusi.list']
-
 export default function DiskusiBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const queryKey = ['pengguna.ruang-kelas.diskusi.list', idKelas]
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
@@ -68,6 +68,8 @@ export default function DiskusiBody() {
     hasMore: { down: hasNextPage },
   })
 
+  if (!dataKelas) return null
+
   return (
     <div className="flex flex-col lg:w-7/12">
       {dataKelas?.peran === 'Pengajar' ? (
@@ -83,15 +85,19 @@ export default function DiskusiBody() {
           {list.map((item) => (
             <Fragment key={item.aktifitas.id}>
               {item.aktifitas.tipe === 'Materi' ? (
-                <MateriCard className="mt-6" data={item} />
+                <MateriCard kelas={dataKelas} data={item} className="mt-6" />
               ) : item.aktifitas.tipe === 'Penugasan' ? (
-                <TugasCard className="mt-6" />
+                <TugasCard kelas={dataKelas} data={item} className="mt-6" />
               ) : item.aktifitas.tipe === 'Konferensi' ? (
-                <ConferenceCard className="mt-6" />
+                <ConferenceCard
+                  kelas={dataKelas}
+                  data={item}
+                  className="mt-6"
+                />
               ) : item.aktifitas.tipe === 'Ujian' ? (
                 <UjianCard className="mt-6" />
               ) : item.aktifitas.tipe === 'Pengumuman' ? (
-                <InformasiCard className="mt-6" />
+                <InformasiCard kelas={dataKelas} data={item} className="mt-6" />
               ) : (
                 <DiskusiCard />
               )}

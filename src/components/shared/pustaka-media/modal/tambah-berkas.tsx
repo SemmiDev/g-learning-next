@@ -43,7 +43,7 @@ const initialValues: TambahBerkasFormSchema = {
 type TambahModalProps = {
   show: boolean
   setShow(show: boolean): void
-  uploadLink: boolean
+  uploadLink?: boolean
   refetchKeys: QueryKey[]
   idInstansi: string | undefined
   idFolder: string | undefined

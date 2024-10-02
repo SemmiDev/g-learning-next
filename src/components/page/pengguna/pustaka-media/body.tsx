@@ -20,6 +20,12 @@ import {
   Title,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import {
+  getFileCount,
+  getFileIsFolder,
+  getFileSize,
+  getFileType,
+} from '@/utils/file-properties-from-api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -122,19 +128,10 @@ export default function PustakaMediaBody() {
           time: item.created_at,
           link: item.url,
           extension: item.ekstensi,
-          folder: item.tipe === 'Folder',
-          fileCount: item.tipe === 'Folder' ? item.total_files : undefined,
-          size: item.tipe !== 'Folder' ? item.ukuran : undefined,
-          type:
-            item.tipe === 'Audio'
-              ? 'audio'
-              : item.tipe === 'Video'
-              ? 'video'
-              : item.tipe === 'Gambar'
-              ? 'image'
-              : item.tipe === 'Teks'
-              ? 'link'
-              : undefined,
+          folder: getFileIsFolder(item),
+          fileCount: getFileCount(item),
+          size: getFileSize(item),
+          type: getFileType(item),
           driveId: item.id_instansi ?? undefined,
         })) ?? []
       )
