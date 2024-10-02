@@ -1,12 +1,12 @@
 import { Breadcrumb, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 
-type BreadcrumbType = {
+export type BreadcrumbType = {
   name: string
   href?: string
 }
 
-export type PageHeaderTypes = {
+export type PageHeaderProps = {
   title: string
   breadcrumb?: BreadcrumbType[]
   className?: string
@@ -17,7 +17,7 @@ export default function PageHeader({
   breadcrumb,
   children,
   className,
-}: React.PropsWithChildren<PageHeaderTypes>) {
+}: React.PropsWithChildren<PageHeaderProps>) {
   return (
     <header className={cn('mb-6 @container xs:-mt-2 lg:mb-7', className)}>
       <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between">
