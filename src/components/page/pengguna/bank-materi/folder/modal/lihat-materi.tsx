@@ -62,7 +62,7 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
         <Loader height={330} />
       ) : (
         <>
-          <table className="mx-3">
+          <table className="w-[calc(100%-1.5rem)] mx-3">
             <tbody>
               <DataRow label="Tipe">{data?.bank_ajar.tipe || '-'}</DataRow>
               <DataRow label="Judul">{data?.bank_ajar.judul || '-'}</DataRow>
@@ -70,7 +70,7 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
                 <SanitizeHTML html={data?.bank_ajar.deskripsi || '-'} />
               </DataRow>
               <DataRow label="Berkas">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col space-y-2">
                   {files.length > 0
                     ? files.map((file) => (
                         <FileListItem
@@ -118,7 +118,7 @@ function DataRow({
 }) {
   return (
     <tr>
-      <td className="font-medium text-gray-lighter align-baseline text-right pe-5 py-2">
+      <td className="w-0 font-medium text-gray-lighter align-baseline text-right pe-5 py-2">
         {label}
       </td>
       <td className={cn('font-semibold text-gray-dark py-2', className)}>
