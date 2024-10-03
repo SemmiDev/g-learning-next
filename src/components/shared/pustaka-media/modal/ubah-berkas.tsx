@@ -28,13 +28,15 @@ export type UbahBerkasFormSchema = {
 
 type UbahModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
   refetchKey: QueryKey
 }
 
 export default function UbahBerkasModal({
   id,
-  setId,
+  show,
+  onHide,
   refetchKey,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
@@ -72,10 +74,15 @@ export default function UbahBerkasModal({
           ...oldData,
           ...data,
         }))
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
+  }
+
+  const handleClose = () => {
+    onHide()
+    setFormError(undefined)
   }
 
   return (
@@ -84,10 +91,10 @@ export default function UbahBerkasModal({
       isLoading={!isLoading && isFetching}
       color="warning"
       headerIcon="warning"
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
+      isOpen={show}
+      onClose={handleClose}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={236} />
       ) : (
         <Form<UbahBerkasFormSchema>
@@ -133,7 +140,7 @@ export default function UbahBerkasModal({
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
-                onCancel={() => setId(undefined)}
+                onCancel={handleClose}
               />
             </>
           )}

@@ -17,6 +17,7 @@ import {
   Text,
   TextSpan,
 } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import {
@@ -116,11 +117,26 @@ export default function PustakaMedia({
   const [search, setSearch] = useState('')
   const [listFolder, setListFolder] = useState<FolderType[]>([])
   const [fileHapus, setFileHapus] = useState<FileType>()
-  const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
-  const [showModalTambahBerkas, setShowModalTambahBerkas] = useState(false)
-  const [idUbahFolder, setIdUbahFolder] = useState<string>()
-  const [idUbahLink, setIdUbahLink] = useState<string>()
-  const [idUbahFile, setIdUbahFile] = useState<string>()
+  const [showTambahFolder, setShowTambahFolder] = useState(false)
+  const [showTambahBerkas, setShowTambahBerkas] = useState(false)
+  const {
+    show: showUbahFolder,
+    key: keyUbahFolder,
+    doShow: doShowUbahFolder,
+    doHide: doHideUbahFolder,
+  } = useShowModal<string>()
+  const {
+    show: showUbahLink,
+    key: keyUbahLink,
+    doShow: doShowUbahLink,
+    doHide: doHideUbahLink,
+  } = useShowModal<string>()
+  const {
+    show: showUbahFile,
+    key: keyUbahFile,
+    doShow: doShowUbahFile,
+    doHide: doHideUbahFile,
+  } = useShowModal<string>()
   const [previewFile, setPreviewFile] = useState<FilePreviewType>()
   const [checkedFiles, setCheckedFiles] = useState<FileType[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
@@ -266,9 +282,9 @@ export default function PustakaMedia({
 
   const handleUbah = (file: FileType) => {
     if (file.type === 'link') {
-      setIdUbahLink(file.id)
+      doShowUbahLink(file.id)
     } else {
-      setIdUbahFile(file.id)
+      doShowUbahFile(file.id)
     }
   }
 
@@ -371,14 +387,14 @@ export default function PustakaMedia({
                       <ActionIconTooltip
                         tooltip="Tambah Link/Unggah Media"
                         size="sm"
-                        onClick={() => setShowModalTambahBerkas(true)}
+                        onClick={() => setShowTambahBerkas(true)}
                       >
                         <PiUploadSimpleBold />
                       </ActionIconTooltip>
                       <ActionIconTooltip
                         tooltip="Tambah Folder"
                         size="sm"
-                        onClick={() => setShowModalTambahFolder(true)}
+                        onClick={() => setShowTambahFolder(true)}
                       >
                         <PiFolderPlusFill />
                       </ActionIconTooltip>
@@ -438,7 +454,7 @@ export default function PustakaMedia({
                                 },
                               ])
                             }}
-                            onEdit={(file) => setIdUbahFolder(file.id)}
+                            onEdit={(file) => doShowUbahFolder(file.id)}
                             onDelete={(file) => setFileHapus(file)}
                           />
                         ) : (
@@ -509,16 +525,16 @@ export default function PustakaMedia({
       </Modal>
 
       <TambahFolderModal
-        show={showModalTambahFolder}
-        setShow={setShowModalTambahFolder}
+        show={showTambahFolder}
+        setShow={setShowTambahFolder}
         refetchKey={queryKey}
         idInstansi={activeDrive ?? undefined}
         idFolder={activeFolder}
       />
 
       <TambahBerkasModal
-        show={showModalTambahBerkas}
-        setShow={setShowModalTambahBerkas}
+        show={showTambahBerkas}
+        setShow={setShowTambahBerkas}
         refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
         idInstansi={activeDrive ?? undefined}
         idFolder={activeFolder}
@@ -526,20 +542,23 @@ export default function PustakaMedia({
       />
 
       <UbahFolderModal
-        id={idUbahFolder}
-        setId={setIdUbahFolder}
+        show={showUbahFolder}
+        id={keyUbahFolder}
+        onHide={doHideUbahFolder}
         refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
       />
 
       <UbahLinkModal
-        id={idUbahLink}
-        setId={setIdUbahLink}
+        show={showUbahLink}
+        id={keyUbahLink}
+        onHide={doHideUbahLink}
         refetchKey={queryKey}
       />
 
       <UbahBerkasModal
-        id={idUbahFile}
-        setId={setIdUbahFile}
+        show={showUbahFile}
+        id={keyUbahFile}
+        onHide={doHideUbahFile}
         refetchKey={queryKey}
       />
 
