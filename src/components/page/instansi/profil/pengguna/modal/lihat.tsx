@@ -16,17 +16,6 @@ import Link from 'next/link'
 import { ReactNode, useState } from 'react'
 import BlokirModal from './blokir'
 
-type DataType = {
-  nama: string
-  level: string
-  deskripsi: string
-  username: string
-  kontak?: string
-  email?: string
-  website?: string
-  jenisKelamin?: string
-}
-
 type LihatModalProps = {
   id: string | undefined
   show: boolean

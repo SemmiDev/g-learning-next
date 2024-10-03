@@ -10,21 +10,28 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from '../profil/pengguna/modal/lihat'
 
+type DashboardPenggunaCardProps = {
+  className?: string
+}
+
 export default function DashboardPenggunaCard({
   className,
-}: {
-  className?: string
-}) {
-  const [idLihat, setIdLihat] = useState<string>()
+}: DashboardPenggunaCardProps) {
+  const {
+    show: showLihat,
+    key: keyLihat,
+    doShow: doShowLihat,
+    doHide: doHideLihat,
+  } = useShowModal<string>()
 
   const {
     data,
@@ -93,7 +100,7 @@ export default function DashboardPenggunaCard({
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setIdLihat(row.id)}
+            onClick={() => doShowLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -139,7 +146,7 @@ export default function DashboardPenggunaCard({
         />
       </Card>
 
-      <LihatModal id={idLihat} setId={setIdLihat} />
+      <LihatModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
     </>
   )
 }
