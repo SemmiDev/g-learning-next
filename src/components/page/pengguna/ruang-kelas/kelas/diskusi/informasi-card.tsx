@@ -11,7 +11,7 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import { useSessionPengguna } from '@/hooks/use-pengguna'
+import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
