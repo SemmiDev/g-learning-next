@@ -289,7 +289,7 @@ export default function Materi({
               <Text
                 weight="medium"
                 variant="dark"
-                className={cn({ 'cursor-pointer': activeKategori })}
+                className={cn({ 'select-none cursor-pointer': activeKategori })}
                 onClick={() => {
                   activeKategori && setActiveKategori(undefined)
                   searchMateri && setSearchMateri('')
