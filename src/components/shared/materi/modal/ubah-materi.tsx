@@ -48,7 +48,7 @@ export default function UbahMateriModal({
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['pengguna.bank-materi.ubah', idKategori, id]
+  const queryKey = ['shared.materi.ubah', idKategori, id]
 
   const {
     data: initialValues,
@@ -88,7 +88,7 @@ export default function UbahMateriModal({
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-materi.list', idKategori],
+          queryKey: ['shared.materi.list', idKategori],
         })
         queryClient.setQueryData(queryKey, (oldData: UbahMateriFormSchema) => ({
           ...oldData,
@@ -129,7 +129,13 @@ export default function UbahMateriModal({
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
-                <TextBordered label="Tipe">{initialValues?.tipe}</TextBordered>
+                <TextBordered label="Tipe">
+                  {initialValues?.tipe
+                    ? initialValues?.tipe === 'Materi'
+                      ? 'Materi'
+                      : 'Tugas'
+                    : '-'}
+                </TextBordered>
 
                 <ControlledInput
                   name="judul"

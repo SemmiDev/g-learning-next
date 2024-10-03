@@ -1,4 +1,4 @@
-import { ActionIcon, Text } from '@/components/ui'
+import { ActionIcon, Text, Time } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsClipboardPlus, BsFileEarmarkRichtext } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
@@ -42,7 +42,9 @@ export default function SelectedMateri({
             {materi.name}
           </Text>
           <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-            <li>{materi.time}</li>
+            <li>
+              <Time date={materi.time} format="datetime" />
+            </li>
             <li>
               <GoDotFill size={10} />
             </li>

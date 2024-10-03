@@ -127,7 +127,13 @@ export default function UbahMateriModal({ id, setId }: UbahMateriModalProps) {
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
-                <TextBordered label="Tipe">{initialValues?.tipe}</TextBordered>
+                <TextBordered label="Tipe">
+                  {initialValues?.tipe
+                    ? initialValues?.tipe === 'Materi'
+                      ? 'Materi'
+                      : 'Tugas'
+                    : '-'}
+                </TextBordered>
 
                 <ControlledInput
                   name="judul"

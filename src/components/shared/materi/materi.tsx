@@ -1,5 +1,6 @@
 'use client'
 
+import { hapusMateriAction } from '@/actions/shared/materi/hapus'
 import { hapusKategoriMateriAction } from '@/actions/shared/materi/hapus-kategori'
 import { listMateriAction } from '@/actions/shared/materi/list'
 import { listKategoriMateriAction } from '@/actions/shared/materi/list-kategori'
@@ -13,9 +14,9 @@ import {
   ModalConfirm,
   Text,
 } from '@/components/ui'
+import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { wait } from '@/utils/wait'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -24,9 +25,11 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { FieldError } from 'rizzui'
 import KategoriButton, { KategoriItemType } from './kategori-button'
 import MateriButton, { MateriItemType } from './materi-button'
+import LihatMateriModal from './modal/lihat-materi'
 import TambahKategoriModal from './modal/tambah-kategori'
 import TambahMateriModal from './modal/tambah-materi'
 import UbahKategoriModal from './modal/ubah-kategori'
+import UbahMateriModal from './modal/ubah-materi'
 import SelectedMateri from './selected-materi'
 
 const queryKeyKategori = ['shared.materi.kategori']
@@ -58,9 +61,7 @@ export default function Materi({
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
   const [showModalTambahKategori, setShowModalTambahKategori] = useState(false)
-  const [idLihatKategori, setIdLihatKategori] = useState<string>()
   const [idUbahKategori, setIdUbahKategori] = useState<string>()
-  const [idHapusKategori, setIdHapusKategori] = useState<string>()
 
   const [searchMateri, setSearchMateri] = useState('')
   const [idKategoriTambah, setIdKategoriTambah] = useState<string>()
@@ -71,6 +72,8 @@ export default function Materi({
   const [selectedMateri, setSelectedMateri] = useState<
     MateriItemType | undefined
   >(value)
+
+  const queryKeyMateri = ['shared.materi.list', activeKategori?.id]
 
   const handleResize = () => {
     if (window.innerWidth < 1024) {
@@ -119,7 +122,7 @@ export default function Materi({
     isFetching: isFetchingMateri,
     refetch: refetchMateri,
   } = useQuery<MateriItemType[]>({
-    queryKey: ['shared.materi.list', activeKategori?.id],
+    queryKey: queryKeyMateri,
     queryFn: async () => {
       if (!activeKategori?.id) return []
 
@@ -160,15 +163,24 @@ export default function Materi({
     _.debounce(refetchMateri, 250)()
   }, [searchMateri, refetchMateri])
 
-  const handleHapusKategori = () => {
-    if (!idHapusKategori) return
+  const {
+    handle: handleHapusKategori,
+    id: idHapusKategori,
+    setId: setIdHapusKategori,
+  } = useHandleDelete({
+    action: hapusKategoriMateriAction,
+    refetchKey: queryKeyKategori,
+  })
 
-    handleActionWithToast(hapusKategoriMateriAction(idHapusKategori), {
-      loading: 'Menghapus berkas...',
+  const handleHapusMateri = () => {
+    if (!activeKategori?.id || !idHapusMateri) return
+
+    handleActionWithToast(hapusMateriAction(activeKategori.id, idHapusMateri), {
+      loading: 'Menghapus...',
       onSuccess: () => {
-        setIdHapusKategori(undefined)
+        setIdHapusMateri(undefined)
 
-        queryClient.invalidateQueries({ queryKey: queryKeyKategori })
+        queryClient.invalidateQueries({ queryKey: queryKeyMateri })
       },
     })
   }
@@ -281,6 +293,7 @@ export default function Materi({
                 onClick={() => {
                   activeKategori && setActiveKategori(undefined)
                   searchMateri && setSearchMateri('')
+                  refetchKategori()
                 }}
               >
                 Bank Materi dan Tugas
@@ -303,6 +316,9 @@ export default function Materi({
                     <MateriButton
                       key={materi.id}
                       materi={materi}
+                      onDetail={(materi) => setIdLihatMateri(materi.id)}
+                      onEdit={(materi) => setIdUbahMateri(materi.id)}
+                      onDelete={(materi) => setIdHapusMateri(materi.id)}
                       checked={checkedMateriId === materi.id}
                       onChange={() => {
                         setCheckedMateriId(materi.id)
@@ -383,6 +399,14 @@ export default function Materi({
 
       <UbahKategoriModal id={idUbahKategori} setId={setIdUbahKategori} />
 
+      <UbahMateriModal
+        idKategori={activeKategori?.id}
+        id={idUbahMateri}
+        setId={setIdUbahMateri}
+      />
+
+      <LihatMateriModal id={idLihatMateri} setId={setIdLihatMateri} />
+
       <ModalConfirm
         title="Hapus Kategori"
         desc="Apakah Anda yakin ingin menghapus kategori materi ini?"
@@ -390,6 +414,17 @@ export default function Materi({
         isOpen={!!idHapusKategori}
         onClose={() => setIdHapusKategori(undefined)}
         onConfirm={handleHapusKategori}
+        headerIcon="help"
+        closeOnCancel
+      />
+
+      <ModalConfirm
+        title="Hapus Bank Materi"
+        desc="Apakah Anda yakin ingin menghapus bank materi ini?"
+        color="danger"
+        isOpen={!!idHapusMateri}
+        onClose={() => setIdHapusMateri(undefined)}
+        onConfirm={handleHapusMateri}
         headerIcon="help"
         closeOnCancel
       />

@@ -27,7 +27,7 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
   const { id: idKategori }: { id: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['pengguna.bank-materi.lihat', idKategori, id],
+    queryKey: ['shared.materi.lihat', idKategori, id],
     queryFn: async () => {
       if (!id) return null
 
@@ -64,7 +64,13 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
         <>
           <table className="w-[calc(100%-1.5rem)] mx-3">
             <tbody>
-              <DataRow label="Tipe">{data?.bank_ajar.tipe || '-'}</DataRow>
+              <DataRow label="Tipe">
+                {data?.bank_ajar.tipe
+                  ? data?.bank_ajar.tipe === 'Materi'
+                    ? 'Materi'
+                    : 'Tugas'
+                  : '-'}
+              </DataRow>
               <DataRow label="Judul">{data?.bank_ajar.judul || '-'}</DataRow>
               <DataRow label="Catatan" className="font-medium">
                 <SanitizeHTML html={data?.bank_ajar.deskripsi || '-'} />

@@ -65,7 +65,7 @@ export default function TambahMateriModal({
       onSuccess: () => {
         setIdKategori(undefined)
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-materi.list', idKategori],
+          queryKey: ['shared.materi.list', idKategori],
         })
       },
       onError: ({ message }) => setFormError(message),
