@@ -42,13 +42,13 @@ const initialValues: TambahBankSoalFormSchema = {
 }
 
 type TambahBankSoalModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahBankSoalModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahBankSoalModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -60,7 +60,7 @@ export default function TambahBankSoalModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['pengguna.bank-soal.list', idKategori],
         })
@@ -70,7 +70,7 @@ export default function TambahBankSoalModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -78,7 +78,7 @@ export default function TambahBankSoalModal({
     <Modal
       title="Buat Bank Soal Baru"
       size="lg"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahBankSoalFormSchema>

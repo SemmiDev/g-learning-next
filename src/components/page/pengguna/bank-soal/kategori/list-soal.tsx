@@ -4,6 +4,7 @@ import { hapusBankSoalAction } from '@/actions/pengguna/bank-soal/hapus'
 import { lihatKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/lihat'
 import { listBankSoalAction } from '@/actions/pengguna/bank-soal/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import {
@@ -24,8 +25,13 @@ export default function ListSoalBody() {
   const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const [shareSoal, setShareSoal] = useState<SoalType>()
-  const [showModalTambah, setShowModalTambah] = useState(false)
-  const [idUbah, setIdUbah] = useState<string>()
+  const [showTambah, setShowTambah] = useState(false)
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -116,7 +122,7 @@ export default function ListSoalBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambah(true)}
+          onClick={() => setShowTambah(true)}
         >
           Tambah Soal
         </Button>
@@ -129,7 +135,7 @@ export default function ListSoalBody() {
           {list.map((soal) => (
             <SoalCard
               key={soal.id}
-              onEdit={(soal) => setIdUbah(soal.id)}
+              onEdit={(soal) => doShowUbah(soal.id)}
               onDelete={(soal) => setIdHapus(soal.id)}
               soal={soal}
             />
@@ -151,12 +157,9 @@ export default function ListSoalBody() {
         </div>
       )}
 
-      <TambahBankSoalModal
-        showModal={showModalTambah}
-        setShowModal={setShowModalTambah}
-      />
+      <TambahBankSoalModal show={showTambah} setShow={setShowTambah} />
 
-      <UbahBankSoalModal id={idUbah} setId={setIdUbah} />
+      <UbahBankSoalModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Bank Soal"

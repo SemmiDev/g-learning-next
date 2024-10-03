@@ -39,12 +39,14 @@ export type UbahBankSoalFormSchema = {
 
 type UbahBankSoalModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
 }
 
 export default function UbahBankSoalModal({
   id,
-  setId,
+  show,
+  onHide,
 }: UbahBankSoalModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -92,14 +94,14 @@ export default function UbahBankSoalModal({
             ...data,
           })
         )
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -109,10 +111,10 @@ export default function UbahBankSoalModal({
       isLoading={!isLoading && isFetching}
       color="warning"
       size="lg"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={447} />
       ) : (
         <Form<UbahBankSoalFormSchema>

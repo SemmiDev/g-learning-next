@@ -4,6 +4,7 @@ import { hapusKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/katego
 import { listKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -17,8 +18,13 @@ const queryKey = ['pengguna.bank-soal.kategori']
 
 export default function ListKategoriSoalBody() {
   const [search, setSearch] = useState('')
-  const [showModalTambah, setShowModalTambah] = useState(false)
-  const [idUbah, setIdUbah] = useState<string>()
+  const [showTambah, setShowTambah] = useState(false)
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
@@ -90,7 +96,7 @@ export default function ListKategoriSoalBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambah(true)}
+          onClick={() => setShowTambah(true)}
         >
           Tambah Kategori Baru
         </Button>
@@ -104,7 +110,7 @@ export default function ListKategoriSoalBody() {
             <KategoriCard
               key={kategori.id}
               kategori={kategori}
-              onEdit={(id) => setIdUbah(id)}
+              onEdit={(id) => doShowUbah(id)}
               onDelete={(id) => setIdHapus(id)}
             />
           ))}
@@ -125,11 +131,9 @@ export default function ListKategoriSoalBody() {
         </div>
       )}
 
-      <TambahKategoriModal
-        showModal={showModalTambah}
-        setShowModal={setShowModalTambah}
-      />
-      <UbahKategoriModal id={idUbah} setId={setIdUbah} />
+      <TambahKategoriModal show={showTambah} setShow={setShowTambah} />
+
+      <UbahKategoriModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Kategori"

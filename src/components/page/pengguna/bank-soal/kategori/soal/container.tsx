@@ -22,6 +22,7 @@ import {
 import ButtonSubmit from '@/components/ui/button/submit'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { PILIHAN_JAWABAN } from '@/config/const'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { removeIndexFromList } from '@/utils/list'
 import { mustBe } from '@/utils/must-be'
@@ -72,7 +73,12 @@ export default function KelolaSoalBody() {
   const [formError, setFormError] = useState<string>()
   const [showModalImport, setShowModalImport] = useState(false)
   const [resetValues, setResetValues] = useState<TambahSoalFormSchema>()
-  const [idUbah, setIdUbah] = useState<string>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const soalBaruRef = useRef<HTMLDivElement>(null)
@@ -278,7 +284,7 @@ export default function KelolaSoalBody() {
                     size="sm"
                     variant="outline"
                     color="warning"
-                    onClick={() => setIdUbah(soal.id)}
+                    onClick={() => doShowUbah(soal.id)}
                   >
                     <BsPencil className="mr-1" />
                     Ubah Soal
@@ -371,13 +377,6 @@ export default function KelolaSoalBody() {
                   </Button>
                 </div>
               ))}
-              {/* {[...Array(100)].map((_, idx) => (
-                <div key={idx} className="flex justify-center items-center">
-                  <Button size="sm" variant="outline" className="size-8">
-                    {listSoal.length + idx + 1}
-                  </Button>
-                </div>
-              ))} */}
               <div className="flex justify-center items-center">
                 <Button
                   size="sm"
@@ -404,7 +403,7 @@ export default function KelolaSoalBody() {
         refetchKey={queryKey}
       />
 
-      <UbahSoalModal id={idUbah} setId={setIdUbah} />
+      <UbahSoalModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Soal"
