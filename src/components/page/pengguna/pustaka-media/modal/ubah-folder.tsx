@@ -28,13 +28,15 @@ export type UbahFolderFormSchema = {
 
 type UbahModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
   refetchKeys: QueryKey[]
 }
 
 export default function UbahFolderModal({
   id,
-  setId,
+  show,
+  onHide,
   refetchKeys,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
@@ -74,14 +76,14 @@ export default function UbahFolderModal({
           ...oldData,
           ...data,
         }))
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -90,10 +92,10 @@ export default function UbahFolderModal({
       title="Ubah Folder"
       isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={236} />
       ) : (
         <Form<UbahFolderFormSchema>

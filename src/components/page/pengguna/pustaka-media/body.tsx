@@ -19,6 +19,7 @@ import {
   TextSpan,
   Title,
 } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import {
   getFileCount,
@@ -60,11 +61,26 @@ export default function PustakaMediaBody() {
   const [search, setSearch] = useState('')
   const [listFolder, setListFolder] = useState<FolderType[]>([])
   const [fileHapus, setFileHapus] = useState<FileType>()
-  const [showModalTambahFolder, setShowModalTambahFolder] = useState(false)
-  const [showModalTambahBerkas, setShowModalTambahBerkas] = useState(false)
-  const [idUbahFolder, setIdUbahFolder] = useState<string>()
-  const [idUbahLink, setIdUbahLink] = useState<string>()
-  const [idUbahFile, setIdUbahFile] = useState<string>()
+  const [showTambahFolder, setShowTambahFolder] = useState(false)
+  const [showTambahBerkas, setShowTambahBerkas] = useState(false)
+  const {
+    show: showUbahFolder,
+    key: keyUbahFolder,
+    doShow: doShowUbahFolder,
+    doHide: doHideUbahFolder,
+  } = useShowModal<string>()
+  const {
+    show: showUbahLink,
+    key: keyUbahLink,
+    doShow: doShowUbahLink,
+    doHide: doHideUbahLink,
+  } = useShowModal<string>()
+  const {
+    show: showUbahFile,
+    key: keyUbahFile,
+    doShow: doShowUbahFile,
+    doHide: doHideUbahFile,
+  } = useShowModal<string>()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { data: drives = [] } = useQuery<DriveType[]>({
@@ -170,11 +186,11 @@ export default function PustakaMediaBody() {
 
   const handleUbah = (file: FileType) => {
     if (file.folder) {
-      setIdUbahFolder(file.id)
+      doShowUbahFolder(file.id)
     } else if (file.type === 'link') {
-      setIdUbahLink(file.id)
+      doShowUbahLink(file.id)
     } else {
-      setIdUbahFile(file.id)
+      doShowUbahFile(file.id)
     }
   }
 
@@ -271,14 +287,14 @@ export default function PustakaMediaBody() {
             <Button
               size="sm"
               variant="outline-colorful"
-              onClick={() => setShowModalTambahBerkas(true)}
+              onClick={() => setShowTambahBerkas(true)}
             >
               Tambah Link/Unggah Media
             </Button>
             <Button
               size="sm"
               variant="outline-colorful"
-              onClick={() => setShowModalTambahFolder(true)}
+              onClick={() => setShowTambahFolder(true)}
             >
               Tambah Folder
             </Button>
@@ -336,36 +352,39 @@ export default function PustakaMediaBody() {
       )}
 
       <TambahFolderModal
-        show={showModalTambahFolder}
-        setShow={setShowModalTambahFolder}
+        show={showTambahFolder}
+        setShow={setShowTambahFolder}
         refetchKey={queryKey}
         idInstansi={activeDrive ?? undefined}
         idFolder={activeFolder}
       />
 
       <TambahBerkasModal
-        show={showModalTambahBerkas}
-        setShow={setShowModalTambahBerkas}
+        show={showTambahBerkas}
+        setShow={setShowTambahBerkas}
         refetchKeys={[queryKey, ['pengguna.pustaka-media.drives']]}
         idInstansi={activeDrive ?? undefined}
         idFolder={activeFolder}
       />
 
       <UbahFolderModal
-        id={idUbahFolder}
-        setId={setIdUbahFolder}
+        show={showUbahFolder}
+        id={keyUbahFolder}
+        onHide={doHideUbahFolder}
         refetchKeys={[queryKey, ['pengguna.pustaka-media.drives']]}
       />
 
       <UbahLinkModal
-        id={idUbahLink}
-        setId={setIdUbahLink}
+        show={showUbahLink}
+        id={keyUbahLink}
+        onHide={doHideUbahLink}
         refetchKey={queryKey}
       />
 
       <UbahBerkasModal
-        id={idUbahFile}
-        setId={setIdUbahFile}
+        show={showUbahFile}
+        id={keyUbahFile}
+        onHide={doHideUbahFile}
         refetchKey={queryKey}
       />
 

@@ -28,13 +28,15 @@ export type UbahLinkFormSchema = {
 
 type UbahModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
   refetchKey: QueryKey
 }
 
 export default function UbahLinkModal({
   id,
-  setId,
+  show,
+  onHide,
   refetchKey,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
@@ -72,14 +74,14 @@ export default function UbahLinkModal({
           ...oldData,
           ...data,
         }))
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -88,10 +90,10 @@ export default function UbahLinkModal({
       title="Ubah Link"
       isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={236} />
       ) : (
         <Form<UbahLinkFormSchema>
