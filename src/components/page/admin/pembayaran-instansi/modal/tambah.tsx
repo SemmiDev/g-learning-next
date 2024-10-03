@@ -36,13 +36,13 @@ export type TambahPembayaranInstansiFormSchema = {
 const initialValues: TambahPembayaranInstansiFormSchema = {}
 
 type TambahModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -54,7 +54,7 @@ export default function TambahModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['admin.pembayaran-instansi.table'],
         })
@@ -64,14 +64,14 @@ export default function TambahModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
     <Modal
       title="Tambah Pembayaran Instansi"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
       overflow
     >

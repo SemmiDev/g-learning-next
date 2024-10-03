@@ -5,6 +5,7 @@ import { listPaketInstansiAction } from '@/actions/admin/paket-instansi/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { fileSizeToKB } from '@/utils/bytes'
 import { useMemo, useState } from 'react'
@@ -15,8 +16,13 @@ import PaketItemCard, { PaketItemType } from './paket-item-card'
 const queryKey = ['admin.paket-instansi.list'] as const
 
 export default function PaketInstansiBody() {
-  const [showTambahModal, setShowTambahModal] = useState(false)
-  const [idUbah, setIdUbah] = useState<string>()
+  const [showTambah, setShowTambah] = useState(false)
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
 
   const {
     handle: handleHapus,
@@ -67,7 +73,7 @@ export default function PaketInstansiBody() {
             List Paket Instansi
           </Title>
           {!!list.length && (
-            <Button size="sm" onClick={() => setShowTambahModal(true)}>
+            <Button size="sm" onClick={() => setShowTambah(true)}>
               Buat Paket Baru
             </Button>
           )}
@@ -80,7 +86,7 @@ export default function PaketInstansiBody() {
                 <PaketItemCard
                   key={item.id}
                   paket={item}
-                  onEdit={() => setIdUbah(item.id)}
+                  onEdit={() => doShowUbah(item.id)}
                   onDelete={() => setIdHapus(item.id)}
                 />
               ))}
@@ -102,7 +108,7 @@ export default function PaketInstansiBody() {
             ) : (
               <>
                 <Text weight="medium">Paket Masih Kosong</Text>
-                <Button onClick={() => setShowTambahModal(true)}>
+                <Button onClick={() => setShowTambah(true)}>
                   Buat Paket Baru
                 </Button>
               </>
@@ -111,11 +117,9 @@ export default function PaketInstansiBody() {
         )}
       </div>
 
-      <TambahModal
-        showModal={showTambahModal}
-        setShowModal={setShowTambahModal}
-      />
-      <UbahModal id={idUbah} setId={setIdUbah} />
+      <TambahModal show={showTambah} setShow={setShowTambah} />
+
+      <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Paket"

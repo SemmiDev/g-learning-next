@@ -12,9 +12,9 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
@@ -23,8 +23,18 @@ import UbahModal from './modal/ubah'
 const queryKey = ['admin.manajemen-admin.table'] as const
 
 export default function TableAdminCard() {
-  const [idLihat, setIdLihat] = useState<string>()
-  const [idUbah, setIdUbah] = useState<string>()
+  const {
+    show: showLihat,
+    key: keyLihat,
+    doShow: doShowLihat,
+    doHide: doHideLihat,
+  } = useShowModal<string>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
 
   const {
     handle: handleHapus,
@@ -116,7 +126,7 @@ export default function TableAdminCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setIdLihat(row.id)}
+            onClick={() => doShowLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -125,7 +135,7 @@ export default function TableAdminCard() {
             size="sm"
             variant="text-colorful"
             color="warning"
-            onClick={() => setIdUbah(row.id)}
+            onClick={() => doShowUbah(row.id)}
           >
             <BsPencilSquare />
           </ActionIconTooltip>
@@ -166,8 +176,8 @@ export default function TableAdminCard() {
         />
       </Card>
 
-      <UbahModal id={idUbah} setId={setIdUbah} />
-      <LihatModal id={idLihat} setId={setIdLihat} />
+      <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+      <LihatModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
 
       <ModalConfirm
         title="Hapus Admin"

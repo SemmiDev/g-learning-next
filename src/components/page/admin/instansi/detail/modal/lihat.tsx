@@ -16,11 +16,12 @@ import { useParams } from 'next/navigation'
 import { ReactNode } from 'react'
 
 type LihatModalProps = {
-  id?: string
-  setId(id?: string): void
+  id: string | undefined
+  show: boolean
+  onHide: () => void
 }
 
-export default function LihatModal({ id, setId }: LihatModalProps) {
+export default function LihatModal({ id, show, onHide }: LihatModalProps) {
   const { id: idInstansi }: { id: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({
@@ -38,10 +39,10 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
     <Modal
       title="Detail Pengguna"
       isLoading={!isLoading && isFetching}
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
+      isOpen={show}
+      onClose={onHide}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={410} />
       ) : (
         <>
@@ -95,7 +96,7 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)} />
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide} />
     </Modal>
   )
 }

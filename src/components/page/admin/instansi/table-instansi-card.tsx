@@ -13,12 +13,12 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { routes } from '@/config/routes'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { angka } from '@/utils/text'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
@@ -26,7 +26,12 @@ import UbahModal from './modal/ubah'
 const queryKey = ['admin.instansi.table'] as const
 
 export default function TableInstansiCard() {
-  const [idUbah, setIdUbah] = useState<string | undefined>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
 
   const {
     handle: handleHapus,
@@ -145,7 +150,7 @@ export default function TableInstansiCard() {
             size="sm"
             variant="text-colorful"
             color="warning"
-            onClick={() => setIdUbah(row.id)}
+            onClick={() => doShowUbah(row.id)}
           >
             <BsPencilSquare />
           </ActionIconTooltip>
@@ -186,7 +191,7 @@ export default function TableInstansiCard() {
         />
       </Card>
 
-      <UbahModal id={idUbah} setId={setIdUbah} />
+      <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Instansi"

@@ -60,13 +60,15 @@ const initialValues: TambahPaketInstansiFormSchema = {
   penyimpananPengajarUnit: sizeUnitOptions[0],
 }
 
+type TambahModalProps = {
+  show?: boolean
+  setShow(show: boolean): void
+}
+
 export default function TambahModal({
-  showModal = false,
-  setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+  show = false,
+  setShow,
+}: TambahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -77,7 +79,7 @@ export default function TambahModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['admin.paket-instansi.list'],
         })
@@ -87,16 +89,12 @@ export default function TambahModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
-    <Modal
-      title="Tambah Paket Instansi"
-      isOpen={showModal}
-      onClose={handleClose}
-    >
+    <Modal title="Tambah Paket Instansi" isOpen={show} onClose={handleClose}>
       <Form<TambahPaketInstansiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}

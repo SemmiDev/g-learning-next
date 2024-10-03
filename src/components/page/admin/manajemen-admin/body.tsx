@@ -6,7 +6,7 @@ import TambahModal from './modal/tambah'
 import TableAdminCard from './table-admin-card'
 
 export default function ManajemenAdminBody() {
-  const [showModalTambah, setShowModalTambah] = useState(false)
+  const [showTambah, setShowTambah] = useState(false)
 
   return (
     <>
@@ -15,17 +15,14 @@ export default function ManajemenAdminBody() {
           <Title as="h4" size="1.5xl" weight="semibold">
             List admin
           </Title>
-          <Button size="sm" onClick={() => setShowModalTambah(true)}>
+          <Button size="sm" onClick={() => setShowTambah(true)}>
             Tambah Admin
           </Button>
         </div>
         <TableAdminCard />
       </div>
 
-      <TambahModal
-        showModal={showModalTambah}
-        setShowModal={setShowModalTambah}
-      />
+      <TambahModal show={showTambah} setShow={setShowTambah} />
     </>
   )
 }

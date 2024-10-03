@@ -6,6 +6,7 @@ import {
   Thumbnail,
   Title,
 } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
@@ -22,13 +23,18 @@ import {
   LuServer,
   LuUsers,
 } from 'react-icons/lu'
+import UbahModal from '../modal/ubah'
 import DetailItem from './detail-item'
 import UbahLogoModal from './modal/ubah-logo'
-import UbahModal from '../modal/ubah'
 
 export default function DetailCard({ className }: { className?: string }) {
-  const [idUbah, setIdUbah] = useState<string | undefined>()
-  const [showLogoModal, setShowLogoModal] = useState(false)
+  const [ubahLogo, setUbahLogo] = useState(false)
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
 
   const { id }: { id: string } = useParams()
 
@@ -48,7 +54,7 @@ export default function DetailCard({ className }: { className?: string }) {
               variant="flat"
               color="secondary"
               className="absolute top-1.5 right-1.5"
-              onClick={() => setShowLogoModal(true)}
+              onClick={() => setUbahLogo(true)}
             >
               <LuCamera />
             </ActionIconTooltip>
@@ -132,18 +138,19 @@ export default function DetailCard({ className }: { className?: string }) {
           </div>
         </div>
         <div>
-          <ActionIcon size="sm" variant="outline" onClick={() => setIdUbah(id)}>
+          <ActionIcon
+            size="sm"
+            variant="outline"
+            onClick={() => doShowUbah(id)}
+          >
             <BsGear />
           </ActionIcon>
         </div>
       </Card>
 
-      <UbahLogoModal
-        showModal={showLogoModal}
-        setShowModal={setShowLogoModal}
-      />
+      <UbahLogoModal show={ubahLogo} setShow={setUbahLogo} />
 
-      <UbahModal id={idUbah} setId={setIdUbah} />
+      <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
     </>
   )
 }

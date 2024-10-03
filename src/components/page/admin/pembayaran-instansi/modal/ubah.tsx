@@ -32,11 +32,12 @@ export type UbahPembayaranInstansiFormSchema = {
 }
 
 type UbahModalProps = {
-  id?: string
-  setId(id?: string): void
+  id: string | undefined
+  show: boolean
+  onHide: () => void
 }
 
-export default function UbahModal({ id, setId }: UbahModalProps) {
+export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -80,14 +81,14 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
             ...data,
           })
         )
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -96,11 +97,11 @@ export default function UbahModal({ id, setId }: UbahModalProps) {
       title="Ubah Pembayaran Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
       overflow
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={336} />
       ) : (
         <Form<UbahPembayaranInstansiFormSchema>

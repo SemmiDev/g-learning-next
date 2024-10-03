@@ -8,17 +8,22 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { angka } from '@/utils/text'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 
 export default function TablePenggunaCard() {
-  const [idLihat, setIdLihat] = useState<string | undefined>()
+  const {
+    show: showLihat,
+    key: keyLihat,
+    doShow: doShowLihat,
+    doHide: doHideLihat,
+  } = useShowModal<string>()
 
   const { id }: { id: string } = useParams()
 
@@ -92,7 +97,7 @@ export default function TablePenggunaCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setIdLihat(row.id)}
+            onClick={() => doShowLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -124,7 +129,7 @@ export default function TablePenggunaCard() {
         />
       </Card>
 
-      <LihatModal id={idLihat} setId={setIdLihat} />
+      <LihatModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
     </>
   )
 }

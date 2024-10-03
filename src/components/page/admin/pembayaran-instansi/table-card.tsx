@@ -12,22 +12,32 @@ import {
   Time,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { rupiah } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
-import { renderTableCellTextCenter } from '@/components/ui/table'
-import { rupiah } from '@/utils/text'
 
 const queryKey = ['admin.pembayaran-instansi.table'] as const
 
 export default function TablePembayaranInstansiCard() {
-  const [idLihat, setIdLihat] = useState<string>()
-  const [idUbah, setIdUbah] = useState<string>()
+  const {
+    show: showLihat,
+    key: keyLihat,
+    doShow: doShowLihat,
+    doHide: doHideLihat,
+  } = useShowModal<string>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
 
   const {
     handle: handleHapus,
@@ -152,7 +162,7 @@ export default function TablePembayaranInstansiCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setIdLihat(row.id)}
+            onClick={() => doShowLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -162,7 +172,7 @@ export default function TablePembayaranInstansiCard() {
               size="sm"
               variant="text-colorful"
               color="warning"
-              onClick={() => setIdUbah(row.id)}
+              onClick={() => doShowUbah(row.id)}
             >
               <BsPencilSquare />
             </ActionIconTooltip>
@@ -204,8 +214,9 @@ export default function TablePembayaranInstansiCard() {
         />
       </Card>
 
-      <UbahModal id={idUbah} setId={setIdUbah} />
-      <LihatModal id={idLihat} setId={setIdLihat} />
+      <LihatModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
+
+      <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Pembayaran Instansi"

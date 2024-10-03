@@ -6,7 +6,7 @@ import TambahModal from './modal/tambah'
 import TablePembayaranInstansiCard from './table-card'
 
 export default function PembayaranInstansiBody() {
-  const [showModalTambah, setShowModalTambah] = useState(false)
+  const [showTambah, setShowTambah] = useState(false)
 
   return (
     <>
@@ -15,17 +15,14 @@ export default function PembayaranInstansiBody() {
           <Title as="h4" size="1.5xl" weight="semibold">
             List Pembayaran Instansi
           </Title>
-          <Button size="sm" onClick={() => setShowModalTambah(true)}>
+          <Button size="sm" onClick={() => setShowTambah(true)}>
             Invoice Baru
           </Button>
         </div>
         <TablePembayaranInstansiCard />
       </div>
 
-      <TambahModal
-        showModal={showModalTambah}
-        setShowModal={setShowModalTambah}
-      />
+      <TambahModal show={showTambah} setShow={setShowTambah} />
     </>
   )
 }

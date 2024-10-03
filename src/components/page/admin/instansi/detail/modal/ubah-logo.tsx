@@ -25,13 +25,15 @@ type FormSchema = {
 
 const initialValues: FormSchema = {}
 
+type UbahLogoModalProps = {
+  show?: boolean
+  setShow(show: boolean): void
+}
+
 export default function UbahLogoModal({
-  showModal = false,
-  setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+  show = false,
+  setShow,
+}: UbahLogoModalProps) {
   const [formError, setFormError] = useState<string>()
   const params = useParams()
   const id = params.id as string
@@ -46,7 +48,7 @@ export default function UbahLogoModal({
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['admin.instansi.detail', id],
         })
@@ -56,12 +58,12 @@ export default function UbahLogoModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
-    <Modal title="Ganti Logo Instansi" isOpen={showModal} onClose={handleClose}>
+    <Modal title="Ganti Logo Instansi" isOpen={show} onClose={handleClose}>
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}

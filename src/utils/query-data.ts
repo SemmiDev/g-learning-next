@@ -4,10 +4,16 @@ import {
 } from '@/components/ui/controlled-async-table'
 import { AnyObject } from './type-interface'
 import { ActionResponseType } from './action'
+import { wait as waiting } from './wait'
 
 export const makeSimpleQueryData =
-  <T extends AnyObject>(action: () => Promise<ActionResponseType<T>>) =>
+  <T extends AnyObject>(
+    action: () => Promise<ActionResponseType<T>>,
+    wait?: number
+  ) =>
   async () => {
+    if (wait) await waiting(wait)
+
     const { data, success, message } = await action()
 
     if (!success) {
@@ -20,10 +26,13 @@ export const makeSimpleQueryData =
 export const makeSimpleQueryDataWithId =
   <T extends AnyObject>(
     action: (id: string) => Promise<ActionResponseType<T>>,
-    id: string | undefined
+    id: string | undefined,
+    wait?: number
   ) =>
   async () => {
     if (!id) return null
+
+    if (wait) await waiting(wait)
 
     const { data, success, message } = await action(id)
 

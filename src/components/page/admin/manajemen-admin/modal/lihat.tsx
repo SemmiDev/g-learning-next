@@ -10,19 +10,13 @@ import {
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 
-type DetailType = {
-  nama: string
-  username: string
-  email?: string
-  kontak?: string
-}
-
 type LihatModalProps = {
-  id?: string
-  setId(id?: string): void
+  id: string | undefined
+  show: boolean
+  onHide: () => void
 }
 
-export default function LihatModal({ id, setId }: LihatModalProps) {
+export default function LihatModal({ id, show, onHide }: LihatModalProps) {
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.manajemen-admin.table.lihat', id],
     queryFn: makeSimpleQueryDataWithId(lihatAdminAction, id),
@@ -33,10 +27,10 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
       title="Detail Admin"
       isLoading={!isLoading && isFetching}
       color="info"
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
+      isOpen={show}
+      onClose={onHide}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={336} />
       ) : (
         <div className="flex flex-col gap-4 p-3">
@@ -56,7 +50,7 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)} />
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide} />
     </Modal>
   )
 }

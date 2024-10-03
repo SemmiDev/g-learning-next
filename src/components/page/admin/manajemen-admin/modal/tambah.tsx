@@ -37,13 +37,13 @@ export type TambahAdminFormSchema = {
 const initialValues: TambahAdminFormSchema = {}
 
 type TambahModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -53,7 +53,7 @@ export default function TambahModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['admin.manajemen-admin.table'],
         })
@@ -63,12 +63,12 @@ export default function TambahModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
-    <Modal title="Tambah Admin" isOpen={showModal} onClose={handleClose}>
+    <Modal title="Tambah Admin" isOpen={show} onClose={handleClose}>
       <Form<TambahAdminFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}

@@ -1,7 +1,6 @@
 import { chartPenggunaanPaketInstansiAction } from '@/actions/admin/dashboard/chart-penggunaan-paket-instansi'
 import { Card, CardSeparator, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import {
   PolarAngleAxis,
