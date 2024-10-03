@@ -37,13 +37,15 @@ export type UbahMateriFormSchema = {
 type UbahMateriModalProps = {
   idKategori: string | undefined
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
 }
 
 export default function UbahMateriModal({
   idKategori,
   id,
-  setId,
+  show,
+  onHide,
 }: UbahMateriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -94,14 +96,14 @@ export default function UbahMateriModal({
           ...oldData,
           ...data,
         }))
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -111,10 +113,10 @@ export default function UbahMateriModal({
       isLoading={!isLoading && isFetching}
       color="warning"
       size="lg"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={447} />
       ) : (
         <Form<UbahMateriFormSchema>

@@ -4,6 +4,7 @@ import { hapusBankMateriAction } from '@/actions/pengguna/bank-materi/hapus'
 import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
 import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import {
@@ -26,9 +27,19 @@ export default function ListMateriBody() {
   const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const [shareMateri, setShareMateri] = useState<MateriType>()
-  const [showModalTambah, setShowModalTambah] = useState(false)
-  const [idLihat, setIdLihat] = useState<string>()
-  const [idUbah, setIdUbah] = useState<string>()
+  const [showTambah, setShowTambah] = useState(false)
+  const {
+    show: showLihat,
+    key: keyLihat,
+    doShow: doShowLihat,
+    doHide: doHideLihat,
+  } = useShowModal<string>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -123,7 +134,7 @@ export default function ListMateriBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambah(true)}
+          onClick={() => setShowTambah(true)}
         >
           Tambah Materi
         </Button>
@@ -137,9 +148,9 @@ export default function ListMateriBody() {
             <div key={materi.id}>
               <MateriCard
                 materi={materi}
-                onEdit={(materi) => setIdUbah(materi.id)}
+                onEdit={(materi) => doShowUbah(materi.id)}
                 onDelete={(materi) => setIdHapus(materi.id)}
-                onDetail={(materi) => setIdLihat(materi.id)}
+                onDetail={(materi) => doShowLihat(materi.id)}
                 onShare={() => {
                   setShareMateri(materi)
                 }}
@@ -163,14 +174,11 @@ export default function ListMateriBody() {
         </div>
       )}
 
-      <TambahMateriModal
-        showModal={showModalTambah}
-        setShowModal={setShowModalTambah}
-      />
+      <TambahMateriModal show={showTambah} setShow={setShowTambah} />
 
-      <UbahMateriModal id={idUbah} setId={setIdUbah} />
+      <UbahMateriModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
-      <LihatMateriModal id={idLihat} setId={setIdLihat} />
+      <LihatMateriModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
 
       <ModalConfirm
         title="Hapus Bank Materi"

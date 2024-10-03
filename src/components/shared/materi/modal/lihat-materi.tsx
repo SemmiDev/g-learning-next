@@ -17,11 +17,16 @@ import { useParams } from 'next/navigation'
 import { ReactNode, useState } from 'react'
 
 type LihatMateriModalProps = {
-  id?: string
-  setId(id?: string): void
+  id: string | undefined
+  show: boolean
+  onHide: () => void
 }
 
-export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
+export default function LihatMateriModal({
+  id,
+  show,
+  onHide,
+}: LihatMateriModalProps) {
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idKategori }: { id: string } = useParams()
@@ -55,10 +60,10 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
     <Modal
       title="Detail Bank Materi"
       isLoading={!isLoading && isFetching}
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
+      isOpen={show}
+      onClose={onHide}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={330} />
       ) : (
         <>
@@ -108,7 +113,7 @@ export default function LihatMateriModal({ id, setId }: LihatMateriModalProps) {
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)} />
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide} />
     </Modal>
   )
 }

@@ -25,13 +25,13 @@ export type TambahKategoriFormSchema = {
 const initialValues: TambahKategoriFormSchema = {}
 
 type TambahKategoriModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahKategoriModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahKategoriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -41,7 +41,7 @@ export default function TambahKategoriModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['shared.materi.kategori'],
         })
@@ -51,7 +51,7 @@ export default function TambahKategoriModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -59,7 +59,7 @@ export default function TambahKategoriModal({
     <Modal
       title="Tambah Kategori Baru"
       desc="Buat kategori baru untuk menyimpan materi Kamu"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahKategoriFormSchema>

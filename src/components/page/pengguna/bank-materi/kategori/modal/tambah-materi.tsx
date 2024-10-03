@@ -46,13 +46,13 @@ const initialValues: TambahMateriFormSchema = {
 }
 
 type TambahMateriModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahMateriModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahMateriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -64,7 +64,7 @@ export default function TambahMateriModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['pengguna.bank-materi.list', idKategori],
         })
@@ -74,7 +74,7 @@ export default function TambahMateriModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -83,7 +83,7 @@ export default function TambahMateriModal({
       title="Tambah Materi Baru"
       desc="Buat materi ajar terkait kelas yang kamu kelola"
       size="lg"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahMateriFormSchema>

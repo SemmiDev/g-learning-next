@@ -15,6 +15,7 @@ import {
   Text,
 } from '@/components/ui'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -60,13 +61,28 @@ export default function Materi({
 
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
-  const [showModalTambahKategori, setShowModalTambahKategori] = useState(false)
-  const [idUbahKategori, setIdUbahKategori] = useState<string>()
+  const [showTambahKategori, setShowTambahKategori] = useState(false)
+  const {
+    show: showUbahKategori,
+    key: keyUbahKategori,
+    doShow: doShowUbahKategori,
+    doHide: doHideUbahKategori,
+  } = useShowModal<string>()
 
   const [searchMateri, setSearchMateri] = useState('')
-  const [idKategoriTambah, setIdKategoriTambah] = useState<string>()
-  const [idLihatMateri, setIdLihatMateri] = useState<string>()
-  const [idUbahMateri, setIdUbahMateri] = useState<string>()
+  const [showTambahMateri, setShowTambahMateri] = useState(false)
+  const {
+    show: showLihatMateri,
+    key: keyLihatMateri,
+    doShow: doShowLihatMateri,
+    doHide: doHideLihatMateri,
+  } = useShowModal<string>()
+  const {
+    show: showUbahMateri,
+    key: keyUbahMateri,
+    doShow: doShowUbahMateri,
+    doHide: doHideUbahMateri,
+  } = useShowModal<string>()
   const [idHapusMateri, setIdHapusMateri] = useState<string>()
   const [checkedMateriId, setCheckedMateriId] = useState<string>()
   const [selectedMateri, setSelectedMateri] = useState<
@@ -276,9 +292,9 @@ export default function Materi({
                 size="sm"
                 onClick={() => {
                   if (activeKategori) {
-                    setIdKategoriTambah(activeKategori.id)
+                    setShowTambahMateri(true)
                   } else {
-                    setShowModalTambahKategori(true)
+                    setShowTambahKategori(true)
                   }
                 }}
               >
@@ -316,8 +332,8 @@ export default function Materi({
                     <MateriButton
                       key={materi.id}
                       materi={materi}
-                      onDetail={(materi) => setIdLihatMateri(materi.id)}
-                      onEdit={(materi) => setIdUbahMateri(materi.id)}
+                      onDetail={(materi) => doShowLihatMateri(materi.id)}
+                      onEdit={(materi) => doShowUbahMateri(materi.id)}
                       onDelete={(materi) => setIdHapusMateri(materi.id)}
                       checked={checkedMateriId === materi.id}
                       onChange={() => {
@@ -343,7 +359,7 @@ export default function Materi({
                     key={kategori.id}
                     kategori={kategori}
                     onOpen={(kategori) => setActiveKategori(kategori)}
-                    onEdit={(kategori) => setIdUbahKategori(kategori.id)}
+                    onEdit={(kategori) => doShowUbahKategori(kategori.id)}
                     onDelete={(kategori) => setIdHapusKategori(kategori.id)}
                   />
                 ))
@@ -388,24 +404,34 @@ export default function Materi({
       </Modal>
 
       <TambahKategoriModal
-        showModal={showModalTambahKategori}
-        setShowModal={setShowModalTambahKategori}
+        show={showTambahKategori}
+        setShow={setShowTambahKategori}
       />
 
       <TambahMateriModal
-        idKategori={idKategoriTambah}
-        setIdKategori={setIdKategoriTambah}
+        idKategori={activeKategori?.id}
+        show={showTambahMateri}
+        setShow={setShowTambahMateri}
       />
 
-      <UbahKategoriModal id={idUbahKategori} setId={setIdUbahKategori} />
+      <UbahKategoriModal
+        show={showUbahKategori}
+        id={keyUbahKategori}
+        onHide={doHideUbahKategori}
+      />
 
       <UbahMateriModal
         idKategori={activeKategori?.id}
-        id={idUbahMateri}
-        setId={setIdUbahMateri}
+        show={showUbahMateri}
+        id={keyUbahMateri}
+        onHide={doHideUbahMateri}
       />
 
-      <LihatMateriModal id={idLihatMateri} setId={setIdLihatMateri} />
+      <LihatMateriModal
+        show={showLihatMateri}
+        id={keyLihatMateri}
+        onHide={doHideLihatMateri}
+      />
 
       <ModalConfirm
         title="Hapus Kategori"

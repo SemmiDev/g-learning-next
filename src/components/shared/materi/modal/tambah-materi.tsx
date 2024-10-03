@@ -46,12 +46,14 @@ const initialValues: TambahMateriFormSchema = {
 
 type TambahMateriModalProps = {
   idKategori: string | undefined
-  setIdKategori(id?: string): void
+  show: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahMateriModal({
   idKategori,
-  setIdKategori,
+  show = false,
+  setShow,
 }: TambahMateriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -63,7 +65,7 @@ export default function TambahMateriModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setIdKategori(undefined)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['shared.materi.list', idKategori],
         })
@@ -73,7 +75,7 @@ export default function TambahMateriModal({
   }
 
   const handleClose = () => {
-    setIdKategori(undefined)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -82,7 +84,7 @@ export default function TambahMateriModal({
       title="Tambah Materi Baru"
       desc="Buat materi ajar terkait kelas yang kamu kelola"
       size="lg"
-      isOpen={!!idKategori}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahMateriFormSchema>

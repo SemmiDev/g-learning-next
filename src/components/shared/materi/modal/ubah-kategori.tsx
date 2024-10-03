@@ -26,12 +26,14 @@ export type UbahKategoriFormSchema = {
 
 type UbahKategoriModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
 }
 
 export default function UbahKategoriModal({
   id,
-  setId,
+  show,
+  onHide,
 }: UbahKategoriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -72,14 +74,14 @@ export default function UbahKategoriModal({
             ...data,
           })
         )
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -88,10 +90,10 @@ export default function UbahKategoriModal({
       title="Ubah Kategori Materi"
       isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={154} />
       ) : (
         <Form<UbahKategoriFormSchema>
