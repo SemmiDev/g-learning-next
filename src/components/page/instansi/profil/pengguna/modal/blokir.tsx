@@ -26,13 +26,13 @@ const initialValues: BlokirPenggunaFormSchema = {}
 type BlokirModalProps = {
   id: string | undefined
   setId(id?: string): void
-  setIdLihat(id?: string): void
+  onHideLihat: () => void
 }
 
 export default function BlokirModal({
   id,
   setId,
-  setIdLihat,
+  onHideLihat,
 }: BlokirModalProps) {
   const queryClient = useQueryClient()
 
@@ -43,7 +43,7 @@ export default function BlokirModal({
       loading: 'Menyimpan...',
       onSuccess: () => {
         setId(undefined)
-        setIdLihat(undefined)
+        onHideLihat()
 
         queryClient.invalidateQueries({
           queryKey: ['instansi.profil.pengguna.table'],

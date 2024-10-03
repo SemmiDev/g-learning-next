@@ -3,6 +3,7 @@ import { lihatPenggunaAction } from '@/actions/instansi/profil/pengguna/lihat'
 import {
   Button,
   CardSeparator,
+  Loader,
   Modal,
   ModalConfirm,
   ModalFooterButtons,
@@ -32,10 +33,15 @@ type DataType = {
 
 type LihatModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
 }
 
-export default function LihatDiblokirModal({ id, setId }: LihatModalProps) {
+export default function LihatDiblokirModal({
+  id,
+  show,
+  onHide,
+}: LihatModalProps) {
   const queryClient = useQueryClient()
   const [idBukaBlokir, setIdBukaBlokir] = useState<string>()
 
@@ -50,7 +56,7 @@ export default function LihatDiblokirModal({ id, setId }: LihatModalProps) {
     handleActionWithToast(bukaBlokirPenggunaAction(id), {
       loading: 'Memproses...',
       onSuccess: () => {
-        setId(undefined)
+        onHide()
         setIdBukaBlokir(undefined)
 
         queryClient.invalidateQueries({
@@ -72,60 +78,72 @@ export default function LihatDiblokirModal({ id, setId }: LihatModalProps) {
   return (
     <Modal
       title="Detail Pengguna yang Diblokir"
-      size="md"
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
+      isLoading={!isLoading && isFetching}
+      isOpen={show}
+      onClose={onHide}
     >
-      <div className="flex flex-col items-center p-3">
-        <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
-          <Image
-            src={imagePhoto}
-            alt="foto profil"
-            className="object-contain"
-          />
-        </figure>
-        <Title size="1.5xl" weight="semibold">
-          {data?.nama}
-        </Title>
-        <Text size="sm" weight="semibold" variant="dark" className="mb-2">
-          {data?.jenis_akun?.length ? data?.jenis_akun.join(', ') : '-'}
-        </Text>
-        <SanitizeHTML
-          html={data?.bio || '-'}
-          className="text-sm font-medium text-gray-dark text-center"
-        />
-      </div>
+      {isLoading ? (
+        <Loader height={512} />
+      ) : (
+        <>
+          <div className="flex flex-col items-center p-3">
+            <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
+              <Image
+                src={imagePhoto}
+                alt="foto profil"
+                className="object-contain"
+              />
+            </figure>
+            <Title size="1.5xl" weight="semibold">
+              {data?.nama}
+            </Title>
+            <Text size="sm" weight="semibold" variant="dark" className="mb-2">
+              {data?.jenis_akun?.length ? data?.jenis_akun.join(', ') : '-'}
+            </Text>
+            <SanitizeHTML
+              html={data?.bio || '-'}
+              className="text-sm font-medium text-gray-dark text-center"
+            />
+          </div>
+
+          <CardSeparator />
+
+          <table className="mx-3">
+            <tbody>
+              <DataRow label="Username">{data?.username}</DataRow>
+              <DataRow label="Kontak">{data?.hp || '-'}</DataRow>
+              <DataRow label="Email">{data?.email || '-'}</DataRow>
+              <DataRow label="Website">
+                {data?.situs_web ? (
+                  <Link href={data?.situs_web} target="_blank">
+                    <Button variant="text-colorful" className="h-auto p-0">
+                      {data?.situs_web}
+                    </Button>
+                  </Link>
+                ) : (
+                  '-'
+                )}
+              </DataRow>
+              <DataRow label="Jenis Kelamin">
+                {data?.jenis_kelamin || '-'}
+              </DataRow>
+              <DataRow label="Alasan Diblokir">
+                {data?.keterangan_blokir || '-'}
+              </DataRow>
+            </tbody>
+          </table>
+        </>
+      )}
 
       <CardSeparator />
 
-      <table className="mx-3">
-        <tbody>
-          <DataRow label="Username">{data?.username}</DataRow>
-          <DataRow label="Kontak">{data?.hp || '-'}</DataRow>
-          <DataRow label="Email">{data?.email || '-'}</DataRow>
-          <DataRow label="Website">
-            {data?.situs_web ? (
-              <Link href={data?.situs_web} target="_blank">
-                <Button variant="text-colorful" className="h-auto p-0">
-                  {data?.situs_web}
-                </Button>
-              </Link>
-            ) : (
-              '-'
-            )}
-          </DataRow>
-          <DataRow label="Jenis Kelamin">{data?.jenis_kelamin || '-'}</DataRow>
-          <DataRow label="Alasan Diblokir">
-            {data?.keterangan_blokir || '-'}
-          </DataRow>
-        </tbody>
-      </table>
-
-      <CardSeparator />
-
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)}>
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide}>
         <div className="flex-1">
-          <Button className="w-full" onClick={() => setIdBukaBlokir(id)}>
+          <Button
+            className="w-full"
+            onClick={() => setIdBukaBlokir(id)}
+            disabled={isLoading}
+          >
             Buka Blokir
           </Button>
         </div>

@@ -10,16 +10,21 @@ import {
   TableCellText,
   TableHeaderCell,
 } from '@/components/ui/table'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { LuEye } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 
 export default function TablePenggunaAktifCard() {
-  const [idLihat, setIdLihat] = useState<string>()
+  const {
+    show: showLihat,
+    key: keyLihat,
+    doShow: doShowLihat,
+    doHide: doHideLihat,
+  } = useShowModal<string>()
 
   const {
     data,
@@ -90,7 +95,7 @@ export default function TablePenggunaAktifCard() {
             size="sm"
             variant="text-colorful"
             color="info"
-            onClick={() => setIdLihat(row.id)}
+            onClick={() => doShowLihat(row.id)}
           >
             <LuEye />
           </ActionIconTooltip>
@@ -126,7 +131,7 @@ export default function TablePenggunaAktifCard() {
         />
       </Card>
 
-      <LihatModal id={idLihat} setId={setIdLihat} />
+      <LihatModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
     </>
   )
 }

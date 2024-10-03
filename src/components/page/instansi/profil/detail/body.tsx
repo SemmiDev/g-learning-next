@@ -19,8 +19,8 @@ import UbahModal from './modal/ubah'
 import UbahLogoModal from './modal/ubah-logo'
 
 export default function ProfilDetailBody() {
-  const [showUbahModal, setShowUbahModal] = useState(false)
-  const [showLogoModal, setShowLogoModal] = useState(false)
+  const [showUbah, setShowUbah] = useState(false)
+  const [ubahLogo, setUbahLogo] = useState(false)
 
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
@@ -38,7 +38,7 @@ export default function ProfilDetailBody() {
             size="sm"
             variant="outline"
             color="warning"
-            onClick={() => setShowUbahModal(true)}
+            onClick={() => setShowUbah(true)}
           >
             Ubah Data
           </Button>
@@ -72,7 +72,7 @@ export default function ProfilDetailBody() {
                   variant="flat"
                   color="secondary"
                   className="absolute top-1.5 right-1.5"
-                  onClick={() => setShowLogoModal(true)}
+                  onClick={() => setUbahLogo(true)}
                 >
                   <LuCamera />
                 </ActionIconTooltip>
@@ -90,11 +90,9 @@ export default function ProfilDetailBody() {
         </table>
       </Card>
 
-      <UbahModal showModal={showUbahModal} setShowModal={setShowUbahModal} />
-      <UbahLogoModal
-        showModal={showLogoModal}
-        setShowModal={setShowLogoModal}
-      />
+      <UbahModal show={showUbah} setShow={setShowUbah} />
+
+      <UbahLogoModal show={ubahLogo} setShow={setUbahLogo} />
     </>
   )
 }

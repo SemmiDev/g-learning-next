@@ -29,10 +29,11 @@ type DataType = {
 
 type LihatModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
 }
 
-export default function LihatModal({ id, setId }: LihatModalProps) {
+export default function LihatModal({ id, show, onHide }: LihatModalProps) {
   const [idBlokir, setIdBlokir] = useState<string>()
 
   const { data, isLoading, isFetching } = useQuery({
@@ -44,10 +45,10 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
     <Modal
       title="Detail Pengguna"
       isLoading={!isLoading && isFetching}
-      isOpen={!!id}
-      onClose={() => setId(undefined)}
+      isOpen={show}
+      onClose={onHide}
     >
-      {isLoading || !id ? (
+      {isLoading ? (
         <Loader height={440} />
       ) : (
         <>
@@ -101,20 +102,21 @@ export default function LihatModal({ id, setId }: LihatModalProps) {
 
       <CardSeparator />
 
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setId(undefined)}>
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide}>
         <div className="flex-1">
           <Button
             variant="flat-colorful"
             color="danger"
             className="w-full"
             onClick={() => setIdBlokir(id)}
+            disabled={isLoading}
           >
             Blokir
           </Button>
         </div>
       </ModalFooterButtons>
 
-      <BlokirModal id={idBlokir} setId={setIdBlokir} setIdLihat={setId} />
+      <BlokirModal id={idBlokir} setId={setIdBlokir} onHideLihat={onHide} />
     </Modal>
   )
 }

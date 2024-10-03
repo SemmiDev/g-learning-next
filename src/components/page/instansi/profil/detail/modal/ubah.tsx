@@ -16,7 +16,7 @@ import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
@@ -38,16 +38,16 @@ export type UbahProfilFormSchema = {
 }
 
 type UbahModalProps = {
-  showModal: boolean
-  setShowModal(show: boolean): void
+  show: boolean
+  setShow(show: boolean): void
 }
 
-export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
+export default function UbahModal({ show, setShow }: UbahModalProps) {
   const [formError, setFormError] = useState<string>()
   const { update: updateSession } = useSession()
   const queryClient = useQueryClient()
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['instansi.profil'],
     queryFn: makeSimpleQueryData(dataProfilAction),
   })
@@ -66,7 +66,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({ queryKey: ['instansi.profil'] })
         updateSession({ name: data.nama })
       },
@@ -74,8 +74,12 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
     })
   }
 
+  useEffect(() => {
+    if (show) refetch()
+  }, [show, refetch])
+
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -85,10 +89,10 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       isLoading={!isLoading && isFetching}
       color="warning"
       size="lg"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !showModal ? (
+      {isLoading ? (
         <Loader height={547} />
       ) : (
         <Form<UbahProfilFormSchema>
