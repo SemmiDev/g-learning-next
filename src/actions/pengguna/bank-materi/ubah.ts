@@ -1,6 +1,6 @@
 'use server'
 
-import { UbahMateriFormSchema } from '@/components/page/pengguna/bank-materi/folder/modal/ubah-materi'
+import { UbahMateriFormSchema } from '@/components/page/pengguna/bank-materi/kategori/modal/ubah-materi'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

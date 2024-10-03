@@ -111,7 +111,7 @@ export default function MateriCard({
 
       <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">
         <li>
-          <Time date={materi.time} />
+          <Time date={materi.time} format="datetime" />
         </li>
         <li>
           <GoDotFill size={10} />

@@ -1,6 +1,6 @@
 'use server'
 
-import { TambahMateriFormSchema } from '@/components/page/pengguna/bank-materi/folder/modal/tambah-materi'
+import { TambahMateriFormSchema } from '@/components/page/pengguna/bank-materi/kategori/modal/tambah-materi'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

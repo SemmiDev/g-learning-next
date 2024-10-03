@@ -1,4 +1,4 @@
-import { ActionIcon, Text } from '@/components/ui'
+import { ActionIconTooltip, Text } from '@/components/ui'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsFolderFill, BsPencil } from 'react-icons/bs'
 import { LuFolderSearch } from 'react-icons/lu'
@@ -49,7 +49,8 @@ export default function KategoriButton({
           </div>
         </div>
         <div className="flex space-x-1">
-          <ActionIcon
+          <ActionIconTooltip
+            tooltip="Buka Kategori"
             size="sm"
             variant="outline-hover-colorful"
             color="primary"
@@ -59,8 +60,9 @@ export default function KategoriButton({
             }}
           >
             <LuFolderSearch />
-          </ActionIcon>
-          <ActionIcon
+          </ActionIconTooltip>
+          <ActionIconTooltip
+            tooltip="Ubah"
             size="sm"
             variant="outline-hover-colorful"
             color="warning"
@@ -70,8 +72,9 @@ export default function KategoriButton({
             }}
           >
             <BsPencil />
-          </ActionIcon>
-          <ActionIcon
+          </ActionIconTooltip>
+          <ActionIconTooltip
+            tooltip="Hapus"
             size="sm"
             variant="outline-hover-colorful"
             color="danger"
@@ -81,7 +84,7 @@ export default function KategoriButton({
             }}
           >
             <BiTrashAlt />
-          </ActionIcon>
+          </ActionIconTooltip>
         </div>
       </div>
     </>

@@ -1,18 +1,21 @@
 'use client'
 
 import { hapusKategoriMateriAction } from '@/actions/shared/materi/hapus-kategori'
+import { listMateriAction } from '@/actions/shared/materi/list'
 import { listKategoriMateriAction } from '@/actions/shared/materi/list-kategori'
 import {
   Button,
   CardSeparator,
   Input,
   Label,
+  Loader,
   Modal,
   ModalConfirm,
   Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
+import { wait } from '@/utils/wait'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -90,9 +93,12 @@ export default function Materi({
     onChange && onChange(selected)
   }
 
-  const { data: listKategori = [], refetch: refetchKategori } = useQuery<
-    KategoriItemType[]
-  >({
+  const {
+    data: listKategori = [],
+    isLoading: isLoadingKategori,
+    isFetching: isFetchingKategori,
+    refetch: refetchKategori,
+  } = useQuery<KategoriItemType[]>({
     queryKey: queryKeyKategori,
     queryFn: async () => {
       const { data } = await listKategoriMateriAction({
@@ -107,43 +113,34 @@ export default function Materi({
     },
   })
 
-  const dataMateri: MateriItemType[] = [
-    {
-      id: 'a1',
-      name: 'Alur Sistem Informasi',
-      time: '13 Januari 2024',
-      fileCount: 4,
-      type: 'materi',
+  const {
+    data: listMateri = [],
+    isLoading: isLoadingMateri,
+    isFetching: isFetchingMateri,
+    refetch: refetchMateri,
+  } = useQuery<MateriItemType[]>({
+    queryKey: ['shared.materi.list', activeKategori?.id],
+    queryFn: async () => {
+      if (!activeKategori?.id) return []
+
+      const { data } = await listMateriAction({
+        search: searchMateri,
+        params: {
+          idKategori: activeKategori?.id,
+        },
+      })
+
+      return (data?.list ?? []).map((item) => ({
+        id: item.bank_ajar.id,
+        name: item.bank_ajar.judul,
+        desc: item.bank_ajar.deskripsi,
+        time: item.bank_ajar.created_at,
+        fileCount: item.total_file_bank_ajar,
+        fileIds: item.daftar_file_bank_ajar.map((item) => item.id),
+        type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
+      }))
     },
-    {
-      id: 'a2',
-      name: 'Penjelasan singkat Alur Sistem Informasi',
-      time: '13 Januari 2024',
-      fileCount: 2,
-      type: 'materi',
-    },
-    {
-      id: 'a3',
-      name: 'Alur Sistem Informasi 2',
-      time: '13 Januari 2024',
-      fileCount: 1,
-      type: 'materi',
-    },
-    {
-      id: 'a4',
-      name: 'Tugas Alur Sistem Informasi',
-      time: '13 Januari 2024',
-      fileCount: 3,
-      type: 'tugas',
-    },
-    {
-      id: 'a5',
-      name: 'Tugas 2 Alur Sistem Informasi',
-      time: '13 Januari 2024',
-      fileCount: 1,
-      type: 'tugas',
-    },
-  ]
+  })
 
   useEffect(() => {
     if (searchKategori === '') {
@@ -153,6 +150,15 @@ export default function Materi({
 
     _.debounce(refetchKategori, 250)()
   }, [searchKategori, refetchKategori])
+
+  useEffect(() => {
+    if (searchMateri === '') {
+      refetchMateri()
+      return
+    }
+
+    _.debounce(refetchMateri, 250)()
+  }, [searchMateri, refetchMateri])
 
   const handleHapusKategori = () => {
     if (!idHapusKategori) return
@@ -214,23 +220,46 @@ export default function Materi({
         size={size}
         isOpen={show}
         onClose={() => setShow(false)}
+        isLoading={isFetchingKategori || isFetchingMateri}
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
           <div className="flex flex-col min-h-[400px]">
             <div className="flex justify-between space-x-2 p-3">
-              <Input
-                size="sm"
-                type="search"
-                placeholder="Cari Materi"
-                clearable={true}
-                className="w-72 sm:w-96"
-                prefix={
-                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
-                }
-                value={searchKategori}
-                onChange={(e) => setSearchKategori(e.target.value)}
-                onClear={() => setSearchKategori('')}
-              />
+              {activeKategori ? (
+                <Input
+                  size="sm"
+                  type="search"
+                  placeholder="Cari Materi"
+                  clearable={true}
+                  className="w-72 sm:w-96"
+                  prefix={
+                    <PiMagnifyingGlass
+                      size={20}
+                      className="text-gray-lighter"
+                    />
+                  }
+                  value={searchMateri}
+                  onChange={(e) => setSearchMateri(e.target.value)}
+                  onClear={() => setSearchMateri('')}
+                />
+              ) : (
+                <Input
+                  size="sm"
+                  type="search"
+                  placeholder="Cari Kategori"
+                  clearable={true}
+                  className="w-72 sm:w-96"
+                  prefix={
+                    <PiMagnifyingGlass
+                      size={20}
+                      className="text-gray-lighter"
+                    />
+                  }
+                  value={searchKategori}
+                  onChange={(e) => setSearchKategori(e.target.value)}
+                  onClear={() => setSearchKategori('')}
+                />
+              )}
               <Button
                 size="sm"
                 onClick={() => {
@@ -249,7 +278,10 @@ export default function Materi({
                 weight="medium"
                 variant="dark"
                 className={cn({ 'cursor-pointer': activeKategori })}
-                onClick={() => activeKategori && setActiveKategori(undefined)}
+                onClick={() => {
+                  activeKategori && setActiveKategori(undefined)
+                  searchMateri && setSearchMateri('')
+                }}
               >
                 Bank Materi dan Tugas
               </Text>
@@ -263,26 +295,51 @@ export default function Materi({
               )}
             </div>
             <div className="flex flex-col">
-              {activeKategori
-                ? dataMateri.map((materi, idx) => (
+              {activeKategori ? (
+                isLoadingMateri || (!listMateri.length && isFetchingMateri) ? (
+                  <Loader height={288} />
+                ) : listMateri.length > 0 ? (
+                  listMateri.map((materi) => (
                     <MateriButton
+                      key={materi.id}
                       materi={materi}
                       checked={checkedMateriId === materi.id}
                       onChange={() => {
                         setCheckedMateriId(materi.id)
                       }}
-                      key={idx}
                     />
                   ))
-                : listKategori.map((kategori) => (
-                    <KategoriButton
-                      key={kategori.id}
-                      kategori={kategori}
-                      onOpen={(kategori) => setActiveKategori(kategori)}
-                      onEdit={(kategori) => setIdUbahKategori(kategori.id)}
-                      onDelete={(kategori) => setIdHapusKategori(kategori.id)}
-                    />
-                  ))}
+                ) : (
+                  <div className="flex items-center justify-center h-72">
+                    <Text size="sm" weight="medium">
+                      {searchMateri
+                        ? 'Materi tidak ditemukan'
+                        : 'Belum ada materi'}
+                    </Text>
+                  </div>
+                )
+              ) : isLoadingKategori ||
+                (!listKategori.length && isFetchingKategori) ? (
+                <Loader height={288} />
+              ) : listKategori.length > 0 ? (
+                listKategori.map((kategori) => (
+                  <KategoriButton
+                    key={kategori.id}
+                    kategori={kategori}
+                    onOpen={(kategori) => setActiveKategori(kategori)}
+                    onEdit={(kategori) => setIdUbahKategori(kategori.id)}
+                    onDelete={(kategori) => setIdHapusKategori(kategori.id)}
+                  />
+                ))
+              ) : (
+                <div className="flex items-center justify-center h-72">
+                  <Text size="sm" weight="medium">
+                    {searchKategori
+                      ? 'Kategori tidak ditemukan'
+                      : 'Belum ada kategori'}
+                  </Text>
+                </div>
+              )}
             </div>
           </div>
           <div>
@@ -292,7 +349,7 @@ export default function Materi({
                 size="sm"
                 className="w-36"
                 onClick={() => {
-                  const selected = dataMateri.find(
+                  const selected = listMateri.find(
                     (val) => val.id === checkedMateriId
                   )
                   doChange(selected)
