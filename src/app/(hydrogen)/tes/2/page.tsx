@@ -49,8 +49,8 @@ const formSchema = z.object({
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
-  tesMateri: z.any().superRefine(objectRequired),
-  tesSoal: z.any().superRefine(objectRequired),
+  // tesMateri: z.any().superRefine(objectRequired),
+  // tesSoal: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
   // tesFiles: z.array(z.any()).superRefine(arrayRequired),
   // tesSwitch: z.boolean(),
@@ -67,8 +67,8 @@ type FormSchema = {
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
   // tesMedia?: PustakaMediaFileType[]
-  tesMateri?: MateriItemType
-  tesSoal?: PaketSoalItemType
+  // tesMateri?: MateriItemType
+  // tesSoal?: PaketSoalItemType
   // tesDate?: Date
   // tesFiles?: UploadFileType[]
   // tesSwitch: boolean
@@ -169,18 +169,18 @@ export default function Tes2Page() {
             errors={errors}
             multiple
           /> */}
-          <ControlledMateri
+          {/* <ControlledMateri
             name="tesMateri"
             control={control}
             label="Pilih Materi"
             errors={errors}
-          />
-          <ControlledPaketSoal
+          /> */}
+          {/* <ControlledPaketSoal
             name="tesSoal"
             control={control}
             label="Pilih Paket Soal"
             errors={errors}
-          />
+          /> */}
           {/* <ControlledDatePicker
             name="tesDate"
             control={control}

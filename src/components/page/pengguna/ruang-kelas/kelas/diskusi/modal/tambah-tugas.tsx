@@ -129,6 +129,7 @@ export default function TambahTugasModal({
                   name="materi"
                   control={control}
                   errors={errors}
+                  type="tugas"
                 />
               ) : (
                 <>

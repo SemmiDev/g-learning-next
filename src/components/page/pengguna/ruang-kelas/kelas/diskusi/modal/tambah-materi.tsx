@@ -156,6 +156,7 @@ export default function TambahMateriModal({
                   name="materi"
                   control={control}
                   errors={errors}
+                  type="materi"
                 />
               ) : (
                 <>
