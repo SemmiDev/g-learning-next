@@ -4,17 +4,15 @@ import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
 import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
 import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
 import {
-  DriveType,
-  FileType,
-  FolderType,
-} from '@/components/shared/pustaka-media/pustaka-media'
-import {
   Button,
   FilePreviewType,
   isPreviewableFile,
   Loader,
   ModalConfirm,
   ModalFilePreview,
+  PustakaMediaDriveType,
+  PustakaMediaFileType,
+  PustakaMediaFolderType,
   Text,
   TextSpan,
   Title,
@@ -27,7 +25,11 @@ import {
   getFileSize,
   getFileType,
 } from '@/utils/file-properties-from-api'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { BiSolidChevronRight } from 'react-icons/bi'
@@ -59,8 +61,8 @@ export default function PustakaMediaBody() {
   const [activeFolder, setActiveFolder] = useState<string>()
   const [sort, setSort] = useState<SortDataType>('terbaru')
   const [search, setSearch] = useState('')
-  const [listFolder, setListFolder] = useState<FolderType[]>([])
-  const [fileHapus, setFileHapus] = useState<FileType>()
+  const [listFolder, setListFolder] = useState<PustakaMediaFolderType[]>([])
+  const [fileHapus, setFileHapus] = useState<PustakaMediaFileType>()
   const [showTambahFolder, setShowTambahFolder] = useState(false)
   const [showTambahBerkas, setShowTambahBerkas] = useState(false)
   const {
@@ -83,7 +85,7 @@ export default function PustakaMediaBody() {
   } = useShowModal<string>()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { data: drives = [] } = useQuery<DriveType[]>({
+  const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
       const { data } = await driveInfoAction()
@@ -119,17 +121,20 @@ export default function PustakaMediaBody() {
   ]
 
   const {
-    data: files = [],
+    data: dataFiles,
     isLoading: isLoadingFiles,
     isFetching: isFetchingFiles,
     refetch: refetchFiles,
-  } = useQuery<FileType[]>({
+    hasNextPage: hasNextPageFiles,
+    fetchNextPage: fetchNextPageFiles,
+  } = useInfiniteQuery({
     queryKey,
-    queryFn: async () => {
+    queryFn: async ({ pageParam: page }) => {
       const { data } = await listFileAction({
         personal: activeDrive === null,
         idInstansi: activeDrive ?? undefined,
         idFolder: activeFolder,
+        page,
         search,
         sort: {
           name: ['terbaru', 'terlawas'].includes(sort) ? 'created_at' : 'nama',
@@ -137,8 +142,8 @@ export default function PustakaMediaBody() {
         },
       })
 
-      return (
-        data?.list?.map((item) => ({
+      return {
+        list: (data?.list ?? []).map((item) => ({
           id: item.id,
           name: item.nama,
           time: item.created_at,
@@ -149,10 +154,18 @@ export default function PustakaMediaBody() {
           size: getFileSize(item),
           type: getFileType(item),
           driveId: item.id_instansi ?? undefined,
-        })) ?? []
-      )
+        })) as PustakaMediaFileType[],
+        pagination: data?.pagination,
+      }
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
   })
+
+  const files = dataFiles?.pages.flatMap((page) => page.list) || []
 
   const currentDrive = drives.filter((item) => item.id === activeDrive)[0]
 
@@ -184,7 +197,7 @@ export default function PustakaMediaBody() {
     })
   }
 
-  const handleUbah = (file: FileType) => {
+  const handleUbah = (file: PustakaMediaFileType) => {
     if (file.folder) {
       doShowUbahFolder(file.id)
     } else if (file.type === 'link') {
@@ -348,6 +361,17 @@ export default function PustakaMediaBody() {
           <Text size="sm" weight="medium">
             {search ? 'Berkas tidak ditemukan' : 'Belum ada berkas'}
           </Text>
+        </div>
+      )}
+
+      {hasNextPageFiles && (
+        <div className="flex justify-center mt-4">
+          <Button
+            onClick={() => fetchNextPageFiles()}
+            disabled={isFetchingFiles}
+          >
+            Tampilkan Lebih banyak
+          </Button>
         </div>
       )}
 
