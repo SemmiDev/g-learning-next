@@ -1,5 +1,5 @@
-import { lihatBankSoalAction } from '@/actions/pengguna/bank-soal/lihat'
-import { ubahBankSoalAction } from '@/actions/pengguna/bank-soal/ubah'
+import { lihatPaketSoalAction } from '@/actions/shared/paket-soal/lihat'
+import { ubahPaketSoalAction } from '@/actions/shared/paket-soal/ubah'
 import {
   CardSeparator,
   ControlledInput,
@@ -15,7 +15,6 @@ import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
@@ -28,7 +27,7 @@ const formSchema = z.object({
   deskripsi: z.string().optional(),
 })
 
-export type UbahBankSoalFormSchema = {
+export type UbahPaketSoalFormSchema = {
   judul?: string
   gunakan?: number
   bobotBenar?: number
@@ -37,34 +36,34 @@ export type UbahBankSoalFormSchema = {
   deskripsi?: string
 }
 
-type UbahBankSoalModalProps = {
+type UbahPaketSoalModalProps = {
+  idKategori: string | undefined
   id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function UbahBankSoalModal({
+export default function UbahSoalModal({
+  idKategori,
   id,
   show,
   onHide,
-}: UbahBankSoalModalProps) {
+}: UbahPaketSoalModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const { kategori: idKategori }: { kategori: string } = useParams()
-
-  const queryKey = ['pengguna.bank-soal.ubah', idKategori, id]
+  const queryKey = ['shared.paket-soal.ubah', idKategori, id]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahBankSoalFormSchema>({
+  } = useQuery<UbahPaketSoalFormSchema>({
     queryKey,
     queryFn: async () => {
-      if (!id) return {}
+      if (!idKategori || !id) return {}
 
-      const { data } = await lihatBankSoalAction(idKategori, id)
+      const { data } = await lihatPaketSoalAction(idKategori, id)
 
       return {
         judul: data?.judul,
@@ -77,19 +76,19 @@ export default function UbahBankSoalModal({
     },
   })
 
-  const onSubmit: SubmitHandler<UbahBankSoalFormSchema> = async (data) => {
-    if (!id) return
+  const onSubmit: SubmitHandler<UbahPaketSoalFormSchema> = async (data) => {
+    if (!idKategori || !id) return
 
-    await handleActionWithToast(ubahBankSoalAction(idKategori, id, data), {
+    await handleActionWithToast(ubahPaketSoalAction(idKategori, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-soal.list', idKategori],
+          queryKey: ['shared.paket-soal.list', idKategori],
         })
         queryClient.setQueryData(
           queryKey,
-          (oldData: UbahBankSoalFormSchema) => ({
+          (oldData: UbahPaketSoalFormSchema) => ({
             ...oldData,
             ...data,
           })
@@ -107,7 +106,7 @@ export default function UbahBankSoalModal({
 
   return (
     <Modal
-      title="Ubah Bank Soal"
+      title="Ubah Paket Soal"
       isLoading={!isLoading && isFetching}
       color="warning"
       size="lg"
@@ -117,7 +116,7 @@ export default function UbahBankSoalModal({
       {isLoading ? (
         <Loader height={447} />
       ) : (
-        <Form<UbahBankSoalFormSchema>
+        <Form<UbahPaketSoalFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{

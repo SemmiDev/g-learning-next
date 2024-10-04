@@ -12,11 +12,11 @@ import { getServerSession } from 'next-auth'
 export type DataType = {
   id: string
   nama_kategori: string
-  id_pengguna: string
-  total_materi: number
+  id_pengajar: string
+  total_bank_soal: number
 }
 
-export const listKategoriMateriAction = async ({
+export const listKategoriSoalAction = async ({
   page = 1,
   search = '',
 }: ControlledAsyncTableActionProps = {}) => {
@@ -24,12 +24,10 @@ export const listKategoriMateriAction = async ({
   if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
 
   return await makeJwtGetRequestTableAction<DataType>(
-    `${process.env.API_URL}/kategori-bank-ajar`,
+    `${process.env.API_URL}/kategori-bank-soal`,
     {
       current_page: page,
       keyword: search,
-      sort_by: 'nama_kategori',
-      order: 'asc',
       per_page: 100,
     }
   )

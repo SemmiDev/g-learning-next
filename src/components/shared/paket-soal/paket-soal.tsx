@@ -1,9 +1,7 @@
 'use client'
 
-import { hapusMateriAction } from '@/actions/shared/materi/hapus'
-import { hapusKategoriMateriAction } from '@/actions/shared/materi/hapus-kategori'
-import { listMateriAction } from '@/actions/shared/materi/list'
-import { listKategoriMateriAction } from '@/actions/shared/materi/list-kategori'
+import { listPaketSoalAction } from '@/actions/shared/paket-soal/list'
+import { listKategoriSoalAction } from '@/actions/shared/paket-soal/list-kategori'
 import {
   Button,
   CardSeparator,
@@ -11,59 +9,50 @@ import {
   Label,
   Loader,
   Modal,
-  ModalConfirm,
   Text,
 } from '@/components/ui'
-import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
-import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { FieldError } from 'rizzui'
 import KategoriButton, { KategoriItemType } from './kategori-button'
-import MateriButton, { MateriItemType } from './materi-button'
-import LihatMateriModal from './modal/lihat-materi'
-import TambahKategoriModal from './modal/tambah-kategori'
-import TambahMateriModal from './modal/tambah-materi'
+import LihatSoalModal from './modal/lihat-paket-soal'
 import UbahKategoriModal from './modal/ubah-kategori'
-import UbahMateriModal from './modal/ubah-materi'
-import SelectedMateri from './selected-materi'
+import UbahSoalModal from './modal/ubah-paket-soal'
+import SoalButton, { PaketSoalItemType } from './paket-soal-button'
+import SelectedSoal from './selected-paket-soal'
 
-const queryKeyKategori = ['shared.materi.kategori']
+const queryKeyKategori = ['shared.paket-soal.kategori']
 
-export type MateriProps = {
+export type PaketSoalProps = {
   label?: string
   required?: boolean
   placeholder?: string
-  type?: 'materi' | 'tugas'
-  value?: MateriItemType
-  onChange?(val?: MateriItemType): void
+  value?: PaketSoalItemType
+  onChange?(val?: PaketSoalItemType): void
   multiple?: boolean
   error?: string
   errorClassName?: string
 }
 
-export default function Materi({
+export default function PaketSoal({
   label,
   required,
-  placeholder = 'Klik di sini untuk memilih dari bank materi',
-  type,
+  placeholder = 'Klik di sini untuk memilih dari bank soal',
   value,
   onChange,
   error,
   errorClassName,
-}: MateriProps) {
-  const queryClient = useQueryClient()
+}: PaketSoalProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
 
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
-  const [showTambahKategori, setShowTambahKategori] = useState(false)
   const {
     show: showUbahKategori,
     key: keyUbahKategori,
@@ -71,27 +60,25 @@ export default function Materi({
     doHide: doHideUbahKategori,
   } = useShowModal<string>()
 
-  const [searchMateri, setSearchMateri] = useState('')
-  const [showTambahMateri, setShowTambahMateri] = useState(false)
+  const [searchSoal, setSearchSoal] = useState('')
   const {
-    show: showLihatMateri,
-    key: keyLihatMateri,
-    doShow: doShowLihatMateri,
-    doHide: doHideLihatMateri,
+    show: showLihatSoal,
+    key: keyLihatSoal,
+    doShow: doShowLihatSoal,
+    doHide: doHideLihatSoal,
   } = useShowModal<string>()
   const {
-    show: showUbahMateri,
-    key: keyUbahMateri,
-    doShow: doShowUbahMateri,
-    doHide: doHideUbahMateri,
+    show: showUbahSoal,
+    key: keyUbahSoal,
+    doShow: doShowUbahSoal,
+    doHide: doHideUbahSoal,
   } = useShowModal<string>()
-  const [idHapusMateri, setIdHapusMateri] = useState<string>()
-  const [checkedMateri, setCheckedMateri] = useState<MateriItemType>()
-  const [selectedMateri, setSelectedMateri] = useState<
-    MateriItemType | undefined
+  const [checkedSoal, setCheckedSoal] = useState<PaketSoalItemType>()
+  const [selectedSoal, setSelectedSoal] = useState<
+    PaketSoalItemType | undefined
   >(value)
 
-  const queryKeyMateri = ['shared.materi.list', activeKategori?.id]
+  const queryKeySoal = ['shared.paket-soal.list', activeKategori?.id]
 
   const handleResize = () => {
     if (window.innerWidth < 1024) {
@@ -108,8 +95,8 @@ export default function Materi({
     handleResize()
   }, [])
 
-  const doChange = (selected: MateriItemType | undefined) => {
-    setSelectedMateri(selected)
+  const doChange = (selected: PaketSoalItemType | undefined) => {
+    setSelectedSoal(selected)
 
     onChange && onChange(selected)
   }
@@ -122,43 +109,41 @@ export default function Materi({
   } = useQuery<KategoriItemType[]>({
     queryKey: queryKeyKategori,
     queryFn: async () => {
-      const { data } = await listKategoriMateriAction({
+      const { data } = await listKategoriSoalAction({
         search: searchKategori,
       })
 
       return (data?.list ?? []).map((item) => ({
         id: item.id,
         name: item.nama_kategori,
-        count: item.total_materi,
+        count: item.total_bank_soal,
       }))
     },
   })
 
   const {
-    data: listMateri = [],
-    isLoading: isLoadingMateri,
-    isFetching: isFetchingMateri,
-    refetch: refetchMateri,
-  } = useQuery<MateriItemType[]>({
-    queryKey: queryKeyMateri,
+    data: listSoal = [],
+    isLoading: isLoadingSoal,
+    isFetching: isFetchingSoal,
+    refetch: refetchSoal,
+  } = useQuery<PaketSoalItemType[]>({
+    queryKey: queryKeySoal,
     queryFn: async () => {
       if (!activeKategori?.id) return []
 
-      const { data } = await listMateriAction({
-        search: searchMateri,
+      const { data } = await listPaketSoalAction({
+        search: searchSoal,
         params: {
           idKategori: activeKategori?.id,
         },
       })
 
       return (data?.list ?? []).map((item) => ({
-        id: item.bank_ajar.id,
-        name: item.bank_ajar.judul,
-        desc: item.bank_ajar.deskripsi,
-        time: item.bank_ajar.created_at,
-        fileCount: item.total_file_bank_ajar,
-        fileIds: item.daftar_file_bank_ajar.map((item) => item.id),
-        type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
+        id: item.id,
+        name: item.judul,
+        desc: item.deskripsi,
+        time: item.created_at,
+        count: item.total_soal,
       }))
     },
   })
@@ -173,42 +158,20 @@ export default function Materi({
   }, [searchKategori, refetchKategori])
 
   useEffect(() => {
-    if (searchMateri === '') {
-      refetchMateri()
+    if (searchSoal === '') {
+      refetchSoal()
       return
     }
 
-    _.debounce(refetchMateri, 250)()
-  }, [searchMateri, refetchMateri])
-
-  const {
-    handle: handleHapusKategori,
-    id: idHapusKategori,
-    setId: setIdHapusKategori,
-  } = useHandleDelete({
-    action: hapusKategoriMateriAction,
-    refetchKey: queryKeyKategori,
-  })
-
-  const handleHapusMateri = () => {
-    if (!activeKategori?.id || !idHapusMateri) return
-
-    handleActionWithToast(hapusMateriAction(activeKategori.id, idHapusMateri), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapusMateri(undefined)
-
-        queryClient.invalidateQueries({ queryKey: queryKeyMateri })
-      },
-    })
-  }
+    _.debounce(refetchSoal, 250)()
+  }, [searchSoal, refetchSoal])
 
   return (
     <>
       <div>
         <div
           onClick={() => {
-            setCheckedMateri(selectedMateri)
+            setCheckedSoal(selectedSoal)
             setShow(true)
             refetchKategori()
           }}
@@ -220,22 +183,22 @@ export default function Materi({
           )}
           <div
             className={cn(
-              'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-[0.875rem] hover:border-primary [&_.materi-label]:hover:text-primary',
+              'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-[0.875rem] hover:border-primary [&_.soal-label]:hover:text-primary',
               {
                 '!border-danger [&.is-hover]:!border-danger [&.is-focus]:!border-danger !ring-danger !bg-transparent':
                   error,
               }
             )}
           >
-            {selectedMateri && (
-              <SelectedMateri
-                materi={selectedMateri}
+            {selectedSoal && (
+              <SelectedSoal
+                soal={selectedSoal}
                 onRemove={() => {
                   doChange(undefined)
                 }}
               />
             )}
-            <Text size="sm" className="materi text-gray-lighter">
+            <Text size="sm" className="soal text-gray-lighter">
               {placeholder}
             </Text>
           </div>
@@ -246,20 +209,20 @@ export default function Materi({
       </div>
 
       <Modal
-        title="Materi dan Tugas"
+        title="Paket Soal"
         size={size}
         isOpen={show}
         onClose={() => setShow(false)}
-        isLoading={isFetchingKategori || isFetchingMateri}
+        isLoading={isFetchingKategori || isFetchingSoal}
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
           <div className="flex flex-col min-h-[400px]">
-            <div className="flex justify-between space-x-2 p-3">
+            <div className="flex p-3">
               {activeKategori ? (
                 <Input
                   size="sm"
                   type="search"
-                  placeholder="Cari Materi"
+                  placeholder="Cari Soal"
                   clearable={true}
                   className="w-72 sm:w-96"
                   prefix={
@@ -268,9 +231,9 @@ export default function Materi({
                       className="text-gray-lighter"
                     />
                   }
-                  value={searchMateri}
-                  onChange={(e) => setSearchMateri(e.target.value)}
-                  onClear={() => setSearchMateri('')}
+                  value={searchSoal}
+                  onChange={(e) => setSearchSoal(e.target.value)}
+                  onClear={() => setSearchSoal('')}
                 />
               ) : (
                 <Input
@@ -290,18 +253,6 @@ export default function Materi({
                   onClear={() => setSearchKategori('')}
                 />
               )}
-              <Button
-                size="sm"
-                onClick={() => {
-                  if (activeKategori) {
-                    setShowTambahMateri(true)
-                  } else {
-                    setShowTambahKategori(true)
-                  }
-                }}
-              >
-                {activeKategori ? 'Tambah Materi' : 'Tambah Kategori'}
-              </Button>
             </div>
             <div className="flex items-center border-b border-b-gray-100 px-3 pb-3">
               <Text
@@ -310,11 +261,11 @@ export default function Materi({
                 className={cn({ 'select-none cursor-pointer': activeKategori })}
                 onClick={() => {
                   activeKategori && setActiveKategori(undefined)
-                  searchMateri && setSearchMateri('')
+                  searchSoal && setSearchSoal('')
                   refetchKategori()
                 }}
               >
-                Bank Materi dan Tugas
+                Bank Soal
               </Text>
               {activeKategori && (
                 <>
@@ -327,29 +278,25 @@ export default function Materi({
             </div>
             <div className="flex flex-col">
               {activeKategori ? (
-                isLoadingMateri || (!listMateri.length && isFetchingMateri) ? (
+                isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
                   <Loader height={288} />
-                ) : listMateri.length > 0 ? (
-                  listMateri.map((materi) => (
-                    <MateriButton
-                      key={materi.id}
-                      materi={materi}
-                      type={type}
-                      onDetail={(materi) => doShowLihatMateri(materi.id)}
-                      onEdit={(materi) => doShowUbahMateri(materi.id)}
-                      onDelete={(materi) => setIdHapusMateri(materi.id)}
-                      checked={checkedMateri?.id === materi.id}
+                ) : listSoal.length > 0 ? (
+                  listSoal.map((soal) => (
+                    <SoalButton
+                      key={soal.id}
+                      soal={soal}
+                      onDetail={(soal) => doShowLihatSoal(soal.id)}
+                      onEdit={(soal) => doShowUbahSoal(soal.id)}
+                      checked={checkedSoal?.id === soal.id}
                       onChange={() => {
-                        setCheckedMateri(materi)
+                        setCheckedSoal(soal)
                       }}
                     />
                   ))
                 ) : (
                   <div className="flex items-center justify-center h-72">
                     <Text size="sm" weight="medium">
-                      {searchMateri
-                        ? 'Materi tidak ditemukan'
-                        : 'Belum ada materi'}
+                      {searchSoal ? 'Soal tidak ditemukan' : 'Belum ada soal'}
                     </Text>
                   </div>
                 )
@@ -363,7 +310,6 @@ export default function Materi({
                     kategori={kategori}
                     onOpen={(kategori) => setActiveKategori(kategori)}
                     onEdit={(kategori) => doShowUbahKategori(kategori.id)}
-                    onDelete={(kategori) => setIdHapusKategori(kategori.id)}
                   />
                 ))
               ) : (
@@ -384,17 +330,12 @@ export default function Materi({
                 size="sm"
                 className="w-36"
                 onClick={() => {
-                  doChange(checkedMateri)
+                  doChange(checkedSoal)
                   setShow(false)
                 }}
-                disabled={!checkedMateri}
+                disabled={!checkedSoal}
               >
-                Pilih{' '}
-                {!type
-                  ? 'Materi/Tugas'
-                  : type === 'materi'
-                  ? 'Materi'
-                  : 'Tugas'}
+                Pilih Paket Soal
               </Button>
               <Button
                 size="sm"
@@ -409,56 +350,23 @@ export default function Materi({
         </div>
       </Modal>
 
-      <TambahKategoriModal
-        show={showTambahKategori}
-        setShow={setShowTambahKategori}
-      />
-
-      <TambahMateriModal
-        idKategori={activeKategori?.id}
-        show={showTambahMateri}
-        setShow={setShowTambahMateri}
-      />
-
       <UbahKategoriModal
         show={showUbahKategori}
         id={keyUbahKategori}
         onHide={doHideUbahKategori}
       />
 
-      <UbahMateriModal
+      <UbahSoalModal
         idKategori={activeKategori?.id}
-        show={showUbahMateri}
-        id={keyUbahMateri}
-        onHide={doHideUbahMateri}
+        show={showUbahSoal}
+        id={keyUbahSoal}
+        onHide={doHideUbahSoal}
       />
 
-      <LihatMateriModal
-        show={showLihatMateri}
-        id={keyLihatMateri}
-        onHide={doHideLihatMateri}
-      />
-
-      <ModalConfirm
-        title="Hapus Kategori"
-        desc="Apakah Anda yakin ingin menghapus kategori materi ini?"
-        color="danger"
-        isOpen={!!idHapusKategori}
-        onClose={() => setIdHapusKategori(undefined)}
-        onConfirm={handleHapusKategori}
-        headerIcon="help"
-        closeOnCancel
-      />
-
-      <ModalConfirm
-        title="Hapus Bank Materi"
-        desc="Apakah Anda yakin ingin menghapus bank materi ini?"
-        color="danger"
-        isOpen={!!idHapusMateri}
-        onClose={() => setIdHapusMateri(undefined)}
-        onConfirm={handleHapusMateri}
-        headerIcon="help"
-        closeOnCancel
+      <LihatSoalModal
+        show={showLihatSoal}
+        id={keyLihatSoal}
+        onHide={doHideLihatSoal}
       />
     </>
   )

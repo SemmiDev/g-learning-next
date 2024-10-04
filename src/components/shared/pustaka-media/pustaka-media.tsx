@@ -508,6 +508,7 @@ export default function PustakaMedia({
                   doChange(selected)
                   setShow(false)
                 }}
+                disabled={!checkedFiles.length}
               >
                 Pilih Berkas
               </Button>

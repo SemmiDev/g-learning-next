@@ -1,5 +1,6 @@
 import {
   ActionIconTooltip,
+  LabelOrDiv,
   PustakaMediaFileType,
   Text,
   Time,
@@ -27,6 +28,7 @@ export type MateriItemType = {
 
 export type MateriButtonProps = {
   materi: MateriItemType
+  type?: MateriItemType['type']
   onDetail?: (materi: MateriItemType) => void
   onEdit?: (materi: MateriItemType) => void
   onDelete?: (materi: MateriItemType) => void
@@ -36,22 +38,32 @@ export type MateriButtonProps = {
 
 export default function MateriButton({
   materi,
+  type,
   onDetail,
   onEdit,
   onDelete,
   checked = false,
   onChange,
 }: MateriButtonProps) {
+  const selectable = !type || materi.type === type
+
   return (
-    <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
-      <Radio
-        name="pustaka_media_radio"
-        value={materi.id}
-        size="sm"
-        className="px-4"
-        checked={checked}
-        onChange={() => onChange && onChange()}
-      />
+    <LabelOrDiv
+      label={selectable}
+      className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+    >
+      {selectable ? (
+        <Radio
+          name="pustaka_media_radio"
+          value={materi.id}
+          size="sm"
+          className="px-4"
+          checked={checked}
+          onChange={() => onChange && onChange()}
+        />
+      ) : (
+        <div className="w-[3.25rem]"></div>
+      )}
       <div className="flex flex-1 justify-between items-center space-x-2">
         <div className="flex space-x-2">
           <div
@@ -128,6 +140,6 @@ export default function MateriButton({
           </ActionIconTooltip>
         </div>
       </div>
-    </label>
+    </LabelOrDiv>
   )
 }

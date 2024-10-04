@@ -1,5 +1,9 @@
 import Kelas, { KelasItemType, KelasProps } from '../shared/kelas'
 import Materi, { MateriItemType, MateriProps } from '../shared/materi'
+import PaketSoal, {
+  PaketSoalItemType,
+  PaketSoalProps,
+} from '../shared/paket-soal'
 import PustakaMedia, {
   PustakaMediaDriveType,
   PustakaMediaFileType,
@@ -37,6 +41,9 @@ import ControlledInputRupiah, {
 } from './controlled/input-rupiah'
 import ControlledKelas, { ControlledKelasProps } from './controlled/kelas'
 import ControlledMateri, { ControlledMateriProps } from './controlled/materi'
+import ControlledPaketSoal, {
+  ControlledPaketSoalProps,
+} from './controlled/paket-soal'
 import ControlledPassword, {
   ControlledPasswordProps,
 } from './controlled/password'
@@ -72,6 +79,7 @@ import InputNumberSeparator, {
 } from './input/number-separator'
 import InputRupiah, { InputRupiahProps } from './input/rupiah'
 import Label from './label'
+import LabelOrDiv, { LabelOrDivProps } from './label-or-div'
 import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
 import Loader, { LoaderProps } from './loader'
 import Modal, { ModalProps } from './modal'
@@ -132,6 +140,7 @@ export {
   ControlledInputRupiah,
   ControlledKelas,
   ControlledMateri,
+  ControlledPaketSoal,
   ControlledPassword,
   ControlledPustakaMedia,
   ControlledQuillEditor,
@@ -153,6 +162,7 @@ export {
   InputRupiah,
   Kelas,
   Label,
+  LabelOrDiv,
   LineGroup,
   LinkOrDiv,
   Loader,
@@ -163,6 +173,7 @@ export {
   ModalFooterButtons,
   ModalHeader,
   Pagination,
+  PaketSoal,
   Password,
   PustakaMedia,
   ReadMore,
@@ -205,6 +216,7 @@ export {
   type ControlledInputRupiahProps,
   type ControlledKelasProps,
   type ControlledMateriProps,
+  type ControlledPaketSoalProps,
   type ControlledPasswordProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
@@ -225,6 +237,7 @@ export {
   type InputRupiahProps,
   type KelasItemType,
   type KelasProps,
+  type LabelOrDivProps,
   type LinkOrDivProps,
   type LoaderProps,
   type MateriItemType,
@@ -232,6 +245,8 @@ export {
   type ModalFilePreviewProps,
   type ModalProps,
   type PaginationProps,
+  type PaketSoalItemType,
+  type PaketSoalProps,
   type PasswordProps,
   type PustakaMediaDriveType,
   type PustakaMediaFileType,
