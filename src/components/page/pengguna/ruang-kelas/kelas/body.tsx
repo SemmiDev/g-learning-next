@@ -1,23 +1,19 @@
 'use client'
 
-import { loadMoreAction } from '@/actions/pengajar/ruang-kelas/kelas'
+import { listAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
+import { Loader, Text } from '@/components/ui'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { Fragment, useEffect, useState } from 'react'
-import useInfiniteScroll, {
-  ScrollDirection,
-} from 'react-easy-infinite-scroll-hook'
+import { Fragment } from 'react'
 import ConferenceCard from './diskusi/conference-card'
+import DiskusiCard from './diskusi/diskusi-card'
 import InformasiCard from './diskusi/informasi-card'
 import MateriCard from './diskusi/materi-card'
 import PengajarHeaderCard from './diskusi/pengajar-header-card'
 import PesertaHeaderCard from './diskusi/peserta-header-card'
 import TugasCard from './diskusi/tugas-card'
 import UjianCard from './diskusi/ujian-card'
-import { listAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
-import DiskusiCard from './diskusi/diskusi-card'
-import { Loader, Text } from '@/components/ui'
 
 export default function DiskusiBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -55,19 +51,6 @@ export default function DiskusiBody() {
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
-  const loadNext = async (direction: ScrollDirection) => {
-    if (direction === 'down' && hasNextPage) {
-      await fetchNextPage()
-    }
-  }
-
-  const ref = useInfiniteScroll({
-    next: loadNext,
-    windowScroll: true,
-    rowCount: list.length,
-    hasMore: { down: hasNextPage },
-  })
-
   if (!dataKelas) return null
 
   return (
@@ -81,7 +64,7 @@ export default function DiskusiBody() {
       {isLoading || (!list.length && isFetching) ? (
         <Loader height={300} />
       ) : list.length > 0 ? (
-        <div ref={ref as any}>
+        <div>
           {list.map((item) => (
             <Fragment key={item.aktifitas.id}>
               {item.aktifitas.tipe === 'Materi' ? (
@@ -95,7 +78,7 @@ export default function DiskusiBody() {
                   className="mt-6"
                 />
               ) : item.aktifitas.tipe === 'Ujian' ? (
-                <UjianCard className="mt-6" />
+                <UjianCard kelas={dataKelas} data={item} className="mt-6" />
               ) : item.aktifitas.tipe === 'Pengumuman' ? (
                 <InformasiCard kelas={dataKelas} data={item} className="mt-6" />
               ) : (

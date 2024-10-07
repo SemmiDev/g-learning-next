@@ -14,9 +14,6 @@ import {
 import DaftarTugasCard from '@/components/page/peserta/ruang-kelas/kelas/diskusi/daftar-tugas-card'
 import PresensiCard from '@/components/page/peserta/ruang-kelas/kelas/diskusi/presensi-card'
 import { Fragment, useEffect, useState } from 'react'
-import useInfiniteScroll, {
-  ScrollDirection,
-} from 'react-easy-infinite-scroll-hook'
 
 type DataType = {
   name: string
@@ -24,7 +21,6 @@ type DataType = {
 }
 
 export default function DiskusiPage() {
-  const [hasMore, setHasMore] = useState(true)
   const [data, setData] = useState<DataType[]>([])
 
   const loadData = async () => {
@@ -32,26 +28,9 @@ export default function DiskusiPage() {
     setData((prev) => [...prev, ...moreData])
   }
 
-  const loadNext = async (direction: ScrollDirection) => {
-    if (direction === 'down') {
-      await loadData()
-    }
-
-    if (data.length > 20) {
-      setHasMore(false)
-    }
-  }
-
   useEffect(() => {
     loadData()
   }, [])
-
-  const ref = useInfiniteScroll({
-    next: loadNext,
-    windowScroll: true,
-    rowCount: data.length,
-    hasMore: { down: hasMore },
-  })
 
   const cc = 7
 
@@ -60,7 +39,7 @@ export default function DiskusiPage() {
       <div className="flex flex-col lg:w-7/12">
         <HeaderCard />
 
-        <div ref={ref as any}>
+        <div>
           {data.map((val, idx) => (
             <Fragment key={idx}>
               {idx % cc === 0 ? (
