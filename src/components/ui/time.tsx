@@ -3,10 +3,18 @@
 import 'moment/locale/id'
 import Moment, { MomentProps } from 'react-moment'
 
-type TimeFormat = 'date' | 'datetime' | 'datetimeday' | 'dateday' | 'time'
+type TimeFormat =
+  | 'date'
+  | 'datetime'
+  | 'datetimeday'
+  | 'dateday'
+  | 'dateshort'
+  | 'datetimeshort'
+  | 'time'
 
 const getFormat = (format: TimeFormat, seconds: boolean = false) => {
   const fDate = 'DD MMMM YYYY'
+  const fDateShort = 'DD/MM/YYYY'
   const fTime = `HH:mm${seconds ? ':ss' : ''}`
 
   switch (format) {
@@ -18,6 +26,10 @@ const getFormat = (format: TimeFormat, seconds: boolean = false) => {
       return `${fDate} | ${fTime}`
     case 'datetimeday':
       return `dddd, ${fDate} | ${fTime}`
+    case 'dateshort':
+      return `${fDateShort}`
+    case 'datetimeshort':
+      return `${fDateShort} | ${fTime}`
     case 'time':
       return fTime
     default:
