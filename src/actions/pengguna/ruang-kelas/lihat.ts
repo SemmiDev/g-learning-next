@@ -28,7 +28,7 @@ export type DataType = {
   }[]
   total_peserta: number
   nama_pemilik: string
-  peran: string
+  peran: 'Pengajar' | 'Peserta'
 }
 
 export const lihatKelasAction = (id: string) =>

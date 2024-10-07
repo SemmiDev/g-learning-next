@@ -1,6 +1,5 @@
 'use server'
 
-import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
 import { makeJwtGetRequestTableAction } from '@/utils/action'
 
 export type DataType = {
@@ -51,11 +50,16 @@ export type DataType = {
 export const listAktifitasAction = async ({
   page = 1,
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: {
+  page?: number
+  params: {
+    idKelas: string
+  }
+}) =>
   makeJwtGetRequestTableAction<DataType>(
-    `${process.env.API_URL}/kelas/${params?.idKelas}/aktifitas`,
+    `${process.env.API_URL}/kelas/${params.idKelas}/aktifitas`,
     {
       current_page: page,
-      per_page: 20,
+      per_page: 10,
     }
   )
