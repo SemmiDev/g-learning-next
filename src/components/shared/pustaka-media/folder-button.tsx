@@ -1,5 +1,4 @@
 import { ActionIconTooltip, Text } from '@/components/ui'
-import { useState } from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsFolderFill, BsPencil } from 'react-icons/bs'
 import { LuFolderSearch } from 'react-icons/lu'
@@ -18,8 +17,6 @@ export default function FolderButton({
   onEdit,
   onDelete,
 }: FolderButtonProps) {
-  const [showModalHapus, setShowModalHapus] = useState(false)
-
   return (
     <>
       <div className="flex justify-between items-center space-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
@@ -27,7 +24,7 @@ export default function FolderButton({
           className="flex space-x-2 cursor-pointer pe-2"
           onClick={() => onOpen && onOpen(file)}
         >
-          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
+          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 ms-8">
             <BsFolderFill size={20} className="text-primary" />
           </div>
           <div className="flex flex-col">
