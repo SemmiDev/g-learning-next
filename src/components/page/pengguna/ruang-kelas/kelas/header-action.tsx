@@ -1,13 +1,18 @@
 'use client'
 
 import { ActionIcon, Button } from '@/components/ui'
-import { useState } from 'react'
+import { useShowModal } from '@/hooks/use-show-modal'
+import { useParams } from 'next/navigation'
 import { GrShareOption } from 'react-icons/gr'
 import PengaturanKelasModal from '../modal/pengaturan-kelas'
-import { useParams } from 'next/navigation'
 
 export default function KelasHeaderAction() {
-  const [idPengaturan, setIdPengaturan] = useState<string>()
+  const {
+    show: showPengaturan,
+    key: keyPengaturan,
+    doShow: doShowPengaturan,
+    doHide: doHidePengaturan,
+  } = useShowModal<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -20,13 +25,17 @@ export default function KelasHeaderAction() {
         <Button
           size="sm"
           className="h-7"
-          onClick={() => setIdPengaturan(idKelas)}
+          onClick={() => doShowPengaturan(idKelas)}
         >
           Pengaturan
         </Button>
       </div>
 
-      <PengaturanKelasModal id={idPengaturan} setId={setIdPengaturan} />
+      <PengaturanKelasModal
+        show={showPengaturan}
+        id={keyPengaturan}
+        onHide={doHidePengaturan}
+      />
     </>
   )
 }

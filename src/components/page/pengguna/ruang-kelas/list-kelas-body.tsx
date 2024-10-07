@@ -3,6 +3,7 @@
 import { hapusKelasAction } from '@/actions/pengguna/ruang-kelas/hapus'
 import { listKelasAction } from '@/actions/pengguna/ruang-kelas/list'
 import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -15,7 +16,12 @@ const queryKey = ['pengguna.ruang-kelas.list']
 export default function ListKelasBody() {
   const queryClient = useQueryClient()
   const [showModalBuatKelas, setShowModalBuatKelas] = useState(false)
-  const [idPengaturan, setIdPengaturan] = useState<string>()
+  const {
+    show: showPengaturan,
+    key: keyPengaturan,
+    doShow: doShowPengaturan,
+    doHide: doHidePengaturan,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =
@@ -99,7 +105,7 @@ export default function ListKelasBody() {
                     )} - ${item.jadwal[0].waktu_sampai.substring(0, 5)}`
                   : '-'
               }
-              onPengaturan={(id) => setIdPengaturan(id)}
+              onPengaturan={(id) => doShowPengaturan(id)}
               onDelete={(id) => setIdHapus(id)}
             />
           ))}
@@ -125,7 +131,11 @@ export default function ListKelasBody() {
         setShowModal={setShowModalBuatKelas}
       />
 
-      <PengaturanKelasModal id={idPengaturan} setId={setIdPengaturan} />
+      <PengaturanKelasModal
+        show={showPengaturan}
+        id={keyPengaturan}
+        onHide={doHidePengaturan}
+      />
 
       <ModalConfirm
         title="Hapus Kelas"

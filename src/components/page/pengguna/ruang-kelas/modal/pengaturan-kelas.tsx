@@ -87,12 +87,14 @@ const optionsHari: SelectOption[] = NAMA_HARI.map((hari) => ({
 
 type PengaturanKelasModalProps = {
   id: string | undefined
-  setId(id?: string): void
+  show: boolean
+  onHide: () => void
 }
 
 export default function PengaturanKelasModal({
   id,
-  setId,
+  show,
+  onHide,
 }: PengaturanKelasModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -147,14 +149,14 @@ export default function PengaturanKelasModal({
             ...data,
           })
         )
-        setId(undefined)
+        onHide()
       },
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setId(undefined)
+    onHide()
     setFormError(undefined)
   }
 
@@ -164,7 +166,7 @@ export default function PengaturanKelasModal({
       isLoading={!isLoading && isFetching}
       size="lg"
       headerClassName="[&_.modal-title]:text-lg"
-      isOpen={!!id}
+      isOpen={show}
       onClose={handleClose}
     >
       {isLoading || !id ? (
