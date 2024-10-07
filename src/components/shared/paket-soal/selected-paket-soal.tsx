@@ -9,7 +9,7 @@ type SelectedFileProps = { soal: PaketSoalItemType; onRemove?(): void }
 export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
   return (
     <div
-      className="flex justify-between gap-2 rounded-sm border border-gray-50 cursor-auto p-2"
+      className="flex justify-between gap-2 rounded-sm border border-gray-50 w-full cursor-auto p-2 sm:w-auto"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex space-x-2">
@@ -27,7 +27,7 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
           </Text>
           <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
             <li>
-              <Time date={soal.time} format="datetime" />
+              <Time date={soal.time} format="datetimeshort" />
             </li>
             <li>
               <GoDotFill size={10} />

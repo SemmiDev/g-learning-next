@@ -9,7 +9,7 @@ type SelectedFileProps = { file: FileType; onRemove?(): void }
 export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
   return (
     <div
-      className="flex justify-between gap-2 rounded-sm border border-gray-50 cursor-auto p-2"
+      className="flex justify-between gap-2 rounded-sm border border-gray-50 w-full cursor-auto p-2 sm:w-auto"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex space-x-2">
@@ -37,7 +37,7 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
                   <GoDotFill size={10} />
                 </li>
                 <li>
-                  <Time date={file.time} />
+                  <Time date={file.time} format="dateshort" />
                 </li>
               </>
             )}
