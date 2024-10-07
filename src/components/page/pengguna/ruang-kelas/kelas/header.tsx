@@ -30,7 +30,7 @@ export default function KelasHeader() {
               alt="kelas"
               width={640}
               height={128}
-              className="w-full h-full object-cover"
+              className="w-56 h-32 object-cover"
             />
           ) : (
             <RandomCoverImage
@@ -71,7 +71,7 @@ export default function KelasHeader() {
           </Text>
           <SanitizeHTML
             html={data?.kelas.deskripsi || '-'}
-            className="text-gray text-sm mt-2"
+            className="text-gray-dark text-sm mt-2"
           />
         </div>
       </div>
