@@ -22,5 +22,25 @@ export async function loadMoreAction() {
       name: 'Coba',
       desc: 'Coba aja ah',
     },
+    {
+      name: 'Coba',
+      desc: 'Coba aja ah',
+    },
+    {
+      name: 'Coba',
+      desc: 'Coba aja ah',
+    },
+    {
+      name: 'Coba',
+      desc: 'Coba aja ah',
+    },
+    {
+      name: 'Coba',
+      desc: 'Coba aja ah',
+    },
+    {
+      name: 'Coba',
+      desc: 'Coba aja ah',
+    },
   ]
 }

@@ -43,9 +43,6 @@ export default function ConferenceCard({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
-  const imageFile = (data.file_aktifitas ?? []).find(
-    (item) => item.tipe === 'Gambar'
-  )
 
   const handleHapus = () => {
     if (!idHapus) return
@@ -105,7 +102,8 @@ export default function ConferenceCard({
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/conference/${data.aktifitas.id}`}
           >
             <Button size="sm" color="primary" className="w-full">
-              <BsCameraVideo size={16} className="me-2" /> Buka Kelas
+              <BsCameraVideo size={16} className="me-2" />{' '}
+              {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
           </Link>
           <KomentarSectionFull className="pt-4 px-2 pb-2" />

@@ -30,7 +30,7 @@ export const listKategoriMateriAction = async ({
       keyword: search,
       sort_by: 'nama_kategori',
       order: 'asc',
-      per_page: 100,
+      per_page: 20,
     }
   )
 }

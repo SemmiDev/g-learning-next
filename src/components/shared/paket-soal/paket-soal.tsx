@@ -13,11 +13,12 @@ import {
 } from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { FieldError } from 'rizzui'
 import KategoriButton, { KategoriItemType } from './kategori-button'
 import LihatSoalModal from './modal/lihat-paket-soal'
@@ -102,50 +103,88 @@ export default function PaketSoal({
   }
 
   const {
-    data: listKategori = [],
+    data: dataKategori,
     isLoading: isLoadingKategori,
     isFetching: isFetchingKategori,
     refetch: refetchKategori,
-  } = useQuery<KategoriItemType[]>({
+    hasNextPage: hasNextPageKategori,
+    fetchNextPage: fetchNextPageKategori,
+  } = useInfiniteQuery({
     queryKey: queryKeyKategori,
-    queryFn: async () => {
+    queryFn: async ({ pageParam: page }) => {
       const { data } = await listKategoriSoalAction({
+        page,
         search: searchKategori,
       })
 
-      return (data?.list ?? []).map((item) => ({
-        id: item.id,
-        name: item.nama_kategori,
-        count: item.total_bank_soal,
-      }))
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.id,
+          name: item.nama_kategori,
+          count: item.total_bank_soal,
+        })) as KategoriItemType[],
+        pagination: data?.pagination,
+      }
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const listKategori = dataKategori?.pages.flatMap((page) => page.list) || []
+
+  const [refSentryKategori] = useInfiniteScroll({
+    loading: isLoadingKategori,
+    hasNextPage: hasNextPageKategori,
+    onLoadMore: fetchNextPageKategori,
   })
 
   const {
-    data: listSoal = [],
+    data: dataSoal,
     isLoading: isLoadingSoal,
     isFetching: isFetchingSoal,
     refetch: refetchSoal,
-  } = useQuery<PaketSoalItemType[]>({
+    hasNextPage: hasNextPageSoal,
+    fetchNextPage: fetchNextPageSoal,
+  } = useInfiniteQuery({
     queryKey: queryKeySoal,
-    queryFn: async () => {
-      if (!activeKategori?.id) return []
+    queryFn: async ({ pageParam: page }) => {
+      if (!activeKategori?.id) return { list: [] }
 
       const { data } = await listPaketSoalAction({
+        page,
         search: searchSoal,
         params: {
           idKategori: activeKategori?.id,
         },
       })
 
-      return (data?.list ?? []).map((item) => ({
-        id: item.id,
-        name: item.judul,
-        desc: item.deskripsi,
-        time: item.created_at,
-        count: item.total_soal,
-      }))
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.id,
+          name: item.judul,
+          desc: item.deskripsi,
+          time: item.created_at,
+          count: item.total_soal,
+        })) as PaketSoalItemType[],
+        pagination: data?.pagination,
+      }
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const listSoal = dataSoal?.pages.flatMap((page) => page.list) || []
+
+  const [refSentrySoal] = useInfiniteScroll({
+    loading: isLoadingSoal,
+    hasNextPage: hasNextPageSoal,
+    onLoadMore: fetchNextPageSoal,
   })
 
   useEffect(() => {
@@ -215,7 +254,7 @@ export default function PaketSoal({
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingSoal}
       >
-        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
+        <div className="flex flex-col">
           <div className="flex flex-col min-h-[400px]">
             <div className="flex p-3">
               {activeKategori ? (
@@ -276,50 +315,68 @@ export default function PaketSoal({
                 </>
               )}
             </div>
-            <div className="flex flex-col">
-              {activeKategori ? (
-                isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
-                  <Loader height={288} />
-                ) : listSoal.length > 0 ? (
-                  listSoal.map((soal) => (
-                    <SoalButton
-                      key={soal.id}
-                      soal={soal}
-                      onDetail={(soal) => doShowLihatSoal(soal.id)}
-                      onEdit={(soal) => doShowUbahSoal(soal.id)}
-                      checked={checkedSoal?.id === soal.id}
-                      onChange={() => {
-                        setCheckedSoal(soal)
-                      }}
+            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
+              {activeKategori && (
+                <>
+                  {isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
+                    <Loader height={288} />
+                  ) : listSoal.length > 0 ? (
+                    listSoal.map((soal) => (
+                      <SoalButton
+                        key={soal.id}
+                        soal={soal}
+                        onDetail={(soal) => doShowLihatSoal(soal.id)}
+                        onEdit={(soal) => doShowUbahSoal(soal.id)}
+                        checked={checkedSoal?.id === soal.id}
+                        onChange={() => {
+                          setCheckedSoal(soal)
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center h-72">
+                      <Text size="sm" weight="medium">
+                        {searchSoal ? 'Soal tidak ditemukan' : 'Belum ada soal'}
+                      </Text>
+                    </div>
+                  )}
+                  {!isLoadingSoal && hasNextPageSoal && (
+                    <Loader ref={refSentrySoal} size="sm" className="py-4" />
+                  )}
+                </>
+              )}
+
+              {!activeKategori && (
+                <>
+                  {isLoadingKategori ||
+                  (!listKategori.length && isFetchingKategori) ? (
+                    <Loader height={288} />
+                  ) : listKategori.length > 0 ? (
+                    listKategori.map((kategori) => (
+                      <KategoriButton
+                        key={kategori.id}
+                        kategori={kategori}
+                        onOpen={(kategori) => setActiveKategori(kategori)}
+                        onEdit={(kategori) => doShowUbahKategori(kategori.id)}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center h-72">
+                      <Text size="sm" weight="medium">
+                        {searchKategori
+                          ? 'Kategori tidak ditemukan'
+                          : 'Belum ada kategori'}
+                      </Text>
+                    </div>
+                  )}
+                  {!isLoadingKategori && hasNextPageKategori && (
+                    <Loader
+                      ref={refSentryKategori}
+                      size="sm"
+                      className="py-4"
                     />
-                  ))
-                ) : (
-                  <div className="flex items-center justify-center h-72">
-                    <Text size="sm" weight="medium">
-                      {searchSoal ? 'Soal tidak ditemukan' : 'Belum ada soal'}
-                    </Text>
-                  </div>
-                )
-              ) : isLoadingKategori ||
-                (!listKategori.length && isFetchingKategori) ? (
-                <Loader height={288} />
-              ) : listKategori.length > 0 ? (
-                listKategori.map((kategori) => (
-                  <KategoriButton
-                    key={kategori.id}
-                    kategori={kategori}
-                    onOpen={(kategori) => setActiveKategori(kategori)}
-                    onEdit={(kategori) => doShowUbahKategori(kategori.id)}
-                  />
-                ))
-              ) : (
-                <div className="flex items-center justify-center h-72">
-                  <Text size="sm" weight="medium">
-                    {searchKategori
-                      ? 'Kategori tidak ditemukan'
-                      : 'Belum ada kategori'}
-                  </Text>
-                </div>
+                  )}
+                </>
               )}
             </div>
           </div>

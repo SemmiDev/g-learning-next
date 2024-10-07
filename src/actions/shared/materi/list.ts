@@ -43,6 +43,6 @@ export const listMateriAction = async ({
     {
       current_page: page,
       keyword: search,
-      per_page: 100,
+      per_page: 20,
     }
   )

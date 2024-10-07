@@ -130,7 +130,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/tugas/${data.aktifitas.id}`}
           >
             <Button size="sm" className="w-full">
-              Cek Tugas
+              {kelas.peran === 'Pengajar' ? 'Cek Tugas' : 'Kumpulkan Tugas'}
             </Button>
           </Link>
           <KomentarSectionShort className="pt-4 px-2" />

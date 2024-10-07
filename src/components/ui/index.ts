@@ -7,6 +7,7 @@ import PaketSoal, {
 import PustakaMedia, {
   PustakaMediaDriveType,
   PustakaMediaFileType,
+  PustakaMediaFolderType,
   PustakaMediaProps,
 } from '../shared/pustaka-media'
 import Badge, { BadgeProps } from './badge'
@@ -250,6 +251,7 @@ export {
   type PasswordProps,
   type PustakaMediaDriveType,
   type PustakaMediaFileType,
+  type PustakaMediaFolderType,
   type PustakaMediaProps,
   type RadioGroupOptionType,
   type ReadMoreProps,

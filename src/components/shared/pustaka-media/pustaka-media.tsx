@@ -27,7 +27,11 @@ import {
   getFileType,
 } from '@/utils/file-properties-from-api'
 import { removeFromList } from '@/utils/list'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import _ from 'lodash'
 import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect, useState } from 'react'
@@ -37,6 +41,7 @@ import {
   PiMagnifyingGlass,
   PiUploadSimpleBold,
 } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { FieldError } from 'rizzui'
 import DriveButton from './drive-button'
 import FileButton from './file-button'
@@ -198,20 +203,23 @@ export default function PustakaMedia({
   ]
 
   const {
-    data: files = [],
+    data: dataFiles,
     isLoading: isLoadingFiles,
     refetch: refetchFiles,
-  } = useQuery<FileType[]>({
+    hasNextPage: hasNextPageFiles,
+    fetchNextPage: fetchNextPageFiles,
+  } = useInfiniteQuery({
     queryKey,
-    queryFn: async () => {
+    queryFn: async ({ pageParam: page }) => {
       if (activeDrive === undefined) {
-        return []
+        return { list: [] }
       }
 
       const { data } = await listFileAction({
         personal: activeDrive === null,
         idInstansi: activeDrive ?? undefined,
         idFolder: activeFolder,
+        page,
         search,
         sort: {
           name: 'nama',
@@ -239,22 +247,38 @@ export default function PustakaMedia({
           : undefined,
       })
 
-      return (data?.list ?? []).map((item) => ({
-        id: item.id,
-        name: item.nama,
-        time: item.created_at,
-        link: item.url,
-        extension: item.ekstensi,
-        folder: getFileIsFolder(item),
-        fileCount: getFileCount(item),
-        size: getFileSize(item),
-        type: getFileType(item),
-        driveId: item.id_instansi ?? undefined,
-      }))
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.id,
+          name: item.nama,
+          time: item.created_at,
+          link: item.url,
+          extension: item.ekstensi,
+          folder: getFileIsFolder(item),
+          fileCount: getFileCount(item),
+          size: getFileSize(item),
+          type: getFileType(item),
+          driveId: item.id_instansi ?? undefined,
+        })) as FileType[],
+        pagination: data?.pagination,
+      }
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
   })
 
+  const files = dataFiles?.pages.flatMap((page) => page.list) || []
+
   const currentDrive = drives.filter((item) => item.id === activeDrive)[0]
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoadingFiles,
+    hasNextPage: hasNextPageFiles,
+    onLoadMore: fetchNextPageFiles,
+  })
 
   useEffect(() => {
     if (search === '') {
@@ -435,7 +459,7 @@ export default function PustakaMedia({
                         </div>
                       ))}
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col overflow-y-auto lg:max-h-[calc(100dvh-206px)] xl:max-h-[400px]">
                     {isLoadingFiles ? (
                       <Loader height={200} />
                     ) : (
@@ -491,6 +515,9 @@ export default function PustakaMedia({
                           />
                         )
                       )
+                    )}
+                    {!isLoadingFiles && hasNextPageFiles && (
+                      <Loader ref={refSentry} size="sm" className="py-4" />
                     )}
                   </div>
                 </>

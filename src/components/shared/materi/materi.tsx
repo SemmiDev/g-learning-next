@@ -18,11 +18,12 @@ import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { FieldError } from 'rizzui'
 import KategoriButton, { KategoriItemType } from './kategori-button'
 import MateriButton, { MateriItemType } from './materi-button'
@@ -115,52 +116,90 @@ export default function Materi({
   }
 
   const {
-    data: listKategori = [],
+    data: dataKategori,
     isLoading: isLoadingKategori,
     isFetching: isFetchingKategori,
     refetch: refetchKategori,
-  } = useQuery<KategoriItemType[]>({
+    hasNextPage: hasNextPageKategori,
+    fetchNextPage: fetchNextPageKategori,
+  } = useInfiniteQuery({
     queryKey: queryKeyKategori,
-    queryFn: async () => {
+    queryFn: async ({ pageParam: page }) => {
       const { data } = await listKategoriMateriAction({
+        page,
         search: searchKategori,
       })
 
-      return (data?.list ?? []).map((item) => ({
-        id: item.id,
-        name: item.nama_kategori,
-        count: item.total_materi,
-      }))
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.id,
+          name: item.nama_kategori,
+          count: item.total_materi,
+        })) as KategoriItemType[],
+        pagination: data?.pagination,
+      }
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const listKategori = dataKategori?.pages.flatMap((page) => page.list) || []
+
+  const [refSentryKategori] = useInfiniteScroll({
+    loading: isLoadingKategori,
+    hasNextPage: hasNextPageKategori,
+    onLoadMore: fetchNextPageKategori,
   })
 
   const {
-    data: listMateri = [],
+    data: dataMateri,
     isLoading: isLoadingMateri,
     isFetching: isFetchingMateri,
     refetch: refetchMateri,
-  } = useQuery<MateriItemType[]>({
+    hasNextPage: hasNextPageMateri,
+    fetchNextPage: fetchNextPageMateri,
+  } = useInfiniteQuery({
     queryKey: queryKeyMateri,
-    queryFn: async () => {
-      if (!activeKategori?.id) return []
+    queryFn: async ({ pageParam: page }) => {
+      if (!activeKategori?.id) return { list: [] }
 
       const { data } = await listMateriAction({
+        page,
         search: searchMateri,
         params: {
           idKategori: activeKategori?.id,
         },
       })
 
-      return (data?.list ?? []).map((item) => ({
-        id: item.bank_ajar.id,
-        name: item.bank_ajar.judul,
-        desc: item.bank_ajar.deskripsi,
-        time: item.bank_ajar.created_at,
-        fileCount: item.total_file_bank_ajar,
-        fileIds: item.daftar_file_bank_ajar.map((item) => item.id),
-        type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
-      }))
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.bank_ajar.id,
+          name: item.bank_ajar.judul,
+          desc: item.bank_ajar.deskripsi,
+          time: item.bank_ajar.created_at,
+          fileCount: item.total_file_bank_ajar,
+          fileIds: item.daftar_file_bank_ajar.map((item) => item.id),
+          type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
+        })) as MateriItemType[],
+        pagination: data?.pagination,
+      }
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const listMateri = dataMateri?.pages.flatMap((page) => page.list) || []
+
+  const [refSentryMateri] = useInfiniteScroll({
+    loading: isLoadingMateri,
+    hasNextPage: hasNextPageMateri,
+    onLoadMore: fetchNextPageMateri,
   })
 
   useEffect(() => {
@@ -252,7 +291,7 @@ export default function Materi({
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingMateri}
       >
-        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
+        <div className="flex flex-col">
           <div className="flex flex-col min-h-[400px]">
             <div className="flex justify-between space-x-2 p-3">
               {activeKategori ? (
@@ -325,55 +364,73 @@ export default function Materi({
                 </>
               )}
             </div>
-            <div className="flex flex-col">
-              {activeKategori ? (
-                isLoadingMateri || (!listMateri.length && isFetchingMateri) ? (
-                  <Loader height={288} />
-                ) : listMateri.length > 0 ? (
-                  listMateri.map((materi) => (
-                    <MateriButton
-                      key={materi.id}
-                      materi={materi}
-                      type={type}
-                      onDetail={(materi) => doShowLihatMateri(materi.id)}
-                      onEdit={(materi) => doShowUbahMateri(materi.id)}
-                      onDelete={(materi) => setIdHapusMateri(materi.id)}
-                      checked={checkedMateri?.id === materi.id}
-                      onChange={() => {
-                        setCheckedMateri(materi)
-                      }}
+            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
+              {activeKategori && (
+                <>
+                  {isLoadingMateri ||
+                  (!listMateri.length && isFetchingMateri) ? (
+                    <Loader height={288} />
+                  ) : listMateri.length > 0 ? (
+                    listMateri.map((materi) => (
+                      <MateriButton
+                        key={materi.id}
+                        materi={materi}
+                        type={type}
+                        onDetail={(materi) => doShowLihatMateri(materi.id)}
+                        onEdit={(materi) => doShowUbahMateri(materi.id)}
+                        onDelete={(materi) => setIdHapusMateri(materi.id)}
+                        checked={checkedMateri?.id === materi.id}
+                        onChange={() => {
+                          setCheckedMateri(materi)
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center h-72">
+                      <Text size="sm" weight="medium">
+                        {searchMateri
+                          ? 'Materi tidak ditemukan'
+                          : 'Belum ada materi'}
+                      </Text>
+                    </div>
+                  )}
+                  {!isLoadingMateri && hasNextPageMateri && (
+                    <Loader ref={refSentryMateri} size="sm" className="py-4" />
+                  )}
+                </>
+              )}
+              {!activeKategori && (
+                <>
+                  {isLoadingKategori ||
+                  (!listKategori.length && isFetchingKategori) ? (
+                    <Loader height={288} />
+                  ) : listKategori.length > 0 ? (
+                    listKategori.map((kategori) => (
+                      <KategoriButton
+                        key={kategori.id}
+                        kategori={kategori}
+                        onOpen={(kategori) => setActiveKategori(kategori)}
+                        onEdit={(kategori) => doShowUbahKategori(kategori.id)}
+                        onDelete={(kategori) => setIdHapusKategori(kategori.id)}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center h-72">
+                      <Text size="sm" weight="medium">
+                        {searchKategori
+                          ? 'Kategori tidak ditemukan'
+                          : 'Belum ada kategori'}
+                      </Text>
+                    </div>
+                  )}
+                  {!isLoadingKategori && hasNextPageKategori && (
+                    <Loader
+                      ref={refSentryKategori}
+                      size="sm"
+                      className="py-4"
                     />
-                  ))
-                ) : (
-                  <div className="flex items-center justify-center h-72">
-                    <Text size="sm" weight="medium">
-                      {searchMateri
-                        ? 'Materi tidak ditemukan'
-                        : 'Belum ada materi'}
-                    </Text>
-                  </div>
-                )
-              ) : isLoadingKategori ||
-                (!listKategori.length && isFetchingKategori) ? (
-                <Loader height={288} />
-              ) : listKategori.length > 0 ? (
-                listKategori.map((kategori) => (
-                  <KategoriButton
-                    key={kategori.id}
-                    kategori={kategori}
-                    onOpen={(kategori) => setActiveKategori(kategori)}
-                    onEdit={(kategori) => doShowUbahKategori(kategori.id)}
-                    onDelete={(kategori) => setIdHapusKategori(kategori.id)}
-                  />
-                ))
-              ) : (
-                <div className="flex items-center justify-center h-72">
-                  <Text size="sm" weight="medium">
-                    {searchKategori
-                      ? 'Kategori tidak ditemukan'
-                      : 'Belum ada kategori'}
-                  </Text>
-                </div>
+                  )}
+                </>
               )}
             </div>
           </div>

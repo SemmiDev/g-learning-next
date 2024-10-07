@@ -138,7 +138,7 @@ export default function MateriCard({
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/materi/${data.aktifitas.id}`}
           >
             <Button size="sm" className="w-full">
-              Buka Kelas
+              {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
           </Link>
         </div>

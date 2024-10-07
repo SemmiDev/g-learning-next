@@ -53,7 +53,7 @@ export const listFileAction = async ({
       keyword: search,
       sort_by: sort?.name,
       order: sort?.direction,
-      per_page: 100,
+      per_page: 20,
       personal: personal ? 'true' : undefined,
       id_instansi: idInstansi,
       id_parent: idFolder,
