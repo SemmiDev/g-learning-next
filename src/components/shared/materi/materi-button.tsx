@@ -54,7 +54,7 @@ export default function MateriButton({
     >
       {selectable ? (
         <Radio
-          name="pustaka_media_radio"
+          name="materi_radio"
           value={materi.id}
           size="sm"
           className="px-4"

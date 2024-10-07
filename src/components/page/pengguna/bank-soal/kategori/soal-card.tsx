@@ -20,6 +20,7 @@ export type SoalType = {
   desc: string
   time: string
   count: number
+  total: number
 }
 
 type SoalCardProps = {

@@ -23,7 +23,7 @@ export default function KelasButton({
     <>
       <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
         <Radio
-          name="pustaka_media_radio"
+          name="kelas_radio"
           value={kelas.id}
           size="sm"
           className="px-4"
