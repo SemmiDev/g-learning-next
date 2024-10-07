@@ -6,7 +6,9 @@ import {
   Card,
   CardSeparator,
   FileListItem,
+  FilePreviewType,
   ModalConfirm,
+  ModalFilePreview,
   Text,
   Time,
   Title,
@@ -37,6 +39,7 @@ export default function MateriCard({
   className,
 }: MateriCardProps) {
   const queryClient = useQueryClient()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -126,6 +129,14 @@ export default function MateriCard({
                     type: getFileType(file),
                     link: file.url,
                   }}
+                  onPreview={(file) => {
+                    if (!file.link) return
+
+                    setFilePreview({
+                      url: file.link,
+                      extension: file.extension,
+                    })
+                  }}
                   download
                 />
               ))}
@@ -143,6 +154,11 @@ export default function MateriCard({
           </Link>
         </div>
       </Card>
+
+      <ModalFilePreview
+        file={filePreview}
+        onClose={() => setFilePreview(undefined)}
+      />
 
       <ModalConfirm
         title="Hapus Materi"

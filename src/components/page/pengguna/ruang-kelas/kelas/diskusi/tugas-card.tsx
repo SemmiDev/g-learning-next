@@ -6,7 +6,9 @@ import {
   Card,
   CardSeparator,
   FileListItem,
+  FilePreviewType,
   ModalConfirm,
+  ModalFilePreview,
   Text,
   TextSpan,
   Time,
@@ -35,6 +37,7 @@ type TugasCardProps = {
 
 export default function TugasCard({ kelas, data, className }: TugasCardProps) {
   const queryClient = useQueryClient()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -110,6 +113,14 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
                     type: getFileType(file),
                     link: file.url,
                   }}
+                  onPreview={(file) => {
+                    if (!file.link) return
+
+                    setFilePreview({
+                      url: file.link,
+                      extension: file.extension,
+                    })
+                  }}
                   download
                 />
               ))}
@@ -136,6 +147,11 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
           <KomentarSectionShort className="pt-4 px-2" />
         </div>
       </Card>
+
+      <ModalFilePreview
+        file={filePreview}
+        onClose={() => setFilePreview(undefined)}
+      />
 
       <ModalConfirm
         title="Hapus Tugas"

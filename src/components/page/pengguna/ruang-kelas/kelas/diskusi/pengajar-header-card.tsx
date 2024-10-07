@@ -21,11 +21,11 @@ type HeaderPengajarCardProps = {
 export default function PengajarHeaderCard({
   className,
 }: HeaderPengajarCardProps) {
-  const [showModalMateri, setShowModalMateri] = useState(false)
-  const [showModalTugas, setShowModalTugas] = useState(false)
-  const [showModalUjian, setShowModalUjian] = useState(false)
-  const [showModalConference, setShowModalConference] = useState(false)
-  const [showModalInformasi, setShowModalInformasi] = useState(false)
+  const [showTambahMateri, setShowTambahMateri] = useState(false)
+  const [showTambahTugas, setShowTambahTugas] = useState(false)
+  const [showTambahUjian, setShowTambahUjian] = useState(false)
+  const [showTambahConference, setShowTambahConference] = useState(false)
+  const [showTambahInformasi, setShowTambahInformasi] = useState(false)
 
   return (
     <>
@@ -40,35 +40,35 @@ export default function PengajarHeaderCard({
           <ButtonIcon
             title="Materi"
             color="green"
-            onClick={() => setShowModalMateri(true)}
+            onClick={() => setShowTambahMateri(true)}
           >
             <BsFileRichtext size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Tugas"
             color="violet"
-            onClick={() => setShowModalTugas(true)}
+            onClick={() => setShowTambahTugas(true)}
           >
             <BsClipboardPlus size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Ujian"
             color="blue"
-            onClick={() => setShowModalUjian(true)}
+            onClick={() => setShowTambahUjian(true)}
           >
             <BsCardChecklist size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Conference"
             color="red"
-            onClick={() => setShowModalConference(true)}
+            onClick={() => setShowTambahConference(true)}
           >
             <BsWebcam size={32} />
           </ButtonIcon>
           <ButtonIcon
             title="Informasi"
             color="indigo"
-            onClick={() => setShowModalInformasi(true)}
+            onClick={() => setShowTambahInformasi(true)}
           >
             <BsMegaphone size={32} />
           </ButtonIcon>
@@ -76,28 +76,22 @@ export default function PengajarHeaderCard({
       </Card>
 
       <TambahMateriModal
-        showModal={showModalMateri}
-        setShowModal={setShowModalMateri}
+        show={showTambahMateri}
+        setShow={setShowTambahMateri}
       />
 
-      <TambahTugasModal
-        showModal={showModalTugas}
-        setShowModal={setShowModalTugas}
-      />
+      <TambahTugasModal show={showTambahTugas} setShow={setShowTambahTugas} />
 
-      <TambahUjianModal
-        showModal={showModalUjian}
-        setShowModal={setShowModalUjian}
-      />
+      <TambahUjianModal show={showTambahUjian} setShow={setShowTambahUjian} />
 
       <TambahConferenceModal
-        showModal={showModalConference}
-        setShowModal={setShowModalConference}
+        show={showTambahConference}
+        setShow={setShowTambahConference}
       />
 
       <TambahInformasiModal
-        showModal={showModalInformasi}
-        setShowModal={setShowModalInformasi}
+        show={showTambahInformasi}
+        setShow={setShowTambahInformasi}
       />
     </>
   )

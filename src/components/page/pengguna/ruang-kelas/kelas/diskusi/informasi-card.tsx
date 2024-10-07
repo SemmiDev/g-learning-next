@@ -5,7 +5,9 @@ import {
   Card,
   CardSeparator,
   FileListItem,
+  FilePreviewType,
   ModalConfirm,
+  ModalFilePreview,
   Text,
   Time,
   Title,
@@ -35,6 +37,7 @@ export default function InformasiCard({
   className,
 }: InformasiCardProps) {
   const queryClient = useQueryClient()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -123,6 +126,14 @@ export default function InformasiCard({
                     type: getFileType(file),
                     link: file.url,
                   }}
+                  onPreview={(file) => {
+                    if (!file.link) return
+
+                    setFilePreview({
+                      url: file.link,
+                      extension: file.extension,
+                    })
+                  }}
                   download
                 />
               ))}
@@ -132,6 +143,11 @@ export default function InformasiCard({
         <CardSeparator />
         <KomentarSectionZero className="pt-4 px-4 pb-2" />
       </Card>
+
+      <ModalFilePreview
+        file={filePreview}
+        onClose={() => setFilePreview(undefined)}
+      />
 
       <ModalConfirm
         title="Hapus Informasi"

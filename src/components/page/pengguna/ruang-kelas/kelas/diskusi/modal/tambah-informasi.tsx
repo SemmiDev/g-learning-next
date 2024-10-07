@@ -1,6 +1,5 @@
 import { tambahAktifitasInformasiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-informasi'
 import {
-  Button,
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
@@ -55,13 +54,13 @@ const initialValues: TambahInformasiFormSchema = {
 }
 
 type TambahInformasiModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahInformasiModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahInformasiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -73,7 +72,7 @@ export default function TambahInformasiModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
@@ -83,7 +82,7 @@ export default function TambahInformasiModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -91,7 +90,7 @@ export default function TambahInformasiModal({
     <Modal
       title="Bagikan Informasi"
       size="lg"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahInformasiFormSchema>

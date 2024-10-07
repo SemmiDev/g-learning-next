@@ -38,7 +38,7 @@ const getFormat = (format: TimeFormat, seconds: boolean = false) => {
 }
 
 export type TimeProps = {
-  date?: MomentProps['date']
+  date?: MomentProps['date'] | null
   format?: TimeFormat
   seconds?: boolean
   fromNow?: boolean
@@ -64,7 +64,7 @@ export default function Time({
 
   return (
     <Moment
-      date={date}
+      date={date || undefined}
       format={!fromNow ? getFormat(format, seconds) : undefined}
       locale="id"
       fromNow={fromNow}

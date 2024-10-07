@@ -83,24 +83,24 @@ const initialValues: TambahMateriFormSchema = {
   berkas: [],
 }
 
-const optionsPresensi: RadioGroupOptionType[] = [
+const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const optionsTipePresensi: RadioGroupOptionType[] = [
+const tipePresensiOptions: RadioGroupOptionType[] = [
   { label: 'Absensi Manual', value: 'Manual' },
   { label: 'Absensi Otomatis', value: 'Otomatis' },
 ]
 
 type TambahMateriModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahMateriModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahMateriModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -112,7 +112,7 @@ export default function TambahMateriModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
@@ -122,7 +122,7 @@ export default function TambahMateriModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -131,7 +131,7 @@ export default function TambahMateriModal({
       title="Bagikan Materi"
       desc="Lampirkan materi yang ingin Kamu bagikan, dapat berupa gambar, video, link video, atau dokumen"
       size="lg"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahMateriFormSchema>
@@ -200,7 +200,7 @@ export default function TambahMateriModal({
                 className="flex gap-8 my-2"
                 groupClassName="gap-8"
                 labelClassName="mb-0"
-                options={optionsPresensi}
+                options={presensiOptions}
               />
 
               {watch('presensi') === 'aktif' && (
@@ -216,7 +216,7 @@ export default function TambahMateriModal({
                   className="flex gap-8 my-2"
                   groupClassName="gap-8"
                   labelClassName="mb-0"
-                  options={optionsTipePresensi}
+                  options={tipePresensiOptions}
                 />
               )}
             </div>

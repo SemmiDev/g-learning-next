@@ -1,22 +1,35 @@
+import { tambahAktifitasUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-ujian'
 import {
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledPaketSoal,
   ControlledQuillEditor,
   ControlledRadioGroup,
+  ControlledSelect,
   Form,
+  FormError,
   Modal,
   ModalFooterButtons,
+  PaketSoalItemType,
   RadioGroupOptionType,
+  SelectOptionType,
 } from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
+import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
 import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
-  jenis: z.string().pipe(required),
+  judul: z.string().pipe(required),
+  jenis: z.any().superRefine(objectRequired),
   durasi: z
     .string()
     .pipe(required)
@@ -24,9 +37,10 @@ const baseFormSchema = z.object({
     .pipe(z.number().min(1)),
   mulai: z.date(),
   selesai: z.date(),
-  paket: z.string().optional(),
+  paket: z.any().superRefine(objectRequired),
   catatan: z.string().optional(),
-  acak: z.string(),
+  acakSoal: z.string(),
+  acakJawaban: z.string(),
   presensi: z.string(),
 })
 
@@ -44,55 +58,80 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
-  jenis?: string
+export type TambahUjianFormSchema = {
+  judul?: string
+  jenis?: SelectOptionType
   penjadwalan: boolean
   jadwal?: Date
   durasi?: string | number
   mulai?: Date
   selesai?: Date
-  paket?: string
+  paket?: PaketSoalItemType
   catatan?: string
-  acak: string
+  acakSoal: string
+  acakJawaban: string
   presensi: string
 }
 
-const initialValues: FormSchema = {
+const initialValues: TambahUjianFormSchema = {
   penjadwalan: false,
-  acak: 'aktif',
+  acakSoal: 'aktif',
+  acakJawaban: 'non-aktif',
   presensi: 'aktif',
 }
 
-const optionsAcak: RadioGroupOptionType[] = [
+const jenisOptions: SelectOptionType[] = [
+  selectOption('Tugas'),
+  selectOption('UTS'),
+  selectOption('UAS'),
+]
+
+const acakOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const optionsPresensi: RadioGroupOptionType[] = [
+const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
+
+type TambahUjianModalProps = {
+  show?: boolean
+  setShow(show: boolean): void
+}
 
 export default function TambahUjianModal({
-  showModal = false,
-  setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    console.log('form data', data)
+  show = false,
+  setShow,
+}: TambahUjianModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const onSubmit: SubmitHandler<TambahUjianFormSchema> = async (data) => {
+    await handleActionWithToast(tambahAktifitasUjianAction(idKelas, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShow(false)
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  const handleClose = () => {
+    setShow(false)
+    setFormError(undefined)
   }
 
   return (
-    <Modal
-      title="Bagikan Ujian"
-      size="lg"
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
-    >
-      <Form<FormSchema>
+    <Modal title="Bagikan Ujian" size="lg" isOpen={show} onClose={handleClose}>
+      <Form<TambahUjianFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -109,11 +148,22 @@ export default function TambahUjianModal({
           <>
             <div className="flex flex-col gap-4 p-3">
               <ControlledInput
+                name="judul"
+                control={control}
+                errors={errors}
+                label="Judul Ujian"
+                placeholder="Tulis judul ujian di sini"
+                required
+              />
+
+              <ControlledSelect
                 name="jenis"
                 control={control}
+                options={jenisOptions}
                 errors={errors}
                 label="Jenis Ujian"
                 placeholder="Tulis jenis ujian di sini"
+                required
               />
 
               <div className="flex gap-x-4">
@@ -132,6 +182,7 @@ export default function TambahUjianModal({
                     dateFormat="dd MMMM yyyy HH:mm"
                     timeFormat="HH:mm"
                     className="flex-1"
+                    required
                   />
                 )}
               </div>
@@ -144,8 +195,9 @@ export default function TambahUjianModal({
                   label="Durasi Ujian"
                   type="number"
                   placeholder="Atur lama ujian"
-                  className="flex-1"
-                  suffix="Menit"
+                  className="w-36"
+                  suffix={<small>Menit</small>}
+                  required
                 />
                 <ControlledDatePicker
                   name="mulai"
@@ -157,6 +209,7 @@ export default function TambahUjianModal({
                   dateFormat="dd MMMM yyyy HH:mm"
                   timeFormat="HH:mm"
                   className="flex-1"
+                  required
                 />
                 <ControlledDatePicker
                   name="selesai"
@@ -168,16 +221,17 @@ export default function TambahUjianModal({
                   dateFormat="dd MMMM yyyy HH:mm"
                   timeFormat="HH:mm"
                   className="flex-1"
+                  required
                 />
               </div>
 
-              {/* Ganti menggunakan searchable select */}
-              <ControlledInput
+              <ControlledPaketSoal
                 name="paket"
                 control={control}
                 errors={errors}
                 label="Pilih Paket Soal"
                 placeholder="Klik di sini untuk memilih paket soal yang ada"
+                required
               />
 
               <ControlledQuillEditor
@@ -190,7 +244,7 @@ export default function TambahUjianModal({
               />
 
               <ControlledRadioGroup
-                name="acak"
+                name="acakSoal"
                 control={control}
                 label={
                   <div className="flex items-center">
@@ -200,7 +254,21 @@ export default function TambahUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={optionsAcak}
+                options={acakOptions}
+              />
+
+              <ControlledRadioGroup
+                name="acakJawaban"
+                control={control}
+                label={
+                  <div className="flex items-center">
+                    Acak Jawaban
+                    <BsInfoCircle size={12} className="ml-1" />
+                  </div>
+                }
+                className="mb-1.5"
+                groupClassName="gap-8"
+                options={acakOptions}
               />
 
               <ControlledRadioGroup
@@ -214,8 +282,12 @@ export default function TambahUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={optionsPresensi}
+                options={presensiOptions}
               />
+            </div>
+
+            <div className="px-3">
+              <FormError error={formError} />
             </div>
 
             <CardSeparator />
@@ -223,7 +295,7 @@ export default function TambahUjianModal({
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
-              onCancel={() => setShowModal(false)}
+              onCancel={handleClose}
             />
           </>
         )}

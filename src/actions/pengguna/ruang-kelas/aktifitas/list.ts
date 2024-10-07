@@ -29,7 +29,17 @@ export type DataType = {
     created_at: string
     updated_at: string
   }
-  bank_soal: null
+  bank_soal: {
+    id: string
+    id_kategori: string
+    id_pengajar: string
+    judul: string
+    deskripsi: string
+    bobot_benar: number
+    bobot_salah: number
+    bobot_kosong: number
+    jumlah_soal_yang_digunakan: number
+  }
   file_aktifitas: {
     id: string
     id_parent: string | null

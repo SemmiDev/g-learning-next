@@ -6,6 +6,7 @@ import { Loader, Text } from '@/components/ui'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment } from 'react'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import ConferenceCard from './diskusi/conference-card'
 import DaftarTugasCard from './diskusi/daftar-tugas-card'
 import DiskusiCard from './diskusi/diskusi-card'
@@ -16,7 +17,6 @@ import PesertaHeaderCard from './diskusi/peserta-header-card'
 import PresensiCard from './diskusi/presensi-card'
 import TugasCard from './diskusi/tugas-card'
 import UjianCard from './diskusi/ujian-card'
-import useInfiniteScroll from 'react-infinite-scroll-hook'
 
 export default function DiskusiBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -96,7 +96,7 @@ export default function DiskusiBody() {
                     className="mt-6"
                   />
                 ) : (
-                  <DiskusiCard />
+                  <DiskusiCard kelas={dataKelas} data={item} className="mt-6" />
                 )}
               </Fragment>
             ))}

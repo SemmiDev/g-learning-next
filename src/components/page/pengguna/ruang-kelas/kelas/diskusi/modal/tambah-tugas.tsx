@@ -68,13 +68,13 @@ const initialValues: TambahTugasFormSchema = {
 }
 
 type TambahTugasModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function TambahTugasModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: TambahTugasModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -86,7 +86,7 @@ export default function TambahTugasModal({
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({
           queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
@@ -96,17 +96,12 @@ export default function TambahTugasModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
-    <Modal
-      title="Bagikan Tugas"
-      size="lg"
-      isOpen={showModal}
-      onClose={handleClose}
-    >
+    <Modal title="Bagikan Tugas" size="lg" isOpen={show} onClose={handleClose}>
       <Form<TambahTugasFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}

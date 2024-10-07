@@ -1,14 +1,16 @@
-import { Card, Text, Title } from '@/components/ui'
+import { Card, Title } from '@/components/ui'
 import { useState } from 'react'
 import { BsMegaphone } from 'react-icons/bs'
 import ButtonIcon from '../button-icon'
 
+type PesertaHeaderCardProps = {
+  className?: string
+}
+
 export default function PesertaHeaderCard({
   className,
-}: {
-  className?: string
-}) {
-  const [showModalDiskusi, setShowModalDiskusi] = useState(false)
+}: PesertaHeaderCardProps) {
+  const [showTambahDiskusi, setShowTambahDiskusi] = useState(false)
 
   return (
     <>

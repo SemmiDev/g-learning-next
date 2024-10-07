@@ -56,18 +56,20 @@ const initialValues: TambahConferenceFormSchema = {
   penjadwalan: false,
 }
 
-const optionsPresensi: RadioGroupOptionType[] = [
+const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
+type TambahConferenceModalProps = {
+  show?: boolean
+  setShow(show: boolean): void
+}
+
 export default function TambahConferenceModal({
-  showModal = false,
-  setShowModal,
-}: {
-  showModal?: boolean
-  setShowModal(show: boolean): void
-}) {
+  show = false,
+  setShow,
+}: TambahConferenceModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -80,7 +82,7 @@ export default function TambahConferenceModal({
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
         onSuccess: () => {
-          setShowModal(false)
+          setShow(false)
           queryClient.invalidateQueries({
             queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
           })
@@ -91,7 +93,7 @@ export default function TambahConferenceModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -99,7 +101,7 @@ export default function TambahConferenceModal({
     <Modal
       title="Bagikan Conference"
       size="lg"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<TambahConferenceFormSchema>
@@ -157,7 +159,7 @@ export default function TambahConferenceModal({
                 className="flex gap-8 my-2"
                 groupClassName="gap-8"
                 labelClassName="mb-0"
-                options={optionsPresensi}
+                options={presensiOptions}
               />
             </div>
 
