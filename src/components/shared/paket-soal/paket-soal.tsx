@@ -15,6 +15,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -49,6 +50,7 @@ export default function PaketSoal({
   error,
   errorClassName,
 }: PaketSoalProps) {
+  const { status } = useSession()
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
 
@@ -204,6 +206,14 @@ export default function PaketSoal({
 
     _.debounce(refetchSoal, 250)()
   }, [searchSoal, refetchSoal])
+
+  if (status === 'unauthenticated') {
+    return (
+      <div className="text-danger text-sm font-semibold border border-danger rounded-md ring-[0.6px] ring-muted min-h-10 uppercase py-2 px-[0.875rem]">
+        Penggunaan paket soal mengharuskan untuk login!
+      </div>
+    )
+  }
 
   return (
     <>

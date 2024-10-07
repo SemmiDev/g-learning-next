@@ -13,6 +13,7 @@ import {
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -43,6 +44,7 @@ export default function Kelas({
   error,
   errorClassName,
 }: KelasProps) {
+  const { status } = useSession()
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
   const [search, setSearch] = useState('')
@@ -126,6 +128,14 @@ export default function Kelas({
 
     _.debounce(refetchKelas, 250)()
   }, [search, refetchKelas])
+
+  if (status === 'unauthenticated') {
+    return (
+      <div className="text-danger text-sm font-semibold border border-danger rounded-md ring-[0.6px] ring-muted min-h-10 uppercase py-2 px-[0.875rem]">
+        Penggunaan kelas mengharuskan untuk login!
+      </div>
+    )
+  }
 
   return (
     <>
