@@ -1,19 +1,26 @@
 'use client'
 
+import { listKelasAction } from '@/actions/shared/kelas/list'
 import {
   Button,
   CardSeparator,
   Input,
   Label,
+  Loader,
   Modal,
   Text,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { FieldError } from 'rizzui'
 import KelasButton, { KelasItemType } from './kelas-button'
 import SelectedKelas from './selected-kelas'
+
+const queryKey = ['shared.kelas.list']
 
 export type KelasProps = {
   label?: string
@@ -21,7 +28,7 @@ export type KelasProps = {
   placeholder?: string
   value?: KelasItemType
   onChange?(val?: KelasItemType): void
-  multiple?: boolean
+  type?: 'Pengajar' | 'Peserta'
   error?: string
   errorClassName?: string
 }
@@ -32,12 +39,14 @@ export default function Kelas({
   placeholder = 'Klik di sini untuk memilih kelas',
   value,
   onChange,
+  type,
   error,
   errorClassName,
 }: KelasProps) {
   const [show, setShow] = useState(false)
   const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
-  const [checkedKelasId, setCheckedKelasId] = useState<string>()
+  const [search, setSearch] = useState('')
+  const [checkedKelas, setCheckedKelas] = useState<KelasItemType | undefined>()
   const [selectedKelas, setSelectedKelas] = useState<KelasItemType | undefined>(
     value
   )
@@ -57,52 +66,66 @@ export default function Kelas({
     handleResize()
   }, [])
 
-  const doShow = () => {
-    setShow(true)
-  }
-
-  const doHide = () => {
-    setShow(false)
-  }
-
-  const doChange = (selected: KelasItemType | undefined) => {
+  const doChange = (selected?: KelasItemType) => {
     setSelectedKelas(selected)
 
     onChange && onChange(selected)
   }
 
-  const dataKelas: KelasItemType[] = [
-    {
-      id: 'k1',
-      program: 'Sistem Informasi',
-      kelas: 'Kelas TI A',
-      instansi: 'Nama Instansi',
+  const {
+    data: dataKelas,
+    isLoading: isLoadingKelas,
+    isFetching: isFetchingKelas,
+    refetch: refetchKelas,
+    hasNextPage: hasNextPageKelas,
+    fetchNextPage: fetchNextPageKelas,
+  } = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listKelasAction({
+        page,
+        search,
+        kategori:
+          type === 'Pengajar'
+            ? 'Dikelola'
+            : type === 'Peserta'
+            ? 'Diikuti'
+            : undefined,
+      })
+
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.kelas.id,
+          program: item.kelas.nama_kelas,
+          kelas: item.kelas.sub_judul,
+          instansi: item.kelas.nama_instansi,
+        })) as KelasItemType[],
+        pagination: data?.pagination,
+      }
     },
-    {
-      id: 'k2',
-      program: 'Sistem Informasi',
-      kelas: 'Kelas TI B',
-      instansi: 'Nama Instansi',
-    },
-    {
-      id: 'k3',
-      program: 'Kalkulus',
-      kelas: 'Kelas TI A',
-      instansi: 'Nama Instansi',
-    },
-    {
-      id: 'k4',
-      program: 'Kalkulus',
-      kelas: 'Kelas TI B',
-      instansi: 'Nama Instansi',
-    },
-    {
-      id: 'k5',
-      program: 'Bahasa Pemrograman',
-      kelas: 'Kelas TI A',
-      instansi: 'Umum',
-    },
-  ]
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const listKelas = dataKelas?.pages.flatMap((page) => page.list) || []
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoadingKelas,
+    hasNextPage: hasNextPageKelas,
+    onLoadMore: fetchNextPageKelas,
+  })
+
+  useEffect(() => {
+    if (search === '') {
+      refetchKelas()
+      return
+    }
+
+    _.debounce(refetchKelas, 250)()
+  }, [search, refetchKelas])
 
   return (
     <>
@@ -121,16 +144,15 @@ export default function Kelas({
             }
           )}
           onClick={() => {
-            setCheckedKelasId(selectedKelas?.id)
-            doShow()
+            setCheckedKelas(selectedKelas)
+            refetchKelas()
+            setShow(true)
           }}
         >
           {selectedKelas ? (
             <SelectedKelas
               kelas={selectedKelas}
-              onOpenList={() => {
-                doShow()
-              }}
+              onRemove={() => doChange(undefined)}
             />
           ) : (
             <Text size="sm" className="kelas text-gray-lighter">
@@ -148,7 +170,8 @@ export default function Kelas({
         title="Cari dan Pilih Kelas"
         size={size}
         isOpen={show}
-        onClose={doHide}
+        onClose={() => setShow(false)}
+        isLoading={isFetchingKelas}
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
           <div className="flex flex-col min-h-[400px]">
@@ -162,19 +185,35 @@ export default function Kelas({
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onClear={() => setSearch('')}
               />
             </div>
-            <div className="flex flex-col">
-              {dataKelas.map((kelas, idx) => (
-                <KelasButton
-                  kelas={kelas}
-                  checked={checkedKelasId === kelas.id}
-                  onChange={() => {
-                    setCheckedKelasId(kelas.id)
-                  }}
-                  key={idx}
-                />
-              ))}
+            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
+              {isLoadingKelas || (!listKelas.length && isFetchingKelas) ? (
+                <Loader height={320} />
+              ) : listKelas.length > 0 ? (
+                listKelas.map((kelas) => (
+                  <KelasButton
+                    key={kelas.id}
+                    kelas={kelas}
+                    checked={checkedKelas?.id === kelas.id}
+                    onChange={() => {
+                      setCheckedKelas(kelas)
+                    }}
+                  />
+                ))
+              ) : (
+                <div className="flex items-center justify-center h-80">
+                  <Text size="sm" weight="medium">
+                    {search ? 'Kelas tidak ditemukan' : 'Belum ada Kelas'}
+                  </Text>
+                </div>
+              )}
+              {!isLoadingKelas && hasNextPageKelas && (
+                <Loader ref={refSentry} size="sm" className="py-4" />
+              )}
             </div>
           </div>
           <div>
@@ -184,12 +223,10 @@ export default function Kelas({
                 size="sm"
                 className="w-36"
                 onClick={() => {
-                  const selected = dataKelas.find(
-                    (val) => val.id === checkedKelasId
-                  )
-                  doChange(selected)
-                  doHide()
+                  doChange(checkedKelas)
+                  setShow(false)
                 }}
+                disabled={!checkedKelas}
               >
                 Pilih Kelas
               </Button>
@@ -197,7 +234,7 @@ export default function Kelas({
                 size="sm"
                 variant="outline"
                 className="w-36"
-                onClick={doHide}
+                onClick={() => setShow(false)}
               >
                 Batal
               </Button>

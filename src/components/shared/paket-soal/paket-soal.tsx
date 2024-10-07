@@ -211,8 +211,8 @@ export default function PaketSoal({
         <div
           onClick={() => {
             setCheckedSoal(selectedSoal)
-            setShow(true)
             refetchKategori()
+            setShow(true)
           }}
         >
           {label && (
@@ -319,7 +319,7 @@ export default function PaketSoal({
               {activeKategori && (
                 <>
                   {isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
-                    <Loader height={288} />
+                    <Loader height={320} />
                   ) : listSoal.length > 0 ? (
                     listSoal.map((soal) => (
                       <SoalButton
@@ -334,7 +334,7 @@ export default function PaketSoal({
                       />
                     ))
                   ) : (
-                    <div className="flex items-center justify-center h-72">
+                    <div className="flex items-center justify-center h-80">
                       <Text size="sm" weight="medium">
                         {searchSoal ? 'Soal tidak ditemukan' : 'Belum ada soal'}
                       </Text>
@@ -350,7 +350,7 @@ export default function PaketSoal({
                 <>
                   {isLoadingKategori ||
                   (!listKategori.length && isFetchingKategori) ? (
-                    <Loader height={288} />
+                    <Loader height={320} />
                   ) : listKategori.length > 0 ? (
                     listKategori.map((kategori) => (
                       <KategoriButton
@@ -361,7 +361,7 @@ export default function PaketSoal({
                       />
                     ))
                   ) : (
-                    <div className="flex items-center justify-center h-72">
+                    <div className="flex items-center justify-center h-80">
                       <Text size="sm" weight="medium">
                         {searchKategori
                           ? 'Kategori tidak ditemukan'

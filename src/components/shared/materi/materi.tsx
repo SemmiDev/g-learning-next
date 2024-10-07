@@ -248,8 +248,8 @@ export default function Materi({
         <div
           onClick={() => {
             setCheckedMateri(selectedMateri)
-            setShow(true)
             refetchKategori()
+            setShow(true)
           }}
         >
           {label && (
@@ -369,7 +369,7 @@ export default function Materi({
                 <>
                   {isLoadingMateri ||
                   (!listMateri.length && isFetchingMateri) ? (
-                    <Loader height={288} />
+                    <Loader height={320} />
                   ) : listMateri.length > 0 ? (
                     listMateri.map((materi) => (
                       <MateriButton
@@ -386,7 +386,7 @@ export default function Materi({
                       />
                     ))
                   ) : (
-                    <div className="flex items-center justify-center h-72">
+                    <div className="flex items-center justify-center h-80">
                       <Text size="sm" weight="medium">
                         {searchMateri
                           ? 'Materi tidak ditemukan'

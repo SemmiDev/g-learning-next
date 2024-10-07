@@ -44,7 +44,7 @@ export default function KelasButton({
             {kelas.kelas && (
               <Text
                 size="sm"
-                weight="semibold"
+                weight="medium"
                 variant="lighter"
                 title={kelas.kelas}
                 className="truncate"
@@ -52,17 +52,16 @@ export default function KelasButton({
                 {kelas.kelas}
               </Text>
             )}
-            {kelas.instansi && (
-              <Text
-                size="sm"
-                weight="semibold"
-                variant="lighter"
-                title={kelas.instansi}
-                className="truncate"
-              >
-                {kelas.instansi}
-              </Text>
-            )}
+
+            <Text
+              size="sm"
+              weight="medium"
+              variant="lighter"
+              title={kelas.instansi}
+              className="truncate"
+            >
+              {kelas.instansi || 'Umum'}
+            </Text>
           </div>
         </div>
       </label>

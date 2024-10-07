@@ -167,7 +167,11 @@ export default function PustakaMedia({
     onChange && onChange(multiple === true ? selected : selected[0])
   }
 
-  const { data: drives = [], refetch: refetchDrives } = useQuery<DriveType[]>({
+  const {
+    data: drives = [],
+    refetch: refetchDrives,
+    isFetching: isFetchingDrives,
+  } = useQuery<DriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
       const { data } = await driveInfoAction()
@@ -205,6 +209,7 @@ export default function PustakaMedia({
   const {
     data: dataFiles,
     isLoading: isLoadingFiles,
+    isFetching: isFetchingFiles,
     refetch: refetchFiles,
     hasNextPage: hasNextPageFiles,
     fetchNextPage: fetchNextPageFiles,
@@ -326,8 +331,8 @@ export default function PustakaMedia({
         <div
           onClick={() => {
             setCheckedFiles([...selectedFiles])
-            setShow(true)
             refetchDrives()
+            setShow(true)
           }}
         >
           {label && (
@@ -370,6 +375,7 @@ export default function PustakaMedia({
         size={size}
         isOpen={show}
         onClose={() => setShow(false)}
+        isLoading={isFetchingDrives || isFetchingFiles}
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] xl:min-h-full">
           <div className="flex flex-col min-h-[400px] lg:flex-row">
@@ -459,10 +465,10 @@ export default function PustakaMedia({
                         </div>
                       ))}
                   </div>
-                  <div className="flex flex-col overflow-y-auto lg:max-h-[calc(100dvh-206px)] xl:max-h-[400px]">
-                    {isLoadingFiles ? (
-                      <Loader height={200} />
-                    ) : (
+                  <div className="flex flex-col overflow-y-auto lg:h-[calc(100dvh-206px)] xl:max-h-[400px]">
+                    {isLoadingFiles || (!files.length && isFetchingFiles) ? (
+                      <Loader height={320} />
+                    ) : files.length > 0 ? (
                       files.map((file) =>
                         file.folder ? (
                           <FolderButton
@@ -515,6 +521,14 @@ export default function PustakaMedia({
                           />
                         )
                       )
+                    ) : (
+                      <div className="flex items-center justify-center h-80">
+                        <Text size="sm" weight="medium">
+                          {search
+                            ? 'Berkas tidak ditemukan'
+                            : 'Belum ada berkas'}
+                        </Text>
+                      </div>
                     )}
                     {!isLoadingFiles && hasNextPageFiles && (
                       <Loader ref={refSentry} size="sm" className="py-4" />
