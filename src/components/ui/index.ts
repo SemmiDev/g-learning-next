@@ -116,6 +116,7 @@ import TextLink from './text/link'
 import TextSpan from './text/span'
 import Text from './text/text'
 import Title from './text/title'
+import Textarea, { TextareaProps } from './textarea'
 import Thumbnail, { ThumbnailProps } from './thumbnail'
 import Time, { TimeProps } from './time'
 import {
@@ -194,6 +195,7 @@ export {
   TextLabel,
   TextLink,
   TextSpan,
+  Textarea,
   Thumbnail,
   Time,
   Title,
@@ -263,6 +265,7 @@ export {
   type TableHeaderCellProps,
   type TableProps,
   type TextBorderedProps,
+  type TextareaProps,
   type ThumbnailProps,
   type TimeProps,
   type UploadFileProps,

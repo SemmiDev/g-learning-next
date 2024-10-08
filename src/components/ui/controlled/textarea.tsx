@@ -8,8 +8,8 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { Textarea, TextareaProps } from 'rizzui'
 import Label from '../label'
+import Textarea, { TextareaProps } from '../textarea'
 
 export type ControlledTextareaProps<
   TFieldValues extends FieldValues,
