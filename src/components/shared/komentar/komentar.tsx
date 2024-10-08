@@ -88,6 +88,8 @@ export default function Komentar({
 
   const listLv1 = dataLv1?.pages.flatMap((page) => page.list) || []
 
+  /* TODO: tambahkan query untuk komentar level 2 dari API */
+
   const handleKirimKomentarLv1 = async () => {
     if (!komentarLv1) return
 
@@ -115,6 +117,7 @@ export default function Komentar({
         onStart: () => setIsSendingLv2(true),
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
+          /* TODO: tambahkan invalidate query untuk komentar level 2 */
           // queryClient.invalidateQueries({ queryKey: [] })
           setKomentarLv2('')
         },
