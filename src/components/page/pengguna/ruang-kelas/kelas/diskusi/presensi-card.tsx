@@ -1,8 +1,22 @@
+import { presensiPesertaAction } from '@/actions/pengguna/ruang-kelas/peserta/presensi'
 import { Card, CardSeparator, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 
-export default function PresensiCard({ className }: { className?: string }) {
-  /* TODO: Tampilkan Data Presensi dari API */
+type PresensiCardProps = { className?: string }
+
+export default function PresensiCard({ className }: PresensiCardProps) {
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const { data } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.diskusi.presensi', idKelas],
+    queryFn: async () => {
+      const { data } = await presensiPesertaAction(idKelas)
+
+      return data
+    },
+  })
 
   return (
     <>
@@ -12,17 +26,18 @@ export default function PresensiCard({ className }: { className?: string }) {
         </Title>
         <CardSeparator />
         <div className="flex justify-between gap-5 px-2 py-3">
-          <PresensiItem status="Hadir" jumlah={28} />
-          <PresensiItem status="Sakit" jumlah={1} />
-          <PresensiItem status="Izin" jumlah={0} />
-          <PresensiItem status="Alpha" jumlah={1} />
+          <PresensiItem status="Hadir" jumlah={data?.total_hadir || 0} />
+          <PresensiItem status="Sakit" jumlah={data?.total_sakit || 0} />
+          <PresensiItem status="Izin" jumlah={data?.total_izin || 0} />
+          <PresensiItem status="Alpha" jumlah={data?.total_alpha || 0} />
         </div>
         <div className="flex justify-between px-2 pb-2">
           <Text size="sm" weight="medium" variant="lighter">
-            Total keseluruhan presensi: <b>30</b>
+            Total keseluruhan presensi: <b>{data?.total_keseluruhan_absensi}</b>
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
-            Tingkat kehadiran: <span className="text-success">98%</span>
+            Tingkat kehadiran:{' '}
+            <span className="text-success">{data?.tingkat_kehadiran}%</span>
           </Text>
         </div>
       </Card>

@@ -1,24 +1,50 @@
-import { Card, CardSeparator, Text, Time, Title } from '@/components/ui'
+import { daftarTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/peserta/daftar-tugas'
+import { Card, CardSeparator, Loader, Text, Time, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import { BsClipboard2Plus } from 'react-icons/bs'
 
-export default function DaftarTugasCard({ className }: { className?: string }) {
-  /* TODO: Tampilkan Semua Tugas di Kelas dari API */
+type DaftarTugas = {
+  id: string
+  judul: string
+  batasWaktu: string | null
+}
 
-  const listTugas = [
-    {
-      judul: 'Judul tugas yang diberikan pengajar A',
-      batasWaktu: '2024-05-08T13:15:00Z',
+type DaftarTugasCardProps = {
+  className?: string
+}
+
+export default function DaftarTugasCard({ className }: DaftarTugasCardProps) {
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const { data: dataTugas, isLoading: isLoadingTugas } = useInfiniteQuery({
+    queryKey: ['pengguna.ruang-kelas.diskusi.daftar-tugas', idKelas],
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await daftarTugasPesertaAction({
+        page,
+        idKelas,
+      })
+
+      return {
+        list: (data?.list ?? []).map((item) => ({
+          id: item.id,
+          judul: item.judul,
+          batasWaktu: item.batas_waktu,
+        })) as DaftarTugas[],
+        pagination: data?.pagination,
+      }
     },
-    {
-      judul: 'Sebuah judul tugas yang diberikan pengajar C',
-      batasWaktu: '2024-05-08T13:15:00Z',
-    },
-    {
-      judul: 'Judul tugas yang diberikan pengajar B',
-      batasWaktu: '2024-05-08T13:15:00Z',
-    },
-  ]
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const listTugas = dataTugas?.pages.flatMap((page) => page.list) || []
+
+  console.log(listTugas)
 
   return (
     <>
@@ -27,14 +53,22 @@ export default function DaftarTugasCard({ className }: { className?: string }) {
           Daftar Tugas
         </Title>
         <CardSeparator />
-        <div className="flex flex-col space-y-3 px-2 py-3">
-          {listTugas.map((item, idx) => (
-            <DaftarTugasItem
-              judul={item.judul}
-              batasWaktu={item.batasWaktu}
-              key={idx}
-            />
-          ))}
+        <div className="flex flex-col space-y-3 max-h-72 overflow-y-auto px-2 py-3">
+          {isLoadingTugas ? (
+            <Loader size="sm" />
+          ) : listTugas.length > 0 ? (
+            listTugas.map((item) => (
+              <DaftarTugasItem
+                key={item.id}
+                judul={item.judul}
+                batasWaktu={item.batasWaktu}
+              />
+            ))
+          ) : (
+            <Text size="2xs" weight="medium" variant="lighter" align="center">
+              Belum ada tugas
+            </Text>
+          )}
         </div>
       </Card>
     </>
@@ -43,7 +77,7 @@ export default function DaftarTugasCard({ className }: { className?: string }) {
 
 type DaftarTugasItemProps = {
   judul: string
-  batasWaktu: string
+  batasWaktu: string | null
 }
 
 function DaftarTugasItem({ judul, batasWaktu }: DaftarTugasItemProps) {
@@ -57,7 +91,7 @@ function DaftarTugasItem({ judul, batasWaktu }: DaftarTugasItemProps) {
           {judul}
         </Text>
         <Text size="2xs" weight="medium" variant="lighter">
-          Batas waktu: <Time date={batasWaktu} format="datetime" />
+          Batas waktu: <Time date={batasWaktu} format="datetime" empty="-" />
         </Text>
       </div>
     </div>
