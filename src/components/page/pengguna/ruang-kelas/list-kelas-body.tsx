@@ -7,6 +7,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import KelasCard from './kelas-card'
 import BuatKelasModal from './modal/buat-kelas'
 import PengaturanKelasModal from './modal/pengaturan-kelas'
@@ -45,6 +46,12 @@ export default function ListKelasBody() {
     })
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
 
   const handleHapus = () => {
     if (!idHapus) return
@@ -118,13 +125,7 @@ export default function ListKelasBody() {
         </div>
       )}
 
-      {hasNextPage && (
-        <div className="flex justify-center mt-4">
-          <Button onClick={() => fetchNextPage()} disabled={isFetching}>
-            Tampilkan Lebih banyak
-          </Button>
-        </div>
-      )}
+      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <BuatKelasModal
         showModal={showModalBuatKelas}
