@@ -4,7 +4,6 @@ import { listKomentarShortParentAction } from '@/actions/shared/komentar/short/l
 import { tambahKomentarAction } from '@/actions/shared/komentar/tambah'
 import { Button, Text, TextSpan, Thumbnail } from '@/components/ui'
 import Loader from '@/components/ui/loader'
-import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
@@ -40,7 +39,6 @@ export default function Komentar({
   className,
 }: KomentarProps) {
   const queryClient = useQueryClient()
-  const { image: imagePengguna, name: namaPengguna } = useSessionPengguna()
   const [komentarLv1, setKomentarLv1] = useState('')
   const [isSendingLv1, setIsSendingLv1] = useState(false)
   const [parentLv2, setParentLv2] = useState<KomentarType>()
