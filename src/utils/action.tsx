@@ -9,6 +9,8 @@ import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
 
 const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
+const CONSOLE_LOG_REQUEST =
+  process.env.CONSOLE_LOG_REQUEST?.toLowerCase() === 'true'
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
@@ -159,8 +161,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
   params?: GetRequestParamsType
 ) => {
   try {
-    if (process.env.CONSOLE_LOG_REQUEST)
-      console.log('Send Request', makeUrl(url, params))
+    if (CONSOLE_LOG_REQUEST) console.log('Send Request', makeUrl(url, params))
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -173,7 +174,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
 
     const { success, message, errors, data } = await res.json()
 
-    if (process.env.CONSOLE_LOG_REQUEST)
+    if (CONSOLE_LOG_REQUEST)
       console.log('Response', { success, message, errors, data })
 
     return makeActionResponse<T>(success, message, errors, data)
@@ -213,8 +214,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
   payload: PayloadType = {}
 ) => {
   try {
-    if (process.env.CONSOLE_LOG_REQUEST)
-      console.log('Send Request', url, payload)
+    if (CONSOLE_LOG_REQUEST) console.log('Send Request', url, payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -233,7 +233,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
 
     const { success, message, errors, data } = await res.json()
 
-    if (process.env.CONSOLE_LOG_REQUEST)
+    if (CONSOLE_LOG_REQUEST)
       console.log('Response', { success, message, errors, data })
 
     return makeActionResponse<T>(success, message, errors, data)
