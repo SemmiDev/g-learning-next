@@ -1,4 +1,5 @@
 import { ActionIcon, Text, Time } from '@/components/ui'
+import cn from '@/utils/class-names'
 import { BsCardChecklist } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 import { MdClose } from 'react-icons/md'
@@ -32,7 +33,13 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
             <li>
               <GoDotFill size={10} />
             </li>
-            <li>{soal.count} berkas</li>
+            <li>
+              {soal.count}/
+              <span className={cn({ 'text-danger': soal.total < soal.count })}>
+                {soal.total}
+              </span>{' '}
+              soal
+            </li>
           </ul>
         </div>
       </div>

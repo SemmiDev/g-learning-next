@@ -60,8 +60,9 @@ export default function ListSoalBody() {
             id: item.id,
             title: item.judul,
             desc: item.deskripsi,
-            count: item.total_soal,
             time: item.created_at,
+            count: item.jumlah_soal_yang_digunakan,
+            total: item.total_soal,
           })) as SoalType[],
           pagination: data?.pagination,
         }

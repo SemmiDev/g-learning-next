@@ -105,7 +105,13 @@ export default function SoalCard({
         <li>
           <GoDotFill size={10} />
         </li>
-        <li>{soal.count} Soal</li>
+        <li>
+          {soal.count}/
+          <span className={cn({ 'text-danger': soal.total < soal.count })}>
+            {soal.total}
+          </span>{' '}
+          Soal
+        </li>
       </ul>
 
       <div className="flex gap-2">

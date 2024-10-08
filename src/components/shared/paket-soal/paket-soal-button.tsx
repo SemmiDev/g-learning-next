@@ -1,4 +1,5 @@
 import { ActionIconTooltip, Text, Time } from '@/components/ui'
+import cn from '@/utils/class-names'
 import { BsCardChecklist, BsPencil } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 import { LuEye } from 'react-icons/lu'
@@ -10,6 +11,7 @@ export type PaketSoalItemType = {
   desc: string
   time: string
   count: number
+  total: number
 }
 
 export type SoalButtonProps = {
@@ -30,7 +32,7 @@ export default function SoalButton({
   return (
     <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
       <Radio
-        name="pustaka_media_radio"
+        name="paket_soal_radio"
         value={soal.id}
         size="sm"
         className="px-4"
@@ -58,7 +60,15 @@ export default function SoalButton({
               <li>
                 <GoDotFill size={10} />
               </li>
-              <li>{soal.count} berkas</li>
+              <li>
+                {soal.count}/
+                <span
+                  className={cn({ 'text-danger': soal.total < soal.count })}
+                >
+                  {soal.total}
+                </span>{' '}
+                soal
+              </li>
             </ul>
           </div>
         </div>

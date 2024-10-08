@@ -169,7 +169,8 @@ export default function PaketSoal({
           name: item.judul,
           desc: item.deskripsi,
           time: item.created_at,
-          count: item.total_soal,
+          count: item.jumlah_soal_yang_digunakan,
+          total: item.total_soal,
         })) as PaketSoalItemType[],
         pagination: data?.pagination,
       }
