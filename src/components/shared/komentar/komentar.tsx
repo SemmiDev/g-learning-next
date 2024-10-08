@@ -2,16 +2,16 @@
 
 import { listKomentarShortParentAction } from '@/actions/shared/komentar/short/list-parent'
 import { tambahKomentarAction } from '@/actions/shared/komentar/tambah'
-import { ActionIcon, Button, Text, TextSpan, Thumbnail } from '@/components/ui'
+import { Button, Text, TextSpan, Thumbnail } from '@/components/ui'
 import Loader from '@/components/ui/loader'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { BsChatSquareText, BsFillSendFill } from 'react-icons/bs'
+import { BsChatSquareText } from 'react-icons/bs'
 import { FaChevronDown } from 'react-icons/fa'
-import { Textarea } from 'rizzui'
+import FormKomentar from './form-komentar'
 
 export type KomentarType = {
   id: string
@@ -36,7 +36,7 @@ export default function Komentar({
   idKelas,
   idAktifitas,
   total,
-  showPer = 1,
+  showPer = 2,
   className,
 }: KomentarProps) {
   const queryClient = useQueryClient()
@@ -114,40 +114,26 @@ export default function Komentar({
         loading: 'Memberi komentar...',
         onStart: () => setIsSendingLv2(true),
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
           // queryClient.invalidateQueries({ queryKey: [] })
           setKomentarLv2('')
         },
-        onFinish: () => setIsSendingLv2(false),
+        onFinish: () => {
+          setIsSendingLv2(false)
+          setParentLv2(undefined)
+        },
       }
     )
   }
 
   return (
     <div className={cn('flex flex-col', className)}>
-      <div className="flex items-center space-x-2">
-        <Thumbnail
-          src={imagePengguna || undefined}
-          alt="profil"
-          size={32}
-          avatar={namaPengguna ?? ''}
-          rounded="md"
-        />
-        <Textarea
-          className="flex-1"
-          rows={2}
-          placeholder="Tulis Komentar..."
-          value={komentarLv1}
-          onChange={(e) => setKomentarLv1(e.target.value)}
-        ></Textarea>
-        <ActionIcon
-          size="sm"
-          variant="outline"
-          onClick={handleKirimKomentarLv1}
-          disabled={isSendingLv1 || !komentarLv1}
-        >
-          <BsFillSendFill size={12} />
-        </ActionIcon>
-      </div>
+      <FormKomentar
+        value={komentarLv1}
+        onChange={(e) => setKomentarLv1(e.target.value)}
+        onSend={handleKirimKomentarLv1}
+        disabled={isSendingLv1}
+      />
       <div className="flex py-2">
         <Text
           size="sm"
@@ -202,30 +188,13 @@ export default function Komentar({
                   </Button>
                 )}
                 {parentLv2 && parentLv2.id === item.id && (
-                  <div className="flex items-center space-x-2 w-full mt-1">
-                    <Thumbnail
-                      src={imagePengguna || undefined}
-                      alt="profil"
-                      size={32}
-                      avatar={namaPengguna ?? ''}
-                      rounded="md"
-                    />
-                    <Textarea
-                      className="flex-1"
-                      rows={2}
-                      placeholder="Tulis Komentar..."
-                      value={komentarLv2}
-                      onChange={(e) => setKomentarLv2(e.target.value)}
-                    ></Textarea>
-                    <ActionIcon
-                      size="sm"
-                      variant="outline"
-                      onClick={handleKirimKomentarLv2}
-                      disabled={isSendingLv2 || !komentarLv2}
-                    >
-                      <BsFillSendFill size={12} />
-                    </ActionIcon>
-                  </div>
+                  <FormKomentar
+                    value={komentarLv2}
+                    onChange={(e) => setKomentarLv2(e.target.value)}
+                    onSend={handleKirimKomentarLv2}
+                    disabled={isSendingLv2}
+                    className="w-full mt-1"
+                  />
                 )}
               </div>
             </div>
