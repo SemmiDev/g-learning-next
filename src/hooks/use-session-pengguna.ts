@@ -10,7 +10,9 @@ export function useSessionPengguna() {
 
   return {
     id: decodedToken.id_pengguna,
-    username: decodedToken.username,
-    level: decodedToken.tipe,
+    username: session?.user?.username,
+    name: session?.user?.name,
+    image: session?.user?.image,
+    level: session?.user?.level,
   }
 }

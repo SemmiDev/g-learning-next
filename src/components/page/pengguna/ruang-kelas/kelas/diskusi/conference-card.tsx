@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardSeparator,
+  Komentar,
   ModalConfirm,
   Text,
   Time,
@@ -23,7 +24,6 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { BsCameraVideo } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
-import KomentarSectionFull from './komentar-section-full'
 
 type ConferenceCardProps = {
   kelas: DataKelasType
@@ -106,7 +106,11 @@ export default function ConferenceCard({
               {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
           </Link>
-          <KomentarSectionFull className="pt-4 px-2 pb-2" />
+          <Komentar
+            idKelas={idKelas}
+            idAktifitas={data.aktifitas.id}
+            className="pt-4 px-2 pb-2"
+          />
         </div>
       </Card>
 

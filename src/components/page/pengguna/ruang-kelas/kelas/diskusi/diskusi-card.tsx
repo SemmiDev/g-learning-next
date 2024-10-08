@@ -5,8 +5,8 @@ import {
   Button,
   Card,
   CardSeparator,
-  FileListItem,
   FilePreviewType,
+  Komentar,
   ModalConfirm,
   ModalFilePreview,
   Text,
@@ -17,7 +17,6 @@ import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { getFileType } from '@/utils/file-properties-from-api'
 import { stripHtml } from '@/utils/text'
 import imagePhoto from '@public/images/photo.png'
 import { useQueryClient } from '@tanstack/react-query'
@@ -101,42 +100,19 @@ export default function DiskusiCard({
             {strippedDesc.slice(0, 100)}
             {strippedDesc.length > 100 && '...'}
           </Text>
-          {data.file_aktifitas.length > 0 && (
-            <div className="flex flex-col space-y-2 mt-4">
-              {data.file_aktifitas.map((file) => (
-                <FileListItem
-                  key={file.id}
-                  file={{
-                    id: file.id,
-                    name: file.nama,
-                    folder: false,
-                    extension: file.ekstensi,
-                    size: file.ukuran,
-                    time: file.created_at,
-                    type: getFileType(file),
-                    link: file.url,
-                  }}
-                  onPreview={(file) => {
-                    if (!file.link) return
-
-                    setFilePreview({
-                      url: file.link,
-                      extension: file.extension,
-                    })
-                  }}
-                  download
-                />
-              ))}
-            </div>
-          )}
         </div>
         <CardSeparator />
         <div className="p-2">
           <Link href={`${routes.peserta.kelas}/diskusi/detail`}>
             <Button size="sm" className="w-full">
-              Masuk Kelas
+              Lihat Diskusi
             </Button>
           </Link>
+          <Komentar
+            idKelas={idKelas}
+            idAktifitas={data.aktifitas.id}
+            className="pt-4 px-2 pb-2"
+          />
         </div>
       </Card>
 

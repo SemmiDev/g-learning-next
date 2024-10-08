@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardSeparator,
+  Komentar,
   ModalConfirm,
   Text,
   Time,
@@ -23,7 +24,6 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { BsCardChecklist } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
-import KomentarSectionZero from './komentar-section-zero'
 
 type UjianCardProps = {
   kelas: DataKelasType
@@ -165,7 +165,11 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
               {kelas.peran === 'Pengajar' ? 'Cek Ujian' : 'Kerjakan Ujian'}
             </Button>
           </Link>
-          <KomentarSectionZero className="pt-4 px-2 pb-2" />
+          <Komentar
+            idKelas={idKelas}
+            idAktifitas={data.aktifitas.id}
+            className="pt-4 px-2 pb-2"
+          />
         </div>
       </Card>
 

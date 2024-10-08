@@ -2,6 +2,7 @@ import { Card, Title } from '@/components/ui'
 import { useState } from 'react'
 import { BsMegaphone } from 'react-icons/bs'
 import ButtonIcon from '../button-icon'
+import TambahDiskusiModal from './modal/tambah-diskusi'
 
 type PesertaHeaderCardProps = {
   className?: string
@@ -22,12 +23,17 @@ export default function PesertaHeaderCard({
           <ButtonIcon
             title="Diskusi"
             color="indigo"
-            // onClick={() => setShowModalDiskusi(true)}
+            onClick={() => setShowTambahDiskusi(true)}
           >
             <BsMegaphone size={32} />
           </ButtonIcon>
         </div>
       </Card>
+
+      <TambahDiskusiModal
+        show={showTambahDiskusi}
+        setShow={setShowTambahDiskusi}
+      />
     </>
   )
 }

@@ -26,6 +26,7 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
     onStart,
     onSuccess,
     onError,
+    onFinish,
   }: {
     loading?: string
     success?: string | ((message: ActionResponseType) => string | undefined)
@@ -33,6 +34,7 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
     onStart?(): void
     onSuccess?(result: T): void
     onError?(result: T): void
+    onFinish?(): void
   } = {}
 ) => {
   onStart && onStart()
@@ -56,6 +58,8 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
 
     onError && onError(res)
   }
+
+  onFinish && onFinish()
 }
 
 export const makeActionResponse = <T extends AnyObject>(

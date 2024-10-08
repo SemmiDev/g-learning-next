@@ -6,6 +6,7 @@ import {
   CardSeparator,
   FileListItem,
   FilePreviewType,
+  Komentar,
   ModalConfirm,
   ModalFilePreview,
   Text,
@@ -23,7 +24,6 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
-import KomentarSectionZero from './komentar-section-zero'
 
 type InformasiCardProps = {
   kelas: DataKelasType
@@ -141,7 +141,11 @@ export default function InformasiCard({
           )}
         </div>
         <CardSeparator />
-        <KomentarSectionZero className="pt-4 px-4 pb-2" />
+        <Komentar
+          idKelas={idKelas}
+          idAktifitas={data.aktifitas.id}
+          className="pt-4 px-4 pb-2"
+        />
       </Card>
 
       <ModalFilePreview

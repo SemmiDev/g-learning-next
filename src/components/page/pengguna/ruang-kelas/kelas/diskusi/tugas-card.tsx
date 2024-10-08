@@ -7,6 +7,7 @@ import {
   CardSeparator,
   FileListItem,
   FilePreviewType,
+  Komentar,
   ModalConfirm,
   ModalFilePreview,
   Text,
@@ -27,7 +28,6 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
-import KomentarSectionShort from './komentar-section-short'
 
 type TugasCardProps = {
   kelas: DataKelasType
@@ -144,7 +144,11 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
               {kelas.peran === 'Pengajar' ? 'Cek Tugas' : 'Kumpulkan Tugas'}
             </Button>
           </Link>
-          <KomentarSectionShort className="pt-4 px-2" />
+          <Komentar
+            idKelas={idKelas}
+            idAktifitas={data.aktifitas.id}
+            className="pt-4 px-2"
+          />
         </div>
       </Card>
 

@@ -1,4 +1,5 @@
 import Kelas, { KelasItemType, KelasProps } from '../shared/kelas'
+import Komentar, { KomentarType } from '../shared/komentar'
 import Materi, { MateriItemType, MateriProps } from '../shared/materi'
 import PaketSoal, {
   PaketSoalItemType,
@@ -162,6 +163,7 @@ export {
   InputNumberSeparator,
   InputRupiah,
   Kelas,
+  Komentar,
   Label,
   LabelOrDiv,
   LineGroup,
@@ -238,6 +240,7 @@ export {
   type InputRupiahProps,
   type KelasItemType,
   type KelasProps,
+  type KomentarType,
   type LabelOrDivProps,
   type LinkOrDivProps,
   type LoaderProps,
