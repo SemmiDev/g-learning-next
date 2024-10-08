@@ -9,8 +9,8 @@ import {
   ControlledQuillEditor,
   ControlledUploadFile,
   FileListItem,
-  FileListItemType,
   Form,
+  PustakaMediaFileType,
   ReadMore,
   Text,
   TextSpan,
@@ -42,29 +42,44 @@ export default function DiskusiDetailTugasPage() {
     console.log('form data', data)
   }
 
-  const files: FileListItemType[] = [
+  const files: PustakaMediaFileType[] = [
     {
+      id: '1',
       name: 'NamaFile.jpg',
+      folder: false,
       size: 50,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '2',
       name: 'NamaFile.pdf',
+      folder: false,
       size: 280,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '3',
       name: 'NamaFile.ext',
+      folder: false,
       size: 500,
+      time: '2024-09-20T15:55:35+07:00',
     },
   ]
 
-  const uploadFiles: FileListItemType[] = [
+  const uploadFiles: PustakaMediaFileType[] = [
     {
+      id: '1',
       name: 'TugasSaya.docx',
+      folder: false,
       size: 50,
+      time: '2024-09-20T15:55:35+07:00',
     },
     {
+      id: '2',
       name: 'NamaFile.pdf',
+      folder: false,
       size: 280,
+      time: '2024-09-20T15:55:35+07:00',
     },
   ]
 

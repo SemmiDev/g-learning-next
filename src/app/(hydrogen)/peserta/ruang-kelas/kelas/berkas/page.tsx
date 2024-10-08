@@ -9,7 +9,8 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
 
 export default function BerkasPage() {
-  const listFile: BerkasType[] = [...Array(12)].map((_) => ({
+  const listFile: BerkasType[] = [...Array(12)].map((_, idx) => ({
+    id: idx + '',
     name: 'Nama File.ext',
     desc: 'Judul dari diskusi yang sudah dishare dengan file',
     size: '5 MB',
