@@ -35,6 +35,7 @@ import { useEffect, useState } from 'react'
 import { BiSolidChevronRight } from 'react-icons/bi'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Dropdown, Input } from 'rizzui'
 import DriveButton from './drive-button'
 import FileCard from './file-card'
@@ -168,6 +169,12 @@ export default function PustakaMediaBody() {
   const files = dataFiles?.pages.flatMap((page) => page.list) || []
 
   const currentDrive = drives.filter((item) => item.id === activeDrive)[0]
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoadingFiles,
+    hasNextPage: hasNextPageFiles,
+    onLoadMore: fetchNextPageFiles,
+  })
 
   useEffect(() => {
     refetchFiles()
@@ -364,15 +371,8 @@ export default function PustakaMediaBody() {
         </div>
       )}
 
-      {hasNextPageFiles && (
-        <div className="flex justify-center mt-4">
-          <Button
-            onClick={() => fetchNextPageFiles()}
-            disabled={isFetchingFiles}
-          >
-            Tampilkan Lebih banyak
-          </Button>
-        </div>
+      {!isLoadingFiles && hasNextPageFiles && (
+        <Loader ref={refSentry} className="py-4" />
       )}
 
       <TambahFolderModal

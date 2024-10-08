@@ -16,6 +16,7 @@ import _ from 'lodash'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Input } from 'rizzui'
 import TambahBankSoalModal from './modal/tambah-bank-soal'
 import UbahBankSoalModal from './modal/ubah-bank-soal'
@@ -76,6 +77,12 @@ export default function ListSoalBody() {
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
+
   useEffect(() => {
     if (search === '') {
       refetch()
@@ -108,7 +115,7 @@ export default function ListSoalBody() {
       >
         Bank Soal {kategori?.nama_kategori ?? ''}
       </Title>
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap gap-2">
         <Input
           size="sm"
           type="search"
@@ -150,13 +157,7 @@ export default function ListSoalBody() {
         </div>
       )}
 
-      {hasNextPage && (
-        <div className="flex justify-center mt-4">
-          <Button onClick={() => fetchNextPage()} disabled={isFetching}>
-            Tampilkan Lebih banyak
-          </Button>
-        </div>
-      )}
+      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <TambahBankSoalModal show={showTambah} setShow={setShowTambah} />
 

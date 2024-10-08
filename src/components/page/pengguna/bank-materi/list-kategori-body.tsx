@@ -9,6 +9,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Input } from 'rizzui'
 import KategoriCard, { KategoriType } from './kategori-card'
 import TambahKategoriModal from './modal/tambah-kategori'
@@ -53,6 +54,12 @@ export default function ListKategoriMateriBody() {
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
+
   useEffect(() => {
     if (search === '') {
       refetch()
@@ -81,7 +88,7 @@ export default function ListKategoriMateriBody() {
       >
         List Bank Materi
       </Title>
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap gap-2">
         <Input
           size="sm"
           type="search"
@@ -123,13 +130,7 @@ export default function ListKategoriMateriBody() {
         </div>
       )}
 
-      {hasNextPage && (
-        <div className="flex justify-center mt-4">
-          <Button onClick={() => fetchNextPage()} disabled={isFetching}>
-            Tampilkan Lebih banyak
-          </Button>
-        </div>
-      )}
+      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <TambahKategoriModal show={showTambah} setShow={setShowTambah} />
 
