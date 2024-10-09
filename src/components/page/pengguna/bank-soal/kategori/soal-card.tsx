@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { BiShareAlt } from 'react-icons/bi'
 import {
-  BsFileEarmarkRichtext,
+  BsCardChecklist,
   BsPencil,
   BsThreeDotsVertical,
   BsTrash3,
@@ -50,8 +50,8 @@ export default function SoalCard({
     >
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center">
-          <div className="flex size-12 items-center justify-center rounded-md btn-item-green mr-2">
-            <BsFileEarmarkRichtext size={24} />
+          <div className="flex size-12 items-center justify-center rounded-md btn-item-blue mr-2">
+            <BsCardChecklist size={24} />
           </div>
           <Title
             as="h4"

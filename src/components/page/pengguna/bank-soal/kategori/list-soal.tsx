@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Input } from 'rizzui'
+import ShareBankSoalModal from './modal/share-soal-ujian'
 import TambahBankSoalModal from './modal/tambah-bank-soal'
 import UbahBankSoalModal from './modal/ubah-bank-soal'
 import SoalCard, { SoalType } from './soal-card'
@@ -25,7 +26,12 @@ import SoalCard, { SoalType } from './soal-card'
 export default function ListSoalBody() {
   const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
-  const [shareSoal, setShareSoal] = useState<SoalType>()
+  const {
+    show: showShareSoalUjian,
+    key: keyShareSoalUjian,
+    doShow: doShowShareSoalUjian,
+    doHide: doHideShareSoalUjian,
+  } = useShowModal<SoalType>()
   const [showTambah, setShowTambah] = useState(false)
   const {
     show: showUbah,
@@ -143,6 +149,7 @@ export default function ListSoalBody() {
           {list.map((soal) => (
             <SoalCard
               key={soal.id}
+              onShare={(soal) => doShowShareSoalUjian(soal)}
               onEdit={(soal) => doShowUbah(soal.id)}
               onDelete={(soal) => setIdHapus(soal.id)}
               soal={soal}
@@ -162,6 +169,12 @@ export default function ListSoalBody() {
       <TambahBankSoalModal show={showTambah} setShow={setShowTambah} />
 
       <UbahBankSoalModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+
+      <ShareBankSoalModal
+        show={showShareSoalUjian}
+        soal={keyShareSoalUjian}
+        onHide={doHideShareSoalUjian}
+      />
 
       <ModalConfirm
         title="Hapus Bank Soal"

@@ -1,9 +1,8 @@
-import { shareMateriBankMateriAction } from '@/actions/pengguna/bank-materi/share-materi'
+import { shareTugasBankMateriAction } from '@/actions/pengguna/bank-materi/share-tugas'
 import {
   CardSeparator,
   ControlledDatePicker,
   ControlledKelas,
-  ControlledRadioGroup,
   ControlledSwitch,
   Form,
   FormError,
@@ -11,7 +10,6 @@ import {
   MateriItemType,
   Modal,
   ModalFooterButtons,
-  RadioGroupOptionType,
   Text,
   Time,
 } from '@/components/ui'
@@ -21,78 +19,58 @@ import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import {
-  BsClipboardPlus,
-  BsFileEarmarkRichtext,
-  BsInfoCircle,
-} from 'react-icons/bs'
+import { BsClipboardPlus, BsFileEarmarkRichtext } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 
 const baseFs = z.object({
   kelas: z.any().superRefine(objectRequired),
-  presensi: z.string(),
-  tipe_presensi: z.string(),
 })
 
-const formSchema = z.discriminatedUnion('penjadwalan', [
+const formSchema = z.discriminatedUnion('dibawasiWaktu', [
   z
     .object({
-      penjadwalan: z.literal(false),
+      dibawasiWaktu: z.literal(false),
     })
     .merge(baseFs),
   z
     .object({
-      penjadwalan: z.literal(true),
-      jadwal: z.date(),
+      dibawasiWaktu: z.literal(true),
+      batasWaktu: z.date(),
     })
     .merge(baseFs),
 ])
 
-export type ShareMateriFormSchema = {
+export type ShareTugasFormSchema = {
   kelas?: KelasItemType
-  presensi: string
-  tipe_presensi: string
-  penjadwalan: boolean
-  jadwal?: Date
+  dibawasiWaktu: boolean
+  batasWaktu?: Date
 }
 
-const initialValues: ShareMateriFormSchema = {
-  presensi: 'non-aktif',
-  tipe_presensi: 'manual',
-  penjadwalan: false,
+const initialValues: ShareTugasFormSchema = {
+  dibawasiWaktu: false,
 }
 
-const optionsPresensi: RadioGroupOptionType[] = [
-  { label: 'Aktif', value: 'aktif' },
-  { label: 'Tidak Aktif', value: 'non-aktif' },
-]
-
-const optionsTipePresensi: RadioGroupOptionType[] = [
-  { label: 'Absensi Manual', value: 'manual' },
-  { label: 'Absensi Otomatis', value: 'otomatis' },
-]
-
-type ShareMateriModalProps = {
+type ShareTugasModalProps = {
   materi: MateriItemType | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function ShareMateriModal({
+export default function ShareTugasModal({
   materi,
   show,
   onHide,
-}: ShareMateriModalProps) {
+}: ShareTugasModalProps) {
   const [formError, setFormError] = useState<string>()
 
-  const onSubmit: SubmitHandler<ShareMateriFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ShareTugasFormSchema> = async (data) => {
     const idKelas = data.kelas?.id
     if (!idKelas || !materi) return
 
     await handleActionWithToast(
-      shareMateriBankMateriAction(idKelas, materi, data),
+      shareTugasBankMateriAction(idKelas, materi, data),
       {
-        loading: 'Membagikan materi...',
+        loading: 'Membagikan tugas...',
         onStart: () => setFormError(undefined),
         onSuccess: () => onHide(),
         onError: ({ message }) => setFormError(message),
@@ -113,7 +91,7 @@ export default function ShareMateriModal({
       onClose={handleClose}
       className="[&_.pointer-events-none]:overflow-visible"
     >
-      <Form<ShareMateriFormSchema>
+      <Form<ShareTugasFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -170,50 +148,18 @@ export default function ShareMateriModal({
                 required
               />
 
-              <ControlledRadioGroup
-                name="presensi"
-                control={control}
-                label={
-                  <div className="flex items-center">
-                    Presensi
-                    <BsInfoCircle size={12} className="ml-1" />
-                  </div>
-                }
-                className="flex gap-8 my-2"
-                groupClassName="gap-8"
-                labelClassName="mb-0"
-                options={optionsPresensi}
-              />
-
-              {watch('presensi') === 'aktif' && (
-                <ControlledRadioGroup
-                  name="tipe_presensi"
-                  control={control}
-                  label={
-                    <div className="flex items-center">
-                      Atur Presensi
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
-                  className="flex gap-8 my-2"
-                  groupClassName="gap-8"
-                  labelClassName="mb-0"
-                  options={optionsTipePresensi}
-                />
-              )}
-
               <div className="flex gap-x-4">
                 <ControlledSwitch
-                  name="penjadwalan"
+                  name="dibawasiWaktu"
                   control={control}
-                  label="Opsi Penjadwalan"
+                  label="Opsi Batas Waktu Penyerahan"
                 />
-                {watch('penjadwalan', false) && (
+                {watch('dibawasiWaktu', false) && (
                   <ControlledDatePicker
-                    name="jadwal"
+                    name="batasWaktu"
                     control={control}
                     errors={errors}
-                    placeholder="Atur Tanggal dan Jam Terbit"
+                    placeholder="Atur Tanggal dan Jam Batas Waktu"
                     showTimeSelect
                     dateFormat="dd MMMM yyyy HH:mm"
                     timeFormat="HH:mm"

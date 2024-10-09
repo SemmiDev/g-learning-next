@@ -1,13 +1,15 @@
 'use server'
 
-import { TambahUjianFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/tambah-ujian'
+import { ShareSoalUjianFormSchema } from '@/components/page/pengguna/bank-soal/kategori/modal/share-soal-ujian'
+import { SoalType } from '@/components/page/pengguna/bank-soal/kategori/soal-card'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasUjianAction = (
+export const shareSoalUjianAction = (
   idKelas: string,
-  data: TambahUjianFormSchema
+  soal: SoalType,
+  data: ShareSoalUjianFormSchema
 ) =>
   makeJwtPostRequestAction(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
@@ -21,7 +23,7 @@ export const tambahAktifitasUjianAction = (
       acak_soal: data.acakSoal === 'aktif' ? 1 : 0,
       acak_jawaban: data.acakJawaban === 'aktif' ? 1 : 0,
       jadwal: data.jadwal,
-      paket: data.paket?.id,
+      paket: soal.id,
       mulai: data.mulai,
       selesai: data.selesai,
       durasi: data.durasi,

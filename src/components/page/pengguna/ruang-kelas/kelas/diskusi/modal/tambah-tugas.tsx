@@ -167,7 +167,7 @@ export default function TambahTugasModal({
                     name="batasWaktu"
                     control={control}
                     errors={errors}
-                    placeholder="Atur Tanggal dan Jam Terbit"
+                    placeholder="Atur Tanggal dan Jam Batas Waktu"
                     showTimeSelect
                     dateFormat="dd MMMM yyyy HH:mm"
                     timeFormat="HH:mm"

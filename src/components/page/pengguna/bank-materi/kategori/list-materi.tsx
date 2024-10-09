@@ -3,7 +3,14 @@
 import { hapusBankMateriAction } from '@/actions/pengguna/bank-materi/hapus'
 import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
 import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
-import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import {
+  Button,
+  Loader,
+  MateriItemType,
+  ModalConfirm,
+  Text,
+  Title,
+} from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
@@ -18,16 +25,16 @@ import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Input } from 'rizzui'
-import MateriCard, { MateriType } from './materi-card'
+import MateriCard from './materi-card'
 import LihatMateriModal from './modal/lihat-materi'
 import ShareMateriModal from './modal/share-materi'
+import ShareTugasModal from './modal/share-tugas'
 import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
 
 export default function ListMateriBody() {
   const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
-  const [shareMateri, setShareMateri] = useState<MateriType>()
   const [showTambah, setShowTambah] = useState(false)
   const {
     show: showLihat,
@@ -41,6 +48,18 @@ export default function ListMateriBody() {
     doShow: doShowUbah,
     doHide: doHideUbah,
   } = useShowModal<string>()
+  const {
+    show: showShareMateri,
+    key: keyShareMateri,
+    doShow: doShowShareMateri,
+    doHide: doHideShareMateri,
+  } = useShowModal<MateriItemType>()
+  const {
+    show: showShareTugas,
+    key: keyShareTugas,
+    doShow: doShowShareTugas,
+    doHide: doHideShareTugas,
+  } = useShowModal<MateriItemType>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -74,8 +93,9 @@ export default function ListMateriBody() {
             desc: item.bank_ajar.deskripsi,
             time: item.bank_ajar.created_at,
             fileCount: item.total_file_bank_ajar,
+            fileIds: item.daftar_file_bank_ajar.map((item) => item.id),
             type: item.bank_ajar.tipe === 'Materi' ? 'materi' : 'tugas',
-          })) as MateriType[],
+          })) as MateriItemType[],
           pagination: data?.pagination,
         }
       },
@@ -159,7 +179,8 @@ export default function ListMateriBody() {
                 onDelete={(materi) => setIdHapus(materi.id)}
                 onDetail={(materi) => doShowLihat(materi.id)}
                 onShare={() => {
-                  setShareMateri(materi)
+                  if (materi.type === 'materi') doShowShareMateri(materi)
+                  else doShowShareTugas(materi)
                 }}
               />
             </div>
@@ -181,6 +202,18 @@ export default function ListMateriBody() {
 
       <LihatMateriModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
 
+      <ShareMateriModal
+        show={showShareMateri}
+        materi={keyShareMateri}
+        onHide={doHideShareMateri}
+      />
+
+      <ShareTugasModal
+        show={showShareTugas}
+        materi={keyShareTugas}
+        onHide={doHideShareTugas}
+      />
+
       <ModalConfirm
         title="Hapus Bank Materi"
         desc="Apakah Anda yakin ingin menghapus bank materi ini?"
@@ -191,8 +224,6 @@ export default function ListMateriBody() {
         headerIcon="help"
         closeOnCancel
       />
-
-      <ShareMateriModal materi={shareMateri} setMateri={setShareMateri} />
     </>
   )
 }

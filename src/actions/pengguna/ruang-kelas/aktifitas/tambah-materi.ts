@@ -12,8 +12,17 @@ export const tambahAktifitasMateriAction = (
   makeJwtPostRequestAction(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
     {
-      judul: data.judul,
-      deskripsi: cleanQuill(data.catatan),
+      ...(data.share && data.materi
+        ? {
+            judul: data.materi.name,
+            deskripsi: cleanQuill(data.materi.desc),
+            berkas: data.materi.fileIds,
+          }
+        : {
+            judul: data.judul,
+            deskripsi: cleanQuill(data.catatan),
+            berkas: (data.berkas ?? []).map((item) => item.id),
+          }),
       tipe: 'Materi',
       tipe_presensi:
         data.presensi === 'aktif'
@@ -21,6 +30,5 @@ export const tambahAktifitasMateriAction = (
           : null,
       waktu_akhir_absen: undefined,
       jadwal: data.jadwal,
-      berkas: (data.berkas ?? []).map((item) => item.id),
     }
   )

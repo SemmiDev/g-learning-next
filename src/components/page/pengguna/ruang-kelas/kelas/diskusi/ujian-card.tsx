@@ -96,7 +96,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
             <figure className="flex justify-center items-center size-[52px] rounded btn-item-blue">
               <BsCardChecklist size={24} />
             </figure>
-            <div className="flex flex-col gap-2 2xl:flex-row">
+            <div className="flex flex-col gap-x-2 2xl:flex-row">
               <table>
                 <tbody>
                   <tr>
@@ -125,6 +125,24 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
               </table>
               <table>
                 <tbody>
+                  {data.aktifitas.waktu_tersedia !==
+                    data.aktifitas.waktu_mulai_ujian && (
+                    <tr>
+                      <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
+                        Waktu mulai pengerjaan
+                      </td>
+                      <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                        :
+                      </td>
+                      <td className="text-xs text-gray-dark font-semibold">
+                        <Time
+                          date={data.aktifitas.waktu_mulai_ujian}
+                          format="datetime"
+                          empty="-"
+                        />
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
                       Batas waktu pengerjaan
@@ -134,9 +152,9 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
                       <Time
-                        date={data.aktifitas.waktu_mulai_ujian}
+                        date={data.aktifitas.waktu_selesai_ujian}
                         format="datetime"
-                        empty=""
+                        empty="-"
                       />
                     </td>
                   </tr>

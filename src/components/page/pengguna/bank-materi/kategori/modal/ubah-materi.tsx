@@ -153,7 +153,7 @@ export default function UbahMateriModal({
                   name="catatan"
                   control={control}
                   errors={errors}
-                  label="Catatan Ubahan"
+                  label="Catatan Tambahan"
                   placeholder="Buat catatan singkat terkait materi yang diberikan"
                   toolbar="minimalist"
                 />

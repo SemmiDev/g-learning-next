@@ -7,7 +7,10 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import PaketSoal, { PaketSoalProps } from '../../shared/paket-soal'
+import PaketSoal, {
+  PaketSoalItemType,
+  PaketSoalProps,
+} from '../../shared/paket-soal'
 
 export type ControlledPaketSoalProps<
   TFieldValues extends FieldValues,
@@ -16,7 +19,7 @@ export type ControlledPaketSoalProps<
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
-  onChange?(value: any): void
+  onChange?(value?: PaketSoalItemType): void
 }
 
 export default function ControlledPaketSoal<

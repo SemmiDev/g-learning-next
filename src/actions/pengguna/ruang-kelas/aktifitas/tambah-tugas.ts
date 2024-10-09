@@ -11,10 +11,18 @@ export const tambahAktifitasTugasAction = (
   makeJwtPostRequestAction(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
     {
-      judul: data.judul,
-      deskripsi: cleanQuill(data.catatan),
+      ...(data.share && data.materi
+        ? {
+            judul: data.materi.name,
+            deskripsi: cleanQuill(data.materi.desc),
+            berkas: data.materi.fileIds,
+          }
+        : {
+            judul: data.judul,
+            deskripsi: cleanQuill(data.catatan),
+            berkas: (data.berkas ?? []).map((item) => item.id),
+          }),
       tipe: 'Penugasan',
       batas_waktu: data.batasWaktu,
-      berkas: (data.berkas ?? []).map((item) => item.id),
     }
   )

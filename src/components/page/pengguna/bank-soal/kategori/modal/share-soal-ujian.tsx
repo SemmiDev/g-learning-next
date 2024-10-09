@@ -1,34 +1,37 @@
-import { tambahAktifitasUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-ujian'
+import { shareSoalUjianAction } from '@/actions/pengguna/bank-soal/share-soal'
 import {
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
-  ControlledPaketSoal,
+  ControlledKelas,
   ControlledQuillEditor,
   ControlledRadioGroup,
   ControlledSelect,
   Form,
   FormError,
+  KelasItemType,
   Modal,
   ModalFooterButtons,
-  PaketSoalItemType,
   RadioGroupOptionType,
   SelectOptionType,
+  Switch,
+  Text,
+  Time,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import cn from '@/utils/class-names'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
-import { Switch } from 'rizzui'
+import { BsCardChecklist, BsInfoCircle } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
+import { SoalType } from '../soal-card'
 
 const baseFormSchema = z.object({
-  paket: z.any().superRefine(objectRequired),
+  kelas: z.any().superRefine(objectRequired),
   judul: z.string().pipe(required),
   jenis: z.any().superRefine(objectRequired),
   durasi: z
@@ -58,8 +61,8 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-export type TambahUjianFormSchema = {
-  paket?: PaketSoalItemType
+export type ShareSoalUjianFormSchema = {
+  kelas?: KelasItemType
   judul?: string
   jenis?: SelectOptionType
   penjadwalan: boolean
@@ -71,13 +74,6 @@ export type TambahUjianFormSchema = {
   acakSoal: string
   acakJawaban: string
   presensi: string
-}
-
-const initialValues: TambahUjianFormSchema = {
-  penjadwalan: false,
-  acakSoal: 'aktif',
-  acakJawaban: 'non-aktif',
-  presensi: 'aktif',
 }
 
 const jenisOptions: SelectOptionType[] = [
@@ -96,42 +92,54 @@ const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-type TambahUjianModalProps = {
-  show?: boolean
-  setShow(show: boolean): void
+type ShareSoalUjianModalProps = {
+  soal: SoalType | undefined
+  show: boolean
+  onHide: () => void
 }
 
-export default function TambahUjianModal({
-  show = false,
-  setShow,
-}: TambahUjianModalProps) {
-  const queryClient = useQueryClient()
+export default function ShareSoalUjianModal({
+  soal,
+  show,
+  onHide,
+}: ShareSoalUjianModalProps) {
   const [formError, setFormError] = useState<string>()
 
-  const { kelas: idKelas }: { kelas: string } = useParams()
+  const initialValues: ShareSoalUjianFormSchema = {
+    penjadwalan: false,
+    judul: soal?.title,
+    catatan: soal?.desc,
+    acakSoal: 'aktif',
+    acakJawaban: 'non-aktif',
+    presensi: 'aktif',
+  }
 
-  const onSubmit: SubmitHandler<TambahUjianFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasUjianAction(idKelas, data), {
-      loading: 'Menyimpan...',
+  const onSubmit: SubmitHandler<ShareSoalUjianFormSchema> = async (data) => {
+    const idKelas = data.kelas?.id
+    if (!idKelas || !soal) return
+
+    await handleActionWithToast(shareSoalUjianAction(idKelas, soal, data), {
+      loading: 'Membagikan ujian...',
       onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        setShow(false)
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
+      onSuccess: () => onHide(),
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setShow(false)
+    onHide()
     setFormError(undefined)
   }
 
   return (
-    <Modal title="Bagikan Ujian" size="lg" isOpen={show} onClose={handleClose}>
-      <Form<TambahUjianFormSchema>
+    <Modal
+      title="Bagikan soal ujian ke kelas"
+      size="lg"
+      isOpen={show}
+      onClose={handleClose}
+      className="[&_.pointer-events-none]:overflow-visible"
+    >
+      <Form<ShareSoalUjianFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -143,23 +151,63 @@ export default function TambahUjianModal({
           register,
           control,
           watch,
-          setValue,
           formState: { errors, isSubmitting },
         }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <ControlledPaketSoal
-                name="paket"
+              {soal && (
+                <div className="flex space-x-2 border border-dashed border-muted rounded-md p-2">
+                  <div
+                    className={cn(
+                      'flex size-11 items-center justify-center rounded-md btn-item-blue'
+                    )}
+                  >
+                    <BsCardChecklist size={22} />
+                  </div>
+                  <div className="flex flex-col">
+                    <Text
+                      weight="semibold"
+                      variant="dark"
+                      title={soal.title}
+                      className="truncate"
+                    >
+                      {soal.title}
+                    </Text>
+                    <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+                      <li>
+                        <Time date={soal.time} />
+                      </li>
+                      <li>
+                        <GoDotFill size={10} />
+                      </li>
+                      <li
+                        title={
+                          soal.total < soal.count
+                            ? `Total soal (${soal.total}) masih kurang dari jumlah soal digunakan (${soal.count})`
+                            : ''
+                        }
+                      >
+                        {soal.count}/
+                        <span
+                          className={cn({
+                            'text-danger': soal.total < soal.count,
+                          })}
+                        >
+                          {soal.total}
+                        </span>{' '}
+                        Soal
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              <ControlledKelas
+                name="kelas"
                 control={control}
                 errors={errors}
-                label="Pilih Paket Soal"
-                placeholder="Klik di sini untuk memilih paket soal yang ada"
-                onChange={(val) => {
-                  if (!val) return
-
-                  setValue('judul', val.name)
-                  setValue('catatan', val.desc)
-                }}
+                label="Pilih Kelas"
+                type="Pengajar"
                 required
               />
 
