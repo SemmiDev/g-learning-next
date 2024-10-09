@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "clean": "rimraf -g \"{node_modules,.next,.cache}\"",
-    "dev": "next dev --turbo",
+    "dev": "next dev",
+    "dev-turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
