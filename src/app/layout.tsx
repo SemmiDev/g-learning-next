@@ -2,7 +2,7 @@ import { inter, lexendDeca } from '@/app/fonts'
 import '@/app/globals.css'
 import NextProgress from '@/components/next-progress'
 import QueryProvider from '@/components/query-provider'
-import SessionProvide from '@/components/session-provider'
+import SessionProvider from '@/components/session-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { siteConfig } from '@/config/site.config'
 import { cn } from '@/utils/class-names'
@@ -29,9 +29,9 @@ export default async function RootLayout({
       >
         <ThemeProvider>
           <NextProgress />
-          <SessionProvide session={session}>
+          <SessionProvider session={session}>
             <QueryProvider>{children}</QueryProvider>
-          </SessionProvide>
+          </SessionProvider>
           <Toaster />
         </ThemeProvider>
       </body>

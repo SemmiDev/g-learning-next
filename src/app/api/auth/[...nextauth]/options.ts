@@ -156,6 +156,13 @@ export const authOptions: AuthOptions = {
       trigger?: 'signIn' | 'signUp' | 'update'
       session?: any
     }) => {
+      // console.log('jwt callback', {
+      //   token,
+      //   user,
+      //   trigger,
+      //   session,
+      // })
+
       // check external JWT and refresh it
       const jwt = token.jwt as string
       const refreshToken = token.refreshToken as string | null | undefined
@@ -187,7 +194,7 @@ export const authOptions: AuthOptions = {
       return token
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      // console.log('session callback', session, token)
+      // console.log('session callback', { session, token })
 
       if (token) {
         const jwtToken = token.jwt as string
