@@ -111,7 +111,7 @@ export default function ShareMateriModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
-      className="[&_.pointer-events-none]:overflow-visible"
+      overflow
     >
       <Form<ShareMateriFormSchema>
         onSubmit={onSubmit}

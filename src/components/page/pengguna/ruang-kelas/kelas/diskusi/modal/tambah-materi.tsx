@@ -133,6 +133,7 @@ export default function TambahMateriModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
+      overflow
     >
       <Form<TambahMateriFormSchema>
         onSubmit={onSubmit}

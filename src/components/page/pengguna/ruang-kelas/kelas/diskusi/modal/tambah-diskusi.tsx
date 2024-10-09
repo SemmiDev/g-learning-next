@@ -1,15 +1,12 @@
 import { tambahAktifitasDiskusiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-diskusi'
 import {
   CardSeparator,
-  ControlledDatePicker,
   ControlledInput,
-  ControlledPustakaMedia,
   ControlledQuillEditor,
   Form,
   FormError,
   Modal,
   ModalFooterButtons,
-  PustakaMediaFileType,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
@@ -18,7 +15,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { Switch } from 'rizzui'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -71,6 +67,7 @@ export default function TambahDiskusiModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
+      overflow
     >
       <Form<TambahDiskusiFormSchema>
         onSubmit={onSubmit}

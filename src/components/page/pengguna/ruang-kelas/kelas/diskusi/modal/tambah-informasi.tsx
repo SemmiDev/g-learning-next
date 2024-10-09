@@ -92,6 +92,7 @@ export default function TambahInformasiModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
+      overflow
     >
       <Form<TambahInformasiFormSchema>
         onSubmit={onSubmit}

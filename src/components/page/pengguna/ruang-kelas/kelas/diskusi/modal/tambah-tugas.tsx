@@ -101,7 +101,13 @@ export default function TambahTugasModal({
   }
 
   return (
-    <Modal title="Bagikan Tugas" size="lg" isOpen={show} onClose={handleClose}>
+    <Modal
+      title="Bagikan Tugas"
+      size="lg"
+      isOpen={show}
+      onClose={handleClose}
+      overflow
+    >
       <Form<TambahTugasFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}

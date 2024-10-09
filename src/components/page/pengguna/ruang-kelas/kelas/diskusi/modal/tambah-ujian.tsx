@@ -130,7 +130,13 @@ export default function TambahUjianModal({
   }
 
   return (
-    <Modal title="Bagikan Ujian" size="lg" isOpen={show} onClose={handleClose}>
+    <Modal
+      title="Bagikan Ujian"
+      size="lg"
+      isOpen={show}
+      onClose={handleClose}
+      overflow
+    >
       <Form<TambahUjianFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}

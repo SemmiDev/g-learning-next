@@ -137,7 +137,7 @@ export default function ShareSoalUjianModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
-      className="[&_.pointer-events-none]:overflow-visible"
+      overflow
     >
       <Form<ShareSoalUjianFormSchema>
         onSubmit={onSubmit}

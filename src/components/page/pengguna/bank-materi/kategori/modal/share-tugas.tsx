@@ -89,7 +89,7 @@ export default function ShareTugasModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
-      className="[&_.pointer-events-none]:overflow-visible"
+      overflow
     >
       <Form<ShareTugasFormSchema>
         onSubmit={onSubmit}

@@ -43,8 +43,8 @@ export default function Modal({
       onClose={onClose ?? (() => null)}
       className={cn(
         {
-          '[&>div]:justify-start [&>div]:pt-20 [&_.rizzui-modal-overlay~div]:overflow-visible':
-            overflow,
+          // '[&>div]:justify-start [&>div]:pt-20 [&_.rizzui-modal-overlay~div]:overflow-visible': overflow,
+          '[&_.rizzui-modal-overlay~div]:overflow-visible': overflow,
         },
         className
       )}

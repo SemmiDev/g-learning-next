@@ -103,6 +103,7 @@ export default function TambahConferenceModal({
       size="lg"
       isOpen={show}
       onClose={handleClose}
+      overflow
     >
       <Form<TambahConferenceFormSchema>
         onSubmit={onSubmit}

@@ -95,7 +95,7 @@ export default function ShareMateriModal({
       size="lg"
       isOpen={showModal}
       onClose={() => setShowModal(false)}
-      className="[&_.pointer-events-none]:overflow-visible"
+      overflow
     >
       <Form<FormSchema>
         onSubmit={onSubmit}
