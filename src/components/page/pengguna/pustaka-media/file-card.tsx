@@ -71,17 +71,15 @@ export default function FileCard({
               </ActionIcon>
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-30 divide-y !py-0">
-              {!file.folder && file.type !== 'link' && file.link && (
-                <div className="py-2">
+              <div className="py-2">
+                {!file.folder && file.type !== 'link' && file.link && (
                   <Link href={file.link} target="_blank">
                     <Dropdown.Item className="text-gray-dark">
                       <BsDownload className="text-primary mr-2 h-4 w-4" />
                       Unduh
                     </Dropdown.Item>
                   </Link>
-                </div>
-              )}
-              <div className="py-2">
+                )}
                 <Dropdown.Item
                   className="text-gray-dark"
                   onClick={() => onEdit && onEdit(file)}
