@@ -7,19 +7,21 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { siteConfig } from '@/config/site.config'
 import { cn } from '@/utils/class-names'
 import { getServerSession } from 'next-auth'
+import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { authOptions } from './api/auth/[...nextauth]/options'
 
 export const metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
 }
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const session = await getServerSession()
+type RootLayoutProps = {
+  children: ReactNode
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getServerSession(authOptions)
 
   return (
     <html suppressHydrationWarning>
