@@ -99,6 +99,7 @@ import ReadMore, { ReadMoreProps } from './readmore'
 import Select, { SelectOptionType, SelectProps } from './select/select'
 import SimpleBar from './simplebar'
 import { LineGroup, Skeleton } from './skeleton'
+import Switch, { SwitchProps } from './switch'
 import { Tab, TabGroup } from './tab'
 import Table, {
   TableCellNumber,
@@ -184,6 +185,7 @@ export {
   Select,
   SimpleBar,
   Skeleton,
+  Switch,
   Tab,
   TabGroup,
   Table,
@@ -262,6 +264,7 @@ export {
   type ReadMoreProps,
   type SelectOptionType,
   type SelectProps,
+  type SwitchProps,
   type TableHeaderCellProps,
   type TableProps,
   type TextBorderedProps,
