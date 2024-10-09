@@ -33,7 +33,13 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
             <li>
               <GoDotFill size={10} />
             </li>
-            <li>
+            <li
+              title={
+                soal.total < soal.count
+                  ? `Total soal (${soal.total}) masih kurang dari jumlah soal digunakan (${soal.count})`
+                  : ''
+              }
+            >
               {soal.count}/
               <span className={cn({ 'text-danger': soal.total < soal.count })}>
                 {soal.total}
