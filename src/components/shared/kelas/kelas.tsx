@@ -10,6 +10,7 @@ import {
   Modal,
   Text,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import _ from 'lodash'
@@ -45,28 +46,14 @@ export default function Kelas({
   errorClassName,
 }: KelasProps) {
   const { status } = useSession()
+  const size = useAutoSizeMediumModal()
   const [show, setShow] = useState(false)
-  const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
+
   const [search, setSearch] = useState('')
   const [checkedKelas, setCheckedKelas] = useState<KelasItemType | undefined>()
   const [selectedKelas, setSelectedKelas] = useState<KelasItemType | undefined>(
     value
   )
-
-  const handleResize = () => {
-    if (window.innerWidth < 1024) {
-      setSize('full')
-    } else if (window.innerWidth < 1280) {
-      setSize('xl')
-    } else {
-      setSize('lg')
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    handleResize()
-  }, [])
 
   const doChange = (selected?: KelasItemType) => {
     setSelectedKelas(selected)

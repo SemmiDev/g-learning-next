@@ -16,6 +16,7 @@ import {
   Text,
   TextSpan,
 } from '@/components/ui'
+import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import {
@@ -60,7 +61,7 @@ export default function PilihMediaGambar({
 }: PilihMediaProps) {
   const { status } = useSession()
   const queryClient = useQueryClient()
-  const [size, setSize] = useState<'xl' | 'full'>('xl')
+  const size = useAutoSizeExtraLargeModal()
   const [activeDrive, setActiveDrive] = useState<string | null>()
   const [activeFolder, setActiveFolder] = useState<string>()
   const [search, setSearch] = useState('')
@@ -88,19 +89,6 @@ export default function PilihMediaGambar({
   } = useShowModal<string>()
   const [previewFile, setPreviewFile] = useState<FilePreviewType>()
   const [checkedFile, setCheckedFile] = useState<FileType>()
-
-  const handleResize = () => {
-    if (window.innerWidth < 1280) {
-      setSize('full')
-    } else {
-      setSize('xl')
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    handleResize()
-  }, [])
 
   const { data: drives = [] } = useQuery<DriveType[]>({
     queryKey: queryKeyDrive,

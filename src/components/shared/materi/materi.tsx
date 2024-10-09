@@ -14,6 +14,7 @@ import {
   ModalConfirm,
   Text,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
@@ -61,8 +62,8 @@ export default function Materi({
 }: MateriProps) {
   const { status } = useSession()
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [show, setShow] = useState(false)
-  const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
 
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
@@ -95,21 +96,6 @@ export default function Materi({
   >(value)
 
   const queryKeyMateri = ['shared.materi.list', activeKategori?.id]
-
-  const handleResize = () => {
-    if (window.innerWidth < 1024) {
-      setSize('full')
-    } else if (window.innerWidth < 1280) {
-      setSize('xl')
-    } else {
-      setSize('lg')
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    handleResize()
-  }, [])
 
   const doChange = (selected: MateriItemType | undefined) => {
     setSelectedMateri(selected)
@@ -303,7 +289,7 @@ export default function Materi({
       >
         <div className="flex flex-col">
           <div className="flex flex-col min-h-[400px]">
-            <div className="flex justify-between space-x-2 p-3">
+            <div className="flex justify-between flex-wrap gap-2 p-3">
               {activeKategori ? (
                 <Input
                   size="sm"

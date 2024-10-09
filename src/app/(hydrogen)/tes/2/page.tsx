@@ -50,7 +50,7 @@ const formSchema = z.object({
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
-  // tesMedia: z.array(z.any()).superRefine(arrayRequired),
+  tesMedia: z.array(z.any()).superRefine(arrayRequired),
   tesMateri: z.any().superRefine(objectRequired),
   tesSoal: z.any().superRefine(objectRequired),
   tesKelas: z.any().superRefine(objectRequired),
@@ -69,7 +69,7 @@ type FormSchema = {
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
-  // tesMedia?: PustakaMediaFileType[]
+  tesMedia?: PustakaMediaFileType[]
   tesMateri?: MateriItemType
   tesSoal?: PaketSoalItemType
   tesKelas?: KelasItemType
@@ -166,13 +166,13 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           /> */}
-          {/* <ControlledPustakaMedia
+          <ControlledPustakaMedia
             name="tesMedia"
             control={control}
             label="Pilih Berkas"
             errors={errors}
             multiple
-          /> */}
+          />
           <ControlledMateri
             name="tesMateri"
             control={control}

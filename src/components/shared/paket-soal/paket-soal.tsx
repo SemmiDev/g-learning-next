@@ -11,6 +11,7 @@ import {
   Modal,
   Text,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -51,8 +52,8 @@ export default function PaketSoal({
   errorClassName,
 }: PaketSoalProps) {
   const { status } = useSession()
+  const size = useAutoSizeMediumModal()
   const [show, setShow] = useState(false)
-  const [size, setSize] = useState<'lg' | 'xl' | 'full'>('lg')
 
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
@@ -82,21 +83,6 @@ export default function PaketSoal({
   >(value)
 
   const queryKeySoal = ['shared.paket-soal.list', activeKategori?.id]
-
-  const handleResize = () => {
-    if (window.innerWidth < 1024) {
-      setSize('full')
-    } else if (window.innerWidth < 1280) {
-      setSize('xl')
-    } else {
-      setSize('lg')
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    handleResize()
-  }, [])
 
   const doChange = (selected: PaketSoalItemType | undefined) => {
     setSelectedSoal(selected)

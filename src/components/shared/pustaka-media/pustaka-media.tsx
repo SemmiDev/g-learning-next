@@ -17,6 +17,7 @@ import {
   Text,
   TextSpan,
 } from '@/components/ui'
+import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
@@ -115,8 +116,8 @@ export default function PustakaMedia({
 }: PustakaMediaProps) {
   const { status } = useSession()
   const queryClient = useQueryClient()
+  const size = useAutoSizeExtraLargeModal()
   const [show, setShow] = useState(false)
-  const [size, setSize] = useState<'xl' | 'full'>('xl')
   const [activeDrive, setActiveDrive] = useState<string | null>()
   const [activeFolder, setActiveFolder] = useState<string>()
   const [search, setSearch] = useState('')
@@ -147,19 +148,6 @@ export default function PustakaMedia({
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
     Array.isArray(value) ? value : value ? [value] : []
   )
-
-  const handleResize = () => {
-    if (window.innerWidth < 1280) {
-      setSize('full')
-    } else {
-      setSize('xl')
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    handleResize()
-  }, [])
 
   const doChange = (selected: FileType[]) => {
     setSelectedFiles(selected)
