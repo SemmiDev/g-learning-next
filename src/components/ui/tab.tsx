@@ -26,8 +26,7 @@ export const Tab = ({ path, item }: { path: string; item: TabItem }) => {
     (linkAlias !== null && pathname.startsWith(linkAlias))
 
   return (
-    <Link
-      href={link}
+    <div
       className={cn(
         'group relative cursor-pointer whitespace-nowrap py-2.5 px-1 text-gray-dark before:absolute before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:bg-primary before:transition-all',
         isActive
@@ -35,15 +34,17 @@ export const Tab = ({ path, item }: { path: string; item: TabItem }) => {
           : 'before:invisible before:w-0 before:opacity-0'
       )}
     >
-      <Text
-        as="span"
-        size="sm"
-        weight="semibold"
-        className="inline-flex rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-gray-100/70"
-      >
-        {item.text}
-      </Text>
-    </Link>
+      <Link href={link}>
+        <Text
+          as="span"
+          size="sm"
+          weight="semibold"
+          className="inline-flex rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-gray-100/70"
+        >
+          {item.text}
+        </Text>
+      </Link>
+    </div>
   )
 }
 
