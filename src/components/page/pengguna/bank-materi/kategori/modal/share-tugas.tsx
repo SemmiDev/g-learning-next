@@ -26,15 +26,15 @@ const baseFs = z.object({
   kelas: z.any().superRefine(objectRequired),
 })
 
-const formSchema = z.discriminatedUnion('dibawasiWaktu', [
+const formSchema = z.discriminatedUnion('dibatasiWaktu', [
   z
     .object({
-      dibawasiWaktu: z.literal(false),
+      dibatasiWaktu: z.literal(false),
     })
     .merge(baseFs),
   z
     .object({
-      dibawasiWaktu: z.literal(true),
+      dibatasiWaktu: z.literal(true),
       batasWaktu: z.date(),
     })
     .merge(baseFs),
@@ -42,12 +42,12 @@ const formSchema = z.discriminatedUnion('dibawasiWaktu', [
 
 export type ShareTugasFormSchema = {
   kelas?: KelasItemType
-  dibawasiWaktu: boolean
+  dibatasiWaktu: boolean
   batasWaktu?: Date
 }
 
 const initialValues: ShareTugasFormSchema = {
-  dibawasiWaktu: false,
+  dibatasiWaktu: false,
 }
 
 type ShareTugasModalProps = {
@@ -150,11 +150,11 @@ export default function ShareTugasModal({
 
               <div className="flex gap-x-4">
                 <ControlledSwitch
-                  name="dibawasiWaktu"
+                  name="dibatasiWaktu"
                   control={control}
                   label="Opsi Batas Waktu Penyerahan"
                 />
-                {watch('dibawasiWaktu', false) && (
+                {watch('dibatasiWaktu', false) && (
                   <ControlledDatePicker
                     name="batasWaktu"
                     control={control}

@@ -30,12 +30,12 @@ const isNotShareFs = z.object({
 })
 
 const isDibatasiWaktuFs = z.object({
-  dibawasiWaktu: z.literal(true),
+  dibatasiWaktu: z.literal(true),
   batasWaktu: z.date(),
 })
 
 const isNotDibatasiWaktuFs = z.object({
-  dibawasiWaktu: z.literal(false),
+  dibatasiWaktu: z.literal(false),
 })
 
 const formSchema = z.union([
@@ -51,13 +51,13 @@ type FormSchema = {
   materi?: MateriItemType
   judul?: string
   catatan?: string
-  dibawasiWaktu: boolean
+  dibatasiWaktu: boolean
   batasWaktu?: Date
   berkas?: PustakaMediaFileType[]
 }
 
 const initialValues: FormSchema = {
-  dibawasiWaktu: false,
+  dibatasiWaktu: false,
   share: true,
 }
 
@@ -133,11 +133,11 @@ export default function TambahTugasModal({
 
               <div className="flex gap-x-4 px-3 py-3">
                 <ControlledSwitch
-                  name="dibawasiWaktu"
+                  name="dibatasiWaktu"
                   control={control}
                   label="Opsi Batas Waktu Penyerahan"
                 />
-                {watch('dibawasiWaktu', false) && (
+                {watch('dibatasiWaktu', false) && (
                   <ControlledDatePicker
                     name="batasWaktu"
                     control={control}
