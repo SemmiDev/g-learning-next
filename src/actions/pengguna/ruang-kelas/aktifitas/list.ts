@@ -59,15 +59,13 @@ export type DataType = {
 
 export const listAktifitasAction = async ({
   page = 1,
-  params,
+  idKelas,
 }: {
   page?: number
-  params: {
-    idKelas: string
-  }
+  idKelas: string
 }) =>
   makeJwtGetRequestTableAction<DataType>(
-    `${process.env.API_URL}/kelas/${params.idKelas}/aktifitas`,
+    `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
     {
       current_page: page,
       per_page: 10,

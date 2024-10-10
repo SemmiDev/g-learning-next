@@ -37,7 +37,7 @@ export default function DiskusiBody() {
       queryFn: async ({ pageParam: page }) => {
         const { data } = await listAktifitasAction({
           page,
-          params: { idKelas },
+          idKelas,
         })
 
         return {
