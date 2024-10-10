@@ -15,6 +15,7 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
@@ -26,6 +27,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
+import UbahMateriModal from './modal/ubah-materi'
 
 type MateriCardProps = {
   kelas: DataKelasType
@@ -39,8 +41,14 @@ export default function MateriCard({
   className,
 }: MateriCardProps) {
   const queryClient = useQueryClient()
-  const [filePreview, setFilePreview] = useState<FilePreviewType>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -82,14 +90,14 @@ export default function MateriCard({
               </Text>
             </div>
           </div>
-          {/* TODO: aksi onEdit dan onDelete tergantung role */}
           <DropdownMoreAction
+            onEdit={() => doShowUbah(data.aktifitas.id)}
+            showEdit={data.aktifitas.id_pembuat === idPengguna}
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas.peran === 'Pengajar'
             }
-            showEdit={data.aktifitas.id_pembuat === idPengguna}
           />
         </div>
         <CardSeparator />
@@ -148,12 +156,14 @@ export default function MateriCard({
           <Link
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/materi/${data.aktifitas.id}`}
           >
-            <Button size="sm" className="w-full">
+            <Button as="span" size="sm" className="w-full">
               {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
           </Link>
         </div>
       </Card>
+
+      <UbahMateriModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalFilePreview
         file={filePreview}

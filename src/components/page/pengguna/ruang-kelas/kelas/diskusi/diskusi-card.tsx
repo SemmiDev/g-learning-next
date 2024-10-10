@@ -15,6 +15,7 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtml } from '@/utils/text'
@@ -38,8 +39,14 @@ export default function DiskusiCard({
   className,
 }: DiskusiCardProps) {
   const queryClient = useQueryClient()
-  const [filePreview, setFilePreview] = useState<FilePreviewType>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -81,14 +88,14 @@ export default function DiskusiCard({
               </Text>
             </div>
           </div>
-          {/* TODO: aksi onEdit dan onDelete tergantung role */}
           <DropdownMoreAction
+            onEdit={() => doShowUbah(data.aktifitas.id)}
+            showEdit={data.aktifitas.id_pembuat === idPengguna}
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas.peran === 'Pengajar'
             }
-            showEdit={data.aktifitas.id_pembuat === idPengguna}
           />
         </div>
         <CardSeparator />
@@ -104,7 +111,7 @@ export default function DiskusiCard({
         <CardSeparator />
         <div className="p-2">
           <Link href={`${routes.peserta.kelas}/diskusi/detail`}>
-            <Button size="sm" className="w-full">
+            <Button as="span" size="sm" className="w-full">
               Lihat Diskusi
             </Button>
           </Link>

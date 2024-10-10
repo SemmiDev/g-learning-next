@@ -13,6 +13,7 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtml } from '@/utils/text'
@@ -24,6 +25,7 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { BsCardChecklist } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
+import UbahUjianModal from './modal/ubah-ujian'
 
 type UjianCardProps = {
   kelas: DataKelasType
@@ -33,6 +35,12 @@ type UjianCardProps = {
 
 export default function UjianCard({ kelas, data, className }: UjianCardProps) {
   const queryClient = useQueryClient()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -72,14 +80,14 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
               </Text>
             </div>
           </div>
-          {/* TODO: aksi onEdit dan onDelete tergantung role */}
           <DropdownMoreAction
+            onEdit={() => doShowUbah(data.aktifitas.id)}
+            showEdit={data.aktifitas.id_pembuat === idPengguna}
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas.peran === 'Pengajar'
             }
-            showEdit={data.aktifitas.id_pembuat === idPengguna}
           />
         </div>
         <CardSeparator />
@@ -179,7 +187,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
           <Link
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/ujian/${data.aktifitas.id}`}
           >
-            <Button size="sm" className="w-full">
+            <Button as="span" size="sm" className="w-full">
               {kelas.peran === 'Pengajar' ? 'Cek Ujian' : 'Kerjakan Ujian'}
             </Button>
           </Link>
@@ -190,6 +198,8 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
           />
         </div>
       </Card>
+
+      <UbahUjianModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Ujian"

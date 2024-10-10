@@ -15,6 +15,7 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
@@ -37,8 +38,14 @@ export default function InformasiCard({
   className,
 }: InformasiCardProps) {
   const queryClient = useQueryClient()
-  const [filePreview, setFilePreview] = useState<FilePreviewType>()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -79,14 +86,14 @@ export default function InformasiCard({
               </Text>
             </div>
           </div>
-          {/* TODO: aksi onEdit dan onDelete tergantung role */}
           <DropdownMoreAction
+            onEdit={() => doShowUbah(data.aktifitas.id)}
+            showEdit={data.aktifitas.id_pembuat === idPengguna}
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas.peran === 'Pengajar'
             }
-            showEdit={data.aktifitas.id_pembuat === idPengguna}
           />
         </div>
         <CardSeparator />

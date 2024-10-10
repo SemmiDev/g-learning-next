@@ -135,7 +135,7 @@ export default function SoalCard({
           href={`${routes.pengguna.bankSoal}/${idKategori}/soal/${soal.id}`}
           className="flex-1"
         >
-          <Button size="sm" variant="outline" className="w-full">
+          <Button as="span" size="sm" variant="outline" className="w-full">
             <Text size="xs" weight="medium">
               Detail
             </Text>

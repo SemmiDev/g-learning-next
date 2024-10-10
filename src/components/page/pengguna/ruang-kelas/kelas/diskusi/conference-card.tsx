@@ -13,6 +13,7 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtml } from '@/utils/text'
@@ -37,6 +38,12 @@ export default function ConferenceCard({
   className,
 }: ConferenceCardProps) {
   const queryClient = useQueryClient()
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -76,14 +83,14 @@ export default function ConferenceCard({
               </Text>
             </div>
           </div>
-          {/* TODO: aksi onEdit dan onDelete tergantung role */}
           <DropdownMoreAction
+            onEdit={() => doShowUbah(data.aktifitas.id)}
+            showEdit={data.aktifitas.id_pembuat === idPengguna}
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas.peran === 'Pengajar'
             }
-            showEdit={data.aktifitas.id_pembuat === idPengguna}
           />
         </div>
         <CardSeparator />
@@ -101,7 +108,7 @@ export default function ConferenceCard({
           <Link
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/conference/${data.aktifitas.id}`}
           >
-            <Button size="sm" color="primary" className="w-full">
+            <Button as="span" size="sm" color="primary" className="w-full">
               <BsCameraVideo size={16} className="me-2" />{' '}
               {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>

@@ -186,7 +186,12 @@ export default function RekapTugasCard() {
 
         return (
           <Link href={`${routes.pengguna.ruangKelas}/tugas/detail`}>
-            <Button size="sm" variant="solid" className="whitespace-nowrap">
+            <Button
+              as="span"
+              size="sm"
+              variant="solid"
+              className="whitespace-nowrap"
+            >
               Cek Tugas
             </Button>
           </Link>

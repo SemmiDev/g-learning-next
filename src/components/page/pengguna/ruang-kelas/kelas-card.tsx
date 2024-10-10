@@ -144,7 +144,7 @@ export default function KelasCard({
         )}
       </div>
       <Link href={`${routes.pengguna.ruangKelas}/${id}`}>
-        <Button size="sm" className="w-full mt-2">
+        <Button as="span" size="sm" className="w-full mt-2">
           Masuk Kelas
         </Button>
       </Link>
