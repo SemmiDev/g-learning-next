@@ -27,7 +27,7 @@ import {
   getFileSize,
   getFileType,
 } from '@/utils/file-properties-from-api'
-import { removeFromList } from '@/utils/list'
+import { removeFromListWhere } from '@/utils/list'
 import {
   useInfiniteQuery,
   useQuery,
@@ -343,7 +343,10 @@ export default function PustakaMedia({
                   key={file.id}
                   file={file}
                   onRemove={() => {
-                    const selected = removeFromList(selectedFiles, file)
+                    const selected = removeFromListWhere(
+                      selectedFiles,
+                      (item) => item.id === file.id
+                    )
                     doChange(selected)
                   }}
                 />
@@ -498,7 +501,10 @@ export default function PustakaMedia({
                                   setCheckedFiles([...checkedFiles, file])
                                 } else {
                                   setCheckedFiles(
-                                    removeFromList(checkedFiles, file)
+                                    removeFromListWhere(
+                                      checkedFiles,
+                                      (item) => item.id === file.id
+                                    )
                                   )
                                 }
                               } else {
