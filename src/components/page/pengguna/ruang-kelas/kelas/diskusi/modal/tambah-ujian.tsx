@@ -3,6 +3,7 @@ import {
   CardSeparator,
   ControlledDatePicker,
   ControlledInput,
+  ControlledInputNumber,
   ControlledPaketSoal,
   ControlledQuillEditor,
   ControlledRadioGroup,
@@ -31,11 +32,7 @@ const baseFormSchema = z.object({
   paket: z.any().superRefine(objectRequired),
   judul: z.string().pipe(required),
   jenis: z.any().superRefine(objectRequired),
-  durasi: z
-    .string()
-    .pipe(required)
-    .transform((val) => parseInt(val))
-    .pipe(z.number().min(1)),
+  durasi: z.number(),
   mulai: z.date(),
   selesai: z.date(),
   catatan: z.string().optional(),
@@ -64,7 +61,7 @@ export type TambahUjianFormSchema = {
   jenis?: SelectOptionType
   penjadwalan: boolean
   jadwal?: Date
-  durasi?: string | number
+  durasi?: number
   mulai?: Date
   selesai?: Date
   catatan?: string
@@ -210,12 +207,11 @@ export default function TambahUjianModal({
               </div>
 
               <div className="flex gap-x-2">
-                <ControlledInput
+                <ControlledInputNumber
                   name="durasi"
                   control={control}
                   errors={errors}
                   label="Durasi Ujian"
-                  type="number"
                   placeholder="Atur lama ujian"
                   className="w-36"
                   suffix={<small>Menit</small>}

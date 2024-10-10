@@ -1,6 +1,6 @@
 'use server'
 
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestAction } from '@/utils/action'
 
 export type DataType = {
   aktifitas: {
@@ -22,14 +22,15 @@ export type DataType = {
     waktu_akhir_absen: string | null
     batas_waktu: string | null
     id_bank_soal: string | null
-    acak_soal_ujian: string | null
+    acak_soal: number | null
+    acak_jawaban: number | null
     waktu_mulai_ujian: string | null
     waktu_selesai_ujian: string | null
-    durasi_ujian: string | null
+    durasi_ujian: number | null
     created_at: string
     updated_at: string
   }
-  bank_soal: {
+  bank_soal?: {
     id: string
     id_kategori: string
     id_pengajar: string
@@ -39,6 +40,8 @@ export type DataType = {
     bobot_salah: number
     bobot_kosong: number
     jumlah_soal_yang_digunakan: number
+    created_at: string
+    updated_at: string
   }
   file_aktifitas: {
     id: string
@@ -57,17 +60,7 @@ export type DataType = {
   }[]
 }
 
-export const listAktifitasAction = async ({
-  page = 1,
-  idKelas,
-}: {
-  page?: number
-  idKelas: string
-}) =>
-  makeJwtGetRequestTableAction<DataType>(
-    `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
-    {
-      current_page: page,
-      per_page: 10,
-    }
+export const lihatAktifitasAction = (idKelas: string, id: string) =>
+  makeJwtGetRequestAction<DataType>(
+    `${process.env.API_URL}/kelas/${idKelas}/aktifitas/${id}`
   )

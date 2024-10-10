@@ -15,7 +15,6 @@ import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import { getWaktuIndonesia } from '@/utils/client-timezone'
 import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 
@@ -102,7 +101,9 @@ export default function JadwalAkanDatangCard({
             href={`${routes.pengguna.ruangKelas}/${row.id_kelas}`}
             className="flex justify-center"
           >
-            <Button variant="text-colorful">Masuk Kelas</Button>
+            <Button as="span" variant="text-colorful">
+              Masuk Kelas
+            </Button>
           </Link>
         )
       },

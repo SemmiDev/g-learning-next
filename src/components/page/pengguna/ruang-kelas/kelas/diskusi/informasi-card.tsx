@@ -25,6 +25,7 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
+import UbahInformasiModal from './modal/ubah-informasi'
 
 type InformasiCardProps = {
   kelas: DataKelasType
@@ -154,6 +155,8 @@ export default function InformasiCard({
           className="pt-4 px-4 pb-2"
         />
       </Card>
+
+      <UbahInformasiModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalFilePreview
         file={filePreview}

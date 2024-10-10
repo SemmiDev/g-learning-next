@@ -25,6 +25,7 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { BsCameraVideo } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
+import UbahConferenceModal from './modal/ubah-conference'
 
 type ConferenceCardProps = {
   kelas: DataKelasType
@@ -120,6 +121,8 @@ export default function ConferenceCard({
           />
         </div>
       </Card>
+
+      <UbahConferenceModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
         title="Hapus Conference"

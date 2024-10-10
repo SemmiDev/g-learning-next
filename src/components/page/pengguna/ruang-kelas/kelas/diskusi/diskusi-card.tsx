@@ -15,7 +15,6 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
-import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtml } from '@/utils/text'
@@ -39,12 +38,6 @@ export default function DiskusiCard({
   className,
 }: DiskusiCardProps) {
   const queryClient = useQueryClient()
-  const {
-    show: showUbah,
-    key: keyUbah,
-    doShow: doShowUbah,
-    doHide: doHideUbah,
-  } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -52,9 +45,6 @@ export default function DiskusiCard({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
-  const imageFile = (data.file_aktifitas ?? []).find(
-    (item) => item.tipe === 'Gambar'
-  )
 
   const handleHapus = () => {
     if (!idHapus) return
@@ -89,8 +79,6 @@ export default function DiskusiCard({
             </div>
           </div>
           <DropdownMoreAction
-            onEdit={() => doShowUbah(data.aktifitas.id)}
-            showEdit={data.aktifitas.id_pembuat === idPengguna}
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
