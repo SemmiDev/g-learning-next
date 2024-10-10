@@ -224,7 +224,8 @@ export default function UbahInformasiModal({
               <CardSeparator />
 
               <ModalFooterButtons
-                submit="Bagikan Sekarang"
+                submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
               />
