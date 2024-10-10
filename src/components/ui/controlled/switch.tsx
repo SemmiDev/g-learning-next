@@ -43,7 +43,7 @@ export default function ControlledSwitch<
             setValue(val)
           }}
           onBlur={onBlur}
-          checked={value}
+          checked={value ?? false}
           error={errors ? (errors[name]?.message as string) : undefined}
           {...props}
         />
