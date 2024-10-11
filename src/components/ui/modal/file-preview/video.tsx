@@ -18,7 +18,9 @@ export default function ModalVideoPreview({
       containerClassName="bg-transparent"
       bodyClassName="aspect-video"
     >
-      {!!openUrl && <ReactPlayer url={openUrl} width="100%" height="100%" />}
+      {!!openUrl && (
+        <ReactPlayer url={openUrl} width="100%" height="100%" playing />
+      )}
     </Modal>
   )
 }
