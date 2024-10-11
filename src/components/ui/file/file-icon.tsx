@@ -1,3 +1,5 @@
+'use client'
+
 import { PustakaMediaFileType } from '@/components/shared/pustaka-media'
 import cn from '@/utils/class-names'
 import iconFolder from '@public/icons/folder.svg'
@@ -20,6 +22,7 @@ import {
 } from 'react-icons/bs'
 import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
 import Thumbnail from '../thumbnail'
+import { isPlayableVideo } from '@/utils/media-check'
 
 const iconSize = 20 as const
 
@@ -33,8 +36,15 @@ export type FileIconType = {
 
 const Icon = ({ file }: { file: FileIconType }) => {
   if (file.type === 'link') {
-    if (file.link && file.link.match(/.*youtube.*/)) {
-      return <BsFillPlayBtnFill size={iconSize} className="text-danger-dark" />
+    if (file.link && isPlayableVideo(file.link)) {
+      return (
+        <BsFillPlayBtnFill
+          size={iconSize}
+          className={
+            file.link.match(/.*youtube.*/) ? 'text-danger-dark' : 'text-primary'
+          }
+        />
+      )
     } else {
       return <BsGlobe size={iconSize} className="text-success" />
     }
