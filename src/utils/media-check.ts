@@ -9,3 +9,7 @@ export const isImageExt = (url: string, extension?: string) => {
 
   return ['jpg', 'jpeg', 'jfif', 'png', 'bmp'].includes(ext)
 }
+
+export const isVideoUrl = (url: string) => {
+  return url.match(/.*youtube.*/)
+}

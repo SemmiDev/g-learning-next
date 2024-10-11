@@ -27,13 +27,17 @@ export default function FileListItem({
   className,
   onDelete,
 }: FileListItemProps) {
+  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
   const linkingProps = {
-    href: !file.folder && file.type === 'link' ? file.link : undefined,
+    href:
+      !file.folder && file.type === 'link' && !isPreviewable
+        ? file.link
+        : undefined,
     target: '_blank',
     onClick: () => {
       if (
         !file.folder &&
-        file.type !== 'link' &&
+        (file.type !== 'link' || isPreviewable) &&
         file.link &&
         isPreviewableFile(file.link, file.extension)
       ) {

@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   FileIcon,
+  isPreviewableFile,
   LinkOrDiv,
   PustakaMediaFileType,
   Time,
@@ -37,13 +38,17 @@ export default function FileCard({
   pointer = true,
   className,
 }: FileCardProps) {
+  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
   const linkingProps = {
-    href: !file.folder && file.type === 'link' ? file.link : undefined,
+    href:
+      !file.folder && file.type === 'link' && !isPreviewable
+        ? file.link
+        : undefined,
     target: '_blank',
     onClick: () => {
       if (file.folder) {
         onFolderClick && onFolderClick(file)
-      } else if (file.type !== 'link') {
+      } else if (file.type !== 'link' || isPreviewable) {
         onFileClick && onFileClick(file)
       }
     },
