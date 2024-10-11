@@ -52,9 +52,6 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
-  const imageFile = (data.file_aktifitas ?? []).find(
-    (item) => item.tipe === 'Gambar'
-  )
 
   const handleHapus = () => {
     if (!idHapus) return

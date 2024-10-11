@@ -4,7 +4,7 @@ import cn from '@/utils/class-names'
 import sanitizeHtml, { IOptions } from 'sanitize-html'
 
 const defaultOptions: IOptions = {
-  allowedTags: ['p', 'b', 'i', 'em', 'u', 's', 'strong', 'a', 'img'],
+  allowedTags: ['p', 'b', 'i', 'em', 'u', 's', 'strong', 'br', 'a', 'img'],
   allowedAttributes: {
     a: ['href'],
     img: ['src', 'referrerpolicy'],

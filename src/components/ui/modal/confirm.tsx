@@ -14,6 +14,7 @@ export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
   onCancel?(): void
   closeOnCancel?: boolean
   children?: ReactNode
+  footerButtons?: ReactNode
 }
 
 export default function ModalConfirm({
@@ -29,6 +30,7 @@ export default function ModalConfirm({
   onClose,
   headerClassName,
   children,
+  footerButtons,
   ...props
 }: ModalConfirmProps) {
   return (
@@ -65,6 +67,7 @@ export default function ModalConfirm({
             {confirm}
           </Button>
         </div>
+        {footerButtons}
       </ModalFooterButtons>
     </Modal>
   )
