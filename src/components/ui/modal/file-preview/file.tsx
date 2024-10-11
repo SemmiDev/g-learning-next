@@ -1,6 +1,6 @@
 'use client'
 
-import { isDocumentExt, isImageExt, isVideoUrl } from '@/utils/media-check'
+import { isDocumentExt, isImageExt, isPlayableVideo } from '@/utils/media-check'
 import ModalDocumentPreview from './document'
 import ModalImagePreview from './image'
 import ModalVideoPreview from './video'
@@ -14,7 +14,7 @@ export const isPreviewableFile = (url: string, extension?: string) => {
   return (
     isDocumentExt(url, extension) ||
     isImageExt(url, extension) ||
-    isVideoUrl(url)
+    isPlayableVideo(url)
   )
 }
 
@@ -37,7 +37,7 @@ export default function ModalFilePreview({
     return <ModalImagePreview openUrl={file.url} onClose={onClose} />
   }
 
-  if (isVideoUrl(file.url)) {
+  if (isPlayableVideo(file.url)) {
     return <ModalVideoPreview openUrl={file.url} onClose={onClose} />
   }
 

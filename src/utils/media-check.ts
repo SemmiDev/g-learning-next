@@ -1,3 +1,5 @@
+import ReactPlayer from 'react-player'
+
 export const isDocumentExt = (url: string, extension?: string) => {
   let ext = extension ?? url.split('.').pop() ?? ''
 
@@ -10,6 +12,6 @@ export const isImageExt = (url: string, extension?: string) => {
   return ['jpg', 'jpeg', 'jfif', 'png', 'bmp'].includes(ext)
 }
 
-export const isVideoUrl = (url: string) => {
-  return url.match(/.*youtube.*/)
+export const isPlayableVideo = (url: string) => {
+  return ReactPlayer.canPlay(url)
 }
