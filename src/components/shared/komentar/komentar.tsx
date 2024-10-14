@@ -112,6 +112,7 @@ export default function Komentar({
       tambahKomentarAction(idKelas, idAktifitas, komentarLv2, parentLv2?.id),
       {
         loading: 'Memberi komentar...',
+        success: 'Komentar ditambahkan',
         onStart: () => setIsSendingLv2(true),
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
@@ -146,11 +147,11 @@ export default function Komentar({
           </TextSpan>
         </Text>
       </div>
-      <div className="flex flex-col space-y-2">
-        {isLoadingLv1 ? (
-          <Loader size="sm" />
-        ) : (
-          listLv1.map((item) => (
+      {isLoadingLv1 ? (
+        <Loader size="sm" className="pb-3" />
+      ) : (
+        <div className="flex flex-col space-y-2">
+          {listLv1.map((item) => (
             <div key={item.id} className="flex space-x-2">
               <Thumbnail
                 src={item.foto || undefined}
@@ -199,9 +200,9 @@ export default function Komentar({
                 )}
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
       {(isFetchingNextPageLv1 || hasNextPageLv1) && (
         <div className="space-y-4 ps-4 mt-2">
           {isFetchingNextPageLv1 ? (

@@ -101,6 +101,8 @@ export type PustakaMediaProps = {
   error?: string
   errorClassName?: string
   types?: FileTypesType[]
+  hideSelected?: boolean
+  children?: ReactNode
 }
 
 export default function PustakaMedia({
@@ -113,6 +115,8 @@ export default function PustakaMedia({
   error,
   errorClassName,
   types,
+  hideSelected = false,
+  children,
 }: PustakaMediaProps) {
   const { status } = useSession()
   const queryClient = useQueryClient()
@@ -148,6 +152,10 @@ export default function PustakaMedia({
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
     Array.isArray(value) ? value : value ? [value] : []
   )
+
+  useEffect(() => {
+    setSelectedFiles(Array.isArray(value) ? value : value ? [value] : [])
+  }, [value])
 
   const doChange = (selected: FileType[]) => {
     setSelectedFiles(selected)
@@ -337,7 +345,8 @@ export default function PustakaMedia({
               }
             )}
           >
-            {selectedFiles.length > 0 &&
+            {!hideSelected &&
+              selectedFiles.length > 0 &&
               selectedFiles.map((file) => (
                 <SelectedFile
                   key={file.id}
@@ -351,9 +360,11 @@ export default function PustakaMedia({
                   }}
                 />
               ))}
-            <Text size="sm" className="pustaka-media-label text-gray-lighter">
-              {placeholder}
-            </Text>
+            {children || (
+              <Text size="sm" className="pustaka-media-label text-gray-lighter">
+                {placeholder}
+              </Text>
+            )}
           </div>
         </div>
         {error && (
