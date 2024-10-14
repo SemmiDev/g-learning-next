@@ -1,6 +1,7 @@
 'use client'
 
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
@@ -22,7 +23,6 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import AbsensiCard from './absensi-card'
-import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import BerkasCard from './berkas-card'
 
 export default function DiskusiMateriBody() {
@@ -42,12 +42,13 @@ export default function DiskusiMateriBody() {
     queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
     queryFn: async () => {
       const { data } = await lihatAktifitasAction(idKelas, id)
-
       return data
     },
   })
 
-  const files = (data?.file_aktifitas ?? []).map(
+  if (data?.aktifitas.tipe !== 'Materi') return null
+
+  const files = (data.file_aktifitas ?? []).map(
     (file) =>
       ({
         id: file.id,
@@ -86,10 +87,10 @@ export default function DiskusiMateriBody() {
                   variant="dark"
                   className="mb-2"
                 >
-                  {data?.aktifitas.judul || '-'}
+                  {data.aktifitas.judul || '-'}
                 </Text>
                 <SanitizeHTML
-                  html={data?.aktifitas.deskripsi || '-'}
+                  html={data.aktifitas.deskripsi || '-'}
                   className="text-sm"
                 />
               </div>
@@ -121,11 +122,11 @@ export default function DiskusiMateriBody() {
               idKelas={idKelas}
               idAktifitas={id}
               showPer={10}
-              className="px-4 pt-4 pb-1"
+              className="px-4 pt-4 pb-2"
             />
           </Card>
           {dataKelas?.peran === 'Pengajar' ? (
-            <AbsensiCard tipe={data?.aktifitas.absen ?? null} />
+            <AbsensiCard tipe={data.aktifitas.absen ?? null} />
           ) : (
             <BerkasCard files={files} setFilePreview={setFilePreview} />
           )}
