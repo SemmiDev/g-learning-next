@@ -33,7 +33,6 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
@@ -43,6 +42,7 @@ import {
   PiUploadSimpleBold,
 } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { FieldError } from 'rizzui'
 import DriveButton from './drive-button'
 import FileButton from './file-button'
@@ -224,7 +224,7 @@ export default function PustakaMedia({
         search,
         sort: {
           name: 'nama',
-          direction: 'asc',
+          order: 'asc',
         },
         jenis: types
           ? types
@@ -281,14 +281,7 @@ export default function PustakaMedia({
     onLoadMore: fetchNextPageFiles,
   })
 
-  useEffect(() => {
-    if (search === '') {
-      refetchFiles()
-      return
-    }
-
-    _.debounce(refetchFiles, 250)()
-  }, [search, refetchFiles])
+  useDebounce(() => refetchFiles(), search ? 250 : 0, [refetchFiles, search])
 
   const handleHapus = () => {
     if (!fileHapus) return

@@ -4,7 +4,7 @@ import {
   ActionIconTooltip,
   Badge,
   Card,
-  getSortDirection,
+  getSortOrder,
   ModalConfirm,
   renderTableCellText,
   TableCellText,
@@ -71,7 +71,7 @@ export default function TablePembayaranInstansiCard() {
         <TableHeaderCell
           title="Nama Instansi"
           sortable
-          sort={getSortDirection(sort, 'nama_instansi')}
+          sort={getSortOrder(sort, 'nama_instansi')}
         />
       ),
       dataIndex: 'nama_instansi',
@@ -88,7 +88,7 @@ export default function TablePembayaranInstansiCard() {
           title="Tanggal Pembayaran"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'tanggal_pembayaran')}
+          sort={getSortOrder(sort, 'tanggal_pembayaran')}
         />
       ),
       dataIndex: 'tanggal_pembayaran',
@@ -114,7 +114,7 @@ export default function TablePembayaranInstansiCard() {
           title="Nominal"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'nominal')}
+          sort={getSortOrder(sort, 'nominal')}
         />
       ),
       dataIndex: 'nominal',

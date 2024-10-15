@@ -12,7 +12,7 @@ type TimeFormat =
   | 'datetimeshort'
   | 'time'
 
-const getFormat = (format: TimeFormat, seconds: boolean = false) => {
+const getFormat = (format: TimeFormat | string, seconds: boolean = false) => {
   const fDate = 'DD MMMM YYYY'
   const fDateShort = 'DD/MM/YYYY'
   const fTime = `HH:mm${seconds ? ':ss' : ''}`
@@ -40,6 +40,7 @@ const getFormat = (format: TimeFormat, seconds: boolean = false) => {
 export type TimeProps = {
   date: MomentProps['date'] | undefined | null
   format?: TimeFormat
+  customFormat?: string
   seconds?: boolean
   fromNow?: boolean
   empty?: string
@@ -49,6 +50,7 @@ export type TimeProps = {
 export default function Time({
   date,
   format = 'date',
+  customFormat,
   seconds = false,
   fromNow,
   empty,
@@ -65,7 +67,7 @@ export default function Time({
   return (
     <Moment
       date={date || undefined}
-      format={!fromNow ? getFormat(format, seconds) : undefined}
+      format={!fromNow ? getFormat(customFormat || format, seconds) : undefined}
       locale="id"
       fromNow={fromNow}
       {...momentProps}

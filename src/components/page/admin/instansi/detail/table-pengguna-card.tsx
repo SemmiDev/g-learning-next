@@ -2,7 +2,7 @@ import { tablePenggunaInstansiAction } from '@/actions/admin/instansi/pengguna/t
 import {
   ActionIconTooltip,
   Card,
-  getSortDirection,
+  getSortOrder,
   renderTableCellText,
   TableHeaderCell,
 } from '@/components/ui'
@@ -51,7 +51,7 @@ export default function TablePenggunaCard() {
         <TableHeaderCell
           title="Nama Pengguna"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',

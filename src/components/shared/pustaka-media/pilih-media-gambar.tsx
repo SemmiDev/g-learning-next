@@ -26,9 +26,8 @@ import {
   getFileType,
 } from '@/utils/file-properties-from-api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { BiChevronRight } from 'react-icons/bi'
 import {
@@ -36,6 +35,7 @@ import {
   PiMagnifyingGlass,
   PiUploadSimpleBold,
 } from 'react-icons/pi'
+import { useDebounce } from 'react-use'
 import DriveButton from './drive-button'
 import FileButton from './file-button'
 import FolderButton from './folder-button'
@@ -143,7 +143,7 @@ export default function PilihMediaGambar({
         search,
         sort: {
           name: 'nama',
-          direction: 'asc',
+          order: 'asc',
         },
         jenis: 'Folder,Gambar',
       })
@@ -167,14 +167,7 @@ export default function PilihMediaGambar({
 
   const currentDrive = drives.filter((item) => item.id === activeDrive)[0]
 
-  useEffect(() => {
-    if (search === '') {
-      refetchFiles()
-      return
-    }
-
-    _.debounce(refetchFiles, 250)()
-  }, [search, refetchFiles])
+  useDebounce(() => refetchFiles(), search ? 250 : 0, [refetchFiles, search])
 
   const handleHapus = () => {
     if (!fileHapus) return

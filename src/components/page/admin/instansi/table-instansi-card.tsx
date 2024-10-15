@@ -3,7 +3,7 @@ import { tableInstansiAction } from '@/actions/admin/instansi/table'
 import {
   ActionIconTooltip,
   Card,
-  getSortDirection,
+  getSortOrder,
   ModalConfirm,
   renderTableCellText,
   TableHeaderCell,
@@ -65,7 +65,7 @@ export default function TableInstansiCard() {
         <TableHeaderCell
           title="Nama Instansi"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
@@ -115,7 +115,7 @@ export default function TableInstansiCard() {
           title="Tanggal Jatuh Tempo"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'jatuh_tempo')}
+          sort={getSortOrder(sort, 'jatuh_tempo')}
         />
       ),
       dataIndex: 'jatuh_tempo',

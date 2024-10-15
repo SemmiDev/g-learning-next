@@ -20,12 +20,12 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { FieldError } from 'rizzui'
 import KategoriButton, { KategoriItemType } from './kategori-button'
 import MateriButton, { MateriItemType } from './materi-button'
@@ -190,23 +190,15 @@ export default function Materi({
     onLoadMore: fetchNextPageMateri,
   })
 
-  useEffect(() => {
-    if (searchKategori === '') {
-      refetchKategori()
-      return
-    }
+  useDebounce(() => refetchKategori(), searchKategori ? 250 : 0, [
+    refetchKategori,
+    searchKategori,
+  ])
 
-    _.debounce(refetchKategori, 250)()
-  }, [searchKategori, refetchKategori])
-
-  useEffect(() => {
-    if (searchMateri === '') {
-      refetchMateri()
-      return
-    }
-
-    _.debounce(refetchMateri, 250)()
-  }, [searchMateri, refetchMateri])
+  useDebounce(() => refetchMateri(), searchMateri ? 250 : 0, [
+    refetchMateri,
+    searchMateri,
+  ])
 
   const {
     handle: handleHapusKategori,

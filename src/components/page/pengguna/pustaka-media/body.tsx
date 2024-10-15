@@ -30,12 +30,12 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { BiSolidChevronRight } from 'react-icons/bi'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { Dropdown, Input } from 'rizzui'
 import DriveButton from './drive-button'
 import FileCard from './file-card'
@@ -139,7 +139,7 @@ export default function PustakaMediaBody() {
         search,
         sort: {
           name: ['terbaru', 'terlawas'].includes(sort) ? 'created_at' : 'nama',
-          direction: ['desc', 'terbaru'].includes(sort) ? 'desc' : 'asc',
+          order: ['desc', 'terbaru'].includes(sort) ? 'desc' : 'asc',
         },
       })
 
@@ -180,14 +180,7 @@ export default function PustakaMediaBody() {
     refetchFiles()
   }, [sort, refetchFiles])
 
-  useEffect(() => {
-    if (search === '') {
-      refetchFiles()
-      return
-    }
-
-    _.debounce(refetchFiles, 250)()
-  }, [search, refetchFiles])
+  useDebounce(() => refetchFiles(), search ? 250 : 0, [refetchFiles, search])
 
   const handleHapus = () => {
     if (!fileHapus) return

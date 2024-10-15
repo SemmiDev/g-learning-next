@@ -178,8 +178,8 @@ export function TableHeaderCell({
   )
 }
 
-export const getSortDirection = (sort?: SortType, name?: string) => {
-  return sort?.name === name ? sort?.direction : undefined
+export const getSortOrder = (sort?: SortType, name?: string) => {
+  return sort?.name === name ? sort?.order : undefined
 }
 
 export const TableCellText = ({

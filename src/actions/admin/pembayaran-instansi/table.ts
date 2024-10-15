@@ -28,6 +28,6 @@ export const tablePembayaranInstansiAction = async ({
       current_page: page,
       keyword: search,
       sort_by: sort?.name,
-      order: sort?.direction,
+      order: sort?.order,
     }
   )

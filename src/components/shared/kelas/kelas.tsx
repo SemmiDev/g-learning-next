@@ -13,11 +13,11 @@ import {
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { FieldError } from 'rizzui'
 import KelasButton, { KelasItemType } from './kelas-button'
 import SelectedKelas from './selected-kelas'
@@ -107,14 +107,7 @@ export default function Kelas({
     onLoadMore: fetchNextPageKelas,
   })
 
-  useEffect(() => {
-    if (search === '') {
-      refetchKelas()
-      return
-    }
-
-    _.debounce(refetchKelas, 250)()
-  }, [search, refetchKelas])
+  useDebounce(() => refetchKelas(), search ? 250 : 0, [refetchKelas, search])
 
   if (status === 'unauthenticated') {
     return (

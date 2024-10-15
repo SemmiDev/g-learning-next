@@ -4,7 +4,7 @@ import { tableRiwayatPembayaranAction } from '@/actions/instansi/profil/riwayat-
 import { ActionIconTooltip, Card, TableHeaderCell, Time } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
-  getSortDirection,
+  getSortOrder,
   renderTableCellTextCenter,
   TableCellText,
 } from '@/components/ui/table'
@@ -39,7 +39,7 @@ export default function ProfilRiwayatPembayaranBody() {
         <TableHeaderCell
           title="Tanggal"
           sortable
-          sort={getSortDirection(sort, 'tanggal_pembayaran')}
+          sort={getSortOrder(sort, 'tanggal_pembayaran')}
         />
       ),
       dataIndex: 'tanggal_pembayaran',
@@ -65,7 +65,7 @@ export default function ProfilRiwayatPembayaranBody() {
           title="Biaya"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'nominal')}
+          sort={getSortOrder(sort, 'nominal')}
         />
       ),
       dataIndex: 'nominal',

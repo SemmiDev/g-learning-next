@@ -3,7 +3,7 @@ import {
   ActionIconTooltip,
   Card,
   CardSeparator,
-  getSortDirection,
+  getSortOrder,
   TableCellText,
   TableHeaderCell,
   Time,
@@ -45,7 +45,7 @@ export default function DashboardRiwayatPembayaranCard({
         <TableHeaderCell
           title="Tanggal"
           sortable
-          sort={getSortDirection(sort, 'tanggal_pembayaran')}
+          sort={getSortOrder(sort, 'tanggal_pembayaran')}
         />
       ),
       dataIndex: 'tanggal_pembayaran',
@@ -71,7 +71,7 @@ export default function DashboardRiwayatPembayaranCard({
           title="Biaya (Rp)"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'nominal')}
+          sort={getSortOrder(sort, 'nominal')}
         />
       ),
       dataIndex: 'nominal',

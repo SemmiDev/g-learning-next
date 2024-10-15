@@ -19,11 +19,11 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { Input } from 'rizzui'
 import MateriCard from './materi-card'
 import LihatMateriModal from './modal/lihat-materi'
@@ -114,14 +114,7 @@ export default function ListMateriBody() {
     onLoadMore: fetchNextPage,
   })
 
-  useEffect(() => {
-    if (search === '') {
-      refetch()
-      return
-    }
-
-    _.debounce(refetch, 250)()
-  }, [refetch, search])
+  useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
   const handleHapus = () => {
     if (!idHapus) return

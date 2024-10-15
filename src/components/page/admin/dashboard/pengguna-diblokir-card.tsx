@@ -9,7 +9,7 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
-  getSortDirection,
+  getSortOrder,
   renderTableCellText,
   TableCellText,
 } from '@/components/ui/table'
@@ -57,7 +57,7 @@ export default function DashboardPenggunaDiblokirCard({
         <TableHeaderCell
           title="Nama Pengguna"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
@@ -83,7 +83,7 @@ export default function DashboardPenggunaDiblokirCard({
           title="Tanggal/Waktu Blokir"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'tanggal_blokir')}
+          sort={getSortOrder(sort, 'tanggal_blokir')}
         />
       ),
       dataIndex: 'tanggal_blokir',

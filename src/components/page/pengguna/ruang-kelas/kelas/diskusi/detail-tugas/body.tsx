@@ -20,6 +20,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -35,10 +36,7 @@ export default function DiskusiDetailTugasPage() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: async () => {
-      const { data } = await lihatKelasAction(idKelas)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
 
   const { data, isLoading } = useQuery({

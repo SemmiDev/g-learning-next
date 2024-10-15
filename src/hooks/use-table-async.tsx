@@ -12,14 +12,18 @@ import { useDebounce } from 'react-use'
 
 export type SortType = {
   name?: string
-  direction?: 'asc' | 'desc'
+  order?: 'asc' | 'desc'
 }
 
-export function useTableAsync<T extends AnyObject = AnyObject>({
+export function useTableAsync<
+  T extends AnyObject = AnyObject,
+  TFilters extends AnyObject = AnyObject
+>({
   queryKey,
   action,
   actionParams,
-  initialFilterState,
+  initialFilter,
+  initialSort,
   initialPerPage = DEFAULT_DATA_PER_PAGE,
 }: {
   queryKey: QueryKey
@@ -27,25 +31,25 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
     actionProps: ControlledAsyncTableActionProps
   ) => Promise<ControlledAsyncTableActionType<T>>
   actionParams?: AnyObject
-  initialFilterState?: Partial<Record<string, any>>
+  initialFilter?: TFilters
+  initialSort?: SortType
   initialPerPage?: number
 }) {
   const [perPage, setPerPage] = useState(initialPerPage)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [filters, setFilters] = useState<Record<string, any>>(
-    initialFilterState ?? {}
+  const [filters, setFilters] = useState<TFilters>(
+    initialFilter ?? ({} as TFilters)
   )
-  const [sort, setSort] = useState<SortType>()
-  const [totalData, setTotalData] = useState(0)
+  const [sort, setSort] = useState<SortType | undefined>(initialSort)
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
   const {
-    data = [],
+    data: dataWithInfo,
     refetch,
     isLoading,
     isFetching,
-  } = useQuery<T[]>({
+  } = useQuery<ControlledAsyncTableActionType<T>['data']>({
     queryKey,
     queryFn: async () => {
       const { data, success, message } = await action({
@@ -59,15 +63,18 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
 
       if (!success) {
         console.error(message)
-        return []
+        return { list: [], pagination: { totalData: 0 } }
       }
 
-      setTotalData(data?.pagination?.totalData ?? 0)
       setPerPage(data?.pagination?.perPage ?? DEFAULT_DATA_PER_PAGE)
 
-      return data?.list ?? []
+      return data
     },
   })
+
+  const data = dataWithInfo?.list ?? []
+  const totalData = dataWithInfo?.pagination?.totalData ?? 0
+  const from = dataWithInfo?.pagination?.from ?? 1
 
   /*
    * Handle row selection
@@ -92,13 +99,15 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   /*
    * Handle sorting
    */
-  function onSort(name: string) {
-    const direction =
-      sort?.name === name && sort?.direction === 'asc' ? 'desc' : 'asc'
+  function onSort(name: string, order?: 'asc' | 'desc') {
+    const newOrder =
+      order ?? (sort?.name === name && sort?.order === 'asc' ? 'desc' : 'asc')
+
+    if (name === sort?.name && sort?.order === newOrder) return
 
     setSort({
       name,
-      direction: direction,
+      order: newOrder,
     })
   }
 
@@ -112,7 +121,10 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   /*
    * Handle Filters and searching
    */
-  function updateFilter(columnId: string, filterValue: string | any[]) {
+  function updateFilter(
+    columnId: string,
+    filterValue: string | any[] | undefined | null
+  ) {
     if (!Array.isArray(filterValue) && !isString(filterValue)) {
       throw new Error('filterValue data type should be string or array of any')
     }
@@ -144,30 +156,24 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
   function onReset() {
     onSearch('')
 
-    if (initialFilterState) return setFilters(initialFilterState)
+    if (initialFilter) return setFilters(initialFilter)
   }
 
-  const isFiltered = !_.isEqual(filters, initialFilterState)
+  const isFiltered = !_.isEqual(filters, initialFilter)
 
   /*
-   * Refetch data with debounce when searching and filtering
+   * Refetch data with debounce when searching
    */
-  useDebounce(
-    () => {
-      refetch()
-    },
-    250,
-    [refetch, search, filters]
-  )
+  useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
   /*
-   * Refetch data when sorting and change page
+   * Refetch data when sorting, filtering and changing page
    */
   useEffect(() => {
     refetch()
-  }, [refetch, sort, page, perPage])
+  }, [refetch, sort, filters, page, perPage])
 
-  // useTable returns
+  /* Return values */
   return {
     data,
     isLoading: isLoading,
@@ -176,6 +182,7 @@ export function useTableAsync<T extends AnyObject = AnyObject>({
     // pagination
     page,
     onPageChange,
+    from,
     totalData,
     perPage,
     setPerPage,

@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  getSortDirection,
+  getSortOrder,
   renderTableCellNumber,
   renderTableCellText,
   TableHeaderCell,
@@ -33,7 +33,7 @@ export default function Tes3Table() {
   } = useTableAsync({
     queryKey: ['tes'],
     action: tesAsyncAction,
-    initialFilterState: {
+    initialFilter: {
       nama: '',
       email: '',
     },
@@ -50,7 +50,7 @@ export default function Tes3Table() {
         <TableHeaderCell
           title="Nama"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
@@ -66,7 +66,7 @@ export default function Tes3Table() {
         <TableHeaderCell
           title="Email"
           sortable
-          sort={getSortDirection(sort, 'email')}
+          sort={getSortOrder(sort, 'email')}
         />
       ),
       dataIndex: 'email',

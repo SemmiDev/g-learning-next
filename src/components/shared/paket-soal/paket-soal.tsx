@@ -15,12 +15,12 @@ import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal
 import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { FieldError } from 'rizzui'
 import KategoriButton, { KategoriItemType } from './kategori-button'
 import LihatSoalModal from './modal/lihat-paket-soal'
@@ -176,23 +176,15 @@ export default function PaketSoal({
     onLoadMore: fetchNextPageSoal,
   })
 
-  useEffect(() => {
-    if (searchKategori === '') {
-      refetchKategori()
-      return
-    }
+  useDebounce(() => refetchKategori(), searchKategori ? 250 : 0, [
+    refetchKategori,
+    searchKategori,
+  ])
 
-    _.debounce(refetchKategori, 250)()
-  }, [searchKategori, refetchKategori])
-
-  useEffect(() => {
-    if (searchSoal === '') {
-      refetchSoal()
-      return
-    }
-
-    _.debounce(refetchSoal, 250)()
-  }, [searchSoal, refetchSoal])
+  useDebounce(() => refetchSoal(), searchSoal ? 250 : 0, [
+    refetchSoal,
+    searchSoal,
+  ])
 
   if (status === 'unauthenticated') {
     return (

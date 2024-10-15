@@ -4,7 +4,7 @@ import {
   Badge,
   Card,
   CardSeparator,
-  getSortDirection,
+  getSortOrder,
   renderTableCellText,
   TableHeaderCell,
   Title,
@@ -48,7 +48,7 @@ export default function TablePenggunaAktifCard() {
         <TableHeaderCell
           title="Nama Pengguna"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',

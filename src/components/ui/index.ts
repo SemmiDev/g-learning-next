@@ -107,7 +107,7 @@ import Table, {
   TableHeaderCell,
   TableHeaderCellProps,
   TableProps,
-  getSortDirection,
+  getSortOrder,
   renderTableCellNumber,
   renderTableCellText,
 } from './table'
@@ -202,7 +202,7 @@ export {
   Time,
   Title,
   UploadFile,
-  getSortDirection,
+  getSortOrder,
   isPreviewableFile,
   renderTableCellNumber,
   renderTableCellText,

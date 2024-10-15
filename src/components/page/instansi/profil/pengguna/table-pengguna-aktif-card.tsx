@@ -4,7 +4,7 @@ import { tablePenggunaAction } from '@/actions/instansi/profil/pengguna/table'
 import { ActionIconTooltip, Card, CardSeparator, Title } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
-  getSortDirection,
+  getSortOrder,
   renderTableCellText,
   renderTableCellTextCenter,
   TableCellText,
@@ -49,7 +49,7 @@ export default function TablePenggunaAktifCard() {
         <TableHeaderCell
           title="Nama Pengguna"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',

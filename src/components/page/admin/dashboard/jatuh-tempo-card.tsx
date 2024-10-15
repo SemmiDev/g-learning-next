@@ -13,7 +13,7 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
-  getSortDirection,
+  getSortOrder,
   renderTableCellTextCenter,
   TableCellText,
 } from '@/components/ui/table'
@@ -67,7 +67,7 @@ export default function DashboardJatuhTempoCard({
           title="Tangal Jatuh Tempo"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'jatuh_tempo')}
+          sort={getSortOrder(sort, 'jatuh_tempo')}
         />
       ),
       dataIndex: 'jatuh_tempo',

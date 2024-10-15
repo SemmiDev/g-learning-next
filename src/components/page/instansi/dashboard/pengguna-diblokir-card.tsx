@@ -3,7 +3,7 @@ import {
   ActionIconTooltip,
   Card,
   CardSeparator,
-  getSortDirection,
+  getSortOrder,
   renderTableCellText,
   TableCellText,
   TableHeaderCell,
@@ -54,7 +54,7 @@ export default function DashboardPenggunaDiblokirCard({
         <TableHeaderCell
           title="Nama Pengguna"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
@@ -76,7 +76,7 @@ export default function DashboardPenggunaDiblokirCard({
           title="Tanggal/Waktu Blokir"
           align="center"
           sortable
-          sort={getSortDirection(sort, 'tanggal_blokir')}
+          sort={getSortOrder(sort, 'tanggal_blokir')}
         />
       ),
       dataIndex: 'tanggal_blokir',

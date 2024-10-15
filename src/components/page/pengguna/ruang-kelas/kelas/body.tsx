@@ -3,6 +3,7 @@
 import { listAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import { Loader, Text } from '@/components/ui'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment } from 'react'
@@ -25,10 +26,7 @@ export default function DiskusiBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: async () => {
-      const { data } = await lihatKelasAction(idKelas)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
 
   const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =

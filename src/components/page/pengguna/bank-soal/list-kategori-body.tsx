@@ -6,10 +6,10 @@ import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import _ from 'lodash'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { useDebounce } from 'react-use'
 import { Input } from 'rizzui'
 import KategoriCard, { KategoriType } from './kategori-card'
 import TambahKategoriModal from './modal/tambah-kategori'
@@ -60,14 +60,7 @@ export default function ListKategoriSoalBody() {
     onLoadMore: fetchNextPage,
   })
 
-  useEffect(() => {
-    if (search === '') {
-      refetch()
-      return
-    }
-
-    _.debounce(refetch, 250)()
-  }, [refetch, search])
+  useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
   const {
     handle: handleHapus,

@@ -3,7 +3,7 @@ import {
   ActionIconTooltip,
   Card,
   CardSeparator,
-  getSortDirection,
+  getSortOrder,
   renderTableCellText,
   TableHeaderCell,
   Title,
@@ -56,7 +56,7 @@ export default function DashboardPenggunaCard({
         <TableHeaderCell
           title="Nama"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',

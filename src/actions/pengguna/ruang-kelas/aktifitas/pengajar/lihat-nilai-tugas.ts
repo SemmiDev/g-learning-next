@@ -40,11 +40,11 @@ export type DataType = {
   }[]
 }
 
-/* TODO: nanti id pengumpulan tugas dihapus setelah API ok */
-export const lihatPengumpulanTugasAction = (
+export const lihatNilaiTugasAction = (
   idKelas: string,
-  idAktifitas: string
+  idAktifitas: string,
+  idPeserta: string
 ) =>
   makeJwtGetRequestAction<DataType>(
-    `${process.env.API_URL}/peserta/kelas/${idKelas}/aktifitas/${idAktifitas}/penilaian-tugas/01JA4XZDYPG48DB2B8CFTYXT8M`
+    `${process.env.API_URL}/pengajar/kelas/${idKelas}/aktifitas/${idAktifitas}/penilaian-tugas/${idPeserta}`
   )

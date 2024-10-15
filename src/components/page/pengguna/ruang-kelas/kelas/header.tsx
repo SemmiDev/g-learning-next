@@ -4,6 +4,7 @@ import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import { Badge, Text, Title } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
@@ -14,10 +15,7 @@ export default function KelasHeader() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: async () => {
-      const { data } = await lihatKelasAction(idKelas)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
 
   return (

@@ -48,18 +48,13 @@ export default function KumpulkanTugasCard() {
     'pengguna.ruang-kelas.diskusi.tugas.nilai',
     idKelas,
     idAktifitas,
-    '01JA4XZDYPG48DB2B8CFTYXT8M',
   ]
 
   /* TODO: masih bermasalah API nya */
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data } = await lihatPengumpulanTugasAction(
-        idKelas,
-        idAktifitas,
-        '01JA4XZDYPG48DB2B8CFTYXT8M'
-      )
+      const { data } = await lihatPengumpulanTugasAction(idKelas, idAktifitas)
 
       return data
     },
@@ -202,7 +197,9 @@ export default function KumpulkanTugasCard() {
                   onClose={() => setFormError(undefined)}
                 />
               </div>
+
               <CardSeparator />
+
               <div className="flex flex-col p-2">
                 <ButtonSubmit
                   color={data.status_pengumpulan ? 'warning' : 'primary'}

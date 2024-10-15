@@ -3,7 +3,7 @@ import { tableAdminAction } from '@/actions/admin/admin/table'
 import {
   ActionIconTooltip,
   Card,
-  getSortDirection,
+  getSortOrder,
   ModalConfirm,
   renderTableCellText,
   TableCellText,
@@ -68,7 +68,7 @@ export default function TableAdminCard() {
         <TableHeaderCell
           title="Nama Lengkap"
           sortable
-          sort={getSortDirection(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
@@ -84,7 +84,7 @@ export default function TableAdminCard() {
         <TableHeaderCell
           title="Username"
           sortable
-          sort={getSortDirection(sort, 'username')}
+          sort={getSortOrder(sort, 'username')}
         />
       ),
       dataIndex: 'username',
@@ -100,7 +100,7 @@ export default function TableAdminCard() {
         <TableHeaderCell
           title="Terakhir Login"
           sortable
-          sort={getSortDirection(sort, 'terakhir_login')}
+          sort={getSortOrder(sort, 'terakhir_login')}
         />
       ),
       dataIndex: 'terakhir_login',
