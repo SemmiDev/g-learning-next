@@ -100,13 +100,6 @@ export default function PenilaianTugasBody() {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
         onSuccess: () => {
-          queryClient.setQueryData(
-            queryKey,
-            (oldData: NilaiTugasFormSchema) => ({
-              ...oldData,
-              ...data,
-            })
-          )
           queryClient.invalidateQueries({ queryKey })
         },
         onError: ({ message }) => setFormError(message),

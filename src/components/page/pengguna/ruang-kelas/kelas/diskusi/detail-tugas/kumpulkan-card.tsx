@@ -15,6 +15,7 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
@@ -112,9 +113,10 @@ export default function KumpulkanTugasCard() {
             <Text weight="semibold" variant="dark">
               Catatan dari pengajar
             </Text>
-            <Text size="sm" variant="dark">
-              {data?.catatan_pengajar || '-'}
-            </Text>
+            <SanitizeHTML
+              html={data?.catatan_pengajar || '-'}
+              className="text-gray-dark"
+            />
           </div>
           <div className="flex flex-col items-center bg-green-100 w-24 rounded-md p-3">
             <Text size="sm" weight="medium" variant="lighter">
