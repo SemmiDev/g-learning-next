@@ -122,6 +122,8 @@ export default function PenilaianTugasBody() {
       } as PustakaMediaFileType)
   )
 
+  const sudahDinilai = data?.nilai != null && data?.nilai != undefined
+
   return (
     <>
       <div className="mt-4 mb-4">
@@ -170,10 +172,12 @@ export default function PenilaianTugasBody() {
                   </Text>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <Text weight="semibold" variant="lighter">
-                    {data?.nilai != null && data?.nilai != undefined
-                      ? 'Sudah Dinilai'
-                      : 'Belum Dinilai'}
+                  <Text
+                    weight="semibold"
+                    color={sudahDinilai ? 'primary' : 'gray'}
+                    variant={sudahDinilai ? 'default' : 'lighter'}
+                  >
+                    {sudahDinilai ? 'Sudah Dinilai' : 'Belum Dinilai'}
                   </Text>
                   <LuChevronDown size={24} />
                 </div>
@@ -219,6 +223,7 @@ export default function PenilaianTugasBody() {
                               extension: file.extension,
                             })
                           }}
+                          download
                         />
                       ))}
                     </div>
