@@ -5,9 +5,9 @@ export const makeParams = (
 ) => {
   if (!object) return ''
 
-  return new URLSearchParams(
-    _.mapValues(object, (val) => (val ?? '') + '')
-  ).toString()
+  const params = _.mapValues(object, (val) => (val ?? '') + '')
+
+  return new URLSearchParams(_.pickBy(params, (val) => !!val)).toString()
 }
 
 export const makeUrl = (
