@@ -10,6 +10,7 @@ import cn from '@/utils/class-names'
 import {
   useInfiniteQuery,
   useQueries,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -33,6 +34,7 @@ export type KomentarProps = {
   idKelas: string
   idAktifitas: string
   total?: number
+  firstShow?: number
   showPer?: number
   className?: string
 }
@@ -41,16 +43,50 @@ export default function Komentar({
   idKelas,
   idAktifitas,
   total,
-  showPer = 2,
+  firstShow = 1,
+  showPer = 3,
   className,
 }: KomentarProps) {
   const queryClient = useQueryClient()
+  const [isLoadMore, setIsLoadMore] = useState(firstShow >= showPer)
+  const [hasMoreThanFirst, setHasMoreThanFirst] = useState(firstShow >= showPer)
   const [komentarLv1, setKomentarLv1] = useState('')
   const [isSendingLv1, setIsSendingLv1] = useState(false)
   const [parentLv2, setParentLv2] = useState<KomentarType>()
   const [komentarLv2, setKomentarLv2] = useState('')
   const [isSendingLv2, setIsSendingLv2] = useState(false)
   const [showLv2, setShowLv2] = useState<{ [key: string]: boolean }>({})
+
+  const { data: firstDataLv1, isLoading: isLoadingFirstLv1 } = useQuery<
+    KomentarType[]
+  >({
+    queryKey: ['shared.komentar.firstLv1', idKelas, idAktifitas],
+    queryFn: async () => {
+      const { data } = await listKomentarParentAction({
+        perPage: firstShow,
+        idKelas,
+        idAktifitas,
+      })
+
+      setHasMoreThanFirst(!!data?.pagination?.hasNextPage)
+
+      return (data?.list ?? []).map(
+        (item) =>
+          ({
+            id: item.id,
+            idParent: item.id_parent,
+            idPengguna: item.id_pengguna,
+            nama: item.nama,
+            foto: item.foto,
+            komentar: item.diskusi,
+            jumlahBalasan: item.jumlah_balasan,
+            waktu: item.created_at,
+            balasan: [],
+          } as KomentarType)
+      )
+    },
+    enabled: !isLoadMore,
+  })
 
   const queryKeyLv1 = ['shared.komentar.lv1', idKelas, idAktifitas]
 
@@ -93,9 +129,13 @@ export default function Komentar({
       lastPage.pagination?.hasNextPage
         ? (lastPage.pagination?.page ?? 1) + 1
         : undefined,
+    enabled: isLoadMore,
   })
 
-  const listLv1 = dataLv1?.pages.flatMap((page) => page.list) || []
+  const listLv1 =
+    isLoadMore && !isLoadingLv1
+      ? dataLv1?.pages.flatMap((page) => page.list) || []
+      : firstDataLv1 || []
 
   const dataLv2 = useQueries({
     queries: listLv1.map((item) => ({
@@ -166,6 +206,14 @@ export default function Komentar({
     )
   }
 
+  const loadMore = () => {
+    if (isLoadMore) {
+      fetchNextPageLv1()
+    } else {
+      setIsLoadMore(true)
+    }
+  }
+
   return (
     <div className={cn('flex flex-col', className)}>
       <FormKomentar
@@ -185,7 +233,7 @@ export default function Komentar({
           </TextSpan>
         </Text>
       </div>
-      {isLoadingLv1 ? (
+      {isLoadingFirstLv1 ? (
         <Loader size="sm" className="pb-3" />
       ) : (
         <div className="flex flex-col space-y-2">
@@ -280,20 +328,23 @@ export default function Komentar({
           })}
         </div>
       )}
-      {(isFetchingNextPageLv1 || hasNextPageLv1) && (
+      {(isFetchingNextPageLv1 ||
+        hasNextPageLv1 ||
+        isLoadingFirstLv1 ||
+        hasMoreThanFirst) && (
         <div className="space-y-4 ps-4 mt-2">
-          {isFetchingNextPageLv1 ? (
+          {isLoadingLv1 || isFetchingNextPageLv1 ? (
             <div className="flex justify-center">
               <Loader size="sm" />
             </div>
           ) : (
-            hasNextPageLv1 && (
+            (hasNextPageLv1 || (!isLoadMore && hasMoreThanFirst)) && (
               <div className="flex justify-center">
                 <Button
                   variant="text-colorful"
                   color="primary"
                   className="h-auto p-0"
-                  onClick={fetchNextPageLv1}
+                  onClick={loadMore}
                 >
                   Muat Lebih
                 </Button>

@@ -7,7 +7,7 @@ export default function Tes5Page() {
         <Komentar
           idKelas="01J8KHTCDEHV9MVGXS8DWQGWD5"
           idAktifitas="01J9JA24E3JQVVXETP9G78W34E"
-          showPer={2}
+          showPer={3}
         />
       </div>
     </div>

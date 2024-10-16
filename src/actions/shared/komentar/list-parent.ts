@@ -22,7 +22,7 @@ export type DataType = {
 
 export const listKomentarParentAction = async ({
   page = 1,
-  perPage = 2,
+  perPage,
   idKelas,
   idAktifitas,
 }: {
