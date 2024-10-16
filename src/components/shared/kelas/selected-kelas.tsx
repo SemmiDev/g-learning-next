@@ -45,17 +45,19 @@ export default function SelectedKelas({ kelas, onRemove }: SelectedFileProps) {
         </Text>
       </div>
       <div className="flex items-center space-x-1">
-        <ActionIcon
-          size="sm"
-          variant="outline-hover-colorful"
-          color="danger"
-          onClick={(e) => {
-            e.stopPropagation()
-            onRemove && onRemove()
-          }}
-        >
-          <MdClose />
-        </ActionIcon>
+        {!!onRemove && (
+          <ActionIcon
+            size="sm"
+            variant="outline-hover-colorful"
+            color="danger"
+            onClick={(e) => {
+              e.stopPropagation()
+              onRemove()
+            }}
+          >
+            <MdClose />
+          </ActionIcon>
+        )}
         <LuChevronDown size={20} />
       </div>
     </div>
