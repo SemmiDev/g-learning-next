@@ -128,7 +128,7 @@ export default function TableTugasPesertaCard() {
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
-      render: (_, row, idx) => <TableCellNumber>{from + idx}</TableCellNumber>,
+      render: (_, __, idx) => <TableCellNumber>{from + idx}</TableCellNumber>,
     },
     {
       title: <TableHeaderCell title="Nama Peserta" />,
