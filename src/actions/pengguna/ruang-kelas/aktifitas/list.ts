@@ -29,6 +29,12 @@ export type DataType = {
     created_at: string
     updated_at: string
   }
+  pembuat: {
+    username: string
+    nama: string
+    foto: string
+  }
+  total_komentar: number
   bank_soal: {
     id: string
     id_kategori: string
