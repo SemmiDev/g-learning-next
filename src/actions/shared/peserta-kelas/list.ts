@@ -28,6 +28,7 @@ export const listPesertaKelasAction = async ({
     {
       current_page: 1,
       keyword: search,
+      /* TODO: perpage pagination jika API udah fix */
       per_page: 100,
     }
   )

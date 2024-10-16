@@ -92,6 +92,7 @@ export default function Peserta({
       }
     },
     initialPageParam: 1,
+    /* TODO: fix pagination jika API udah fix */
     getNextPageParam: (lastPage) => undefined,
     // getNextPageParam: (lastPage) =>
     //   lastPage.pagination?.hasNextPage
