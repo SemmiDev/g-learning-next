@@ -145,8 +145,9 @@ export default function DiskusiDetailTugasPage() {
             <Komentar
               idKelas={idKelas}
               idAktifitas={id}
+              firstShow={5}
               showPer={10}
-              className="px-4 pt-4 pb-2"
+              className="p-4"
             />
           </Card>
 

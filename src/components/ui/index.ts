@@ -5,6 +5,10 @@ import PaketSoal, {
   PaketSoalItemType,
   PaketSoalProps,
 } from '../shared/paket-soal'
+import PesertaKelas, {
+  PesertaKelasItemType,
+  PesertaKelasProps,
+} from '../shared/peserta-kelas'
 import PustakaMedia, {
   PustakaMediaDriveType,
   PustakaMediaFileType,
@@ -49,6 +53,9 @@ import ControlledPaketSoal, {
 import ControlledPassword, {
   ControlledPasswordProps,
 } from './controlled/password'
+import ControlledPesertaKelas, {
+  ControlledPesertaKelasProps,
+} from './controlled/peserta-kelas'
 import ControlledPustakaMedia, {
   ControlledPustakaMediaProps,
 } from './controlled/pustaka-media'
@@ -146,6 +153,7 @@ export {
   ControlledMateri,
   ControlledPaketSoal,
   ControlledPassword,
+  ControlledPesertaKelas,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledRadio,
@@ -180,6 +188,7 @@ export {
   Pagination,
   PaketSoal,
   Password,
+  PesertaKelas,
   PustakaMedia,
   ReadMore,
   Select,
@@ -225,6 +234,7 @@ export {
   type ControlledMateriProps,
   type ControlledPaketSoalProps,
   type ControlledPasswordProps,
+  type ControlledPesertaKelasProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
   type ControlledRadioGroupProps,
@@ -256,6 +266,8 @@ export {
   type PaketSoalItemType,
   type PaketSoalProps,
   type PasswordProps,
+  type PesertaKelasItemType,
+  type PesertaKelasProps,
   type PustakaMediaDriveType,
   type PustakaMediaFileType,
   type PustakaMediaFolderType,

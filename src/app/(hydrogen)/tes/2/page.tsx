@@ -11,6 +11,7 @@ import {
   ControlledKelas,
   ControlledMateri,
   ControlledPaketSoal,
+  ControlledPesertaKelas,
   ControlledPustakaMedia,
   ControlledSelect,
   ControlledSwitch,
@@ -21,6 +22,8 @@ import {
   Materi,
   MateriItemType,
   PaketSoalItemType,
+  PesertaKelas,
+  PesertaKelasItemType,
   PustakaMediaFileType,
   SelectOptionType,
   UploadFileType,
@@ -50,10 +53,11 @@ const formSchema = z.object({
   // tesRupiah: z.string().pipe(required),
   // tesSelect: z.any().superRefine(objectRequired),
   // tesAsyncSelect: z.any().superRefine(objectRequired),
-  tesMedia: z.array(z.any()).superRefine(arrayRequired),
-  tesMateri: z.any().superRefine(objectRequired),
-  tesSoal: z.any().superRefine(objectRequired),
+  // tesMedia: z.array(z.any()).superRefine(arrayRequired),
+  // tesMateri: z.any().superRefine(objectRequired),
+  // tesSoal: z.any().superRefine(objectRequired),
   tesKelas: z.any().superRefine(objectRequired),
+  tesPesertaKelas: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
   // tesFiles: z.array(z.any()).superRefine(arrayRequired),
   // tesSwitch: z.boolean(),
@@ -69,10 +73,11 @@ type FormSchema = {
   // tesRupiah?: number | string
   // tesSelect?: SelectOptionType
   // tesAsyncSelect?: SelectOptionType
-  tesMedia?: PustakaMediaFileType[]
-  tesMateri?: MateriItemType
-  tesSoal?: PaketSoalItemType
+  // tesMedia?: PustakaMediaFileType[]
+  // tesMateri?: MateriItemType
+  // tesSoal?: PaketSoalItemType
   tesKelas?: KelasItemType
+  tesPesertaKelas?: PesertaKelasItemType
   // tesDate?: Date
   // tesFiles?: UploadFileType[]
   // tesSwitch: boolean
@@ -166,30 +171,39 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           /> */}
-          <ControlledPustakaMedia
+          {/* <ControlledPustakaMedia
             name="tesMedia"
             control={control}
             label="Pilih Berkas"
             errors={errors}
             multiple
-          />
-          <ControlledMateri
+          /> */}
+          {/* <ControlledMateri
             name="tesMateri"
             control={control}
             label="Pilih Materi"
             errors={errors}
-          />
-          <ControlledPaketSoal
+          /> */}
+          {/* <ControlledPaketSoal
             name="tesSoal"
             control={control}
             label="Pilih Paket Soal"
             errors={errors}
-          />
+          /> */}
           <ControlledKelas
             name="tesKelas"
             control={control}
             label="Pilih Kelas"
             errors={errors}
+            clearable
+          />
+          <ControlledPesertaKelas
+            idKelas="01J8KHTCDEHV9MVGXS8DWQGWD5"
+            name="tesPesertaKelas"
+            control={control}
+            label="Pilih Peserta Kelas"
+            errors={errors}
+            clearable
           />
           {/* <ControlledDatePicker
             name="tesDate"
