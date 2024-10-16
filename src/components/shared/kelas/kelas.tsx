@@ -33,6 +33,7 @@ export type KelasProps = {
   type?: 'Pengajar' | 'Peserta'
   error?: string
   errorClassName?: string
+  clearable?: boolean
 }
 
 export default function Kelas({
@@ -44,6 +45,7 @@ export default function Kelas({
   type,
   error,
   errorClassName,
+  clearable,
 }: KelasProps) {
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
@@ -142,7 +144,7 @@ export default function Kelas({
           {selectedKelas ? (
             <SelectedKelas
               kelas={selectedKelas}
-              onRemove={() => doChange(undefined)}
+              onRemove={clearable ? () => doChange(undefined) : undefined}
             />
           ) : (
             <Text size="sm" className="kelas text-gray-lighter">
