@@ -16,10 +16,11 @@ export type DataType = {
   foto: string
   diskusi: string
   jumlah_balasan: number
+  created_at: string
   balasan: []
 }
 
-export const listKomentarShortParentAction = async ({
+export const listKomentarParentAction = async ({
   page = 1,
   perPage = 2,
   idKelas,

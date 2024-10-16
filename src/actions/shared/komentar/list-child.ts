@@ -16,16 +16,16 @@ export type DataType = {
   foto: string
   diskusi: string
   jumlah_balasan: number
+  created_at: string
 }
 
-export const listKomentarShortParentAction = async ({
+export const listKomentarChildAction = async ({
   page = 1,
   idKelas,
   idAktifitas,
   idParent,
 }: {
   page?: number
-  perPage?: number
   idKelas: string
   idAktifitas: string
   idParent: string
@@ -34,7 +34,7 @@ export const listKomentarShortParentAction = async ({
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas/${idAktifitas}/diskusi`,
     {
       current_page: page,
-      per_page: 50,
-      id_induk: idParent,
+      per_page: 100,
+      id_parent: idParent,
     }
   )

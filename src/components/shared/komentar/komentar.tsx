@@ -1,15 +1,20 @@
 'use client'
 
-import { listKomentarShortParentAction } from '@/actions/shared/komentar/short/list-parent'
+import { listKomentarChildAction } from '@/actions/shared/komentar/list-child'
+import { listKomentarParentAction } from '@/actions/shared/komentar/list-parent'
 import { tambahKomentarAction } from '@/actions/shared/komentar/tambah'
-import { Button, Text, TextSpan, Thumbnail } from '@/components/ui'
+import { Button, Text, TextSpan, Thumbnail, Time } from '@/components/ui'
 import Loader from '@/components/ui/loader'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useQueries,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useState } from 'react'
 import { BsChatSquareText } from 'react-icons/bs'
-import { FaChevronDown } from 'react-icons/fa'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import FormKomentar from './form-komentar'
 
 export type KomentarType = {
@@ -20,6 +25,7 @@ export type KomentarType = {
   foto: string
   komentar: string
   jumlahBalasan: number
+  waktu: string
   balasan?: KomentarType[]
 }
 
@@ -44,6 +50,7 @@ export default function Komentar({
   const [parentLv2, setParentLv2] = useState<KomentarType>()
   const [komentarLv2, setKomentarLv2] = useState('')
   const [isSendingLv2, setIsSendingLv2] = useState(false)
+  const [showLv2, setShowLv2] = useState<{ [key: string]: boolean }>({})
 
   const queryKeyLv1 = ['shared.komentar.lv1', idKelas, idAktifitas]
 
@@ -56,7 +63,7 @@ export default function Komentar({
   } = useInfiniteQuery({
     queryKey: queryKeyLv1,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKomentarShortParentAction({
+      const { data } = await listKomentarParentAction({
         page,
         perPage: showPer,
         idKelas,
@@ -64,16 +71,20 @@ export default function Komentar({
       })
 
       return {
-        list: (data?.list ?? []).map((item) => ({
-          id: item.id,
-          idParent: item.id_parent,
-          idPengguna: item.id_pengguna,
-          nama: item.nama,
-          foto: item.foto,
-          komentar: item.diskusi,
-          jumlahBalasan: item.jumlah_balasan,
-          balasan: [],
-        })) as KomentarType[],
+        list: (data?.list ?? []).map(
+          (item) =>
+            ({
+              id: item.id,
+              idParent: item.id_parent,
+              idPengguna: item.id_pengguna,
+              nama: item.nama,
+              foto: item.foto,
+              komentar: item.diskusi,
+              jumlahBalasan: item.jumlah_balasan,
+              waktu: item.created_at,
+              balasan: [],
+            } as KomentarType)
+        ),
         pagination: data?.pagination,
       }
     },
@@ -86,7 +97,33 @@ export default function Komentar({
 
   const listLv1 = dataLv1?.pages.flatMap((page) => page.list) || []
 
-  /* TODO: tambahkan query untuk komentar level 2 dari API */
+  const dataLv2 = useQueries({
+    queries: listLv1.map((item) => ({
+      queryKey: ['shared.komentar.lv2', item.id],
+      queryFn: async () => {
+        const { data } = await listKomentarChildAction({
+          idKelas,
+          idAktifitas,
+          idParent: item.id,
+        })
+
+        return (data?.list ?? []).map(
+          (item) =>
+            ({
+              id: item.id,
+              idParent: item.id_parent,
+              idPengguna: item.id_pengguna,
+              nama: item.nama,
+              foto: item.foto,
+              komentar: item.diskusi,
+              jumlahBalasan: item.jumlah_balasan,
+              waktu: item.created_at,
+              balasan: [],
+            } as KomentarType)
+        )
+      },
+    })),
+  })
 
   const handleKirimKomentarLv1 = async () => {
     if (!komentarLv1) return
@@ -106,18 +143,19 @@ export default function Komentar({
   }
 
   const handleKirimKomentarLv2 = async () => {
-    if (!komentarLv2) return
+    if (!komentarLv2 || !parentLv2?.id) return
 
     await handleActionWithToast(
-      tambahKomentarAction(idKelas, idAktifitas, komentarLv2, parentLv2?.id),
+      tambahKomentarAction(idKelas, idAktifitas, komentarLv2, parentLv2.id),
       {
         loading: 'Memberi komentar...',
         success: 'Komentar ditambahkan',
         onStart: () => setIsSendingLv2(true),
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
-          /* TODO: tambahkan invalidate query untuk komentar level 2 */
-          // queryClient.invalidateQueries({ queryKey: [] })
+          queryClient.invalidateQueries({
+            queryKey: ['shared.komentar.lv2', parentLv2.id],
+          })
           setKomentarLv2('')
         },
         onFinish: () => {
@@ -151,56 +189,95 @@ export default function Komentar({
         <Loader size="sm" className="pb-3" />
       ) : (
         <div className="flex flex-col space-y-2">
-          {listLv1.map((item) => (
-            <div key={item.id} className="flex space-x-2">
-              <Thumbnail
-                src={item.foto || undefined}
-                alt="profil"
-                size={32}
-                rounded="md"
-                avatar={item.nama}
-                className="flex-shrink-0"
-              />
-              <div className="flex flex-col flex-1 items-start text-gray-dark">
-                <Text weight="semibold">{item.nama}</Text>
-                <Text weight="medium">{item.komentar}</Text>
-                <div className="flex space-x-2 my-1">
-                  <Text size="sm" weight="medium">
-                    {/* TODO: created_at */}4 hari
-                  </Text>
-                  {!(parentLv2 && parentLv2.id === item.id) && (
+          {listLv1.map((item, idx) => {
+            const listLv2 = dataLv2[idx]?.data ?? []
+
+            return (
+              <div key={item.id} className="flex space-x-2">
+                <Thumbnail
+                  src={item.foto || undefined}
+                  alt="profil"
+                  size={32}
+                  rounded="md"
+                  avatar={item.nama}
+                  className="flex-shrink-0"
+                />
+                <div className="flex flex-col flex-1 items-start text-gray-dark">
+                  <Text weight="semibold">{item.nama}</Text>
+                  <Text weight="medium">{item.komentar}</Text>
+                  <div className="flex space-x-2 my-1">
+                    <Text size="sm" weight="medium">
+                      <Time date={item.waktu} fromNow />
+                    </Text>
+                    {!(parentLv2 && parentLv2.id === item.id) && (
+                      <Button
+                        size="sm"
+                        variant="text"
+                        className="text-sm font-bold h-auto p-0"
+                        onClick={() => setParentLv2(item)}
+                      >
+                        Balas
+                      </Button>
+                    )}
+                  </div>
+                  {!!item.jumlahBalasan && (
                     <Button
                       size="sm"
                       variant="text"
-                      className="text-sm font-bold h-auto p-0"
-                      onClick={() => setParentLv2(item)}
+                      className="text-sm font-bold h-auto p-0 mt-1"
+                      onClick={() =>
+                        setShowLv2({
+                          ...showLv2,
+                          [item.id]: !showLv2[item.id],
+                        })
+                      }
                     >
-                      Balas
+                      {showLv2[item.id] ? (
+                        <FaChevronUp className="me-1" />
+                      ) : (
+                        <FaChevronDown className="me-1" />
+                      )}
+                      {item.jumlahBalasan} balasan
                     </Button>
                   )}
+                  {showLv2[item.id] && (
+                    <div className="flex flex-col space-y-2 mt-1">
+                      {listLv2.map((item2) => (
+                        <div key={item2.id} className="flex space-x-2">
+                          <Thumbnail
+                            src={item2.foto || undefined}
+                            alt="profil"
+                            size={32}
+                            rounded="md"
+                            avatar={item2.nama}
+                            className="flex-shrink-0"
+                          />
+                          <div className="flex flex-col flex-1 items-start text-gray-dark">
+                            <Text weight="semibold">{item2.nama}</Text>
+                            <Text weight="medium">{item2.komentar}</Text>
+                            <div className="flex space-x-2 my-1">
+                              <Text size="sm" weight="medium">
+                                <Time date={item2.waktu} fromNow />
+                              </Text>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {parentLv2 && parentLv2.id === item.id && (
+                    <FormKomentar
+                      value={komentarLv2}
+                      onChange={(e) => setKomentarLv2(e.target.value)}
+                      onSend={handleKirimKomentarLv2}
+                      disabled={isSendingLv2}
+                      className="w-full mt-1"
+                    />
+                  )}
                 </div>
-                {!!item.jumlahBalasan && (
-                  <Button
-                    size="sm"
-                    variant="text"
-                    className="text-sm font-bold h-auto p-0 mt-1"
-                  >
-                    <FaChevronDown className="me-1" /> {item.jumlahBalasan}{' '}
-                    balasan
-                  </Button>
-                )}
-                {parentLv2 && parentLv2.id === item.id && (
-                  <FormKomentar
-                    value={komentarLv2}
-                    onChange={(e) => setKomentarLv2(e.target.value)}
-                    onSend={handleKirimKomentarLv2}
-                    disabled={isSendingLv2}
-                    className="w-full mt-1"
-                  />
-                )}
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
       {(isFetchingNextPageLv1 || hasNextPageLv1) && (
