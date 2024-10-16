@@ -1,7 +1,6 @@
 'use server'
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
-import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
 import {
   makeActionResponse,
   makeJwtGetRequestTableAction,
@@ -19,7 +18,10 @@ export type DataType = {
 export const listKategoriMateriAction = async ({
   page = 1,
   search = '',
-}: ControlledAsyncTableActionProps = {}) => {
+}: {
+  page?: number
+  search?: string
+}) => {
   const { user } = (await getServerSession(authOptions)) ?? {}
   if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
 
