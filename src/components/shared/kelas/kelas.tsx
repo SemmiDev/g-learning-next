@@ -90,6 +90,7 @@ export default function Kelas({
           program: item.kelas.nama_kelas,
           kelas: item.kelas.sub_judul,
           instansi: item.kelas.nama_instansi,
+          cover: item.kelas.thumbnail,
         })) as KelasItemType[],
         pagination: data?.pagination,
       }

@@ -1,4 +1,6 @@
 import { Text } from '@/components/ui'
+import RandomCoverImage from '@/components/ui/random/cover-image'
+import Image from 'next/image'
 import { Radio } from 'rizzui'
 
 export type KelasItemType = {
@@ -6,6 +8,7 @@ export type KelasItemType = {
   program: string
   kelas?: string
   instansi?: string
+  cover?: string
 }
 
 export type KelasButtonProps = {
@@ -30,7 +33,26 @@ export default function KelasButton({
           checked={checked}
           onChange={() => onChange && onChange()}
         />
-        <div className="flex flex-1 justify-between items-center space-x-2">
+        <div className="flex flex-1 items-center space-x-2">
+          <div className="h-16 max-w-20 rounded overflow-clip">
+            {!!kelas.cover ? (
+              <Image
+                src={kelas.cover}
+                alt="kelas"
+                width={64}
+                height={64}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <RandomCoverImage
+                persistentKey={kelas.id}
+                alt="kelas"
+                width={64}
+                height={64}
+                className="h-full w-full object-cover"
+              />
+            )}
+          </div>
           <div className="flex flex-col">
             <Text
               size="sm"
