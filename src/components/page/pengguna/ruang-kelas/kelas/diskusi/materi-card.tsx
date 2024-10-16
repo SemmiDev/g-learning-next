@@ -10,6 +10,7 @@ import {
   ModalConfirm,
   ModalFilePreview,
   Text,
+  Thumbnail,
   Time,
   Title,
 } from '@/components/ui'
@@ -20,7 +21,6 @@ import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { stripHtml } from '@/utils/text'
-import imagePhoto from '@public/images/photo.png'
 import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -78,12 +78,16 @@ export default function MateriCard({
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex space-x-3">
-            {/* TODO: Foto Pengguna */}
-            <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
+            <Thumbnail
+              src={data.pembuat.foto}
+              alt="profil"
+              size={48}
+              rounded="lg"
+              avatar={data.pembuat.nama}
+            />
             <div className="flex flex-col">
               <Text weight="semibold" variant="dark">
-                {/* TODO: Pengguna */}
-                Prabroro Janggar
+                {data.pembuat.nama}
               </Text>
               <Text size="xs" weight="medium" variant="lighter">
                 <Time date={data.aktifitas.created_at} fromNow />
