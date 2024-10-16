@@ -56,6 +56,7 @@ export default function Komentar({
   const [komentarLv2, setKomentarLv2] = useState('')
   const [isSendingLv2, setIsSendingLv2] = useState(false)
   const [showLv2, setShowLv2] = useState<{ [key: string]: boolean }>({})
+  const [loadLv2, setLoadLv2] = useState<{ [key: string]: boolean }>({})
 
   const { data: firstDataLv1, isLoading: isLoadingFirstLv1 } = useQuery<
     KomentarType[]
@@ -137,7 +138,7 @@ export default function Komentar({
       ? dataLv1?.pages.flatMap((page) => page.list) || []
       : firstDataLv1 || []
 
-  const dataLv2 = useQueries({
+  const queryLv2 = useQueries({
     queries: listLv1.map((item) => ({
       queryKey: ['shared.komentar.lv2', item.id],
       queryFn: async () => {
@@ -162,6 +163,7 @@ export default function Komentar({
             } as KomentarType)
         )
       },
+      enabled: !!loadLv2[item.id],
     })),
   })
 
@@ -238,7 +240,7 @@ export default function Komentar({
       ) : (
         <div className="flex flex-col space-y-2">
           {listLv1.map((item, idx) => {
-            const listLv2 = dataLv2[idx]?.data ?? []
+            const listLv2 = queryLv2[idx]?.data ?? []
 
             return (
               <div key={item.id} className="flex space-x-2">
@@ -273,12 +275,21 @@ export default function Komentar({
                       size="sm"
                       variant="text"
                       className="text-sm font-bold h-auto p-0 mt-1"
-                      onClick={() =>
+                      onClick={() => {
                         setShowLv2({
                           ...showLv2,
                           [item.id]: !showLv2[item.id],
                         })
-                      }
+
+                        if (!loadLv2[item.id]) {
+                          setLoadLv2({
+                            ...loadLv2,
+                            [item.id]: true,
+                          })
+                        } else if (!showLv2[item.id]) {
+                          queryLv2[idx]?.refetch()
+                        }
+                      }}
                     >
                       {showLv2[item.id] ? (
                         <FaChevronUp className="me-1" />
@@ -288,30 +299,34 @@ export default function Komentar({
                       {item.jumlahBalasan} balasan
                     </Button>
                   )}
-                  {showLv2[item.id] && (
-                    <div className="flex flex-col space-y-2 mt-1">
-                      {listLv2.map((item2) => (
-                        <div key={item2.id} className="flex space-x-2">
-                          <Thumbnail
-                            src={item2.foto || undefined}
-                            alt="profil"
-                            size={32}
-                            rounded="md"
-                            avatar={item2.nama}
-                            className="flex-shrink-0"
-                          />
-                          <div className="flex flex-col flex-1 items-start text-gray-dark">
-                            <Text weight="semibold">{item2.nama}</Text>
-                            <Text weight="medium">{item2.komentar}</Text>
-                            <div className="flex space-x-2 my-1">
-                              <Text size="sm" weight="medium">
-                                <Time date={item2.waktu} fromNow />
-                              </Text>
+                  {queryLv2[idx].isLoading ? (
+                    <Loader size="sm" containerClassName="w-full" />
+                  ) : (
+                    showLv2[item.id] && (
+                      <div className="flex flex-col space-y-2 mt-1">
+                        {listLv2.map((item2) => (
+                          <div key={item2.id} className="flex space-x-2">
+                            <Thumbnail
+                              src={item2.foto || undefined}
+                              alt="profil"
+                              size={32}
+                              rounded="md"
+                              avatar={item2.nama}
+                              className="flex-shrink-0"
+                            />
+                            <div className="flex flex-col flex-1 items-start text-gray-dark">
+                              <Text weight="semibold">{item2.nama}</Text>
+                              <Text weight="medium">{item2.komentar}</Text>
+                              <div className="flex space-x-2 my-1">
+                                <Text size="sm" weight="medium">
+                                  <Time date={item2.waktu} fromNow />
+                                </Text>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )
                   )}
                   {parentLv2 && parentLv2.id === item.id && (
                     <FormKomentar
