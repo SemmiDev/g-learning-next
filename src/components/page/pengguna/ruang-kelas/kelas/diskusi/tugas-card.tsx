@@ -156,7 +156,8 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
           <Komentar
             idKelas={idKelas}
             idAktifitas={data.aktifitas.id}
-            className="pt-4 px-2"
+            total={data.total_komentar}
+            className="pt-4 px-2 pb-2"
           />
         </div>
       </Card>

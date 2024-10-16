@@ -156,6 +156,7 @@ export default function InformasiCard({
         <Komentar
           idKelas={idKelas}
           idAktifitas={data.aktifitas.id}
+          total={data.total_komentar}
           className="pt-4 px-4 pb-2"
         />
       </Card>

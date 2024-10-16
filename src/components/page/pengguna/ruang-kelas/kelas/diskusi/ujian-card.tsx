@@ -197,6 +197,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
           <Komentar
             idKelas={idKelas}
             idAktifitas={data.aktifitas.id}
+            total={data.total_komentar}
             className="pt-4 px-2 pb-2"
           />
         </div>

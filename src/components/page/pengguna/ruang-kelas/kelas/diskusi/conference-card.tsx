@@ -120,6 +120,7 @@ export default function ConferenceCard({
           <Komentar
             idKelas={idKelas}
             idAktifitas={data.aktifitas.id}
+            total={data.total_komentar}
             className="pt-4 px-2 pb-2"
           />
         </div>
