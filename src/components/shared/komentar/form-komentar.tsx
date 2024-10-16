@@ -36,6 +36,7 @@ export default function FormKomentar({
         placeholder="Tulis Komentar..."
         value={value}
         onChange={onChange}
+        autoFocus
       ></Textarea>
       <ActionIcon
         size="sm"
