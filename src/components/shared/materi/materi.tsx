@@ -95,8 +95,6 @@ export default function Materi({
     MateriItemType | undefined
   >(value)
 
-  const queryKeyMateri = ['shared.materi.list', activeKategori?.id]
-
   const doChange = (selected: MateriItemType | undefined) => {
     setSelectedMateri(selected)
 
@@ -142,6 +140,12 @@ export default function Materi({
     onLoadMore: fetchNextPageKategori,
   })
 
+  const queryKeyMateri = [
+    'shared.materi.list',
+    type ?? 'all',
+    activeKategori?.id,
+  ]
+
   const {
     data: dataMateri,
     isLoading: isLoadingMateri,
@@ -157,9 +161,13 @@ export default function Materi({
       const { data } = await listMateriAction({
         page,
         search: searchMateri,
-        params: {
-          idKategori: activeKategori?.id,
-        },
+        idKategori: activeKategori.id,
+        tipe:
+          type === 'materi'
+            ? 'Materi'
+            : type === 'tugas'
+            ? 'Penugasan'
+            : undefined,
       })
 
       return {
