@@ -335,6 +335,7 @@ export default function Komentar({
                       onSend={handleKirimKomentarLv2}
                       disabled={isSendingLv2}
                       className="w-full mt-1"
+                      autoFocus
                     />
                   )}
                 </div>

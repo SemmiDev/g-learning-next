@@ -9,6 +9,7 @@ type FormKomentarProps = {
   value?: string
   onChange?: ChangeEventHandler<HTMLTextAreaElement>
   disabled?: boolean
+  autoFocus?: boolean
   className?: string
 }
 
@@ -17,6 +18,7 @@ export default function FormKomentar({
   value,
   onChange,
   disabled = false,
+  autoFocus = false,
   className,
 }: FormKomentarProps) {
   const { image: imagePengguna, name: namaPengguna } = useSessionPengguna()
@@ -36,7 +38,7 @@ export default function FormKomentar({
         placeholder="Tulis Komentar..."
         value={value}
         onChange={onChange}
-        autoFocus
+        autoFocus={autoFocus}
       ></Textarea>
       <ActionIcon
         size="sm"
