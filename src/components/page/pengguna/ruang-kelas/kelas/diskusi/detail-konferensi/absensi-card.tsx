@@ -13,7 +13,6 @@ import {
   Thumbnail,
   Title,
 } from '@/components/ui'
-import Shimmer from '@/components/ui/shimmer/shimmer'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
@@ -21,6 +20,7 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Checkbox } from 'rizzui'
+import AbsensiCardShimmer from '../shimmer/absensi-card'
 
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 
@@ -123,7 +123,7 @@ export default function AbsensiCard() {
     )
   }
 
-  if (isLoading) return <LoaderSkeleton />
+  if (isLoading) return <AbsensiCardShimmer className="flex-1" />
 
   return (
     <>
@@ -289,28 +289,5 @@ export default function AbsensiCard() {
         }
       />
     </>
-  )
-}
-
-function LoaderSkeleton() {
-  return (
-    <Card className="flex flex-col flex-1 p-0">
-      <div className="px-2 py-3">
-        <Shimmer className="h-3.5 w-1/2" />
-      </div>
-      <CardSeparator />
-      <div className="flex flex-col divide-y">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex items-center space-x-2 p-2">
-            <Shimmer className="size-10" />
-            <div className="flex-1 space-y-2">
-              <Shimmer className="h-2.5 w-1/2" />
-              <Shimmer className="h-2.5 w-1/3" />
-            </div>
-          </div>
-        ))}
-      </div>
-      <CardSeparator />
-    </Card>
   )
 }

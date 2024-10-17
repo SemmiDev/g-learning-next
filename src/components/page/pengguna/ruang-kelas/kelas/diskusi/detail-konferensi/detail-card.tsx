@@ -1,17 +1,11 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { DataType as KelasDataType } from '@/actions/pengguna/ruang-kelas/lihat'
-import {
-  Button,
-  Card,
-  CardSeparator,
-  Komentar,
-  Shimmer,
-  Text,
-} from '@/components/ui'
+import { Button, Card, CardSeparator, Komentar, Text } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
+import DetailCardShimmer from '../shimmer/detail-card'
 
 type DetailCardProps = {
   kelas?: KelasDataType
@@ -29,7 +23,7 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
     },
   })
 
-  if (isLoading) return <LoaderSkeleton />
+  if (isLoading) return <DetailCardShimmer className="w-full lg:w-8/12" />
 
   if (data?.aktifitas.tipe !== 'Konferensi') return null
 
@@ -62,32 +56,6 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
         showPer={10}
         className="p-4"
       />
-    </Card>
-  )
-}
-
-function LoaderSkeleton() {
-  return (
-    <Card className="flex flex-col w-full p-0 lg:w-8/12">
-      <div className="flex flex-col space-y-2 p-4">
-        <Shimmer className="h-3.5 w-1/2" />
-        <div className="flex flex-col space-y-2">
-          {[...Array(12)].map((_, idx) => (
-            <Shimmer
-              key={idx}
-              className={cn(
-                'h-2.5',
-                (idx + 1) % 6 === 0 ? 'w-1/3' : 'w-full',
-                idx % 6 === 0 && '!mt-4'
-              )}
-            />
-          ))}
-        </div>
-      </div>
-      <CardSeparator />
-      <div className="px-4 p-2">
-        <Shimmer className="h-8 w-full" />
-      </div>
     </Card>
   )
 }
