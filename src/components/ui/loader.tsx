@@ -4,7 +4,7 @@ import { Loader as RizLoader, LoaderTypes as RizLoaderTypes } from 'rizzui'
 
 export type LoaderProps = RizLoaderTypes & {
   height?: number
-  containerClassName?: string
+  loaderClassName?: string
 }
 
 export default forwardRef<HTMLDivElement, LoaderProps>(function Loader(
@@ -13,7 +13,8 @@ export default forwardRef<HTMLDivElement, LoaderProps>(function Loader(
     variant = 'spinner',
     color = 'primary',
     size = 'lg',
-    containerClassName,
+    loaderClassName,
+    className,
     ...props
   }: LoaderProps,
   ref
@@ -21,10 +22,16 @@ export default forwardRef<HTMLDivElement, LoaderProps>(function Loader(
   return (
     <div
       ref={ref}
-      className={cn('flex justify-center items-center', containerClassName)}
+      className={cn('flex justify-center items-center', className)}
       style={height ? { height: `${height}px` } : {}}
     >
-      <RizLoader variant={variant} color={color} size={size} {...props} />
+      <RizLoader
+        variant={variant}
+        color={color}
+        size={size}
+        className={loaderClassName}
+        {...props}
+      />
     </div>
   )
 })

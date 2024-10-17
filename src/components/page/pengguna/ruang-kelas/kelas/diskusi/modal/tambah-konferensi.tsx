@@ -24,7 +24,7 @@ import { Switch } from 'rizzui'
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
-  link: z.string().pipe(required),
+  link: z.string().pipe(required.url()),
   presensi: z.string(),
 })
 

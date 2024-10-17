@@ -25,7 +25,7 @@ const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 type AbsensiType = Record<string, (typeof absensiStatus)[number] | null>
 
 type AbsensiCardProps = {
-  tipe: 'Manual' | 'Otomatis' | null
+  tipe: 'Manual' | null
 }
 
 export default function AbsensiCard({ tipe }: AbsensiCardProps) {

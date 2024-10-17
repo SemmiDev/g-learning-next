@@ -27,7 +27,7 @@ import { Switch } from 'rizzui'
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
-  link: z.string().pipe(required),
+  link: z.string().pipe(required.url()),
   presensi: z.string(),
 })
 
@@ -92,7 +92,7 @@ export default function UbahKonferensiModal({
         judul: data?.aktifitas.judul,
         catatan: data?.aktifitas.deskripsi ?? undefined,
         /* TODO: tambahkan data link dari API */
-        presensi: data?.aktifitas.absen === 'Otomatis' ? 'aktif' : 'non-aktif',
+        presensi: !!data?.aktifitas.absen ? 'aktif' : 'non-aktif',
         penjadwalan: !!data?.aktifitas.waktu_tersedia,
         jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),
       }

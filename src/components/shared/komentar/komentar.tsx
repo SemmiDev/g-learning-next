@@ -55,8 +55,8 @@ export default function Komentar({
   const [parentLv2, setParentLv2] = useState<KomentarType>()
   const [komentarLv2, setKomentarLv2] = useState('')
   const [isSendingLv2, setIsSendingLv2] = useState(false)
-  const [showLv2, setShowLv2] = useState<{ [key: string]: boolean }>({})
-  const [loadLv2, setLoadLv2] = useState<{ [key: string]: boolean }>({})
+  const [showLv2, setShowLv2] = useState<Record<string, boolean>>({})
+  const [loadLv2, setLoadLv2] = useState<Record<string, boolean>>({})
 
   const { data: firstDataLv1, isLoading: isLoadingFirstLv1 } = useQuery<
     KomentarType[]
@@ -300,7 +300,7 @@ export default function Komentar({
                     </Button>
                   )}
                   {queryLv2[idx].isLoading ? (
-                    <Loader size="sm" containerClassName="w-full" />
+                    <Loader size="sm" className="w-full" />
                   ) : (
                     showLv2[item.id] && (
                       <div className="flex flex-col space-y-2 mt-1">
