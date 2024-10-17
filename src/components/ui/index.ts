@@ -104,6 +104,7 @@ import Pagination, { PaginationProps } from './pagination'
 import Password, { PasswordProps } from './password'
 import ReadMore, { ReadMoreProps } from './readmore'
 import Select, { SelectOptionType, SelectProps } from './select/select'
+import Shimmer, { ShimmerProps } from './shimmer'
 import SimpleBar from './simplebar'
 import { LineGroup, Skeleton } from './skeleton'
 import Switch, { SwitchProps } from './switch'
@@ -192,6 +193,7 @@ export {
   PustakaMedia,
   ReadMore,
   Select,
+  Shimmer,
   SimpleBar,
   Skeleton,
   Switch,
@@ -276,6 +278,7 @@ export {
   type ReadMoreProps,
   type SelectOptionType,
   type SelectProps,
+  type ShimmerProps,
   type SwitchProps,
   type TableHeaderCellProps,
   type TableProps,

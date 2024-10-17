@@ -2,8 +2,8 @@ import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
-import { AnyObject } from './type-interface'
 import { ActionResponseType } from './action'
+import { AnyObject } from './type-interface'
 import { wait as waiting } from './wait'
 
 export const makeSimpleQueryData =
@@ -30,7 +30,7 @@ export const makeSimpleQueryDataWithId =
     wait?: number
   ) =>
   async () => {
-    if (!id) return null
+    if (!id) return {} as T
 
     if (wait) await waiting(wait)
 

@@ -18,7 +18,7 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(
       className={cn(
         'bg-white border border-gray-100 rounded-md overflow-clip p-2',
         shadow == 'normal' ? 'shadow' : `shadow-${shadow}`,
-        rounded == 'normal' ? 'rounded' : `rounded-${shadow}`,
+        rounded == 'normal' ? 'rounded' : `rounded-${rounded}`,
         className
       )}
     >
