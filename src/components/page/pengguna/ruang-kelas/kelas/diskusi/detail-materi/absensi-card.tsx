@@ -1,3 +1,4 @@
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { listAbsensiAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/list-absen'
 import { simpanAbsensiAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
 import {
@@ -13,26 +14,38 @@ import {
   Title,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Checkbox } from 'rizzui'
+import AbsensiCardShimmer from '../shimmer/absensi-card'
 
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 
 type AbsensiType = Record<string, (typeof absensiStatus)[number] | null>
 
 type AbsensiCardProps = {
-  tipe: 'Manual' | 'Otomatis' | null
+  className?: string
 }
 
-export default function AbsensiCard({ tipe }: AbsensiCardProps) {
+export default function AbsensiCard({ className }: AbsensiCardProps) {
   const [absensi, setAbsensi] = useState<AbsensiType>({})
   const [hadirSemua, setHadirSemua] = useState(false)
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+
+  const { data: dataAktifitas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+    queryFn: async () => {
+      const { data } = await lihatAktifitasAction(idKelas, id)
+      return data
+    },
+  })
+
+  const tipe = dataAktifitas?.aktifitas.absen ?? null
 
   const queryKey = ['pengguna.ruang-kelas.diskusi.absensi', idKelas, id]
 
@@ -115,9 +128,13 @@ export default function AbsensiCard({ tipe }: AbsensiCardProps) {
     )
   }
 
+  if (isLoading) return <AbsensiCardShimmer className={className} />
+
   return (
     <>
-      <Card className="flex flex-col flex-1 p-0 sticky top-[90px] right-0">
+      <Card
+        className={cn('flex flex-col p-0 sticky top-[90px] right-0', className)}
+      >
         <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
           Anggota Kelas
         </Title>
@@ -147,7 +164,7 @@ export default function AbsensiCard({ tipe }: AbsensiCardProps) {
                 return (
                   <div
                     key={peserta.id_peserta}
-                    className="flex justify-between items-center border-muted p-2"
+                    className="flex justify-between items-center space-x-2 border-muted p-2"
                   >
                     <div className="flex space-x-3">
                       <Thumbnail
@@ -168,7 +185,7 @@ export default function AbsensiCard({ tipe }: AbsensiCardProps) {
                       </div>
                     </div>
                     {!!tipe && (
-                      <div className="flex space-x-2">
+                      <div className="flex flex-wrap gap-2">
                         {tipe === 'Manual' ? (
                           absensiStatus.map((status) => (
                             <ActionIconTooltip

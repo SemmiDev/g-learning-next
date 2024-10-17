@@ -12,7 +12,7 @@ import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
 
-type FileListItemProps = {
+export type FileListItemProps = {
   file: PustakaMediaFileType
   onPreview?: (file: PustakaMediaFileType) => void
   download?: boolean

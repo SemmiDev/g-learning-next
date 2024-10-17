@@ -15,8 +15,8 @@ export default function AbsensiCardShimmer({
       </div>
       <CardSeparator />
       <div className="flex flex-col divide-y">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex items-center space-x-2 p-2">
+        {[...Array(5)].map((_, idx) => (
+          <div key={idx} className="flex items-center space-x-2 p-2">
             <Shimmer className="size-10" />
             <div className="flex-1 space-y-2">
               <Shimmer className="h-2.5 w-1/2" />

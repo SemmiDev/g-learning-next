@@ -23,12 +23,12 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
     },
   })
 
-  if (isLoading) return <DetailCardShimmer className="w-full lg:w-8/12" />
+  if (isLoading) return <DetailCardShimmer className={className} />
 
   if (data?.aktifitas.tipe !== 'Konferensi') return null
 
   return (
-    <Card className={cn('flex flex-col p-0 w-full lg:w-8/12', className)}>
+    <Card className={cn('flex flex-col p-0', className)}>
       <div className="flex justify-between items-start px-4 py-2">
         <div className="flex flex-col">
           <Text size="lg" weight="semibold" variant="dark" className="mb-2">

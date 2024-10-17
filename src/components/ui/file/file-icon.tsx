@@ -2,6 +2,7 @@
 
 import { PustakaMediaFileType } from '@/components/shared/pustaka-media'
 import cn from '@/utils/class-names'
+import { isPlayableVideo } from '@/utils/media-check'
 import iconFolder from '@public/icons/folder.svg'
 import Image from 'next/image'
 import {
@@ -22,7 +23,6 @@ import {
 } from 'react-icons/bs'
 import { LuFileAudio, LuFileVideo } from 'react-icons/lu'
 import Thumbnail from '../thumbnail'
-import { isPlayableVideo } from '@/utils/media-check'
 
 const iconSize = 20 as const
 
@@ -94,19 +94,19 @@ const Icon = ({ file }: { file: FileIconType }) => {
   }
 }
 
-type FileIconProps = {
+export type FileIconProps = {
   file: FileIconType
   fullThumbnail?: boolean
   className?: string
   thumbnailClassName?: string
 }
 
-export const FileIcon = ({
+export default function FileIcon({
   file,
   fullThumbnail = true,
   className,
   thumbnailClassName,
-}: FileIconProps) => {
+}: FileIconProps) {
   return (
     <div
       className={cn(

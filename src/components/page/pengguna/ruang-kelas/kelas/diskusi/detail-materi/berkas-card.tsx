@@ -1,21 +1,59 @@
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import {
   Card,
   CardSeparator,
   FileListItem,
+  FileListItemShimmer,
   FilePreviewType,
   PustakaMediaFileType,
+  Shimmer,
   Text,
   Title,
 } from '@/components/ui'
+import cn from '@/utils/class-names'
+import { getFileType } from '@/utils/file-properties-from-api'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 
 type BerkasCardProps = {
-  files: PustakaMediaFileType[]
   setFilePreview: (file: FilePreviewType) => void
+  className?: string
 }
 
-export default function BerkasCard({ files, setFilePreview }: BerkasCardProps) {
+export default function BerkasCard({
+  className,
+  setFilePreview,
+}: BerkasCardProps) {
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+    queryFn: async () => {
+      const { data } = await lihatAktifitasAction(idKelas, id)
+      return data
+    },
+  })
+
+  if (isLoading) return <BerkasCardShimmer className={className} />
+
+  if (data?.aktifitas.tipe !== 'Materi') return null
+
+  const files = (data?.file_aktifitas ?? []).map(
+    (file) =>
+      ({
+        id: file.id,
+        name: file.nama,
+        folder: false,
+        extension: file.ekstensi,
+        size: file.ukuran,
+        time: file.created_at,
+        type: getFileType(file),
+        link: file.url,
+      } as PustakaMediaFileType)
+  )
+
   return (
-    <Card className="flex flex-col flex-1 p-0">
+    <Card className={cn('flex flex-col p-0', className)}>
       <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
         Berkas Materi
       </Title>
@@ -43,6 +81,23 @@ export default function BerkasCard({ files, setFilePreview }: BerkasCardProps) {
           </Text>
         )}
       </div>
+    </Card>
+  )
+}
+
+function BerkasCardShimmer({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3.5 w-1/2" />
+      </div>
+      <CardSeparator />
+      <div className="flex flex-col space-y-2 p-2">
+        {[...Array(3)].map((_, idx) => (
+          <FileListItemShimmer key={idx} />
+        ))}
+      </div>
+      <CardSeparator />
     </Card>
   )
 }
