@@ -1,12 +1,12 @@
 'use server'
 
-import { TambahConferenceFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/tambah-conference'
+import { TambahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/tambah-konferensi'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasConferenceAction = (
+export const tambahAktifitasKonferensiAction = (
   idKelas: string,
-  data: TambahConferenceFormSchema
+  data: TambahKonferensiFormSchema
 ) =>
   makeJwtPostRequestAction(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
@@ -14,7 +14,7 @@ export const tambahAktifitasConferenceAction = (
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),
       tipe: 'Konferensi',
-      tipe_presensi: data.presensi === 'aktif' ? 'Otomatis' : undefined,
+      tipe_presensi: data.presensi === 'aktif' ? 'Manual' : undefined,
       jadwal: data.jadwal,
     }
   )

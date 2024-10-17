@@ -1,13 +1,13 @@
 'use server'
 
-import { UbahConferenceFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/ubah-conference'
+import { UbahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/ubah-konferensi'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasConferenceAction = (
+export const ubahAktifitasKonferensiAction = (
   idKelas: string,
   id: string,
-  data: UbahConferenceFormSchema
+  data: UbahKonferensiFormSchema
 ) =>
   makeJwtPutRequestAction(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas/${id}`,

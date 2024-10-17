@@ -8,8 +8,8 @@ import {
   BsWebcam,
 } from 'react-icons/bs'
 import ButtonIcon from '../button-icon'
-import TambahConferenceModal from './modal/tambah-conference'
 import TambahInformasiModal from './modal/tambah-informasi'
+import TambahKonferensiModal from './modal/tambah-konferensi'
 import TambahMateriModal from './modal/tambah-materi'
 import TambahTugasModal from './modal/tambah-tugas'
 import TambahUjianModal from './modal/tambah-ujian'
@@ -24,7 +24,7 @@ export default function PengajarHeaderCard({
   const [showTambahMateri, setShowTambahMateri] = useState(false)
   const [showTambahTugas, setShowTambahTugas] = useState(false)
   const [showTambahUjian, setShowTambahUjian] = useState(false)
-  const [showTambahConference, setShowTambahConference] = useState(false)
+  const [showTambahKonferensi, setShowTambahKonferensi] = useState(false)
   const [showTambahInformasi, setShowTambahInformasi] = useState(false)
 
   return (
@@ -59,9 +59,9 @@ export default function PengajarHeaderCard({
             <BsCardChecklist size={32} />
           </ButtonIcon>
           <ButtonIcon
-            title="Conference"
+            title="Konferensi"
             color="red"
-            onClick={() => setShowTambahConference(true)}
+            onClick={() => setShowTambahKonferensi(true)}
           >
             <BsWebcam size={32} />
           </ButtonIcon>
@@ -84,9 +84,9 @@ export default function PengajarHeaderCard({
 
       <TambahUjianModal show={showTambahUjian} setShow={setShowTambahUjian} />
 
-      <TambahConferenceModal
-        show={showTambahConference}
-        setShow={setShowTambahConference}
+      <TambahKonferensiModal
+        show={showTambahKonferensi}
+        setShow={setShowTambahKonferensi}
       />
 
       <TambahInformasiModal

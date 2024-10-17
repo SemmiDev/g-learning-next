@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasConferenceAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-conference'
+import { ubahAktifitasKonferensiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-konferensi'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -45,7 +45,7 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-export type UbahConferenceFormSchema = {
+export type UbahKonferensiFormSchema = {
   judul?: string
   catatan?: string
   link?: string
@@ -59,17 +59,17 @@ const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-type UbahConferenceModalProps = {
+type UbahKonferensiModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function UbahConferenceModal({
+export default function UbahKonferensiModal({
   id,
   show,
   onHide,
-}: UbahConferenceModalProps) {
+}: UbahKonferensiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -81,7 +81,7 @@ export default function UbahConferenceModal({
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahConferenceFormSchema>({
+  } = useQuery<UbahKonferensiFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return { presensi: 'non-aktif', penjadwalan: false }
@@ -99,11 +99,11 @@ export default function UbahConferenceModal({
     },
   })
 
-  const onSubmit: SubmitHandler<UbahConferenceFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahKonferensiFormSchema> = async (data) => {
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasConferenceAction(idKelas, id, data),
+      ubahAktifitasKonferensiAction(idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
@@ -113,7 +113,7 @@ export default function UbahConferenceModal({
           })
           queryClient.setQueryData(
             queryKey,
-            (oldData: UbahConferenceFormSchema) => ({
+            (oldData: UbahKonferensiFormSchema) => ({
               ...oldData,
               ...data,
             })
@@ -132,7 +132,7 @@ export default function UbahConferenceModal({
 
   return (
     <Modal
-      title="Ubah Conference Dibagikan"
+      title="Ubah Konferensi Dibagikan"
       isLoading={!isLoading && isFetching}
       color="warning"
       size="lg"
@@ -143,7 +143,7 @@ export default function UbahConferenceModal({
       {isLoading ? (
         <Loader height={500} />
       ) : (
-        <Form<UbahConferenceFormSchema>
+        <Form<UbahKonferensiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -164,8 +164,8 @@ export default function UbahConferenceModal({
                   name="judul"
                   control={control}
                   errors={errors}
-                  label="Judul Conference"
-                  placeholder="Tulis judul conference di sini"
+                  label="Judul Konferensi"
+                  placeholder="Tulis judul konferensi di sini"
                   required
                 />
 
@@ -174,7 +174,7 @@ export default function UbahConferenceModal({
                   control={control}
                   errors={errors}
                   label="Catatan Tambahan"
-                  placeholder="Buat catatan singkat terkait conference yang diberikan"
+                  placeholder="Buat catatan singkat terkait konferensi yang diberikan"
                   toolbar="minimalist"
                 />
 
@@ -182,8 +182,8 @@ export default function UbahConferenceModal({
                   name="link"
                   control={control}
                   errors={errors}
-                  label="Link Conference"
-                  placeholder="Tulis link conference di sini"
+                  label="Link Konferensi"
+                  placeholder="Tulis link konferensi di sini"
                   required
                 />
 

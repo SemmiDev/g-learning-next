@@ -8,10 +8,10 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import ConferenceCard from './diskusi/conference-card'
 import DaftarTugasCard from './diskusi/daftar-tugas-card'
 import DiskusiCard from './diskusi/diskusi-card'
 import InformasiCard from './diskusi/informasi-card'
+import KonferensiCard from './diskusi/konferensi-card'
 import MateriCard from './diskusi/materi-card'
 import PengajarHeaderCard from './diskusi/pengajar-header-card'
 import PesertaHeaderCard from './diskusi/peserta-header-card'
@@ -80,7 +80,7 @@ export default function DiskusiBody() {
                 ) : item.aktifitas.tipe === 'Penugasan' ? (
                   <TugasCard kelas={dataKelas} data={item} className="mt-6" />
                 ) : item.aktifitas.tipe === 'Konferensi' ? (
-                  <ConferenceCard
+                  <KonferensiCard
                     kelas={dataKelas}
                     data={item}
                     className="mt-6"

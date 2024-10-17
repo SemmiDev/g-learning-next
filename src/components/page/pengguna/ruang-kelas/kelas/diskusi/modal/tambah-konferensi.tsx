@@ -1,4 +1,4 @@
-import { tambahAktifitasConferenceAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-conference'
+import { tambahAktifitasKonferensiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-konferensi'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -42,7 +42,7 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-export type TambahConferenceFormSchema = {
+export type TambahKonferensiFormSchema = {
   judul?: string
   catatan?: string
   link?: string
@@ -51,7 +51,7 @@ export type TambahConferenceFormSchema = {
   jadwal?: Date
 }
 
-const initialValues: TambahConferenceFormSchema = {
+const initialValues: TambahKonferensiFormSchema = {
   presensi: 'non-aktif',
   penjadwalan: false,
 }
@@ -61,23 +61,23 @@ const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-type TambahConferenceModalProps = {
+type TambahKonferensiModalProps = {
   show?: boolean
   setShow(show: boolean): void
 }
 
-export default function TambahConferenceModal({
+export default function TambahKonferensiModal({
   show = false,
   setShow,
-}: TambahConferenceModalProps) {
+}: TambahKonferensiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const onSubmit: SubmitHandler<TambahConferenceFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<TambahKonferensiFormSchema> = async (data) => {
     await handleActionWithToast(
-      tambahAktifitasConferenceAction(idKelas, data),
+      tambahAktifitasKonferensiAction(idKelas, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
@@ -99,13 +99,13 @@ export default function TambahConferenceModal({
 
   return (
     <Modal
-      title="Bagikan Conference"
+      title="Bagikan Konferensi"
       size="lg"
       isOpen={show}
       onClose={handleClose}
       overflow
     >
-      <Form<TambahConferenceFormSchema>
+      <Form<TambahKonferensiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -125,8 +125,8 @@ export default function TambahConferenceModal({
                 name="judul"
                 control={control}
                 errors={errors}
-                label="Judul Conference"
-                placeholder="Tulis judul conference di sini"
+                label="Judul Konferensi"
+                placeholder="Tulis judul konferensi di sini"
                 required
               />
 
@@ -135,7 +135,7 @@ export default function TambahConferenceModal({
                 control={control}
                 errors={errors}
                 label="Catatan Tambahan"
-                placeholder="Buat catatan singkat terkait conference yang diberikan"
+                placeholder="Buat catatan singkat terkait konferensi yang diberikan"
                 toolbar="minimalist"
               />
 
@@ -143,8 +143,8 @@ export default function TambahConferenceModal({
                 name="link"
                 control={control}
                 errors={errors}
-                label="Link Conference"
-                placeholder="Tulis link conference di sini"
+                label="Link Konferensi"
+                placeholder="Tulis link konferensi di sini"
                 required
               />
 

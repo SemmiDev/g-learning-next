@@ -24,19 +24,19 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { BsCameraVideo } from 'react-icons/bs'
 import DropdownMoreAction from './dropdown-more-action'
-import UbahConferenceModal from './modal/ubah-conference'
+import UbahKonferensiModal from './modal/ubah-konferensi'
 
-type ConferenceCardProps = {
+type KonferensiCardProps = {
   kelas: DataKelasType
   data: DataType
   className?: string
 }
 
-export default function ConferenceCard({
+export default function KonferensiCard({
   kelas,
   data,
   className,
-}: ConferenceCardProps) {
+}: KonferensiCardProps) {
   const queryClient = useQueryClient()
   const {
     show: showUbah,
@@ -110,7 +110,7 @@ export default function ConferenceCard({
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/conference/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/konferensi/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" color="primary" className="w-full">
               <BsCameraVideo size={16} className="me-2" />{' '}
@@ -126,11 +126,11 @@ export default function ConferenceCard({
         </div>
       </Card>
 
-      <UbahConferenceModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+      <UbahKonferensiModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
-        title="Hapus Conference"
-        desc="Apakah Anda yakin ingin menghapus conference ini?"
+        title="Hapus Konferensi"
+        desc="Apakah Anda yakin ingin menghapus konferensi ini?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}
