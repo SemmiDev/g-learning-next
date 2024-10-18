@@ -41,7 +41,9 @@ export default function ControlledTextarea<
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
         <Textarea
-          label={<Label label={label} required={required} />}
+          label={
+            label ? <Label label={label} required={required} /> : undefined
+          }
           labelClassName={cn('font-semibold text-gray-dark', labelClassName)}
           rows={rows}
           onChange={(val) => {

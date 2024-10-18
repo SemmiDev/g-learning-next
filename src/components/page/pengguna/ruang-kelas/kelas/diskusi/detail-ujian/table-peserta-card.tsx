@@ -24,6 +24,7 @@ import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
+import TablePesertaCardShimmer from '../shimmer/table-peserta-card'
 
 type SortDataType = {
   title: string
@@ -224,6 +225,8 @@ export default function TableUjianPesertaCard({
     // )
   }
 
+  if (isLoading) return <TablePesertaCardShimmer className={className} />
+
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
@@ -250,7 +253,7 @@ export default function TableUjianPesertaCard({
                 <Button as="span" size="sm" variant="outline">
                   {sorting && (
                     <>
-                      {sorting.title} <BsChevronDown className="ml-2 w-5" />
+                      {sorting?.title} <BsChevronDown className="ml-2 w-5" />
                     </>
                   )}
                 </Button>
