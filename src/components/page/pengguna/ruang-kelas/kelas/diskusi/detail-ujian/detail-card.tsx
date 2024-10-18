@@ -32,10 +32,10 @@ export default function DetailCard({ className }: DetailCardProps) {
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex flex-col">
             <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-              {data.aktifitas.judul || '-'}
+              {data?.aktifitas.judul || '-'}
             </Text>
             <SanitizeHTML
-              html={data.aktifitas.deskripsi || '-'}
+              html={data?.aktifitas.deskripsi || '-'}
               className="text-sm"
             />
           </div>
@@ -55,7 +55,7 @@ export default function DetailCard({ className }: DetailCardProps) {
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
-                    {data.bank_soal?.jumlah_soal_yang_digunakan}
+                    {data?.bank_soal?.jumlah_soal_yang_digunakan}
                   </td>
                 </tr>
                 <tr>
@@ -66,15 +66,15 @@ export default function DetailCard({ className }: DetailCardProps) {
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
-                    {data.aktifitas.durasi_ujian} menit
+                    {data?.aktifitas.durasi_ujian} menit
                   </td>
                 </tr>
               </tbody>
             </table>
             <table>
               <tbody>
-                {data.aktifitas.waktu_tersedia !==
-                  data.aktifitas.waktu_mulai_ujian && (
+                {data?.aktifitas.waktu_tersedia !==
+                  data?.aktifitas.waktu_mulai_ujian && (
                   <tr>
                     <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
                       Waktu mulai pengerjaan
@@ -84,7 +84,7 @@ export default function DetailCard({ className }: DetailCardProps) {
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
                       <Time
-                        date={data.aktifitas.waktu_mulai_ujian}
+                        date={data?.aktifitas.waktu_mulai_ujian}
                         format="datetime"
                         empty="-"
                       />
@@ -100,7 +100,7 @@ export default function DetailCard({ className }: DetailCardProps) {
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
                     <Time
-                      date={data.aktifitas.waktu_selesai_ujian}
+                      date={data?.aktifitas.waktu_selesai_ujian}
                       format="datetime"
                       empty="-"
                     />
@@ -114,7 +114,7 @@ export default function DetailCard({ className }: DetailCardProps) {
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
-                    {data.aktifitas.kategori_nilai}
+                    {data?.aktifitas.kategori_nilai}
                   </td>
                 </tr>
               </tbody>
