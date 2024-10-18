@@ -1,5 +1,12 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
+import {
+  Button,
+  Card,
+  CardSeparator,
+  Shimmer,
+  Text,
+  Title,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -24,6 +31,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
   })
 
   /* TODO: tambahkan data hasil ujian dari API jika sudah ada */
+  if (true) return <CardShimmer className={className} />
 
   return (
     <>
@@ -81,5 +89,32 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
         durasi={data?.aktifitas.durasi_ujian || undefined}
       />
     </>
+  )
+}
+
+function CardShimmer({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3.5 w-1/4" />
+      </div>
+      <CardSeparator />
+      <div className="flex items-center space-x-2 p-2">
+        <div className="flex flex-col space-y-2 flex-1">
+          <Shimmer className="h-2.5 w-1/2" />
+          <Shimmer className="h-2.5 w-1/2" />
+          <Shimmer className="h-2.5 w-1/2" />
+          <Shimmer className="h-2.5 w-1/2" />
+        </div>
+        <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md space-y-5 px-3 py-4">
+          <Shimmer className="h-2.5 w-1/2" />
+          <Shimmer className="h-5 w-1/2" />
+        </div>
+      </div>
+      <CardSeparator />
+      <div className="p-2">
+        <Shimmer className="h-8 w-full" />
+      </div>
+    </Card>
   )
 }

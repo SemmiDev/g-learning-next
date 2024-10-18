@@ -253,7 +253,7 @@ function CardShimmer({ className }: { className?: string }) {
           <Shimmer className="h-3.5 w-1/2" />
           <Shimmer className="h-2.5 w-1/3" />
         </div>
-        <div className="flex flex-col items-center h-20 w-24 bg-gray-50/80 rounded-md space-y-4 px-3 py-4">
+        <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md space-y-5 px-3 py-4">
           <Shimmer className="h-2.5 w-1/2" />
           <Shimmer className="h-5 w-1/2" />
         </div>
