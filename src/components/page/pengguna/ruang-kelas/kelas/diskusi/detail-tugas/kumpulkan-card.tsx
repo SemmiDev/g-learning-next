@@ -12,6 +12,7 @@ import {
   FormError,
   ModalFilePreview,
   PustakaMediaFileType,
+  Shimmer,
   Text,
   Title,
 } from '@/components/ui'
@@ -107,6 +108,8 @@ export default function KumpulkanTugasCard({
     )
   }
 
+  if (isLoading) return <CardShimmer className={className} />
+
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
@@ -124,12 +127,21 @@ export default function KumpulkanTugasCard({
               className="text-gray-dark"
             />
           </div>
-          <div className="flex flex-col items-center bg-green-100 w-24 rounded-md p-3">
+          <div
+            className={cn(
+              'flex flex-col items-center w-24 rounded-md p-3',
+              data?.nilai === null
+                ? 'bg-gray-50'
+                : data?.nilai >= 70
+                ? 'bg-green-100'
+                : 'bg-red-100'
+            )}
+          >
             <Text size="sm" weight="medium" variant="lighter">
               Nilai
             </Text>
             <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-              {data.nilai || '-'}
+              {data?.nilai || '-'}
             </Text>
           </div>
         </div>
@@ -210,10 +222,10 @@ export default function KumpulkanTugasCard({
 
               <div className="flex flex-col p-2">
                 <ButtonSubmit
-                  color={data.status_pengumpulan ? 'warning' : 'primary'}
+                  color={data?.status_pengumpulan ? 'warning' : 'primary'}
                   isSubmitting={isSubmitting}
                 >
-                  Kumpulkan {data.status_pengumpulan && 'Ulang'} Tugas
+                  Kumpulkan {data?.status_pengumpulan && 'Ulang'} Tugas
                 </ButtonSubmit>
               </div>
             </>
@@ -226,5 +238,36 @@ export default function KumpulkanTugasCard({
         onClose={() => setFilePreview(undefined)}
       />
     </>
+  )
+}
+
+function CardShimmer({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3.5 w-1/2" />
+      </div>
+      <CardSeparator />
+      <div className="flex space-x-2 p-2">
+        <div className="flex flex-col space-y-2 flex-1">
+          <Shimmer className="h-3.5 w-1/2" />
+          <Shimmer className="h-2.5 w-1/3" />
+        </div>
+        <div className="flex flex-col items-center h-20 w-24 bg-gray-50/80 rounded-md space-y-4 px-3 py-4">
+          <Shimmer className="h-2.5 w-1/2" />
+          <Shimmer className="h-5 w-1/2" />
+        </div>
+      </div>
+      <CardSeparator />
+      <div className="p-2">
+        <Shimmer className="h-8 w-full" />
+      </div>
+      <CardSeparator />
+      <div className="flex flex-col space-y-2 p-2">
+        <Shimmer className="h-2.5 w-1/4" />
+        <Shimmer className="h-2.5 w-1/2" />
+        <Shimmer className="h-2.5 w-1/2" />
+      </div>
+    </Card>
   )
 }
