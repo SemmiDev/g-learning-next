@@ -49,6 +49,7 @@
     "recharts": "^2.13.0-alpha.1",
     "rizzui": "^0.8.7",
     "sanitize-html": "^2.13.0",
+    "sharp": "^0.33.5",
     "simplebar-react": "^3.2.4",
     "tailwind-merge": "^2.2.1",
     "zod": "^3.23.8",
