@@ -1,6 +1,4 @@
-import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { hapusNilaiTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-tugas'
-import { tableTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
+import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
 import {
   Button,
   Card,
@@ -16,22 +14,14 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { handleActionWithToast } from '@/utils/action'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import Link from 'next/link'
+import cn from '@/utils/class-names'
+import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
 import { useState } from 'react'
 import { BiFilterAlt } from 'react-icons/bi'
-import {
-  BsCheck,
-  BsChevronDown,
-  BsPencil,
-  BsThreeDots,
-  BsTrash3,
-} from 'react-icons/bs'
+import { BsCheck, BsChevronDown, BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 
@@ -69,29 +59,27 @@ const sortData: SortDataType[] = [
 
 const filterData = {
   ALL: 'Semua',
-  SUDAH_MENGUMPULKAN: 'Sudah Mengumpulkan',
-  BELUM_MENGUMPULKAN: 'Belum Mengumpulkan',
+  SUDAH_MENGUMPULKAN: 'Sudah Ujian',
+  BELUM_MENGUMPULKAN: 'Belum Ujian',
 }
 
 type FilterDataType = keyof typeof filterData
 
-export default function TableTugasPesertaCard() {
+type TableUjianPesertaCardProps = {
+  className?: string
+}
+
+export default function TableUjianPesertaCard({
+  className,
+}: TableUjianPesertaCardProps) {
   const queryClient = useQueryClient()
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
 
   const { kelas: idKelas, id: idAktifitas }: { kelas: string; id: string } =
     useParams()
 
-  const { data: dataAktifitas } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, idAktifitas)
-      return data
-    },
-  })
-
   const queryKey = [
-    'pengguna.ruang-kelas.diskusi.tugas.table-peserta',
+    'pengguna.ruang-kelas.diskusi.ujian.table-peserta',
     idKelas,
     idAktifitas,
   ]
@@ -113,7 +101,7 @@ export default function TableTugasPesertaCard() {
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tableTugasPesertaAction,
+    action: tableUjianPesertaAction,
     actionParams: {
       idKelas,
       idAktifitas,
@@ -160,16 +148,12 @@ export default function TableTugasPesertaCard() {
       ),
     },
     {
-      title: <TableHeaderCell title="Waktu Pengumpulan" />,
-      dataIndex: 'tanggal',
+      title: <TableHeaderCell title="Waktu Mulai Pengerjaan" />,
+      /* TODO: data waktu mulai pengerjaan */
+      dataIndex: 'waktu_pengumpulan',
       render: (_: string, row) => {
-        const terlambat =
-          !!dataAktifitas?.aktifitas.batas_waktu &&
-          row.waktu_pengumpulan &&
-          dataAktifitas?.aktifitas.batas_waktu < row.waktu_pengumpulan
-
         return (
-          <TableCellText color={terlambat ? 'danger' : 'gray'}>
+          <TableCellText>
             <Time
               date={row.waktu_pengumpulan}
               customFormat="DD MMM YY"
@@ -183,6 +167,7 @@ export default function TableTugasPesertaCard() {
     },
     {
       title: <TableHeaderCell title="Nilai" className="justify-center" />,
+      /* TODO: data nilai */
       dataIndex: 'nilai',
       render: (value: string) => (
         <TableCellText align="center">{value ?? '-'}</TableCellText>
@@ -190,24 +175,8 @@ export default function TableTugasPesertaCard() {
     },
     {
       title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
       render: (_: string, row) => {
-        if (!row.nilai) {
-          return (
-            <Link
-              href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
-            >
-              <Button
-                as="span"
-                size="sm"
-                variant="solid"
-                className="whitespace-nowrap"
-              >
-                Cek Tugas
-              </Button>
-            </Link>
-          )
-        }
+        // if (!row.id) return
 
         return (
           <div className="flex justify-end">
@@ -217,26 +186,14 @@ export default function TableTugasPesertaCard() {
                   <BsThreeDots size={18} />
                 </Button>
               </Dropdown.Trigger>
-              <Dropdown.Menu className="divide-y">
-                <div className="mb-2">
-                  <Link
-                    href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
-                  >
-                    <Dropdown.Item className="text-gray-dark">
-                      <BsPencil className="text-warning mr-2 h-4 w-4" />
-                      Ubah Nilai
-                    </Dropdown.Item>
-                  </Link>
-                </div>
-                <div className="mt-2 pt-2">
-                  <Dropdown.Item
-                    className="text-gray-dark"
-                    onClick={() => setIdHapusNilai(row.id || undefined)}
-                  >
-                    <BsTrash3 className="text-danger mr-2 h-4 w-4" />
-                    Hapus Nilai
-                  </Dropdown.Item>
-                </div>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  className="text-gray-dark"
+                  onClick={() => setIdHapusNilai(row.id || undefined)}
+                >
+                  <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                  Hapus Nilai
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -252,25 +209,26 @@ export default function TableTugasPesertaCard() {
   const handleHapusNilai = async () => {
     if (!idHapusNilai) return
 
-    handleActionWithToast(
-      hapusNilaiTugasAction(idKelas, idAktifitas, idHapusNilai),
-      {
-        loading: 'Menghapus berkas...',
-        success: 'Berhasil menghapus nilai peserta',
-        onSuccess: () => {
-          setIdHapusNilai(undefined)
+    /* TODO: hapus pengerjaan ujian peserta jika sudah ada API nya */
+    // handleActionWithToast(
+    //   hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
+    //   {
+    //     loading: 'Menghapus berkas...',
+    //     success: 'Berhasil menghapus nilai peserta',
+    //     onSuccess: () => {
+    //       setIdHapusNilai(undefined)
 
-          queryClient.invalidateQueries({ queryKey })
-        },
-      }
-    )
+    //       queryClient.invalidateQueries({ queryKey })
+    //     },
+    //   }
+    // )
   }
 
   return (
     <>
-      <Card className="flex flex-col flex-1 p-0">
+      <Card className={cn('flex flex-col p-0', className)}>
         <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
-          Pengumpulan Tugas Peserta
+          Peserta yang Mengikuti Ujian
         </Title>
         <CardSeparator />
         <div className="flex justify-between p-2">
@@ -357,7 +315,7 @@ export default function TableTugasPesertaCard() {
 
       <ModalConfirm
         title="Hapus Nilai"
-        desc="Apakah Anda yakin ingin menghapus nilai tugas peserta ini?"
+        desc="Apakah Anda yakin ingin menghapus pengerjaan ujian/nilai peserta ini?"
         color="danger"
         isOpen={!!idHapusNilai}
         onClose={() => setIdHapusNilai(undefined)}

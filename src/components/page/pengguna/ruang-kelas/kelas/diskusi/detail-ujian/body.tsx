@@ -1,27 +1,20 @@
 'use client'
 
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
-import {
-  Button,
-  FilePreviewType,
-  ModalFilePreview,
-  Text,
-} from '@/components/ui'
+import { Button, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
+import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import AbsensiCard from './absensi-card'
-import BerkasCard from './berkas-card'
 import DetailCard from './detail-card'
+import HasilUjianCard from './hasil-ujian'
+import TableUjianPesertaCard from './table-peserta-card'
 
-export default function DiskusiMateriBody() {
-  const [filePreview, setFilePreview] = useState<FilePreviewType>()
-
-  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+export default function DiskusiUjianBody() {
+  const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
@@ -42,21 +35,17 @@ export default function DiskusiMateriBody() {
       </div>
       <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
         <DetailCard
-          kelas={dataKelas}
-          setFilePreview={setFilePreview}
-          className="w-full lg:w-8/12"
+          className={cn(
+            'w-full',
+            dataKelas?.peran === 'Pengajar' ? 'lg:w-6/12' : 'lg:w-7/12'
+          )}
         />
         {dataKelas?.peran === 'Pengajar' ? (
-          <AbsensiCard className="flex-1" />
+          <TableUjianPesertaCard className="flex-1" />
         ) : (
-          <BerkasCard setFilePreview={setFilePreview} className="flex-1" />
+          <HasilUjianCard className="flex-1" />
         )}
       </div>
-
-      <ModalFilePreview
-        file={filePreview}
-        onClose={() => setFilePreview(undefined)}
-      />
     </>
   )
 }

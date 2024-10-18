@@ -10,14 +10,16 @@ export type DataType = {
   id_peserta: string
   nama: string
   foto: string
-  nilai: number | null
-  catatan_pengajar: string
-  catatan_peserta: string
-  status_pengumpulan: boolean
+  email: string
+  status_pengumpulan: string
   waktu_pengumpulan: string | null
+  selesai: number | null
+  skor_benar: number | null
+  skor_salah: number | null
+  skor_kosong: number | null
 }
 
-export const tableTugasPesertaAction = async ({
+export const tableUjianPesertaAction = async ({
   page = 1,
   search = '',
   sort,
@@ -25,7 +27,7 @@ export const tableTugasPesertaAction = async ({
   filters,
 }: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
-    `${process.env.API_URL}/pengajar/kelas/${params?.idKelas}/aktifitas/${params?.idAktifitas}/penilaian-tugas`,
+    `${process.env.API_URL}/pengajar/kelas/${params?.idKelas}/aktifitas/${params?.idAktifitas}/penilaian-ujian`,
     {
       current_page: page,
       keyword: search,

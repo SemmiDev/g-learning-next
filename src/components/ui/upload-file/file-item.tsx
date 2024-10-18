@@ -1,12 +1,12 @@
+import { isImageExt } from '@/utils/media-check'
 import Image from 'next/image'
 import { ReactNode } from 'react'
 import { FileError } from 'react-dropzone'
 import { BiTrashAlt } from 'react-icons/bi'
 import ActionIcon from '../button/action-icon'
+import FileIcon from '../file/file-icon'
 import Text from '../text/text'
 import { UploadFileType } from './upload-file'
-import { FileIcon } from '../file/file-icon'
-import { isImageExt } from '@/utils/media-check'
 
 const IconWrapper = ({ children }: { children: ReactNode }) => {
   return (
