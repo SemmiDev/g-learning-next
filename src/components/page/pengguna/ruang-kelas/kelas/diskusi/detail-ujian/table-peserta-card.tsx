@@ -135,14 +135,13 @@ export default function TableUjianPesertaCard({
             <Text size="sm" weight="semibold" variant="dark">
               {row.nama}
             </Text>
-            {/* TODO: data email */}
             <Text
               size="2xs"
               weight="medium"
               variant="lighter"
               className="mt-0.5"
             >
-              -
+              {row.email || '-'}
             </Text>
           </div>
         </div>
