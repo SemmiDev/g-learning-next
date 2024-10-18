@@ -2,6 +2,8 @@ import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/l
 import { hapusNilaiTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-tugas'
 import { tableTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
 import {
+  ActionIcon,
+  ActionIconTooltip,
   Button,
   Card,
   CardSeparator,
@@ -30,7 +32,7 @@ import {
   BsCheck,
   BsChevronDown,
   BsPencil,
-  BsThreeDots,
+  BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -200,53 +202,51 @@ export default function TableTugasPesertaCard({
       title: <TableHeaderCell title="" />,
       dataIndex: 'nilai',
       render: (_: string, row) => {
-        if (!row.nilai) {
-          return (
-            <Link
-              href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
-            >
-              <Button
-                as="span"
-                size="sm"
-                variant="solid"
-                className="whitespace-nowrap"
-              >
-                Cek Tugas
-              </Button>
-            </Link>
-          )
-        }
-
         return (
           <div className="flex justify-end">
-            <Dropdown placement="bottom-end">
-              <Dropdown.Trigger>
-                <Button as="span" size="sm" variant="outline">
-                  <BsThreeDots size={18} />
+            {!row.nilai ? (
+              <Link
+                href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
+              >
+                <Button
+                  as="span"
+                  size="sm"
+                  variant="solid"
+                  className="whitespace-nowrap"
+                >
+                  Cek Tugas
                 </Button>
-              </Dropdown.Trigger>
-              <Dropdown.Menu className="divide-y">
-                <div className="mb-2">
-                  <Link
-                    href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
-                  >
-                    <Dropdown.Item className="text-gray-dark">
-                      <BsPencil className="text-warning mr-2 h-4 w-4" />
-                      Ubah Nilai
+              </Link>
+            ) : (
+              <Dropdown placement="bottom-end">
+                <Dropdown.Trigger>
+                  <ActionIcon as="span" size="sm" variant="outline">
+                    <BsThreeDotsVertical size={14} />
+                  </ActionIcon>
+                </Dropdown.Trigger>
+                <Dropdown.Menu className="divide-y">
+                  <div className="mb-2">
+                    <Link
+                      href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
+                    >
+                      <Dropdown.Item className="text-gray-dark">
+                        <BsPencil className="text-warning mr-2 h-4 w-4" />
+                        Ubah Nilai
+                      </Dropdown.Item>
+                    </Link>
+                  </div>
+                  <div className="mt-2 pt-2">
+                    <Dropdown.Item
+                      className="text-gray-dark"
+                      onClick={() => setIdHapusNilai(row.id || undefined)}
+                    >
+                      <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                      Hapus Nilai
                     </Dropdown.Item>
-                  </Link>
-                </div>
-                <div className="mt-2 pt-2">
-                  <Dropdown.Item
-                    className="text-gray-dark"
-                    onClick={() => setIdHapusNilai(row.id || undefined)}
-                  >
-                    <BsTrash3 className="text-danger mr-2 h-4 w-4" />
-                    Hapus Nilai
-                  </Dropdown.Item>
-                </div>
-              </Dropdown.Menu>
-            </Dropdown>
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
           </div>
         )
       },
@@ -296,7 +296,7 @@ export default function TableTugasPesertaCard({
             onChange={(e) => onSearch(e.target.value)}
             onClear={() => onSearch('')}
           />
-          <div className="flex space-x-2">
+          <div className="flex items-center space-x-2">
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">
@@ -325,9 +325,14 @@ export default function TableTugasPesertaCard({
             </Dropdown>
             <Dropdown>
               <Dropdown.Trigger>
-                <Button as="span" size="sm" variant="outline">
+                <ActionIconTooltip
+                  tooltip="Filter"
+                  as="span"
+                  size="sm"
+                  variant="outline"
+                >
                   <BiFilterAlt size={16} />
-                </Button>
+                </ActionIconTooltip>
               </Dropdown.Trigger>
               <Dropdown.Menu>
                 {Object.keys(filterData).map((key) => (

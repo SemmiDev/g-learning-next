@@ -1,5 +1,7 @@
 import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
 import {
+  ActionIcon,
+  ActionIconTooltip,
   Button,
   Card,
   CardSeparator,
@@ -21,7 +23,12 @@ import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
 import { useState } from 'react'
 import { BiFilterAlt } from 'react-icons/bi'
-import { BsCheck, BsChevronDown, BsThreeDots, BsTrash3 } from 'react-icons/bs'
+import {
+  BsCheck,
+  BsChevronDown,
+  BsThreeDotsVertical,
+  BsTrash3,
+} from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 import TablePesertaCardShimmer from '../shimmer/table-peserta-card'
@@ -182,9 +189,9 @@ export default function TableUjianPesertaCard({
           <div className="flex justify-end">
             <Dropdown placement="bottom-end">
               <Dropdown.Trigger>
-                <Button as="span" size="sm" variant="outline">
-                  <BsThreeDots size={18} />
-                </Button>
+                <ActionIcon as="span" size="sm" variant="outline">
+                  <BsThreeDotsVertical size={14} />
+                </ActionIcon>
               </Dropdown.Trigger>
               <Dropdown.Menu>
                 <Dropdown.Item
@@ -246,7 +253,7 @@ export default function TableUjianPesertaCard({
             onChange={(e) => onSearch(e.target.value)}
             onClear={() => onSearch('')}
           />
-          <div className="flex space-x-2">
+          <div className="flex items-center space-x-2">
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">
@@ -275,9 +282,14 @@ export default function TableUjianPesertaCard({
             </Dropdown>
             <Dropdown>
               <Dropdown.Trigger>
-                <Button as="span" size="sm" variant="outline">
+                <ActionIconTooltip
+                  tooltip="Filter"
+                  as="span"
+                  size="sm"
+                  variant="outline"
+                >
                   <BiFilterAlt size={16} />
-                </Button>
+                </ActionIconTooltip>
               </Dropdown.Trigger>
               <Dropdown.Menu>
                 {Object.keys(filterData).map((key) => (

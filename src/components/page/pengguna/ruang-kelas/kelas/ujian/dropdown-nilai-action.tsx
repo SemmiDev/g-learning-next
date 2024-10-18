@@ -1,14 +1,14 @@
-import { Button } from '@/components/ui'
-import { BsThreeDots, BsTrash3 } from 'react-icons/bs'
+import { ActionIcon } from '@/components/ui'
+import { BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 
 export default function DropdownNilaiAction() {
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
-        <Button as="span" size="sm" variant="outline">
-          <BsThreeDots size={18} />
-        </Button>
+        <ActionIcon as="span" size="sm" variant="outline">
+          <BsThreeDotsVertical size={14} />
+        </ActionIcon>
       </Dropdown.Trigger>
       <Dropdown.Menu className="divide-y">
         <Dropdown.Item className="text-gray-dark">

@@ -1,4 +1,5 @@
 import {
+  ActionIconTooltip,
   Button,
   Card,
   CardSeparator,
@@ -297,7 +298,7 @@ export default function RekapTugasCard() {
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }
               />
-              <div className="flex space-x-2">
+              <div className="flex items-center space-x-2">
                 <Dropdown>
                   <Dropdown.Trigger>
                     <Button as="span" size="sm" variant="outline">
@@ -325,9 +326,14 @@ export default function RekapTugasCard() {
                 </Dropdown>
                 <Dropdown>
                   <Dropdown.Trigger>
-                    <Button as="span" size="sm" variant="outline">
+                    <ActionIconTooltip
+                      tooltip="Filter"
+                      as="span"
+                      size="sm"
+                      variant="outline"
+                    >
                       <BiFilterAlt size={16} />
-                    </Button>
+                    </ActionIconTooltip>
                   </Dropdown.Trigger>
                   <Dropdown.Menu>
                     <Dropdown.Item className="justify-between">
