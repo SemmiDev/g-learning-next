@@ -7,7 +7,7 @@ import {
   BsMegaphone,
   BsWebcam,
 } from 'react-icons/bs'
-import ButtonIcon from '../button-icon'
+import ButtonIcon from './button-icon'
 import TambahInformasiModal from './modal/tambah-informasi'
 import TambahKonferensiModal from './modal/tambah-konferensi'
 import TambahMateriModal from './modal/tambah-materi'

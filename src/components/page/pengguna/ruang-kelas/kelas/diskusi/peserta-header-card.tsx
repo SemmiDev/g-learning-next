@@ -1,7 +1,7 @@
 import { Card, Title } from '@/components/ui'
 import { useState } from 'react'
 import { BsMegaphone } from 'react-icons/bs'
-import ButtonIcon from '../button-icon'
+import ButtonIcon from './button-icon'
 import TambahDiskusiModal from './modal/tambah-diskusi'
 
 type PesertaHeaderCardProps = {

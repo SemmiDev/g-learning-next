@@ -235,7 +235,7 @@ export default function Komentar({
           </TextSpan>
         </Text>
       </div>
-      {isLoadingFirstLv1 ? (
+      {isLoadingFirstLv1 && total && total > 0 ? (
         <Loader size="sm" className="pb-3" />
       ) : (
         <div className="flex flex-col space-y-2">

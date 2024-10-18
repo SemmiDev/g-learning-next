@@ -26,7 +26,7 @@ import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
 
 type DiskusiCardProps = {
-  kelas: DataKelasType
+  kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
@@ -54,7 +54,7 @@ export default function DiskusiCard({
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
         })
       },
     })
@@ -85,7 +85,7 @@ export default function DiskusiCard({
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
-              kelas.peran === 'Pengajar'
+              kelas?.peran === 'Pengajar'
             }
           />
         </div>

@@ -27,7 +27,7 @@ import DropdownMoreAction from './dropdown-more-action'
 import UbahKonferensiModal from './modal/ubah-konferensi'
 
 type KonferensiCardProps = {
-  kelas: DataKelasType
+  kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
@@ -60,7 +60,7 @@ export default function KonferensiCard({
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
         })
       },
     })
@@ -93,7 +93,7 @@ export default function KonferensiCard({
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
-              kelas.peran === 'Pengajar'
+              kelas?.peran === 'Pengajar'
             }
           />
         </div>
@@ -114,7 +114,7 @@ export default function KonferensiCard({
           >
             <Button as="span" size="sm" color="primary" className="w-full">
               <BsCameraVideo size={16} className="me-2" />{' '}
-              {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
+              {kelas?.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
           </Link>
           <Komentar

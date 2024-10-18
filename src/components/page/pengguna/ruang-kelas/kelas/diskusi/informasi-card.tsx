@@ -28,7 +28,7 @@ import DropdownMoreAction from './dropdown-more-action'
 import UbahInformasiModal from './modal/ubah-informasi'
 
 type InformasiCardProps = {
-  kelas: DataKelasType
+  kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
@@ -64,7 +64,7 @@ export default function InformasiCard({
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
         })
       },
     })
@@ -97,7 +97,7 @@ export default function InformasiCard({
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
-              kelas.peran === 'Pengajar'
+              kelas?.peran === 'Pengajar'
             }
           />
         </div>

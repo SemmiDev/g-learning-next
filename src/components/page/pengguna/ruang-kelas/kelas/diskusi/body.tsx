@@ -8,16 +8,17 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import DaftarTugasCard from './diskusi/daftar-tugas-card'
-import DiskusiCard from './diskusi/diskusi-card'
-import InformasiCard from './diskusi/informasi-card'
-import KonferensiCard from './diskusi/konferensi-card'
-import MateriCard from './diskusi/materi-card'
-import PengajarHeaderCard from './diskusi/pengajar-header-card'
-import PesertaHeaderCard from './diskusi/peserta-header-card'
-import PresensiCard from './diskusi/presensi-card'
-import TugasCard from './diskusi/tugas-card'
-import UjianCard from './diskusi/ujian-card'
+import DaftarTugasCard from './daftar-tugas-card'
+import DiskusiCard from './diskusi-card'
+import InformasiCard from './informasi-card'
+import KonferensiCard from './konferensi-card'
+import MateriCard from './materi-card'
+import PengajarHeaderCard from './pengajar-header-card'
+import PesertaHeaderCard from './peserta-header-card'
+import PresensiCard from './presensi-card'
+import BodyShimmer from './shimmer/body-shimmer'
+import TugasCard from './tugas-card'
+import UjianCard from './ujian-card'
 
 export default function DiskusiBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -29,26 +30,25 @@ export default function DiskusiBody() {
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
 
-  const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =
-    useInfiniteQuery({
-      queryKey,
-      queryFn: async ({ pageParam: page }) => {
-        const { data } = await listAktifitasAction({
-          page,
-          idKelas,
-        })
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listAktifitasAction({
+        page,
+        idKelas,
+      })
 
-        return {
-          list: data?.list ?? [],
-          pagination: data?.pagination,
-        }
-      },
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) =>
-        lastPage.pagination?.hasNextPage
-          ? (lastPage.pagination?.page ?? 1) + 1
-          : undefined,
-    })
+      return {
+        list: data?.list ?? [],
+        pagination: data?.pagination,
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
@@ -57,6 +57,8 @@ export default function DiskusiBody() {
     hasNextPage: hasNextPage,
     onLoadMore: fetchNextPage,
   })
+
+  if (isLoading) return <BodyShimmer />
 
   if (!dataKelas) return null
 
@@ -69,9 +71,7 @@ export default function DiskusiBody() {
           <PesertaHeaderCard />
         )}
 
-        {isLoading || (!list.length && isFetching) ? (
-          <Loader height={320} />
-        ) : list.length > 0 ? (
+        {list.length > 0 ? (
           <div>
             {list.map((item) => (
               <Fragment key={item.aktifitas.id}>

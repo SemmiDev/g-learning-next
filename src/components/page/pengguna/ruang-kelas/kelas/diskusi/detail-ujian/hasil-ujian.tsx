@@ -22,7 +22,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id],
     queryFn: async () => {
       const { data } = await lihatAktifitasAction(idKelas, id)
@@ -31,7 +31,8 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
   })
 
   /* TODO: tambahkan data hasil ujian dari API jika sudah ada */
-  if (true) return <CardShimmer className={className} />
+
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>

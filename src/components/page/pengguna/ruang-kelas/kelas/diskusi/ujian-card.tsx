@@ -27,7 +27,7 @@ import DropdownMoreAction from './dropdown-more-action'
 import UbahUjianModal from './modal/ubah-ujian'
 
 type UjianCardProps = {
-  kelas: DataKelasType
+  kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
@@ -56,7 +56,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
         })
       },
     })
@@ -89,7 +89,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
-              kelas.peran === 'Pengajar'
+              kelas?.peran === 'Pengajar'
             }
           />
         </div>
@@ -191,7 +191,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/ujian/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
-              {kelas.peran === 'Pengajar' ? 'Cek Ujian' : 'Kerjakan Ujian'}
+              {kelas?.peran === 'Pengajar' ? 'Cek Ujian' : 'Kerjakan Ujian'}
             </Button>
           </Link>
           <Komentar

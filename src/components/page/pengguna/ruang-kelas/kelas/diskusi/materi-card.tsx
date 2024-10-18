@@ -30,7 +30,7 @@ import DropdownMoreAction from './dropdown-more-action'
 import UbahMateriModal from './modal/ubah-materi'
 
 type MateriCardProps = {
-  kelas: DataKelasType
+  kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
@@ -67,7 +67,7 @@ export default function MateriCard({
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
         })
       },
     })
@@ -100,7 +100,7 @@ export default function MateriCard({
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
-              kelas.peran === 'Pengajar'
+              kelas?.peran === 'Pengajar'
             }
           />
         </div>
@@ -161,7 +161,7 @@ export default function MateriCard({
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/materi/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
-              {kelas.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
+              {kelas?.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
           </Link>
         </div>

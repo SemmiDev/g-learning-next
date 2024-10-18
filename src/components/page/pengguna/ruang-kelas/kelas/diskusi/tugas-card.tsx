@@ -31,7 +31,7 @@ import DropdownMoreAction from './dropdown-more-action'
 import UbahTugasModal from './modal/ubah-tugas'
 
 type TugasCardProps = {
-  kelas: DataKelasType
+  kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
@@ -61,7 +61,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
         })
       },
     })
@@ -94,7 +94,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
             onDelete={() => setIdHapus(data.aktifitas.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
-              kelas.peran === 'Pengajar'
+              kelas?.peran === 'Pengajar'
             }
           />
         </div>
@@ -150,7 +150,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
             href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/tugas/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
-              {kelas.peran === 'Pengajar' ? 'Cek Tugas' : 'Kumpulkan Tugas'}
+              {kelas?.peran === 'Pengajar' ? 'Cek Tugas' : 'Kumpulkan Tugas'}
             </Button>
           </Link>
           <Komentar
