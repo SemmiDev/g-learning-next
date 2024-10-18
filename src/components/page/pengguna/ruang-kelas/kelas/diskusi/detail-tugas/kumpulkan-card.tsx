@@ -16,8 +16,8 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
+import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { arrayRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -37,7 +37,13 @@ export type PengumpulanTugasFormSchema = {
   catatan?: string
 }
 
-export default function KumpulkanTugasCard() {
+type KumpulkanTugasCardProps = {
+  className?: string
+}
+
+export default function KumpulkanTugasCard({
+  className,
+}: KumpulkanTugasCardProps) {
   const queryClient = useQueryClient()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
   const [formError, setFormError] = useState<string>()
@@ -103,7 +109,7 @@ export default function KumpulkanTugasCard() {
 
   return (
     <>
-      <Card className="flex flex-col flex-1 p-0">
+      <Card className={cn('flex flex-col p-0', className)}>
         <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
           Tugas Kamu
         </Title>

@@ -19,6 +19,7 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
+import cn from '@/utils/class-names'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -34,6 +35,7 @@ import {
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
+import TablePesertaCardShimmer from '../shimmer/table-peserta-card'
 
 type SortDataType = {
   title: string
@@ -75,7 +77,13 @@ const filterData = {
 
 type FilterDataType = keyof typeof filterData
 
-export default function TableTugasPesertaCard() {
+type TableTugasPesertaCardProps = {
+  className?: string
+}
+
+export default function TableTugasPesertaCard({
+  className,
+}: TableTugasPesertaCardProps) {
   const queryClient = useQueryClient()
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
 
@@ -266,9 +274,11 @@ export default function TableTugasPesertaCard() {
     )
   }
 
+  if (isLoading) return <TablePesertaCardShimmer className={className} />
+
   return (
     <>
-      <Card className="flex flex-col flex-1 p-0">
+      <Card className={cn('flex flex-col p-0', className)}>
         <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
           Pengumpulan Tugas Peserta
         </Title>
@@ -292,7 +302,7 @@ export default function TableTugasPesertaCard() {
                 <Button as="span" size="sm" variant="outline">
                   {sorting && (
                     <>
-                      {sorting.title} <BsChevronDown className="ml-2 w-5" />
+                      {sorting?.title} <BsChevronDown className="ml-2 w-5" />
                     </>
                   )}
                 </Button>
