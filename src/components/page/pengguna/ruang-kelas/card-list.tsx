@@ -2,7 +2,6 @@ import { hapusKelasAction } from '@/actions/pengguna/ruang-kelas/hapus'
 import { listKelasAction } from '@/actions/pengguna/ruang-kelas/list'
 import { Loader, ModalConfirm, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
-import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
@@ -14,7 +13,6 @@ import PengaturanKelasModal from './modal/pengaturan-kelas'
 const queryKey = ['pengguna.ruang-kelas.list']
 
 export default function ListKelasCardList() {
-  const { username } = useSessionPengguna()
   const queryClient = useQueryClient()
   const {
     show: showPengaturan,
