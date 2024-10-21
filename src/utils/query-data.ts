@@ -57,5 +57,5 @@ export const makeAsyncTableQueryData =
       console.error(message)
     }
 
-    return data?.list ?? []
+    return data ?? ({} as T)
   }
