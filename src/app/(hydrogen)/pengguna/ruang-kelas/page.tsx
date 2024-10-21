@@ -1,4 +1,4 @@
-import ListKelasBody from '@/components/page/pengguna/ruang-kelas/list-kelas-body'
+import ListKelasBody from '@/components/page/pengguna/ruang-kelas/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

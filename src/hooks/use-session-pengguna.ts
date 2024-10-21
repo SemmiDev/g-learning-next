@@ -1,7 +1,10 @@
 'use client'
 
+import { mustBe } from '@/utils/must-be'
 import { jwtDecode } from 'jwt-decode'
 import { useSession } from 'next-auth/react'
+
+const levels = ['Admin', 'Instansi', 'Pengguna', 'Pengajar', 'Peserta'] as const
 
 export function useSessionPengguna() {
   const { data: session } = useSession()
@@ -13,6 +16,6 @@ export function useSessionPengguna() {
     username: session?.user?.username || undefined,
     name: session?.user?.name || undefined,
     image: session?.user?.image || undefined,
-    level: session?.user?.level || undefined,
+    level: mustBe(session?.user?.level, levels, undefined),
   }
 }
