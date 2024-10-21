@@ -9,10 +9,10 @@ export function useSessionPengguna() {
   const decodedToken = session?.jwt ? jwtDecode<any>(session?.jwt) : {}
 
   return {
-    id: decodedToken.id_pengguna,
-    username: session?.user?.username,
-    name: session?.user?.name,
-    image: session?.user?.image,
-    level: session?.user?.level,
+    id: decodedToken.id_pengguna as string,
+    username: session?.user?.username || undefined,
+    name: session?.user?.name || undefined,
+    image: session?.user?.image || undefined,
+    level: session?.user?.level || undefined,
   }
 }

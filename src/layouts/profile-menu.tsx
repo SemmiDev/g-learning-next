@@ -2,6 +2,7 @@
 
 import { Button, Text, Thumbnail, Title } from '@/components/ui'
 import { publicRoutes, routes } from '@/config/routes'
+import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
 import { signOut, useSession } from 'next-auth/react'
@@ -19,8 +20,9 @@ export default function ProfileMenu({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
-  const { data: session } = useSession()
-  const user = session?.user
+  const { name, image } = useSessionPengguna()
+  // const { data: session } = useSession()
+  // const user = session?.user
 
   useEffect(() => {
     setIsOpen(false)
@@ -41,10 +43,10 @@ export default function ProfileMenu({
           )}
         >
           <Thumbnail
-            src={user?.image || undefined}
+            src={image}
             alt="foto profil"
             size={40}
-            avatar={user?.name ?? ''}
+            avatar={name ?? ''}
             rounded="full"
           />
         </button>

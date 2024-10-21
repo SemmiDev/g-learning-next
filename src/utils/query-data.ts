@@ -55,6 +55,7 @@ export const makeAsyncTableQueryData =
 
     if (!success) {
       console.error(message)
+      throw new Error(message)
     }
 
     return data ?? ({} as T)

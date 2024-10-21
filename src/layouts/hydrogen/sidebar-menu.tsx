@@ -1,6 +1,7 @@
 import { Title } from '@/components/ui'
+import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import cn from '@/utils/class-names'
-import { useSession } from 'next-auth/react'
+import { switchCaseObject } from '@/utils/switch-case'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Fragment, ReactNode } from 'react'
@@ -30,21 +31,19 @@ export type MenuItemType = {
 
 export function SidebarMenu() {
   const pathname = usePathname()
-  const { data: session } = useSession()
-  const level = session?.user?.level
+  const { level } = useSessionPengguna()
 
-  const menuItems: MenuItemType[] =
-    level === 'Admin'
-      ? menuItemsAdmin
-      : level === 'Instansi'
-      ? menuItemsInstansi
-      : level === 'Pengguna'
-      ? menuItemsPengguna
-      : level === 'Pengajar'
-      ? menuItemsPengajar
-      : level === 'Peserta'
-      ? menuItemsPeserta
-      : []
+  const menuItems: MenuItemType[] = switchCaseObject(
+    level,
+    {
+      Admin: menuItemsAdmin,
+      Instansi: menuItemsInstansi,
+      Pengguna: menuItemsPengguna,
+      Pengajar: menuItemsPengajar,
+      Peserta: menuItemsPeserta,
+    },
+    []
+  )
 
   return (
     <div className="mt-4 pb-3 3xl:mt-6">

@@ -1,6 +1,6 @@
 import { ActionIcon, Badge } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { useSession } from 'next-auth/react'
+import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import Link from 'next/link'
 import { BiSolidBellRing } from 'react-icons/bi'
 
@@ -13,8 +13,7 @@ const links = {
 }
 
 export default function NotifikasiMenu() {
-  const { data: session } = useSession()
-  const level = session?.user?.level
+  const { level } = useSessionPengguna()
 
   const hasNotif = true
 

@@ -63,7 +63,8 @@ export function useTableAsync<
 
       if (!success) {
         console.error(message)
-        return { list: [], pagination: { totalData: 0 } }
+
+        throw new Error(message)
       }
 
       setPerPage(data?.pagination?.perPage ?? DEFAULT_DATA_PER_PAGE)
