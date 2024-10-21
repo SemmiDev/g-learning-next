@@ -29,16 +29,14 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
 
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <div className="flex justify-between items-start px-4 py-2">
-        <div className="flex flex-col">
-          <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-            {data?.aktifitas.judul || '-'}
-          </Text>
-          <SanitizeHTML
-            html={data?.aktifitas.deskripsi || '-'}
-            className="text-sm"
-          />
-        </div>
+      <div className="flex flex-col px-4 py-2">
+        <Text size="lg" weight="semibold" variant="dark" className="mb-2">
+          {data?.aktifitas.judul || '-'}
+        </Text>
+        <SanitizeHTML
+          html={data?.aktifitas.deskripsi || '-'}
+          className="text-sm"
+        />
       </div>
       <CardSeparator />
       <div className="flex p-2">

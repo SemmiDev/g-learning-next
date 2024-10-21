@@ -2,6 +2,7 @@ import { hapusAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/h
 import { DataType } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
 import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
+  Button,
   Card,
   CardSeparator,
   FileListItem,
@@ -15,6 +16,7 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
@@ -22,6 +24,7 @@ import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
@@ -74,7 +77,7 @@ export default function InformasiCard({
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
-          <div className="flex space-x-3">
+          <div className="flex items-center space-x-3">
             <Thumbnail
               src={data.pembuat.foto}
               alt="profil"
@@ -153,12 +156,21 @@ export default function InformasiCard({
           )}
         </div>
         <CardSeparator />
-        <Komentar
-          idKelas={idKelas}
-          idAktifitas={data.aktifitas.id}
-          total={data.total_komentar}
-          className="pt-4 px-4 pb-2"
-        />
+        <div className="p-2">
+          <Link
+            href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/informasi/${data.aktifitas.id}`}
+          >
+            <Button as="span" size="sm" className="w-full">
+              Lihat Informasi
+            </Button>
+          </Link>
+          <Komentar
+            idKelas={idKelas}
+            idAktifitas={data.aktifitas.id}
+            total={data.total_komentar}
+            className="pt-4 px-4 pb-2"
+          />
+        </div>
       </Card>
 
       <UbahInformasiModal show={showUbah} id={keyUbah} onHide={doHideUbah} />

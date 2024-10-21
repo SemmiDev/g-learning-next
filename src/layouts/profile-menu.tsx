@@ -9,6 +9,7 @@ import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { Popover } from 'rizzui'
 
 export default function ProfileMenu({
@@ -93,13 +94,21 @@ function DropdownMenu() {
   return (
     <div className="min-w-64 text-left rtl:text-right">
       <div className="flex items-center px-6 pb-5 pt-6">
-        <Thumbnail
-          src={user?.image || undefined}
-          alt="foto profil"
-          size={40}
-          avatar={user?.name ?? ''}
-          rounded="full"
-        />
+        <div
+          className="cursor-pointer"
+          onClick={async () => {
+            await navigator.clipboard.writeText(session?.jwt ?? '')
+            toast.success('Token disalin ke clipboard')
+          }}
+        >
+          <Thumbnail
+            src={user?.image || undefined}
+            alt="foto profil"
+            size={40}
+            avatar={user?.name ?? ''}
+            rounded="full"
+          />
+        </div>
         <div className="ms-3">
           <Title as="h6" weight="semibold">
             {user?.name}

@@ -1,5 +1,12 @@
 import { daftarTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/peserta/daftar-tugas'
-import { Card, CardSeparator, Loader, Text, Time, Title } from '@/components/ui'
+import {
+  Card,
+  CardSeparator,
+  Shimmer,
+  Text,
+  Time,
+  Title,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -18,7 +25,7 @@ type DaftarTugasCardProps = {
 export default function DaftarTugasCard({ className }: DaftarTugasCardProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const { data: dataTugas, isLoading: isLoadingTugas } = useInfiniteQuery({
+  const { data, isLoading } = useInfiniteQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.daftar-tugas', idKelas],
     queryFn: async ({ pageParam: page }) => {
       const { data } = await daftarTugasPesertaAction({
@@ -42,9 +49,9 @@ export default function DaftarTugasCard({ className }: DaftarTugasCardProps) {
         : undefined,
   })
 
-  const listTugas = dataTugas?.pages.flatMap((page) => page.list) || []
+  const listTugas = data?.pages.flatMap((page) => page.list) || []
 
-  console.log(listTugas)
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>
@@ -54,9 +61,7 @@ export default function DaftarTugasCard({ className }: DaftarTugasCardProps) {
         </Title>
         <CardSeparator />
         <div className="flex flex-col space-y-3 max-h-72 overflow-y-auto px-2 py-3">
-          {isLoadingTugas ? (
-            <Loader size="sm" />
-          ) : listTugas.length > 0 ? (
+          {listTugas.length > 0 ? (
             listTugas.map((item) => (
               <DaftarTugasItem
                 key={item.id}
@@ -95,5 +100,28 @@ function DaftarTugasItem({ judul, batasWaktu }: DaftarTugasItemProps) {
         </Text>
       </div>
     </div>
+  )
+}
+
+function CardShimmer({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3 w-1/3" />
+      </div>
+      <CardSeparator />
+      <div className="flex flex-col">
+        {[...Array(3)].map((_, idx) => (
+          <div key={idx} className="flex items-center space-x-2 p-2">
+            <Shimmer className="size-10" />
+            <div className="flex-1 space-y-2">
+              <Shimmer className="h-2.5 w-1/3" />
+              <Shimmer className="h-2 w-1/6" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <CardSeparator />
+    </Card>
   )
 }

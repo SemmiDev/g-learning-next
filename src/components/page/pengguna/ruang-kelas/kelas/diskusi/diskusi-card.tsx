@@ -64,7 +64,7 @@ export default function DiskusiCard({
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
-          <div className="flex space-x-3">
+          <div className="flex items-center space-x-3">
             <Thumbnail
               src={data.pembuat.foto}
               alt="profil"
@@ -101,7 +101,9 @@ export default function DiskusiCard({
         </div>
         <CardSeparator />
         <div className="p-2">
-          <Link href={`${routes.peserta.kelas}/diskusi/detail`}>
+          <Link
+            href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/lainnya/${data.aktifitas.id}`}
+          >
             <Button as="span" size="sm" className="w-full">
               Lihat Diskusi
             </Button>

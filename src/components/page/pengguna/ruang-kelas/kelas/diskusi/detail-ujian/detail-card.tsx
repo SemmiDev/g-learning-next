@@ -29,16 +29,14 @@ export default function DetailCard({ className }: DetailCardProps) {
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
-        <div className="flex justify-between items-start px-4 py-2">
-          <div className="flex flex-col">
-            <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-              {data?.aktifitas.judul || '-'}
-            </Text>
-            <SanitizeHTML
-              html={data?.aktifitas.deskripsi || '-'}
-              className="text-sm"
-            />
-          </div>
+        <div className="flex flex-col px-4 py-2">
+          <Text size="lg" weight="semibold" variant="dark" className="mb-2">
+            {data?.aktifitas.judul || '-'}
+          </Text>
+          <SanitizeHTML
+            html={data?.aktifitas.deskripsi || '-'}
+            className="text-sm"
+          />
         </div>
         <div className="flex items-center space-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mx-2 my-2">
           <figure className="flex justify-center items-center size-[52px] rounded btn-item-blue">

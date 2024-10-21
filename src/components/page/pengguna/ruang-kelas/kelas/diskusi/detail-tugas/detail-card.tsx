@@ -56,33 +56,31 @@ export default function DetailCard({
 
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <div className="flex justify-between items-start px-4 py-2">
-        <div className="flex flex-col">
-          <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-            {data?.aktifitas.judul || '-'}
+      <div className="flex flex-col px-4 py-2">
+        <Text size="lg" weight="semibold" variant="dark" className="mb-2">
+          {data?.aktifitas.judul || '-'}
+        </Text>
+        <SanitizeHTML
+          html={data?.aktifitas.deskripsi || '-'}
+          className="text-sm"
+        />
+        {data?.aktifitas.batas_waktu && (
+          <Text size="sm" weight="semibold" variant="dark" className="mt-2">
+            Batas Waktu Pengumpulan:{' '}
+            <TextSpan color="danger">
+              <Time
+                date={data?.aktifitas.batas_waktu}
+                format="datetime"
+                empty="-"
+              />
+            </TextSpan>
           </Text>
-          <SanitizeHTML
-            html={data?.aktifitas.deskripsi || '-'}
-            className="text-sm"
-          />
-          {data?.aktifitas.batas_waktu && (
-            <Text size="sm" weight="semibold" variant="dark" className="mt-2">
-              Batas Waktu Pengumpulan:{' '}
-              <TextSpan color="danger">
-                <Time
-                  date={data?.aktifitas.batas_waktu}
-                  format="datetime"
-                  empty="-"
-                />
-              </TextSpan>
-            </Text>
-          )}
-        </div>
+        )}
       </div>
       {files.length > 0 && (
         <>
           <CardSeparator />
-          <div className="flex flex-col space-y-2 p-2">
+          <div className="flex flex-col space-y-2 px-3 py-2">
             {files.map((file) => (
               <FileListItem
                 key={file.id}

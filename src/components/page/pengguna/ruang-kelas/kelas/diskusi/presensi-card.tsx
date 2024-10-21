@@ -1,5 +1,5 @@
 import { presensiPesertaAction } from '@/actions/pengguna/ruang-kelas/peserta/presensi'
-import { Card, CardSeparator, Text, Title } from '@/components/ui'
+import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -9,7 +9,7 @@ type PresensiCardProps = { className?: string }
 export default function PresensiCard({ className }: PresensiCardProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.presensi', idKelas],
     queryFn: async () => {
       const { data } = await presensiPesertaAction(idKelas)
@@ -17,6 +17,8 @@ export default function PresensiCard({ className }: PresensiCardProps) {
       return data
     },
   })
+
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>
@@ -80,5 +82,25 @@ function PresensiItem({ status, jumlah }: PresensiItemProps) {
         {status}
       </Text>
     </div>
+  )
+}
+
+function CardShimmer({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3 w-1/3" />
+      </div>
+      <CardSeparator />
+      <div className="flex justify-between gap-5 px-2 py-3">
+        {[...Array(4)].map((_, idx) => (
+          <Shimmer key={idx} className="h-[4.125rem] min-w-20" />
+        ))}
+      </div>
+      <div className="flex justify-between px-2 pb-2">
+        <Shimmer className="h-2.5 w-1/3" />
+        <Shimmer className="h-2.5 w-1/3" />
+      </div>
+    </Card>
   )
 }

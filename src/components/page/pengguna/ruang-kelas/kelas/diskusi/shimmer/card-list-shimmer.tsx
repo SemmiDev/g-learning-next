@@ -1,15 +1,18 @@
 import { Card, CardSeparator, Shimmer } from '@/components/ui'
 import cn from '@/utils/class-names'
 
-export default function BodyShimmer() {
+type CardListShimmerProps = {
+  peran: 'Pengajar' | 'Peserta' | undefined
+  className?: string
+}
+
+export default function CardListShimmer({ className }: CardListShimmerProps) {
   return (
-    <div className="flex flex-col-reverse gap-x-4 gap-y-6 mt-8 lg:flex-row">
-      <div className="flex flex-col space-y-6 lg:w-7/12">
-        <HeaderShimmer />
-        {[...Array(2)].map((_, idx) => (
-          <CardShimmer key={idx} />
-        ))}
-      </div>
+    <div className={cn('flex flex-col space-y-6', className)}>
+      <HeaderShimmer />
+      {[...Array(2)].map((_, idx) => (
+        <AktifitasCardShimmer key={idx} />
+      ))}
     </div>
   )
 }
@@ -30,7 +33,7 @@ function HeaderShimmer() {
   )
 }
 
-function CardShimmer() {
+function AktifitasCardShimmer() {
   return (
     <Card className="flex flex-col p-0">
       <div className="flex items-center space-x-3 px-4 py-2">

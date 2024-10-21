@@ -13,6 +13,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
 
@@ -30,7 +31,7 @@ export default function DetailCard({
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.diskusi.informasi', idKelas, id],
     queryFn: async () => {
       const { data } = await lihatAktifitasAction(idKelas, id)
       return data
@@ -39,7 +40,11 @@ export default function DetailCard({
 
   if (isLoading) return <DetailCardShimmer className={className} />
 
-  if (data?.aktifitas.tipe !== 'Materi') return null
+  if (data?.aktifitas.tipe !== 'Pengumuman') return null
+
+  const imageFile = (data.file_aktifitas ?? []).find(
+    (item) => item.tipe === 'Gambar'
+  )
 
   const files = (data.file_aktifitas ?? []).map(
     (file) =>
@@ -66,6 +71,19 @@ export default function DetailCard({
             html={data.aktifitas.deskripsi || '-'}
             className="text-sm"
           />
+          {imageFile && (
+            <div className="flex justify-center mt-4">
+              <div className="flex max-w-8/12 max-h-60">
+                <Image
+                  src={imageFile.url}
+                  alt="preview"
+                  width={640}
+                  height={640}
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          )}
         </div>
         {kelas?.peran === 'Pengajar' && files.length > 0 && (
           <>
