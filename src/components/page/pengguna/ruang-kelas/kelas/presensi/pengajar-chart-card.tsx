@@ -1,9 +1,9 @@
 import { Card, Text, Title } from '@/components/ui'
-import ChartPresensi, { ChartData } from './pengajar-chart'
+import ChartPresensi, { PengajarChartData } from './pengajar-chart'
 
 type PengajarChartPresensiCardProps = {
   className?: string
-  data: ChartData[]
+  data: PengajarChartData[]
   colors: string[]
 }
 
