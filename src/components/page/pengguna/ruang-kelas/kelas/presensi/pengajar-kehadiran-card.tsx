@@ -2,13 +2,14 @@ import { Card, Pagination, Table, Text, Title } from '@/components/ui'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 
-export default function KehadiranPresensiCard<T extends DefaultRecordType>({
-  columns,
-  data,
-}: {
+type PengajarKehadiranPresensiCardProps<T extends DefaultRecordType> = {
   columns: ColumnsType<T>
   data: T[]
-}) {
+}
+
+export default function PengajarKehadiranPresensiCard<
+  T extends DefaultRecordType
+>({ columns, data }: PengajarKehadiranPresensiCardProps<T>) {
   return (
     <Card className="col-span-3 p-0 lg:col-span-2">
       <Title as="h4" size="1.5xl" weight="semibold" className="m-2">

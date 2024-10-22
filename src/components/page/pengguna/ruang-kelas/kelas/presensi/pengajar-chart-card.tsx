@@ -1,15 +1,17 @@
 import { Card, Text, Title } from '@/components/ui'
-import ChartPresensi, { ChartData } from './chart'
+import ChartPresensi, { ChartData } from './pengajar-chart'
 
-export default function ChartPresensiCard({
-  className,
-  data,
-  colors,
-}: {
+type PengajarChartPresensiCardProps = {
   className?: string
   data: ChartData[]
   colors: string[]
-}) {
+}
+
+export default function PengajarChartPresensiCard({
+  className,
+  data,
+  colors,
+}: PengajarChartPresensiCardProps) {
   return (
     <div className={className}>
       <Card>

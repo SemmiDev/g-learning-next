@@ -19,9 +19,9 @@ import {
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
-import RekapPresensiItem from './rekap-item'
+import RekapPresensiItem from './pengajar-rekap-item'
 
-export default function RekapPresensiCard() {
+export default function PengajarRekapPresensiCard() {
   return (
     <Card className="col-span-3">
       <Title as="h4" size="1.5xl" weight="semibold">

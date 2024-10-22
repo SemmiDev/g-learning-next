@@ -1,4 +1,4 @@
-import { daftarTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/peserta/daftar-tugas'
+import { daftarTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/daftar-tugas'
 import {
   Card,
   CardSeparator,

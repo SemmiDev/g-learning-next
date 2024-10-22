@@ -1,4 +1,4 @@
-import { presensiPesertaAction } from '@/actions/pengguna/ruang-kelas/peserta/presensi'
+import { presensiPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/presensi'
 import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'

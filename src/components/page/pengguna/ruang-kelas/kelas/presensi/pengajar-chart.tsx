@@ -1,17 +1,19 @@
 import { Cell, Pie, PieChart } from 'recharts'
 
-export type ChartData = {
+export type PengajarChartData = {
   name: string
   value: number
 }
 
-export default function ChartPresensi({
+type PengajarChartPresensiProps = {
+  data: PengajarChartData[]
+  colors: string[]
+}
+
+export default function PengajarChartPresensi({
   data,
   colors,
-}: {
-  data: ChartData[]
-  colors: string[]
-}) {
+}: PengajarChartPresensiProps) {
   return (
     <PieChart width={200} height={200}>
       <Pie

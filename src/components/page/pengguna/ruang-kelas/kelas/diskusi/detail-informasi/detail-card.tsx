@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { DataType as KelasDataType } from '@/actions/pengguna/ruang-kelas/lihat'
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Card,
   CardSeparator,
@@ -18,7 +18,7 @@ import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
 
 type DetailCardProps = {
-  kelas?: KelasDataType
+  kelas?: DataKelasType
   setFilePreview: (file: FilePreviewType) => void
   className?: string
 }

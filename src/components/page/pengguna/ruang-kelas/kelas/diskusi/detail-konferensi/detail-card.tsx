@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { DataType as KelasDataType } from '@/actions/pengguna/ruang-kelas/lihat'
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import { Button, Card, CardSeparator, Komentar, Text } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
 
 type DetailCardProps = {
-  kelas?: KelasDataType
+  kelas?: DataKelasType
   className?: string
 }
 

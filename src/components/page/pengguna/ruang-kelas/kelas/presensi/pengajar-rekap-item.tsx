@@ -1,11 +1,13 @@
 import { Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 
-export default function RekapPresensiItem({
-  active = false,
-}: {
+type PengajarRekapPresensiItemProps = {
   active?: boolean
-}) {
+}
+
+export default function PengajarRekapPresensiItem({
+  active = false,
+}: PengajarRekapPresensiItemProps) {
   return (
     <div
       className={cn(
