@@ -133,6 +133,7 @@ import Title from './text/title'
 import Textarea, { TextareaProps } from './textarea'
 import Thumbnail, { ThumbnailProps } from './thumbnail'
 import Time, { TimeProps } from './time'
+import TimeIndo, { TimeIndoProps } from './time-indo'
 import {
   UploadFile,
   UploadFileProps,
@@ -217,6 +218,7 @@ export {
   Textarea,
   Thumbnail,
   Time,
+  TimeIndo,
   Title,
   UploadFile,
   getSortOrder,
@@ -293,6 +295,7 @@ export {
   type TextBorderedProps,
   type TextareaProps,
   type ThumbnailProps,
+  type TimeIndoProps,
   type TimeProps,
   type UploadFileProps,
   type UploadFileSize,

@@ -7,9 +7,8 @@ import {
   Loader,
   Shimmer,
   Text,
-  Time,
+  TimeIndo,
 } from '@/components/ui'
-import { getWaktuIndonesia } from '@/utils/client-timezone'
 import { mustBe } from '@/utils/must-be'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -60,7 +59,9 @@ export default function PesertaAbsensiSection() {
               ({
                 judul: item.judul,
                 /* TODO: waktu absensi jika API udah fix */
-                waktu: undefined,
+                waktu: ['Hadir', 'Izin', 'Sakit'].includes(item.status)
+                  ? '2024-10-12T15:45:39Z'
+                  : undefined,
                 status: mustBe(
                   item.status,
                   ['Hadir', 'Izin', 'Sakit', 'Alpha'],
@@ -145,8 +146,11 @@ export default function PesertaAbsensiSection() {
                       {item.judul}
                     </Text>
                     <Text size="sm" weight="semibold" variant="lighter">
-                      <Time date={item.waktu} format="datetimeday" />{' '}
-                      {getWaktuIndonesia()}
+                      <TimeIndo
+                        date={item.waktu}
+                        format="datetimeday"
+                        empty="-"
+                      />
                     </Text>
                   </div>
                   <Badge

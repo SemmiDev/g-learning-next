@@ -56,12 +56,8 @@ export default function Time({
   empty,
   momentProps,
 }: TimeProps) {
-  if (
-    empty !== undefined &&
-    empty !== null &&
-    (!date || date === '0001-01-01T00:00:00Z')
-  ) {
-    return <time>{empty}</time>
+  if (empty !== undefined && (!date || date === '0001-01-01T00:00:00Z')) {
+    return <span>{empty}</span>
   }
 
   return (
