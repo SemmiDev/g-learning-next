@@ -66,7 +66,6 @@ export default function TablePesertaCardShimmer({
           ))}
         </tbody>
       </table>
-      <CardSeparator />
     </Card>
   )
 }

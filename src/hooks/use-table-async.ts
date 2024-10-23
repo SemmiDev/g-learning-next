@@ -25,6 +25,7 @@ export function useTableAsync<
   initialFilter,
   initialSort,
   initialPerPage = DEFAULT_DATA_PER_PAGE,
+  enabled,
 }: {
   queryKey: QueryKey
   action: (
@@ -34,6 +35,7 @@ export function useTableAsync<
   initialFilter?: TFilters
   initialSort?: SortType
   initialPerPage?: number
+  enabled?: boolean
 }) {
   const [perPage, setPerPage] = useState(initialPerPage)
   const [page, setPage] = useState(1)
@@ -71,6 +73,7 @@ export function useTableAsync<
 
       return data
     },
+    enabled,
   })
 
   const data = dataWithInfo?.list ?? []

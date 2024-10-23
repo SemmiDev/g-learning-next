@@ -1,4 +1,4 @@
-import { listSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/peserta/list-absensi'
+import { listSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/peserta/list-sesi-absensi'
 import {
   Badge,
   Button,
@@ -40,7 +40,11 @@ export default function PesertaAbsensiSection() {
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
-      queryKey: ['peserta.presensi.sesi-absensi', idKelas],
+      queryKey: [
+        'pengguna.ruang-kelas.presensi.sesi-absensi',
+        'peserta',
+        idKelas,
+      ],
       queryFn: async ({ pageParam: page }) => {
         const { data } = await listSesiAbsensiAction({
           page,

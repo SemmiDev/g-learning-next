@@ -7,13 +7,15 @@ import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'
 import HasilUjianCard from './hasil-ujian'
 import TableUjianPesertaCard from './table-peserta-card'
 
 export default function DiskusiUjianBody() {
+  const router = useRouter()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
@@ -24,7 +26,10 @@ export default function DiskusiUjianBody() {
   return (
     <>
       <div className="mt-4 mb-4">
-        <Link href={`${routes.pengguna.ruangKelas}/${idKelas}`}>
+        <Link
+          href={`${routes.pengguna.ruangKelas}/${idKelas}`}
+          onClick={() => router.back()}
+        >
           <Button variant="text" color="primary" className="text-gray-dark">
             <RiArrowLeftLine size={18} className="" />{' '}
             <Text weight="medium" className="ml-2">

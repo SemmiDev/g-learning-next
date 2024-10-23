@@ -11,7 +11,7 @@ import { routes } from '@/config/routes'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import AbsensiCard from './absensi-card'
@@ -19,9 +19,10 @@ import BerkasCard from './berkas-card'
 import DetailCard from './detail-card'
 
 export default function DiskusiMateriBody() {
+  const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+  const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
@@ -31,7 +32,10 @@ export default function DiskusiMateriBody() {
   return (
     <>
       <div className="mt-4 mb-4">
-        <Link href={`${routes.pengguna.ruangKelas}/${idKelas}`}>
+        <Link
+          href={`${routes.pengguna.ruangKelas}/${idKelas}`}
+          onClick={() => router.back()}
+        >
           <Button variant="text" color="primary" className="text-gray-dark">
             <RiArrowLeftLine size={18} className="" />{' '}
             <Text weight="medium" className="ml-2">

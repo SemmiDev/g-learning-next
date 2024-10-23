@@ -12,7 +12,7 @@ import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'
@@ -20,6 +20,7 @@ import KumpulkanTugasCard from './kumpulkan-card'
 import TableTugasPesertaCard from './table-peserta-card'
 
 export default function DiskusiDetailTugasPage() {
+  const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -32,7 +33,10 @@ export default function DiskusiDetailTugasPage() {
   return (
     <>
       <div className="mt-4 mb-4">
-        <Link href={`${routes.pengguna.ruangKelas}/${idKelas}`}>
+        <Link
+          href={`${routes.pengguna.ruangKelas}/${idKelas}`}
+          onClick={() => router.back()}
+        >
           <Button variant="text" color="primary" className="text-gray-dark">
             <RiArrowLeftLine size={18} className="" />{' '}
             <Text weight="medium" className="ml-2">

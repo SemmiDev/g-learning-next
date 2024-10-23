@@ -1,0 +1,48 @@
+'use server'
+
+import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableAction } from '@/utils/action'
+
+export type DataType = {
+  id: string
+  id_kelas: string
+  id_pembuat: string
+  tipe:
+    | 'Diskusi'
+    | 'Materi'
+    | 'Konferensi'
+    | 'Penugasan'
+    | 'Ujian'
+    | 'Pengumuman'
+  kategori_nilai: string | null
+  judul: string
+  deskripsi: string
+  absen: string
+  waktu_tersedia: string | null
+  waktu_akhir_absen: string | null
+  batas_waktu: string | null
+  id_bank_soal: string | null
+  acak_soal: number | null
+  acak_jawaban: number | null
+  waktu_mulai_ujian: string | null
+  waktu_selesai_ujian: string | null
+  durasi_ujian: number | null
+  created_at: string
+  updated_at: string
+}
+
+export const tableSesiAbsensiAction = async ({
+  page = 1,
+  search = '',
+  sort,
+  params,
+}: ControlledAsyncTableActionProps = {}) =>
+  makeJwtGetRequestTableAction<DataType>(
+    `${process.env.API_URL}/pengajar/kelas/${params?.idKelas}/absensi/aktifitas-absensi`,
+    {
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.order,
+    }
+  )

@@ -34,7 +34,11 @@ export default function PesertaChartPersentaseKehadiranCard({
   const { data = defaultData, isLoading } = useQuery<
     PesertaChartPersentaseKehadiranData[]
   >({
-    queryKey: ['peserta.presensi.persentase-kehadiran', idKelas],
+    queryKey: [
+      'pengguna.ruang-kelas.presensi.persentase-kehadiran',
+      'peserta',
+      idKelas,
+    ],
     queryFn: async () => {
       const { data } = await dataPersentaseKehadiranAction(idKelas)
 
@@ -85,7 +89,7 @@ export default function PesertaChartPersentaseKehadiranCard({
                   </Text>
                 </div>
                 <Text size="1.5xl" weight="semibold" variant="dark">
-                  {val.value}%
+                  {val.value.toFixed(2)}%
                 </Text>
               </div>
             )

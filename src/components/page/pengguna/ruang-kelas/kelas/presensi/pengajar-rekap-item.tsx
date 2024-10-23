@@ -1,12 +1,22 @@
-import { Text } from '@/components/ui'
+import { Text, TimeIndo } from '@/components/ui'
 import cn from '@/utils/class-names'
 
+type PresensiItemType = {
+  id: string
+  judul: string
+  waktu: string
+}
+
 type PengajarRekapPresensiItemProps = {
+  sesi: PresensiItemType
   active?: boolean
+  onClick?: () => void
 }
 
 export default function PengajarRekapPresensiItem({
+  sesi,
   active = false,
+  onClick,
 }: PengajarRekapPresensiItemProps) {
   return (
     <div
@@ -16,15 +26,16 @@ export default function PengajarRekapPresensiItem({
           ? 'border-t-[3px] border-t-primary'
           : 'border-t border-t-gray-100'
       )}
+      onClick={onClick}
     >
       <Text
         weight="semibold"
         className={cn(active ? 'text-primary' : 'text-gray-dark')}
       >
-        Judul sesi absensi
+        {sesi.judul}
       </Text>
       <Text size="sm" weight="semibold" variant="lighter">
-        Kamis, 29 februari 2024, 23:59 WIB
+        <TimeIndo date={sesi.waktu} format="datetimeday" />
       </Text>
     </div>
   )

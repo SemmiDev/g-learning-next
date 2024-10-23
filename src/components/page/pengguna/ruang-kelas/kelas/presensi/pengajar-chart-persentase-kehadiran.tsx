@@ -1,19 +1,19 @@
 import { Cell, Pie, PieChart } from 'recharts'
 
-export type PengajarChartData = {
+export type PengajarChartPersentaseKehadiranData = {
   name: string
   value: number
 }
 
-type PengajarChartPresensiProps = {
-  data: PengajarChartData[]
+type PengajarChartPersentaseKehadiranProps = {
+  data: PengajarChartPersentaseKehadiranData[]
   colors: string[]
 }
 
-export default function PengajarChartPresensi({
+export default function PengajarChartPersentaseKehadiran({
   data,
   colors,
-}: PengajarChartPresensiProps) {
+}: PengajarChartPersentaseKehadiranProps) {
   return (
     <PieChart width={200} height={200}>
       <Pie
@@ -26,8 +26,8 @@ export default function PengajarChartPresensi({
         fill="#8884d8"
         dataKey="value"
       >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+        {data.map((_, idx) => (
+          <Cell key={`cell-${idx}`} fill={colors[idx % colors.length]} />
         ))}
       </Pie>
     </PieChart>
