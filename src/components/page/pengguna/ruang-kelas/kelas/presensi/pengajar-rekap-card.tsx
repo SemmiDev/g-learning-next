@@ -1,13 +1,10 @@
-import {
-  DataType as DataSesiType,
-  tableSesiAbsensiAction,
-} from '@/actions/pengguna/ruang-kelas/presensi/pengajar/table-sesi-absensi'
+import { tableSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/pengajar/table-sesi-absensi'
 import { Button, Card, Input, Shimmer, Text, Title } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { mustBe } from '@/utils/must-be'
-import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
@@ -28,8 +25,10 @@ type PengajarRekapPresensiCardProps = {
 export default function PengajarRekapPresensiCard({
   className,
 }: PengajarRekapPresensiCardProps) {
-  const [sesiAktif, setSesiAktif] = useState<DataSesiType>()
+  const searchParams = useSearchParams()
+  const setSearchParams = useSetSearchParams()
 
+  const idSesiAktif = searchParams.get('sesi')
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const {
@@ -119,8 +118,8 @@ export default function PengajarRekapPresensiCard({
                     judul: item.judul,
                     waktu: item.created_at,
                   }}
-                  active={sesiAktif?.id === item.id}
-                  onClick={() => setSesiAktif(item)}
+                  active={idSesiAktif === item.id}
+                  onClick={() => setSearchParams('sesi', item.id)}
                 />
               )
             })}
@@ -134,11 +133,8 @@ export default function PengajarRekapPresensiCard({
             onChange={(page) => onPageChange(page)}
           />
         </div>
-        {sesiAktif && (
-          <PengajarRekapPresensiDetailSesiSection
-            sesiAktif={sesiAktif}
-            className="w-full lg:w-7/12"
-          />
+        {idSesiAktif && (
+          <PengajarRekapPresensiDetailSesiSection className="w-full lg:w-7/12" />
         )}
       </div>
     </Card>
