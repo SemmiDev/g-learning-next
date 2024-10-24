@@ -20,7 +20,7 @@ export const makeSimpleQueryData =
       console.error(message)
     }
 
-    return data ?? ({} as T)
+    return data ?? null
   }
 
 export const makeSimpleQueryDataWithId =
@@ -30,7 +30,7 @@ export const makeSimpleQueryDataWithId =
     wait?: number
   ) =>
   async () => {
-    if (!id) return {} as T
+    if (!id) return null
 
     if (wait) await waiting(wait)
 
@@ -40,7 +40,7 @@ export const makeSimpleQueryDataWithId =
       console.error(message)
     }
 
-    return data ?? ({} as T)
+    return data ?? null
   }
 
 export const makeAsyncTableQueryData =
@@ -58,5 +58,5 @@ export const makeAsyncTableQueryData =
       throw new Error(message)
     }
 
-    return data ?? ({} as T)
+    return data ?? null
   }
