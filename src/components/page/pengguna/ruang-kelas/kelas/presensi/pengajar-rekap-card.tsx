@@ -134,11 +134,6 @@ export default function PengajarRekapPresensiCard({
             onChange={(page) => onPageChange(page)}
           />
         </div>
-        {/* <PengajarRekapPresensiListSesiSection
-          sesiAktif={sesiAktif}
-          onSelectSesi={(sesi) => setSesiAktif(sesi)}
-          className="w-full lg:w-5/12"
-        /> */}
         {sesiAktif && (
           <PengajarRekapPresensiDetailSesiSection
             sesiAktif={sesiAktif}
