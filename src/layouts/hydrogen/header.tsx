@@ -6,19 +6,19 @@ import HamburgerButton from '@/layouts/hamburger-button'
 import HeaderMenuRight from '@/layouts/header-menu-right'
 import Sidebar from '@/layouts/hydrogen/sidebar'
 import StickyHeader from '@/layouts/sticky-header'
+import { useGlobalStore } from '@/stores/global'
 import logo from '@public/logo-short.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export default function Header() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { openSidebarMenu, setOpenSidebarMenu } = useGlobalStore()
 
   return (
     <>
       <StickyHeader className="z-[990] 2xl:py-5 3xl:px-8  4xl:px-10">
         <div className="flex w-full max-w-2xl items-center">
-          <HamburgerButton onClick={() => setSidebarOpen(true)} />
+          <HamburgerButton onClick={() => setOpenSidebarMenu(true)} />
           <Link
             href={routes.dashboard}
             aria-label="Site Logo"
@@ -32,8 +32,8 @@ export default function Header() {
       </StickyHeader>
 
       <Drawer
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        isOpen={openSidebarMenu}
+        onClose={() => setOpenSidebarMenu(false)}
         placement="left"
         customSize={320}
         overlayClassName="cursor-default dark:bg-opacity-40 dark:backdrop-blur-md"
