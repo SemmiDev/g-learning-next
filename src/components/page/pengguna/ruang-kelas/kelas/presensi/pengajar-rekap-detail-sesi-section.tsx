@@ -63,6 +63,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
     const run = async (page: number) => {
       const { data } = await tableAbsensiPesertaAction({
         page,
+        perPage: 100,
         params: { idKelas, idAktifitas: sesiAktif?.id },
       })
 

@@ -18,6 +18,7 @@ export const tableAbsensiPesertaAction = async ({
   page = 1,
   search = '',
   sort,
+  perPage,
   params,
 }: ControlledAsyncTableActionProps = {}) =>
   makeJwtGetRequestTableAction<DataType>(
@@ -27,5 +28,6 @@ export const tableAbsensiPesertaAction = async ({
       keyword: search,
       sort_by: sort?.name,
       order: sort?.order,
+      per_page: perPage,
     }
   )
