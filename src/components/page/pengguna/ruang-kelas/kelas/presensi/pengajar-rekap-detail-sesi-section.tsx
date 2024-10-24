@@ -1,6 +1,8 @@
+import { simpanAbsensiAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
 import { tableAbsensiPesertaAction } from '@/actions/pengguna/ruang-kelas/presensi/pengajar/table-absensi-peserta'
 import { DataType as DataSesiType } from '@/actions/pengguna/ruang-kelas/presensi/pengajar/table-sesi-absensi'
 import {
+  ActionIconTooltip,
   Badge,
   Button,
   Card,
@@ -14,16 +16,29 @@ import {
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
+import { mustBe } from '@/utils/must-be'
 import { switchCaseObject } from '@/utils/switch-case'
 import { stripHtml } from '@/utils/text'
+import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Fragment, useCallback } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { BsDoorOpen, BsFileEarmarkExcel } from 'react-icons/bs'
+import {
+  BsDoorOpen,
+  BsFileEarmarkExcel,
+  BsFloppy2,
+  BsPencil,
+  BsXSquare,
+} from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { utils, writeFile } from 'xlsx'
+
+const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
+
+type AbsensiType = Record<string, (typeof absensiStatus)[number] | null>
 
 type PengajarRekapDetailSesiSectionProps = {
   sesiAktif: DataSesiType
@@ -34,12 +49,14 @@ export default function PengajarRekapPresensiDetailSesiSection({
   sesiAktif,
   className,
 }: PengajarRekapDetailSesiSectionProps) {
+  const [ubahData, setUbahData] = useState(false)
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const strippedDesc = stripHtml(sesiAktif?.deskripsi ?? '')
+  const strippedDesc = stripHtml(sesiAktif.deskripsi ?? '')
 
   const linkTipe = switchCaseObject(
-    sesiAktif?.tipe,
+    sesiAktif.tipe,
     {
       Materi: 'materi',
       Ujian: 'ujian',
@@ -49,7 +66,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
   )
 
   const handleExport = useCallback(async () => {
-    if (!sesiAktif?.id) return
+    if (!sesiAktif.id) return
 
     const toastId = toast.loading(<Text>Memuat data...</Text>)
 
@@ -64,7 +81,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
       const { data } = await tableAbsensiPesertaAction({
         page,
         perPage: 100,
-        params: { idKelas, idAktifitas: sesiAktif?.id },
+        params: { idKelas, idAktifitas: sesiAktif.id },
       })
 
       allData = [
@@ -88,15 +105,19 @@ export default function PengajarRekapPresensiDetailSesiSection({
     const ws = utils.json_to_sheet(allData)
     const wb = utils.book_new()
     utils.book_append_sheet(wb, ws, 'Data')
-    writeFile(wb, `Data Absensi - ${sesiAktif?.judul}.xlsx`)
+    writeFile(wb, `Data Absensi - ${sesiAktif.judul}.xlsx`)
   }, [idKelas, sesiAktif])
+
+  useEffect(() => {
+    setUbahData(false)
+  }, [sesiAktif])
 
   return (
     <div className={className}>
       <Card className="flex justify-between">
         <div>
           <Text weight="semibold" variant="dark">
-            {sesiAktif?.judul}
+            {sesiAktif.judul}
           </Text>
           <Text
             size="sm"
@@ -109,7 +130,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
           </Text>
           <Text size="sm" weight="medium" variant="dark" className="mt-2">
             <TimeIndo
-              date={sesiAktif?.created_at}
+              date={sesiAktif.created_at}
               format="datetimeday"
               empty="-"
             />
@@ -133,22 +154,50 @@ export default function PengajarRekapPresensiDetailSesiSection({
           >
             <BsFileEarmarkExcel className="mr-2" /> Export
           </Button>
+          {!ubahData && (
+            <Button
+              size="sm"
+              color="warning"
+              variant="text"
+              onClick={() => setUbahData(true)}
+            >
+              <BsPencil className="mr-2" /> Ubah
+            </Button>
+          )}
         </div>
       </Card>
 
-      <DaftarAbsensiCard idAktifitas={sesiAktif?.id} className="mt-4" />
+      <DaftarAbsensiCard
+        idAktifitas={sesiAktif.id}
+        ubahData={ubahData}
+        hideUbahData={() => setUbahData(false)}
+        className="mt-4"
+      />
     </div>
   )
 }
 
 function DaftarAbsensiCard({
   idAktifitas,
+  ubahData,
+  hideUbahData,
   className,
 }: {
-  idAktifitas: string | undefined
+  idAktifitas: string
+  ubahData: boolean
+  hideUbahData: () => void
   className?: string
 }) {
+  const queryClient = useQueryClient()
+  const [dataPerubahan, setDataPerubahan] = useState<Record<string, string>>({})
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const queryKey = [
+    'pengguna.ruang-kelas.presensi.table-absensi-peserta',
+    'pengajar',
+    idKelas,
+    idAktifitas,
+  ]
 
   const {
     data,
@@ -161,16 +210,50 @@ function DaftarAbsensiCard({
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: [
-      'pengguna.ruang-kelas.presensi.table-absensi-peserta',
-      'pengajar',
-      idKelas,
-      idAktifitas,
-    ],
+    queryKey,
     action: tableAbsensiPesertaAction,
     actionParams: { idKelas, idAktifitas },
     enabled: !!idKelas && !!idAktifitas,
   })
+
+  type TableDataType = Awaited<
+    ReturnType<typeof tableAbsensiPesertaAction>
+  >['data']
+
+  useEffect(() => {
+    setDataPerubahan({})
+  }, [ubahData])
+
+  const handleBatal = () => {
+    hideUbahData()
+    setDataPerubahan({})
+  }
+
+  const handleSimpan = async () => {
+    const dataAbsen = Object.keys(dataPerubahan).map((id) => ({
+      id_peserta: id,
+      status: mustBe(dataPerubahan[id], absensiStatus, 'Hadir'),
+    }))
+
+    await handleActionWithToast(
+      simpanAbsensiAktifitasAction(idKelas, idAktifitas, dataAbsen),
+      {
+        loading: 'Menyimpan absensi...',
+        onSuccess: () => {
+          queryClient.setQueryData(queryKey, (oldData: TableDataType) => ({
+            ...oldData,
+            list: (oldData?.list ?? []).map((item) => ({
+              ...item,
+              status: dataPerubahan[item.id_peserta] ?? item.status,
+            })),
+          }))
+          queryClient.invalidateQueries({ queryKey })
+          hideUbahData()
+          setDataPerubahan({})
+        },
+      }
+    )
+  }
 
   if (isLoading) return <ShimmerDaftarAbsensiCard className={className} />
 
@@ -180,7 +263,7 @@ function DaftarAbsensiCard({
         Daftar Hadir Peserta Kelas
       </Text>
       <CardSeparator />
-      <div className="flex p-2">
+      <div className="flex justify-between space-x-2 p-2">
         <Input
           size="sm"
           type="search"
@@ -192,9 +275,26 @@ function DaftarAbsensiCard({
           onChange={(e) => onSearch(e.target.value)}
           onClear={() => onSearch('')}
         />
+        {ubahData && (
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              color="gray"
+              variant="outline"
+              onClick={handleBatal}
+            >
+              <BsXSquare className="mr-2" /> Batal
+            </Button>
+            <Button size="sm" onClick={handleSimpan}>
+              <BsFloppy2 className="mr-2" /> Simpan
+            </Button>
+          </div>
+        )}
       </div>
       <div>
         {data.map((item) => {
+          const statusPeserta = dataPerubahan[item.id_peserta] ?? item.status
+
           return (
             <Fragment key={item.id_peserta}>
               <CardSeparator />
@@ -217,23 +317,58 @@ function DaftarAbsensiCard({
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Badge
-                    rounded="md"
-                    variant="flat"
-                    color={
-                      item.status === 'Hadir'
-                        ? 'primary'
-                        : item.status === 'Izin'
-                        ? 'success'
-                        : item.status === 'Sakit'
-                        ? 'warning'
-                        : item.status === 'Alpha'
-                        ? 'danger'
-                        : 'gray'
-                    }
-                  >
-                    {item.status || '-'}
-                  </Badge>
+                  {ubahData ? (
+                    absensiStatus.map((status) => (
+                      <ActionIconTooltip
+                        key={status}
+                        tooltip={status}
+                        size="sm"
+                        rounded="lg"
+                        variant={statusPeserta === status ? 'solid' : 'outline'}
+                        color={
+                          status === 'Hadir'
+                            ? 'primary'
+                            : status === 'Izin'
+                            ? 'success'
+                            : status === 'Sakit'
+                            ? 'warning'
+                            : status === 'Alpha'
+                            ? 'danger'
+                            : 'gray'
+                        }
+                        onClick={() => {
+                          if (statusPeserta === status) return
+
+                          setDataPerubahan({
+                            ...dataPerubahan,
+                            [item.id_peserta]: status,
+                          })
+                        }}
+                      >
+                        <Text size="xs" weight="semibold">
+                          {status.substring(0, 1).toUpperCase()}
+                        </Text>
+                      </ActionIconTooltip>
+                    ))
+                  ) : (
+                    <Badge
+                      rounded="md"
+                      variant="flat"
+                      color={
+                        item.status === 'Hadir'
+                          ? 'primary'
+                          : item.status === 'Izin'
+                          ? 'success'
+                          : item.status === 'Sakit'
+                          ? 'warning'
+                          : item.status === 'Alpha'
+                          ? 'danger'
+                          : 'gray'
+                      }
+                    >
+                      {item.status || '-'}
+                    </Badge>
+                  )}
                 </div>
               </div>
             </Fragment>
