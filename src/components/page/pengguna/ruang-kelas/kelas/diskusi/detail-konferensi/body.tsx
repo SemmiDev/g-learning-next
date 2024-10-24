@@ -38,7 +38,10 @@ export default function DiskusiKonferensiBody() {
       </div>
 
       <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
-        <DetailCard kelas={dataKelas} className="w-full lg:w-8/12" />
+        <DetailCard
+          kelas={dataKelas || undefined}
+          className="w-full lg:w-8/12"
+        />
         {dataKelas?.peran === 'Pengajar' && <AbsensiCard className="flex-1" />}
       </div>
     </>

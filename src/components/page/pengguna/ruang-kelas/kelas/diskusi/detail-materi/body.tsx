@@ -46,7 +46,7 @@ export default function DiskusiMateriBody() {
       </div>
       <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
         <DetailCard
-          kelas={dataKelas}
+          kelas={dataKelas || undefined}
           setFilePreview={setFilePreview}
           className="w-full lg:w-8/12"
         />

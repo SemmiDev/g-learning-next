@@ -18,7 +18,7 @@ export default function DiskusiBody() {
 
   return (
     <div className="flex flex-col-reverse gap-x-4 gap-y-6 mt-8 lg:flex-row">
-      <DiskusiCardList kelas={dataKelas} className="lg:w-7/12" />
+      <DiskusiCardList kelas={dataKelas || undefined} className="lg:w-7/12" />
 
       {dataKelas?.peran === 'Peserta' && (
         <div className="flex flex-col flex-1 gap-y-6">
