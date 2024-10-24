@@ -6,6 +6,7 @@ import {
   Card,
   CardSeparator,
   Input,
+  Shimmer,
   Text,
   Thumbnail,
   TimeIndo,
@@ -13,13 +14,16 @@ import {
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
+import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import { stripHtml } from '@/utils/text'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Fragment } from 'react'
+import { Fragment, useCallback } from 'react'
+import toast from 'react-hot-toast'
 import { BsDoorOpen, BsFileEarmarkExcel } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import { utils, writeFile } from 'xlsx'
 
 type PengajarRekapDetailSesiSectionProps = {
   sesiAktif: DataSesiType
@@ -43,6 +47,48 @@ export default function PengajarRekapPresensiDetailSesiSection({
     },
     null
   )
+
+  const handleExport = useCallback(async () => {
+    if (!sesiAktif?.id) return
+
+    const toastId = toast.loading(<Text>Memuat data...</Text>)
+
+    let page = 1
+    let allData: {
+      Nama: string
+      Email: string
+      Status: string
+    }[] = []
+
+    const run = async (page: number) => {
+      const { data } = await tableAbsensiPesertaAction({
+        page,
+        params: { idKelas, idAktifitas: sesiAktif?.id },
+      })
+
+      allData = [
+        ...allData,
+        ...(data?.list ?? []).map((item) => ({
+          Nama: item.nama,
+          Email: item.email,
+          Status: item.status || '-',
+        })),
+      ]
+
+      return data?.pagination?.hasNextPage ?? false
+    }
+
+    while (await run(page)) {
+      page++
+    }
+
+    toast.dismiss(toastId)
+
+    const ws = utils.json_to_sheet(allData)
+    const wb = utils.book_new()
+    utils.book_append_sheet(wb, ws, 'Data')
+    writeFile(wb, `Data Absensi - ${sesiAktif?.judul}.xlsx`)
+  }, [idKelas, sesiAktif])
 
   return (
     <div className={className}>
@@ -78,21 +124,28 @@ export default function PengajarRekapPresensiDetailSesiSection({
               </Button>
             </Link>
           )}
-          <Button size="sm" color="success" variant="text">
+          <Button
+            size="sm"
+            color="success"
+            variant="text"
+            onClick={handleExport}
+          >
             <BsFileEarmarkExcel className="mr-2" /> Export
           </Button>
         </div>
       </Card>
 
-      <DaftarAbsensiCard idAktifitas={sesiAktif?.id} />
+      <DaftarAbsensiCard idAktifitas={sesiAktif?.id} className="mt-4" />
     </div>
   )
 }
 
 function DaftarAbsensiCard({
   idAktifitas,
+  className,
 }: {
   idAktifitas: string | undefined
+  className?: string
 }) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -118,8 +171,10 @@ function DaftarAbsensiCard({
     enabled: !!idKelas && !!idAktifitas,
   })
 
+  if (isLoading) return <ShimmerDaftarAbsensiCard className={className} />
+
   return (
-    <Card className="p-0 mt-4">
+    <Card className={cn('p-0', className)}>
       <Text weight="semibold" variant="dark" className="p-2">
         Daftar Hadir Peserta Kelas
       </Text>
@@ -142,7 +197,7 @@ function DaftarAbsensiCard({
           return (
             <Fragment key={item.id_peserta}>
               <CardSeparator />
-              <div className="flex justify-between items-center px-3 py-2">
+              <div className="flex justify-between items-center space-x-2 px-3 py-2">
                 <div className="flex space-x-3">
                   <Thumbnail
                     src={item.foto || undefined}
@@ -192,6 +247,36 @@ function DaftarAbsensiCard({
         total={totalData}
         onChange={(page) => onPageChange(page)}
       />
+    </Card>
+  )
+}
+
+function ShimmerDaftarAbsensiCard({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3.5 w-1/3" />
+      </div>
+      <CardSeparator />
+      <div className="p-2">
+        <Shimmer className="h-7 w-1/2" />
+      </div>
+      <CardSeparator />
+      {[...Array(5)].map((_, idx) => (
+        <Fragment key={idx}>
+          <CardSeparator />
+          <div className="flex justify-between items-center space-x-2 px-3 py-2">
+            <div key={idx} className="flex items-center space-x-3 flex-1">
+              <Shimmer className="size-10" />
+              <div className="flex-1 space-y-2">
+                <Shimmer className="h-2.5 w-1/4" />
+                <Shimmer className="h-2.5 w-1/5" />
+              </div>
+            </div>
+            <Shimmer className="h-7 w-11" />
+          </div>
+        </Fragment>
+      ))}
     </Card>
   )
 }
