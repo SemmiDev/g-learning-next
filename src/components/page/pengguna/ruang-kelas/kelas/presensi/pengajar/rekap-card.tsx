@@ -10,6 +10,7 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 import PengajarRekapPresensiDetailSesiSection from './rekap-detail-sesi-section'
 import PengajarRekapPresensiItem from './rekap-item'
+import cn from '@/utils/class-names'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -55,7 +56,7 @@ export default function PengajarRekapPresensiCard({
     actionParams: { idKelas },
   })
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <ShimmerOuterCard className={className} />
 
   return (
     <Card className={className}>
@@ -108,22 +109,26 @@ export default function PengajarRekapPresensiCard({
             </Dropdown>
           </div>
 
-          <Card className="p-0 mt-2">
-            {data.map((item) => {
-              return (
-                <PengajarRekapPresensiItem
-                  key={item.id}
-                  sesi={{
-                    id: item.id,
-                    judul: item.judul,
-                    waktu: item.created_at,
-                  }}
-                  active={idSesiAktif === item.id}
-                  onClick={() => setSearchParams('sesi', item.id)}
-                />
-              )
-            })}
-          </Card>
+          {isFetching ? (
+            <ShimmerCard count={3} className="mt-2" />
+          ) : (
+            <Card className="p-0 mt-2">
+              {data.map((item) => {
+                return (
+                  <PengajarRekapPresensiItem
+                    key={item.id}
+                    sesi={{
+                      id: item.id,
+                      judul: item.judul,
+                      waktu: item.created_at,
+                    }}
+                    active={idSesiAktif === item.id}
+                    onClick={() => setSearchParams('sesi', item.id)}
+                  />
+                )
+              })}
+            </Card>
+          )}
 
           <TablePagination
             isLoading={isFetching}
@@ -141,9 +146,9 @@ export default function PengajarRekapPresensiCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function ShimmerOuterCard({ className }: { className?: string }) {
   return (
-    <Card className={className}>
+    <Card className={cn(className)}>
       <div className="pt-1.5">
         <Shimmer className="h-7 w-1/4" />
       </div>
@@ -153,21 +158,33 @@ function ShimmerCard({ className }: { className?: string }) {
             <Shimmer className="h-7 w-5/12" />
             <Shimmer className="h-7 w-2/12" />
           </div>
-          <Card className="p-0">
-            {[...Array(5)].map((_, idx) => (
-              <div
-                key={idx}
-                className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
-              >
-                <div className="flex flex-col space-y-3.5 flex-1 py-1.5">
-                  <Shimmer className="h-3 w-1/3" />
-                  <Shimmer className="h-2.5 w-1/2" />
-                </div>
-              </div>
-            ))}
-          </Card>
+          <ShimmerCard />
         </div>
       </div>
+    </Card>
+  )
+}
+
+function ShimmerCard({
+  count = 5,
+  className,
+}: {
+  count?: number
+  className?: string
+}) {
+  return (
+    <Card className={cn('p-0', className)}>
+      {[...Array(count)].map((_, idx) => (
+        <div
+          key={idx}
+          className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
+        >
+          <div className="flex flex-col space-y-3.5 flex-1 py-1.5">
+            <Shimmer className="h-3 w-1/3" />
+            <Shimmer className="h-2.5 w-1/2" />
+          </div>
+        </div>
+      ))}
     </Card>
   )
 }
