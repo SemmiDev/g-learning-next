@@ -91,38 +91,46 @@ export default function PesertaDaftarAnggotaSection({
         />
       </div>
       <div className="flex flex-col">
-        {list.map((item, idx) => (
-          <Fragment key={idx}>
-            <CardSeparator />
-            <div className="flex justify-between items-center space-x-2 p-2">
-              <div className="flex space-x-3">
-                <Thumbnail
-                  src={item.foto || undefined}
-                  alt="profil"
-                  size={40}
-                  rounded="md"
-                  avatar={item.nama}
-                />
-                <div className="flex flex-col justify-center">
-                  <Text size="sm" weight="semibold" variant="dark">
-                    {item.nama}
-                  </Text>
-                  <Text
-                    size="2xs"
-                    weight="medium"
-                    variant="lighter"
-                    className="mt-0.5"
-                  >
-                    {item.email}
-                  </Text>
+        {list.length > 0 ? (
+          list.map((item, idx) => (
+            <Fragment key={idx}>
+              <CardSeparator />
+              <div className="flex justify-between items-center space-x-2 p-2">
+                <div className="flex space-x-3">
+                  <Thumbnail
+                    src={item.foto || undefined}
+                    alt="profil"
+                    size={40}
+                    rounded="md"
+                    avatar={item.nama}
+                  />
+                  <div className="flex flex-col justify-center">
+                    <Text size="sm" weight="semibold" variant="dark">
+                      {item.nama}
+                    </Text>
+                    <Text
+                      size="2xs"
+                      weight="medium"
+                      variant="lighter"
+                      className="mt-0.5"
+                    >
+                      {item.email}
+                    </Text>
+                  </div>
                 </div>
+                <Text size="2xs" weight="semibold" variant="lighter">
+                  {item.peran || '-'}
+                </Text>
               </div>
-              <Text size="2xs" weight="semibold" variant="lighter">
-                {item.peran || '-'}
-              </Text>
-            </div>
-          </Fragment>
-        ))}
+            </Fragment>
+          ))
+        ) : (
+          <div className="flex items-center justify-center h-40">
+            <Text size="sm" weight="medium">
+              {search ? 'Anggota tidak ditemukan' : 'Belum ada anggota'}
+            </Text>
+          </div>
+        )}
         {!isLoading && hasNextPage && (
           <Loader ref={refSentry} size="sm" className="py-4" />
         )}
