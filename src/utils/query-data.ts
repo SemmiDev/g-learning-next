@@ -43,6 +43,21 @@ export const makeSimpleQueryDataWithId =
     return data ?? null
   }
 
+export const makeSimpleQueryDataWithParams =
+  <T extends AnyObject>(
+    action: (...params: string[]) => Promise<ActionResponseType<T>>,
+    ...params: string[]
+  ) =>
+  async () => {
+    const { data, success, message } = await action(...params)
+
+    if (!success) {
+      console.error(message)
+    }
+
+    return data ?? null
+  }
+
 export const makeAsyncTableQueryData =
   <T extends AnyObject>(
     action: (

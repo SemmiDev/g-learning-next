@@ -171,7 +171,7 @@ export default function Peserta({
                 size="sm"
                 type="search"
                 placeholder="Cari Peserta"
-                clearable={true}
+                clearable
                 className="flex-1"
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />

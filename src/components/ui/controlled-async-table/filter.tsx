@@ -117,7 +117,7 @@ export default function TableFilter({
             value={searchTerm}
             onClear={onSearchClear}
             onChange={onSearchChange}
-            clearable={true}
+            clearable
             prefix={
               <PiMagnifyingGlassBold size={20} className="text-gray-lighter" />
             }
@@ -156,7 +156,7 @@ export default function TableFilter({
             onClear={onSearchClear}
             onChange={onSearchChange}
             inputClassName="h-9"
-            clearable={true}
+            clearable
             prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
             className="me-2.5"
           />

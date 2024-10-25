@@ -295,7 +295,7 @@ export default function Materi({
                   size="sm"
                   type="search"
                   placeholder="Cari Materi"
-                  clearable={true}
+                  clearable
                   className="w-72 sm:w-96"
                   prefix={
                     <PiMagnifyingGlass
@@ -312,7 +312,7 @@ export default function Materi({
                   size="sm"
                   type="search"
                   placeholder="Cari Kategori"
-                  clearable={true}
+                  clearable
                   className="w-72 sm:w-96"
                   prefix={
                     <PiMagnifyingGlass

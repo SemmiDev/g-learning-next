@@ -1,4 +1,4 @@
-import { listSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/peserta/list-sesi-absensi'
+import { listTugasAction } from '@/actions/pengguna/ruang-kelas/tugas/peserta/list'
 import {
   Badge,
   Button,
@@ -9,7 +9,7 @@ import {
   Text,
   TimeIndo,
 } from '@/components/ui'
-import { mustBe } from '@/utils/must-be'
+import { stripHtml } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -26,13 +26,7 @@ const sortData = {
 
 type SortDataType = keyof typeof sortData
 
-type AbsenItemType = {
-  judul: string
-  waktu: string | undefined
-  status: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | undefined
-}
-
-export default function PesertaAbsensiSection() {
+export default function PesertaDaftarTugasSection() {
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortDataType>('terbaru')
 
@@ -40,39 +34,20 @@ export default function PesertaAbsensiSection() {
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
-      queryKey: [
-        'pengguna.ruang-kelas.presensi.sesi-absensi',
-        'peserta',
-        idKelas,
-      ],
+      queryKey: ['pengguna.ruang-kelas.tugas.daftar-tugas', 'peserta', idKelas],
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listSesiAbsensiAction({
+        const { data } = await listTugasAction({
           page,
           search,
           sort: {
-            /* TODO: sorting waktu jika API udah fix */
-            // name: 'waktu',
-            // order: sort === 'terbaru' ? 'desc' : 'asc',
+            name: 'created_at',
+            order: sort === 'terbaru' ? 'desc' : 'asc',
           },
           idKelas,
         })
 
         return {
-          list: (data?.list ?? []).map(
-            (item) =>
-              ({
-                judul: item.judul,
-                /* TODO: waktu absensi jika API udah fix */
-                waktu: ['Hadir', 'Izin', 'Sakit'].includes(item.status)
-                  ? '2024-10-12T15:45:39Z'
-                  : undefined,
-                status: mustBe(
-                  item.status,
-                  ['Hadir', 'Izin', 'Sakit', 'Alpha'],
-                  undefined
-                ),
-              } as AbsenItemType)
-          ),
+          list: data?.list ?? [],
           pagination: data?.pagination,
         }
       },
@@ -106,7 +81,7 @@ export default function PesertaAbsensiSection() {
           size="sm"
           type="search"
           placeholder="Cari sesi belajar"
-          clearable={true}
+          clearable
           className="w-72 sm:w-96"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={search}
@@ -134,62 +109,73 @@ export default function PesertaAbsensiSection() {
         </Dropdown>
       </div>
 
-      <Card className="p-0">
-        {isFetching ? (
-          <ShimmerCard count={3} />
-        ) : (
-          <>
-            {list.length > 0 ? (
-              list.map((item, idx) => (
+      {isFetching ? (
+        <ShimmerCard count={3} />
+      ) : (
+        <Card className="p-0">
+          {list.length > 0 ? (
+            list.map((item) => {
+              const strippedDesc = stripHtml(item.deskripsi ?? '')
+              const sudah = item.status === 'SUDAH_MENGUMPULKAN'
+              const terlambat =
+                !!item.batas_waktu && new Date(item.batas_waktu) < new Date()
+
+              return (
                 <div
-                  className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
-                  key={idx}
+                  key={item.id}
+                  className="flex justify-between items-center space-x-2 p-2 [&:not(:last-child)]:border-b border-b-gray-100"
                 >
-                  <div className="flex flex-col space-y-1">
+                  <div className="flex flex-col">
                     <Text weight="semibold" variant="dark">
                       {item.judul}
                     </Text>
+                    <Text variant="lighter" className="line-clamp-2">
+                      {strippedDesc.slice(0, 150)}
+                      {strippedDesc.length > 150 && '...'}
+                    </Text>
                     <Text size="sm" weight="semibold" variant="lighter">
+                      Batas waktu pengumpulan
+                    </Text>
+                    <Text
+                      size="sm"
+                      weight="semibold"
+                      variant={!sudah && terlambat ? 'default' : 'dark'}
+                      color={!sudah && terlambat ? 'danger' : 'gray'}
+                    >
                       <TimeIndo
-                        date={item.waktu}
-                        format="datetimeday"
+                        date={item.batas_waktu}
+                        format="datetime"
                         empty="-"
                       />
                     </Text>
                   </div>
-                  <Badge
-                    size="sm"
-                    variant="solid"
-                    rounded="md"
-                    className={
-                      item.status === 'Hadir'
-                        ? 'bg-badge-green'
-                        : item.status === 'Izin'
-                        ? 'bg-badge-yellow'
-                        : item.status === 'Sakit'
-                        ? 'bg-badge-blue'
-                        : item.status === 'Alpha'
-                        ? 'bg-badge-red'
-                        : 'bg-gray-400'
-                    }
-                  >
-                    {item.status || '-'}
-                  </Badge>
+                  {!sudah && !terlambat ? (
+                    /* TODO: tambahkan link ke aktifitas tugas jika API sudah fix */
+                    <Button size="sm">Kumpulkan Tugas</Button>
+                  ) : (
+                    <Badge
+                      variant="solid"
+                      rounded="md"
+                      className={sudah ? 'bg-badge-green' : 'bg-badge-red'}
+                    >
+                      {sudah ? 'Sudah Mengumpulkan' : 'Tidak Mengumpulkan'}
+                    </Badge>
+                  )}
                 </div>
-              ))
-            ) : (
-              <div className="flex items-center justify-center h-40">
-                <Text size="sm" weight="medium">
-                  {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
-                </Text>
-              </div>
-            )}
-            {!isLoading && hasNextPage && (
-              <Loader ref={refSentry} size="sm" className="py-4" />
-            )}
-          </>
-        )}
-      </Card>
+              )
+            })
+          ) : (
+            <div className="flex items-center justify-center h-40">
+              <Text size="sm" weight="medium">
+                {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
+              </Text>
+            </div>
+          )}
+          {!isLoading && hasNextPage && (
+            <Loader ref={refSentry} size="sm" className="py-4" />
+          )}
+        </Card>
+      )}
     </>
   )
 }
@@ -211,14 +197,16 @@ function ShimmerCard({ count = 5 }: { count?: number }) {
     <Card className="p-0">
       {[...Array(count)].map((_, idx) => (
         <div
-          className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
           key={idx}
+          className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
         >
           <div className="flex flex-col space-y-3.5 flex-1 py-1.5">
-            <Shimmer className="h-3 w-1/4" />
-            <Shimmer className="h-2.5 w-1/3" />
+            <Shimmer className="h-3 w-4/12" />
+            <Shimmer className="h-2.5 w-6/12" />
+            <Shimmer className="h-2.5 w-3/12" />
+            <Shimmer className="h-2.5 w-4/12 !mt-2" />
           </div>
-          <Shimmer className="h-4 w-9" rounded="md" />
+          <Shimmer className="h-7 w-28" rounded="md" />
         </div>
       ))}
     </Card>

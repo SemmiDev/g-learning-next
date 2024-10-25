@@ -173,7 +173,7 @@ export default function Kelas({
                 size="sm"
                 type="search"
                 placeholder="Cari Kelas"
-                clearable={true}
+                clearable
                 className="flex-1"
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />

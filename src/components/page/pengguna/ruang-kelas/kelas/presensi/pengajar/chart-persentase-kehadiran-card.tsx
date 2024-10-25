@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import ChartPresensi, {
   PengajarChartPersentaseKehadiranData,
-} from './pengajar-chart-persentase-kehadiran'
+} from './chart-persentase-kehadiran'
 
 const COLORS = ['#FFD1D1', '#D68585', '#B92E5D', '#6D1A36']
 

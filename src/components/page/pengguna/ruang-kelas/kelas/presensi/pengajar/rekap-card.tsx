@@ -8,8 +8,8 @@ import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
-import PengajarRekapPresensiDetailSesiSection from './pengajar-rekap-detail-sesi-section'
-import PengajarRekapPresensiItem from './pengajar-rekap-item'
+import PengajarRekapPresensiDetailSesiSection from './rekap-detail-sesi-section'
+import PengajarRekapPresensiItem from './rekap-item'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -69,7 +69,7 @@ export default function PengajarRekapPresensiCard({
               size="sm"
               type="search"
               placeholder="Cari sesi belajar"
-              clearable={true}
+              clearable
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }

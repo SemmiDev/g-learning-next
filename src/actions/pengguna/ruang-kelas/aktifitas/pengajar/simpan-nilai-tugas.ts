@@ -1,6 +1,6 @@
 'use server'
 
-import { NilaiTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/tugas/penilaian/body'
+import { NilaiTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/tugas/pengajar/penilaian/body'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

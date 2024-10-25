@@ -1,7 +1,7 @@
 import cn from '@/utils/class-names'
+import { forwardRef } from 'react'
 import { Button as RizButton, type ButtonProps as RizButtonProps } from 'rizzui'
 import { DefaultTextProps, TextWeights } from '../text/text'
-import { forwardRef } from 'react'
 
 export type ButtonColors =
   | 'primary'
@@ -143,6 +143,13 @@ export const ButtonColorStyles = {
   },
 }
 
+const ButtonSizeStyles = {
+  sm: 'min-h-8',
+  md: 'min-h-10',
+  lg: 'min-h-12',
+  xl: 'min-h-14',
+}
+
 export const getRizVariant = (
   variant: ButtonVariants
 ): RizButtonProps['variant'] => {
@@ -167,6 +174,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     color = 'primary',
     variant = 'solid',
+    size = 'md',
     fontWeight,
     className,
     ...props
@@ -177,10 +185,13 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     <RizButton
       ref={ref}
       className={cn(
+        'h-fit',
         !props.disabled ? ButtonColorStyles[variant][color] : null,
+        ButtonSizeStyles[size],
         fontWeight ? TextWeights[fontWeight] : null,
         className
       )}
+      size={size}
       variant={getRizVariant(variant)}
       {...props}
     />

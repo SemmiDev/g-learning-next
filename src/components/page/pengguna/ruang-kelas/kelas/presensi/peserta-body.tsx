@@ -1,5 +1,5 @@
-import PesertaAbsensiSection from './peserta-absensi-section'
-import PesertaChartPersentaseKehadiranCard from './peserta-chart-persentase-kehadiran-card'
+import PesertaAbsensiSection from './peserta/absensi-section'
+import PesertaChartPersentaseKehadiranCard from './peserta/chart-persentase-kehadiran-card'
 
 export default function PesertaPresensiBody() {
   return (

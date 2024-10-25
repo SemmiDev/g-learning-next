@@ -18,7 +18,7 @@ import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
-import KomentarSectionZero from '../diskusi/komentar-section-zero'
+import KomentarSectionZero from '../../diskusi/komentar-section-zero'
 import DropdownNilaiAction from './dropdown-nilai-action'
 import RekapTugasItem from './rekap-item'
 
@@ -213,7 +213,7 @@ export default function RekapTugasCard() {
               size="sm"
               type="search"
               placeholder="Cari Tugas"
-              clearable={true}
+              clearable
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
@@ -293,7 +293,7 @@ export default function RekapTugasCard() {
                 size="sm"
                 type="search"
                 placeholder="Cari Nama Peserta"
-                clearable={true}
+                clearable
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }

@@ -288,7 +288,7 @@ export default function TableTugasPesertaCard({
             size="sm"
             type="search"
             placeholder="Cari Nama Peserta"
-            clearable={true}
+            clearable
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }

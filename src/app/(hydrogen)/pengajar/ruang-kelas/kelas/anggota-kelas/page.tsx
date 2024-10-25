@@ -49,7 +49,7 @@ export default function AnggotaKelasPage() {
               size="sm"
               type="search"
               placeholder="Cari Anggota Kelas"
-              clearable={true}
+              clearable
               className="w-72 sm:w-96"
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />

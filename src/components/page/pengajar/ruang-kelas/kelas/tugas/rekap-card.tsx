@@ -207,7 +207,7 @@ export default function RekapTugasCard() {
               size="sm"
               type="search"
               placeholder="Cari Tugas"
-              clearable={true}
+              clearable
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
@@ -287,7 +287,7 @@ export default function RekapTugasCard() {
                 size="sm"
                 type="search"
                 placeholder="Cari Nama Peserta"
-                clearable={true}
+                clearable
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }

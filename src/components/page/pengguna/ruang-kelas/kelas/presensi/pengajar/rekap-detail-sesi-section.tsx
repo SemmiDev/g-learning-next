@@ -285,7 +285,7 @@ function DaftarAbsensiCard({
           size="sm"
           type="search"
           placeholder="Cari Nama"
-          clearable={true}
+          clearable
           className="w-80"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={search}

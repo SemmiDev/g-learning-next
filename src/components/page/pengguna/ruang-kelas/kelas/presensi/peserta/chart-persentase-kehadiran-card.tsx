@@ -4,10 +4,10 @@ import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
-import { PesertaChartPersentaseKehadiranData } from './peserta-chart-persentase-kehadiran'
+import { PesertaChartPersentaseKehadiranData } from './chart-persentase-kehadiran'
 
 const PesertaChartPresensi = dynamic(
-  () => import('./peserta-chart-persentase-kehadiran'),
+  () => import('./chart-persentase-kehadiran'),
   {
     ssr: false,
   }

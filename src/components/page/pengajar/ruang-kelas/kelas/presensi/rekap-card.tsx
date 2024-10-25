@@ -34,7 +34,7 @@ export default function RekapPresensiCard() {
               size="sm"
               type="search"
               placeholder="Cari sesi belajar"
-              clearable={true}
+              clearable
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
@@ -102,7 +102,7 @@ export default function RekapPresensiCard() {
                 size="sm"
                 type="search"
                 placeholder="Cari Nama"
-                clearable={true}
+                clearable
                 className="w-80"
                 prefix={
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />

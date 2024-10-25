@@ -1,6 +1,6 @@
-import PengajarChartPersentaseKehadiranCard from './pengajar-chart-persentase-kehadiran-card'
-import PengajarKehadiranTerendahCard from './pengajar-kehadiran-terendah-card'
-import PengajarRekapPresensiCard from './pengajar-rekap-card'
+import PengajarChartPersentaseKehadiranCard from './pengajar/chart-persentase-kehadiran-card'
+import PengajarKehadiranTerendahCard from './pengajar/kehadiran-terendah-card'
+import PengajarRekapPresensiCard from './pengajar/rekap-card'
 
 export default function PengajarPresensiBody() {
   return (

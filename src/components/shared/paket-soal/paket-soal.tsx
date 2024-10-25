@@ -251,7 +251,7 @@ export default function PaketSoal({
                   size="sm"
                   type="search"
                   placeholder="Cari Soal"
-                  clearable={true}
+                  clearable
                   className="w-72 sm:w-96"
                   prefix={
                     <PiMagnifyingGlass
@@ -268,7 +268,7 @@ export default function PaketSoal({
                   size="sm"
                   type="search"
                   placeholder="Cari Kategori"
-                  clearable={true}
+                  clearable
                   className="w-72 sm:w-96"
                   prefix={
                     <PiMagnifyingGlass

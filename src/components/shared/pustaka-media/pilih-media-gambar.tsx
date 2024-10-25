@@ -228,7 +228,7 @@ export default function PilihMediaGambar({
                       size="sm"
                       type="search"
                       placeholder="Cari Berkas"
-                      clearable={true}
+                      clearable
                       className="w-72 sm:w-96"
                       prefix={
                         <PiMagnifyingGlass

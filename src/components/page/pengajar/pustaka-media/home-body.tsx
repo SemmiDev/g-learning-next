@@ -118,7 +118,7 @@ export default function HomePustakaMediaBody() {
             size="sm"
             type="search"
             placeholder="Cari Berkas"
-            clearable={true}
+            clearable
             className="w-72 sm:w-96"
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />

@@ -30,7 +30,7 @@ export default function ListFolderSoalBody() {
           size="sm"
           type="search"
           placeholder="Cari Bank Soal"
-          clearable={true}
+          clearable
           className="w-72 sm:w-96"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
         />
