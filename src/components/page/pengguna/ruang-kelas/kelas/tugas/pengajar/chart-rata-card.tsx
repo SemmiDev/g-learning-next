@@ -1,5 +1,5 @@
 import { Card, Title } from '@/components/ui'
-import ChartTugasRata, { ChartRataData } from '../chart-rata'
+import ChartTugasRata, { ChartRataData } from './chart-rata'
 
 export default function ChartTugasRataCard({
   className,
