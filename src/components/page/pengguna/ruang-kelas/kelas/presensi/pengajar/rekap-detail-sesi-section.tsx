@@ -2,6 +2,7 @@ import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/l
 import { tableAbsensiPesertaAction } from '@/actions/pengguna/ruang-kelas/presensi/pengajar/table-absensi-peserta'
 import { Button, Card, Shimmer, Text, TimeIndo } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
 import { stripHtml } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -33,13 +34,11 @@ export default function PengajarRekapPresensiDetailSesiSection({
       idKelas,
       idAktifitas,
     ],
-    queryFn: async () => {
-      if (!idAktifitas) return null
-
-      const { data } = await lihatAktifitasAction(idKelas, idAktifitas)
-
-      return data ?? null
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatAktifitasAction,
+      idKelas,
+      idAktifitas ?? null
+    ),
     enabled: !!idAktifitas,
   })
 

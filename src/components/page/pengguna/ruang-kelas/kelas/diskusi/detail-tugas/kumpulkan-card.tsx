@@ -20,6 +20,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { arrayRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -61,11 +62,11 @@ export default function KumpulkanTugasCard({
   /* TODO: masih bermasalah API nya */
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: async () => {
-      const { data } = await lihatPengumpulanTugasAction(idKelas, idAktifitas)
-
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatPengumpulanTugasAction,
+      idKelas,
+      idAktifitas
+    ),
   })
 
   if (!data) return null

@@ -13,6 +13,7 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
@@ -30,10 +31,7 @@ export default function DetailCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, id],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

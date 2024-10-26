@@ -8,6 +8,7 @@ import {
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -24,10 +25,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   /* TODO: tambahkan data hasil ujian dari API jika sudah ada */

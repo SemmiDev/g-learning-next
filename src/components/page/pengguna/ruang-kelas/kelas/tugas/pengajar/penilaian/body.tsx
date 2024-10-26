@@ -24,6 +24,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import imagePhoto from '@public/images/photo.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -63,10 +64,11 @@ export default function PenilaianTugasBody() {
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, idAktifitas)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatAktifitasAction,
+      idKelas,
+      idAktifitas
+    ),
   })
 
   const queryKey = [
@@ -78,14 +80,12 @@ export default function PenilaianTugasBody() {
 
   const { data } = useQuery({
     queryKey,
-    queryFn: async () => {
-      const { data } = await lihatNilaiTugasAction(
-        idKelas,
-        idAktifitas,
-        '01JA4XZDYPG48DB2B8CFTYXT8M'
-      )
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatNilaiTugasAction,
+      idKelas,
+      idAktifitas,
+      '01JA4XZDYPG48DB2B8CFTYXT8M'
+    ),
   })
 
   const initialValues: NilaiTugasFormSchema = {

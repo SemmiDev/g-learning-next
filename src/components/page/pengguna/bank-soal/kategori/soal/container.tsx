@@ -26,6 +26,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { removeIndexFromList } from '@/utils/list'
 import { mustBe } from '@/utils/must-be'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { cleanQuill } from '@/utils/string'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -90,11 +91,11 @@ export default function KelolaSoalBody() {
 
   const { data: dataBankSoal } = useQuery({
     queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
-    queryFn: async () => {
-      const { data } = await lihatBankSoalAction(idKategori, idBankSoal)
-
-      return data ?? null
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatBankSoalAction,
+      idKategori,
+      idBankSoal
+    ),
   })
 
   const queryKey = ['pengguna.bank-soal.soal.list', idKategori, idBankSoal]

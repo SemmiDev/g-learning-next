@@ -10,6 +10,7 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -26,13 +27,11 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.instansi.detail.table-pengguna.lihat', id],
-    queryFn: async () => {
-      if (!id) return null
-
-      const { data } = await lihatPenggunaInstansiAction(idInstansi, id)
-
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatPenggunaInstansiAction,
+      idInstansi,
+      id ?? null
+    ),
   })
 
   return (

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
@@ -28,10 +29,7 @@ export default function BerkasCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.informasi', idKelas, id],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   if (isLoading) return <BerkasCardShimmer className={className} />

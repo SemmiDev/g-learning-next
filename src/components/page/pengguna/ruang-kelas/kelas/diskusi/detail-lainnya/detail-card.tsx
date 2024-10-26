@@ -9,10 +9,11 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import imagePhoto from '@public/images/photo.png'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
-import imagePhoto from '@public/images/photo.png'
 
 type DetailCardProps = {
   className?: string
@@ -23,10 +24,7 @@ export default function DetailCard({ className }: DetailCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.lainnya', idKelas, id],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

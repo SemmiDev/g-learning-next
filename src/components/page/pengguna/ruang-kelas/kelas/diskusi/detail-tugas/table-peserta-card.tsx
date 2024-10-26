@@ -22,6 +22,7 @@ import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -94,10 +95,11 @@ export default function TableTugasPesertaCard({
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, idAktifitas)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatAktifitasAction,
+      idKelas,
+      idAktifitas
+    ),
   })
 
   const queryKey = [

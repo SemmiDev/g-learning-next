@@ -12,6 +12,7 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ReactNode, useState } from 'react'
@@ -33,13 +34,11 @@ export default function LihatMateriModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['shared.materi.lihat', idKategori, id],
-    queryFn: async () => {
-      if (!id) return null
-
-      const { data } = await lihatMateriAction(idKategori, id)
-
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatMateriAction,
+      idKategori,
+      id ?? null
+    ),
   })
 
   const files: PustakaMediaFileType[] = (data?.daftar_file_bank_ajar ?? []).map(

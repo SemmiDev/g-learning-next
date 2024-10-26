@@ -2,6 +2,7 @@ import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/l
 import { Card, CardSeparator, Komentar, Text, Time } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { BsCardChecklist } from 'react-icons/bs'
@@ -16,10 +17,7 @@ export default function DetailCard({ className }: DetailCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

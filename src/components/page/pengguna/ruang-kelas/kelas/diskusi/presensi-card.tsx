@@ -1,6 +1,7 @@
 import { presensiPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/presensi'
 import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
@@ -11,11 +12,7 @@ export default function PresensiCard({ className }: PresensiCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.presensi', idKelas],
-    queryFn: async () => {
-      const { data } = await presensiPesertaAction(idKelas)
-
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(presensiPesertaAction, idKelas),
   })
 
   if (isLoading) return <CardShimmer className={className} />

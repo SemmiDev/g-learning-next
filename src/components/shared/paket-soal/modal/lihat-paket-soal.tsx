@@ -7,6 +7,7 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ReactNode } from 'react'
@@ -26,13 +27,11 @@ export default function LihatSoalModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['shared.paket-soal.lihat', idKategori, id],
-    queryFn: async () => {
-      if (!id) return null
-
-      const { data } = await lihatPaketSoalAction(idKategori, id)
-
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatPaketSoalAction,
+      idKategori,
+      id ?? null
+    ),
   })
 
   return (

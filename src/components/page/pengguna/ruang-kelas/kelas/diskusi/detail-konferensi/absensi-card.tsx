@@ -16,6 +16,7 @@ import {
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -39,10 +40,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.konferensi', idKelas, id],
-    queryFn: async () => {
-      const { data } = await lihatAktifitasAction(idKelas, id)
-      return data
-    },
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   const tipe = mustBe(dataAktifitas?.aktifitas.absen, ['Manual', null], null)
