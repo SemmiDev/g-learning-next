@@ -18,6 +18,8 @@ type FileButtonProps = {
 }
 
 export default function RecentFileItem({ file, onPreview }: FileButtonProps) {
+  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+
   return (
     <div className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 px-4 hover:bg-gray-50/50">
       <div className="flex flex-1 justify-between items-center space-x-2">
@@ -54,25 +56,25 @@ export default function RecentFileItem({ file, onPreview }: FileButtonProps) {
           </div>
         </div>
         <div className="flex space-x-1">
-          {!!file.link &&
-            (file.type === 'link' ||
-              isPreviewableFile(file.link, file.extension)) && (
-              <LinkOrDiv
-                href={file.type === 'link' ? file.link : undefined}
-                target="_blank"
+          {!!file.link && (file.type === 'link' || isPreviewable) && (
+            <LinkOrDiv
+              href={
+                file.type === 'link' && !isPreviewable ? file.link : undefined
+              }
+              target="_blank"
+            >
+              <ActionIcon
+                size="sm"
+                variant="outline-hover-colorful"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onPreview && onPreview(file)
+                }}
               >
-                <ActionIcon
-                  size="sm"
-                  variant="outline-hover-colorful"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onPreview && onPreview(file)
-                  }}
-                >
-                  <BsEye />
-                </ActionIcon>
-              </LinkOrDiv>
-            )}
+                <BsEye />
+              </ActionIcon>
+            </LinkOrDiv>
+          )}
           {file.type !== 'link' && (
             <LinkOrDiv href={file.link} target="_blank">
               <ActionIcon size="sm" variant="outline-hover-colorful">
