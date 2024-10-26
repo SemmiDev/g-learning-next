@@ -3,7 +3,7 @@ import {
   ControlledAsyncTableActionType,
 } from '@/components/ui/controlled-async-table'
 import { ActionResponseType } from './action'
-import { AnyObject } from './type-interface'
+import { AnyObject, Nullish } from './type-interface'
 import { wait as waiting } from './wait'
 
 export const makeSimpleQueryData =
@@ -44,12 +44,16 @@ export const makeSimpleQueryDataWithId =
   }
 
 export const makeSimpleQueryDataWithParams =
-  <T extends AnyObject>(
-    action: (...params: string[]) => Promise<ActionResponseType<T>>,
-    ...params: string[]
+  <TData extends AnyObject, TParams extends Array<string | number>>(
+    action: (...params: TParams) => Promise<ActionResponseType<TData>>,
+    ...params: Nullish<Parameters<typeof action>>
   ) =>
   async () => {
-    const { data, success, message } = await action(...params)
+    if (params.some((param) => param === null)) return null
+
+    const { data, success, message } = await action(
+      ...(params as Parameters<typeof action>)
+    )
 
     if (!success) {
       console.error(message)
