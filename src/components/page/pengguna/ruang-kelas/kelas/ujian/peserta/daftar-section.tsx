@@ -10,16 +10,34 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { Dropdown } from 'rizzui'
 
-const sortData = {
-  terbaru: 'Terbaru',
-  terlawas: 'Terlawas',
+type SortDataType = {
+  title: string
+  sort: {
+    name: string
+    order: 'asc' | 'desc'
+  }
 }
 
-type SortDataType = keyof typeof sortData
+const sortData: SortDataType[] = [
+  {
+    title: 'Terbaru',
+    sort: {
+      name: 'created_at',
+      order: 'desc',
+    },
+  },
+  {
+    title: 'Terlawas',
+    sort: {
+      name: 'created_at',
+      order: 'asc',
+    },
+  },
+]
 
 export default function PesertaDaftarUjianSection() {
   const [search, setSearch] = useState('')
-  const [sort, setSort] = useState<SortDataType>('terbaru')
+  const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -30,10 +48,7 @@ export default function PesertaDaftarUjianSection() {
         const { data } = await listUjianAction({
           page,
           search,
-          sort: {
-            name: 'created_at',
-            order: sort === 'terbaru' ? 'desc' : 'asc',
-          },
+          sort,
           idKelas,
         })
 
@@ -63,6 +78,10 @@ export default function PesertaDaftarUjianSection() {
 
   useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
+  const sorting = sortData.find(
+    (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
+  )
+
   if (isLoading) return <ShimmerSection />
 
   return (
@@ -82,18 +101,30 @@ export default function PesertaDaftarUjianSection() {
         <Dropdown>
           <Dropdown.Trigger>
             <Button as="span" size="sm" variant="outline">
-              {sortData[sort]} <BsChevronDown className="ml-2 w-5" />
+              {sorting && (
+                <>
+                  {sorting?.title} <BsChevronDown className="ml-2 w-5" />
+                </>
+              )}
             </Button>
           </Dropdown.Trigger>
           <Dropdown.Menu>
-            {Object.keys(sortData).map((key) => (
+            {sortData.map((item) => (
               <Dropdown.Item
-                key={key}
+                key={item.title}
                 className="justify-between"
-                onClick={() => setSort(key as SortDataType)}
+                onClick={() =>
+                  setSort({
+                    name: item.sort.name,
+                    order: item.sort.order,
+                  })
+                }
               >
-                <Text size="sm">{sortData[key as SortDataType]}</Text>{' '}
-                {sort === key && <BsCheck size={18} />}
+                <Text size="sm" className="text-left">
+                  {item.title}
+                </Text>{' '}
+                {sort?.name === item.sort.name &&
+                  sort?.order === item.sort.order && <BsCheck size={18} />}
               </Dropdown.Item>
             ))}
           </Dropdown.Menu>

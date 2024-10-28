@@ -11,12 +11,30 @@ import { Dropdown } from 'rizzui'
 import PengajarRekapPresensiDetailSesiSection from './rekap-detail-sesi-section'
 import PengajarRekapPresensiItem from './rekap-item'
 
-const sortData = {
-  terbaru: 'Terbaru',
-  terlawas: 'Terlawas',
+type SortDataType = {
+  title: string
+  sort: {
+    name: string
+    order: 'asc' | 'desc'
+  }
 }
 
-type SortDataType = keyof typeof sortData
+const sortData: SortDataType[] = [
+  {
+    title: 'Terbaru',
+    sort: {
+      name: 'created_at',
+      order: 'desc',
+    },
+  },
+  {
+    title: 'Terlawas',
+    sort: {
+      name: 'created_at',
+      order: 'asc',
+    },
+  },
+]
 
 type PengajarRekapPresensiCardProps = {
   className?: string
@@ -57,6 +75,10 @@ export default function PengajarRekapPresensiCard({
     actionParams: { idKelas },
   })
 
+  const sorting = sortData.find(
+    (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
+  )
+
   if (isLoading) return <ShimmerOuterCard className={className} />
 
   return (
@@ -82,27 +104,27 @@ export default function PengajarRekapPresensiCard({
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">
-                  {sortData[sort?.order === 'asc' ? 'terlawas' : 'terbaru']}{' '}
-                  <BsChevronDown className="ml-2 w-5" />
+                  {sorting && (
+                    <>
+                      {sorting?.title} <BsChevronDown className="ml-2 w-5" />
+                    </>
+                  )}
                 </Button>
               </Dropdown.Trigger>
               <Dropdown.Menu>
-                {Object.keys(sortData).map((key) => {
-                  const order = key === 'terbaru' ? 'desc' : 'asc'
-
-                  return (
-                    <Dropdown.Item
-                      key={key}
-                      className="justify-between"
-                      onClick={() => onSort('created_at', order)}
-                    >
-                      <Text size="sm">{sortData[key as SortDataType]}</Text>{' '}
-                      {(sort?.order ?? 'desc') === order && (
-                        <BsCheck size={18} />
-                      )}
-                    </Dropdown.Item>
-                  )
-                })}
+                {sortData.map((item) => (
+                  <Dropdown.Item
+                    key={item.title}
+                    className="justify-between"
+                    onClick={() => onSort(item.sort.name, item.sort.order)}
+                  >
+                    <Text size="sm" className="text-left">
+                      {item.title}
+                    </Text>{' '}
+                    {sort?.name === item.sort.name &&
+                      sort?.order === item.sort.order && <BsCheck size={18} />}
+                  </Dropdown.Item>
+                ))}
               </Dropdown.Menu>
             </Dropdown>
           </div>
