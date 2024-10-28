@@ -48,6 +48,7 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
       <Komentar
         idKelas={idKelas}
         idAktifitas={id}
+        /* TODO: tampilkan total komentar jika API sudah ada */
         firstShow={5}
         showPer={10}
         className="p-4"
