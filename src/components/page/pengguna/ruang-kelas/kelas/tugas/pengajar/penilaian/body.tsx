@@ -29,7 +29,7 @@ import { z } from '@/utils/zod-id'
 import imagePhoto from '@public/images/photo.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { LuChevronDown } from 'react-icons/lu'
@@ -46,6 +46,7 @@ export type NilaiTugasFormSchema = {
 }
 
 export default function PenilaianTugasBody() {
+  const router = useRouter()
   const queryClient = useQueryClient()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
   const [formError, setFormError] = useState<string>()
@@ -129,6 +130,7 @@ export default function PenilaianTugasBody() {
       <div className="mt-4 mb-4">
         <Link
           href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/tugas/${idAktifitas}`}
+          onClick={() => router.back()}
         >
           <Button variant="text" color="primary" className="text-gray-dark">
             <RiArrowLeftLine size={18} className="" />{' '}
