@@ -54,7 +54,7 @@ export default function DiskusiCard({
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
       },
     })

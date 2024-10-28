@@ -67,7 +67,7 @@ export default function MateriCard({
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
       },
     })

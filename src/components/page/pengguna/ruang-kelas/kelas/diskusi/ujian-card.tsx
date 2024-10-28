@@ -56,7 +56,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
         setIdHapus(undefined)
 
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas?.diskusi.list', idKelas],
+          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
         })
       },
     })
