@@ -3,14 +3,13 @@ import { Button, Card, Input, Shimmer, Text, Title } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { mustBe } from '@/utils/must-be'
+import cn from '@/utils/class-names'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 import PengajarRekapPresensiDetailSesiSection from './rekap-detail-sesi-section'
 import PengajarRekapPresensiItem from './rekap-item'
-import cn from '@/utils/class-names'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -51,8 +50,10 @@ export default function PengajarRekapPresensiCard({
       idKelas,
     ],
     action: tableSesiAbsensiAction,
-    /* TODO: initial sorting jika API sudah fix */
-    initialSort: {},
+    initialSort: {
+      name: 'created_at',
+      order: 'desc',
+    },
     actionParams: { idKelas },
   })
 
@@ -69,7 +70,7 @@ export default function PengajarRekapPresensiCard({
             <Input
               size="sm"
               type="search"
-              placeholder="Cari sesi belajar"
+              placeholder="Cari sesi materi"
               clearable
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
@@ -81,30 +82,27 @@ export default function PengajarRekapPresensiCard({
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">
-                  {
-                    sortData[
-                      mustBe(
-                        sort?.name,
-                        ['terbaru', 'terlawas'] as const,
-                        'terbaru'
-                      )
-                    ]
-                  }{' '}
+                  {sortData[sort?.order === 'asc' ? 'terlawas' : 'terbaru']}{' '}
                   <BsChevronDown className="ml-2 w-5" />
                 </Button>
               </Dropdown.Trigger>
               <Dropdown.Menu>
-                {Object.keys(sortData).map((key) => (
-                  <Dropdown.Item
-                    key={key}
-                    className="justify-between"
-                    /* TODO: aksi sorting jika API sudah fix */
-                    onClick={() => {}}
-                  >
-                    <Text size="sm">{sortData[key as SortDataType]}</Text>{' '}
-                    {(sort?.name ?? 'terbaru') === key && <BsCheck size={18} />}
-                  </Dropdown.Item>
-                ))}
+                {Object.keys(sortData).map((key) => {
+                  const order = key === 'terbaru' ? 'desc' : 'asc'
+
+                  return (
+                    <Dropdown.Item
+                      key={key}
+                      className="justify-between"
+                      onClick={() => onSort('created_at', order)}
+                    >
+                      <Text size="sm">{sortData[key as SortDataType]}</Text>{' '}
+                      {(sort?.order ?? 'desc') === order && (
+                        <BsCheck size={18} />
+                      )}
+                    </Dropdown.Item>
+                  )
+                })}
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -113,20 +111,28 @@ export default function PengajarRekapPresensiCard({
             <ShimmerCard count={3} className="mt-2" />
           ) : (
             <Card className="p-0 mt-2">
-              {data.map((item) => {
-                return (
-                  <PengajarRekapPresensiItem
-                    key={item.id}
-                    sesi={{
-                      id: item.id,
-                      judul: item.judul,
-                      waktu: item.created_at,
-                    }}
-                    active={idSesiAktif === item.id}
-                    onClick={() => setSearchParams('sesi', item.id)}
-                  />
-                )
-              })}
+              {data.length > 0 ? (
+                data.map((item) => {
+                  return (
+                    <PengajarRekapPresensiItem
+                      key={item.id}
+                      sesi={{
+                        id: item.id,
+                        judul: item.judul,
+                        waktu: item.created_at,
+                      }}
+                      active={idSesiAktif === item.id}
+                      onClick={() => setSearchParams('sesi', item.id)}
+                    />
+                  )
+                })
+              ) : (
+                <div className="flex items-center justify-center h-40">
+                  <Text size="sm" weight="medium">
+                    {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
+                  </Text>
+                </div>
+              )}
             </Card>
           )}
 
@@ -138,6 +144,7 @@ export default function PengajarRekapPresensiCard({
             onChange={(page) => onPageChange(page)}
           />
         </div>
+
         {idSesiAktif && (
           <PengajarRekapPresensiDetailSesiSection className="w-full lg:w-7/12" />
         )}

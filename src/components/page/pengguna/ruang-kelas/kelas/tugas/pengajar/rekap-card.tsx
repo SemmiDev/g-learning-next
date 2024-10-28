@@ -1,232 +1,64 @@
-import {
-  ActionIcon,
-  ActionIconTooltip,
-  Button,
-  Card,
-  CardSeparator,
-  Pagination,
-  Table,
-  TableHeaderCell,
-  Text,
-  Title,
-} from '@/components/ui'
-import { routes } from '@/config/routes'
-import imagePhoto from '@public/images/photo.png'
-import Image from 'next/image'
-import Link from 'next/link'
-import { ColumnsType } from 'rc-table'
-import { BiFilterAlt } from 'react-icons/bi'
-import {
-  BsCheck,
-  BsChevronDown,
-  BsPencil,
-  BsThreeDotsVertical,
-  BsTrash,
-  BsTrash3,
-} from 'react-icons/bs'
+import { tableSesiTugasAction } from '@/actions/pengguna/ruang-kelas/tugas/pengajar/table-sesi-tugas'
+import { Button, Card, Shimmer, Text, Title } from '@/components/ui'
+import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useSetSearchParams } from '@/hooks/use-set-search-params'
+import { useTableAsync } from '@/hooks/use-table-async'
+import cn from '@/utils/class-names'
+import { parseDate } from '@/utils/date'
+import { useParams, useSearchParams } from 'next/navigation'
+import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
-import KomentarSectionZero from '../../diskusi/komentar-section-zero'
+import PengajarRekapTugasDetailSesiSection from './rekap-detail-sesi-section'
 import RekapTugasItem from './rekap-item'
 
-export default function PengajarRekapTugasCard() {
-  const tableData = [
-    {
-      id: 1,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: null,
-    },
-    {
-      id: 2,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: null,
-    },
-    {
-      id: 3,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: null,
-    },
-    {
-      id: 4,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: null,
-    },
-    {
-      id: 5,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: 92,
-    },
-    {
-      id: 6,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: 91,
-    },
-    {
-      id: 7,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: 89,
-    },
-    {
-      id: 8,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: 89,
-    },
-    {
-      id: 9,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: 86,
-    },
-    {
-      id: 10,
-      nama: 'Annitsa Bestweden',
-      email: 'email@namaweb.com',
-      image: imagePhoto,
-      tanggal: '15 Des 24',
-      jam: '15 : 36',
-      nilai: 81,
-    },
-  ]
+const sortData = {
+  terbaru: 'Terbaru',
+  terlawas: 'Terlawas',
+}
 
-  const tableColumns: ColumnsType<(typeof tableData)[number]> = [
-    {
-      title: <TableHeaderCell title="No" className="justify-center" />,
-      dataIndex: 'no',
-      key: 'no',
-      render: (_: string, __, idx: number) => (
-        <Text size="sm" weight="medium" variant="dark" className="text-center">
-          {idx + 1}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nama Peserta" />,
-      dataIndex: 'nama',
-      key: 'nama',
-      render: (_: string, row) => (
-        <div className="flex space-x-3">
-          <Image src={row.image} alt="profil" className="size-10 rounded-md" />
-          <div className="flex flex-col justify-center">
-            <Text size="sm" weight="semibold" variant="dark">
-              {row.nama}
-            </Text>
-            <Text
-              size="2xs"
-              weight="medium"
-              variant="lighter"
-              className="mt-0.5"
-            >
-              {row.email}
-            </Text>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Waktu Pengumpulan" />,
-      dataIndex: 'tanggal',
-      key: 'tanggal',
-      render: (_: string, row) => (
-        <Text size="sm" weight="medium" variant="dark">
-          {row.tanggal}
-          <br />
-          {row.jam}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: (value: string) => (
-        <Text size="sm" weight="medium" variant="dark" className="text-center">
-          {value ?? '-'}
-        </Text>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: (_: string, row) => {
-        if (row.nilai != null) {
-          return (
-            <div className="flex justify-end">
-              <Dropdown placement="bottom-end">
-                <Dropdown.Trigger>
-                  <ActionIcon as="span" size="sm" variant="outline">
-                    <BsThreeDotsVertical size={14} />
-                  </ActionIcon>
-                </Dropdown.Trigger>
-                <Dropdown.Menu className="divide-y">
-                  <div className="mb-2">
-                    <Dropdown.Item className="text-gray-dark">
-                      <BsPencil className="text-warning mr-2 h-4 w-4" />
-                      Ubah Nilai
-                    </Dropdown.Item>
-                  </div>
-                  <div className="mt-2 pt-2">
-                    <Dropdown.Item className="text-gray-dark">
-                      <BsTrash3 className="text-danger mr-2 h-4 w-4" />
-                      Hapus Nilai
-                    </Dropdown.Item>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
-          )
-        }
+type SortDataType = keyof typeof sortData
 
-        return (
-          <Link href={`${routes.pengguna.ruangKelas}/tugas/detail`}>
-            <Button
-              as="span"
-              size="sm"
-              variant="solid"
-              className="whitespace-nowrap"
-            >
-              Cek Tugas
-            </Button>
-          </Link>
-        )
-      },
+type PengajarRekapTugasCardProps = {
+  className?: string
+}
+
+export default function PengajarRekapTugasCard({
+  className,
+}: PengajarRekapTugasCardProps) {
+  const searchParams = useSearchParams()
+  const setSearchParams = useSetSearchParams()
+
+  const idSesiAktif = searchParams.get('sesi')
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    page,
+    perPage,
+    onPageChange,
+    totalData,
+    sort,
+    onSort,
+    search,
+    onSearch,
+  } = useTableAsync({
+    queryKey: [
+      'pengguna.ruang-kelas.presensi.list-sesi-absensi',
+      'pengajar',
+      idKelas,
+    ],
+    action: tableSesiTugasAction,
+    initialSort: {
+      name: 'created_at',
+      order: 'desc',
     },
-  ]
+    actionParams: { idKelas },
+  })
+
+  if (isLoading) return <ShimmerOuterCard className={className} />
 
   return (
     <Card className="col-span-3">
@@ -239,166 +71,139 @@ export default function PengajarRekapTugasCard() {
             <Input
               size="sm"
               type="search"
-              placeholder="Cari Tugas"
+              placeholder="Cari sesi tugas"
               clearable
               prefix={
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
+              value={search}
+              onChange={(e) => onSearch(e.target.value)}
+              onClear={() => onSearch('')}
             />
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">
-                  Terbaru <BsChevronDown className="ml-2 w-5" />
+                  {sortData[sort?.order === 'asc' ? 'terlawas' : 'terbaru']}{' '}
+                  <BsChevronDown className="ml-2 w-5" />
                 </Button>
               </Dropdown.Trigger>
               <Dropdown.Menu>
-                <Dropdown.Item className="justify-between">
-                  <Text size="sm">Terbaru</Text> <BsCheck size={18} />
-                </Dropdown.Item>
-                <Dropdown.Item className="justify-between">
-                  <Text size="sm">Terlawas</Text>
-                </Dropdown.Item>
+                {Object.keys(sortData).map((key) => {
+                  const order = key === 'terbaru' ? 'desc' : 'asc'
+
+                  return (
+                    <Dropdown.Item
+                      key={key}
+                      className="justify-between"
+                      onClick={() => onSort('created_at', order)}
+                    >
+                      <Text size="sm">{sortData[key as SortDataType]}</Text>{' '}
+                      {(sort?.order ?? 'desc') === order && (
+                        <BsCheck size={18} />
+                      )}
+                    </Dropdown.Item>
+                  )
+                })}
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <Card className="p-0 mt-2">
-            {[...Array(10)].map((val, idx) => {
-              return (
-                <RekapTugasItem key={idx} active={idx === 1} open={idx <= 1} />
-              )
-            })}
-          </Card>
-          <div className="flex justify-between items-center p-2">
-            <Text size="2xs" variant="lighter">
-              Menampilkan 10 dari 30 data
-            </Text>
-            <Pagination total={30} />
-          </div>
+
+          {isFetching ? (
+            <ShimmerCard count={3} className="mt-2" />
+          ) : (
+            <Card className="p-0 mt-2">
+              {data.length > 0 ? (
+                data.map((item) => {
+                  const batasWaktu = parseDate(item.batas_waktu)
+
+                  return (
+                    <RekapTugasItem
+                      key={item.id}
+                      sesi={{
+                        id: item.id,
+                        judul: item.judul,
+                        batasWaktu: item.batas_waktu,
+                        jumlah: item.total_pengumpulan_tugas,
+                      }}
+                      active={idSesiAktif === item.id}
+                      open={!batasWaktu || batasWaktu <= new Date()}
+                      onClick={() => setSearchParams('sesi', item.id)}
+                    />
+                  )
+                })
+              ) : (
+                <div className="flex items-center justify-center h-40">
+                  <Text size="sm" weight="medium">
+                    {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
+                  </Text>
+                </div>
+              )}
+            </Card>
+          )}
+
+          <TablePagination
+            isLoading={isFetching}
+            current={page}
+            pageSize={perPage}
+            total={totalData}
+            onChange={(page) => onPageChange(page)}
+          />
         </div>
-        <div className="w-full lg:w-7/12">
-          <Card className="flex justify-between">
-            <div>
-              <Text weight="semibold" variant="dark">
-                Judul Tugas
-              </Text>
-              <Text size="sm" weight="medium" variant="lighter">
-                Keterangan singkat terkait tugasnya
-              </Text>
-              <Text
-                size="sm"
-                weight="medium"
-                variant="lighter"
-                className="mt-2"
-              >
-                Batas waktu pengumpulan
-              </Text>
-              <Text size="sm" weight="medium" variant="dark">
-                Kamis, 29 februari 2024, 23:59 WIB
-              </Text>
-            </div>
-            <div className="flex flex-col justify-between">
-              <div className="flex flex-wrap justify-end">
-                <Button size="sm" color="warning" variant="text">
-                  <BsPencil className="mr-2" /> Ubah
-                </Button>
-                <Button size="sm" color="danger" variant="text">
-                  <BsTrash className="mr-2" /> Hapus
-                </Button>
-              </div>
-              <Text size="sm" weight="medium" variant="lighter">
-                30 peserta mengumpulkan Tugas
-              </Text>
-            </div>
-          </Card>
-          <Card className="flex flex-col flex-1 p-0 mt-4">
-            <Title as="h6" weight="semibold" className="px-3 py-2">
-              Pengumpulan Tugas Peserta
-            </Title>
-            <CardSeparator />
-            <div className="flex justify-between p-2">
-              <Input
-                size="sm"
-                type="search"
-                placeholder="Cari Nama Peserta"
-                clearable
-                prefix={
-                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
-                }
-              />
-              <div className="flex items-center space-x-2">
-                <Dropdown>
-                  <Dropdown.Trigger>
-                    <Button as="span" size="sm" variant="outline">
-                      Nilai Tertinggi <BsChevronDown className="ml-2 w-5" />
-                    </Button>
-                  </Dropdown.Trigger>
-                  <Dropdown.Menu>
-                    <Dropdown.Item className="justify-between">
-                      <Text size="sm" className="text-left">
-                        Abjad Nama
-                      </Text>
-                    </Dropdown.Item>
-                    <Dropdown.Item className="justify-between">
-                      <Text size="sm" className="text-left">
-                        Nilai Tertinggi
-                      </Text>{' '}
-                      <BsCheck size={18} />
-                    </Dropdown.Item>
-                    <Dropdown.Item className="justify-between">
-                      <Text size="sm" className="text-left">
-                        Nilai Terendah
-                      </Text>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown>
-                  <Dropdown.Trigger>
-                    <ActionIconTooltip
-                      tooltip="Filter"
-                      as="span"
-                      size="sm"
-                      variant="outline"
-                    >
-                      <BiFilterAlt size={16} />
-                    </ActionIconTooltip>
-                  </Dropdown.Trigger>
-                  <Dropdown.Menu>
-                    <Dropdown.Item className="justify-between">
-                      <Text size="sm" className="text-left">
-                        Belum Mengumpulkan
-                      </Text>
-                      <BsCheck size={18} />
-                    </Dropdown.Item>
-                    <Dropdown.Item className="justify-between">
-                      <Text size="sm" className="text-left">
-                        Sudah Mengumpulkan
-                      </Text>{' '}
-                      <BsCheck size={18} />
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </div>
-            <div className="relative">
-              <Table
-                rowKey={(row) => row.id}
-                variant="elegant"
-                columns={tableColumns}
-                data={tableData}
-              />
-            </div>
-            <div className="flex justify-between items-center p-2">
-              <Text size="2xs" variant="lighter">
-                Menampilkan 10 dari 30 data
-              </Text>
-              <Pagination total={30} />
-            </div>
-          </Card>
-          <Card className="mt-4">
-            <KomentarSectionZero />
-          </Card>
+
+        <PengajarRekapTugasDetailSesiSection className="w-full lg:w-7/12" />
+      </div>
+    </Card>
+  )
+}
+
+function ShimmerOuterCard({ className }: { className?: string }) {
+  return (
+    <Card className={cn(className)}>
+      <div className="pt-1.5">
+        <Shimmer className="h-7 w-1/4" />
+      </div>
+      <div className="flex flex-wrap gap-4 mt-4 lg:flex-nowrap">
+        <div className="w-full lg:w-5/12">
+          <div className="flex justify-between space-x-2 mb-4">
+            <Shimmer className="h-7 w-5/12" />
+            <Shimmer className="h-7 w-2/12" />
+          </div>
+          <ShimmerCard />
         </div>
       </div>
+    </Card>
+  )
+}
+
+function ShimmerCard({
+  count = 5,
+  className,
+}: {
+  count?: number
+  className?: string
+}) {
+  return (
+    <Card className={cn('p-0', className)}>
+      {[...Array(count)].map((_, idx) => (
+        <div
+          key={idx}
+          className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
+        >
+          <div className="flex flex-col space-y-3.5 flex-1 py-1.5">
+            <div className="flex justify-between space-x-2">
+              <Shimmer className="h-3 w-1/3" />
+              <Shimmer className="h-6 w-10 rounded-full" />
+            </div>
+            <div className="flex justify-between items-center space-x-2">
+              <div className="flex flex-col space-y-2 w-5/12">
+                <Shimmer className="h-2.5 w-11/12" />
+                <Shimmer className="h-2.5 w-full" />
+              </div>
+              <Shimmer className="h-2.5 w-5/12" />
+            </div>
+          </div>
+        </div>
+      ))}
     </Card>
   )
 }
