@@ -73,7 +73,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
               <DataRow label="Website">
                 {data?.situs_web ? (
                   <Link href={data?.situs_web} target="_blank">
-                    <Button variant="text-colorful" className="h-auto p-0">
+                    <Button variant="text-colorful" className="min-h-min p-0">
                       {data?.situs_web}
                     </Button>
                   </Link>

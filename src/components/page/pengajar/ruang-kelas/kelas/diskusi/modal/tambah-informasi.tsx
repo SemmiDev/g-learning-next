@@ -100,7 +100,7 @@ export default function TambahInformasiModal({
                   Upload foto atau video
                 </label>
                 <div className="text-gray-lighter text-sm border-2 border-gray-50 rounded-md py-3 px-4">
-                  <Button variant="text" className="h-4 p-0">
+                  <Button variant="text" className="min-h-min h-4 p-0">
                     Klik di sini untuk memilih foto
                   </Button>
                 </div>

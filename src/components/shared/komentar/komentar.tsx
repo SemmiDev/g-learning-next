@@ -263,7 +263,7 @@ export default function Komentar({
                       <Button
                         size="sm"
                         variant="text"
-                        className="text-sm font-bold h-auto p-0"
+                        className="text-sm font-bold min-h-min p-0"
                         onClick={() => setParentLv2(item)}
                       >
                         Balas

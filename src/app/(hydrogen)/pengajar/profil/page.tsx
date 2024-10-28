@@ -83,7 +83,7 @@ export default function ProfilPage() {
             </DataRow>
             <DataRow label="Website" outline>
               <Link href="http://anbes.com" target="_blank">
-                <Button variant="text-colorful" className="h-auto p-0">
+                <Button variant="text-colorful" className="min-h-min p-0">
                   http://anbes.com
                 </Button>
               </Link>
