@@ -1,7 +1,7 @@
 import { Badge, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 
-export default function RekapTugasItem({
+export default function PengajarRekapTugasItem({
   active = false,
   open = false,
 }: {

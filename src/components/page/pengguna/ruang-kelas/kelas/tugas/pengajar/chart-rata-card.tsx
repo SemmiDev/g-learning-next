@@ -1,13 +1,23 @@
 import { Card, Title } from '@/components/ui'
-import ChartTugasRata, { ChartRataData } from './chart-rata'
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
+import { ChartData } from './chart-section'
 
-export default function ChartTugasRataCard({
+type PengajarChartTugasRataCardProps = {
+  className?: string
+  data: ChartData[]
+}
+
+export default function PengajarChartTugasRataCard({
   className,
   data,
-}: {
-  className?: string
-  data: ChartRataData[]
-}) {
+}: PengajarChartTugasRataCardProps) {
   return (
     <div className={className}>
       <Card>
@@ -15,9 +25,22 @@ export default function ChartTugasRataCard({
           Grafik Nilai Tugas Rata-Rata
         </Title>
         <div className="flex flex-col items-center min-h-[180px]">
-          <ChartTugasRata data={data} />
+          <PengajarChartTugasRata data={data} />
         </div>
       </Card>
     </div>
+  )
+}
+
+function PengajarChartTugasRata({ data }: { data: ChartData[] }) {
+  return (
+    <ResponsiveContainer width="100%" height={180}>
+      <BarChart data={data}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar name="Nilai" dataKey="value" fill="#29EB25" barSize={20} />
+      </BarChart>
+    </ResponsiveContainer>
   )
 }

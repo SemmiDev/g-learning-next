@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   ActionIconTooltip,
   Button,
   Card,
@@ -15,14 +16,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import { BiFilterAlt } from 'react-icons/bi'
-import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
+import {
+  BsCheck,
+  BsChevronDown,
+  BsPencil,
+  BsThreeDotsVertical,
+  BsTrash,
+  BsTrash3,
+} from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown, Input } from 'rizzui'
 import KomentarSectionZero from '../../diskusi/komentar-section-zero'
-import DropdownNilaiAction from './dropdown-nilai-action'
 import RekapTugasItem from './rekap-item'
 
-export default function RekapTugasCard() {
+export default function PengajarRekapTugasCard() {
   const tableData = [
     {
       id: 1,
@@ -180,7 +187,27 @@ export default function RekapTugasCard() {
         if (row.nilai != null) {
           return (
             <div className="flex justify-end">
-              <DropdownNilaiAction />
+              <Dropdown placement="bottom-end">
+                <Dropdown.Trigger>
+                  <ActionIcon as="span" size="sm" variant="outline">
+                    <BsThreeDotsVertical size={14} />
+                  </ActionIcon>
+                </Dropdown.Trigger>
+                <Dropdown.Menu className="divide-y">
+                  <div className="mb-2">
+                    <Dropdown.Item className="text-gray-dark">
+                      <BsPencil className="text-warning mr-2 h-4 w-4" />
+                      Ubah Nilai
+                    </Dropdown.Item>
+                  </div>
+                  <div className="mt-2 pt-2">
+                    <Dropdown.Item className="text-gray-dark">
+                      <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                      Hapus Nilai
+                    </Dropdown.Item>
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           )
         }

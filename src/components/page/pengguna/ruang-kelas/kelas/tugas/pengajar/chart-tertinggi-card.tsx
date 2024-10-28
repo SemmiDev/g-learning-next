@@ -1,13 +1,23 @@
 import { Card, Title } from '@/components/ui'
-import ChartTugasTertinggi, { ChartTertinggiData } from './chart-tertinggi'
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
+import { ChartData } from './chart-section'
 
-export default function ChartTugasTertinggiCard({
+type PengajarChartTugasTertinggiCardProps = {
+  className?: string
+  data: ChartData[]
+}
+
+export default function PengajarChartTugasTertinggiCard({
   className,
   data,
-}: {
-  className?: string
-  data: ChartTertinggiData[]
-}) {
+}: PengajarChartTugasTertinggiCardProps) {
   return (
     <div className={className}>
       <Card>
@@ -15,9 +25,22 @@ export default function ChartTugasTertinggiCard({
           Grafik Nilai Tugas Tertinggi
         </Title>
         <div className="flex flex-col items-center min-h-[180px]">
-          <ChartTugasTertinggi data={data} />
+          <PengajarChartTugasTertinggi data={data} />
         </div>
       </Card>
     </div>
+  )
+}
+
+function PengajarChartTugasTertinggi({ data }: { data: ChartData[] }) {
+  return (
+    <ResponsiveContainer width="100%" height={180}>
+      <BarChart data={data}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar name="Nilai" dataKey="value" fill="#2563EB" barSize={20} />
+      </BarChart>
+    </ResponsiveContainer>
   )
 }
