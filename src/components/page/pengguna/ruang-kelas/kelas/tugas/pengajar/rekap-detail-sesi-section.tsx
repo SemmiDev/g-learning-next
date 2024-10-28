@@ -30,7 +30,7 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   const { data: sesiAktif, isLoading } = useQuery({
     queryKey: [
-      'pengguna.ruang-kelas.presensi.sesi-aktif',
+      'pengguna.ruang-kelas.tugas.sesi-aktif',
       'pengajar',
       idKelas,
       idAktifitas,
@@ -47,7 +47,7 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   if (isLoading) return <ShimmerSection className={className} />
 
-  if (!idAktifitas) return null
+  if (!idAktifitas || !sesiAktif) return null
 
   return (
     <div className={className}>
@@ -87,10 +87,17 @@ export default function PengajarRekapTugasDetailSesiSection({
         </div>
       </Card>
 
-      <PengajarRekapTugasDaftarAbsensiCard />
+      <PengajarRekapTugasDaftarAbsensiCard
+        sesi={sesiAktif}
+        className="flex-1 mt-4"
+      />
 
       <Card className="mt-4">
-        <Komentar idKelas={idKelas} idAktifitas={idAktifitas} />
+        <Komentar
+          idKelas={idKelas}
+          idAktifitas={idAktifitas}
+          /* TODO: tampilkan total komentar jika API sudah ada */
+        />
       </Card>
     </div>
   )
