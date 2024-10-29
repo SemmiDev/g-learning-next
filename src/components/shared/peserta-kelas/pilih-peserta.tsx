@@ -5,65 +5,41 @@ import {
   Button,
   CardSeparator,
   Input,
-  Label,
   Loader,
   Modal,
   Text,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
-import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
-import { FieldError } from 'rizzui'
 import PesertaButton, { PesertaKelasItemType } from './peserta-button'
-import SelectedPeserta from './selected-peserta'
 
-const queryKey = ['shared.peserta.list']
+const queryKey = ['shared.peserta.list-pilih']
 
-export type PesertaKelasProps = {
+export type PilihPesertaKelasProps = {
   idKelas: string
-  label?: string
-  required?: boolean
-  placeholder?: string
-  value?: PesertaKelasItemType
-  onChange?(val?: PesertaKelasItemType): void
-  error?: string
-  errorClassName?: string
-  clearable?: boolean
+  show: boolean
+  setShow: (show: boolean) => void
+  onSelect?(val: PesertaKelasItemType): void
 }
 
-export default function PesertaKelas({
+export default function PilihPesertaKelas({
   idKelas,
-  label,
-  required,
-  placeholder = 'Klik di sini untuk memilih peserta',
-  value,
-  onChange,
-  error,
-  errorClassName,
-  clearable,
-}: PesertaKelasProps) {
+  show = false,
+  setShow,
+  onSelect,
+}: PilihPesertaKelasProps) {
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
-  const [show, setShow] = useState(false)
 
   const [search, setSearch] = useState('')
   const [checkedPeserta, setCheckedPeserta] = useState<
     PesertaKelasItemType | undefined
   >()
-  const [selectedPeserta, setSelectedPeserta] = useState<
-    PesertaKelasItemType | undefined
-  >(value)
-
-  const doChange = (selected?: PesertaKelasItemType) => {
-    setSelectedPeserta(selected)
-
-    onChange && onChange(selected)
-  }
 
   const {
     data: data,
@@ -118,43 +94,6 @@ export default function PesertaKelas({
 
   return (
     <>
-      <div>
-        {label && (
-          <label className="text-gray-dark font-semibold mb-1.5 block">
-            <Label label={label} required={required} />
-          </label>
-        )}
-        <div
-          className={cn(
-            'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-3 hover:border-primary [&_.peserta-label]:hover:text-primary',
-            {
-              '!border-danger [&.is-hover]:!border-danger [&.is-focus]:!border-danger !ring-danger !bg-transparent':
-                error,
-            }
-          )}
-          onClick={() => {
-            setCheckedPeserta(selectedPeserta)
-            refetch()
-            setShow(true)
-          }}
-        >
-          {selectedPeserta ? (
-            <SelectedPeserta
-              peserta={selectedPeserta}
-              onRemove={clearable ? () => doChange(undefined) : undefined}
-            />
-          ) : (
-            <Text size="sm" className="peserta text-gray-lighter">
-              {placeholder}
-            </Text>
-          )}
-        </div>
-
-        {error && (
-          <FieldError size="md" error={error} className={errorClassName} />
-        )}
-      </div>
-
       <Modal
         title="Cari dan Pilih Peserta"
         size={size}
@@ -212,7 +151,7 @@ export default function PesertaKelas({
                 size="sm"
                 className="w-36"
                 onClick={() => {
-                  doChange(checkedPeserta)
+                  onSelect && checkedPeserta && onSelect(checkedPeserta)
                   setShow(false)
                 }}
                 disabled={!checkedPeserta}
