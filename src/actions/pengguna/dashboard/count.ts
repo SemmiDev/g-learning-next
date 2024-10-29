@@ -9,7 +9,7 @@ export type DataType = {
   jumlah_bank_soal: number
 }
 
-export const dashboardCountAction = () =>
+export const dashboardCountAction = async () =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/dashboard/statistik`
   )

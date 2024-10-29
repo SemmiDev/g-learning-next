@@ -13,7 +13,7 @@ export type DataType = {
   }[]
 }
 
-export const dataNilaiAction = (idKelas: string) =>
+export const dataNilaiAction = async (idKelas: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/pengajar/kelas/${idKelas}/tugas/grafik-nilai`
   )

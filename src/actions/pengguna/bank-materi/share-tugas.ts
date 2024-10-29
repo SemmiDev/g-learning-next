@@ -5,7 +5,7 @@ import { MateriItemType } from '@/components/ui'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const shareTugasBankMateriAction = (
+export const shareTugasBankMateriAction = async (
   idKelas: string,
   materi: MateriItemType,
   data: ShareTugasFormSchema

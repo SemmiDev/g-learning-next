@@ -2,7 +2,7 @@
 
 import { makeJwtDeleteRequestAction } from '@/utils/action'
 
-export const hapusNilaiTugasAction = (
+export const hapusNilaiTugasAction = async (
   idKelas: string,
   idAktifitas: string,
   id: string

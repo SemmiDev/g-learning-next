@@ -3,7 +3,7 @@
 import { UbahProfilFormSchema } from '@/components/page/instansi/profil/detail/modal/ubah'
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahProfilAction = (data: UbahProfilFormSchema) =>
+export const ubahProfilAction = async (data: UbahProfilFormSchema) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/instansi/profil-instansi`, {
     nama_instansi: data.nama,
     telepon_instansi: data.kontak,

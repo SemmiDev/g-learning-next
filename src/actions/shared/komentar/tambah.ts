@@ -2,7 +2,7 @@
 
 import { makeJwtPostRequestAction } from '@/utils/action'
 
-export const tambahKomentarAction = (
+export const tambahKomentarAction = async (
   idKelas: string,
   idAktifitas: string,
   komentar: string,

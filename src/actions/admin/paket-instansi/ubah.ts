@@ -5,7 +5,7 @@ import { makeJwtPutRequestAction } from '@/utils/action'
 import { fileSizeToMB } from '@/utils/bytes'
 import { mustBe } from '@/utils/must-be'
 
-export const ubahPaketInstansiAction = (
+export const ubahPaketInstansiAction = async (
   id: string,
   data: UbahPaketInstansiFormSchema
 ) =>

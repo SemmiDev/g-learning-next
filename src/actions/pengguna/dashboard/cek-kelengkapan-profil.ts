@@ -24,5 +24,5 @@ type DataType = {
   }[]
 }
 
-export const cekKelengkapanProfilAction = () =>
+export const cekKelengkapanProfilAction = async () =>
   makeJwtGetRequestAction<DataType>(`${process.env.API_URL}/pengguna`)

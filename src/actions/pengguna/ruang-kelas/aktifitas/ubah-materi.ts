@@ -5,7 +5,7 @@ import { makeJwtPutRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasMateriAction = (
+export const ubahAktifitasMateriAction = async (
   idKelas: string,
   id: string,
   data: UbahMateriFormSchema

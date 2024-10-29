@@ -4,7 +4,7 @@ import { UbahProfilFormSchema } from '@/components/page/pengguna/profil/modal/ub
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahProfilAction = (data: UbahProfilFormSchema) =>
+export const ubahProfilAction = async (data: UbahProfilFormSchema) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/pengguna`, {
     nama: data.nama,
     nik: data.nik,

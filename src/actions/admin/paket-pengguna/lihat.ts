@@ -11,7 +11,7 @@ type DataType = {
   harga: number
 }
 
-export const lihatPaketPenggunaAction = (id: string) =>
+export const lihatPaketPenggunaAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/paket-pengguna/${id}`
   )

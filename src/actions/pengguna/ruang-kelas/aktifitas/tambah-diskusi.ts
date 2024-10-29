@@ -4,7 +4,7 @@ import { TambahDiskusiFormSchema } from '@/components/page/pengguna/ruang-kelas/
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasDiskusiAction = (
+export const tambahAktifitasDiskusiAction = async (
   idKelas: string,
   data: TambahDiskusiFormSchema
 ) =>

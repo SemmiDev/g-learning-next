@@ -3,7 +3,7 @@
 import { UbahKategoriFormSchema } from '@/components/page/pengguna/bank-materi/modal/ubah-kategori'
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahKategoriBankMateriAction = (
+export const ubahKategoriBankMateriAction = async (
   id: string,
   data: UbahKategoriFormSchema
 ) =>

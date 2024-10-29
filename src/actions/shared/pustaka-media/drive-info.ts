@@ -33,7 +33,7 @@ export type DataType = {
 }
 
 export const driveInfoAction = async () => {
-  const { user } = (await getServerSession(authOptions)) ?? {}
+  const { user } = async(await getServerSession(authOptions)) ?? {}
   if (!user) return makeActionResponse<DataType>(false)
 
   return await makeJwtGetRequestAction<DataType>(

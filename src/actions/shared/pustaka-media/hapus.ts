@@ -2,7 +2,7 @@
 
 import { makeJwtDeleteRequestAction } from '@/utils/action'
 
-export const hapusBerkasAction = (id: string) =>
+export const hapusBerkasAction = async (id: string) =>
   makeJwtDeleteRequestAction(`${process.env.API_URL}/pustaka-media`, {
     id: [id],
   })

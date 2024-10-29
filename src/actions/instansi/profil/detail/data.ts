@@ -38,7 +38,7 @@ export type DataType = {
   total_kelas: number
 }
 
-export const dataProfilAction = () =>
+export const dataProfilAction = async () =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/instansi/profil-instansi`
   )

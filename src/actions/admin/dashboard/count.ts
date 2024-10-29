@@ -10,7 +10,7 @@ export type DataType = {
   total_kelas: number
 }
 
-export const dashboardCountAction = () =>
+export const dashboardCountAction = async () =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/admin/dashboard/statistik`
   )

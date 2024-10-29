@@ -5,7 +5,7 @@ import { makeJwtPostRequestAction } from '@/utils/action'
 import { fileSizeToMB } from '@/utils/bytes'
 import { mustBe } from '../../../utils/must-be'
 
-export const tambahPaketInstansiAction = (
+export const tambahPaketInstansiAction = async (
   data: TambahPaketInstansiFormSchema
 ) =>
   makeJwtPostRequestAction(`${process.env.API_URL}/admin/paket-instansi`, {

@@ -10,7 +10,7 @@ export type DataType = {
   token_smart: string
 }
 
-export const dataSinkronAction = () =>
+export const dataSinkronAction = async () =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/instansi/pengaturan-singkronisasi`
   )

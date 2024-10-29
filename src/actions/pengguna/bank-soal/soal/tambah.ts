@@ -4,7 +4,7 @@ import { TambahSoalFormSchema } from '@/components/page/pengguna/bank-soal/kateg
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahSoalAction = (
+export const tambahSoalAction = async (
   idBankSoal: string,
   data: TambahSoalFormSchema
 ) =>

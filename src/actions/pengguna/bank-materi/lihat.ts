@@ -32,7 +32,7 @@ type DataType = {
   total_file_bank_ajar: number
 }
 
-export const lihatBankMateriAction = (idKategori: string, id: string) =>
+export const lihatBankMateriAction = async (idKategori: string, id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/kategori-bank-ajar/${idKategori}/bank-ajar/${id}`
   )

@@ -24,7 +24,7 @@ type DataType = {
   jenis_akun: string[]
 }
 
-export const lihatPenggunaAction = (id: string) =>
+export const lihatPenggunaAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/instansi/pengguna/${id}`
   )

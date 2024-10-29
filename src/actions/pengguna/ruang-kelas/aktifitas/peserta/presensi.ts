@@ -11,7 +11,7 @@ export type DataType = {
   tingkat_kehadiran: number
 }
 
-export const presensiPesertaAction = (idKelas: string) =>
+export const presensiPesertaAction = async (idKelas: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/peserta/kelas/${idKelas}/tingkat-kehadiran`
   )

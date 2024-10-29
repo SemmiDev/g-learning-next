@@ -31,7 +31,7 @@ export const listKomentarParentAction = async ({
   idKelas: string
   idAktifitas: string
 }) => {
-  const { user } = (await getServerSession(authOptions)) ?? {}
+  const { user } = async(await getServerSession(authOptions)) ?? {}
   if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
 
   return await makeJwtGetRequestTableAction<DataType>(

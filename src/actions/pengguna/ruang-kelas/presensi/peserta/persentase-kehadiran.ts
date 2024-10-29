@@ -9,7 +9,7 @@ export type DataType = {
   persentase_alpha: number
 }
 
-export const dataPersentaseKehadiranAction = (id: string) =>
+export const dataPersentaseKehadiranAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/peserta/kelas/${id}/absensi/persentase-kehadiran`
   )

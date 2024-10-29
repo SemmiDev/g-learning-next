@@ -4,7 +4,7 @@ import { UbahMateriFormSchema } from '@/components/shared/materi/modal/ubah-mate
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahMateriAction = (
+export const ubahMateriAction = async (
   idKategori: string,
   id: string,
   data: UbahMateriFormSchema

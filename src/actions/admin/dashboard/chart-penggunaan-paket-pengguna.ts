@@ -10,7 +10,7 @@ export type DataType = {
   }[]
 }
 
-export const chartPenggunaanPaketPenggunaAction = () =>
+export const chartPenggunaanPaketPenggunaAction = async () =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/admin/dashboard/penggunaan-paket-pengguna`
   )

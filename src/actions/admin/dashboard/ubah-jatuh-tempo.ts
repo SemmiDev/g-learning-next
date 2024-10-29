@@ -3,7 +3,7 @@
 import { UbahJatuhTempoFormSchema } from '@/components/page/admin/dashboard/modal/ubah-jatuh-tempo'
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahJatuhTempoAction = (
+export const ubahJatuhTempoAction = async (
   id: string,
   data: UbahJatuhTempoFormSchema
 ) =>

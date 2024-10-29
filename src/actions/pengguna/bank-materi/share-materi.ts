@@ -6,7 +6,7 @@ import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const shareMateriBankMateriAction = (
+export const shareMateriBankMateriAction = async (
   idKelas: string,
   materi: MateriItemType,
   data: ShareMateriFormSchema

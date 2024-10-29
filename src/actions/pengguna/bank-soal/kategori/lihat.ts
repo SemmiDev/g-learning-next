@@ -8,7 +8,7 @@ type DataType = {
   id_pengajar: string
 }
 
-export const lihatKategoriBankSoalAction = (id: string) =>
+export const lihatKategoriBankSoalAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/kategori-bank-soal/${id}`
   )

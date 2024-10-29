@@ -16,7 +16,7 @@ type DataType = {
   nama_paket: string
 }
 
-export const lihatPembayaranInstansiAction = (id: string) =>
+export const lihatPembayaranInstansiAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/admin/pembayaran/${id}`
   )

@@ -16,7 +16,7 @@ type DataType = {
   update_at: string
 }
 
-export const lihatPaketSoalAction = (idKategori: string, id: string) =>
+export const lihatPaketSoalAction = async (idKategori: string, id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/kategori-bank-soal/${idKategori}/bank-soal/${id}`
   )

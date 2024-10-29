@@ -4,7 +4,7 @@ import { UbahMateriFormSchema } from '@/components/page/pengguna/bank-materi/kat
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahBankMateriAction = (
+export const ubahBankMateriAction = async (
   idKategori: string,
   id: string,
   data: UbahMateriFormSchema

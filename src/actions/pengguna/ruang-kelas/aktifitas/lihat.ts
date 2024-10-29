@@ -61,7 +61,7 @@ export type DataType = {
   link_conference?: string
 }
 
-export const lihatAktifitasAction = (idKelas: string, id: string) =>
+export const lihatAktifitasAction = async (idKelas: string, id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas/${id}`
   )

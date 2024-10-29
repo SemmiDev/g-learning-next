@@ -18,7 +18,7 @@ export type DataType = {
   updated_at: string
 }
 
-export const lihatBerkasAction = (id: string) =>
+export const lihatBerkasAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/pustaka-media/${id}`
   )

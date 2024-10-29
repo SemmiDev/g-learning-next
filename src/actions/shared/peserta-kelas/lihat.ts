@@ -15,7 +15,10 @@ export type DataType = {
   foto: string
 }
 
-export const lihatPesertaKelasAction = (idKelas: string, idPeserta: string) =>
+export const lihatPesertaKelasAction = async (
+  idKelas: string,
+  idPeserta: string
+) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/pengajar/kelas/${idKelas}/peserta-kelas/${idPeserta}`
   )

@@ -10,7 +10,7 @@ type DataType = {
   updated_at: string
 }
 
-export const lihatKategoriMateriAction = (id: string) =>
+export const lihatKategoriMateriAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/kategori-bank-ajar/${id}`
   )

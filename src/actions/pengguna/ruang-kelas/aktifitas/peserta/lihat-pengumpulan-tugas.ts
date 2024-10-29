@@ -41,7 +41,7 @@ export type DataType = {
 }
 
 /* TODO: nanti id pengumpulan tugas dihapus setelah API ok */
-export const lihatPengumpulanTugasAction = (
+export const lihatPengumpulanTugasAction = async (
   idKelas: string,
   idAktifitas: string
 ) =>

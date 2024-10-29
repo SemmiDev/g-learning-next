@@ -31,5 +31,5 @@ export type DataType = {
   peran: 'Pengajar' | 'Peserta'
 }
 
-export const lihatKelasAction = (id: string) =>
+export const lihatKelasAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(`${process.env.API_URL}/kelas/${id}`)

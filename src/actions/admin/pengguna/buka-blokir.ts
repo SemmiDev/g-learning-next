@@ -2,7 +2,7 @@
 
 import { makeJwtPostRequestAction } from '@/utils/action'
 
-export const bukaBlokirPenggunaAction = (id: string) =>
+export const bukaBlokirPenggunaAction = async (id: string) =>
   makeJwtPostRequestAction(
     `${process.env.API_URL}/admin/buka-blokir-pengguna/${id}`
   )

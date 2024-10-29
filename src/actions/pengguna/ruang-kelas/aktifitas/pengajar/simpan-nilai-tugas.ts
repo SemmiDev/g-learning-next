@@ -4,7 +4,7 @@ import { NilaiTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/kel
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const simpanNilaiTugasAction = (
+export const simpanNilaiTugasAction = async (
   idKelas: string,
   idAktifitas: string,
   idPeserta: string,

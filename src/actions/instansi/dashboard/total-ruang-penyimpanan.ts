@@ -8,7 +8,7 @@ export type DataType = {
   tersedia: number
 }
 
-export const totalRuangPenyimpananAction = () =>
+export const totalRuangPenyimpananAction = async () =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/instansi/total-ruang-penyimpanan`
   )

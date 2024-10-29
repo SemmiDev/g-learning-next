@@ -16,7 +16,7 @@ type DataType = {
   paket: string
 }
 
-export const lihatPenggunaInstansiAction = (
+export const lihatPenggunaInstansiAction = async (
   idInstansi: string,
   idPengguna: string
 ) =>

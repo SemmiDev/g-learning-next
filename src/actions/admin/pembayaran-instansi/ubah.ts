@@ -3,7 +3,7 @@
 import { UbahPembayaranInstansiFormSchema } from '@/components/page/admin/pembayaran-instansi/modal/ubah'
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahPembayaranInstansiAction = (
+export const ubahPembayaranInstansiAction = async (
   id: string,
   data: UbahPembayaranInstansiFormSchema
 ) =>

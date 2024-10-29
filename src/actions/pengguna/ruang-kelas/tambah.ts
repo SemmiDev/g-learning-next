@@ -6,7 +6,7 @@ import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahKelasAction = (data: BuatKelasFormSchema) =>
+export const tambahKelasAction = async (data: BuatKelasFormSchema) =>
   makeJwtPostRequestAction(`${process.env.API_URL}/kelas`, {
     nama_kelas: data.program,
     sub_judul: data.kelas,

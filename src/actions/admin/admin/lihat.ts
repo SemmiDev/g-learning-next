@@ -2,5 +2,5 @@
 
 import { makeJwtGetRequestAction } from '@/utils/action'
 
-export const lihatAdminAction = (id: string) =>
+export const lihatAdminAction = async (id: string) =>
   makeJwtGetRequestAction(`${process.env.API_URL}/admin/akun/${id}`)

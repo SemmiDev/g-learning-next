@@ -3,7 +3,7 @@
 import { BlokirPenggunaFormSchema } from '@/components/page/admin/pengguna/modal/blokir'
 import { makeJwtPostRequestAction } from '@/utils/action'
 
-export const blokirPenggunaAction = (
+export const blokirPenggunaAction = async (
   id: string,
   data: BlokirPenggunaFormSchema
 ) =>

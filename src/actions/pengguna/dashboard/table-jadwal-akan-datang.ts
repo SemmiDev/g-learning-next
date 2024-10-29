@@ -19,7 +19,7 @@ type DataType = {
   tanggal_sampai: string
 }
 
-export const tableJadwalAkanDatangAction = () =>
+export const tableJadwalAkanDatangAction = async () =>
   makeJwtGetRequestAction<DataType[]>(
     `${process.env.API_URL}/dashboard/jadwal-kelas-mendatang`
   )

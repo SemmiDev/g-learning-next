@@ -4,7 +4,7 @@ import { UbahPaketSoalFormSchema } from '@/components/shared/paket-soal/modal/ub
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahPaketSoalAction = (
+export const ubahPaketSoalAction = async (
   idKategori: string,
   id: string,
   data: UbahPaketSoalFormSchema

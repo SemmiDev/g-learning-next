@@ -4,7 +4,7 @@ import { TambahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kel
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasKonferensiAction = (
+export const tambahAktifitasKonferensiAction = async (
   idKelas: string,
   data: TambahKonferensiFormSchema
 ) =>

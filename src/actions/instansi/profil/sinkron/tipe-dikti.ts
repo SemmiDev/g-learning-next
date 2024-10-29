@@ -3,7 +3,7 @@
 import { SinkronDiktiFormSchema } from '@/components/page/instansi/profil/sinkron/dikti-card'
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahSinkronDiktiAction = (data: SinkronDiktiFormSchema) =>
+export const ubahSinkronDiktiAction = async (data: SinkronDiktiFormSchema) =>
   makeJwtPutRequestAction(
     `${process.env.API_URL}/instansi/pengaturan-singkronisasi`,
     {

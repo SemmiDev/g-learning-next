@@ -3,7 +3,7 @@
 import { UbahKategoriFormSchema } from '@/components/shared/materi/modal/ubah-kategori'
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahKategoriMateriAction = (
+export const ubahKategoriMateriAction = async (
   id: string,
   data: UbahKategoriFormSchema
 ) =>

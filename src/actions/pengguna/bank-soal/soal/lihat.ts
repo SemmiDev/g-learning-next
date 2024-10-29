@@ -35,7 +35,7 @@ type DataType = {
   jawaban_benar: (typeof PILIHAN_JAWABAN)[number]
 }
 
-export const lihatSoalAction = (idKategori: string, id: string) =>
+export const lihatSoalAction = async (idKategori: string, id: string) =>
   makeJwtGetRequestAction<DataType>(
     `${process.env.API_URL}/bank-soal/${idKategori}/soal/${id}`
   )

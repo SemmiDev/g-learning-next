@@ -4,7 +4,7 @@ import { makeJwtPutRequestAction } from '@/utils/action'
 
 type TipeType = '' | 'Smart' | 'Feeder'
 
-export const aktifSinkronAction = (tipe: TipeType) =>
+export const aktifSinkronAction = async (tipe: TipeType) =>
   makeJwtPutRequestAction(
     `${process.env.API_URL}/instansi/pengaturan-singkronisasi`,
     {

@@ -30,7 +30,7 @@ export type DataType = {
   }[]
 }
 
-export const lihatNilaiTugasAction = (
+export const lihatNilaiTugasAction = async (
   idKelas: string,
   idAktifitas: string,
   idPeserta: string

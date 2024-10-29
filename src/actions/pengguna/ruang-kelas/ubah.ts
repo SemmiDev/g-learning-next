@@ -6,7 +6,10 @@ import { makeJwtPutRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahKelasAction = (id: string, data: PengaturanKelasFormSchema) =>
+export const ubahKelasAction = async (
+  id: string,
+  data: PengaturanKelasFormSchema
+) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/kelas/${id}`, {
     nama_kelas: data.program,
     sub_judul: data.kelas,

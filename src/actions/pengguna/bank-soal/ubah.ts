@@ -4,7 +4,7 @@ import { UbahBankSoalFormSchema } from '@/components/page/pengguna/bank-soal/kat
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahBankSoalAction = (
+export const ubahBankSoalAction = async (
   idKategori: string,
   id: string,
   data: UbahBankSoalFormSchema

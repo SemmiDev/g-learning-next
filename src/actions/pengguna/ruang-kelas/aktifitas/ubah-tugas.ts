@@ -4,7 +4,7 @@ import { UbahTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/kela
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasTugasAction = (
+export const ubahAktifitasTugasAction = async (
   idKelas: string,
   id: string,
   data: UbahTugasFormSchema

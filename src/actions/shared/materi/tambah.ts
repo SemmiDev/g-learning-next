@@ -4,7 +4,7 @@ import { TambahMateriFormSchema } from '@/components/shared/materi/modal/tambah-
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahMateriAction = (
+export const tambahMateriAction = async (
   idKategori: string,
   data: TambahMateriFormSchema
 ) =>

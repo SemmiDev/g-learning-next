@@ -5,7 +5,7 @@ import { makeJwtPutRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasUjianAction = (
+export const ubahAktifitasUjianAction = async (
   idKelas: string,
   id: string,
   data: UbahUjianFormSchema

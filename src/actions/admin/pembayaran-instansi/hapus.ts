@@ -2,5 +2,5 @@
 
 import { makeJwtDeleteRequestAction } from '@/utils/action'
 
-export const hapusPembayaranInstansiAction = (id: string) =>
+export const hapusPembayaranInstansiAction = async (id: string) =>
   makeJwtDeleteRequestAction(`${process.env.API_URL}/admin/pembayaran/${id}`)

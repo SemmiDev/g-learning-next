@@ -4,7 +4,7 @@ import { PengumpulanTugasFormSchema } from '@/components/page/pengguna/ruang-kel
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 
-export const simpanPengumpulanTugasAction = (
+export const simpanPengumpulanTugasAction = async (
   idKelas: string,
   idAktifitas: string,
   data: PengumpulanTugasFormSchema

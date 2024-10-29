@@ -3,7 +3,7 @@
 import { TambahFolderFormSchema } from '@/components/page/pengguna/pustaka-media/modal/tambah-folder'
 import { makeJwtPostRequestAction } from '@/utils/action'
 
-export const tambahFolderAction = (
+export const tambahFolderAction = async (
   data: TambahFolderFormSchema,
   idInstansi?: string,
   idFolder?: string

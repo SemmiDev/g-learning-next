@@ -2,7 +2,7 @@
 
 import { makeJwtPutRequestAction } from '@/utils/action'
 
-export const ubahKategoriSoalAction = (id: string, data: any) =>
+export const ubahKategoriSoalAction = async (id: string, data: any) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/kategori-bank-soal/${id}`, {
     nama_kategori: data.nama,
   })

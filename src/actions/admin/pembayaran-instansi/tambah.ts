@@ -3,7 +3,7 @@
 import { TambahPembayaranInstansiFormSchema } from '@/components/page/admin/pembayaran-instansi/modal/tambah'
 import { makeJwtPostRequestAction } from '@/utils/action'
 
-export const tambahPembayaranInstansiAction = (
+export const tambahPembayaranInstansiAction = async (
   data: TambahPembayaranInstansiFormSchema
 ) =>
   makeJwtPostRequestAction(`${process.env.API_URL}/admin/pembayaran`, {

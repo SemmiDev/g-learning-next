@@ -5,7 +5,7 @@ import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasMateriAction = (
+export const tambahAktifitasMateriAction = async (
   idKelas: string,
   data: TambahMateriFormSchema
 ) =>

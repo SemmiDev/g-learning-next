@@ -6,7 +6,7 @@ type DataType = {
   logo: string
 }
 
-export const ubahLogoAction = (formData: FormData) =>
+export const ubahLogoAction = async (formData: FormData) =>
   makeJwtPutRequestAction<DataType>(
     `${process.env.API_URL}/instansi/profil-instansi/logo`,
     formData

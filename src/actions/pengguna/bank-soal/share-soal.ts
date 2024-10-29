@@ -6,7 +6,7 @@ import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const shareSoalUjianAction = (
+export const shareSoalUjianAction = async (
   idKelas: string,
   soal: SoalType,
   data: ShareSoalUjianFormSchema
