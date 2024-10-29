@@ -28,12 +28,12 @@ export default function DropdownMoreAction({
         {showEdit && (
           <div className="py-2">
             <Dropdown.Item className="text-gray-dark" onClick={onEdit}>
-              <BsPencil className="text-warning mr-2 h-4 w-4" />
+              <BsPencil className="text-warning size-4 mr-2" />
               Ubah
             </Dropdown.Item>
             {/* TODO: fitur bagikan ke kelas lain */}
             {/* <Dropdown.Item className="text-gray-dark">
-            <PiShareFat className="text-primary mr-2 h-4 w-4" />
+            <PiShareFat className="text-primary size-4 mr-2" />
             Bagikan
           </Dropdown.Item> */}
           </div>
@@ -41,7 +41,7 @@ export default function DropdownMoreAction({
         {showDelete && (
           <div className="py-2">
             <Dropdown.Item className="text-gray-dark" onClick={onDelete}>
-              <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+              <BsTrash3 className="text-danger size-4 mr-2" />
               Hapus
             </Dropdown.Item>
           </div>

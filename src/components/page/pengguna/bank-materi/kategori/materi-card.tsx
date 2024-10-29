@@ -87,7 +87,7 @@ export default function MateriCard({
                 className="text-gray-dark"
                 onClick={() => onEdit && onEdit(materi)}
               >
-                <BsPencil className="text-orange mr-2 h-4 w-4" />
+                <BsPencil className="text-orange size-4 mr-2" />
                 Ubah
               </Dropdown.Item>
             </div>
@@ -96,7 +96,7 @@ export default function MateriCard({
                 className="text-gray-dark"
                 onClick={() => onDelete && onDelete(materi)}
               >
-                <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                <BsTrash3 className="text-danger size-4 mr-2" />
                 Hapus
               </Dropdown.Item>
             </div>

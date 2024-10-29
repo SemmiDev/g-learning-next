@@ -224,7 +224,7 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
                       href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
                     >
                       <Dropdown.Item className="text-gray-dark">
-                        <BsPencil className="text-warning mr-2 h-4 w-4" />
+                        <BsPencil className="text-warning size-4 mr-2" />
                         Ubah Nilai
                       </Dropdown.Item>
                     </Link>
@@ -234,7 +234,7 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
                       className="text-gray-dark"
                       onClick={() => setIdHapusNilai(row.id || undefined)}
                     >
-                      <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                      <BsTrash3 className="text-danger size-4 mr-2" />
                       Hapus Nilai
                     </Dropdown.Item>
                   </div>

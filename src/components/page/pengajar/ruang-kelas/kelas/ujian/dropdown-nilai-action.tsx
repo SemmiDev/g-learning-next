@@ -12,7 +12,7 @@ export default function DropdownNilaiAction() {
       </Dropdown.Trigger>
       <Dropdown.Menu className="divide-y">
         <Dropdown.Item className="text-gray-dark">
-          <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+          <BsTrash3 className="text-danger size-4 mr-2" />
           Hapus Nilai
         </Dropdown.Item>
       </Dropdown.Menu>

@@ -198,7 +198,7 @@ export default function TableUjianPesertaCard({
                   className="text-gray-dark"
                   onClick={() => setIdHapusNilai(row.id || undefined)}
                 >
-                  <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                  <BsTrash3 className="text-danger size-4 mr-2" />
                   Hapus Nilai
                 </Dropdown.Item>
               </Dropdown.Menu>

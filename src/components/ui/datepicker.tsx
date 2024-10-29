@@ -93,7 +93,7 @@ export const DatePicker = ({
               suffix={
                 <PiCaretDownBold
                   className={cn(
-                    'h-4 w-4 text-gray-500 transition',
+                    'size-4 text-gray-500 transition',
                     isCalenderOpen && 'rotate-180'
                   )}
                 />

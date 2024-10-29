@@ -96,7 +96,7 @@ const PrevIcon = ({ icon, rounded, outline, className }: IconProps) => (
         viewBox="0 0 24 24"
         strokeWidth={2}
         stroke="currentColor"
-        className="m-auto h-4 w-4 rtl:-rotate-180"
+        className="size-4 m-auto rtl:-rotate-180"
       >
         <path
           strokeLinecap="round"
@@ -124,7 +124,7 @@ const NextIcon = ({ icon, rounded, outline, className }: IconProps) => (
         viewBox="0 0 24 24"
         strokeWidth={2}
         stroke="currentColor"
-        className="m-auto h-4 w-4 rtl:rotate-180"
+        className="size-4 m-auto rtl:rotate-180"
       >
         <path
           strokeLinecap="round"

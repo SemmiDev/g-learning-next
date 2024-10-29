@@ -49,7 +49,7 @@ export default function AuthWrapper({
                 onClick={() => googleSignIn()}
                 className="h-11 w-full"
               >
-                <FcGoogle className="me-2 h-4 w-4 shrink-0" />
+                <FcGoogle className="size-4 shrink-0 me-2" />
                 <span className="truncate">Masuk dengan Google</span>
               </Button>
               <OrSeparation title="Atau" className="mb-5 2xl:mb-7" isCenter />

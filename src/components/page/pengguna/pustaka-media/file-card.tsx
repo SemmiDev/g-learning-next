@@ -80,7 +80,7 @@ export default function FileCard({
                 {!file.folder && file.type !== 'link' && file.link && (
                   <Link href={file.link} target="_blank">
                     <Dropdown.Item className="text-gray-dark">
-                      <BsDownload className="text-primary mr-2 h-4 w-4" />
+                      <BsDownload className="text-primary size-4 mr-2" />
                       Unduh
                     </Dropdown.Item>
                   </Link>
@@ -89,7 +89,7 @@ export default function FileCard({
                   className="text-gray-dark"
                   onClick={() => onEdit && onEdit(file)}
                 >
-                  <BsPencil className="text-warning mr-2 h-4 w-4" />
+                  <BsPencil className="text-warning size-4 mr-2" />
                   Ubah
                 </Dropdown.Item>
               </div>
@@ -98,7 +98,7 @@ export default function FileCard({
                   className="text-gray-dark"
                   onClick={() => onDelete && onDelete(file)}
                 >
-                  <BsTrash3 className="text-danger mr-2 h-4 w-4" />
+                  <BsTrash3 className="text-danger size-4 mr-2" />
                   Hapus
                 </Dropdown.Item>
               </div>

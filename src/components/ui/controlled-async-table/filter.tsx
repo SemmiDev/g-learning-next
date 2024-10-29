@@ -45,7 +45,7 @@ function FilterDrawerView({
             title={'Tutup Filter'}
             onClick={() => setOpenDrawer(false)}
           >
-            <PiXBold className="h-4 w-4" />
+            <PiXBold className="size-4" />
           </ActionIcon>
         </div>
         <div className="flex-grow">
@@ -157,7 +157,7 @@ export default function TableFilter({
             onChange={onSearchChange}
             inputClassName="h-9"
             clearable
-            prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
+            prefix={<PiMagnifyingGlassBold className="size-4" />}
             className="me-2.5"
           />
         ) : null}
