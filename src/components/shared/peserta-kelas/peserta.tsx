@@ -92,12 +92,10 @@ export default function Peserta({
       }
     },
     initialPageParam: 1,
-    /* TODO: fix pagination jika API udah fix */
-    getNextPageParam: (lastPage) => undefined,
-    // getNextPageParam: (lastPage) =>
-    //   lastPage.pagination?.hasNextPage
-    //     ? (lastPage.pagination?.page ?? 1) + 1
-    //     : undefined,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
   })
 
   const list = data?.pages.flatMap((page) => page.list) || []

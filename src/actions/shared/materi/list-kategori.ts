@@ -18,9 +18,11 @@ export type DataType = {
 export const listKategoriMateriAction = async ({
   page = 1,
   search = '',
+  tipe,
 }: {
   page?: number
   search?: string
+  tipe?: 'Materi' | 'Penugasan'
 }) => {
   const { user } = (await getServerSession(authOptions)) ?? {}
   if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
@@ -33,6 +35,7 @@ export const listKategoriMateriAction = async ({
       sort_by: 'nama_kategori',
       order: 'asc',
       per_page: 20,
+      tipe,
     }
   )
 }

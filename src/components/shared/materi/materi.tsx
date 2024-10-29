@@ -95,6 +95,9 @@ export default function Materi({
     MateriItemType | undefined
   >(value)
 
+  const tipe =
+    type === 'materi' ? 'Materi' : type === 'tugas' ? 'Penugasan' : undefined
+
   const doChange = (selected: MateriItemType | undefined) => {
     setSelectedMateri(selected)
 
@@ -114,6 +117,7 @@ export default function Materi({
       const { data } = await listKategoriMateriAction({
         page,
         search: searchKategori,
+        tipe,
       })
 
       return {
@@ -162,12 +166,7 @@ export default function Materi({
         page,
         search: searchMateri,
         idKategori: activeKategori.id,
-        tipe:
-          type === 'materi'
-            ? 'Materi'
-            : type === 'tugas'
-            ? 'Penugasan'
-            : undefined,
+        tipe,
       })
 
       return {

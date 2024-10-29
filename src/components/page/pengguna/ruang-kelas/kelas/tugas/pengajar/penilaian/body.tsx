@@ -3,6 +3,7 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatNilaiTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/lihat-nilai-tugas'
 import { simpanNilaiTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/simpan-nilai-tugas'
+import { lihatPesertaKelasAction } from '@/actions/shared/peserta-kelas/lihat'
 import {
   Button,
   Card,
@@ -57,11 +58,14 @@ export default function PenilaianTugasBody() {
     id: idPeserta,
   }: { kelas: string; aktifitas: string; id: string } = useParams()
 
-  /* TODO: query data peserta */
-  // const { data: dataPeserta } = useQuery({
-  //   queryKey: ['pengguna.ruang-kelas.peserta', idPeserta],
-  //   queryFn: async () => {},
-  // })
+  const { data: dataPeserta } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.peserta.detail', idPeserta],
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatPesertaKelasAction,
+      idKelas,
+      idPeserta
+    ),
+  })
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
@@ -76,7 +80,7 @@ export default function PenilaianTugasBody() {
     'pengguna.ruang-kelas.tugas.penilaian',
     idKelas,
     idAktifitas,
-    '01JA4XZDYPG48DB2B8CFTYXT8M',
+    idPeserta,
   ]
 
   const { data } = useQuery({
@@ -85,7 +89,7 @@ export default function PenilaianTugasBody() {
       lihatNilaiTugasAction,
       idKelas,
       idAktifitas,
-      '01JA4XZDYPG48DB2B8CFTYXT8M'
+      idPeserta
     ),
   })
 
@@ -108,18 +112,18 @@ export default function PenilaianTugasBody() {
     )
   }
 
-  const files = (data?.daftar_berkas_pengumpulan_tugas ?? []).map(
+  const files = (data?.berkas ?? []).map(
     (item) =>
       ({
-        id: item.berkas.id,
-        name: item.berkas.nama,
-        time: item.berkas.created_at,
-        link: item.berkas.url,
-        extension: item.berkas.ekstensi,
+        id: item.id,
+        name: item.nama,
+        time: item.created_at,
+        link: item.url,
+        extension: item.ekstensi,
         folder: false,
-        size: getFileSize(item.berkas),
-        type: getFileType(item.berkas),
-        driveId: item.berkas.id_instansi ?? undefined,
+        size: getFileSize(item),
+        type: getFileType(item),
+        driveId: item.id_instansi ?? undefined,
       } as PustakaMediaFileType)
   )
 
@@ -166,11 +170,14 @@ export default function PenilaianTugasBody() {
                 onClick={() => {}}
               >
                 <div className="flex items-center space-x-2">
-                  {/* TODO: tampilkan foto peserta */}
-                  <Thumbnail src={imagePhoto} alt="profil" size={48} />
-                  {/* TODO: tampilkan nama peserta */}
+                  <Thumbnail
+                    src={dataPeserta?.foto || undefined}
+                    alt="profil"
+                    size={48}
+                    avatar={dataPeserta?.nama ?? ''}
+                  />
                   <Text weight="semibold" variant="dark">
-                    Prabroro Janggar
+                    {dataPeserta?.nama || '-'}
                   </Text>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -213,9 +220,9 @@ export default function PenilaianTugasBody() {
                   <SanitizeHTML html={data?.catatan_peserta || '-'} />
                   {files.length > 0 && (
                     <div className="flex flex-col space-y-2 mt-2">
-                      {files.map((file, idx) => (
+                      {files.map((file) => (
                         <FileListItem
-                          key={file.id + idx}
+                          key={file.id}
                           file={file}
                           onPreview={(file) => {
                             if (!file.link) return

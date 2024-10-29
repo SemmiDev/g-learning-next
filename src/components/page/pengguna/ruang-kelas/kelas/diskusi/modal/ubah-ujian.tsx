@@ -379,7 +379,8 @@ export default function UbahUjianModal({
               <CardSeparator />
 
               <ModalFooterButtons
-                submit="Bagikan Sekarang"
+                submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
               />

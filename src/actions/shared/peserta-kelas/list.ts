@@ -26,9 +26,8 @@ export const listPesertaKelasAction = async ({
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.API_URL}/pengajar/kelas/${idKelas}/peserta-kelas`,
     {
-      current_page: 1,
+      current_page: page,
       keyword: search,
-      /* TODO: perpage pagination jika API udah fix */
-      per_page: 100,
+      per_page: 8,
     }
   )

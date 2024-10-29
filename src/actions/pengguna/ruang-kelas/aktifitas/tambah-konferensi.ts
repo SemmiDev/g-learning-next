@@ -16,5 +16,6 @@ export const tambahAktifitasKonferensiAction = (
       tipe: 'Konferensi',
       tipe_presensi: data.presensi === 'aktif' ? 'Manual' : undefined,
       jadwal: data.jadwal,
+      link: data.link,
     }
   )

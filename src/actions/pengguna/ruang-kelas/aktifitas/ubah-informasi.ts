@@ -14,7 +14,7 @@ export const ubahAktifitasInformasiAction = (
     {
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),
-      jadwal: data.jadwal ?? null,
+      jadwal: data.jadwal ?? '',
       berkas: (data.berkas ?? []).map((item) => item.id),
     }
   )

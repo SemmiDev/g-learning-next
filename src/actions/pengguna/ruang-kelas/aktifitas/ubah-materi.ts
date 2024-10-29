@@ -20,8 +20,8 @@ export const ubahAktifitasMateriAction = (
       tipe_presensi:
         data.presensi === 'aktif'
           ? mustBe(data.tipe_presensi, ['Manual', 'Otomatis'], 'Manual')
-          : null,
+          : '',
       waktu_akhir_absen: undefined,
-      jadwal: data.jadwal ?? null,
+      jadwal: data.jadwal ?? '',
     }
   )

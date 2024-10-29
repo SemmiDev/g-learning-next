@@ -16,6 +16,6 @@ export const ubahAktifitasTugasAction = (
       deskripsi: cleanQuill(data.catatan),
       berkas: (data.berkas ?? []).map((item) => item.id),
       tipe: 'Penugasan',
-      batas_waktu: data.batasWaktu ?? null,
+      batas_waktu: data.batasWaktu ?? '',
     }
   )

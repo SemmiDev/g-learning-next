@@ -5,6 +5,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
 
@@ -37,13 +38,14 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
         />
       </div>
       <CardSeparator />
-      <div className="flex p-2">
-        {/* TODO: tampilkan link dari data API */}
-        <Button size="sm" color="primary" className="w-full">
-          {kelas?.peran === 'Pengajar'
-            ? 'Mulai Conference'
-            : 'Gabung Conference'}
-        </Button>
+      <div className="p-2">
+        <Link href={data.link_conference || '#'} target="_blank">
+          <Button as="span" size="sm" color="primary" className="w-full">
+            {kelas?.peran === 'Pengajar'
+              ? 'Mulai Conference'
+              : 'Gabung Conference'}
+          </Button>
+        </Link>
       </div>
       <Komentar
         idKelas={idKelas}

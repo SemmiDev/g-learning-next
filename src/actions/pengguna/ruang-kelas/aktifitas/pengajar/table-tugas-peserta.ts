@@ -11,6 +11,7 @@ export type DataType = {
   nama: string
   foto: string
   nilai: number | null
+  email: string
   catatan_pengajar: string
   catatan_peserta: string
   status_pengumpulan: boolean

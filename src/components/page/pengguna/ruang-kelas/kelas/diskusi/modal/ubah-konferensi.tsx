@@ -91,7 +91,7 @@ export default function UbahKonferensiModal({
       return {
         judul: data?.aktifitas.judul,
         catatan: data?.aktifitas.deskripsi ?? undefined,
-        /* TODO: tambahkan data link dari API */
+        link: data?.link_conference,
         presensi: !!data?.aktifitas.absen ? 'aktif' : 'non-aktif',
         penjadwalan: !!data?.aktifitas.waktu_tersedia,
         jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),

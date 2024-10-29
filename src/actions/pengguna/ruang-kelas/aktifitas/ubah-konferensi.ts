@@ -14,7 +14,8 @@ export const ubahAktifitasKonferensiAction = (
     {
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),
-      tipe_presensi: data.presensi === 'aktif' ? 'Otomatis' : null,
-      jadwal: data.jadwal ?? null,
+      tipe_presensi: data.presensi === 'aktif' ? 'Otomatis' : '',
+      jadwal: data.jadwal ?? '',
+      link: data.link,
     }
   )

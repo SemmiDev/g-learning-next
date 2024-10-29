@@ -58,6 +58,7 @@ export type DataType = {
     created_at: string
     updated_at: string
   }[]
+  link_conference?: string
 }
 
 export const lihatAktifitasAction = (idKelas: string, id: string) =>
