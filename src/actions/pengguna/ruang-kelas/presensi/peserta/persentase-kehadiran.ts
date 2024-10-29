@@ -3,10 +3,10 @@
 import { makeJwtGetRequestAction } from '@/utils/action'
 
 export type DataType = {
-  persentase_hadir: string
-  persentase_sakit: string
-  persentase_izin: string
-  persentase_alpha: string
+  persentase_hadir: number
+  persentase_sakit: number
+  persentase_izin: number
+  persentase_alpha: number
 }
 
 export const dataPersentaseKehadiranAction = (id: string) =>

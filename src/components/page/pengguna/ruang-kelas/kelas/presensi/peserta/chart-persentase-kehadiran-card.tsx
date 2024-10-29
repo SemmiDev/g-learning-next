@@ -46,19 +46,19 @@ export default function PesertaChartPersentaseKehadiranCard({
       return [
         {
           name: 'Hadir',
-          value: parseFloat(data?.persentase_hadir?.slice(0, -1) ?? '0'),
+          value: data?.persentase_hadir ?? 0,
         },
         {
           name: 'Izin',
-          value: parseFloat(data?.persentase_izin?.slice(0, -1) ?? '0'),
+          value: data?.persentase_izin ?? 0,
         },
         {
           name: 'Sakit',
-          value: parseFloat(data?.persentase_sakit?.slice(0, -1) ?? '0'),
+          value: data?.persentase_sakit ?? 0,
         },
         {
           name: 'Alpha',
-          value: parseFloat(data?.persentase_alpha?.slice(0, -1) ?? '0'),
+          value: data?.persentase_alpha ?? 0,
         },
       ]
     },
