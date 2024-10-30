@@ -142,6 +142,9 @@ export default function PengaturanKelasModal({
         queryClient.invalidateQueries({
           queryKey: ['pengguna.ruang-kelas.list'],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.lihat', id],
+        })
         queryClient.setQueryData(
           queryKey,
           (oldData: PengaturanKelasFormSchema) => ({

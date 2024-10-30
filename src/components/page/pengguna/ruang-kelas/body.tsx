@@ -4,9 +4,11 @@ import { Button, Text, Title } from '@/components/ui'
 import { useState } from 'react'
 import ListKelasCardList from './card-list'
 import BuatKelasModal from './modal/buat-kelas'
+import GabungKelasModal from './modal/gabung-kelas'
 
 export default function ListKelasBody() {
-  const [showModalBuatKelas, setShowModalBuatKelas] = useState(false)
+  const [showBuatKelas, setShowBuatKelas] = useState(false)
+  const [showGabungKelas, setShowGabungKelas] = useState(false)
 
   return (
     <>
@@ -24,16 +26,30 @@ export default function ListKelasBody() {
             Semua kelas yang Kamu buat dan bisa dikelola
           </Text>
         </div>
-        <Button size="sm" onClick={() => setShowModalBuatKelas(true)}>
-          Buat Kelas
-        </Button>
+        <div className="flex justify-end flex-wrap gap-2">
+          <Button
+            size="sm"
+            color="info"
+            onClick={() => setShowGabungKelas(true)}
+          >
+            Gabung Kelas
+          </Button>
+          <Button size="sm" onClick={() => setShowBuatKelas(true)}>
+            Buat Kelas
+          </Button>
+        </div>
       </div>
 
       <ListKelasCardList />
 
+      <GabungKelasModal
+        showModal={showGabungKelas}
+        setShowModal={setShowGabungKelas}
+      />
+
       <BuatKelasModal
-        showModal={showModalBuatKelas}
-        setShowModal={setShowModalBuatKelas}
+        showModal={showBuatKelas}
+        setShowModal={setShowBuatKelas}
       />
     </>
   )

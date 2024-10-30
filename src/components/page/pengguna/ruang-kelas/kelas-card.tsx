@@ -13,14 +13,16 @@ type KelasCardProps = {
   id: string
   program: string
   kelas?: string
-  tipe?: string
+  tipe?: 'Akademik' | 'Publik' | 'Privat'
   image?: string | StaticImport
   instansi?: string
   instansiCentang?: boolean
   pengajar: string
   jumlahPeserta: number
   jadwal?: string
+  pemilik?: boolean
   onPengaturan?(id: string): void
+  onUndang?(id: string): void
   onDelete?(id: string): void
 }
 
@@ -35,7 +37,9 @@ export default function KelasCard({
   pengajar,
   jumlahPeserta,
   jadwal,
+  pemilik,
   onPengaturan,
+  onUndang,
   onDelete,
 }: KelasCardProps) {
   return (
@@ -120,26 +124,37 @@ export default function KelasCard({
         </ActionIcon>
         {tipe !== 'Akademik' && (
           <>
-            <ActionIcon variant="outline">
-              <GrShareOption size={18} />
-            </ActionIcon>
-            <ActionIcon
-              variant="outline"
-              onClick={() => {
-                onPengaturan && onPengaturan(id)
-              }}
-            >
-              <PiGear size={18} />
-            </ActionIcon>
-            <ActionIcon
-              variant="outline"
-              color="danger"
-              onClick={() => {
-                onDelete && onDelete(id)
-              }}
-            >
-              <PiTrash size={18} />
-            </ActionIcon>
+            {tipe === 'Publik' && (
+              <ActionIcon
+                variant="outline"
+                onClick={() => {
+                  onUndang && onUndang(id)
+                }}
+              >
+                <GrShareOption size={18} />
+              </ActionIcon>
+            )}
+            {pemilik && (
+              <>
+                <ActionIcon
+                  variant="outline"
+                  onClick={() => {
+                    onPengaturan && onPengaturan(id)
+                  }}
+                >
+                  <PiGear size={18} />
+                </ActionIcon>
+                <ActionIcon
+                  variant="outline"
+                  color="danger"
+                  onClick={() => {
+                    onDelete && onDelete(id)
+                  }}
+                >
+                  <PiTrash size={18} />
+                </ActionIcon>
+              </>
+            )}
           </>
         )}
       </div>

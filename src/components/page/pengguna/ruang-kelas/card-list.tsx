@@ -9,6 +9,7 @@ import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import KelasCard from './kelas-card'
 import PengaturanKelasModal from './modal/pengaturan-kelas'
+import UndangKelasModal from './modal/undang-kelas'
 
 const queryKey = ['pengguna.ruang-kelas.list']
 
@@ -19,6 +20,12 @@ export default function ListKelasCardList() {
     key: keyPengaturan,
     doShow: doShowPengaturan,
     doHide: doHidePengaturan,
+  } = useShowModal<string>()
+  const {
+    show: showUndang,
+    key: keyUndang,
+    doShow: doShowUndang,
+    doHide: doHideUndang,
   } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
@@ -90,7 +97,9 @@ export default function ListKelasCardList() {
                     )} - ${item.jadwal[0].waktu_sampai.substring(0, 5)}`
                   : '-'
               }
+              pemilik={item.peran === 'Pengajar'}
               onPengaturan={(id) => doShowPengaturan(id)}
+              onUndang={(id) => doShowUndang(id)}
               onDelete={(id) => setIdHapus(id)}
             />
           ))}
@@ -120,6 +129,12 @@ export default function ListKelasCardList() {
         show={showPengaturan}
         id={keyPengaturan}
         onHide={doHidePengaturan}
+      />
+
+      <UndangKelasModal
+        show={showUndang}
+        id={keyUndang}
+        onHide={doHideUndang}
       />
     </>
   )

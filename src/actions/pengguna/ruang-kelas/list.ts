@@ -13,7 +13,7 @@ export type DataType = {
     id_kelas_instansi: string
     status: string
     deskripsi: string
-    tipe: string
+    tipe: 'Akademik' | 'Publik' | 'Privat'
     kode_unik: string
     thumbnail: string
     nama_instansi: string

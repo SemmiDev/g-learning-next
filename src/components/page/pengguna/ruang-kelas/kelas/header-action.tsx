@@ -5,13 +5,28 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { useParams } from 'next/navigation'
 import { GrShareOption } from 'react-icons/gr'
 import PengaturanKelasModal from '../modal/pengaturan-kelas'
+import UndangKelasModal from '../modal/undang-kelas'
 
-export default function KelasHeaderAction() {
+type KelasHeaderActionProps = {
+  tipe: 'Akademik' | 'Publik' | 'Privat' | undefined
+  pemilik: boolean
+}
+
+export default function KelasHeaderAction({
+  tipe,
+  pemilik,
+}: KelasHeaderActionProps) {
   const {
     show: showPengaturan,
     key: keyPengaturan,
     doShow: doShowPengaturan,
     doHide: doHidePengaturan,
+  } = useShowModal<string>()
+  const {
+    show: showUndang,
+    key: keyUndang,
+    doShow: doShowUndang,
+    doHide: doHideUndang,
   } = useShowModal<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -19,17 +34,31 @@ export default function KelasHeaderAction() {
   return (
     <>
       <div className="flex space-x-2 items-center">
-        <ActionIcon size="sm" variant="outline">
-          <GrShareOption size={16} />
-        </ActionIcon>
-        <Button
-          size="sm"
-          className="h-7"
-          onClick={() => doShowPengaturan(idKelas)}
-        >
-          Pengaturan
-        </Button>
+        {tipe === 'Publik' && (
+          <ActionIcon
+            size="sm"
+            variant="outline"
+            onClick={() => doShowUndang(idKelas)}
+          >
+            <GrShareOption size={16} />
+          </ActionIcon>
+        )}
+        {pemilik && (
+          <Button
+            size="sm"
+            className="h-7"
+            onClick={() => doShowPengaturan(idKelas)}
+          >
+            Pengaturan
+          </Button>
+        )}
       </div>
+
+      <UndangKelasModal
+        show={showUndang}
+        id={keyUndang}
+        onHide={doHideUndang}
+      />
 
       <PengaturanKelasModal
         show={showPengaturan}

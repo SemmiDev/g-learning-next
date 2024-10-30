@@ -1,0 +1,106 @@
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
+import {
+  ActionIcon,
+  CardSeparator,
+  Loader,
+  Modal,
+  ModalFooterButtons,
+} from '@/components/ui'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
+import toast from 'react-hot-toast'
+import { MdOutlineContentCopy } from 'react-icons/md'
+import { Input } from 'rizzui'
+
+type UndangKelasModalProps = {
+  id: string | undefined
+  show: boolean
+  onHide: () => void
+}
+
+export default function UndangKelasModal({
+  id,
+  show,
+  onHide,
+}: UndangKelasModalProps) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', id],
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, id),
+  })
+
+  const kodeUndang = data?.kelas.kode_unik || ''
+
+  const linkUndangan = useMemo(
+    () => `${window.location.origin}/undangan-kelas/${kodeUndang}`,
+    [kodeUndang]
+  )
+
+  const handleClose = () => {
+    onHide()
+  }
+
+  return (
+    <Modal
+      title="Undang Anggota Kelas"
+      headerClassName="[&_.modal-title]:text-lg"
+      isOpen={show}
+      onClose={handleClose}
+    >
+      {isLoading ? (
+        <Loader height={250} />
+      ) : (
+        <>
+          <div className="flex flex-col gap-4 p-3">
+            <Input
+              label="Kode Unik"
+              value={kodeUndang}
+              className="font-semibold text-gray-dark"
+              suffix={
+                <ActionIcon
+                  size="sm"
+                  variant="text"
+                  className="-me-2"
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(kodeUndang)
+                    toast.success('Kode berhasil disalin.', {
+                      position: 'bottom-center',
+                    })
+                  }}
+                >
+                  <MdOutlineContentCopy />
+                </ActionIcon>
+              }
+              readOnly
+            />
+            <Input
+              label="Bagikan melalui link"
+              value={linkUndangan}
+              className="font-semibold text-gray-dark"
+              suffix={
+                <ActionIcon
+                  size="sm"
+                  variant="text"
+                  className="-me-2"
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(linkUndangan)
+                    toast.success('Link berhasil disalin.', {
+                      position: 'bottom-center',
+                    })
+                  }}
+                >
+                  <MdOutlineContentCopy />
+                </ActionIcon>
+              }
+              readOnly
+            />
+          </div>
+
+          <CardSeparator />
+        </>
+      )}
+
+      <ModalFooterButtons cancel="Tutup" onCancel={handleClose} />
+    </Modal>
+  )
+}

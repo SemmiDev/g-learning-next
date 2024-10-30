@@ -2,10 +2,10 @@ import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import { LuAlertTriangle, LuHelpCircle, LuInfo } from 'react-icons/lu'
 import { MdOutlineClose } from 'react-icons/md'
+import { Loader } from 'rizzui'
 import ActionIcon from '../button/action-icon'
 import Text from '../text/text'
 import Title from '../text/title'
-import { Loader } from 'rizzui'
 
 type ColorType =
   | 'dark-gray'
@@ -15,6 +15,7 @@ type ColorType =
   | 'success'
   | 'warning'
   | 'danger'
+  | 'white'
   | 'black'
 
 type IconType = 'warning' | 'info' | 'help'
@@ -76,6 +77,8 @@ export default function ModalHeader({
       ? 'bg-warning-dark'
       : color === 'danger'
       ? 'bg-danger-dark'
+      : color === 'white'
+      ? 'bg-white'
       : color === 'black'
       ? 'bg-black'
       : 'bg-gray-dark'
@@ -85,16 +88,28 @@ export default function ModalHeader({
       className={cn(
         'modal-header flex justify-between p-3',
         bgColor,
+        color === 'white' ? 'border-b border-muted' : null,
         className
       )}
     >
       <div>
         <div className="flex space-x-2">
-          <Title as="h4" weight="semibold" className="modal-title text-white">
+          <Title
+            as="h4"
+            weight="semibold"
+            className={cn(
+              'modal-title',
+              color === 'white' ? 'text-gray-dark' : 'text-white'
+            )}
+          >
             {title}
           </Title>
           {isLoading && (
-            <Loader size="sm" variant="pulse" className="text-white" />
+            <Loader
+              size="sm"
+              variant="pulse"
+              className={color === 'white' ? 'text-gray' : 'text-white'}
+            />
           )}
         </div>
         {desc && (

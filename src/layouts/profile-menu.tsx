@@ -100,7 +100,9 @@ function DropdownMenu() {
           className="cursor-pointer"
           onClick={async () => {
             await navigator.clipboard.writeText(session?.jwt ?? '')
-            toast.success('Token disalin ke clipboard')
+            toast.success('Token berhasil disalin ke clipboard', {
+              position: 'bottom-center',
+            })
           }}
         >
           <Thumbnail

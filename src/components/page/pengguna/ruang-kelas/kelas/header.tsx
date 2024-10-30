@@ -73,7 +73,12 @@ export default function KelasHeader() {
           />
         </div>
       </div>
-      {data?.kelas.tipe !== 'Akademik' && <KelasHeaderAction />}
+      {data?.kelas.tipe !== 'Akademik' && (
+        <KelasHeaderAction
+          tipe={data?.kelas.tipe}
+          pemilik={data?.peran === 'Pengajar'}
+        />
+      )}
     </div>
   )
 }
