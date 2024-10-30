@@ -34,15 +34,13 @@ export default function KelasHeaderAction({
   return (
     <>
       <div className="flex space-x-2 items-center">
-        {tipe === 'Publik' && (
-          <ActionIcon
-            size="sm"
-            variant="outline"
-            onClick={() => doShowUndang(idKelas)}
-          >
-            <GrShareOption size={16} />
-          </ActionIcon>
-        )}
+        <ActionIcon
+          size="sm"
+          variant="outline"
+          onClick={() => doShowUndang(idKelas)}
+        >
+          <GrShareOption size={16} />
+        </ActionIcon>
         {pemilik && (
           <Button
             size="sm"

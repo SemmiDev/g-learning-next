@@ -124,16 +124,14 @@ export default function KelasCard({
         </ActionIcon>
         {tipe !== 'Akademik' && (
           <>
-            {tipe === 'Publik' && (
-              <ActionIcon
-                variant="outline"
-                onClick={() => {
-                  onUndang && onUndang(id)
-                }}
-              >
-                <GrShareOption size={18} />
-              </ActionIcon>
-            )}
+            <ActionIcon
+              variant="outline"
+              onClick={() => {
+                onUndang && onUndang(id)
+              }}
+            >
+              <GrShareOption size={18} />
+            </ActionIcon>
             {pemilik && (
               <>
                 <ActionIcon
