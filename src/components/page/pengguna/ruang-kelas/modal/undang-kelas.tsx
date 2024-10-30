@@ -6,7 +6,7 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
-import { useIsMounted } from '@/hooks/use-is-mounted'
+import { useWindowLocation } from '@/hooks/use-window-location'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
@@ -24,18 +24,16 @@ export default function UndangKelasModal({
   show,
   onHide,
 }: UndangKelasModalProps) {
-  const isMounted = useIsMounted()
+  const location = useWindowLocation()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', id],
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, id),
   })
 
-  if (!isMounted) return null
-
   const kodeUndang = data?.kelas.kode_unik || ''
 
-  const linkUndangan = `${window.location.origin}/undangan-kelas/${kodeUndang}`
+  const linkUndangan = `${location?.origin}/undangan-kelas/${kodeUndang}`
 
   const handleClose = () => {
     onHide()

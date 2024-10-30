@@ -5,7 +5,7 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
-import { useIsMounted } from '@/hooks/use-is-mounted'
+import { useWindowLocation } from '@/hooks/use-window-location'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -22,7 +22,7 @@ export default function PengajarUndangAnggotaModal({
   setShowModal,
 }: PengajarUndangAnggotaModalProps) {
   const queryClient = useQueryClient()
-  const isMounted = useIsMounted()
+  const location = useWindowLocation()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -31,11 +31,9 @@ export default function PengajarUndangAnggotaModal({
     idKelas,
   ])
 
-  if (!isMounted) return null
-
   const kodeUndang = kelas?.kelas.kode_unik || ''
 
-  const linkUndangan = `${window.location.origin}/undangan-kelas/${kodeUndang}`
+  const linkUndangan = `${location?.origin}/undangan-kelas/${kodeUndang}`
 
   return (
     <Modal
