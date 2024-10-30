@@ -24,7 +24,7 @@ export const listKategoriMateriAction = async ({
   search?: string
   tipe?: 'Materi' | 'Penugasan'
 }) => {
-  const { user } = async(await getServerSession(authOptions)) ?? {}
+  const { user } = (await getServerSession(authOptions)) ?? {}
   if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
 
   return await makeJwtGetRequestTableAction<DataType>(
