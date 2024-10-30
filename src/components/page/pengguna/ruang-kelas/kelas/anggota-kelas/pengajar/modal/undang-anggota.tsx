@@ -5,9 +5,9 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useIsMounted } from '@/hooks/use-is-mounted'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { useMemo } from 'react'
 import toast from 'react-hot-toast'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { Input } from 'rizzui'
@@ -22,6 +22,7 @@ export default function PengajarUndangAnggotaModal({
   setShowModal,
 }: PengajarUndangAnggotaModalProps) {
   const queryClient = useQueryClient()
+  const isMounted = useIsMounted()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -30,12 +31,11 @@ export default function PengajarUndangAnggotaModal({
     idKelas,
   ])
 
+  if (!isMounted) return null
+
   const kodeUndang = kelas?.kelas.kode_unik || ''
 
-  const linkUndangan = useMemo(
-    () => `${window.location.origin}/undangan-kelas/${kodeUndang}`,
-    [kodeUndang]
-  )
+  const linkUndangan = `${window.location.origin}/undangan-kelas/${kodeUndang}`
 
   return (
     <Modal
