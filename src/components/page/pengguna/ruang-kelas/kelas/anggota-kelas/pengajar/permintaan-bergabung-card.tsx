@@ -63,12 +63,16 @@ export default function PengajarPermintaanBergabungCard({
   const allCheck = Object.values(checked)
   const isAllChecked =
     list.length === allCheck.length && allCheck.every((v) => v)
+  const isSomeChecked =
+    list.length === allCheck.length && allCheck.some((v) => v)
 
   const handleCentangSemua = (checked: boolean) => {
     setChecked(
       list.reduce((o, item) => ({ ...o, [item.id_peserta]: checked }), {})
     )
   }
+
+  const handleTerimaDitandai = () => {}
 
   return (
     <Card className={cn('p-0 lg:sticky lg:right-0 lg:top-24', className)}>
@@ -86,7 +90,7 @@ export default function PengajarPermintaanBergabungCard({
         />
       </div>
       <CardSeparator />
-      <div className="flex flex-col space-y-2 max-h-96 overflow-y-auto">
+      <div className="flex flex-col space-y-2 max-h-[calc(100dvh-250px)] overflow-y-auto">
         {list.map((item) => {
           return (
             <label
@@ -119,8 +123,21 @@ export default function PengajarPermintaanBergabungCard({
                   {item.email || '-'}
                 </Text>
                 <div className="flex space-x-2 mt-2">
-                  <Button size="sm">Terima</Button>
-                  <Button size="sm" color="danger">
+                  <Button
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                  >
+                    Terima
+                  </Button>
+                  <Button
+                    size="sm"
+                    color="danger"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                  >
                     Tolak
                   </Button>
                 </div>
@@ -134,7 +151,12 @@ export default function PengajarPermintaanBergabungCard({
       </div>
       <CardSeparator />
       <div className="flex space-x-2 p-2">
-        <Button size="sm" className="flex-1">
+        <Button
+          size="sm"
+          className="flex-1"
+          disabled={!isSomeChecked}
+          onClick={handleTerimaDitandai}
+        >
           Terima Ditandai
         </Button>
       </div>

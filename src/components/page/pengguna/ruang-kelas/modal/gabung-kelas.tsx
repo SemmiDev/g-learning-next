@@ -100,6 +100,7 @@ export default function GabungKelasModal({
                       errors={errors}
                       label="Kode Kelas"
                       placeholder="Tulis kode kelas di sini"
+                      autoFocus
                       required
                     />
 
