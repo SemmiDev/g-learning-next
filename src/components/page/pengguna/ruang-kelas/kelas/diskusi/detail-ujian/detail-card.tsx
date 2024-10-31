@@ -121,7 +121,7 @@ export default function DetailCard({ className }: DetailCardProps) {
         <Komentar
           idKelas={idKelas}
           idAktifitas={id}
-          /* TODO: tampilkan total komentar jika API sudah ada */
+          total={data.total_komentar}
           firstShow={5}
           showPer={10}
           className="p-4"

@@ -96,7 +96,7 @@ export default function PengajarRekapTugasDetailSesiSection({
         <Komentar
           idKelas={idKelas}
           idAktifitas={idAktifitas}
-          /* TODO: tampilkan total komentar jika API sudah ada */
+          total={sesiAktif.total_komentar}
         />
       </Card>
     </div>

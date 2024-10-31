@@ -10,7 +10,6 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
-import imagePhoto from '@public/images/photo.png'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
@@ -35,12 +34,16 @@ export default function DetailCard({ className }: DetailCardProps) {
     <>
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex items-center space-x-3 px-4 py-3">
-          {/* TODO: tampilkan foto pembuat dari data API */}
-          <Thumbnail src={imagePhoto} alt="profil" size={48} rounded="lg" />
+          <Thumbnail
+            src={data.pembuat.foto || undefined}
+            alt="profil"
+            size={48}
+            rounded="lg"
+            avatar={data.pembuat.nama}
+          />
           <div className="flex flex-col">
             <Text weight="semibold" variant="dark">
-              {/* TODO: tampilkan nama pembuat dari data API */}
-              Prabroro Janggar
+              {data.pembuat.nama || '-'}
             </Text>
             <Text size="xs" weight="medium" variant="lighter">
               <Time date={data.aktifitas.created_at} fromNow />
@@ -61,7 +64,7 @@ export default function DetailCard({ className }: DetailCardProps) {
         <Komentar
           idKelas={idKelas}
           idAktifitas={id}
-          /* TODO: tampilkan total komentar jika API sudah ada */
+          total={data.total_komentar}
           firstShow={5}
           showPer={10}
           className="p-4"

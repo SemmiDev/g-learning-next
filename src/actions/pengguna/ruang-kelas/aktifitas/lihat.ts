@@ -58,7 +58,15 @@ export type DataType = {
     created_at: string
     updated_at: string
   }[]
+  total_komentar: number
   link_conference?: string
+  pembuat: {
+    id: string
+    email: string
+    username: string
+    nama: string
+    foto: string
+  }
 }
 
 export const lihatAktifitasAction = async (idKelas: string, id: string) =>

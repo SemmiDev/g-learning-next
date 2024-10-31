@@ -35,7 +35,6 @@ export default function PengajarChartPersentaseKehadiranCard({
     queryFn: async () => {
       const { data } = await dataPersentaseKehadiranAction(idKelas)
 
-      /* TODO: buang parsing dan slicing data ketika API nya sudah diupdate */
       return [
         {
           name: 'Hadir',
