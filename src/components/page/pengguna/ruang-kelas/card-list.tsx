@@ -78,26 +78,7 @@ export default function ListKelasCardList() {
           {list.map((item) => (
             <KelasCard
               key={item.kelas.id}
-              id={item.kelas.id}
-              program={item.kelas.nama_kelas}
-              kelas={item.kelas.sub_judul}
-              image={item.kelas.thumbnail ?? undefined}
-              tipe={item.kelas.tipe}
-              instansi={item.kelas.nama_instansi}
-              instansiCentang={true}
-              pengajar={item.nama_pemilik}
-              jumlahPeserta={item.total_peserta}
-              jadwal={
-                item.jadwal && item.jadwal.length > 0
-                  ? `${
-                      item.jadwal[0].hari
-                    }, ${item.jadwal[0].waktu_mulai.substring(
-                      0,
-                      5
-                    )} - ${item.jadwal[0].waktu_sampai.substring(0, 5)}`
-                  : '-'
-              }
-              pemilik={item.peran === 'Pengajar'}
+              data={item}
               onPengaturan={(id) => doShowPengaturan(id)}
               onUndang={(id) => doShowUndang(id)}
               onDelete={(id) => setIdHapus(id)}

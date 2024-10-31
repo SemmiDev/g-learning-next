@@ -1,7 +1,7 @@
+import { DataType as DataListKelasType } from '@/actions/pengguna/ruang-kelas/list'
 import { ActionIcon, Badge, Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BiMessageAltDots } from 'react-icons/bi'
@@ -10,34 +10,14 @@ import { GrShareOption } from 'react-icons/gr'
 import { PiGear, PiTrash } from 'react-icons/pi'
 
 type KelasCardProps = {
-  id: string
-  program: string
-  kelas?: string
-  tipe?: 'Akademik' | 'Publik' | 'Privat'
-  image?: string | StaticImport
-  instansi?: string
-  instansiCentang?: boolean
-  pengajar: string
-  jumlahPeserta: number
-  jadwal?: string
-  pemilik?: boolean
+  data: DataListKelasType
   onPengaturan?(id: string): void
   onUndang?(id: string): void
   onDelete?(id: string): void
 }
 
 export default function KelasCard({
-  id,
-  program,
-  kelas,
-  tipe,
-  image,
-  instansi,
-  instansiCentang,
-  pengajar,
-  jumlahPeserta,
-  jadwal,
-  pemilik,
+  data,
   onPengaturan,
   onUndang,
   onDelete,
@@ -45,9 +25,9 @@ export default function KelasCard({
   return (
     <Card className="h-fit">
       <div className="h-32 rounded overflow-clip">
-        {!!image ? (
+        {!!data.kelas.thumbnail ? (
           <Image
-            src={image}
+            src={data.kelas.thumbnail}
             alt="kelas"
             width={640}
             height={128}
@@ -55,7 +35,7 @@ export default function KelasCard({
           />
         ) : (
           <RandomCoverImage
-            persistentKey={id}
+            persistentKey={data.kelas.id}
             alt="kelas"
             width={640}
             height={128}
@@ -66,29 +46,29 @@ export default function KelasCard({
       <div className="flex justify-between items-start mt-2">
         <div>
           <Text weight="semibold" variant="dark">
-            {program}
+            {data.kelas.nama_kelas}
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
-            {kelas}
+            {data.kelas.sub_judul}
           </Text>
           <div className="flex items-center space-x-1">
             <Text size="sm" weight="medium" variant="lighter">
-              {instansi || 'Umum'}
+              {data.kelas.nama_instansi || 'Umum'}
             </Text>
-            {instansi && instansiCentang && (
+            {!!data.kelas.nama_instansi && (
               <BsCheckCircleFill size={10} className="text-primary mt-0.5" />
             )}
           </div>
           <Text size="sm" weight="medium" variant="lighter">
-            {pengajar}
+            {data.nama_pemilik}
           </Text>
         </div>
         <Badge
           size="sm"
-          color={tipe === 'Akademik' ? 'primary' : 'success'}
+          color={data.kelas.tipe === 'Akademik' ? 'primary' : 'success'}
           variant="flat"
         >
-          {tipe}
+          {data.kelas.tipe}
         </Badge>
       </div>
       <div className="flex mt-2">
@@ -100,7 +80,14 @@ export default function KelasCard({
                   Jadwal
                 </Text>
                 <Text size="sm" weight="medium">
-                  {jadwal}
+                  {data.jadwal && data.jadwal.length > 0
+                    ? `${
+                        data.jadwal[0].hari
+                      }, ${data.jadwal[0].waktu_mulai.substring(
+                        0,
+                        5
+                      )} - ${data.jadwal[0].waktu_sampai.substring(0, 5)}`
+                    : '-'}
                 </Text>
               </td>
               <td className="border border-gray-100 p-1">
@@ -108,7 +95,7 @@ export default function KelasCard({
                   Jumlah Peserta
                 </Text>
                 <Text size="sm" weight="medium">
-                  {jumlahPeserta} Orang
+                  {data.total_peserta} Orang
                 </Text>
               </td>
             </tr>
@@ -122,22 +109,22 @@ export default function KelasCard({
         <ActionIcon variant="outline">
           <BsClipboardPlus size={18} />
         </ActionIcon>
-        {tipe !== 'Akademik' && (
+        {data.kelas.tipe !== 'Akademik' && (
           <>
             <ActionIcon
               variant="outline"
               onClick={() => {
-                onUndang && onUndang(id)
+                onUndang && onUndang(data.kelas.id)
               }}
             >
               <GrShareOption size={18} />
             </ActionIcon>
-            {pemilik && (
+            {data.peran === 'Pengajar' && (
               <>
                 <ActionIcon
                   variant="outline"
                   onClick={() => {
-                    onPengaturan && onPengaturan(id)
+                    onPengaturan && onPengaturan(data.kelas.id)
                   }}
                 >
                   <PiGear size={18} />
@@ -146,7 +133,7 @@ export default function KelasCard({
                   variant="outline"
                   color="danger"
                   onClick={() => {
-                    onDelete && onDelete(id)
+                    onDelete && onDelete(data.kelas.id)
                   }}
                 >
                   <PiTrash size={18} />
@@ -156,11 +143,23 @@ export default function KelasCard({
           </>
         )}
       </div>
-      <Link href={`${routes.pengguna.ruangKelas}/${id}`}>
-        <Button as="span" size="sm" className="w-full mt-2">
-          Masuk Kelas
+      {data.status === 'Diterima' ? (
+        <Link href={`${routes.pengguna.ruangKelas}/${data.kelas.id}`}>
+          <Button as="span" size="sm" className="w-full mt-2">
+            Masuk Kelas
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          as="span"
+          size="sm"
+          variant="outline-colorful"
+          color="success"
+          className="w-full mt-2"
+        >
+          Menunggu Persetujuan
         </Button>
-      </Link>
+      )}
     </Card>
   )
 }

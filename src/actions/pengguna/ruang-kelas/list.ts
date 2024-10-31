@@ -16,6 +16,8 @@ export type DataType = {
     tipe: 'Akademik' | 'Publik' | 'Privat'
     kode_unik: string
     thumbnail: string
+    created_at: string
+    updated_at: string
     nama_instansi: string
     verifikasi_instansi: boolean
   }
@@ -26,9 +28,12 @@ export type DataType = {
     waktu_mulai: string
     waktu_sampai: string
     zona_waktu: string
+    created_at: string
+    updated_at: string
   }[]
   total_peserta: number
   nama_pemilik: string
+  status: 'Diterima' | 'Pengajuan'
   peran: 'Pengajar' | 'Peserta'
 }
 
