@@ -32,14 +32,14 @@ const sortData: SortDataType[] = [
   {
     title: 'Terbaru',
     sort: {
-      name: 'created_at',
+      name: 'created_at_file_aktifitas',
       order: 'desc',
     },
   },
   {
     title: 'Terlawas',
     sort: {
-      name: 'created_at',
+      name: 'created_at_file_aktifitas',
       order: 'asc',
     },
   },
@@ -69,7 +69,7 @@ export default function BerkasBody() {
           list: (data?.list ?? []).map((item) => ({
             id: item.id,
             name: item.nama,
-            time: item.created_at,
+            time: item.created_at_file_aktifitas,
             link: item.url,
             extension: item.ekstensi,
             folder: false,
@@ -78,6 +78,18 @@ export default function BerkasBody() {
             driveId: item.id_instansi ?? undefined,
             idAktifitas: item.id_aktifitas,
             aktifitas: item.judul_aktifitas,
+            tipeAktifitas:
+              item.tipe_aktifitas === 'Materi'
+                ? 'materi'
+                : item.tipe_aktifitas === 'Penugasan'
+                ? 'tugas'
+                : item.tipe_aktifitas === 'Ujian'
+                ? 'ujian'
+                : item.tipe_aktifitas === 'Konferensi'
+                ? 'konferensi'
+                : item.tipe_aktifitas === 'Pengumuman'
+                ? 'informasi'
+                : 'lainnya',
           })) as BerkasType[],
           pagination: data?.pagination,
         }

@@ -21,6 +21,7 @@ import { Dropdown } from 'rizzui'
 export type BerkasType = PustakaMediaFileType & {
   idAktifitas: string
   aktifitas: string
+  tipeAktifitas: string
 }
 
 type BerkasCardProps = {
@@ -77,7 +78,9 @@ export default function BerkasCard({
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-30 divide-y !py-0">
               <div className="py-2">
-                <Link href={`${routes.pengguna.ruangKelas}/${idKelas}`}>
+                <Link
+                  href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/${file.tipeAktifitas}/${file.idAktifitas}`}
+                >
                   <Dropdown.Item className="text-gray-dark">
                     <GrShare className="text-success-dark size-4 mr-2" />
                     Buka Diskusi Terkait

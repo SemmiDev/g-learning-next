@@ -19,6 +19,14 @@ export type DataType = {
   updated_at: string
   id_aktifitas: string
   judul_aktifitas: string
+  tipe_aktifitas:
+    | 'Diskusi'
+    | 'Materi'
+    | 'Konferensi'
+    | 'Penugasan'
+    | 'Ujian'
+    | 'Pengumuman'
+  created_at_file_aktifitas: string
 }
 
 export const listBerkasKelasAction = async ({
