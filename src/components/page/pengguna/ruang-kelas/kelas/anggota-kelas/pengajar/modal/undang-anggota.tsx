@@ -1,6 +1,6 @@
 import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
-  ActionIcon,
+  ActionIconTooltip,
   CardSeparator,
   Modal,
   ModalFooterButtons,
@@ -48,7 +48,8 @@ export default function PengajarUndangAnggotaModal({
           value={kodeUndang}
           className="font-semibold text-gray-dark"
           suffix={
-            <ActionIcon
+            <ActionIconTooltip
+              tooltip="Salin"
               size="sm"
               variant="text"
               className="-me-2"
@@ -60,7 +61,7 @@ export default function PengajarUndangAnggotaModal({
               }}
             >
               <MdOutlineContentCopy />
-            </ActionIcon>
+            </ActionIconTooltip>
           }
           readOnly
         />
@@ -69,7 +70,8 @@ export default function PengajarUndangAnggotaModal({
           value={linkUndangan}
           className="font-semibold text-gray-dark"
           suffix={
-            <ActionIcon
+            <ActionIconTooltip
+              tooltip="Salin"
               size="sm"
               variant="text"
               className="-me-2"
@@ -81,7 +83,7 @@ export default function PengajarUndangAnggotaModal({
               }}
             >
               <MdOutlineContentCopy />
-            </ActionIcon>
+            </ActionIconTooltip>
           }
           readOnly
         />

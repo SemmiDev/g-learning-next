@@ -1,11 +1,13 @@
 import { keluarkanAnggotaKelasAction } from '@/actions/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
 import { listPesertaKelasAction } from '@/actions/pengguna/ruang-kelas/anggota-kelas/pengajar/list-peserta'
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
   CardSeparator,
   Input,
   ModalConfirm,
+  Shimmer,
   Text,
   Thumbnail,
   Title,
@@ -32,6 +34,11 @@ export default function PengajarPesertaCard({
   const [idKeluarkan, setIdKeluarkan] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const dataKelas = queryClient.getQueryData<DataKelasType>([
+    'pengguna.ruang-kelas.lihat',
+    idKelas,
+  ])
 
   const queryKey = [
     'pengguna.ruang-kelas.anggota-kelas.daftar-peserta',
@@ -68,6 +75,8 @@ export default function PengajarPesertaCard({
     })
   }
 
+  if (isLoading) return <ShimmerCard className={className} />
+
   return (
     <>
       <Card className={cn('p-0', className)}>
@@ -94,9 +103,11 @@ export default function PengajarPesertaCard({
             onChange={(e) => onSearch(e.target.value)}
             onClear={() => onSearch('')}
           />
-          <Button size="sm" onClick={() => setShowUndang(true)}>
-            Undang Anggota
-          </Button>
+          {dataKelas?.kelas.tipe !== 'Akademik' && (
+            <Button size="sm" onClick={() => setShowUndang(true)}>
+              Undang Anggota
+            </Button>
+          )}
         </div>
         <CardSeparator />
         <div className="flex flex-col">
@@ -126,15 +137,17 @@ export default function PengajarPesertaCard({
                       </Text>
                     </div>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    color="danger"
-                    className="m-2"
-                    onClick={() => setIdKeluarkan(item.id_peserta)}
-                  >
-                    Keluarkan
-                  </Button>
+                  {dataKelas?.kelas.tipe !== 'Akademik' && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      color="danger"
+                      className="m-2"
+                      onClick={() => setIdKeluarkan(item.id_peserta)}
+                    >
+                      Keluarkan
+                    </Button>
+                  )}
                 </div>
                 <CardSeparator />
               </Fragment>
@@ -166,5 +179,37 @@ export default function PengajarPesertaCard({
         setShowModal={setShowUndang}
       />
     </>
+  )
+}
+
+function ShimmerCard({ className }: { className?: string }) {
+  return (
+    <Card className={cn('p-0', className)}>
+      <div className="flex flex-col space-y-2 px-2 py-2.5">
+        <Shimmer className="h-3 w-2/12" />
+        <Shimmer className="h-2.5 w-3/12" />
+      </div>
+      <CardSeparator />
+      <div className="flex justify-between space-x-2 px-2 py-2.5">
+        <Shimmer className="h-7 w-7/12" />
+        <Shimmer className="h-7 w-28" />
+      </div>
+      <CardSeparator />
+      {[...Array(5)].map((_, idx) => (
+        <div
+          key={idx}
+          className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
+        >
+          <div className="flex items-center space-x-2 flex-1">
+            <Shimmer className="size-10" />
+            <div className="flex-1 space-y-2">
+              <Shimmer className="h-2.5 w-4/12" />
+              <Shimmer className="h-2.5 w-2/12" />
+            </div>
+          </div>
+          <Shimmer className="h-7 w-20" />
+        </div>
+      ))}
+    </Card>
   )
 }

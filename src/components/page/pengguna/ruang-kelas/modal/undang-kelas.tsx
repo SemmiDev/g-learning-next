@@ -1,6 +1,6 @@
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
-  ActionIcon,
+  ActionIconTooltip,
   CardSeparator,
   Loader,
   Modal,
@@ -56,7 +56,8 @@ export default function UndangKelasModal({
               value={kodeUndang}
               className="font-semibold text-gray-dark"
               suffix={
-                <ActionIcon
+                <ActionIconTooltip
+                  tooltip="Salin"
                   size="sm"
                   variant="text"
                   className="-me-2"
@@ -68,7 +69,7 @@ export default function UndangKelasModal({
                   }}
                 >
                   <MdOutlineContentCopy />
-                </ActionIcon>
+                </ActionIconTooltip>
               }
               readOnly
             />
@@ -77,7 +78,8 @@ export default function UndangKelasModal({
               value={linkUndangan}
               className="font-semibold text-gray-dark"
               suffix={
-                <ActionIcon
+                <ActionIconTooltip
+                  tooltip="Salin"
                   size="sm"
                   variant="text"
                   className="-me-2"
@@ -89,7 +91,7 @@ export default function UndangKelasModal({
                   }}
                 >
                   <MdOutlineContentCopy />
-                </ActionIcon>
+                </ActionIconTooltip>
               }
               readOnly
             />

@@ -22,7 +22,7 @@ export default function ModalConfirm({
   desc = 'Anda yakin?',
   size = 'sm',
   confirm = 'Ya',
-  confirmColor = 'danger',
+  confirmColor,
   onConfirm,
   cancel = 'Tidak',
   onCancel,
@@ -33,6 +33,14 @@ export default function ModalConfirm({
   footerButtons,
   ...props
 }: ModalConfirmProps) {
+  confirmColor =
+    confirmColor ??
+    (props.color === 'dark-gray' ||
+      props.color === 'white' ||
+      props.color === 'black')
+      ? 'primary'
+      : props.color
+
   return (
     <Modal
       title={title}
