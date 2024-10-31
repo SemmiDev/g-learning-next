@@ -120,7 +120,7 @@ export default function RekapTugasCard() {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
       key: 'no',
-      render: (_: string, __, idx: number) => (
+      render: (_, __, idx) => (
         <Text size="sm" weight="medium" variant="dark" className="text-center">
           {idx + 1}
         </Text>
@@ -130,7 +130,7 @@ export default function RekapTugasCard() {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       key: 'nama',
-      render: (_: string, row) => (
+      render: (_, row) => (
         <div className="flex space-x-3">
           <Image src={row.image} alt="profil" className="size-10 rounded-md" />
           <div className="flex flex-col justify-center">
@@ -153,7 +153,7 @@ export default function RekapTugasCard() {
       title: <TableHeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
       key: 'tanggal',
-      render: (_: string, row) => (
+      render: (_, row) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
           <br />
@@ -175,7 +175,7 @@ export default function RekapTugasCard() {
       title: <TableHeaderCell title="" />,
       dataIndex: 'nilai',
       key: 'nilai',
-      render: (_: string, row) => {
+      render: (_, row) => {
         if (row.nilai != null) {
           return (
             <div className="flex justify-end">

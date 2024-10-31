@@ -123,13 +123,11 @@ export default function TableUjianPesertaCard({
   const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
-      dataIndex: 'no',
       render: (_, __, idx) => <TableCellNumber>{from + idx}</TableCellNumber>,
     },
     {
       title: <TableHeaderCell title="Nama Peserta" />,
-      dataIndex: 'nama',
-      render: (_: string, row) => (
+      render: (_, row) => (
         <div className="flex space-x-3">
           <Thumbnail
             src={row.foto || undefined}
@@ -157,8 +155,7 @@ export default function TableUjianPesertaCard({
     {
       title: <TableHeaderCell title="Waktu Mulai Pengerjaan" />,
       /* TODO: data waktu mulai pengerjaan */
-      dataIndex: 'waktu_pengumpulan',
-      render: (_: string, row) => {
+      render: (_, row) => {
         return (
           <TableCellText>
             <Time
@@ -182,7 +179,7 @@ export default function TableUjianPesertaCard({
     },
     {
       title: <TableHeaderCell title="" />,
-      render: (_: string, row) => {
+      render: (_, row) => {
         // if (!row.id) return
 
         return (

@@ -72,7 +72,7 @@ export default function DashboardBody() {
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: string, row) => {
+      render: () => {
         return (
           <Link
             href={`${routes.pengajar.kelas}`}
@@ -178,7 +178,7 @@ export default function DashboardBody() {
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: string, row) => {
+      render: () => {
         return (
           <div className="flex justify-center">
             <Button variant="text-colorful">Mulai Belajar</Button>

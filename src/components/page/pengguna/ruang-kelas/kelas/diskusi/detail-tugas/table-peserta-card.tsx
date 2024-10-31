@@ -144,8 +144,7 @@ export default function TableTugasPesertaCard({
     },
     {
       title: <TableHeaderCell title="Nama Peserta" />,
-      dataIndex: 'nama',
-      render: (_: string, row) => (
+      render: (_, row) => (
         <div className="flex space-x-3">
           <Thumbnail
             src={row.foto || undefined}
@@ -172,8 +171,7 @@ export default function TableTugasPesertaCard({
     },
     {
       title: <TableHeaderCell title="Waktu Pengumpulan" />,
-      dataIndex: 'tanggal',
-      render: (_: string, row) => {
+      render: (_, row) => {
         const terlambat =
           !!dataAktifitas?.aktifitas.batas_waktu &&
           row.waktu_pengumpulan &&
@@ -201,8 +199,7 @@ export default function TableTugasPesertaCard({
     },
     {
       title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
-      render: (_: string, row) => {
+      render: (_, row) => {
         return (
           <div className="flex justify-end">
             {row.nilai === null ? (

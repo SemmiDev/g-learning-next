@@ -95,7 +95,7 @@ export default function JadwalAkanDatangCard({
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: string, row) => {
+      render: (_, row) => {
         return (
           <Link
             href={`${routes.pengguna.ruangKelas}/${row.id_kelas}`}

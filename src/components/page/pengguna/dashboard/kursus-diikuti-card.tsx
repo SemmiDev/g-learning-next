@@ -71,7 +71,7 @@ export default function KursusDiikutiCard({
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
-      render: (_: string, row) => {
+      render: () => {
         return (
           <div className="flex justify-center">
             <Button variant="text-colorful">Mulai Belajar</Button>

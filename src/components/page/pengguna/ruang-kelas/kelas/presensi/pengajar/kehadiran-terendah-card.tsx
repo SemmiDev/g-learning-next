@@ -45,8 +45,7 @@ export default function PengajarKehadiranTerendahCard({
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
-      key: 'nama',
-      render: (_: string, row) => (
+      render: (_, row) => (
         <div className="flex space-x-3">
           <Thumbnail
             src={row.foto_pengguna || undefined}
