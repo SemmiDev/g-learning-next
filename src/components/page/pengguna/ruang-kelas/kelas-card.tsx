@@ -143,7 +143,7 @@ export default function KelasCard({
           </>
         )}
       </div>
-      {data.status === 'Diterima' ? (
+      {data.peran === 'Pengajar' || data.status === 'Diterima' ? (
         <Link href={`${routes.pengguna.ruangKelas}/${data.kelas.id}`}>
           <Button as="span" size="sm" className="w-full mt-2">
             Masuk Kelas
