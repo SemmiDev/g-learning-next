@@ -198,7 +198,7 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
       render: (_: string, row) => {
         return (
           <div className="flex justify-end">
-            {!row.nilai ? (
+            {!row.id ? (
               <Link
                 href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
               >
