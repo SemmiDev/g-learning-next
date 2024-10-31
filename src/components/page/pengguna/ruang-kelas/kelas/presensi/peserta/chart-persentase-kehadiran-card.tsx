@@ -13,7 +13,7 @@ const PesertaChartPresensi = dynamic(
   }
 )
 
-const COLORS = ['#33C50E', '#F6B63B', '#3B82F6', '#F63B3B']
+const COLORS = ['#3B82F6', '#33C50E', '#F6B63B', '#F63B3B']
 
 const defaultData: PesertaChartPersentaseKehadiranData[] = [
   { name: 'Hadir', value: 0 },

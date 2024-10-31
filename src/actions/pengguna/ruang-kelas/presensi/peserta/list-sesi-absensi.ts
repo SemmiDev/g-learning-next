@@ -4,10 +4,13 @@ import { SortType } from '@/hooks/use-table-async'
 import { makeJwtGetRequestTableAction } from '@/utils/action'
 
 export type DataType = {
-  id: string
-  judul: string
+  id_aktifitas: string
+  id_absensi: string | null
+  tipe_absensi: string | null
+  judul_aktifitas: string
   waktu_akhir_absen: string | null
   status: string
+  waktu_absen: string | null
 }
 
 export const listSesiAbsensiAction = async ({

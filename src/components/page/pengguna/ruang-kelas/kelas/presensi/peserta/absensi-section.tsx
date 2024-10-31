@@ -31,14 +31,14 @@ const sortData: SortDataType[] = [
   {
     title: 'Terbaru',
     sort: {
-      name: 'created_at',
+      name: 'waktu_aktifitas',
       order: 'desc',
     },
   },
   {
     title: 'Terlawas',
     sort: {
-      name: 'created_at',
+      name: 'waktu_aktifitas',
       order: 'asc',
     },
   },
@@ -67,8 +67,7 @@ export default function PesertaAbsensiSection() {
         const { data } = await listSesiAbsensiAction({
           page,
           search,
-          /* TODO: sorting waktu jika API udah fix */
-          sort: {},
+          sort,
           idKelas,
         })
 
@@ -76,11 +75,8 @@ export default function PesertaAbsensiSection() {
           list: (data?.list ?? []).map(
             (item) =>
               ({
-                judul: item.judul,
-                /* TODO: waktu absensi jika API udah fix */
-                waktu: ['Hadir', 'Izin', 'Sakit'].includes(item.status)
-                  ? '2024-10-12T15:45:39Z'
-                  : undefined,
+                judul: item.judul_aktifitas,
+                waktu: item.waktu_absen,
                 status: mustBe(
                   item.status,
                   ['Hadir', 'Izin', 'Sakit', 'Alpha'],
@@ -193,11 +189,11 @@ export default function PesertaAbsensiSection() {
                   rounded="md"
                   className={
                     item.status === 'Hadir'
-                      ? 'bg-badge-green'
-                      : item.status === 'Izin'
-                      ? 'bg-badge-yellow'
-                      : item.status === 'Sakit'
                       ? 'bg-badge-blue'
+                      : item.status === 'Izin'
+                      ? 'bg-badge-green'
+                      : item.status === 'Sakit'
+                      ? 'bg-badge-yellow'
                       : item.status === 'Alpha'
                       ? 'bg-badge-red'
                       : 'bg-gray-400'
