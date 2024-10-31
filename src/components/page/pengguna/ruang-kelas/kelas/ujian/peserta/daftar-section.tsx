@@ -1,5 +1,13 @@
 import { listUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/peserta/list'
-import { Button, Card, Input, Loader, Shimmer, Text } from '@/components/ui'
+import {
+  Button,
+  Card,
+  Input,
+  Loader,
+  Shimmer,
+  Text,
+  TimeIndo,
+} from '@/components/ui'
 import { stripHtml } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -140,12 +148,12 @@ export default function PesertaDaftarUjianSection() {
               const strippedDesc = stripHtml(item.deskripsi ?? '')
 
               /* TODO: status ujian dan jadwal jika API sudah fix */
-              const sudah = item.status === 'SUDAH_MENGUMPULKAN'
+              const selesai = !!item.waktu_selesai
               const dalamJadwal = true
 
               return (
                 <div
-                  key={item.id}
+                  key={item.id_aktifitas}
                   className="flex justify-between items-center space-x-2 p-2 [&:not(:last-child)]:border-b border-b-gray-100"
                 >
                   <div className="flex flex-col">
@@ -157,12 +165,12 @@ export default function PesertaDaftarUjianSection() {
                       {strippedDesc.length > 150 && '...'}
                     </Text>
                     <Text size="sm" weight="semibold" variant="dark">
-                      {/* TODO: jadwal waktu mulai ujian */}
-                      Mulai: 20 Maret 2024 | 10:00 WIB
+                      Mulai:{' '}
+                      <TimeIndo date={item.jadwal_mulai} format="datetime" />
                     </Text>
                     <Text size="sm" weight="semibold" variant="dark">
-                      {/* TODO: jadwal waktu selesai ujian */}
-                      Sampai: 20 Maret 2024 | 15:30 WIB
+                      Sampai:{' '}
+                      <TimeIndo date={item.jadwal_selesai} format="datetime" />
                     </Text>
                   </div>
                   {/* TODO: cek status ujian dan jadwal, tambahkan link ke detail/pengerjaan ujian jika API sudah fix */}
