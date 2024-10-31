@@ -13,38 +13,36 @@ export type DataType = {
   catatan_peserta: string
   status_pengumpulan: boolean
   waktu_pengumpulan: string | null
-  daftar_berkas_pengumpulan_tugas: {
-    berkas_pengumpulan_tugas: {
-      id: string
-      id_pengumpulan_tugas: string
-      link: string | null
-      id_berkas: string
-      created_at: string
-      updated_at: string
-    }
-    berkas: {
-      id: string
-      id_parent: string | null
-      nama: string
-      deskripsi: string
-      content: string
-      ekstensi: string
-      tipe: 'Dokumen' | 'Audio' | 'Video' | 'Gambar' | 'Folder' | 'Teks' | null
-      url: string
-      ukuran: number
-      id_pengguna: string
-      id_instansi: string | null
-      created_at: string
-      updated_at: string
-    }
-  }[]
+  berkas:
+    | {
+        id: string
+        id_parent: string | null
+        nama: string
+        deskripsi: string
+        content: string
+        ekstensi: string
+        tipe:
+          | 'Dokumen'
+          | 'Audio'
+          | 'Video'
+          | 'Gambar'
+          | 'Folder'
+          | 'Teks'
+          | null
+        url: string
+        ukuran: number
+        id_pengguna: string
+        id_instansi: string | null
+        created_at: string
+        updated_at: string
+      }[]
+    | null
 }
 
-/* TODO: nanti id pengumpulan tugas dihapus setelah API ok */
 export const lihatPengumpulanTugasAction = async (
   idKelas: string,
   idAktifitas: string
 ) =>
   makeJwtGetRequestAction<DataType>(
-    `${process.env.API_URL}/peserta/kelas/${idKelas}/aktifitas/${idAktifitas}/penilaian-tugas/01JA4XZDYPG48DB2B8CFTYXT8M`
+    `${process.env.API_URL}/peserta/kelas/${idKelas}/aktifitas/${idAktifitas}/penilaian-tugas`
   )

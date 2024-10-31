@@ -54,12 +54,11 @@ export default function KumpulkanTugasCard({
     useParams()
 
   const queryKey = [
-    'pengguna.ruang-kelas.diskusi.tugas.nilai',
+    'pengguna.ruang-kelas.diskusi.tugas.kumpulkan',
     idKelas,
     idAktifitas,
   ]
 
-  /* TODO: masih bermasalah API nya */
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: makeSimpleQueryDataWithParams(
@@ -73,16 +72,16 @@ export default function KumpulkanTugasCard({
 
   const initialValues: PengumpulanTugasFormSchema = {
     catatan: data.catatan_peserta,
-    berkas: data.daftar_berkas_pengumpulan_tugas.map((item) => ({
-      id: item.berkas.id,
-      name: item.berkas.nama,
-      time: item.berkas.created_at,
-      link: item.berkas.url,
-      extension: item.berkas.ekstensi,
+    berkas: (data.berkas ?? []).map((item) => ({
+      id: item.id,
+      name: item.nama,
+      time: item.created_at,
+      link: item.url,
+      extension: item.ekstensi,
       folder: false,
-      size: getFileSize(item.berkas),
-      type: getFileType(item.berkas),
-      driveId: item.berkas.id_instansi ?? undefined,
+      size: getFileSize(item),
+      type: getFileType(item),
+      driveId: item.id_instansi ?? undefined,
     })),
   }
 
@@ -93,16 +92,7 @@ export default function KumpulkanTugasCard({
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
         onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-          })
-          queryClient.setQueryData(
-            queryKey,
-            (oldData: PengumpulanTugasFormSchema) => ({
-              ...oldData,
-              ...data,
-            })
-          )
+          queryClient.invalidateQueries({ queryKey })
         },
         onError: ({ message }) => setFormError(message),
       }

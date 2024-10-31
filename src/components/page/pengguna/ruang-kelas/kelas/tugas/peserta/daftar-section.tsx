@@ -9,8 +9,10 @@ import {
   Text,
   TimeIndo,
 } from '@/components/ui'
+import { routes } from '@/config/routes'
 import { stripHtml } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
@@ -181,8 +183,13 @@ export default function PesertaDaftarTugasSection() {
                     </Text>
                   </div>
                   {!sudah && !terlambat ? (
-                    /* TODO: tambahkan link ke aktifitas tugas jika API sudah fix */
-                    <Button size="sm">Kumpulkan Tugas</Button>
+                    <Link
+                      href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/tugas/${item.id}`}
+                    >
+                      <Button as="span" size="sm">
+                        Kumpulkan Tugas
+                      </Button>
+                    </Link>
                   ) : (
                     <Badge
                       variant="solid"
