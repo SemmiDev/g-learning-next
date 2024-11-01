@@ -17,7 +17,7 @@ export type ControlledSelectProps<
   IsMulti extends boolean,
   Group extends GroupBase<TOption>
 > = Omit<
-  SelectProps<TOption>,
+  SelectProps<TOption, IsMulti, Group>,
   'value' | 'defaultValue' | 'onChange' | 'onBlur'
 > & {
   name: TName
@@ -44,8 +44,8 @@ export default function ControlledSelect<
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Select
-          onChange={(val) => {
+        <Select<TOption>
+          onChange={(val: unknown) => {
             onChange && onChange(val)
             setValue(val)
           }}

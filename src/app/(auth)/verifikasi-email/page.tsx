@@ -4,12 +4,14 @@ import VerifikasiEmailBody from '@/components/page/auth/verifikasi-email/body'
 import { authRoutes } from '@/config/routes'
 import { redirect, RedirectType } from 'next/navigation'
 
-export default function VerifikasiEmailPage({
+type VerifikasiEmailPageProps = {
+  searchParams?: Promise<Record<string, string | string[]>>
+}
+
+export default async function VerifikasiEmailPage({
   searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] }
-}) {
-  if (!searchParams?.token) {
+}: VerifikasiEmailPageProps) {
+  if (!(await searchParams)?.token) {
     redirect(authRoutes.login, RedirectType.replace)
   }
 

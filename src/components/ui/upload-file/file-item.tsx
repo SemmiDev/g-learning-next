@@ -70,7 +70,7 @@ export const UploadFileItemRejected = ({
   errors,
 }: {
   file: UploadFileType
-  errors?: FileError[]
+  errors?: readonly FileError[]
 }) => {
   return (
     <div className="flex justify-between items-center">

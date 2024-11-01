@@ -8,12 +8,14 @@ export const metadata = {
   ...metaObject('Lupa Kata Sandi'),
 }
 
-export default function ResetPassword({
+type ResetPasswordProps = {
+  searchParams?: Promise<Record<string, string | string[]>>
+}
+
+export default async function ResetPassword({
   searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] }
-}) {
-  if (!searchParams?.token) {
+}: ResetPasswordProps) {
+  if (!(await searchParams)?.token) {
     redirect(authRoutes.login, RedirectType.replace)
   }
 

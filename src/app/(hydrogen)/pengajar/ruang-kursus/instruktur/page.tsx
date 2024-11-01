@@ -2,7 +2,6 @@ import RuangKursusInstrukturBody from '@/components/page/pengajar/ruang-kursus/i
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import { useSearchParams } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Ruang Kursus - Instruktur'),

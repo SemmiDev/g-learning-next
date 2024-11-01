@@ -1,5 +1,6 @@
 'use client'
 
+import { AnyObject } from '@/utils/type-interface'
 import {
   Control,
   Controller,
@@ -7,13 +8,12 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
+import { GroupBase } from 'react-select'
 import AsyncPaginateSelect, {
   AdditionalData,
   AsyncPaginateSelectProps,
 } from '../select/async-paginate'
 import { SelectOptionType } from '../select/select'
-import { GroupBase } from 'react-select'
-import { AnyObject } from '@/utils/type-interface'
 
 export type ControlledAsyncPaginateSelectProps<
   TFieldValues extends FieldValues,
@@ -39,7 +39,8 @@ export default function ControlledAsyncPaginateSelect<
   TOption extends SelectOptionType = SelectOptionType,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<TOption> = GroupBase<TOption>,
-  TData extends AnyObject = AnyObject
+  TData extends AnyObject = AnyObject,
+  Additional extends AdditionalData = AdditionalData
 >({
   name,
   control,
@@ -52,7 +53,8 @@ export default function ControlledAsyncPaginateSelect<
   TOption,
   IsMulti,
   Group,
-  TData
+  TData,
+  Additional
 >) {
   return (
     <Controller

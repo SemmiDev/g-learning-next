@@ -37,6 +37,8 @@ import { parseNumber } from '@/utils/parse-number'
 import AsyncPaginateSelect from '@/components/ui/select/async-paginate'
 import { inputToNumber } from '@/utils/validations/transform'
 import { NumberInput } from 'rizzui'
+import ReactSelect, { GroupBase, Props as ReactSelectProps } from 'react-select'
+import { useId } from 'react'
 
 const options: SelectOptionType[] = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -50,14 +52,14 @@ const formSchema = z.object({
   // tesInputNumber: z.number().nullish(),
   // tesInputPhone: z.string().optional(),
   // tesNumber: z.number().nullish(),
-  // tesRupiah: z.string().pipe(required),
-  // tesSelect: z.any().superRefine(objectRequired),
-  // tesAsyncSelect: z.any().superRefine(objectRequired),
+  // tesRupiah: z.number(),
+  tesSelect: z.any().superRefine(objectRequired),
+  tesAsyncSelect: z.any().superRefine(objectRequired),
   // tesMedia: z.array(z.any()).superRefine(arrayRequired),
   // tesMateri: z.any().superRefine(objectRequired),
   // tesSoal: z.any().superRefine(objectRequired),
-  tesKelas: z.any().superRefine(objectRequired),
-  tesPesertaKelas: z.any().superRefine(objectRequired),
+  // tesKelas: z.any().superRefine(objectRequired),
+  // tesPesertaKelas: z.any().superRefine(objectRequired),
   // tesDate: z.date(),
   // tesFiles: z.array(z.any()).superRefine(arrayRequired),
   // tesSwitch: z.boolean(),
@@ -71,13 +73,13 @@ type FormSchema = {
   // tesInputPhone?: string
   // tesNumber?: number | null
   // tesRupiah?: number | string
-  // tesSelect?: SelectOptionType
-  // tesAsyncSelect?: SelectOptionType
+  tesSelect?: SelectOptionType
+  tesAsyncSelect?: SelectOptionType
   // tesMedia?: PustakaMediaFileType[]
   // tesMateri?: MateriItemType
   // tesSoal?: PaketSoalItemType
-  tesKelas?: KelasItemType
-  tesPesertaKelas?: PesertaKelasItemType
+  // tesKelas?: KelasItemType
+  // tesPesertaKelas?: PesertaKelasItemType
   // tesDate?: Date
   // tesFiles?: UploadFileType[]
   // tesSwitch: boolean
@@ -86,6 +88,7 @@ type FormSchema = {
 const initialValues: FormSchema = {
   // tesInputNumber: 900,
   // tesNumber: 900,
+  // tesSwitch: false,
 }
 
 export default function Tes2Page() {
@@ -149,7 +152,7 @@ export default function Tes2Page() {
             errors={errors}
             label="Tes Rupiah"
           /> */}
-          {/* <ControlledSelect
+          <ControlledSelect
             name="tesSelect"
             control={control}
             options={options}
@@ -157,20 +160,20 @@ export default function Tes2Page() {
             placeholder="Pilih Satu"
             errors={errors}
             isClearable
-          /> */}
-          {/* <ControlledAsyncPaginateSelect
+          />
+          <ControlledAsyncPaginateSelect
             name="tesAsyncSelect"
             control={control}
             label="Async Paginate Select"
             placeholder="Pilih Satu"
             action={tesAsyncAction}
-            construct={(data) => ({
+            construct={(data: any) => ({
               label: data.nama,
               value: data.id,
             })}
             errors={errors}
             isClearable
-          /> */}
+          />
           {/* <ControlledPustakaMedia
             name="tesMedia"
             control={control}
@@ -190,21 +193,21 @@ export default function Tes2Page() {
             label="Pilih Paket Soal"
             errors={errors}
           /> */}
-          <ControlledKelas
+          {/* <ControlledKelas
             name="tesKelas"
             control={control}
             label="Pilih Kelas"
             errors={errors}
             clearable
-          />
-          <ControlledPesertaKelas
+          /> */}
+          {/* <ControlledPesertaKelas
             idKelas="01J8KHTCDEHV9MVGXS8DWQGWD5"
             name="tesPesertaKelas"
             control={control}
             label="Pilih Peserta Kelas"
             errors={errors}
             clearable
-          />
+          /> */}
           {/* <ControlledDatePicker
             name="tesDate"
             control={control}
