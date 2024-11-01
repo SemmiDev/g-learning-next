@@ -14,14 +14,15 @@ export const metadata = {
 }
 
 type ListBankMateriPageProps = {
-  params: { kategori: string }
+  params: Promise<{ kategori: string }>
 }
 
 export default async function ListBankMateriPage({
   params,
 }: ListBankMateriPageProps) {
-  const idKategori = params.kategori
   const queryClient = new QueryClient()
+
+  const { kategori: idKategori } = await params
 
   const { data } = await lihatKategoriBankMateriAction(idKategori)
 

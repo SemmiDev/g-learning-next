@@ -33,15 +33,16 @@ const pageHeader = {
 }
 
 type ListInstansiPageProps = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default async function ListInstansiPage({
   params,
 }: ListInstansiPageProps) {
-  const id = params.id
-
   const queryClient = new QueryClient()
+
+  const { id } = await params
+
   await queryClient.prefetchQuery({
     queryKey: ['admin.instansi.detail', id],
     queryFn: makeSimpleQueryDataWithId(lihatInstansiAction, id),

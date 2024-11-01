@@ -16,7 +16,7 @@ export const metadata = {
 }
 
 type KelasLayoutProps = {
-  params: { kelas: string }
+  params: Promise<{ kelas: string }>
   children: ReactNode
 }
 
@@ -24,8 +24,9 @@ export default async function KelasLayout({
   params,
   children,
 }: KelasLayoutProps) {
-  const idKelas = params.kelas
   const queryClient = new QueryClient()
+
+  const { kelas: idKelas } = await params
 
   const { data } = await lihatKelasAction(idKelas)
 

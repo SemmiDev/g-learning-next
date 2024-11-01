@@ -14,14 +14,15 @@ export const metadata = {
 }
 
 type ListBankSoalPageProps = {
-  params: { kategori: string }
+  params: Promise<{ kategori: string }>
 }
 
 export default async function ListBankSoalPage({
   params,
 }: ListBankSoalPageProps) {
-  const idKategori = params.kategori
   const queryClient = new QueryClient()
+
+  const { kategori: idKategori } = await params
 
   const { data } = await lihatKategoriBankSoalAction(idKategori)
 

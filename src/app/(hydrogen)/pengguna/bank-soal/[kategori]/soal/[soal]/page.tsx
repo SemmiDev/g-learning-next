@@ -15,13 +15,13 @@ export const metadata = {
 }
 
 type BankSoalPageProps = {
-  params: { kategori: string; soal: string }
+  params: Promise<{ kategori: string; soal: string }>
 }
 
 export default async function BankSoalPage({ params }: BankSoalPageProps) {
-  const idKategori = params.kategori
-  const idBankSoal = params.soal
   const queryClient = new QueryClient()
+
+  const { kategori: idKategori, soal: idBankSoal } = await params
 
   const { data: dataKategori } = await lihatKategoriBankSoalAction(idKategori)
   const { data: dataBankSoal } = await lihatBankSoalAction(
