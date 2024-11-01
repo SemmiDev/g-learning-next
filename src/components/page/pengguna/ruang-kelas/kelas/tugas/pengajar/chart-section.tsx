@@ -1,11 +1,11 @@
 import { dataNilaiAction } from '@/actions/pengguna/ruang-kelas/tugas/pengajar/data-nilai'
+import { Card, Shimmer } from '@/components/ui'
+import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 import { useParams } from 'next/navigation'
 import PengajarChartTugasRataCard from './chart-rata-card'
 import PengajarChartTugasTertinggiCard from './chart-tertinggi-card'
-import { Card, Shimmer } from '@/components/ui'
-import cn from '@/utils/class-names'
 
 export type ChartData = {
   name: string
@@ -25,14 +25,14 @@ export default function PengajarChartSection() {
           (item) =>
             ({
               name: moment(item.tanggal).format('DD/MM/YY'),
-              value: item.nilai,
+              value: Math.round(item.nilai * 100) / 100,
             } as ChartData)
         ),
         rata: (data?.grafik_nilai_tugas_rata_rata ?? []).map(
           (item) =>
             ({
               name: moment(item.tanggal).format('DD/MM/YY'),
-              value: item.nilai,
+              value: Math.round(item.nilai * 100) / 100,
             } as ChartData)
         ),
       }
