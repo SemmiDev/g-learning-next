@@ -15,7 +15,7 @@ export default function ModalVideoPreview({
       size="xl"
       isOpen={!!openUrl}
       onClose={onClose}
-      containerClassName="bg-transparent"
+      containerClassName="bg-gray-dark/20"
       bodyClassName="aspect-video"
     >
       {!!openUrl && (
