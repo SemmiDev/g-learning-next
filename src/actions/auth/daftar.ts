@@ -10,5 +10,5 @@ export const daftarAction = async (data: DaftarFormSchema) =>
     email: data.email,
     kata_sandi: data.password,
     ulangi_kata_sandi: data.ulangiPassword,
-    ip: getIp() ?? undefined,
+    ip: (await getIp()) ?? undefined,
   })

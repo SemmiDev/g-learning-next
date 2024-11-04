@@ -26,13 +26,13 @@ export type GabungKelasFormSchema = {
 const initialValues: GabungKelasFormSchema = {}
 
 type GabungKelasModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
 }
 
 export default function GabungKelasModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
 }: GabungKelasModalProps) {
   const [formError, setFormError] = useState<string>()
   const [successAlert, setSuccessAlert] = useState<string>()
@@ -52,7 +52,7 @@ export default function GabungKelasModal({
   }
 
   const handleClose = async () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
 
     if (!successAlert) return
@@ -66,7 +66,7 @@ export default function GabungKelasModal({
       title="Gabung ke Kelas"
       headerClassName="[&_.modal-title]:text-lg"
       color="white"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<GabungKelasFormSchema>
