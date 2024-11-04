@@ -31,9 +31,8 @@ import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import moment from 'moment'
 import { useState } from 'react'
-import { Controller, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
-import { Select, SelectOption } from 'rizzui'
 
 const formSchema = z.object({
   program: z.string().pipe(required),
@@ -43,7 +42,7 @@ const formSchema = z.object({
   cover: z.any(),
   hariWaktu: z.array(
     z.object({
-      hari: z.string().pipe(required),
+      hari: z.any().superRefine(objectRequired),
       mulai: z.date(),
       sampai: z.date(),
       mulaiWaktu: z.string(),
@@ -60,7 +59,7 @@ export type PengaturanKelasFormSchema = {
   catatan?: string
   cover?: PustakaMediaFileType
   hariWaktu: {
-    hari?: string
+    hari?: SelectOptionType
     mulai?: Date
     sampai?: Date
     mulaiWaktu?: string
@@ -74,16 +73,16 @@ const tipeOptions: RadioGroupOptionType[] = [
   radioGroupOption('Privat'),
 ]
 
+const hariOptions: SelectOptionType[] = NAMA_HARI.map((hari) => ({
+  label: hari,
+  value: hari,
+}))
+
 const zonaWaktuOptions: SelectOptionType[] = [
   selectOption('WIB'),
   selectOption('WITA'),
   selectOption('WIT'),
 ]
-
-const optionsHari: SelectOption[] = NAMA_HARI.map((hari) => ({
-  label: hari,
-  value: hari,
-}))
 
 type PengaturanKelasModalProps = {
   id: string | undefined
@@ -121,7 +120,7 @@ export default function PengaturanKelasModal({
         catatan: data?.kelas?.deskripsi,
         tipe: data?.kelas?.tipe,
         hariWaktu: (data?.jadwal ?? []).map((item) => ({
-          hari: item.hari,
+          hari: selectOption(mustBe(item.hari, NAMA_HARI, 'Senin')),
           mulai: parseDateFromTime(item.waktu_mulai),
           sampai: parseDateFromTime(item.waktu_sampai),
           mulaiWaktu: item.waktu_mulai,
@@ -226,22 +225,11 @@ export default function PengaturanKelasModal({
                   <div className="space-y-2">
                     {watch('hariWaktu')?.map((_, idx) => (
                       <div key={idx} className="flex gap-x-2">
-                        <Controller
+                        <ControlledSelect
                           control={control}
                           name={`hariWaktu.${idx}.hari`}
-                          render={({ field: { value, onChange } }) => (
-                            <Select<SelectOption>
-                              placeholder="Pilih nama hari"
-                              options={optionsHari}
-                              onChange={onChange}
-                              value={value}
-                              getOptionValue={(option: SelectOption) =>
-                                option.value
-                              }
-                              className="flex-1"
-                              error={errors.hariWaktu?.[idx]?.hari?.message}
-                            />
-                          )}
+                          options={hariOptions}
+                          placeholder="Pilih nama hari"
                         />
                         <div className="flex flex-2">
                           <ControlledDatePicker
@@ -318,7 +306,7 @@ export default function PengaturanKelasModal({
                       setValue('hariWaktu', [
                         ...watch('hariWaktu'),
                         {
-                          hari: '',
+                          hari: undefined,
                           mulai: undefined,
                           sampai: undefined,
                           mulaiWaktu: '',

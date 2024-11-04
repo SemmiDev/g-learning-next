@@ -44,7 +44,7 @@ export default function ControlledSelect<
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue, onBlur } }) => (
-        <Select<TOption>
+        <Select<TOption, IsMulti, Group>
           onChange={(val: unknown) => {
             onChange && onChange(val)
             setValue(val)
