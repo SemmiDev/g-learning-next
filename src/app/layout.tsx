@@ -11,6 +11,30 @@ import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/options'
 
+/* Temporary Fix for react-select issue https://github.com/JedWatson/react-select/issues/5911 */
+import * as React from 'react'
+declare global {
+  namespace JSX {
+    interface Element extends React.JSX.Element {}
+    interface ElementClass extends React.JSX.ElementClass {}
+    interface ElementAttributesProperty
+      extends React.JSX.ElementAttributesProperty {}
+    interface ElementChildrenAttribute
+      extends React.JSX.ElementChildrenAttribute {}
+
+    type LibraryManagedAttributes<C, P> = React.JSX.LibraryManagedAttributes<
+      C,
+      P
+    >
+
+    interface IntrinsicAttributes extends React.JSX.IntrinsicAttributes {}
+    interface IntrinsicClassAttributes<T>
+      extends React.JSX.IntrinsicClassAttributes<T> {}
+    interface IntrinsicElements extends React.JSX.IntrinsicElements {}
+  }
+}
+/* End */
+
 export const metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
