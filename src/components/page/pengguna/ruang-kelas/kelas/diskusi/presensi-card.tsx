@@ -1,6 +1,7 @@
 import { presensiPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/presensi'
 import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { roundedNumber } from '@/utils/number'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -36,7 +37,12 @@ export default function PresensiCard({ className }: PresensiCardProps) {
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
             Tingkat kehadiran:{' '}
-            <span className="text-success">{data?.tingkat_kehadiran}%</span>
+            <span className="text-success">
+              {data?.tingkat_kehadiran
+                ? roundedNumber(data?.tingkat_kehadiran)
+                : '-'}
+              %
+            </span>
           </Text>
         </div>
       </Card>

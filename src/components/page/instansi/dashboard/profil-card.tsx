@@ -62,7 +62,7 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCalendar}
           label={'Tanggal Pembayaran\nSelanjutnya'}
-          // TODO
+          /* TODO: Tanggal pembayaran selanjutnya jika API sudah ada */
           value="-"
           variant="solid"
           color="green"

@@ -1,10 +1,11 @@
-import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
+import { lihatHasilUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import {
   Button,
   Card,
   CardSeparator,
   Shimmer,
   Text,
+  Time,
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
@@ -24,11 +25,9 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+    queryKey: ['pengguna.ruang-kelas.diskusi.ujian.hasil', idKelas, id],
+    queryFn: makeSimpleQueryDataWithParams(lihatHasilUjianAction, idKelas, id),
   })
-
-  /* TODO: tambahkan data hasil ujian dari API jika sudah ada */
 
   if (isLoading) return <CardShimmer className={className} />
 
@@ -50,19 +49,35 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
                 </td>
               </tr>
               <tr>
-                <td>Benar/ salah</td>
+                <td>Benar/salah/kosong</td>
                 <td className="text-center"> : </td>
-                <td className="font-semibold">-</td>
+                <td className="font-semibold">
+                  {data?.jawaban.jawaban_benar ?? '-'}/
+                  {data?.jawaban.jawaban_salah ?? '-'}/
+                  {data?.jawaban.jawaban_kosong ?? '-'}
+                </td>
               </tr>
               <tr>
                 <td>Waktu mulai</td>
                 <td className="text-center"> : </td>
-                <td className="font-semibold">-</td>
+                <td className="font-semibold">
+                  <Time
+                    date={data?.jawaban.waktu_mulai}
+                    format="datetime"
+                    empty="-"
+                  />
+                </td>
               </tr>
               <tr>
                 <td>Waktu selesai</td>
                 <td className="text-center"> : </td>
-                <td className="font-semibold">-</td>
+                <td className="font-semibold">
+                  <Time
+                    date={data?.jawaban.waktu_selesai}
+                    format="datetime"
+                    empty="-"
+                  />
+                </td>
               </tr>
             </tbody>
           </table>
@@ -71,7 +86,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
               Nilai
             </Text>
             <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-              -
+              {data?.jawaban.skor_akhir || '-'}
             </Text>
           </div>
         </div>

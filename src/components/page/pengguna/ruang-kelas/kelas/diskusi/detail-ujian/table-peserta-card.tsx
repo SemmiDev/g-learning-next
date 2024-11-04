@@ -52,14 +52,14 @@ const sortData: SortDataType[] = [
   {
     title: 'Nilai Tertinggi',
     sort: {
-      name: 'nilai',
+      name: 'skor_akhir',
       order: 'desc',
     },
   },
   {
     title: 'Nilai Terendah',
     sort: {
-      name: 'nilai',
+      name: 'skor_akhir',
       order: 'asc',
     },
   },

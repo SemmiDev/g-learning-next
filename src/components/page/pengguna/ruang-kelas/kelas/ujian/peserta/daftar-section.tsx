@@ -8,6 +8,7 @@ import {
   Text,
   TimeIndo,
 } from '@/components/ui'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { stripHtml } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -17,6 +18,7 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { Dropdown } from 'rizzui'
+import HasilUjianModal from './modal/hasil-ujian'
 
 type SortDataType = {
   title: string
@@ -46,6 +48,12 @@ const sortData: SortDataType[] = [
 export default function PesertaDaftarUjianSection() {
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
+  const {
+    show: showUjian,
+    key: keyUjian,
+    doShow: doShowUjian,
+    doHide: doHideUjian,
+  } = useShowModal<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -174,7 +182,12 @@ export default function PesertaDaftarUjianSection() {
                     </Text>
                   </div>
                   {/* TODO: cek status ujian dan jadwal, tambahkan link ke detail/pengerjaan ujian jika API sudah fix */}
-                  <Button size="sm">Kerjakan Ujian</Button>
+                  <Button
+                    size="sm"
+                    onClick={() => doShowUjian(item.id_aktifitas)}
+                  >
+                    Kerjakan Ujian
+                  </Button>
                 </div>
               )
             })
@@ -190,6 +203,8 @@ export default function PesertaDaftarUjianSection() {
           )}
         </Card>
       )}
+
+      <HasilUjianModal show={showUjian} id={keyUjian} onHide={doHideUjian} />
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { dataNilaiAction } from '@/actions/pengguna/ruang-kelas/tugas/pengajar/data-nilai'
 import { Card, Shimmer } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { roundedNumber } from '@/utils/number'
 import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 import { useParams } from 'next/navigation'
@@ -25,14 +26,14 @@ export default function PengajarChartSection() {
           (item) =>
             ({
               name: moment(item.tanggal).format('DD/MM/YY'),
-              value: Math.round(item.nilai * 100) / 100,
+              value: roundedNumber(item.nilai),
             } as ChartData)
         ),
         rata: (data?.grafik_nilai_tugas_rata_rata ?? []).map(
           (item) =>
             ({
               name: moment(item.tanggal).format('DD/MM/YY'),
-              value: Math.round(item.nilai * 100) / 100,
+              value: roundedNumber(item.nilai),
             } as ChartData)
         ),
       }
