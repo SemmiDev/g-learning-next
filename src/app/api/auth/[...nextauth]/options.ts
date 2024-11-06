@@ -1,3 +1,4 @@
+import { publicRoutes, routes } from '@/config/routes'
 import { makeBasicPostRequestAction } from '@/utils/action'
 import { jwtDecode } from 'jwt-decode'
 import { AuthOptions } from 'next-auth'
@@ -230,6 +231,9 @@ export const authOptions: AuthOptions = {
       // console.log('signIn callback', credentials)
 
       return true
+    },
+    async redirect({ url, baseUrl }) {
+      return url
     },
   },
   pages: {

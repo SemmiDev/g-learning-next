@@ -34,7 +34,6 @@ const formSchema = z
     path: ['ulangiPassword'],
   })
 
-// type FormSchema = z.infer<typeof formSchema>
 export type ResetPasswordFormSchema = {
   password?: string
   ulangiPassword?: string

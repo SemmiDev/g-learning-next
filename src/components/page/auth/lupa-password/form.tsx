@@ -22,7 +22,6 @@ const formSchema = z.object({
   email: z.string().pipe(required.email()),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 export type LupaPassowrdFormSchema = {
   email?: string
 }

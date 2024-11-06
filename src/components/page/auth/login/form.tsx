@@ -25,13 +25,12 @@ const formSchema = z.object({
   password: z.string().pipe(requiredPassword),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
-type FormSchema = {
+type LoginFormSchema = {
   username?: string
   password?: string
 }
 
-const initialValues: FormSchema = {
+const initialValues: LoginFormSchema = {
   username: 'reazon7@gmail.com',
   password: 'password',
 }
@@ -41,7 +40,7 @@ export default function LoginForm() {
 
   const [showModalUser, setShowModalUser] = useState(false)
 
-  const doLogin = async (data: FormSchema) => {
+  const doLogin = async (data: LoginFormSchema) => {
     const { ok, error } =
       (await signIn('normalLogin', {
         username: data.username,
@@ -56,7 +55,7 @@ export default function LoginForm() {
     }
   }
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormSchema> = async (data) => {
     await toast.promise(doLogin(data), {
       loading: <Text>Mencoba masuk...</Text>,
       success: <Text>Berhasil masuk.</Text>,
@@ -66,7 +65,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <Form<FormSchema>
+      <Form<LoginFormSchema>
         validationSchema={formSchema}
         onSubmit={onSubmit}
         useFormProps={{
