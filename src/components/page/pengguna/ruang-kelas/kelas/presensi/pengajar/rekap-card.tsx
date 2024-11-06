@@ -62,11 +62,7 @@ export default function PengajarRekapPresensiCard({
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: [
-      'pengguna.ruang-kelas.presensi.list-sesi-absensi',
-      'pengajar',
-      idKelas,
-    ],
+    queryKey: ['pengguna.ruang-kelas.presensi.list-sesi', 'pengajar', idKelas],
     action: tableSesiAbsensiAction,
     initialSort: {
       name: 'created_at',
@@ -134,17 +130,18 @@ export default function PengajarRekapPresensiCard({
           ) : (
             <Card className="p-0 mt-2">
               {data.length > 0 ? (
-                data.map((item) => {
+                data.map((item, idx) => {
                   return (
                     <PengajarRekapPresensiItem
                       key={item.id}
+                      idx={idx}
                       sesi={{
                         id: item.id,
                         judul: item.judul,
                         waktu: item.created_at,
                       }}
                       active={idSesiAktif === item.id}
-                      onClick={() => setSearchParams('sesi', item.id)}
+                      onClick={() => setSearchParams({ sesi: item.id })}
                     />
                   )
                 })

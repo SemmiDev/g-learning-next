@@ -1,28 +1,28 @@
 import { Badge, Text, TimeIndo } from '@/components/ui'
 import cn from '@/utils/class-names'
 
-type TugasItemType = {
+type UjianItemType = {
   id: string
   judul: string
-  batasWaktu?: string | null
-  jumlah: number
+  waktuMulai?: string | null
+  waktuSelesai?: string | null
 }
 
-type PengajarRekapTugasItemProps = {
-  sesi: TugasItemType
+type UjianItemProps = {
+  sesi: UjianItemType
   idx: number
   active?: boolean
   open?: boolean
   onClick?: () => void
 }
 
-export default function PengajarRekapTugasItem({
+export default function PengajarRekapUjianItem({
   sesi,
   idx,
   active = false,
   open = false,
   onClick,
-}: PengajarRekapTugasItemProps) {
+}: UjianItemProps) {
   return (
     <div
       className={cn(
@@ -41,23 +41,22 @@ export default function PengajarRekapTugasItem({
           color={active ? 'primary' : 'gray'}
           variant={active ? 'default' : 'dark'}
         >
-          {sesi.judul}
+          {sesi.judul || '-'}
         </Text>
         <Badge size="sm" color={open ? 'success' : 'danger'} variant="flat">
           {open ? 'Masih Buka' : 'Sudah Tutup'}
         </Badge>
       </div>
       <Text size="sm" weight="semibold" variant="lighter" className="mt-2">
-        Batas waktu pengumpulan
+        Jadwal pengerjaan
       </Text>
-      <div className="flex justify-between">
-        <Text size="sm" weight="semibold" variant="dark">
-          <TimeIndo date={sesi.batasWaktu} format="datetime" empty="-" />
-        </Text>
-        <Text size="xs" weight="medium" variant="lighter">
-          {sesi.jumlah} peserta mengumpulkan Tugas
-        </Text>
-      </div>
+      <Text size="sm" weight="semibold" variant="dark">
+        Mulai: <TimeIndo date={sesi.waktuMulai} format="datetime" empty="-" />
+      </Text>
+      <Text size="sm" weight="semibold" variant="dark">
+        Sampai:{' '}
+        <TimeIndo date={sesi.waktuSelesai} format="datetime" empty="-" />
+      </Text>
     </div>
   )
 }

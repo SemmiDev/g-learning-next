@@ -1,3 +1,4 @@
+import { hapusNilaiUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
 import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
 import {
   ActionIcon,
@@ -17,6 +18,7 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -114,6 +116,7 @@ export default function TableUjianPesertaCard({
       idKelas,
       idAktifitas,
     },
+    initialPerPage: 5,
     initialSort: sortData[0].sort,
     initialFilter: {
       status: 'ALL',
@@ -154,25 +157,20 @@ export default function TableUjianPesertaCard({
     },
     {
       title: <TableHeaderCell title="Waktu Mulai Pengerjaan" />,
-      /* TODO: data waktu mulai pengerjaan */
-      render: (_, row) => {
+      dataIndex: 'waktu_mulai',
+      render: (value: string) => {
         return (
           <TableCellText>
-            <Time
-              date={row.waktu_pengumpulan}
-              customFormat="DD MMM YY"
-              empty="-"
-            />
+            <Time date={value} customFormat="DD MMM YY" empty="-" />
             <br />
-            <Time date={row.waktu_pengumpulan} format="time" empty="" />
+            <Time date={value} format="time" empty="" />
           </TableCellText>
         )
       },
     },
     {
       title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      /* TODO: data nilai */
-      dataIndex: 'nilai',
+      dataIndex: 'skor_akhir',
       render: (value: string) => (
         <TableCellText align="center">{value ?? '-'}</TableCellText>
       ),
@@ -180,7 +178,7 @@ export default function TableUjianPesertaCard({
     {
       title: <TableHeaderCell title="" />,
       render: (_, row) => {
-        // if (!row.id) return
+        if (!row.id) return
 
         return (
           <div className="flex justify-end">
@@ -213,19 +211,18 @@ export default function TableUjianPesertaCard({
   const handleHapusNilai = async () => {
     if (!idHapusNilai) return
 
-    /* TODO: hapus pengerjaan ujian peserta jika sudah ada API nya */
-    // handleActionWithToast(
-    //   hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
-    //   {
-    //     loading: 'Menghapus berkas...',
-    //     success: 'Berhasil menghapus nilai peserta',
-    //     onSuccess: () => {
-    //       setIdHapusNilai(undefined)
+    handleActionWithToast(
+      hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
+      {
+        loading: 'Menghapus berkas...',
+        success: 'Berhasil menghapus nilai peserta',
+        onSuccess: () => {
+          setIdHapusNilai(undefined)
 
-    //       queryClient.invalidateQueries({ queryKey })
-    //     },
-    //   }
-    // )
+          queryClient.invalidateQueries({ queryKey })
+        },
+      }
+    )
   }
 
   if (isLoading) return <TablePesertaCardShimmer className={className} />
@@ -313,7 +310,7 @@ export default function TableUjianPesertaCard({
           isLoading={isLoading}
           isFetching={isFetching}
           columns={tableColumns}
-          rowKey={(row) => row.id_aktifitas + row.id_peserta}
+          rowKey={(row) => row.id_peserta}
           paginatorOptions={{
             current: page,
             pageSize: perPage,

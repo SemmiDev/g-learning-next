@@ -27,7 +27,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const { data: sesiAktif, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [
       'pengguna.ruang-kelas.presensi.sesi-aktif',
       'pengajar',
@@ -42,10 +42,10 @@ export default function PengajarRekapPresensiDetailSesiSection({
     enabled: !!idAktifitas,
   })
 
-  const strippedDesc = stripHtml(sesiAktif?.aktifitas.deskripsi ?? '')
+  const strippedDesc = stripHtml(data?.aktifitas.deskripsi ?? '')
 
   const linkTipe = switchCaseObject(
-    sesiAktif?.aktifitas.tipe,
+    data?.aktifitas.tipe,
     {
       Materi: 'materi',
       Ujian: 'ujian',
@@ -94,12 +94,12 @@ export default function PengajarRekapPresensiDetailSesiSection({
     const ws = utils.json_to_sheet(allData)
     const wb = utils.book_new()
     utils.book_append_sheet(wb, ws, 'Data')
-    writeFile(wb, `Data Absensi - ${sesiAktif?.aktifitas.judul}.xlsx`)
-  }, [idKelas, idAktifitas, sesiAktif])
+    writeFile(wb, `Data Absensi - ${data?.aktifitas.judul}.xlsx`)
+  }, [idKelas, idAktifitas, data])
 
   useEffect(() => {
     setUbahData(false)
-  }, [sesiAktif])
+  }, [data])
 
   if (isLoading) return <ShimmerSection className={className} />
 
@@ -110,7 +110,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
       <Card className="flex justify-between space-x-2">
         <div className="flex flex-col">
           <Text weight="semibold" variant="dark">
-            {sesiAktif?.aktifitas.judul}
+            {data?.aktifitas.judul}
           </Text>
           <Text
             size="sm"
@@ -123,7 +123,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
           </Text>
           <Text size="sm" weight="medium" variant="dark" className="mt-2">
             <TimeIndo
-              date={sesiAktif?.aktifitas.created_at}
+              date={data?.aktifitas.created_at}
               format="datetimeday"
               empty="-"
             />

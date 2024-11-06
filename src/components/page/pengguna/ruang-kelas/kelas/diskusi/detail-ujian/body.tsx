@@ -40,6 +40,7 @@ export default function DiskusiUjianBody() {
       </div>
       <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
         <DetailCard
+          peran={dataKelas?.peran}
           className={cn(
             'w-full',
             dataKelas?.peran === 'Pengajar' ? 'lg:w-6/12' : 'lg:w-7/12'

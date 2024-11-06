@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsDoorOpen } from 'react-icons/bs'
-import PengajarRekapTugasDaftarAbsensiCard from './rekap-detail-daftar-tugas-card'
+import PengajarRekapTugasDaftarPengumpulanCard from './rekap-daftar-pengumpulan-card'
 
 type PengajarRekapTugasDetailSesiSectionProps = {
   className?: string
@@ -28,7 +28,7 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const { data: sesiAktif, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [
       'pengguna.ruang-kelas.tugas.sesi-aktif',
       'pengajar',
@@ -43,18 +43,18 @@ export default function PengajarRekapTugasDetailSesiSection({
     enabled: !!idAktifitas,
   })
 
-  const strippedDesc = stripHtml(sesiAktif?.aktifitas.deskripsi ?? '')
+  const strippedDesc = stripHtml(data?.aktifitas.deskripsi ?? '')
 
   if (isLoading) return <ShimmerSection className={className} />
 
-  if (!idAktifitas || !sesiAktif) return null
+  if (!idAktifitas || !data) return null
 
   return (
     <div className={className}>
       <Card className="flex justify-between">
         <div>
           <Text weight="semibold" variant="dark">
-            {sesiAktif?.aktifitas.judul}
+            {data?.aktifitas.judul}
           </Text>
           <Text
             size="sm"
@@ -70,7 +70,7 @@ export default function PengajarRekapTugasDetailSesiSection({
           </Text>
           <Text size="sm" weight="medium" variant="dark">
             <TimeIndo
-              date={sesiAktif?.aktifitas.batas_waktu}
+              date={data?.aktifitas.batas_waktu}
               format="datetimeday"
               empty="-"
             />
@@ -87,8 +87,8 @@ export default function PengajarRekapTugasDetailSesiSection({
         </div>
       </Card>
 
-      <PengajarRekapTugasDaftarAbsensiCard
-        sesi={sesiAktif}
+      <PengajarRekapTugasDaftarPengumpulanCard
+        sesi={data}
         className="flex-1 mt-4"
       />
 
@@ -96,7 +96,7 @@ export default function PengajarRekapTugasDetailSesiSection({
         <Komentar
           idKelas={idKelas}
           idAktifitas={idAktifitas}
-          total={sesiAktif.total_komentar}
+          total={data.total_komentar}
         />
       </Card>
     </div>

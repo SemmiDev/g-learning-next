@@ -9,12 +9,14 @@ type PresensiItemType = {
 
 type PengajarRekapPresensiItemProps = {
   sesi: PresensiItemType
+  idx: number
   active?: boolean
   onClick?: () => void
 }
 
 export default function PengajarRekapPresensiItem({
   sesi,
+  idx,
   active = false,
   onClick,
 }: PengajarRekapPresensiItemProps) {
@@ -24,7 +26,9 @@ export default function PengajarRekapPresensiItem({
         'cursor-pointer px-3 py-2 hover:bg-gray-50',
         active
           ? 'border-t-[3px] border-t-primary'
-          : 'border-t border-t-gray-100'
+          : idx > 0
+          ? 'border-t border-t-gray-100'
+          : null
       )}
       onClick={onClick}
     >

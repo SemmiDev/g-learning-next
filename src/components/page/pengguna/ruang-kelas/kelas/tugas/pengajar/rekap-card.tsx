@@ -63,11 +63,7 @@ export default function PengajarRekapTugasCard({
     search,
     onSearch,
   } = useTableAsync({
-    queryKey: [
-      'pengguna.ruang-kelas.presensi.list-sesi-absensi',
-      'pengajar',
-      idKelas,
-    ],
+    queryKey: ['pengguna.ruang-kelas.tugas.list-sesi', 'pengajar', idKelas],
     action: tableSesiTugasAction,
     initialSort: sortData[0].sort,
     actionParams: { idKelas },
@@ -82,7 +78,7 @@ export default function PengajarRekapTugasCard({
   return (
     <Card className="col-span-3">
       <Title as="h4" size="1.5xl" weight="semibold">
-        Rekap Presensi Peserta
+        Rekap Tugas Peserta
       </Title>
       <div className="flex flex-wrap gap-4 mt-4 lg:flex-nowrap">
         <div className="w-full lg:w-5/12">
@@ -132,12 +128,13 @@ export default function PengajarRekapTugasCard({
           ) : (
             <Card className="p-0 mt-2">
               {data.length > 0 ? (
-                data.map((item) => {
+                data.map((item, idx) => {
                   const batasWaktu = parseDate(item.batas_waktu)
 
                   return (
                     <RekapTugasItem
                       key={item.id}
+                      idx={idx}
                       sesi={{
                         id: item.id,
                         judul: item.judul,
@@ -145,8 +142,8 @@ export default function PengajarRekapTugasCard({
                         jumlah: item.total_pengumpulan_tugas,
                       }}
                       active={idSesiAktif === item.id}
-                      open={!batasWaktu || batasWaktu <= new Date()}
-                      onClick={() => setSearchParams('sesi', item.id)}
+                      open={!batasWaktu || batasWaktu >= new Date()}
+                      onClick={() => setSearchParams({ sesi: item.id })}
                     />
                   )
                 })

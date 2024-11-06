@@ -174,11 +174,19 @@ export default function PesertaDaftarUjianSection() {
                     </Text>
                     <Text size="sm" weight="semibold" variant="dark">
                       Mulai:{' '}
-                      <TimeIndo date={item.jadwal_mulai} format="datetime" />
+                      <TimeIndo
+                        date={item.jadwal_mulai}
+                        format="datetime"
+                        empty="-"
+                      />
                     </Text>
                     <Text size="sm" weight="semibold" variant="dark">
                       Sampai:{' '}
-                      <TimeIndo date={item.jadwal_selesai} format="datetime" />
+                      <TimeIndo
+                        date={item.jadwal_selesai}
+                        format="datetime"
+                        empty="-"
+                      />
                     </Text>
                   </div>
                   {/* TODO: cek status ujian dan jadwal, tambahkan link ke detail/pengerjaan ujian jika API sudah fix */}

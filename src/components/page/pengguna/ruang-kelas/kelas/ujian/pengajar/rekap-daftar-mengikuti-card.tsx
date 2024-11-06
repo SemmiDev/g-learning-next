@@ -1,9 +1,10 @@
 import { DataType as DataSesiType } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { hapusNilaiTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-tugas'
-import { tableTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
+import { hapusNilaiUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
+import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
 import {
   ActionIcon,
   ActionIconTooltip,
+  Button,
   Card,
   CardSeparator,
   Input,
@@ -16,14 +17,11 @@ import {
   Time,
   Title,
 } from '@/components/ui'
-import Button from '@/components/ui/button/button'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
-import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
 import { useState } from 'react'
@@ -31,7 +29,6 @@ import { BiFilterAlt } from 'react-icons/bi'
 import {
   BsCheck,
   BsChevronDown,
-  BsPencil,
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
@@ -58,14 +55,14 @@ const sortData: SortDataType[] = [
   {
     title: 'Nilai Tertinggi',
     sort: {
-      name: 'nilai',
+      name: 'skor_akhir',
       order: 'desc',
     },
   },
   {
     title: 'Nilai Terendah',
     sort: {
-      name: 'nilai',
+      name: 'skor_akhir',
       order: 'asc',
     },
   },
@@ -73,30 +70,30 @@ const sortData: SortDataType[] = [
 
 const filterData = {
   ALL: 'Semua',
-  SUDAH_MENGUMPULKAN: 'Sudah Mengumpulkan',
-  BELUM_MENGUMPULKAN: 'Belum Mengumpulkan',
+  SUDAH_MENGUMPULKAN: 'Sudah Ujian',
+  BELUM_MENGUMPULKAN: 'Belum Ujian',
 }
 
 type FilterDataType = keyof typeof filterData
 
-type PengajarRekapTugasDaftarAbsensiCardProps = {
+type PengajarRekapUjianDaftarMengikutiCardProps = {
   sesi: DataSesiType
   className?: string
 }
 
-export default function PengajarRekapTugasDaftarAbsensiCard({
+export default function PengajarRekapUjianDaftarMengikutiCard({
   sesi,
   className,
-}: PengajarRekapTugasDaftarAbsensiCardProps) {
+}: PengajarRekapUjianDaftarMengikutiCardProps) {
   const queryClient = useQueryClient()
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
 
-  const idAktifitas = sesi.aktifitas.id
-
   const { kelas: idKelas }: { kelas: string } = useParams()
 
+  const idAktifitas = sesi.aktifitas.id
+
   const queryKey = [
-    'pengguna.ruang-kelas.tugas.table-tugas-peserta',
+    'pengguna.ruang-kelas.ujian.table-tugas-peserta',
     idKelas,
     idAktifitas,
   ]
@@ -118,11 +115,12 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tableTugasPesertaAction,
+    action: tableUjianPesertaAction,
     actionParams: {
       idKelas,
       idAktifitas,
     },
+    initialPerPage: 10,
     initialSort: sortData[0].sort,
     initialFilter: {
       status: 'ALL',
@@ -162,29 +160,21 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
       ),
     },
     {
-      title: <TableHeaderCell title="Waktu Pengumpulan" />,
-      render: (_, row) => {
-        const terlambat =
-          !!sesi?.aktifitas.batas_waktu &&
-          row.waktu_pengumpulan &&
-          sesi?.aktifitas.batas_waktu < row.waktu_pengumpulan
-
+      title: <TableHeaderCell title="Waktu Mulai Pengerjaan" />,
+      dataIndex: 'waktu_mulai',
+      render: (value: string) => {
         return (
-          <TableCellText color={terlambat ? 'danger' : 'gray'}>
-            <Time
-              date={row.waktu_pengumpulan}
-              customFormat="DD MMM YY"
-              empty="-"
-            />
+          <TableCellText>
+            <Time date={value} customFormat="DD MMM YY" empty="-" />
             <br />
-            <Time date={row.waktu_pengumpulan} format="time" empty="" />
+            <Time date={value} format="time" empty="" />
           </TableCellText>
         )
       },
     },
     {
       title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'nilai',
+      dataIndex: 'skor_akhir',
       render: (value: string) => (
         <TableCellText align="center">{value ?? '-'}</TableCellText>
       ),
@@ -192,51 +182,26 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
     {
       title: <TableHeaderCell title="" />,
       render: (_, row) => {
+        if (!row.id) return
+
         return (
           <div className="flex justify-end">
-            {row.nilai === null ? (
-              <Link
-                href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
-              >
-                <Button
-                  as="span"
-                  size="sm"
-                  variant="solid"
-                  className="whitespace-nowrap"
+            <Dropdown placement="bottom-end">
+              <Dropdown.Trigger>
+                <ActionIcon as="span" size="sm" variant="outline">
+                  <BsThreeDotsVertical size={14} />
+                </ActionIcon>
+              </Dropdown.Trigger>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  className="text-gray-dark"
+                  onClick={() => setIdHapusNilai(row.id || undefined)}
                 >
-                  Cek Tugas
-                </Button>
-              </Link>
-            ) : (
-              <Dropdown placement="bottom-end">
-                <Dropdown.Trigger>
-                  <ActionIcon as="span" size="sm" variant="outline">
-                    <BsThreeDotsVertical size={14} />
-                  </ActionIcon>
-                </Dropdown.Trigger>
-                <Dropdown.Menu className="divide-y">
-                  <div className="mb-2">
-                    <Link
-                      href={`${routes.pengguna.ruangKelas}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
-                    >
-                      <Dropdown.Item className="text-gray-dark">
-                        <BsPencil className="text-warning size-4 mr-2" />
-                        Ubah Nilai
-                      </Dropdown.Item>
-                    </Link>
-                  </div>
-                  <div className="mt-2 pt-2">
-                    <Dropdown.Item
-                      className="text-gray-dark"
-                      onClick={() => setIdHapusNilai(row.id || undefined)}
-                    >
-                      <BsTrash3 className="text-danger size-4 mr-2" />
-                      Hapus Nilai
-                    </Dropdown.Item>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-            )}
+                  <BsTrash3 className="text-danger size-4 mr-2" />
+                  Hapus Nilai
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         )
       },
@@ -251,7 +216,7 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
     if (!idHapusNilai) return
 
     handleActionWithToast(
-      hapusNilaiTugasAction(idKelas, idAktifitas, idHapusNilai),
+      hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
       {
         loading: 'Menghapus berkas...',
         success: 'Berhasil menghapus nilai peserta',
@@ -269,8 +234,8 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
-        <Title as="h6" weight="semibold" className="px-3 py-2">
-          Pengumpulan Tugas Peserta
+        <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
+          Peserta yang Mengikuti Ujian
         </Title>
         <CardSeparator />
         <div className="flex justify-between p-2">
@@ -349,7 +314,7 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
           isLoading={isLoading}
           isFetching={isFetching}
           columns={tableColumns}
-          rowKey={(row) => row.id_aktifitas + row.id_peserta}
+          rowKey={(row) => row.id_peserta}
           paginatorOptions={{
             current: page,
             pageSize: perPage,
@@ -362,7 +327,7 @@ export default function PengajarRekapTugasDaftarAbsensiCard({
 
       <ModalConfirm
         title="Hapus Nilai"
-        desc="Apakah Anda yakin ingin menghapus nilai tugas peserta ini?"
+        desc="Apakah Anda yakin ingin menghapus pengerjaan ujian/nilai peserta ini?"
         color="danger"
         isOpen={!!idHapusNilai}
         onClose={() => setIdHapusNilai(undefined)}

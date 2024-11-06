@@ -1,18 +1,29 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { Card, CardSeparator, Komentar, Text, Time } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { BsCardChecklist } from 'react-icons/bs'
+import DropdownMoreAction from '../dropdown-more-action'
+import UbahUjianModal from '../modal/ubah-ujian'
 import DetailCardShimmer from '../shimmer/detail-card'
 
 type DetailCardProps = {
+  peran: 'Pengajar' | 'Peserta' | undefined
   className?: string
 }
 
-export default function DetailCard({ className }: DetailCardProps) {
+export default function DetailCard({ peran, className }: DetailCardProps) {
+  const {
+    show: showUbah,
+    key: keyUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<string>()
+
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
@@ -28,9 +39,17 @@ export default function DetailCard({ className }: DetailCardProps) {
     <>
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex flex-col px-4 py-2">
-          <Text size="lg" weight="semibold" variant="dark" className="mb-2">
-            {data?.aktifitas.judul || '-'}
-          </Text>
+          <div className="flex justify-between space-x-2">
+            <Text size="lg" weight="semibold" variant="dark" className="mb-2">
+              {data?.aktifitas.judul || '-'}
+            </Text>
+            {peran === 'Pengajar' && (
+              <DropdownMoreAction
+                onEdit={() => doShowUbah(data.aktifitas.id)}
+                showEdit
+              />
+            )}
+          </div>
           <SanitizeHTML
             html={data?.aktifitas.deskripsi || '-'}
             className="text-sm"
@@ -127,6 +146,8 @@ export default function DetailCard({ className }: DetailCardProps) {
           className="p-4"
         />
       </Card>
+
+      <UbahUjianModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
     </>
   )
 }

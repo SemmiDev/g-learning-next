@@ -22,6 +22,7 @@ export const tableTugasPesertaAction = async ({
   page = 1,
   search = '',
   sort,
+  perPage,
   params,
   filters,
 }: ControlledAsyncTableActionProps) =>
@@ -32,7 +33,7 @@ export const tableTugasPesertaAction = async ({
       keyword: search,
       sort_by: sort?.name,
       order: sort?.order,
-      per_page: 5,
+      per_page: perPage,
       status: mustBe(
         filters?.status,
         ['SUDAH_MENGUMPULKAN', 'BELUM_MENGUMPULKAN', undefined],

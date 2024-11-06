@@ -6,6 +6,7 @@ import { listSoalAction } from '@/actions/pengguna/bank-soal/soal/list'
 import { tambahSoalAction } from '@/actions/pengguna/bank-soal/soal/tambah'
 import {
   ActionIcon,
+  ActionIconTooltip,
   Button,
   Card,
   CardSeparator,
@@ -37,6 +38,7 @@ import { SubmitHandler } from 'react-hook-form'
 import { BiCircle } from 'react-icons/bi'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { FieldError } from 'rizzui'
+import UbahBankSoalModal from '../modal/ubah-bank-soal'
 import ImportSoalModal from './modal/import'
 import UbahSoalModal from './modal/ubah'
 
@@ -72,6 +74,12 @@ const initialValues: TambahSoalFormSchema = {
 export default function KelolaSoalBody() {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
+  const {
+    show: showUbahPaket,
+    key: keyUbahPaket,
+    doShow: doShowUbahPaket,
+    doHide: doHideUbahPaket,
+  } = useShowModal<string>()
   const [showModalImport, setShowModalImport] = useState(false)
   const [resetValues, setResetValues] = useState<TambahSoalFormSchema>()
   const {
@@ -343,9 +351,24 @@ export default function KelolaSoalBody() {
         </div>
         <Card className="flex flex-col w-full p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
           <div className="flex flex-col p-2">
-            <Title as="h6" weight="semibold">
-              {dataBankSoal?.judul ?? ''}
-            </Title>
+            <div className="flex justify-between space-x-2">
+              <Title as="h6" weight="semibold">
+                {dataBankSoal?.judul ?? ''}
+              </Title>
+              <ActionIconTooltip
+                tooltip="Ubah"
+                size="sm"
+                variant="text-colorful"
+                color="warning"
+                onClick={() => {
+                  if (!dataBankSoal?.id) return
+
+                  doShowUbahPaket(dataBankSoal?.id)
+                }}
+              >
+                <BsPencil className="size-3" />
+              </ActionIconTooltip>
+            </div>
             <SanitizeHTML
               html={dataBankSoal?.deskripsi || '-'}
               className="text-sm font-medium text-gray-lighter"
@@ -397,6 +420,12 @@ export default function KelolaSoalBody() {
           <CardSeparator />
         </Card>
       </div>
+
+      <UbahBankSoalModal
+        show={showUbahPaket}
+        id={keyUbahPaket}
+        onHide={doHideUbahPaket}
+      />
 
       <ImportSoalModal
         showModal={showModalImport}

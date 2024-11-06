@@ -5,7 +5,6 @@ import {
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
-  ControlledPaketSoal,
   ControlledQuillEditor,
   ControlledRadioGroup,
   ControlledSelect,
@@ -20,6 +19,7 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { routes } from '@/config/routes'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { mustBe } from '@/utils/must-be'
@@ -28,12 +28,13 @@ import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsCardChecklist, BsInfoCircle } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
-import { Switch } from 'rizzui'
+import { Switch, Tooltip } from 'rizzui'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -62,7 +63,7 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
 ])
 
 export type UbahUjianFormSchema = {
-  paket?: Omit<PaketSoalItemType, 'total'>
+  paket?: Omit<PaketSoalItemType, 'total'> & { idKategori: string }
   judul?: string
   jenis?: SelectOptionType
   penjadwalan: boolean
@@ -132,6 +133,7 @@ export default function UbahUjianModal({
         paket: bankSoal
           ? {
               id: bankSoal.id,
+              idKategori: bankSoal.id_kategori,
               name: bankSoal.judul,
               desc: bankSoal.deskripsi,
               time: bankSoal.created_at,
@@ -168,6 +170,9 @@ export default function UbahUjianModal({
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id],
         })
         queryClient.setQueryData(queryKey, (oldData: UbahUjianFormSchema) => ({
           ...oldData,
@@ -217,30 +222,40 @@ export default function UbahUjianModal({
             <>
               <div className="flex flex-col gap-4 p-3">
                 {paket && (
-                  <div className="flex space-x-2 border border-dashed border-muted rounded-md p-2">
-                    <div className="flex size-11 items-center justify-center rounded-md btn-item-blue">
-                      <BsCardChecklist size={22} />
-                    </div>
-                    <div className="flex flex-col">
-                      <Text
-                        weight="semibold"
-                        variant="dark"
-                        title={paket.name}
-                        className="truncate"
-                      >
-                        {paket.name}
-                      </Text>
-                      <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-                        <li>
-                          <Time date={paket.time} />
-                        </li>
-                        <li>
-                          <GoDotFill size={10} />
-                        </li>
-                        <li>{paket.count} Soal</li>
-                      </ul>
-                    </div>
-                  </div>
+                  <Tooltip
+                    content="Lihat Paket Soal"
+                    color="invert"
+                    placement="right"
+                  >
+                    <Link
+                      href={`${routes.pengguna.bankSoal}/${paket.idKategori}/soal/${paket.id}`}
+                    >
+                      <div className="flex space-x-2 border border-dashed border-muted rounded-md p-2">
+                        <div className="flex size-11 items-center justify-center rounded-md btn-item-blue">
+                          <BsCardChecklist size={22} />
+                        </div>
+                        <div className="flex flex-col">
+                          <Text
+                            weight="semibold"
+                            variant="dark"
+                            title={paket.name}
+                            className="truncate"
+                          >
+                            {paket.name}
+                          </Text>
+                          <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
+                            <li>
+                              <Time date={paket.time} />
+                            </li>
+                            <li>
+                              <GoDotFill size={10} />
+                            </li>
+                            <li>{paket.count} Soal</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </Link>
+                  </Tooltip>
                 )}
 
                 <ControlledInput

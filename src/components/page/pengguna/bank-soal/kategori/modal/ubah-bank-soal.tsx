@@ -87,6 +87,9 @@ export default function UbahBankSoalModal({
         queryClient.invalidateQueries({
           queryKey: ['pengguna.bank-soal.list', idKategori],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.bank-soal.lihat', idKategori, id],
+        })
         queryClient.setQueryData(
           queryKey,
           (oldData: UbahBankSoalFormSchema) => ({
