@@ -28,7 +28,7 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const { data: data, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [
       'pengguna.ruang-kelas.ujian.sesi-aktif',
       'pengajar',
