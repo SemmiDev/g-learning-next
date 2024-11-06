@@ -114,35 +114,32 @@ export default function PengajarUjianBody() {
         </div>
 
         <Card className="p-0 mt-2">
-          {/* TODO: hapus filter jika API sudah ada */}
-          {data
-            .filter((item) => item.aktifitas.tipe === 'Ujian')
-            .map((item, idx) => {
-              const waktuMulai = parseDate(item.aktifitas.waktu_mulai_ujian)
-              const waktuSelesai = parseDate(item.aktifitas.waktu_selesai_ujian)
+          {data.map((item, idx) => {
+            const waktuMulai = parseDate(item.waktu_mulai_ujian)
+            const waktuSelesai = parseDate(item.waktu_selesai_ujian)
 
-              return (
-                <PengajarRekapUjianItem
-                  key={item.aktifitas.id}
-                  idx={idx}
-                  /* TODO: penyesuaian data sesuai API jika sudah ada */
-                  sesi={{
-                    id: item.aktifitas.id,
-                    judul: item.aktifitas.judul,
-                    waktuMulai: item.aktifitas.waktu_mulai_ujian,
-                    waktuSelesai: item.aktifitas.waktu_selesai_ujian,
-                  }}
-                  active={item.aktifitas.id === idSesiAktif}
-                  open={
-                    !!waktuMulai &&
-                    !!waktuSelesai &&
-                    waktuMulai <= new Date() &&
-                    waktuSelesai >= new Date()
-                  }
-                  onClick={() => setSearchParams({ sesi: item.aktifitas.id })}
-                />
-              )
-            })}
+            return (
+              <PengajarRekapUjianItem
+                key={item.id}
+                idx={idx}
+                /* TODO: penyesuaian data sesuai API jika sudah ada */
+                sesi={{
+                  id: item.id,
+                  judul: item.judul,
+                  waktuMulai: item.waktu_mulai_ujian,
+                  waktuSelesai: item.waktu_selesai_ujian,
+                }}
+                active={item.id === idSesiAktif}
+                open={
+                  !!waktuMulai &&
+                  !!waktuSelesai &&
+                  waktuMulai <= new Date() &&
+                  waktuSelesai >= new Date()
+                }
+                onClick={() => setSearchParams({ sesi: item.id })}
+              />
+            )
+          })}
         </Card>
 
         <TablePagination
