@@ -14,6 +14,7 @@ export type DataType = {
   bobot_salah: number
   bobot_kosong: number
   total_soal: number
+  total_aktifitas: number
   created_at: string
   update_at: string
 }

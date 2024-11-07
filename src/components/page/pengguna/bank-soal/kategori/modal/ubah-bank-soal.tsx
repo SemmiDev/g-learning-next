@@ -10,6 +10,7 @@ import {
   Loader,
   Modal,
   ModalFooterButtons,
+  TextBordered,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
@@ -18,6 +19,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -35,6 +37,7 @@ export type UbahBankSoalFormSchema = {
   bobotSalah?: number
   bobotKosong?: number
   deskripsi?: string
+  bisaDiubah?: boolean
 }
 
 type UbahBankSoalModalProps = {
@@ -73,6 +76,7 @@ export default function UbahBankSoalModal({
         bobotSalah: data?.bobot_salah,
         bobotKosong: data?.bobot_kosong,
         deskripsi: data?.deskripsi,
+        bisaDiubah: !data?.total_aktifitas,
       }
     },
   })
@@ -108,6 +112,8 @@ export default function UbahBankSoalModal({
     setFormError(undefined)
   }
 
+  const bisaDiubah = initialValues?.bisaDiubah
+
   return (
     <Modal
       title="Ubah Bank Soal"
@@ -132,6 +138,13 @@ export default function UbahBankSoalModal({
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
+                {!bisaDiubah && (
+                  <Alert color="warning" className="break-words">
+                    Bank soal yang <b>sudah digunakan</b> pada kelas hanya bisa
+                    diubah judul dan deskripsi saja.
+                  </Alert>
+                )}
+
                 <ControlledInput
                   name="judul"
                   control={control}
@@ -141,45 +154,67 @@ export default function UbahBankSoalModal({
                   required
                 />
 
-                <ControlledInputNumber
-                  name="gunakan"
-                  control={control}
-                  errors={errors}
-                  label="Jumlah Soal Digunakan"
-                  placeholder="Jumlah soal yang akan digunakan dari keseluruhan soal"
-                  suffix="Soal"
-                  required
-                />
+                {bisaDiubah ? (
+                  <>
+                    <ControlledInputNumber
+                      name="gunakan"
+                      control={control}
+                      errors={errors}
+                      label="Jumlah Soal Digunakan"
+                      placeholder="Jumlah soal yang akan digunakan dari keseluruhan soal"
+                      suffix="Soal"
+                      required
+                    />
 
-                <div className="flex gap-2">
-                  <ControlledInputNumber
-                    name="bobotBenar"
-                    control={control}
-                    errors={errors}
-                    label="Bobot Benar"
-                    placeholder="Nilai jawaban benar"
-                    className="flex-1"
-                    required
-                  />
-                  <ControlledInputNumber
-                    name="bobotSalah"
-                    control={control}
-                    errors={errors}
-                    label="Bobot Salah"
-                    placeholder="Nilai jawaban salah"
-                    className="flex-1"
-                    required
-                  />
-                  <ControlledInputNumber
-                    name="bobotKosong"
-                    control={control}
-                    errors={errors}
-                    label="Bobot Kosong"
-                    placeholder="Nilai jawaban kosong"
-                    className="flex-1"
-                    required
-                  />
-                </div>
+                    <div className="flex gap-2">
+                      <ControlledInputNumber
+                        name="bobotBenar"
+                        control={control}
+                        errors={errors}
+                        label="Bobot Benar"
+                        placeholder="Nilai jawaban benar"
+                        className="flex-1"
+                        required
+                      />
+                      <ControlledInputNumber
+                        name="bobotSalah"
+                        control={control}
+                        errors={errors}
+                        label="Bobot Salah"
+                        placeholder="Nilai jawaban salah"
+                        className="flex-1"
+                        required
+                      />
+                      <ControlledInputNumber
+                        name="bobotKosong"
+                        control={control}
+                        errors={errors}
+                        label="Bobot Kosong"
+                        placeholder="Nilai jawaban kosong"
+                        className="flex-1"
+                        required
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <TextBordered label="Jumlah Soal Digunakan">
+                      {initialValues?.gunakan || '0'} Soal
+                    </TextBordered>
+
+                    <div className="flex gap-2">
+                      <TextBordered label="Bobot Benar" className="flex-1">
+                        {initialValues?.bobotBenar}
+                      </TextBordered>
+                      <TextBordered label="Bobot Salah" className="flex-1">
+                        {initialValues?.bobotSalah}
+                      </TextBordered>
+                      <TextBordered label="Bobot Kosong" className="flex-1">
+                        {initialValues?.bobotKosong}
+                      </TextBordered>
+                    </div>
+                  </>
+                )}
 
                 <ControlledQuillEditor
                   name="deskripsi"
@@ -196,7 +231,7 @@ export default function UbahBankSoalModal({
               <CardSeparator />
 
               <ModalFooterButtons
-                submit="Simpan Soal"
+                submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}

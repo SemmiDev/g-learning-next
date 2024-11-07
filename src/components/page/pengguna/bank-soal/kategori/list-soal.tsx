@@ -63,14 +63,18 @@ export default function ListSoalBody() {
         })
 
         return {
-          list: (data?.list ?? []).map((item) => ({
-            id: item.id,
-            title: item.judul,
-            desc: item.deskripsi,
-            time: item.created_at,
-            count: item.jumlah_soal_yang_digunakan,
-            total: item.total_soal,
-          })) as SoalType[],
+          list: (data?.list ?? []).map(
+            (item) =>
+              ({
+                id: item.id,
+                title: item.judul,
+                desc: item.deskripsi,
+                time: item.created_at,
+                count: item.jumlah_soal_yang_digunakan,
+                total: item.total_soal,
+                used: !!item.total_aktifitas,
+              } as SoalType)
+          ),
           pagination: data?.pagination,
         }
       },
@@ -144,7 +148,7 @@ export default function ListSoalBody() {
               key={soal.id}
               onShare={(soal) => doShowShareSoalUjian(soal)}
               onEdit={(soal) => doShowUbah(soal.id)}
-              onDelete={(soal) => setIdHapus(soal.id)}
+              onDelete={!soal.used ? (soal) => setIdHapus(soal.id) : undefined}
               soal={soal}
             />
           ))}

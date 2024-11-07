@@ -21,6 +21,7 @@ export type SoalType = {
   time: string
   count: number
   total: number
+  used: boolean
 }
 
 type SoalCardProps = {
@@ -80,15 +81,17 @@ export default function SoalCard({
                 Ubah
               </Dropdown.Item>
             </div>
-            <div className="py-2">
-              <Dropdown.Item
-                className="text-gray-dark"
-                onClick={() => onDelete && onDelete(soal)}
-              >
-                <BsTrash3 className="text-danger size-4 mr-2" />
-                Hapus
-              </Dropdown.Item>
-            </div>
+            {onDelete && (
+              <div className="py-2">
+                <Dropdown.Item
+                  className="text-gray-dark"
+                  onClick={() => onDelete(soal)}
+                >
+                  <BsTrash3 className="text-danger size-4 mr-2" />
+                  Hapus
+                </Dropdown.Item>
+              </div>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </div>

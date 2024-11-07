@@ -37,7 +37,7 @@ import { createRef, RefObject, useMemo, useRef, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BiCircle } from 'react-icons/bi'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
-import { FieldError } from 'rizzui'
+import { Alert, FieldError } from 'rizzui'
 import UbahBankSoalModal from '../modal/ubah-bank-soal'
 import ImportSoalModal from './modal/import'
 import UbahSoalModal from './modal/ubah'
@@ -155,128 +155,148 @@ export default function KelolaSoalBody() {
     })
   }
 
+  const canBeChanged = !dataBankSoal?.total_aktifitas
+
   return (
     <>
       <div className="flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start">
         <div className="flex flex-col gap-4 w-full">
-          <Card ref={soalBaruRef} className="flex flex-col scroll-m-24 p-0">
-            <Form<TambahSoalFormSchema>
-              onSubmit={onSubmit}
-              validationSchema={formSchema}
-              resetValues={resetValues}
-              useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}
-            >
-              {({
-                control,
-                watch,
-                setValue,
-                formState: { errors, isSubmitting },
-              }) => (
-                <>
-                  <div className="flex justify-between items-center space-x-2 p-2">
-                    <Title as="h6" weight="semibold">
-                      Soal Nomor {listSoal.length + 1}
-                    </Title>
-                    <div className="flex space-x-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setShowModalImport(true)}
-                      >
-                        Import Soal
-                      </Button>
-                      <ButtonSubmit size="sm" isSubmitting={isSubmitting}>
-                        Tambah Soal
-                      </ButtonSubmit>
-                    </div>
-                  </div>
-                  <CardSeparator />
-                  <div className="flex flex-col space-y-3 p-2">
-                    <FormError error={formError} />
-
-                    <ControlledQuillEditor
-                      name="soal"
-                      control={control}
-                      errors={errors}
-                      toolbar="normal-image"
-                      size="md"
-                      label="Soal"
-                      placeholder="Deskripsi soal"
-                      className="text-gray-dark"
-                      noMaxHeight
-                      required
-                    />
-
-                    <div className="space-y-2">
-                      <div>
-                        <TextLabel>
-                          <Label label="Pilihan Jawaban" required />
-                        </TextLabel>
-                        {errors.benar?.message && (
-                          <FieldError size="md" error={errors.benar?.message} />
-                        )}
-                      </div>
-                      {watch('jawaban')?.map((_, idx) => (
-                        <div className="flex items-center gap-2" key={idx}>
-                          <ControlledRadio
-                            name="benar"
-                            control={control}
-                            value={PILIHAN_JAWABAN[idx]}
-                          />
-                          <ControlledQuillEditor
-                            name={`jawaban.${idx}`}
-                            control={control}
-                            placeholder="Deskripsi jawaban"
-                            toolbar="minimalist-image"
+          {canBeChanged ? (
+            <Card ref={soalBaruRef} className="flex flex-col scroll-m-24 p-0">
+              <Form<TambahSoalFormSchema>
+                onSubmit={onSubmit}
+                validationSchema={formSchema}
+                resetValues={resetValues}
+                useFormProps={{
+                  mode: 'onSubmit',
+                  defaultValues: initialValues,
+                }}
+              >
+                {({
+                  control,
+                  watch,
+                  setValue,
+                  formState: { errors, isSubmitting },
+                }) => (
+                  <>
+                    <div className="flex justify-between items-center space-x-2 p-2">
+                      <Title as="h6" weight="semibold">
+                        Soal Nomor {listSoal.length + 1}
+                      </Title>
+                      {canBeChanged && (
+                        <div className="flex space-x-2">
+                          <Button
                             size="sm"
-                            className="flex-1 text-gray-dark"
-                            error={errors.jawaban?.[idx]?.message}
-                            noMaxHeight
-                          />
-                          {watch('jawaban').length > 3 && (
-                            <ActionIcon
-                              size="sm"
-                              variant="outline"
-                              color="danger"
-                              className="hover:border-danger-lighter"
-                              onClick={() => {
-                                if (watch('jawaban').length <= 3) return
-
-                                setValue(
-                                  'jawaban',
-                                  removeIndexFromList(watch('jawaban'), idx)
-                                )
-                              }}
-                            >
-                              <BsTrash />
-                            </ActionIcon>
-                          )}
+                            variant="outline"
+                            onClick={() => setShowModalImport(true)}
+                          >
+                            Import Soal
+                          </Button>
+                          <ButtonSubmit size="sm" isSubmitting={isSubmitting}>
+                            Tambah Soal
+                          </ButtonSubmit>
                         </div>
-                      ))}
-
-                      {watch('jawaban').length < PILIHAN_JAWABAN.length && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            if (
-                              watch('jawaban').length >= PILIHAN_JAWABAN.length
-                            )
-                              return
-
-                            setValue('jawaban', [...watch('jawaban'), ''])
-                          }}
-                        >
-                          <BsPlus size={20} className="mr-2" />
-                          Tambah Pilihan Jawaban
-                        </Button>
                       )}
                     </div>
-                  </div>
-                </>
-              )}
-            </Form>
-          </Card>
+                    <CardSeparator />
+                    <div className="flex flex-col space-y-3 p-2">
+                      <FormError error={formError} />
+
+                      <ControlledQuillEditor
+                        name="soal"
+                        control={control}
+                        errors={errors}
+                        toolbar="normal-image"
+                        size="md"
+                        label="Soal"
+                        placeholder="Deskripsi soal"
+                        className="text-gray-dark"
+                        noMaxHeight
+                        required
+                      />
+
+                      <div className="space-y-2">
+                        <div>
+                          <TextLabel>
+                            <Label label="Pilihan Jawaban" required />
+                          </TextLabel>
+                          {errors.benar?.message && (
+                            <FieldError
+                              size="md"
+                              error={errors.benar?.message}
+                            />
+                          )}
+                        </div>
+                        {watch('jawaban')?.map((_, idx) => (
+                          <div className="flex items-center gap-2" key={idx}>
+                            <ControlledRadio
+                              name="benar"
+                              control={control}
+                              value={PILIHAN_JAWABAN[idx]}
+                            />
+                            <ControlledQuillEditor
+                              name={`jawaban.${idx}`}
+                              control={control}
+                              placeholder="Deskripsi jawaban"
+                              toolbar="minimalist-image"
+                              size="sm"
+                              className="flex-1 text-gray-dark"
+                              error={errors.jawaban?.[idx]?.message}
+                              noMaxHeight
+                            />
+                            {watch('jawaban').length > 3 && (
+                              <ActionIcon
+                                size="sm"
+                                variant="outline"
+                                color="danger"
+                                className="hover:border-danger-lighter"
+                                onClick={() => {
+                                  if (watch('jawaban').length <= 3) return
+
+                                  setValue(
+                                    'jawaban',
+                                    removeIndexFromList(watch('jawaban'), idx)
+                                  )
+                                }}
+                              >
+                                <BsTrash />
+                              </ActionIcon>
+                            )}
+                          </div>
+                        ))}
+
+                        {watch('jawaban').length < PILIHAN_JAWABAN.length && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              if (
+                                watch('jawaban').length >=
+                                PILIHAN_JAWABAN.length
+                              )
+                                return
+
+                              setValue('jawaban', [...watch('jawaban'), ''])
+                            }}
+                          >
+                            <BsPlus size={20} className="mr-2" />
+                            Tambah Pilihan Jawaban
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </Form>
+            </Card>
+          ) : (
+            <Alert color="warning" className="break-words">
+              Bank soal yang <b>sudah digunakan</b> pada kelas tidak dapat
+              diubah lagi. Jika ingin membuat{' '}
+              <b>bank soal dengan variasi berbeda</b>, bisa dilakukan dengan
+              membuat duplikat dari bank soal yang sudah dibuat sebelumnya.
+            </Alert>
+          )}
 
           {listSoal.map((soal, idx) => (
             <Card
@@ -288,26 +308,28 @@ export default function KelolaSoalBody() {
                 <Title as="h6" weight="semibold">
                   Soal Nomor {idx + 1}
                 </Title>
-                <div className="flex space-x-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    color="warning"
-                    onClick={() => doShowUbah(soal.id)}
-                  >
-                    <BsPencil className="mr-1" />
-                    Ubah Soal
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    color="danger"
-                    onClick={() => setIdHapus(soal.id)}
-                  >
-                    <BsTrash className="mr-1" />
-                    Hapus Soal
-                  </Button>
-                </div>
+                {canBeChanged && (
+                  <div className="flex space-x-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      color="warning"
+                      onClick={() => doShowUbah(soal.id)}
+                    >
+                      <BsPencil className="mr-1" />
+                      Ubah Soal
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      color="danger"
+                      onClick={() => setIdHapus(soal.id)}
+                    >
+                      <BsTrash className="mr-1" />
+                      Hapus Soal
+                    </Button>
+                  </div>
+                )}
               </div>
               <CardSeparator />
               <div className="flex flex-col space-y-3 text-gray-dark p-2">
@@ -401,20 +423,22 @@ export default function KelolaSoalBody() {
                   </Button>
                 </div>
               ))}
-              <div className="flex justify-center items-center">
-                <Button
-                  size="sm"
-                  variant="solid"
-                  className="size-8"
-                  onClick={() => {
-                    soalBaruRef.current?.scrollIntoView({
-                      behavior: 'smooth',
-                    })
-                  }}
-                >
-                  {listSoal.length + 1}
-                </Button>
-              </div>
+              {canBeChanged && (
+                <div className="flex justify-center items-center">
+                  <Button
+                    size="sm"
+                    variant="solid"
+                    className="size-8"
+                    onClick={() => {
+                      soalBaruRef.current?.scrollIntoView({
+                        behavior: 'smooth',
+                      })
+                    }}
+                  >
+                    {listSoal.length + 1}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           <CardSeparator />
@@ -427,24 +451,28 @@ export default function KelolaSoalBody() {
         onHide={doHideUbahPaket}
       />
 
-      <ImportSoalModal
-        showModal={showModalImport}
-        setShowModal={setShowModalImport}
-        refetchKey={queryKey}
-      />
+      {canBeChanged && (
+        <>
+          <ImportSoalModal
+            showModal={showModalImport}
+            setShowModal={setShowModalImport}
+            refetchKey={queryKey}
+          />
 
-      <UbahSoalModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+          <UbahSoalModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
-      <ModalConfirm
-        title="Hapus Soal"
-        desc="Apakah Anda yakin ingin menghapus soal ini?"
-        color="danger"
-        isOpen={!!idHapus}
-        onClose={() => setIdHapus(undefined)}
-        onConfirm={handleHapus}
-        headerIcon="help"
-        closeOnCancel
-      />
+          <ModalConfirm
+            title="Hapus Soal"
+            desc="Apakah Anda yakin ingin menghapus soal ini?"
+            color="danger"
+            isOpen={!!idHapus}
+            onClose={() => setIdHapus(undefined)}
+            onConfirm={handleHapus}
+            headerIcon="help"
+            closeOnCancel
+          />
+        </>
+      )}
     </>
   )
 }

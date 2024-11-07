@@ -63,7 +63,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['admin.pembayaran-instansi.table.ubah', id]
+  const queryKey = ['admin.tagihan-instansi.table.ubah', id]
 
   const {
     data: initialValues,
@@ -144,7 +144,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
 
   return (
     <Modal
-      title="Ubah Pembayaran Instansi"
+      title="Ubah Tagihan Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
       isOpen={show}
