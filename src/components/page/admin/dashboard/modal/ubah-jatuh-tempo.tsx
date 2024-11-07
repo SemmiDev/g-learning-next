@@ -69,6 +69,7 @@ export default function UbahJatuhTempoModal({
       color="warning"
       isOpen={!!id}
       onClose={handleClose}
+      overflow
     >
       <Form<UbahJatuhTempoFormSchema>
         onSubmit={onSubmit}
