@@ -27,7 +27,6 @@ export default function Modal({
   desc,
   children,
   overlayClassName,
-  containerClassName,
   headerClassName,
   bodyClassName,
   className,
@@ -39,7 +38,6 @@ export default function Modal({
   return (
     <RizModal
       overlayClassName={cn('cursor-auto', overlayClassName)}
-      containerClassName={cn('overflow-clip', containerClassName)}
       onClose={onClose ?? (() => null)}
       className={cn(
         {

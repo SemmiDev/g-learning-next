@@ -1,5 +1,5 @@
-import { tablePembayaranInstansiAction } from '@/actions/admin/pembayaran-instansi/table'
-import PembayaranInstansiBody from '@/components/page/admin/pembayaran-instansi/body'
+import { tableTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/table'
+import TagihanInstansiBody from '@/components/page/admin/tagihan/instansi/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
@@ -11,34 +11,34 @@ import {
 } from '@tanstack/react-query'
 
 export const metadata = {
-  ...metaObject('Pembayaran Instansi'),
+  ...metaObject('Tagihan Instansi'),
 }
 
 const pageHeader = {
-  title: 'Pembayaran Instansi',
+  title: 'Tagihan Instansi',
   breadcrumb: [
     {
       href: routes.dashboard,
       name: 'Dasbor',
     },
     {
-      name: 'Pembayaran Instansi',
+      name: 'Tagihan Instansi',
     },
   ],
 }
 
-export default async function PembayaranInstansiPage() {
+export default async function TagihanInstansiPage() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
-    queryKey: ['admin.pembayaran-instansi.table'],
-    queryFn: makeAsyncTableQueryData(tablePembayaranInstansiAction),
+    queryKey: ['admin.tagihan-instansi.table'],
+    queryFn: makeAsyncTableQueryData(tableTagihanInstansiAction),
   })
 
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <PembayaranInstansiBody />
+        <TagihanInstansiBody />
       </HydrationBoundary>
     </>
   )

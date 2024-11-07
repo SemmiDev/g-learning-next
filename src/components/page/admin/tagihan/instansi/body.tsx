@@ -3,9 +3,9 @@
 import { Button, Title } from '@/components/ui'
 import { useState } from 'react'
 import TambahModal from './modal/tambah'
-import TablePembayaranInstansiCard from './table-card'
+import TableTagihanInstansiCard from './table-card'
 
-export default function PembayaranInstansiBody() {
+export default function TagihanInstansiBody() {
   const [showTambah, setShowTambah] = useState(false)
 
   return (
@@ -13,13 +13,13 @@ export default function PembayaranInstansiBody() {
       <div className="flex flex-col space-y-4">
         <div className="flex justify-between space-x-2">
           <Title as="h4" size="1.5xl" weight="semibold">
-            List Pembayaran Instansi
+            List Tagihan Instansi
           </Title>
           <Button size="sm" onClick={() => setShowTambah(true)}>
-            Invoice Baru
+            Tagihan Baru
           </Button>
         </div>
-        <TablePembayaranInstansiCard />
+        <TableTagihanInstansiCard />
       </div>
 
       <TambahModal show={showTambah} setShow={setShowTambah} />

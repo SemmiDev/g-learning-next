@@ -13,7 +13,8 @@ import Select, { SelectOptionType, SelectProps } from '../select/select'
 export type ControlledSelectProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
-  TOption extends SelectOptionType,
+  TOptionVal extends string | number,
+  TOption extends SelectOptionType<TOptionVal>,
   IsMulti extends boolean,
   Group extends GroupBase<TOption>
 > = Omit<
@@ -29,7 +30,8 @@ export type ControlledSelectProps<
 export default function ControlledSelect<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-  TOption extends SelectOptionType = SelectOptionType,
+  TOptionVal extends string | number = string | number,
+  TOption extends SelectOptionType<TOptionVal> = SelectOptionType<TOptionVal>,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<TOption> = GroupBase<TOption>
 >({
@@ -38,7 +40,14 @@ export default function ControlledSelect<
   errors,
   onChange,
   ...props
-}: ControlledSelectProps<TFieldValues, TName, TOption, IsMulti, Group>) {
+}: ControlledSelectProps<
+  TFieldValues,
+  TName,
+  TOptionVal,
+  TOption,
+  IsMulti,
+  Group
+>) {
   return (
     <Controller
       control={control}

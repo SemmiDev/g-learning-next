@@ -1,4 +1,4 @@
-import { lihatPembayaranInstansiAction } from '@/actions/admin/pembayaran-instansi/lihat'
+import { lihatTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/lihat'
 import {
   CardSeparator,
   Loader,
@@ -8,7 +8,9 @@ import {
   TextSpan,
   Time,
 } from '@/components/ui'
+import { NAMA_BULAN } from '@/config/const'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { rupiah } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 
 type LihatModalProps = {
@@ -19,8 +21,8 @@ type LihatModalProps = {
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['admin.pembayaran-instansi.table.lihat', id],
-    queryFn: makeSimpleQueryDataWithId(lihatPembayaranInstansiAction, id),
+    queryKey: ['admin.tagihan-instansi.table.lihat', id],
+    queryFn: makeSimpleQueryDataWithId(lihatTagihanInstansiAction, id),
   })
 
   return (
@@ -35,33 +37,39 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
         <Loader height={582} />
       ) : (
         <div className="flex flex-col gap-4 p-3">
-          <TextBordered label="No. Invoice">{data?.nomor_invoice}</TextBordered>
-          <TextBordered label="No. Pesanan">{data?.nomor_pesanan}</TextBordered>
+          <TextBordered label="Nomor Tagihan">
+            {data?.nomor_invoice}
+          </TextBordered>
           <TextBordered label="Instansi">
             {data?.nama_instansi || '-'}
           </TextBordered>
+          <TextBordered label="Tanggal Ditagihkan">
+            <Time date={data?.tanggal_tagihan} empty="-" />
+          </TextBordered>
+          <div className="flex flex-wrap gap-2">
+            <TextBordered label="Bulan Tagihan" className="flex-1">
+              {!!data?.bulan_tagihan
+                ? NAMA_BULAN[data?.bulan_tagihan - 1]
+                : '-'}
+            </TextBordered>
+            <TextBordered label="Tahun Tagihan" className="flex-1">
+              {data?.tahun_tagihan || '-'}
+            </TextBordered>
+          </div>
           <TextBordered label="Jenis Paket">
             {data?.nama_paket || '-'}
           </TextBordered>
-          <TextBordered label="Jenis Pembayaran">
-            {data?.jenis_pembayaran || '-'}
+          <TextBordered label="Total Tagihan">
+            {rupiah(data?.total_tagihan || 0)}
           </TextBordered>
           <TextBordered label="Status">
             <TextSpan
               size="sm"
               weight="semibold"
-              color={data?.status === 'Lunas' ? 'success' : 'danger'}
+              color={data?.status_tagihan === 'Lunas' ? 'success' : 'danger'}
             >
-              {data?.status || '-'}
+              {data?.status_tagihan || '-'}
             </TextSpan>
-          </TextBordered>
-          <TextBordered label="Tanggal Pembayaran">
-            <Time
-              date={data?.tanggal_pembayaran}
-              format="dateday"
-              empty="-"
-              seconds
-            />
           </TextBordered>
         </div>
       )}

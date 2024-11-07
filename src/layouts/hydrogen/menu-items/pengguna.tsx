@@ -1,12 +1,5 @@
 import { routes } from '@/config/routes'
-import {
-  LuBook,
-  LuBox,
-  LuFileText,
-  LuHome,
-  LuPackage,
-  LuSave,
-} from 'react-icons/lu'
+import { LuBook, LuBox, LuFileText, LuHome, LuSave } from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
@@ -39,7 +32,7 @@ export const menuItemsPengguna: MenuItemType[] = [
   },
   // {
   //   name: 'Ruang Kursus',
-  //   href: routes.pengguna.bankSoal,
+  //   href: '#',
   //   icon: <LuPackage />,
   //   dropdownItems: [
   //     {

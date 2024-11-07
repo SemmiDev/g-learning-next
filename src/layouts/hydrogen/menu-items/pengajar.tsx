@@ -39,7 +39,7 @@ export const menuItemsPengajar: MenuItemType[] = [
   },
   {
     name: 'Ruang Kursus',
-    href: routes.pengajar.bankSoal,
+    href: '#',
     icon: <LuPackage />,
     dropdownItems: [
       {

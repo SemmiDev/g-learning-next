@@ -38,9 +38,19 @@ export const menuItemsAdmin: MenuItemType[] = [
     icon: <LuFileText />,
   },
   {
-    name: 'Pembayaran Instansi',
-    href: routes.admin.pembayaranInstansi,
+    name: 'Tagihan',
+    href: '#',
     icon: <LuCreditCard />,
+    dropdownItems: [
+      {
+        name: 'Instansi',
+        href: routes.admin.tagihanInstansi,
+      },
+      {
+        name: 'Pengguna',
+        href: routes.admin.tagihanPengguna,
+      },
+    ],
   },
   {
     name: 'Manajemen Admin',

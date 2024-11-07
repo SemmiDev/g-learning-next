@@ -86,7 +86,7 @@ export default function ModalHeader({
   return (
     <div
       className={cn(
-        'modal-header flex justify-between p-3',
+        'modal-header flex justify-between rounded-t-xl p-3',
         bgColor,
         color === 'white' ? 'border-b border-muted' : null,
         className

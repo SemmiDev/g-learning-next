@@ -6,6 +6,7 @@ import { makeJwtGetRequestSelectDataAction } from '@/utils/action'
 export type DataType = {
   id: string
   nama: string
+  harga: number
   tipe: string
 }
 

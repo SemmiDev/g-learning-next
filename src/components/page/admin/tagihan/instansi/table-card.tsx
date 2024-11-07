@@ -1,5 +1,5 @@
-import { hapusPembayaranInstansiAction } from '@/actions/admin/pembayaran-instansi/hapus'
-import { tablePembayaranInstansiAction } from '@/actions/admin/pembayaran-instansi/table'
+import { hapusTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/hapus'
+import { tableTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/table'
 import {
   ActionIconTooltip,
   Badge,
@@ -19,13 +19,15 @@ import { useTableAsync } from '@/hooks/use-table-async'
 import { rupiah } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
 import { BsPencilSquare } from 'react-icons/bs'
-import { LuEye, LuTrash } from 'react-icons/lu'
+import { LuCopy, LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
+import { NAMA_BULAN } from '@/config/const'
+import toast from 'react-hot-toast'
 
-const queryKey = ['admin.pembayaran-instansi.table'] as const
+const queryKey = ['admin.tagihan-instansi.table'] as const
 
-export default function TablePembayaranInstansiCard() {
+export default function TableTagihanInstansiCard() {
   const {
     show: showLihat,
     key: keyLihat,
@@ -44,7 +46,7 @@ export default function TablePembayaranInstansiCard() {
     id: idHapus,
     setId: setIdHapus,
   } = useHandleDelete({
-    action: hapusPembayaranInstansiAction,
+    action: hapusTagihanInstansiAction,
     refetchKey: queryKey,
   })
 
@@ -62,7 +64,7 @@ export default function TablePembayaranInstansiCard() {
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tablePembayaranInstansiAction,
+    action: tableTagihanInstansiAction,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [
@@ -85,13 +87,60 @@ export default function TablePembayaranInstansiCard() {
     {
       title: (
         <TableHeaderCell
-          title="Tanggal Pembayaran"
-          align="center"
+          title="No. Tagihan"
           sortable
-          sort={getSortOrder(sort, 'tanggal_pembayaran')}
+          sort={getSortOrder(sort, 'nomor_invoice')}
         />
       ),
-      dataIndex: 'tanggal_pembayaran',
+      dataIndex: 'nomor_invoice',
+      render: (value: string) => (
+        <div className="flex items-center gap-1">
+          <TableCellText title={value}>
+            {value.substring(0, 10)}...
+          </TableCellText>
+          <ActionIconTooltip
+            tooltip="Salin nomor tagihan"
+            size="sm"
+            variant="text-colorful"
+            onClick={async () => {
+              await navigator.clipboard.writeText(value)
+              toast.success('Nomor tagihan telah disalin', {
+                position: 'bottom-center',
+              })
+            }}
+          >
+            <LuCopy />
+          </ActionIconTooltip>
+        </div>
+      ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('nomor_invoice')
+        },
+      }),
+    },
+    {
+      title: <TableHeaderCell title="Bulan Tagihan" align="center" />,
+      dataIndex: 'bulan_tagihan',
+      render: (value: number) => (
+        <TableCellText align="center">{NAMA_BULAN[value - 1]}</TableCellText>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Tahun Tagihan" />,
+      dataIndex: 'tahun_tagihan',
+      render: renderTableCellTextCenter,
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Tgl. Ditagihkan"
+          align="center"
+          sortable
+          sort={getSortOrder(sort, 'tanggal_tagihan')}
+        />
+      ),
+      dataIndex: 'tanggal_tagihan',
       render: (value: string) => (
         <TableCellText align="center">
           <Time date={value} empty="-" />
@@ -99,7 +148,47 @@ export default function TablePembayaranInstansiCard() {
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('tanggal_pembayaran')
+          onSort('tanggal_tagihan')
+        },
+      }),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Tgl. Jatuh Tempo"
+          align="center"
+          sortable
+          sort={getSortOrder(sort, 'jatuh_tempo')}
+        />
+      ),
+      dataIndex: 'jatuh_tempo',
+      render: (value: string) => (
+        <TableCellText align="center">
+          <Time date={value} empty="-" />
+        </TableCellText>
+      ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('jatuh_tempo')
+        },
+      }),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Total Tagihan"
+          align="center"
+          sortable
+          sort={getSortOrder(sort, 'total_tagihan')}
+        />
+      ),
+      dataIndex: 'total_tagihan',
+      render: (value: number) => (
+        <TableCellText align="center">{rupiah(value)}</TableCellText>
+      ),
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('total_tagihan')
         },
       }),
     },
@@ -109,42 +198,15 @@ export default function TablePembayaranInstansiCard() {
       render: renderTableCellTextCenter,
     },
     {
-      title: (
-        <TableHeaderCell
-          title="Nominal"
-          align="center"
-          sortable
-          sort={getSortOrder(sort, 'nominal')}
-        />
-      ),
-      dataIndex: 'nominal',
-      render: (value: number) => (
-        <TableCellText align="center">{rupiah(value)}</TableCellText>
-      ),
-      onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nominal')
-        },
-      }),
-    },
-    {
-      title: <TableHeaderCell title="No. Pesanan" align="center" />,
-      dataIndex: 'nomor_pesanan',
-      render: renderTableCellTextCenter,
-    },
-    {
-      title: <TableHeaderCell title="No. Invoice" align="center" />,
-      dataIndex: 'nomor_invoice',
-      render: renderTableCellTextCenter,
-    },
-    {
       title: <TableHeaderCell title="Status" />,
-      dataIndex: 'status',
+      dataIndex: 'status_tagihan',
       render: (value: string) => (
         <TableCellText align="center">
           <Badge
+            size="sm"
             variant="flat"
             color={value === 'Lunas' ? 'success' : 'danger'}
+            className="text-nowrap"
           >
             {value}
           </Badge>
@@ -166,17 +228,15 @@ export default function TablePembayaranInstansiCard() {
           >
             <LuEye />
           </ActionIconTooltip>
-          {row.status !== 'Lunas' && (
-            <ActionIconTooltip
-              tooltip="Ubah"
-              size="sm"
-              variant="text-colorful"
-              color="warning"
-              onClick={() => doShowUbah(row.id)}
-            >
-              <BsPencilSquare />
-            </ActionIconTooltip>
-          )}
+          <ActionIconTooltip
+            tooltip="Ubah"
+            size="sm"
+            variant="text-colorful"
+            color="warning"
+            onClick={() => doShowUbah(row.id)}
+          >
+            <BsPencilSquare />
+          </ActionIconTooltip>
           <ActionIconTooltip
             tooltip="Hapus"
             size="sm"
@@ -219,8 +279,8 @@ export default function TablePembayaranInstansiCard() {
       <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalConfirm
-        title="Hapus Pembayaran Instansi"
-        desc="Apakah Anda yakin ingin menghapus invoice pembayaran ini?"
+        title="Hapus Tagihan Instansi"
+        desc="Apakah Anda yakin ingin menghapus tagihan ini?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}
