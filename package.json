@@ -17,6 +17,7 @@
     "date-fns": "^3.6.0",
     "i18next": "^23.10.1",
     "jwt-decode": "^4.0.0",
+    "moment": "^2.30.1",
     "next": "^15.0.3",
     "next-auth": "^4.24.10",
     "next-nprogress-bar": "^2.3.14",
