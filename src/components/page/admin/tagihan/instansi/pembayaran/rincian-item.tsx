@@ -17,7 +17,7 @@ export default function RincianItem({
   variant = 'dark',
 }: RincianItemProps) {
   return (
-    <div className="flex flex-col space-y-1">
+    <div className="flex flex-col">
       <Text size="sm" weight="medium" variant="lighter">
         {label}
       </Text>

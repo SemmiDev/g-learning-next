@@ -4,6 +4,7 @@ import { tablePembayaranTagihanInstansiAction } from '@/actions/admin/tagihan-in
 import {
   ActionIconTooltip,
   Card,
+  CardSeparator,
   getSortOrder,
   ModalConfirm,
   TableCellText,
@@ -210,7 +211,7 @@ export default function TablePembayaranTagihanInstansiCard() {
   return (
     <>
       <Card className="p-0">
-        <div className="flex justify-between items-center gap-x-6 px-2.5 pt-3">
+        <div className="flex justify-between items-center gap-x-6 px-2.5 py-3">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <RincianItem
               label="Nomor Tagihan"
@@ -219,7 +220,7 @@ export default function TablePembayaranTagihanInstansiCard() {
             <RincianItem label="Instansi" value={dataTagihan?.nama_instansi} />
             <RincianItem label="Jenis Paket" value={dataTagihan?.nama_paket} />
             <RincianItem
-              label="Tanggal Jatuh Tempo"
+              label="Tgl. Jatuh Tempo"
               value={<Time date={dataTagihan?.jatuh_tempo} empty="-" />}
               color={lewatJatuhTempo ? 'danger' : 'gray'}
               variant={lewatJatuhTempo ? 'default' : 'dark'}
@@ -249,6 +250,8 @@ export default function TablePembayaranTagihanInstansiCard() {
             </Tooltip>
           </RincianItem>
         </div>
+
+        <CardSeparator />
 
         <ControlledAsyncTable
           data={data}
