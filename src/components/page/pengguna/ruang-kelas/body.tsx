@@ -42,10 +42,7 @@ export default function ListKelasBody() {
 
       <ListKelasCardList />
 
-      <GabungKelasModal
-        showModal={showGabungKelas}
-        setShowModal={setShowGabungKelas}
-      />
+      <GabungKelasModal show={showGabungKelas} setShow={setShowGabungKelas} />
 
       <BuatKelasModal
         showModal={showBuatKelas}

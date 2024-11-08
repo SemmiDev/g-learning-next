@@ -14,8 +14,14 @@ export type ControlledDatePickerProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
 > = Omit<
-  DatePickerProps<boolean>,
-  'placeholderText' | 'value' | 'onChange' | 'onBlur'
+  DatePickerProps,
+  | 'placeholderText'
+  | 'value'
+  | 'onChange'
+  | 'onBlur'
+  | 'showMonthYearDropdown'
+  | 'selectsRange'
+  | 'selectsMultiple'
 > & {
   name: TName
   control: Control<TFieldValues>

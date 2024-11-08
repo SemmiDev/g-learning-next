@@ -4,7 +4,7 @@ import cn from '@/utils/class-names'
 import { id } from 'date-fns/locale'
 import { useState } from 'react'
 import ReactDatePicker, {
-  type ReactDatePickerProps,
+  DatePickerProps as ReactDatePickerProps,
   registerLocale,
 } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -37,18 +37,7 @@ const timeOnlyClasses = {
   base: '[&.react-datepicker--time-only>div]:pr-0 [&.react-datepicker--time-only>div]:w-28',
 }
 
-export interface DatePickerProps<selectsRange extends boolean | undefined>
-  extends Omit<ReactDatePickerProps, 'selectsRange' | 'onChange'> {
-  /** Pass function in onChange prop to handle selecting value */
-  onChange(
-    date: selectsRange extends false | undefined
-      ? Date | null
-      : [Date | null, Date | null],
-    event: React.SyntheticEvent<any> | undefined
-  ): void
-  /** Whether range selecting is enabled */
-  selectsRange?: selectsRange
-  /** Pass input props to style input */
+export type DatePickerProps = ReactDatePickerProps & {
   inputProps?: InputProps
 }
 
@@ -57,7 +46,6 @@ export const DatePicker = ({
   customInput,
   showPopperArrow = false,
   dateFormat = 'dd MMMM yyyy',
-  selectsRange = false,
   onCalendarOpen,
   onCalendarClose,
   inputProps,
@@ -65,7 +53,7 @@ export const DatePicker = ({
   locale = 'id',
   timeCaption = 'Waktu',
   ...props
-}: DatePickerProps<boolean>) => {
+}: DatePickerProps) => {
   const [isCalenderOpen, setIsCalenderOpen] = useState(false)
   const handleCalenderOpen = () => setIsCalenderOpen(true)
   const handleCalenderClose = () => setIsCalenderOpen(false)
@@ -113,7 +101,6 @@ export const DatePicker = ({
         timeCaption={timeCaption}
         showPopperArrow={showPopperArrow}
         dateFormat={dateFormat}
-        selectsRange={selectsRange}
         onCalendarOpen={onCalendarOpen || handleCalenderOpen}
         onCalendarClose={onCalendarClose || handleCalenderClose}
         calendarClassName={cn(
