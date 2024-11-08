@@ -128,7 +128,7 @@ import TextBordered, { TextBorderedProps } from './text/bordered'
 import TextLabel from './text/label'
 import TextLink from './text/link'
 import TextSpan from './text/span'
-import Text from './text/text'
+import Text, { TextProps } from './text/text'
 import Title from './text/title'
 import Textarea, { TextareaProps } from './textarea'
 import Thumbnail, { ThumbnailProps } from './thumbnail'
@@ -293,6 +293,7 @@ export {
   type TableHeaderCellProps,
   type TableProps,
   type TextBorderedProps,
+  type TextProps,
   type TextareaProps,
   type ThumbnailProps,
   type TimeIndoProps,

@@ -4,7 +4,10 @@ import DetailInstansiBody from '@/components/page/admin/instansi/detail/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import {
+  makeAsyncTableQueryData,
+  makeSimpleQueryDataWithId,
+} from '@/utils/query-data'
 import {
   dehydrate,
   HydrationBoundary,
@@ -12,11 +15,11 @@ import {
 } from '@tanstack/react-query'
 
 export const metadata = {
-  ...metaObject('Instansi'),
+  ...metaObject('Detail Instansi - Instansi'),
 }
 
 const pageHeader = {
-  title: 'Instansi',
+  title: 'Detail Instansi',
   breadcrumb: [
     {
       href: routes.dashboard,
@@ -43,18 +46,18 @@ export default async function ListInstansiPage({
 
   const { id } = await params
 
-  await queryClient.prefetchQuery({
-    queryKey: ['admin.instansi.detail', id],
-    queryFn: makeSimpleQueryDataWithId(lihatInstansiAction, id),
-  })
-  await queryClient.prefetchQuery({
-    queryKey: ['admin.instansi.detail.table-pengguna', id],
-    queryFn: async () => {
-      const { data } = await tablePenggunaInstansiAction({ params: { id } })
-
-      return data?.list ?? []
-    },
-  })
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ['admin.instansi.detail', id],
+      queryFn: makeSimpleQueryDataWithId(lihatInstansiAction, id),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['admin.instansi.detail.table-pengguna', id],
+      queryFn: makeAsyncTableQueryData(tablePenggunaInstansiAction, {
+        params: { id },
+      }),
+    }),
+  ])
 
   return (
     <>

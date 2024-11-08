@@ -29,6 +29,7 @@ const pageHeader = {
 
 export default async function TagihanInstansiPage() {
   const queryClient = new QueryClient()
+
   await queryClient.prefetchQuery({
     queryKey: ['admin.tagihan-instansi.table'],
     queryFn: makeAsyncTableQueryData(tableTagihanInstansiAction),

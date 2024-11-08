@@ -135,7 +135,7 @@ export default function TableInstansiCard() {
       className: 'action',
       render: (_, row) => (
         <div className="flex justify-center">
-          <Link href={`${routes.admin.listInstansi}/detail/${row.id}`}>
+          <Link href={`${routes.admin.listInstansi}/${row.id}`}>
             <ActionIconTooltip
               tooltip="Detail"
               size="sm"

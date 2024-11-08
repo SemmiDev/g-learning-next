@@ -29,6 +29,7 @@ const pageHeader = {
 
 export default async function PaketPenggunaPage() {
   const queryClient = new QueryClient()
+
   await queryClient.prefetchQuery({
     queryKey: ['admin.paket-pengguna.list'],
     queryFn: makeAsyncTableQueryData(listPaketPenggunaAction),

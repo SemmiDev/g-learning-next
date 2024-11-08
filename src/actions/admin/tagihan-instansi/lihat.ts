@@ -19,6 +19,7 @@ type DataType = {
   nama_instansi: string
   nama_paket: string
   jenis_paket: string
+  total_pembayaran: number
 }
 
 export const lihatTagihanInstansiAction = async (id: string) =>

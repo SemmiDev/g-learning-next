@@ -37,7 +37,12 @@ export default function DiskusiDetailTugasPage() {
           href={`${routes.pengguna.ruangKelas}/${idKelas}`}
           onClick={() => router.back()}
         >
-          <Button variant="text" color="primary" className="text-gray-dark">
+          <Button
+            as="span"
+            variant="text"
+            color="primary"
+            className="text-gray-dark"
+          >
             <RiArrowLeftLine size={18} className="" />{' '}
             <Text weight="medium" className="ml-2">
               Kembali

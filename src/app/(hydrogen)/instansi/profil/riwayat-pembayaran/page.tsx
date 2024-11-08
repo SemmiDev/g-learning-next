@@ -9,6 +9,7 @@ import {
 
 export default async function RiwayatPembayaranPage() {
   const queryClient = new QueryClient()
+
   await queryClient.prefetchQuery({
     queryKey: ['instansi.profil.riwayat-pembayaran.table'],
     queryFn: makeAsyncTableQueryData(tableRiwayatPembayaranAction),

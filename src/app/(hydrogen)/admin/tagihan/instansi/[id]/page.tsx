@@ -1,0 +1,70 @@
+import { lihatTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/lihat'
+import { tablePembayaranTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/pembayaran/table'
+import PembayaranTagihanInstansiBody from '@/components/page/admin/tagihan/instansi/pembayaran/body'
+import PageHeader from '@/components/shared/page-header'
+import { routes } from '@/config/routes'
+import { metaObject } from '@/config/site.config'
+import {
+  makeAsyncTableQueryData,
+  makeSimpleQueryDataWithId,
+} from '@/utils/query-data'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
+
+export const metadata = {
+  ...metaObject('Pembayaran Tagihan - Tagihan Instansi'),
+}
+
+const pageHeader = {
+  title: 'Pembayaran Tagihan',
+  breadcrumb: [
+    {
+      href: routes.dashboard,
+      name: 'Dasbor',
+    },
+    {
+      href: routes.admin.tagihanInstansi,
+      name: 'Tagihan Instansi',
+    },
+    {
+      name: 'Pembayaran Tagihan',
+    },
+  ],
+}
+
+type PembayaranTagihanInstansiPageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function PembayaranTagihanInstansiPage({
+  params,
+}: PembayaranTagihanInstansiPageProps) {
+  const queryClient = new QueryClient()
+
+  const { id } = await params
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ['admin.tagihan-instansi.pembayaran', id],
+      queryFn: makeSimpleQueryDataWithId(lihatTagihanInstansiAction, id),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['admin.tagihan-instansi.pembayaran.table', id],
+      queryFn: makeAsyncTableQueryData(tablePembayaranTagihanInstansiAction, {
+        params: { idTagihan: id },
+      }),
+    }),
+  ])
+
+  return (
+    <>
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PembayaranTagihanInstansiBody />
+      </HydrationBoundary>
+    </>
+  )
+}

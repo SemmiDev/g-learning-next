@@ -31,7 +31,7 @@
     "react": "^19.0.0-rc-603e6108-20241029",
     "react-big-calendar": "^1.8.7",
     "react-calendar": "^5.0.0",
-    "react-datepicker": "^6.9.0",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^19.0.0-rc-603e6108-20241029",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.53.0",

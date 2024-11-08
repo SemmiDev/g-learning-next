@@ -13,27 +13,24 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter } from '@/components/ui/table'
+import { NAMA_BULAN } from '@/config/const'
+import { routes } from '@/config/routes'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { rupiah } from '@/utils/text'
+import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
-import { BsPencilSquare } from 'react-icons/bs'
-import { LuCopy, LuEye, LuTrash } from 'react-icons/lu'
-import LihatModal from './modal/lihat'
-import UbahModal from './modal/ubah'
-import { NAMA_BULAN } from '@/config/const'
 import toast from 'react-hot-toast'
+import { BsPencilSquare } from 'react-icons/bs'
+import { LiaMoneyCheckAltSolid } from 'react-icons/lia'
+import { LuCopy, LuTrash } from 'react-icons/lu'
+import UbahModal from './modal/ubah'
+import { parseDate } from '@/utils/date'
 
 const queryKey = ['admin.tagihan-instansi.table'] as const
 
 export default function TableTagihanInstansiCard() {
-  const {
-    show: showLihat,
-    key: keyLihat,
-    doShow: doShowLihat,
-    doHide: doHideLihat,
-  } = useShowModal<string>()
   const {
     show: showUbah,
     key: keyUbah,
@@ -104,7 +101,7 @@ export default function TableTagihanInstansiCard() {
             variant="text-colorful"
             onClick={async () => {
               await navigator.clipboard.writeText(value)
-              toast.success('Nomor tagihan telah disalin', {
+              toast.success('Nomor tagihan berhasil disalin', {
                 position: 'bottom-center',
               })
             }}
@@ -162,11 +159,21 @@ export default function TableTagihanInstansiCard() {
         />
       ),
       dataIndex: 'jatuh_tempo',
-      render: (value: string) => (
-        <TableCellText align="center">
-          <Time date={value} empty="-" />
-        </TableCellText>
-      ),
+      render: (value: string, row) => {
+        const lunas = row?.status_tagihan === 'Lunas'
+        const jatuhTempo = parseDate(row.jatuh_tempo)
+        const lewatJatuhTempo = !lunas && jatuhTempo && jatuhTempo < new Date()
+
+        return (
+          <TableCellText
+            align="center"
+            color={lewatJatuhTempo ? 'danger' : 'gray'}
+            variant={lewatJatuhTempo ? 'default' : 'dark'}
+          >
+            <Time date={value} empty="-" />
+          </TableCellText>
+        )
+      },
       onHeaderCell: () => ({
         onClick: () => {
           onSort('jatuh_tempo')
@@ -200,18 +207,30 @@ export default function TableTagihanInstansiCard() {
     {
       title: <TableHeaderCell title="Status" />,
       dataIndex: 'status_tagihan',
-      render: (value: string) => (
-        <TableCellText align="center">
-          <Badge
-            size="sm"
-            variant="flat"
-            color={value === 'Lunas' ? 'success' : 'danger'}
-            className="text-nowrap"
-          >
-            {value}
-          </Badge>
-        </TableCellText>
-      ),
+      render: (value: string, row) => {
+        const lunas = row?.status_tagihan === 'Lunas'
+        const jatuhTempo = parseDate(row.jatuh_tempo)
+        const lewatJatuhTempo = !lunas && jatuhTempo && jatuhTempo < new Date()
+
+        return (
+          <TableCellText align="center">
+            <Badge
+              size="sm"
+              variant="flat"
+              color={
+                value === 'Lunas'
+                  ? 'success'
+                  : lewatJatuhTempo
+                  ? 'danger'
+                  : 'warning'
+              }
+              className="text-nowrap"
+            >
+              {value}
+            </Badge>
+          </TableCellText>
+        )
+      },
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
@@ -219,15 +238,17 @@ export default function TableTagihanInstansiCard() {
       width: 100,
       render: (_, row) => (
         <div className="flex justify-center">
-          <ActionIconTooltip
-            tooltip="Lihat"
-            size="sm"
-            variant="text-colorful"
-            color="info"
-            onClick={() => doShowLihat(row.id)}
-          >
-            <LuEye />
-          </ActionIconTooltip>
+          <Link href={`${routes.admin.tagihanInstansi}/${row.id}`}>
+            <ActionIconTooltip
+              tooltip="Pembayaran"
+              size="sm"
+              as="span"
+              variant="text-colorful"
+              color="primary"
+            >
+              <LiaMoneyCheckAltSolid className="size-5" />
+            </ActionIconTooltip>
+          </Link>
           <ActionIconTooltip
             tooltip="Ubah"
             size="sm"
@@ -273,8 +294,6 @@ export default function TableTagihanInstansiCard() {
           }}
         />
       </Card>
-
-      <LihatModal show={showLihat} id={keyLihat} onHide={doHideLihat} />
 
       <UbahModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
