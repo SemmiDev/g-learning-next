@@ -3,7 +3,7 @@
 import { Button, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import TambahModal from './modal/tambah'
@@ -13,14 +13,12 @@ export default function PembayaranTagihanInstansiBody() {
   const router = useRouter()
   const [showTambah, setShowTambah] = useState(false)
 
-  const { id: idTagihan }: { id: string } = useParams()
-
   return (
     <>
       <div className="flex flex-col space-y-4">
         <div className="flex justify-between space-x-2">
           <Link
-            href={`${routes.admin.tagihanInstansi}/${idTagihan}`}
+            href={routes.admin.tagihanInstansi}
             onClick={() => router.back()}
           >
             <Button
