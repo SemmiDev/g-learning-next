@@ -236,6 +236,7 @@ export default function TablePembayaranTagihanInstansiCard() {
               content={`Total Pembayaran ${rupiah(
                 dataTagihan?.total_pembayaran || 0
               )}`}
+              placement="left"
             >
               <Text
                 size="1.5xl"
