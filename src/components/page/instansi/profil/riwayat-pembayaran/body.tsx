@@ -37,7 +37,7 @@ export default function ProfilRiwayatPembayaranBody() {
     {
       title: (
         <TableHeaderCell
-          title="Tanggal"
+          title="Tanggal Pembayaran"
           sortable
           sort={getSortOrder(sort, 'tanggal_pembayaran')}
         />
@@ -62,26 +62,55 @@ export default function ProfilRiwayatPembayaranBody() {
     {
       title: (
         <TableHeaderCell
-          title="Biaya"
+          title="Nominal Pembayaran"
           align="center"
           sortable
-          sort={getSortOrder(sort, 'nominal')}
+          sort={getSortOrder(sort, 'jumlah_pembayaran')}
         />
       ),
-      dataIndex: 'nominal',
+      dataIndex: 'jumlah_pembayaran',
       render: (value: number) => (
         <TableCellText align="center">{rupiah(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('nominal')
+          onSort('jumlah_pembayaran')
         },
       }),
     },
     {
-      title: <TableHeaderCell title="No. Invoice" align="center" />,
+      title: (
+        <TableHeaderCell
+          title="No. Pembayaran"
+          align="center"
+          sortable
+          sort={getSortOrder(sort, 'nomor_pembayaran')}
+        />
+      ),
+      dataIndex: 'nomor_pembayaran',
+      render: renderTableCellTextCenter,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('nomor_pembayaran')
+        },
+      }),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="No. Tagihan"
+          align="center"
+          sortable
+          sort={getSortOrder(sort, 'nomor_invoice')}
+        />
+      ),
       dataIndex: 'nomor_invoice',
       render: renderTableCellTextCenter,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('nomor_invoice')
+        },
+      }),
     },
     {
       title: <TableHeaderCell title="Invoice" align="center" />,
@@ -108,7 +137,7 @@ export default function ProfilRiwayatPembayaranBody() {
         isLoading={isLoading}
         isFetching={isFetching}
         columns={tableColumns}
-        rowKey={(row) => row.id}
+        rowKey={(row) => row.id_pembayaran}
         filterOptions={{
           searchTerm: search,
           onSearchClear: () => onSearch(''),

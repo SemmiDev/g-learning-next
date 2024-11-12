@@ -68,26 +68,38 @@ export default function DashboardRiwayatPembayaranCard({
     {
       title: (
         <TableHeaderCell
-          title="Biaya (Rp)"
+          title="Nominal Pembayaran (Rp)"
           align="center"
           sortable
-          sort={getSortOrder(sort, 'nominal')}
+          sort={getSortOrder(sort, 'jumlah_pembayaran')}
         />
       ),
-      dataIndex: 'nominal',
+      dataIndex: 'jumlah_pembayaran',
       render: (value: number) => (
         <TableCellText align="center">{angka(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
         onClick: () => {
-          onSort('nominal')
+          onSort('jumlah_pembayaran')
         },
       }),
     },
     {
-      title: <TableHeaderCell title="No. Invoice" align="center" />,
-      dataIndex: 'nomor_invoice',
+      title: (
+        <TableHeaderCell
+          title="No. Pembayaran"
+          align="center"
+          sortable
+          sort={getSortOrder(sort, 'nomor_pembayaran')}
+        />
+      ),
+      dataIndex: 'nomor_pembayaran',
       render: renderTableCellTextCenter,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('nomor_pembayaran')
+        },
+      }),
     },
     {
       title: <TableHeaderCell title="Invoice" align="center" />,
@@ -124,7 +136,7 @@ export default function DashboardRiwayatPembayaranCard({
         isLoading={isLoading}
         isFetching={isFetching}
         columns={tableColumns}
-        rowKey={(row) => row.id}
+        rowKey={(row) => row.id_pembayaran}
         filterOptions={{
           searchTerm: search,
           searchSize: 'sm',

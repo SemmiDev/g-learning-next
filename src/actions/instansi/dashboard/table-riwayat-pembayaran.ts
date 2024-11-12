@@ -20,6 +20,13 @@ type DataType = {
   updated_at: string
   nama_instansi: string
   nama_paket: string
+  id_pembayaran: string
+  id_tagihan: string
+  tanggal_pembayaran: string
+  jumlah_pembayaran: number
+  nomor_tagihan: string
+  nomor_pembayaran: string
+  jenis_pembayaran: 'Manual' | 'Winpay' | 'Lainnya'
 }
 
 export const tableRiwayatPembayaranAction = async ({
