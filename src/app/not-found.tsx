@@ -1,9 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { PiHouseLineBold } from 'react-icons/pi'
-import { siteConfig } from '@/config/site.config'
+import { metaObject, siteConfig } from '@/config/site.config'
 import NotFoundImg from '@public/not-found.png'
 import { Button, Title } from '@/components/ui'
+
+export const metadata = {
+  ...metaObject('404 - Not Found'),
+}
 
 export default function NotFound() {
   return (
@@ -31,13 +35,11 @@ export default function NotFound() {
             weight="bold"
             className="text-[22px] leading-normal text-black lg:text-3xl"
           >
-            Sorry, the page not found
+            404 - Halaman tidak ditemukan
           </Title>
           <p className="mt-3 text-sm leading-loose text-gray-500 lg:mt-6 lg:text-base lg:leading-loose">
-            We have been spending long hours in order to launch our new website.
-            Join our
-            <br className="hidden sm:inline-block" />
-            mailing list or follow us on Facebook for get latest update.
+            Maaf, halaman yang anda cari tidak ditemukan. Silahkan periksa
+            kembali alamat tujuan anda.
           </p>
           <Link href={'/'}>
             <Button
