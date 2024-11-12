@@ -14,6 +14,7 @@ const CONSOLE_LOG_REQUEST =
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
+  code?: number
   message?: string
   error?: string
   data?: T
@@ -68,11 +69,13 @@ export const makeActionResponse = <T extends AnyObject>(
   success: boolean,
   message?: string,
   error?: string,
+  code?: number,
   data?: T
 ): ActionResponseType<T> => ({
   success: success,
   message: message ?? (!success ? 'Terjadi kesalahan!' : undefined),
-  error: error ?? undefined,
+  error: error,
+  code: code,
   data: data,
 })
 
@@ -140,9 +143,9 @@ export const makeBasicPostRequestAction = async <T extends AnyObject>(
       body: JSON.stringify(payload),
     })
 
-    const { success, message, errors, data } = await res.json()
+    const { success, message, errors, code, data } = await res.json()
 
-    return makeActionResponse<T>(success, message, errors, data)
+    return makeActionResponse<T>(success, message, errors, code, data)
   } catch (error) {
     return makeActionResponse<T>(false, API_UNREACHABLE_MESSAGE)
   }
@@ -172,12 +175,12 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
       },
     })
 
-    const { success, message, errors, data } = await res.json()
+    const { success, message, errors, code, data } = await res.json()
 
     if (CONSOLE_LOG_REQUEST)
-      console.log('Response', { success, message, errors, data })
+      console.log('Response', { success, message, errors, code, data })
 
-    return makeActionResponse<T>(success, message, errors, data)
+    return makeActionResponse<T>(success, message, errors, code, data)
   } catch (error) {
     return makeActionResponse<T>(false, API_UNREACHABLE_MESSAGE)
   }
@@ -231,12 +234,12 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
       body: payload instanceof FormData ? payload : JSON.stringify(payload),
     })
 
-    const { success, message, errors, data } = await res.json()
+    const { success, message, errors, code, data } = await res.json()
 
     if (CONSOLE_LOG_REQUEST)
-      console.log('Response', { success, message, errors, data })
+      console.log('Response', { success, message, errors, code, data })
 
-    return makeActionResponse<T>(success, message, errors, data)
+    return makeActionResponse<T>(success, message, errors, code, data)
   } catch (error) {
     return makeActionResponse<T>(false, API_UNREACHABLE_MESSAGE)
   }
