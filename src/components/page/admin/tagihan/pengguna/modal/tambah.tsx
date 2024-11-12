@@ -143,13 +143,13 @@ export default function TambahModal({
                   if (!data.value) return
 
                   const paket = await findPaket(data.value)
-                  if (paket?.id) {
+                  if (paket?.id && paket.tipe === 'Custom') {
                     setValue('paket', {
                       label: paket?.nama || '',
                       value: paket?.id,
                     })
+                    setValue('nominal', paket?.harga)
                   }
-                  setValue('nominal', paket?.harga)
                 }}
                 errors={errors}
                 required

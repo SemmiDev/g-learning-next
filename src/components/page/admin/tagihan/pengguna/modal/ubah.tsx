@@ -194,7 +194,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                     if (!data.value) return
 
                     const paket = await findPaket(data.value)
-                    if (paket?.id) {
+                    if (paket?.id && paket.tipe === 'Custom') {
                       setValue('paket', {
                         label: paket?.nama || '',
                         value: paket?.id,

@@ -6,13 +6,18 @@ import { makeJwtGetRequestTableAction } from '@/utils/action'
 type DataType = {
   id: string
   id_instansi: string
+  id_pengguna: null
   id_paket_instansi: string
-  tanggal_pembayaran: string
-  nominal: number
-  nomor_pesanan: string
+  id_paket_pengguna: null
   nomor_invoice: string
-  status: string
-  jenis_pembayaran: string
+  total_tagihan: number
+  tanggal_tagihan: string
+  bulan_tagihan: number
+  tahun_tagihan: number
+  status_tagihan: 'Belum Lunas' | 'Lunas'
+  jatuh_tempo: string
+  created_at: string
+  updated_at: string
   nama_instansi: string
   nama_paket: string
 }

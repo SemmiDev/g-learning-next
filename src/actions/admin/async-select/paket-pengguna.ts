@@ -19,5 +19,6 @@ export const paketPenggunaSelectDataAction = async ({
     {
       current_page: page,
       keyword: search,
+      tipe: 'Custom',
     }
   )

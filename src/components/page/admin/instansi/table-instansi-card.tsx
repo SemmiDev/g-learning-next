@@ -121,7 +121,7 @@ export default function TableInstansiCard() {
       dataIndex: 'jatuh_tempo',
       render: (value: string) => (
         <TableCellText align="center">
-          <Time date={value} />
+          <Time date={value} empty="-" />
         </TableCellText>
       ),
       onHeaderCell: () => ({
