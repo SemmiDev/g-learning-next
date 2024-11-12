@@ -31,7 +31,7 @@ export type MenuItemType = {
 }
 
 export function SidebarMenu() {
-  const { openSidebarMenu, setOpenSidebarMenu } = useGlobalStore()
+  const { setOpenSidebarMenu } = useGlobalStore()
   const pathname = usePathname()
   const { level } = useSessionPengguna()
 
@@ -50,17 +50,21 @@ export function SidebarMenu() {
   return (
     <div className="mt-4 pb-3 3xl:mt-6">
       {menuItems.map((item, index) => {
-        const link = item?.href as string
+        const link = item?.href
         const isActive =
-          (link === '/' && pathname === link) ||
-          (link !== '/' && pathname.startsWith(link))
-        const pathnameExistInDropdowns: any = item?.dropdownItems?.filter(
-          (dropdownItem) => dropdownItem.href === pathname
+          !!link &&
+          ((link === '/' && pathname === link) ||
+            (link !== '/' && pathname.startsWith(link)))
+        const pathnameExistInDropdowns = (item?.dropdownItems ?? []).filter(
+          (dropdownItem) => {
+            const link = dropdownItem.href
+            return !!link && (pathname === link || pathname.startsWith(link))
+          }
         )
         const isDropdownOpen = Boolean(pathnameExistInDropdowns?.length)
 
         return (
-          <Fragment key={item.name + '-' + index}>
+          <Fragment key={`${item.name}-${index}`}>
             {item?.href ? (
               <>
                 {item?.dropdownItems ? (
@@ -103,8 +107,9 @@ export function SidebarMenu() {
                     )}
                   >
                     {item?.dropdownItems?.map((dropdownItem, index) => {
+                      const childLink = dropdownItem?.href
                       const isChildActive =
-                        pathname === (dropdownItem?.href as string)
+                        pathname === childLink || pathname.startsWith(childLink)
 
                       return (
                         <Link
