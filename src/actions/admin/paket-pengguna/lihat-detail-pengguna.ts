@@ -14,7 +14,7 @@ type DataType = {
   updated_at: string
 }
 
-export const lihatPaketPenggunaAction = async (id: string) =>
+export const lihatDetailPaketPenggunaAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
-    `${process.env.API_URL}/paket-pengguna/${id}`
+    `${process.env.API_URL}/admin/pengguna/${id}/paket`
   )

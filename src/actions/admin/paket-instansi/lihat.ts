@@ -12,7 +12,9 @@ type DataType = {
   batas_kelas: number
   batas_kelas_pengajar: number
   harga: number
-  tipe: string
+  tipe: 'Default' | 'Custom'
+  created_at: string
+  updated_at: string
 }
 
 export const lihatPaketInstansiAction = async (id: string) =>
