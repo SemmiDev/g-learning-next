@@ -1,12 +1,12 @@
-'use server'
+'use server';
 
-import { UbahJatuhTempoFormSchema } from '@/components/page/admin/dashboard/modal/ubah-jatuh-tempo'
-import { makeJwtPutRequestAction } from '@/utils/action'
+// import { UbahJatuhTempoFormSchema } from '@/components/page/admin/dashboard/modal/ubah-jatuh-tempo'
+import { makeJwtPutRequestAction } from '@/utils/action';
 
-export const ubahJatuhTempoAction = async (
-  id: string,
-  data: UbahJatuhTempoFormSchema
-) =>
-  makeJwtPutRequestAction(`${process.env.API_URL}/admin/instansi/${id}`, {
-    jatuh_tempo: data.jatuhTempo?.toISOString(),
-  })
+// export const ubahJatuhTempoAction = async (
+//   id: string,
+//   data: UbahJatuhTempoFormSchema
+// ) =>
+//   makeJwtPutRequestAction(`${process.env.API_URL}/admin/instansi/${id}`, {
+//     jatuh_tempo: data.jatuhTempo?.toISOString(),
+//   });
