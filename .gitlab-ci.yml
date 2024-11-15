@@ -1,0 +1,31 @@
+stages:
+  - deploy
+
+deploy_staging:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    # Install necessary packages
+    - apk update && apk add --no-cache openssh-client
+
+    # Set up SSH key and agent
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+    # Ensure the known_hosts file exists and has proper permissions
+    - chmod 700 ~/.ssh
+    - touch ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+
+    # Add the remote server's SSH key to known_hosts
+    - ssh-keyscan -H "$VM_IP_ADDRESS" >> ~/.ssh/known_hosts
+
+  script:
+    # Connect to the server using custom port, navigate to the production directory, and run docker-compose
+    - ssh "$SSH_USER@$VM_IP_ADDRESS" "cd ~/g-learning-nextjs && git pull origin main && make rebuild"
+
+  only:
+    - main
