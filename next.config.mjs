@@ -17,6 +17,10 @@ const nextConfig = {
   experimental: {
     esmExternals: false,
   },
+
+  serverActions: {
+    bodySizeLimit: '500mb',
+  },
 };
 
 export default nextConfig;
