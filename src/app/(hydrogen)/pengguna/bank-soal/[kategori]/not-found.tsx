@@ -11,19 +11,8 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
-      <div className="sticky top-0 z-40 flex justify-center py-5 backdrop-blur-lg lg:backdrop-blur-none xl:py-10">
-        <Link href="/">
-          <Image
-            src={siteConfig.logo}
-            alt={siteConfig.title}
-            className="dark:invert"
-            priority
-          />
-        </Link>
-      </div>
-
-      <div className="flex grow items-center px-6 xl:px-10 mb-10">
+    <div className="flex min-h-[calc(100vh-120px)] flex-col bg-[#F8FAFC]">
+      <div className="flex grow items-center px-6 xl:px-10">
         <div className="mx-auto text-center">
           <Image
             src={NotFoundImg}
@@ -33,21 +22,16 @@ export default function NotFound() {
           <Title
             as="h1"
             weight="bold"
-            className="text-[22px] leading-normal text-black lg:text-3xl"
+            className="text-base leading-normal text-black lg:text-xl"
           >
             404 - Halaman tidak ditemukan
           </Title>
-          <p className="mt-3 text-sm leading-loose text-gray-500 lg:mt-6 lg:text-base lg:leading-loose">
+          <p className="mt-3 text-sm leading-loose text-gray-500 lg:mt-2 lg:text-base lg:leading-loose">
             Maaf, halaman yang anda cari tidak ditemukan. Silahkan periksa
             kembali alamat tujuan anda.
           </p>
           <Link href={'/'}>
-            <Button
-              as="span"
-              size="xl"
-              color="primary"
-              className="mt-8 h-12 px-4 xl:h-14 xl:px-6"
-            >
+            <Button as="span" color="primary" className="mt-8">
               <PiHouseLineBold className="mr-1.5 text-lg" />
               Kembali ke Dasbor
             </Button>

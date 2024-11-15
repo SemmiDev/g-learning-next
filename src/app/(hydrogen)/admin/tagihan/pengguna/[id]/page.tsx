@@ -4,15 +4,13 @@ import PembayaranTagihanPenggunaBody from '@/components/page/admin/tagihan/pengg
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import {
-  makeAsyncTableQueryData,
-  makeSimpleQueryDataWithId,
-} from '@/utils/query-data'
+import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Pembayaran Tagihan - Tagihan Pengguna'),
@@ -46,18 +44,21 @@ export default async function PembayaranTagihanPenggunaPage({
 
   const { id } = await params
 
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ['admin.tagihan-pengguna.pembayaran', id],
-      queryFn: makeSimpleQueryDataWithId(lihatTagihanPenggunaAction, id),
+  const { data, code } = await lihatTagihanPenggunaAction(id)
+
+  if (code === 404) return notFound()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.tagihan-pengguna.pembayaran', id],
+    queryFn: () => data ?? null,
+  })
+
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.tagihan-pengguna.pembayaran.table', id],
+    queryFn: makeAsyncTableQueryData(tablePembayaranTagihanPenggunaAction, {
+      params: { idTagihan: id },
     }),
-    queryClient.prefetchQuery({
-      queryKey: ['admin.tagihan-pengguna.pembayaran.table', id],
-      queryFn: makeAsyncTableQueryData(tablePembayaranTagihanPenggunaAction, {
-        params: { idTagihan: id },
-      }),
-    }),
-  ])
+  })
 
   return (
     <>

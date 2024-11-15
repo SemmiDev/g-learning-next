@@ -46,16 +46,20 @@ export default function PaketPenggunaBody() {
     action: listPaketPenggunaAction,
   })
 
-  const list: PaketItemType[] = useMemo(
+  const list = useMemo(
     () =>
-      data.map((item) => ({
-        id: item.id,
-        nama: item.nama,
-        totalPenyimpanan: fileSizeToKB(item.batas_penyimpanan, 'MB'),
-        limitKelas: item.batas_kelas,
-        limitAnggotaKelas: item.batas_anggota_kelas,
-        harga: item.harga,
-      })),
+      data.map(
+        (item) =>
+          ({
+            id: item.id,
+            nama: item.nama,
+            totalPenyimpanan: fileSizeToKB(item.batas_penyimpanan, 'MB'),
+            limitKelas: item.batas_kelas,
+            limitAnggotaKelas: item.batas_anggota_kelas,
+            harga: item.harga,
+            editable: item.tipe === 'Custom',
+          } as PaketItemType)
+      ),
     [data]
   )
 

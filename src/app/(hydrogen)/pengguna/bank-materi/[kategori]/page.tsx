@@ -8,6 +8,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Bank Materi'),
@@ -24,7 +25,9 @@ export default async function ListBankMateriPage({
 
   const { kategori: idKategori } = await params
 
-  const { data } = await lihatKategoriBankMateriAction(idKategori)
+  const { data, code } = await lihatKategoriBankMateriAction(idKategori)
+
+  if (code === 404) return notFound()
 
   await queryClient.prefetchQuery({
     queryKey: ['pengguna.bank-materi.kategori.lihat', idKategori],

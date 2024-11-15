@@ -9,6 +9,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Bank Soal'),
@@ -23,16 +24,23 @@ export default async function BankSoalPage({ params }: BankSoalPageProps) {
 
   const { kategori: idKategori, soal: idBankSoal } = await params
 
-  const { data: dataKategori } = await lihatKategoriBankSoalAction(idKategori)
-  const { data: dataBankSoal } = await lihatBankSoalAction(
-    idKategori,
-    idBankSoal
-  )
+  const { data: dataKategori, code: codeKategori } =
+    await lihatKategoriBankSoalAction(idKategori)
+
+  if (codeKategori === 404) return notFound()
 
   await queryClient.prefetchQuery({
     queryKey: ['pengguna.bank-soal.kategori.lihat', idKategori],
     queryFn: async () => dataKategori,
   })
+
+  const { data: dataBankSoal, code: codeBankSoal } = await lihatBankSoalAction(
+    idKategori,
+    idBankSoal
+  )
+
+  if (codeBankSoal === 404) return notFound()
+
   await queryClient.prefetchQuery({
     queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
     queryFn: async () => dataBankSoal,

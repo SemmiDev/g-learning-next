@@ -11,6 +11,7 @@ export type PaketItemType = {
   limitKelas: number
   limitAnggotaKelas: number
   harga: number
+  editable: boolean
 }
 
 type PaketItemCardProps = {
@@ -46,24 +47,28 @@ export default function PaketItemCard({
       </Text>
       <CardSeparator />
       <div className="flex space-x-2 p-2">
-        <ActionIconTooltip
-          tooltip="Ubah"
-          size="sm"
-          variant="flat-colorful"
-          color="warning"
-          onClick={onEdit}
-        >
-          <BsPencilSquare />
-        </ActionIconTooltip>
-        <ActionIconTooltip
-          tooltip="Hapus"
-          size="sm"
-          variant="flat-colorful"
-          color="danger"
-          onClick={onDelete}
-        >
-          <LuTrash2 />
-        </ActionIconTooltip>
+        {paket.editable && (
+          <>
+            <ActionIconTooltip
+              tooltip="Ubah"
+              size="sm"
+              variant="flat-colorful"
+              color="warning"
+              onClick={onEdit}
+            >
+              <BsPencilSquare />
+            </ActionIconTooltip>
+            <ActionIconTooltip
+              tooltip="Hapus"
+              size="sm"
+              variant="flat-colorful"
+              color="danger"
+              onClick={onDelete}
+            >
+              <LuTrash2 />
+            </ActionIconTooltip>
+          </>
+        )}
       </div>
     </Card>
   )

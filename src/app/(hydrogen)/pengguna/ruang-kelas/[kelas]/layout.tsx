@@ -9,6 +9,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 
 export const metadata = {
@@ -28,7 +29,9 @@ export default async function KelasLayout({
 
   const { kelas: idKelas } = await params
 
-  const { data } = await lihatKelasAction(idKelas)
+  const { data, code } = await lihatKelasAction(idKelas)
+
+  if (code === 404 || code === 403) return notFound()
 
   await queryClient.prefetchQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],

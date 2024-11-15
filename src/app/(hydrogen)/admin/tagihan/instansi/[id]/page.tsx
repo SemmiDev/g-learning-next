@@ -4,15 +4,13 @@ import PembayaranTagihanInstansiBody from '@/components/page/admin/tagihan/insta
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import {
-  makeAsyncTableQueryData,
-  makeSimpleQueryDataWithId,
-} from '@/utils/query-data'
+import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Pembayaran Tagihan - Tagihan Instansi'),
@@ -46,18 +44,21 @@ export default async function PembayaranTagihanInstansiPage({
 
   const { id } = await params
 
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ['admin.tagihan-instansi.pembayaran', id],
-      queryFn: makeSimpleQueryDataWithId(lihatTagihanInstansiAction, id),
+  const { data, code } = await lihatTagihanInstansiAction(id)
+
+  if (code === 404) return notFound()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.tagihan-instansi.pembayaran', id],
+    queryFn: () => data ?? null,
+  })
+
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.tagihan-instansi.pembayaran.table', id],
+    queryFn: makeAsyncTableQueryData(tablePembayaranTagihanInstansiAction, {
+      params: { idTagihan: id },
     }),
-    queryClient.prefetchQuery({
-      queryKey: ['admin.tagihan-instansi.pembayaran.table', id],
-      queryFn: makeAsyncTableQueryData(tablePembayaranTagihanInstansiAction, {
-        params: { idTagihan: id },
-      }),
-    }),
-  ])
+  })
 
   return (
     <>

@@ -13,6 +13,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Detail Instansi - Instansi'),
@@ -46,18 +47,21 @@ export default async function ListInstansiPage({
 
   const { id } = await params
 
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ['admin.instansi.detail', id],
-      queryFn: makeSimpleQueryDataWithId(lihatInstansiAction, id),
+  const { data, code } = await lihatInstansiAction(id)
+
+  if (code === 404) return notFound()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.instansi.detail', id],
+    queryFn: () => data ?? null,
+  })
+
+  await queryClient.prefetchQuery({
+    queryKey: ['admin.instansi.detail.table-pengguna', id],
+    queryFn: makeAsyncTableQueryData(tablePenggunaInstansiAction, {
+      params: { id },
     }),
-    queryClient.prefetchQuery({
-      queryKey: ['admin.instansi.detail.table-pengguna', id],
-      queryFn: makeAsyncTableQueryData(tablePenggunaInstansiAction, {
-        params: { id },
-      }),
-    }),
-  ])
+  })
 
   return (
     <>
