@@ -15,7 +15,7 @@ const nextConfig = {
   },
 
   experimental: {
-    esmExternals: false,
+    // esmExternals: false,
     serverActions: {
       bodySizeLimit: '500mb',
     },
