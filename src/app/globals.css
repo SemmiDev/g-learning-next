@@ -1453,10 +1453,6 @@ div[style='z-index: 1000001;'],
 }
 
 /* custom */
-.text-1\.5xl {
-  @apply text-[1.375rem] leading-[1.875rem];
-}
-
 .btn-item-green {
   background-color: #c2ffd7;
   color: #00d42f;
