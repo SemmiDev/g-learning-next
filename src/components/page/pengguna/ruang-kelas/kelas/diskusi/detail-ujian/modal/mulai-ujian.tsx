@@ -5,6 +5,9 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { routes } from '@/config/routes'
+import Link from 'next/link'
+import { useParams, useRouter } from 'next/navigation'
 
 type MulaiUjianModalProps = {
   showModal?: boolean
@@ -19,6 +22,9 @@ export default function MulaiUjianModal({
   jumlahSoal,
   durasi,
 }: MulaiUjianModalProps) {
+  const router = useRouter()
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+
   return (
     <Modal
       title="Mulai Ujian"
@@ -52,9 +58,17 @@ export default function MulaiUjianModal({
       </div>
       <CardSeparator />
       <ModalFooterButtons cancel="Tidak" onCancel={() => setShowModal(false)}>
-        {/* TODO: tambahkan link ke halaman ujian jika sudah ada */}
         <div className="flex-1">
-          <Button className="w-full">Ya</Button>
+          <Button
+            className="w-full"
+            onClick={() =>
+              router.push(
+                `${routes.pengguna.ruangKelas}/${idKelas}/ujian/${id}/kerjakan`
+              )
+            }
+          >
+            Ya
+          </Button>
         </div>
       </ModalFooterButtons>
     </Modal>

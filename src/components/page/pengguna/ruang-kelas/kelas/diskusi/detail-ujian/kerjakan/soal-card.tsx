@@ -1,19 +1,21 @@
 import { Button, Card, CardSeparator, Text } from '@/components/ui'
-import cn from '@/utils/class-names'
-import { JawabanType, SoalType } from './ujian-body'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import { useEffect, useState } from 'react'
-import { CgSpinner } from 'react-icons/cg'
+import { PILIHAN_JAWABAN } from '@/config/const'
+import cn from '@/utils/class-names'
 import { Radio } from 'rizzui'
+import { SoalType } from './ujian-body'
 
-const poinJawaban: JawabanType[] = ['A', 'B', 'C', 'D', 'E', 'F']
+type JawabanType = (typeof PILIHAN_JAWABAN)[number]
+
+const poinJawaban: JawabanType[] = ['A', 'B', 'C', 'D', 'E']
 
 type SoalCardProps = {
-  soal: SoalType
+  soal: SoalType | undefined
   currentSoal: number
   setCurrentSoal(val: number): void
   totalSoal: number
   onChangeJawaban?(val: JawabanType): void
+  className?: string
 }
 
 export default function SoalCard({
@@ -22,47 +24,44 @@ export default function SoalCard({
   setCurrentSoal,
   totalSoal,
   onChangeJawaban,
+  className,
 }: SoalCardProps) {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
   const soalKe = currentSoal + 1
 
+  if (!soal) return null
+
   return (
-    <Card className="flex flex-col p-0">
+    <Card className={cn('flex flex-col p-0', className)}>
       <Text weight="semibold" variant="dark" className="mx-3 my-2">
         Soal {soalKe} dari {totalSoal}
       </Text>
       <CardSeparator />
-      <div className="flex flex-col items-start space-y-2 px-3 py-2">
-        {isClient ? (
-          <>
-            <div className="text-sm text-gray-dark font-medium">
-              <SanitizeHTML html={soal.soal} />
-            </div>
-            {soal.jawaban.map((item, idx) => (
-              <label className="flex space-x-2 cursor-pointer" key={idx}>
-                <Radio
-                  className="[&_.rizzui-radio-field]:cursor-pointer"
-                  name="jawaban"
-                  value={poinJawaban[idx] ?? 'A'}
-                  checked={soal.jawab === poinJawaban[idx]}
-                  onChange={() =>
-                    onChangeJawaban && onChangeJawaban(poinJawaban[idx])
-                  }
-                />
-                <SanitizeHTML html={item} />
-              </label>
-            ))}
-          </>
-        ) : (
-          <div className="flex justify-center items-center w-full min-h-28">
-            <CgSpinner size={24} className="animate-spin text-primary" />
-          </div>
-        )}
+      <div className="flex flex-col gap-y-2 select-none py-2">
+        <SanitizeHTML
+          html={soal.soal}
+          className="text-sm text-gray-dark font-medium [&_*]:cursor-default !px-3"
+        />
+        <div>
+          {soal.jawaban.map(
+            (item, idx) =>
+              !!item.teks && (
+                <label
+                  key={idx}
+                  className="flex gap-x-2 flex-1 cursor-pointer py-2 px-3 hover:bg-green-50 [&_*]:cursor-pointer"
+                >
+                  <Radio
+                    name="jawaban"
+                    value={poinJawaban[idx] ?? 'A'}
+                    checked={soal.jawab === poinJawaban[idx]}
+                    onChange={() =>
+                      onChangeJawaban && onChangeJawaban(poinJawaban[idx])
+                    }
+                  />
+                  <SanitizeHTML html={item.teks} />
+                </label>
+              )
+          )}
+        </div>
       </div>
       <CardSeparator />
       <div

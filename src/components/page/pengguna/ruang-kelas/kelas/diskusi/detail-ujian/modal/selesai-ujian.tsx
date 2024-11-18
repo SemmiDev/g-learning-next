@@ -5,25 +5,32 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { SoalType } from '../kerjakan/ujian-body'
 
 type SelesaiUjianModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
+  listSoal: SoalType[]
   onSelesaiUjian(): void
 }
 
 export default function SelesaiUjianModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
+  listSoal,
   onSelesaiUjian,
 }: SelesaiUjianModalProps) {
+  const total = listSoal.length
+  const dijawab = listSoal.filter((item) => !!item.jawab).length
+  const belum = total - dijawab
+
   return (
     <Modal
       title="Selesaikan Ujian"
       size="sm"
-      isOpen={showModal}
+      isOpen={show}
       headerClassName="[&_.modal-title]:text-lg"
-      onClose={() => setShowModal(false)}
+      onClose={() => setShow(false)}
     >
       <div className="flex flex-col p-3">
         <div className="flex gap-x-2 mt-1 mb-3">
@@ -32,7 +39,7 @@ export default function SelesaiUjianModal({
               Jumlah soal
             </Text>
             <Text weight="semibold" variant="dark">
-              21
+              {total}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md px-4 py-2">
@@ -40,7 +47,7 @@ export default function SelesaiUjianModal({
               Sudah dijawab
             </Text>
             <Text weight="semibold" variant="dark">
-              18
+              {dijawab}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-red rounded-md px-4 py-2">
@@ -48,7 +55,7 @@ export default function SelesaiUjianModal({
               Belum dijawab
             </Text>
             <Text weight="semibold" variant="dark">
-              4
+              {belum}
             </Text>
           </div>
         </div>
@@ -57,7 +64,7 @@ export default function SelesaiUjianModal({
         </Text>
       </div>
       <CardSeparator />
-      <ModalFooterButtons cancel="Tidak" onCancel={() => setShowModal(false)}>
+      <ModalFooterButtons cancel="Tidak" onCancel={() => setShow(false)}>
         <div className="flex-1">
           <Button className="w-full" onClick={onSelesaiUjian}>
             Ya

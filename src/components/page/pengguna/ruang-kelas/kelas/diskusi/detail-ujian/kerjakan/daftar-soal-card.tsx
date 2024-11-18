@@ -30,15 +30,21 @@ type DaftarSoalCardProps = {
   listSoal: SoalType[]
   currentSoal: number
   setCurrentSoal(val: number): void
+  className?: string
 }
 
 export default function DaftarSoalCard({
   listSoal,
   currentSoal,
   setCurrentSoal,
+  className,
 }: DaftarSoalCardProps) {
+  const total = listSoal.length
+  const dijawab = listSoal.filter((item) => !!item.jawab).length
+  const belum = total - dijawab
+
   return (
-    <Card className="flex flex-col p-0">
+    <Card className={cn('flex flex-col p-0', className)}>
       <Text weight="semibold" variant="dark" className="mx-3 my-2">
         Daftar Soal
       </Text>
@@ -50,7 +56,7 @@ export default function DaftarSoalCard({
               Jumlah soal
             </Text>
             <Text weight="semibold" variant="dark">
-              21
+              {total}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md px-4 py-2">
@@ -58,7 +64,7 @@ export default function DaftarSoalCard({
               Sudah dijawab
             </Text>
             <Text weight="semibold" variant="dark">
-              18
+              {dijawab}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-red rounded-md px-4 py-2">
@@ -66,11 +72,11 @@ export default function DaftarSoalCard({
               Belum dijawab
             </Text>
             <Text weight="semibold" variant="dark">
-              4
+              {belum}
             </Text>
           </div>
         </div>
-        <div className="grid grid-cols-10 gap-2 xl:grid-cols-5">
+        <div className="grid grid-cols-5 gap-2">
           {listSoal.map((soal, idx) => {
             const color =
               idx === currentSoal ? 'orange' : soal.jawab ? 'green' : 'white'
