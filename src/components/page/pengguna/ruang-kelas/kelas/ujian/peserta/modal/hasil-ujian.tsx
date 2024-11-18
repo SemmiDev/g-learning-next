@@ -10,10 +10,11 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
+import { parseDate } from '@/utils/date'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
 type MulaiUjianModalProps = {
   id: string | undefined
@@ -26,6 +27,8 @@ export default function HasilUjianModal({
   show,
   onHide,
 }: MulaiUjianModalProps) {
+  const router = useRouter()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({
@@ -46,6 +49,15 @@ export default function HasilUjianModal({
   const handleClose = () => {
     onHide()
   }
+
+  const selesai = !!data?.jawaban.waktu_selesai
+  const jadwalMulai = parseDate(data?.aktifitas.waktu_mulai_ujian)
+  const jadwalSelesai = parseDate(data?.aktifitas.waktu_selesai_ujian)
+  const dalamJadwal =
+    !!jadwalMulai &&
+    !!jadwalSelesai &&
+    jadwalMulai <= new Date() &&
+    jadwalSelesai >= new Date()
 
   return (
     <Modal
@@ -111,23 +123,30 @@ export default function HasilUjianModal({
             </div>
           </div>
           <CardSeparator />
-          <ModalFooterButtons cancel="Batal" onCancel={handleClose}>
-            {!!data?.jawaban.waktu_selesai ? (
+          <ModalFooterButtons
+            cancel={selesai || !dalamJadwal ? 'Tutup' : 'Batal'}
+            onCancel={handleClose}
+          >
+            {selesai ? (
               <div className="flex-1">
                 <Button className="w-full" disabled>
                   Mulai Ujian
                 </Button>
               </div>
-            ) : (
-              <Link
-                href={`${routes.pengguna.ruangKelas}/${idKelas}/ujian/${id}/kerjakan`}
+            ) : dalamJadwal ? (
+              <div
                 className="flex-1"
+                onClick={() =>
+                  router.push(
+                    `${routes.pengguna.ruangKelas}/${idKelas}/ujian/${id}/kerjakan`
+                  )
+                }
               >
                 <Button className="w-full">
                   {!!data?.jawaban.waktu_mulai ? 'Lanjut' : 'Mulai'} Ujian
                 </Button>
-              </Link>
-            )}
+              </div>
+            ) : null}
           </ModalFooterButtons>
         </>
       )}

@@ -19,6 +19,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { Dropdown } from 'rizzui'
 import HasilUjianModal from './modal/hasil-ujian'
+import { parseDate } from '@/utils/date'
 
 type SortDataType = {
   title: string
@@ -155,9 +156,17 @@ export default function PesertaDaftarUjianSection() {
             list.map((item) => {
               const strippedDesc = stripHtml(item.deskripsi ?? '')
 
-              /* TODO: status ujian dan jadwal jika API sudah fix */
+              const mengerjakan = !!item.id_jawaban
               const selesai = !!item.waktu_selesai
-              const dalamJadwal = true
+              const jadwalMulai = parseDate(item.jadwal_mulai)
+              const jadwalSelesai = parseDate(item.jadwal_selesai)
+              const belumJadwal = !!jadwalMulai && jadwalMulai > new Date()
+              const lewatJadwal = !!jadwalSelesai && jadwalSelesai < new Date()
+              const dalamJadwal =
+                !!jadwalMulai &&
+                !!jadwalSelesai &&
+                jadwalMulai <= new Date() &&
+                jadwalSelesai >= new Date()
 
               return (
                 <div
@@ -189,13 +198,31 @@ export default function PesertaDaftarUjianSection() {
                       />
                     </Text>
                   </div>
-                  {/* TODO: cek status ujian dan jadwal, tambahkan link ke detail/pengerjaan ujian jika API sudah fix */}
-                  <Button
-                    size="sm"
-                    onClick={() => doShowUjian(item.id_aktifitas)}
-                  >
-                    Kerjakan Ujian
-                  </Button>
+                  {(selesai || (!selesai && !belumJadwal)) && (
+                    <Button
+                      size="sm"
+                      color={
+                        selesai
+                          ? 'info'
+                          : dalamJadwal
+                          ? 'primary'
+                          : lewatJadwal
+                          ? 'danger'
+                          : 'gray'
+                      }
+                      onClick={() => doShowUjian(item.id_aktifitas)}
+                    >
+                      {selesai
+                        ? 'Lihat Hasil'
+                        : dalamJadwal
+                        ? 'Kerjakan Ujian'
+                        : !mengerjakan && lewatJadwal
+                        ? 'Tidak Mengerjakan'
+                        : mengerjakan && lewatJadwal
+                        ? 'Tidak Menyelesaikan'
+                        : 'Lihat Ujian'}
+                    </Button>
+                  )}
                 </div>
               )
             })
