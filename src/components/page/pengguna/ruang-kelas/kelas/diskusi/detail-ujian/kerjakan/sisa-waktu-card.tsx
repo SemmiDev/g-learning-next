@@ -16,7 +16,7 @@ export default function SisaWaktuCard({
     const minutes = Math.floor((sisaWaktu % 3600) / 60)
     const seconds = sisaWaktu % 60
 
-    return `${zeroPad(hours, 2)}:${zeroPad(minutes, 2)}:${zeroPad(seconds, 2)}`
+    return `${zeroPad(hours)}:${zeroPad(minutes)}:${zeroPad(seconds)}`
   }
 
   return (
