@@ -1,8 +1,8 @@
 import { ActionIcon, Button, CardSeparator, Text } from '@/components/ui'
-import cn from '@/utils/class-names'
-import { SoalType } from './ujian-body'
 import { useGlobalStore } from '@/stores/global'
+import cn from '@/utils/class-names'
 import { MdOutlineClose } from 'react-icons/md'
+import { SoalType } from './ujian-body'
 
 const boxColor = (color: 'green' | 'orange' | 'white'): string => {
   switch (color) {
@@ -113,22 +113,6 @@ export default function DaftarSoal({
                   }}
                 >
                   {idx + 1}
-                </Button>
-              </div>
-            )
-          })}
-          {[...Array(50)].map((_, idx) => {
-            return (
-              <div className="flex justify-center items-center" key={idx}>
-                <Button
-                  size="sm"
-                  className={cn(
-                    'size-8 border',
-                    boxColor('white'),
-                    boxBehavior('white')
-                  )}
-                >
-                  X{idx + 1}
                 </Button>
               </div>
             )
