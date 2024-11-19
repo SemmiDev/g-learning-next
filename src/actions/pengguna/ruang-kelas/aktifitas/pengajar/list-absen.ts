@@ -26,6 +26,6 @@ export const listAbsensiAktifitasAction = async ({
     `${process.env.API_URL}/pengajar/kelas/${idKelas}/aktifitas/${id}/absensi`,
     {
       current_page: page,
-      per_page: 20,
+      per_page: 100,
     }
   )

@@ -18,6 +18,7 @@ import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import _ from 'lodash'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -102,9 +103,9 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
     if (simpan) processSimpan(newAbsensi)
   }
 
-  const isHadirSemua = Object.values(absensi).every(
-    (status) => status === 'Hadir'
-  )
+  const isHadirSemua =
+    Object.values(absensi).length === list.length &&
+    Object.values(absensi).every((status) => status === 'Hadir')
 
   const handleSimpan = () => {
     processSimpan(absensi)

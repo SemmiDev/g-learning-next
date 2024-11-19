@@ -102,9 +102,9 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
     if (simpan) processSimpan(newAbsensi)
   }
 
-  const isHadirSemua = Object.values(absensi).every(
-    (status) => status === 'Hadir'
-  )
+  const isHadirSemua =
+    Object.values(absensi).length === list.length &&
+    Object.values(absensi).every((status) => status === 'Hadir')
 
   const handleSimpan = () => {
     processSimpan(absensi)
