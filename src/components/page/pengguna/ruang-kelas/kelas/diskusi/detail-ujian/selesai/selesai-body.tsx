@@ -3,10 +3,12 @@
 import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
 export default function SelesaiUjianBody() {
   const router = useRouter()
+
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   return (
     <Card className="flex flex-col w-full rounded-md overflow-clip max-w-[500px] p-0">
@@ -65,7 +67,9 @@ export default function SelesaiUjianBody() {
             <Button
               className="w-full"
               onClick={() => {
-                router.replace(`${routes.peserta.kelas}/diskusi/detail/ujian`)
+                router.replace(
+                  `${routes.pengguna.ruangKelas}/${idKelas}/diskusi/ujian/${id}`
+                )
               }}
             >
               Kembali

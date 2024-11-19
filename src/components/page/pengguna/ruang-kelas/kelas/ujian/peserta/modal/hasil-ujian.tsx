@@ -76,15 +76,19 @@ export default function HasilUjianModal({
                 <tr>
                   <td className="w-32">Jumlah pertanyaan</td>
                   <td className="w-3 text-center"> : </td>
-                  <td className="font-semibold">20</td>
+                  <td className="font-semibold">
+                    {data?.bank_soal.jumlah_soal_yang_digunakan ?? '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td>Benar/salah/kosong</td>
                   <td className="text-center"> : </td>
                   <td className="font-semibold">
-                    {data?.jawaban.jawaban_benar || '-'}/
-                    {data?.jawaban.jawaban_salah || '-'}/
-                    {data?.jawaban.jawaban_kosong || '-'}
+                    {selesai
+                      ? `${data?.jawaban.jawaban_benar ?? '-'}/
+                      ${data?.jawaban.jawaban_salah ?? '-'}/
+                      ${data?.jawaban.jawaban_kosong ?? '-'}`
+                      : '-/-/-'}
                   </td>
                 </tr>
                 <tr>
@@ -116,7 +120,7 @@ export default function HasilUjianModal({
                 Nilai
               </Text>
               <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-                {data?.jawaban.skor_akhir || '-'}
+                {selesai ? data?.jawaban.skor_akhir || 0 : '-'}
               </Text>
             </div>
           </div>
@@ -132,15 +136,15 @@ export default function HasilUjianModal({
                 </Button>
               </div>
             ) : dalamJadwal ? (
-              <div
-                className="flex-1"
-                onClick={() =>
-                  router.push(
-                    `${routes.pengguna.ruangKelas}/${idKelas}/ujian/${id}/kerjakan`
-                  )
-                }
-              >
-                <Button className="w-full">
+              <div className="flex-1">
+                <Button
+                  className="w-full"
+                  onClick={() =>
+                    router.push(
+                      `${routes.pengguna.ruangKelas}/${idKelas}/ujian/${id}/kerjakan`
+                    )
+                  }
+                >
                   {!!data?.jawaban.waktu_mulai ? 'Lanjut' : 'Mulai'} Ujian
                 </Button>
               </div>

@@ -21,7 +21,7 @@ export default function SisaWaktuCard({
 
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <Text weight="semibold" variant="dark" className="mx-3 my-2">
+      <Text weight="semibold" variant="dark" className="truncate mx-3 my-2">
         Sisa waktu pengerjaan
       </Text>
       <CardSeparator />

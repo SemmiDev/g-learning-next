@@ -1,6 +1,8 @@
 'use client'
 
 import { dataUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/peserta/data'
+import { selesaiUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/peserta/selesai-ujian'
+import { simpanJawabanAction } from '@/actions/pengguna/ruang-kelas/ujian/peserta/simpan-jawaban'
 import { PILIHAN_JAWABAN } from '@/config/const'
 import { routes } from '@/config/routes'
 import { useParams, useRouter } from 'next/navigation'
@@ -12,6 +14,7 @@ import DrawerDaftarSoal from './daftar-soal-drawer'
 import JudulSoalCard from './judul-soal-card'
 import SisaWaktuCard from './sisa-waktu-card'
 import SoalCard from './soal-card'
+import { handleActionWithToast } from '@/utils/action'
 
 type JawabanType = (typeof PILIHAN_JAWABAN)[number]
 type JawabanTypeLower = Lowercase<JawabanType>
@@ -33,23 +36,14 @@ export default function KerjakanUjianBody() {
     judul?: string
     durasi?: number
   }>()
+  const [timer, setTimer] = useState<NodeJS.Timeout>()
+  const [saved, setSaved] = useState(false)
   const [sisaWaktu, setSisaWaktu] = useState<number>()
   const [currentSoal, setCurrentSoal] = useState(0)
   const [listSoal, setListSoal] = useState<SoalType[]>([])
   const [showSelesai, setShowSelesai] = useState(false)
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
-
-  const setJawaban = (jawaban: JawabanType) => {
-    const dataSoal = [...listSoal]
-    dataSoal[currentSoal].jawab = jawaban
-
-    setListSoal(dataSoal)
-
-    console.log(dataSoal)
-
-    /* TODO: kirim data jawaban ke API */
-  }
 
   const fetchData = async () => {
     const { data } = await dataUjianAction(idKelas, id)
@@ -60,6 +54,9 @@ export default function KerjakanUjianBody() {
     })
 
     setSisaWaktu(data?.sisa_durasi)
+    // setSisaWaktu(5)
+
+    setSaved(true)
 
     setListSoal(
       (data?.soal ?? []).map((item) => ({
@@ -74,31 +71,92 @@ export default function KerjakanUjianBody() {
     )
   }
 
+  const setJawaban = async (jawaban: JawabanType) => {
+    const dataSoal = [...listSoal]
+    dataSoal[currentSoal].jawab = jawaban
+
+    setListSoal(dataSoal)
+
+    if (sisaWaktu !== undefined) {
+      setSaved(false)
+
+      await simpanJawabanAction(idKelas, id, {
+        jawaban: dataSoal.map((item) => ({
+          id: item.id,
+          jw: item.jawab || '',
+        })),
+        durasi: sisaWaktu,
+      })
+
+      setSaved(true)
+    }
+  }
+
+  const processSelesaiUjian = async () => {
+    clearInterval(timer)
+
+    await handleActionWithToast(
+      selesaiUjianAction(idKelas, id, {
+        jawaban: listSoal.map((item) => ({
+          id: item.id,
+          jw: item.jawab || '',
+        })),
+        durasi: sisaWaktu || 0,
+      }),
+      {
+        loading: 'Menyelesaikan ujian...',
+        success: 'Ujian selesai',
+        onStart: () => setSaved(false),
+        onSuccess: () => {
+          setSaved(true)
+          router.replace(
+            `${routes.pengguna.ruangKelas}/${idKelas}/ujian/${id}/selesai`
+          )
+        },
+      }
+    )
+  }
+
+  const handleSelesaiUjian = () => {
+    setShowSelesai(false)
+    processSelesaiUjian()
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
 
   useEffect(() => {
-    if (sisaWaktu && sisaWaktu > 0) {
-      const timer = setTimeout(() => setSisaWaktu(sisaWaktu - 1), 1000)
-      return () => clearTimeout(timer)
+    if (sisaWaktu !== undefined) {
+      setTimer(
+        setInterval(() => {
+          const sisa = sisaWaktu - 1
+          if (sisa <= 0) {
+            processSelesaiUjian()
+          }
+
+          setSisaWaktu(sisa)
+        }, 1000)
+      )
+
+      return () => clearInterval(timer)
     }
   }, [sisaWaktu])
 
-  const onShowModalSelesai = () => {
-    setShowSelesai(true)
-  }
-
   return (
     <>
-      <div className="flex flex-col gap-4 py-6 px-2 md:px-10 lg:px-20 xl:gap-6 xl:px-40">
-        <div className="flex gap-4 xl:gap-6">
-          <SisaWaktuCard sisaWaktu={sisaWaktu} className="w-[30%] xl:w-1/4" />
+      <div className="flex flex-col gap-4 py-2 px-2 md:px-10 md:py-6 lg:px-20 xl:gap-6 xl:px-40">
+        <div className="flex flex-col-reverse items-start gap-4 lg:flex-row xl:gap-6">
+          <SisaWaktuCard
+            sisaWaktu={sisaWaktu}
+            className="w-full lg:w-[30%] xl:w-1/4"
+          />
           <JudulSoalCard
             judul={ujian?.judul ?? ''}
             durasi={ujian?.durasi ?? 0}
-            onSelesaiUjian={onShowModalSelesai}
-            className="flex-1"
+            onSelesaiUjian={() => setShowSelesai(true)}
+            saved={saved}
+            className="w-full lg:w-auto lg:flex-1"
           />
         </div>
         <div className="flex items-start flex-wrap gap-4 xl:gap-6">
@@ -125,10 +183,7 @@ export default function KerjakanUjianBody() {
         show={showSelesai}
         setShow={setShowSelesai}
         listSoal={listSoal}
-        onSelesaiUjian={() => {
-          setShowSelesai(false)
-          router.replace(`${routes.peserta.kelas}/diskusi/detail/ujian/selesai`)
-        }}
+        onSelesaiUjian={handleSelesaiUjian}
       />
 
       <DrawerDaftarSoal

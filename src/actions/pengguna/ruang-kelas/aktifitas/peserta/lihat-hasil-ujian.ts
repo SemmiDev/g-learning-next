@@ -54,16 +54,16 @@ export type DataType = {
     id_peserta: string
     id_bank_soal: string | null
     jawaban: string | null
-    sisa_waktu: string | null
+    sisa_waktu: number | null
     status_pengumpulan: string | null
-    selesai: string | null
-    skor_benar: string | null
-    skor_salah: string | null
-    skor_kosong: string | null
-    skor_akhir: string | null
-    jawaban_benar: string | null
-    jawaban_salah: string | null
-    jawaban_kosong: string | null
+    selesai: number | null
+    skor_benar: number | null
+    skor_salah: number | null
+    skor_kosong: number | null
+    skor_akhir: number | null
+    jawaban_benar: number | null
+    jawaban_salah: number | null
+    jawaban_kosong: number | null
     waktu_mulai: string | null
     waktu_selesai: string | null
     created_at: string | null

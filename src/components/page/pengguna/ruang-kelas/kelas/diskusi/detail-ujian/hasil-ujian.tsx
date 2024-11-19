@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import MulaiUjianModal from './modal/mulai-ujian'
+import { parseDate } from '@/utils/date'
 
 type HasilUjianCardProps = {
   className?: string
@@ -30,6 +31,15 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
   })
 
   if (isLoading) return <CardShimmer className={className} />
+
+  const selesai = !!data?.jawaban.waktu_selesai
+  const jadwalMulai = parseDate(data?.aktifitas.waktu_mulai_ujian)
+  const jadwalSelesai = parseDate(data?.aktifitas.waktu_selesai_ujian)
+  const dalamJadwal =
+    !!jadwalMulai &&
+    !!jadwalSelesai &&
+    jadwalMulai <= new Date() &&
+    jadwalSelesai >= new Date()
 
   return (
     <>
@@ -52,9 +62,11 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
                 <td>Benar/salah/kosong</td>
                 <td className="text-center"> : </td>
                 <td className="font-semibold">
-                  {data?.jawaban.jawaban_benar ?? '-'}/
-                  {data?.jawaban.jawaban_salah ?? '-'}/
-                  {data?.jawaban.jawaban_kosong ?? '-'}
+                  {selesai
+                    ? `${data?.jawaban.jawaban_benar ?? '-'}/
+                      ${data?.jawaban.jawaban_salah ?? '-'}/
+                      ${data?.jawaban.jawaban_kosong ?? '-'}`
+                    : '-/-/-'}
                 </td>
               </tr>
               <tr>
@@ -86,14 +98,31 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
               Nilai
             </Text>
             <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-              {data?.jawaban.skor_akhir || '-'}
+              {selesai ? data?.jawaban.skor_akhir || 0 : '-'}
             </Text>
           </div>
         </div>
         <CardSeparator />
-        <div className="flex flex-col p-2">
-          <Button onClick={() => setShowModalMulai(true)}>Mulai ujian</Button>
-        </div>
+        {(selesai || dalamJadwal) && (
+          <div className="flex flex-col p-2">
+            {selesai ? (
+              <div className="flex-1">
+                <Button className="w-full" disabled>
+                  Mulai Ujian
+                </Button>
+              </div>
+            ) : (
+              <div className="flex-1">
+                <Button
+                  className="w-full"
+                  onClick={() => setShowModalMulai(true)}
+                >
+                  {!!data?.jawaban.waktu_mulai ? 'Lanjut' : 'Mulai'} Ujian
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
       </Card>
 
       <MulaiUjianModal

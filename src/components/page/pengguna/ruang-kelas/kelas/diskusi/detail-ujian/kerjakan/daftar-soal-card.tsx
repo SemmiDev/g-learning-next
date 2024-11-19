@@ -13,7 +13,7 @@ export default function DaftarSoalCard({
   className,
 }: DaftarSoalCardProps) {
   return (
-    <Card className={cn('flex flex-col p-0', className)}>
+    <Card className={cn('flex flex-col sticky top-5 p-0', className)}>
       <DaftarSoal
         listSoal={listSoal}
         currentSoal={currentSoal}

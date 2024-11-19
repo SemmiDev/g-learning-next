@@ -91,7 +91,12 @@ export default function DaftarSoal({
           </div>
         </div>
         <div
-          className={cn('grid grid-cols-5 gap-2', { 'grid-cols-10': bigger })}
+          className={cn(
+            'grid grid-cols-5 gap-2 overflow-auto max-h-[calc(100dvh-160px)]',
+            {
+              'grid-cols-10': bigger,
+            }
+          )}
         >
           {listSoal.map((soal, idx) => {
             const color =
