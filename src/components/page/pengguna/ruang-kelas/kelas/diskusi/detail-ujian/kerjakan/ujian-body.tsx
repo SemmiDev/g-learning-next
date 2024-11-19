@@ -5,6 +5,7 @@ import { selesaiUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/peserta
 import { simpanJawabanAction } from '@/actions/pengguna/ruang-kelas/ujian/peserta/simpan-jawaban'
 import { PILIHAN_JAWABAN } from '@/config/const'
 import { routes } from '@/config/routes'
+import { handleActionWithToast } from '@/utils/action'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import useMedia from 'react-use/lib/useMedia'
@@ -14,7 +15,6 @@ import DrawerDaftarSoal from './daftar-soal-drawer'
 import JudulSoalCard from './judul-soal-card'
 import SisaWaktuCard from './sisa-waktu-card'
 import SoalCard from './soal-card'
-import { handleActionWithToast } from '@/utils/action'
 
 type JawabanType = (typeof PILIHAN_JAWABAN)[number]
 type JawabanTypeLower = Lowercase<JawabanType>
@@ -38,6 +38,7 @@ export default function KerjakanUjianBody() {
   }>()
   const [timer, setTimer] = useState<NodeJS.Timeout>()
   const [saved, setSaved] = useState(false)
+  const [targetWaktu, setTargetWaktu] = useState<number>()
   const [sisaWaktu, setSisaWaktu] = useState<number>()
   const [currentSoal, setCurrentSoal] = useState(0)
   const [listSoal, setListSoal] = useState<SoalType[]>([])
@@ -53,7 +54,11 @@ export default function KerjakanUjianBody() {
       durasi: data?.aktifitas.durasi_ujian,
     })
 
-    setSisaWaktu(data?.sisa_durasi)
+    const sisaWaktu = data?.sisa_durasi || 0
+
+    setTargetWaktu(Math.floor(Date.now() / 1000) + sisaWaktu)
+
+    setSisaWaktu(sisaWaktu)
     // setSisaWaktu(5)
 
     setSaved(true)
@@ -127,10 +132,10 @@ export default function KerjakanUjianBody() {
   }, [])
 
   useEffect(() => {
-    if (sisaWaktu !== undefined) {
+    if (targetWaktu !== undefined) {
       setTimer(
         setInterval(() => {
-          const sisa = sisaWaktu - 1
+          const sisa = targetWaktu - Math.floor(Date.now() / 1000)
           if (sisa <= 0) {
             processSelesaiUjian()
           }
@@ -141,7 +146,7 @@ export default function KerjakanUjianBody() {
 
       return () => clearInterval(timer)
     }
-  }, [sisaWaktu])
+  }, [targetWaktu])
 
   return (
     <>
