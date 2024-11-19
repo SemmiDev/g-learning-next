@@ -6,19 +6,18 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 
 type MulaiUjianModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
   jumlahSoal: number | undefined
   durasi: number | undefined
 }
 
 export default function MulaiUjianModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
   jumlahSoal,
   durasi,
 }: MulaiUjianModalProps) {
@@ -29,9 +28,9 @@ export default function MulaiUjianModal({
     <Modal
       title="Mulai Ujian"
       size="sm"
-      isOpen={showModal}
+      isOpen={show}
       headerClassName="[&_.modal-title]:text-lg"
-      onClose={() => setShowModal(false)}
+      onClose={() => setShow(false)}
     >
       <div className="flex flex-col p-3">
         <Text weight="semibold" variant="dark" align="center">
@@ -57,7 +56,7 @@ export default function MulaiUjianModal({
         </div>
       </div>
       <CardSeparator />
-      <ModalFooterButtons cancel="Tidak" onCancel={() => setShowModal(false)}>
+      <ModalFooterButtons cancel="Tidak" onCancel={() => setShow(false)}>
         <div className="flex-1">
           <Button
             className="w-full"

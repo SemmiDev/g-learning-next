@@ -9,11 +9,9 @@ import {
   Time,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import cn from '@/utils/class-names'
 import { parseDate } from '@/utils/date'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 
 type MulaiUjianModalProps = {

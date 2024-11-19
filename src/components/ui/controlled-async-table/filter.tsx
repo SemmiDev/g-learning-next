@@ -31,9 +31,6 @@ function FilterDrawerView({
       size="sm"
       isOpen={isOpen ?? false}
       onClose={() => setOpenDrawer(false)}
-      overlayClassName="cursor-default dark:bg-opacity-40 dark:backdrop-blur-md"
-      containerClassName="dark:bg-gray-100"
-      className="z-[9999]"
     >
       <div className="flex h-full flex-col p-5">
         <div className="-mx-5 mb-6 flex items-center justify-between border-b border-muted px-5 pb-4">

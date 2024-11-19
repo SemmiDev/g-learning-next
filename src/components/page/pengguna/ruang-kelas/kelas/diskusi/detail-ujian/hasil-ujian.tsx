@@ -97,8 +97,8 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
       </Card>
 
       <MulaiUjianModal
-        showModal={showModalMulai}
-        setShowModal={setShowModalMulai}
+        show={showModalMulai}
+        setShow={setShowModalMulai}
         jumlahSoal={data?.bank_soal?.jumlah_soal_yang_digunakan}
         durasi={data?.aktifitas.durasi_ujian || undefined}
       />

@@ -1,4 +1,5 @@
 import { Button, Card, Text, TextSpan, Title } from '@/components/ui'
+import { useGlobalStore } from '@/stores/global'
 import cn from '@/utils/class-names'
 
 type JudulSoalCardProps = {
@@ -14,6 +15,8 @@ export default function JudulSoalCard({
   onSelesaiUjian,
   className,
 }: JudulSoalCardProps) {
+  const { setOpenSidebarMenu } = useGlobalStore()
+
   return (
     <Card
       className={cn(
@@ -46,6 +49,7 @@ export default function JudulSoalCard({
           color="success"
           variant="outline"
           className="lg:hidden"
+          onClick={() => setOpenSidebarMenu(true)}
         >
           Daftar Soal
         </Button>

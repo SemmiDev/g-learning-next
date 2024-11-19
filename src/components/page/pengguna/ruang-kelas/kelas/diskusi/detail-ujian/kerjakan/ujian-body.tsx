@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import useMedia from 'react-use/lib/useMedia'
 import SelesaiUjianModal from '../modal/selesai-ujian'
 import DaftarSoalCard from './daftar-soal-card'
+import DrawerDaftarSoal from './daftar-soal-drawer'
 import JudulSoalCard from './judul-soal-card'
 import SisaWaktuCard from './sisa-waktu-card'
 import SoalCard from './soal-card'
@@ -26,8 +27,8 @@ export type SoalType = {
 }
 
 export default function KerjakanUjianBody() {
-  const isMediumScreen = useMedia('(min-width: 768px)', true)
   const router = useRouter()
+  const isMediumScreen = useMedia('(min-width: 768px)', true)
   const [ujian, setUjian] = useState<{
     judul?: string
     durasi?: number
@@ -128,6 +129,12 @@ export default function KerjakanUjianBody() {
           setShowSelesai(false)
           router.replace(`${routes.peserta.kelas}/diskusi/detail/ujian/selesai`)
         }}
+      />
+
+      <DrawerDaftarSoal
+        listSoal={listSoal}
+        currentSoal={currentSoal}
+        setCurrentSoal={setCurrentSoal}
       />
     </>
   )
