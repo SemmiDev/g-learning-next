@@ -59,7 +59,6 @@ export default function KerjakanUjianBody() {
     setTargetWaktu(Math.floor(Date.now() / 1000) + sisaWaktu)
 
     setSisaWaktu(sisaWaktu)
-    // setSisaWaktu(5)
 
     setSaved(true)
 
@@ -97,7 +96,7 @@ export default function KerjakanUjianBody() {
     }
   }
 
-  const processSelesaiUjian = async () => {
+  const processSelesaiUjian = async (sisa: number) => {
     clearInterval(timer)
 
     await handleActionWithToast(
@@ -106,7 +105,7 @@ export default function KerjakanUjianBody() {
           id: item.id,
           jw: item.jawab || '',
         })),
-        durasi: sisaWaktu || 0,
+        durasi: sisa || 0,
       }),
       {
         loading: 'Menyelesaikan ujian...',
@@ -124,7 +123,7 @@ export default function KerjakanUjianBody() {
 
   const handleSelesaiUjian = () => {
     setShowSelesai(false)
-    processSelesaiUjian()
+    processSelesaiUjian(sisaWaktu || 0)
   }
 
   useEffect(() => {
@@ -133,18 +132,18 @@ export default function KerjakanUjianBody() {
 
   useEffect(() => {
     if (targetWaktu !== undefined) {
-      setTimer(
-        setInterval(() => {
-          const sisa = targetWaktu - Math.floor(Date.now() / 1000)
-          if (sisa <= 0) {
-            processSelesaiUjian()
-          }
+      const newTimer = setInterval(() => {
+        const sisa = targetWaktu - Math.floor(Date.now() / 1000)
+        if (sisa <= 0) {
+          processSelesaiUjian(0)
+        }
 
-          setSisaWaktu(sisa)
-        }, 1000)
-      )
+        setSisaWaktu(sisa)
+      }, 1000)
 
-      return () => clearInterval(timer)
+      setTimer(newTimer)
+
+      return () => clearInterval(newTimer)
     }
   }, [targetWaktu])
 
