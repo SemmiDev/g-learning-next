@@ -118,16 +118,7 @@ export default function KumpulkanTugasCard({
               className="text-gray-dark"
             />
           </div>
-          <div
-            className={cn(
-              'flex flex-col items-center w-24 rounded-md p-3',
-              data?.nilai === null
-                ? 'bg-gray-50'
-                : data?.nilai >= 70
-                ? 'bg-green-100'
-                : 'bg-red-100'
-            )}
-          >
+          <div className="flex flex-col items-center w-24 bg-gray-50 rounded-md p-3">
             <Text size="sm" weight="medium" variant="lighter">
               Nilai
             </Text>

@@ -1,14 +1,45 @@
+import { lihatHasilUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import SelesaiUjianBody from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/detail-ujian/selesai/selesai-body'
 import { metaObject } from '@/config/site.config'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Selesai Ujian'),
 }
 
-export default function SelesaiUjianPesertaPage() {
+type SelesaiUjianPesertaPageProps = {
+  params: Promise<{ kelas: string; id: string }>
+}
+
+export default async function SelesaiUjianPesertaPage({
+  params,
+}: SelesaiUjianPesertaPageProps) {
+  const queryClient = new QueryClient()
+
+  const { kelas: idKelas, id } = await params
+
+  const { data, code } = await lihatHasilUjianAction(idKelas, id)
+
+  if (code === 404) return notFound()
+
+  await queryClient.prefetchQuery({
+    queryKey: [
+      'pengguna.ruang-kelas.ujian.hasil-ujian',
+      'peserta',
+      idKelas,
+      id,
+    ],
+    queryFn: async () => data,
+  })
+
   return (
-    <div className="flex justify-center gap-8 py-10 px-2 md:px-10 lg:px-24 xl:px-40">
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <SelesaiUjianBody />
-    </div>
+    </HydrationBoundary>
   )
 }

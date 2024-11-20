@@ -9,12 +9,12 @@ import {
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { parseDate } from '@/utils/date'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import MulaiUjianModal from './modal/mulai-ujian'
-import { parseDate } from '@/utils/date'
 
 type HasilUjianCardProps = {
   className?: string
@@ -26,7 +26,12 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.ujian.hasil', idKelas, id],
+    queryKey: [
+      'pengguna.ruang-kelas.ujian.hasil-ujian',
+      'peserta',
+      idKelas,
+      id,
+    ],
     queryFn: makeSimpleQueryDataWithParams(lihatHasilUjianAction, idKelas, id),
   })
 
