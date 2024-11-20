@@ -254,7 +254,7 @@ export default function PengajarRekapTugasDaftarPengumpulanCard({
     handleActionWithToast(
       hapusNilaiTugasAction(idKelas, idAktifitas, idHapusNilai),
       {
-        loading: 'Menghapus berkas...',
+        loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',
         onSuccess: () => {
           setIdHapusNilai(undefined)

@@ -191,7 +191,7 @@ export default function TableUjianPesertaCard({
               <Dropdown.Menu>
                 <Dropdown.Item
                   className="text-gray-dark"
-                  onClick={() => setIdHapusNilai(row.id || undefined)}
+                  onClick={() => setIdHapusNilai(row.id_peserta)}
                 >
                   <BsTrash3 className="text-danger size-4 mr-2" />
                   Hapus Nilai
@@ -214,7 +214,7 @@ export default function TableUjianPesertaCard({
     handleActionWithToast(
       hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
       {
-        loading: 'Menghapus berkas...',
+        loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',
         onSuccess: () => {
           setIdHapusNilai(undefined)

@@ -262,7 +262,7 @@ export default function TableTugasPesertaCard({
     handleActionWithToast(
       hapusNilaiTugasAction(idKelas, idAktifitas, idHapusNilai),
       {
-        loading: 'Menghapus berkas...',
+        loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',
         onSuccess: () => {
           setIdHapusNilai(undefined)
