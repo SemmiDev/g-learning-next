@@ -122,7 +122,6 @@ export default function PengajarUjianBody() {
               <PengajarRekapUjianItem
                 key={item.id}
                 idx={idx}
-                /* TODO: penyesuaian data sesuai API jika sudah ada */
                 sesi={{
                   id: item.id,
                   judul: item.judul,
