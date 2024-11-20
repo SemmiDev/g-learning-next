@@ -52,9 +52,9 @@ export default function SelesaiUjianBody() {
                     <td className="text-center"> : </td>
                     <td className="font-semibold">{`${
                       data?.jawaban.jawaban_benar ?? '-'
-                    }/
-                      ${data?.jawaban.jawaban_salah ?? '-'}/
-                      ${data?.jawaban.jawaban_kosong ?? '-'}`}</td>
+                    } / ${data?.jawaban.jawaban_salah ?? '-'} / ${
+                      data?.jawaban.jawaban_kosong ?? '-'
+                    }`}</td>
                   </tr>
                   <tr>
                     <td>Waktu mulai</td>

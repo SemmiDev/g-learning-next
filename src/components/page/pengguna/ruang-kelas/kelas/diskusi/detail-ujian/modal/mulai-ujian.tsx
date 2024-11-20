@@ -14,6 +14,7 @@ type MulaiUjianModalProps = {
   setShow(show: boolean): void
   jumlahSoal: number | undefined
   durasi: number | undefined
+  lanjut?: boolean
 }
 
 export default function MulaiUjianModal({
@@ -21,13 +22,14 @@ export default function MulaiUjianModal({
   setShow,
   jumlahSoal,
   durasi,
+  lanjut,
 }: MulaiUjianModalProps) {
   const router = useRouter()
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   return (
     <Modal
-      title="Mulai Ujian"
+      title={`${lanjut ? 'Lanjutkan' : 'Mulai'} Ujian`}
       size="sm"
       isOpen={show}
       headerClassName="[&_.modal-title]:text-lg"
@@ -35,7 +37,7 @@ export default function MulaiUjianModal({
     >
       <div className="flex flex-col p-3">
         <Text weight="semibold" variant="dark" align="center">
-          Apakah Anda yakin ingin memulai ujian?
+          Apakah Anda yakin ingin {lanjut ? 'melanjutkan' : 'memulai'} ujian?
         </Text>
         <div className="flex gap-x-2 mt-2">
           <div className="flex flex-col items-center flex-1 bg-slight-blue rounded-md p-2">

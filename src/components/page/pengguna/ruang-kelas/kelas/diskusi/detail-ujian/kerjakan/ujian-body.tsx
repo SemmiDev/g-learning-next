@@ -76,25 +76,28 @@ export default function KerjakanUjianBody() {
     )
   }
 
+  const simpanJawaban = async (dataSoal: SoalType[]) => {
+    if (sisaWaktu === undefined) return
+
+    await simpanJawabanAction(idKelas, id, {
+      jawaban: dataSoal.map((item) => ({
+        id: item.id,
+        jw: item.jawab || '',
+      })),
+      durasi: sisaWaktu,
+    })
+
+    setSaved(true)
+  }
+
   const setJawaban = async (jawaban: JawabanType) => {
     const dataSoal = [...listSoal]
     dataSoal[currentSoal].jawab = jawaban
 
     setListSoal(dataSoal)
+    setSaved(false)
 
-    if (sisaWaktu !== undefined) {
-      setSaved(false)
-
-      await simpanJawabanAction(idKelas, id, {
-        jawaban: dataSoal.map((item) => ({
-          id: item.id,
-          jw: item.jawab || '',
-        })),
-        durasi: sisaWaktu,
-      })
-
-      setSaved(true)
-    }
+    simpanJawaban(dataSoal)
   }
 
   const processSelesaiUjian = async (sisa: number) => {
@@ -133,10 +136,13 @@ export default function KerjakanUjianBody() {
 
   useEffect(() => {
     if (targetWaktu !== undefined) {
-      const newTimer = setInterval(() => {
+      const newTimer = setTimeout(() => {
         const sisa = targetWaktu - Math.floor(Date.now() / 1000)
+
         if (sisa <= 0) {
           processSelesaiUjian(0)
+        } else if (!saved && sisa % 5 === 0) {
+          simpanJawaban(listSoal)
         }
 
         setSisaWaktu(sisa)
@@ -146,7 +152,7 @@ export default function KerjakanUjianBody() {
 
       return () => clearInterval(newTimer)
     }
-  }, [targetWaktu])
+  }, [targetWaktu, sisaWaktu])
 
   return (
     <>

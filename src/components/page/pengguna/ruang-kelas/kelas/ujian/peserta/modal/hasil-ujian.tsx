@@ -86,10 +86,10 @@ export default function HasilUjianModal({
                   <td className="text-center"> : </td>
                   <td className="font-semibold">
                     {selesai
-                      ? `${data?.jawaban.jawaban_benar ?? '-'}/
-                      ${data?.jawaban.jawaban_salah ?? '-'}/
+                      ? `${data?.jawaban.jawaban_benar ?? '-'} /
+                      ${data?.jawaban.jawaban_salah ?? '-'} /
                       ${data?.jawaban.jawaban_kosong ?? '-'}`
-                      : '-/-/-'}
+                      : '- / - / -'}
                   </td>
                 </tr>
                 <tr>

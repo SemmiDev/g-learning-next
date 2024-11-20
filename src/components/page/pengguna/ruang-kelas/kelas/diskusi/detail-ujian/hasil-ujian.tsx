@@ -68,10 +68,10 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
                 <td className="text-center"> : </td>
                 <td className="font-semibold">
                   {selesai
-                    ? `${data?.jawaban.jawaban_benar ?? '-'}/
-                      ${data?.jawaban.jawaban_salah ?? '-'}/
+                    ? `${data?.jawaban.jawaban_benar ?? '-'} /
+                      ${data?.jawaban.jawaban_salah ?? '-'} /
                       ${data?.jawaban.jawaban_kosong ?? '-'}`
-                    : '-/-/-'}
+                    : '- / - / -'}
                 </td>
               </tr>
               <tr>
@@ -135,6 +135,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
         setShow={setShowModalMulai}
         jumlahSoal={data?.bank_soal?.jumlah_soal_yang_digunakan}
         durasi={data?.aktifitas.durasi_ujian || undefined}
+        lanjut={!!data?.jawaban.waktu_mulai}
       />
     </>
   )
