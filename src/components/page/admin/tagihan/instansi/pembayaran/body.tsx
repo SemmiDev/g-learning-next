@@ -2,8 +2,8 @@
 
 import { Button, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import TambahModal from './modal/tambah'

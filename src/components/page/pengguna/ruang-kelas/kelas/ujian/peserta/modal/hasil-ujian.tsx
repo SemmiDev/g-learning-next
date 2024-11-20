@@ -12,7 +12,8 @@ import { routes } from '@/config/routes'
 import { parseDate } from '@/utils/date'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
+import { useParams } from 'next/navigation'
 
 type MulaiUjianModalProps = {
   id: string | undefined

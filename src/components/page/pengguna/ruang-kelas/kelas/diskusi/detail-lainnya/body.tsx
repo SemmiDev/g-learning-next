@@ -7,8 +7,9 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'

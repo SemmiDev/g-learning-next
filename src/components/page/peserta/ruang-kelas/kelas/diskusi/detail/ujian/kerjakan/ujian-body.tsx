@@ -1,5 +1,7 @@
 'use client'
 
+import { routes } from '@/config/routes'
+import { useRouter } from 'next-nprogress-bar'
 import { useEffect, useState } from 'react'
 import useMedia from 'react-use/lib/useMedia'
 import SelesaiUjianModal from '../modal/selesai-ujian'
@@ -7,8 +9,6 @@ import DaftarSoalCard from './daftar-soal-card'
 import JudulSoalCard from './judul-soal-card'
 import SisaWaktuCard from './sisa-waktu-card'
 import SoalCard from './soal-card'
-import { useRouter } from 'next/navigation'
-import { routes } from '@/config/routes'
 
 export type JawabanType = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | null
 

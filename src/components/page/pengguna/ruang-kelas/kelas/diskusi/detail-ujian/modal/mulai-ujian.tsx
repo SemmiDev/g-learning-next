@@ -6,7 +6,8 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
+import { useParams } from 'next/navigation'
 
 type MulaiUjianModalProps = {
   show?: boolean

@@ -3,7 +3,7 @@
 import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
 
 export default function SelesaiUjianBody() {
   const router = useRouter()

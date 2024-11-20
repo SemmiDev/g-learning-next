@@ -14,7 +14,7 @@ import { useMedia } from '@/hooks/use-media'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
