@@ -146,7 +146,10 @@ export default function KerjakanUjianBody() {
 
         if (sisa <= 0) {
           processSelesaiUjian(0)
-        } else if (saveStatus === 'error' && sisa % 5 === 0) {
+        } else if (
+          sisa % 30 === 0 ||
+          (saveStatus === 'error' && sisa % 5 === 0)
+        ) {
           simpanJawaban(listSoal)
         }
 
