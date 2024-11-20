@@ -24,16 +24,16 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
   action: Promise<T>,
   {
     loading = 'Loading...',
-    success = ({ message }: ActionResponseType) => message,
-    error = ({ message }: ActionResponseType) => message,
+    success = ({ message }: T) => message,
+    error = ({ message }: T) => message,
     onStart,
     onSuccess,
     onError,
     onFinish,
   }: {
     loading?: string
-    success?: string | ((message: ActionResponseType) => string | undefined)
-    error?: string | ((message: ActionResponseType) => string | undefined)
+    success?: string | ((message: T) => string | undefined)
+    error?: string | ((message: T) => string | undefined)
     onStart?(): void
     onSuccess?(result: T): void
     onError?(result: T): void
@@ -44,18 +44,34 @@ export const handleActionWithToast = async <T extends ActionResponseType>(
 
   const toastId = toast.loading(<Text>{loading}</Text>)
 
-  const res = await action
+  try {
+    const res = await action
 
-  toast.dismiss(toastId)
+    toast.dismiss(toastId)
 
-  if (res.success) {
-    success &&
-      toast.success(
-        <Text>{typeof success === 'string' ? success : success(res)}</Text>
-      )
+    if (res.success) {
+      success &&
+        toast.success(
+          <Text>{typeof success === 'string' ? success : success(res)}</Text>
+        )
 
-    onSuccess && onSuccess(res)
-  } else {
+      onSuccess && onSuccess(res)
+    } else {
+      error &&
+        toast.error(
+          <Text>{typeof error === 'string' ? error : error(res)}</Text>
+        )
+
+      onError && onError(res)
+    }
+  } catch (err) {
+    toast.dismiss(toastId)
+
+    const res = makeActionResponse(
+      false,
+      'Tidak dapat menghubungi server.'
+    ) as T
+
     error &&
       toast.error(<Text>{typeof error === 'string' ? error : error(res)}</Text>)
 
