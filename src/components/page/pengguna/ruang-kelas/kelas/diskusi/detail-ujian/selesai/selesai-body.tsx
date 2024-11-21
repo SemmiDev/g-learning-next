@@ -37,11 +37,11 @@ export default function SelesaiUjianBody() {
               Hasil Ujian
             </Text>
             <CardSeparator />
-            <div className="flex p-2">
-              <table className="flex-1 text-xs text-gray-dark">
+            <div className="flex flex-col items-center gap-2 p-2 xs:flex-row">
+              <table className="flex-1 text-xs text-gray-dark w-full">
                 <tbody>
                   <tr>
-                    <td className="w-32">Jumlah pertanyaan</td>
+                    <td className="w-28">Jumlah pertanyaan</td>
                     <td className="w-3 text-center"> : </td>
                     <td className="font-semibold">
                       {data?.bank_soal?.jumlah_soal_yang_digunakan ?? '-'}
