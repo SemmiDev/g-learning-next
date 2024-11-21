@@ -16,6 +16,16 @@ export const menuItemsPengguna: MenuItemType[] = [
     name: 'Ruang Kelas',
     href: routes.pengguna.ruangKelas,
     icon: <LuBox />,
+    dropdownItems: [
+      {
+        name: 'Kelas yang Dikelola',
+        href: routes.pengguna.ruangKelasDikelola,
+      },
+      {
+        name: 'Kelas yang Diikuti',
+        href: routes.pengguna.ruangKelasDiikuti,
+      },
+    ],
   },
   {
     name: 'Bank Materi',

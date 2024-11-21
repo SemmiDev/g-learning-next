@@ -4,7 +4,7 @@ import { useGlobalStore } from '@/stores/global'
 import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment, ReactNode } from 'react'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
@@ -33,6 +33,8 @@ export type MenuItemType = {
 export function SidebarMenu() {
   const { setOpenSidebarMenu } = useGlobalStore()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   const { level } = useSessionPengguna()
 
   const menuItems: MenuItemType[] = switchCaseObject(
@@ -57,11 +59,19 @@ export function SidebarMenu() {
             (link !== '/' && pathname.startsWith(link)))
         const pathnameExistInDropdowns = (item?.dropdownItems ?? []).filter(
           (dropdownItem) => {
-            const link = dropdownItem.href
-            return !!link && (pathname === link || pathname.startsWith(link))
+            const childLink = dropdownItem.href
+
+            return (
+              !!childLink &&
+              (pathname === childLink || pathname.startsWith(childLink))
+            )
           }
         )
-        const isDropdownOpen = Boolean(pathnameExistInDropdowns?.length)
+
+        const isDropdownOpen =
+          Boolean(pathnameExistInDropdowns?.length) ||
+          pathname === link ||
+          pathname.startsWith(link || '#')
 
         return (
           <Fragment key={`${item.name}-${index}`}>
@@ -109,7 +119,9 @@ export function SidebarMenu() {
                     {item?.dropdownItems?.map((dropdownItem, index) => {
                       const childLink = dropdownItem?.href
                       const isChildActive =
-                        pathname === childLink || pathname.startsWith(childLink)
+                        pathname === childLink ||
+                        pathname.startsWith(childLink) ||
+                        childLink === `${pathname}?${searchParams.toString()}`
 
                       return (
                         <Link

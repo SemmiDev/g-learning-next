@@ -11,9 +11,13 @@ import KelasCard from './kelas-card'
 import PengaturanKelasModal from './modal/pengaturan-kelas'
 import UndangKelasModal from './modal/undang-kelas'
 
-const queryKey = ['pengguna.ruang-kelas.list']
+type ListKelasCardListProps = {
+  kategori?: 'Dikelola' | 'Diikuti'
+}
 
-export default function ListKelasCardList() {
+export default function ListKelasCardList({
+  kategori,
+}: ListKelasCardListProps) {
   const queryClient = useQueryClient()
   const {
     show: showPengaturan,
@@ -29,11 +33,14 @@ export default function ListKelasCardList() {
   } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
+  const queryKey = ['pengguna.ruang-kelas.list', kategori]
+
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
       const { data } = await listKelasAction({
         page,
+        kategori,
       })
 
       return {

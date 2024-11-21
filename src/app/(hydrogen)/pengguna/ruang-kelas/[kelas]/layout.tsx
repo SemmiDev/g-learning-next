@@ -1,6 +1,6 @@
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import KelasHeader from '@/components/page/pengguna/ruang-kelas/kelas/header'
-import KelasLayoutHeader from '@/components/page/pengguna/ruang-kelas/kelas/layout-header'
+import PageHeader from '@/components/shared/page-header'
 import { Card, TabGroup } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
@@ -50,6 +50,13 @@ export default async function KelasLayout({
         name: 'Ruang Kelas',
       },
       {
+        href:
+          data?.peran === 'Pengajar'
+            ? routes.pengguna.ruangKelasDikelola
+            : routes.pengguna.ruangKelasDiikuti,
+        name: data?.peran === 'Pengajar' ? 'Kelas Dikelola' : 'Kelas Diikuti',
+      },
+      {
         name: data?.kelas.nama_kelas ?? '',
       },
     ],
@@ -57,10 +64,7 @@ export default async function KelasLayout({
 
   return (
     <>
-      <KelasLayoutHeader
-        title={pageHeader.title}
-        breadcrumb={pageHeader.breadcrumb}
-      />
+      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Card className="flex flex-col">
           <KelasHeader />

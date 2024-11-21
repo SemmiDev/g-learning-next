@@ -6,7 +6,11 @@ import ListKelasCardList from './card-list'
 import BuatKelasModal from './modal/buat-kelas'
 import GabungKelasModal from './modal/gabung-kelas'
 
-export default function ListKelasBody() {
+type ListKelasBodyProps = {
+  kategori?: 'Dikelola' | 'Diikuti'
+}
+
+export default function ListKelasBody({ kategori }: ListKelasBodyProps) {
   const [showBuatKelas, setShowBuatKelas] = useState(false)
   const [showGabungKelas, setShowGabungKelas] = useState(false)
 
@@ -20,10 +24,12 @@ export default function ListKelasBody() {
             weight="semibold"
             className="leading-tight mb-3"
           >
-            Semua Kelas yang Dikelola
+            Semua Kelas yang {kategori}
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">
-            Semua kelas yang Kamu buat dan bisa dikelola
+            {kategori === 'Dikelola'
+              ? 'Semua kelas yang Kamu buat dan bisa dikelola'
+              : 'Semua daftar kelas yang Kamu ikuti'}
           </Text>
         </div>
         <div className="flex justify-end flex-wrap gap-2">
@@ -40,7 +46,7 @@ export default function ListKelasBody() {
         </div>
       </div>
 
-      <ListKelasCardList />
+      <ListKelasCardList kategori={kategori} />
 
       <GabungKelasModal show={showGabungKelas} setShow={setShowGabungKelas} />
 

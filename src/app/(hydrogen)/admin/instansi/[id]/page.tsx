@@ -4,10 +4,7 @@ import DetailInstansiBody from '@/components/page/admin/instansi/detail/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import {
-  makeAsyncTableQueryData,
-  makeSimpleQueryDataWithId,
-} from '@/utils/query-data'
+import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,
   HydrationBoundary,
