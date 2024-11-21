@@ -128,7 +128,7 @@ export function SidebarMenu() {
                           key={dropdownItem?.name + index}
                           href={dropdownItem?.href}
                           className={cn(
-                            'mx-3.5 mb-0.5 flex items-center justify-between rounded-md px-3.5 py-2 font-medium capitalize last-of-type:mb-1 lg:last-of-type:mb-2 2xl:mx-5',
+                            'mx-3.5 mb-0.5 flex items-center justify-between rounded-md px-3.5 py-2 font-medium last-of-type:mb-1 lg:last-of-type:mb-2 2xl:mx-5',
                             isChildActive
                               ? 'text-primary'
                               : 'text-gray-500 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-dark'
@@ -159,7 +159,7 @@ export function SidebarMenu() {
                   <Link
                     href={item?.href}
                     className={cn(
-                      'group relative mx-3 my-0.5 flex items-center justify-between rounded-md px-3 py-2 font-medium capitalize lg:my-1 2xl:mx-5 2xl:my-2',
+                      'group relative mx-3 my-0.5 flex items-center justify-between rounded-md px-3 py-2 font-medium lg:my-1 2xl:mx-5 2xl:my-2',
                       isActive
                         ? 'before:top-2/5 text-primary before:absolute before:-start-3 before:block before:h-4/5 before:w-1 before:rounded-ee-md before:rounded-se-md before:bg-primary 2xl:before:-start-5'
                         : 'text-gray-700 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-dark dark:text-gray-700/90'
