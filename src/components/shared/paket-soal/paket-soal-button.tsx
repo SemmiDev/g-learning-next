@@ -1,4 +1,4 @@
-import { ActionIconTooltip, Text, Time } from '@/components/ui'
+import { ActionIconTooltip, LabelOrDiv, Text, Time } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsCardChecklist, BsPencil } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
@@ -29,16 +29,25 @@ export default function SoalButton({
   checked = false,
   onChange,
 }: SoalButtonProps) {
+  const selectable = soal.total >= soal.count
+
   return (
-    <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
-      <Radio
-        name="paket_soal_radio"
-        value={soal.id}
-        size="sm"
-        className="px-4"
-        checked={checked}
-        onChange={() => onChange && onChange()}
-      />
+    <LabelOrDiv
+      label={selectable}
+      className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+    >
+      {selectable ? (
+        <Radio
+          name="paket_soal_radio"
+          value={soal.id}
+          size="sm"
+          className="px-4"
+          checked={checked}
+          onChange={() => onChange && onChange()}
+        />
+      ) : (
+        <div className="w-[3.25rem]"></div>
+      )}
       <div className="flex flex-1 justify-between items-center space-x-2">
         <div className="flex space-x-2">
           <div className="flex size-11 items-center justify-center rounded-md btn-item-blue mr-2">
@@ -105,6 +114,6 @@ export default function SoalButton({
           </ActionIconTooltip>
         </div>
       </div>
-    </label>
+    </LabelOrDiv>
   )
 }
