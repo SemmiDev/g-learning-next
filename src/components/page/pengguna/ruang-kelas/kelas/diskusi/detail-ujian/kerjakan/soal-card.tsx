@@ -11,8 +11,8 @@ const poinJawaban: JawabanType[] = ['A', 'B', 'C', 'D', 'E']
 
 type SoalCardProps = {
   soal: SoalType | undefined
-  currentSoal: number
-  setCurrentSoal(val: number): void
+  currentIdx: number
+  setCurrentIdx(val: number): void
   totalSoal: number
   onChangeJawaban?(val: JawabanType): void
   className?: string
@@ -20,13 +20,13 @@ type SoalCardProps = {
 
 export default function SoalCard({
   soal,
-  currentSoal,
-  setCurrentSoal,
+  currentIdx,
+  setCurrentIdx,
   totalSoal,
   onChangeJawaban,
   className,
 }: SoalCardProps) {
-  const soalKe = currentSoal + 1
+  const soalKe = currentIdx + 1
 
   if (!soal) return null
 
@@ -36,7 +36,7 @@ export default function SoalCard({
         Soal {soalKe} dari {totalSoal}
       </Text>
       <CardSeparator />
-      <div className="flex flex-col gap-y-2 select-none py-2">
+      <div className="flex flex-col gap-y-2 select-none py-2 [&_img]:max-h-fit">
         <SanitizeHTML
           html={soal.soal}
           className="text-sm text-gray-dark font-medium [&_*]:cursor-default !px-3"
@@ -71,12 +71,12 @@ export default function SoalCard({
         })}
       >
         {soalKe > 1 && (
-          <Button size="sm" onClick={() => setCurrentSoal(currentSoal - 1)}>
+          <Button size="sm" onClick={() => setCurrentIdx(currentIdx - 1)}>
             Soal Sebelumnya
           </Button>
         )}
         {soalKe < totalSoal && (
-          <Button size="sm" onClick={() => setCurrentSoal(currentSoal + 1)}>
+          <Button size="sm" onClick={() => setCurrentIdx(currentIdx + 1)}>
             Soal Berikutnya
           </Button>
         )}

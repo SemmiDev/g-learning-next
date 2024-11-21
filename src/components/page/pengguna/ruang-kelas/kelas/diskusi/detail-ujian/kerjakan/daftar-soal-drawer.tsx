@@ -6,8 +6,8 @@ type DrawerDaftarSoalProps = DaftarSoalProps & {}
 
 export default function DrawerDaftarSoal({
   listSoal,
-  currentSoal,
-  setCurrentSoal,
+  currentIdx,
+  setCurrentIdx,
 }: DrawerDaftarSoalProps) {
   const { openSidebarMenu, setOpenSidebarMenu } = useGlobalStore()
 
@@ -15,8 +15,8 @@ export default function DrawerDaftarSoal({
     <Drawer isOpen={openSidebarMenu} onClose={() => setOpenSidebarMenu(false)}>
       <DaftarSoal
         listSoal={listSoal}
-        currentSoal={currentSoal}
-        setCurrentSoal={setCurrentSoal}
+        currentIdx={currentIdx}
+        setCurrentIdx={setCurrentIdx}
         bigger
       />
     </Drawer>

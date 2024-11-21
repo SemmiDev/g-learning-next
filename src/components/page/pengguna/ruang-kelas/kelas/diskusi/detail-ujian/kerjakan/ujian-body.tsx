@@ -9,11 +9,13 @@ import { routes } from '@/config/routes'
 import { handleActionWithToast } from '@/utils/action'
 import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useWindowScroll } from 'react-use'
 import useMedia from 'react-use/lib/useMedia'
 import SelesaiUjianModal from '../modal/selesai-ujian'
 import DaftarSoalCard from './daftar-soal-card'
 import DrawerDaftarSoal from './daftar-soal-drawer'
+import FixedNavbar from './fixed-navbar'
 import JudulSoalCard from './judul-soal-card'
 import SisaWaktuCard from './sisa-waktu-card'
 import SoalCard from './soal-card'
@@ -33,6 +35,7 @@ export type SoalType = {
 
 export default function KerjakanUjianBody() {
   const router = useRouter()
+  const { y: scrollY } = useWindowScroll()
   const isMediumScreen = useMedia('(min-width: 768px)', true)
   const [ujian, setUjian] = useState<{
     judul?: string
@@ -42,7 +45,7 @@ export default function KerjakanUjianBody() {
   const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error'>()
   const [targetWaktu, setTargetWaktu] = useState<number>()
   const [sisaWaktu, setSisaWaktu] = useState<number>()
-  const [currentSoal, setCurrentSoal] = useState(0)
+  const [currentIdx, setCurrentIdx] = useState(0)
   const [listSoal, setListSoal] = useState<SoalType[]>([])
   const [showSelesai, setShowSelesai] = useState(false)
 
@@ -97,7 +100,7 @@ export default function KerjakanUjianBody() {
 
   const setJawaban = async (jawaban: JawabanType) => {
     const dataSoal = [...listSoal]
-    dataSoal[currentSoal].jawab = jawaban
+    dataSoal[currentIdx].jawab = jawaban
 
     setListSoal(dataSoal)
     setSaveStatus('saving')
@@ -135,6 +138,11 @@ export default function KerjakanUjianBody() {
     processSelesaiUjian(sisaWaktu || 0)
   }
 
+  const currentSoal = useMemo(
+    () => listSoal[currentIdx],
+    [listSoal, currentIdx]
+  )
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -162,12 +170,15 @@ export default function KerjakanUjianBody() {
     }
   }, [targetWaktu, sisaWaktu])
 
+  const showFixedNavBar = useMemo(() => scrollY >= 162, [scrollY])
+
   if (!ujian) return <ShimmerBody />
 
   return (
     <>
-      <div className="flex flex-col gap-4 py-2 px-2 md:px-10 md:py-6 lg:px-20 xl:gap-6 xl:px-40">
-        <div className="flex flex-col-reverse items-start gap-4 lg:flex-row xl:gap-6">
+      <div className="flex flex-col gap-2 py-2 px-2 md:gap-4 md:px-10 md:py-6 lg:px-20 xl:gap-6 xl:px-40">
+        <div className="flex flex-col-reverse items-start gap-2 md:gap-4 lg:flex-row xl:gap-6">
+          <FixedNavbar show={showFixedNavBar} sisaWaktu={sisaWaktu} />
           <SisaWaktuCard
             sisaWaktu={sisaWaktu}
             className="w-full lg:w-[30%] xl:w-1/4"
@@ -180,19 +191,19 @@ export default function KerjakanUjianBody() {
             className="w-full lg:w-auto lg:flex-1"
           />
         </div>
-        <div className="flex items-start flex-wrap gap-4 xl:gap-6">
+        <div className="flex items-start flex-wrap gap-2 md:gap-4 xl:gap-6">
           {isMediumScreen && (
             <DaftarSoalCard
               listSoal={listSoal}
-              currentSoal={currentSoal}
-              setCurrentSoal={setCurrentSoal}
+              currentIdx={currentIdx}
+              setCurrentIdx={setCurrentIdx}
               className="w-full hidden lg:flex lg:w-[30%] xl:w-1/4"
             />
           )}
           <SoalCard
-            soal={listSoal[currentSoal]}
-            currentSoal={currentSoal}
-            setCurrentSoal={setCurrentSoal}
+            soal={currentSoal}
+            currentIdx={currentIdx}
+            setCurrentIdx={setCurrentIdx}
             totalSoal={listSoal.length}
             onChangeJawaban={(val) => setJawaban(val)}
             className="flex-1"
@@ -209,8 +220,8 @@ export default function KerjakanUjianBody() {
 
       <DrawerDaftarSoal
         listSoal={listSoal}
-        currentSoal={currentSoal}
-        setCurrentSoal={setCurrentSoal}
+        currentIdx={currentIdx}
+        setCurrentIdx={setCurrentIdx}
       />
     </>
   )

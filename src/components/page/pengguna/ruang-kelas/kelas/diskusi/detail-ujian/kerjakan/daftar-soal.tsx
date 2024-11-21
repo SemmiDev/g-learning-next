@@ -28,15 +28,15 @@ const boxBehavior = (color: 'green' | 'orange' | 'white'): string => {
 
 export type DaftarSoalProps = {
   listSoal: SoalType[]
-  currentSoal: number
-  setCurrentSoal(val: number): void
+  currentIdx: number
+  setCurrentIdx(val: number): void
   bigger?: boolean
 }
 
 export default function DaftarSoal({
   listSoal,
-  currentSoal,
-  setCurrentSoal,
+  currentIdx,
+  setCurrentIdx,
   bigger,
 }: DaftarSoalProps) {
   const { setOpenSidebarMenu } = useGlobalStore()
@@ -63,8 +63,8 @@ export default function DaftarSoal({
         )}
       </div>
       <CardSeparator />
-      <div className="flex flex-col space-y-3 p-3">
-        <div className="flex gap-x-2">
+      <div className="flex flex-col">
+        <div className="flex gap-x-2 px-3 pt-3">
           <div className="flex flex-col items-center flex-1 bg-slight-blue rounded-md px-4 py-2">
             <Text size="2xs" weight="medium" variant="lighter" align="center">
               Jumlah soal
@@ -92,7 +92,7 @@ export default function DaftarSoal({
         </div>
         <div
           className={cn(
-            'grid grid-cols-5 gap-2 overflow-auto max-h-[calc(100dvh-160px)]',
+            'grid grid-cols-5 gap-2 p-3 overflow-auto max-h-[calc(100dvh-160px)]',
             {
               'grid-cols-10': bigger,
             }
@@ -100,7 +100,7 @@ export default function DaftarSoal({
         >
           {listSoal.map((soal, idx) => {
             const color =
-              idx === currentSoal ? 'orange' : soal.jawab ? 'green' : 'white'
+              idx === currentIdx ? 'orange' : soal.jawab ? 'green' : 'white'
 
             return (
               <div className="flex justify-center items-center" key={idx}>
@@ -111,9 +111,9 @@ export default function DaftarSoal({
                     boxColor(color),
                     boxBehavior(color)
                   )}
-                  disabled={idx === currentSoal}
+                  disabled={idx === currentIdx}
                   onClick={() => {
-                    setCurrentSoal(idx)
+                    setCurrentIdx(idx)
                     setOpenSidebarMenu(false)
                   }}
                 >

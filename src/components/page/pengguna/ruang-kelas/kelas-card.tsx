@@ -23,7 +23,7 @@ export default function KelasCard({
   onDelete,
 }: KelasCardProps) {
   return (
-    <Card className="h-fit">
+    <Card className="flex flex-col gap-y-2 h-fit">
       <div className="h-32 rounded overflow-clip">
         {!!data.kelas.thumbnail ? (
           <Image
@@ -43,7 +43,7 @@ export default function KelasCard({
           />
         )}
       </div>
-      <div className="flex justify-between items-start mt-2">
+      <div className="flex justify-between items-start">
         <div>
           <Text weight="semibold" variant="dark">
             {data.kelas.nama_kelas}
@@ -71,7 +71,7 @@ export default function KelasCard({
           {data.kelas.tipe}
         </Badge>
       </div>
-      <div className="flex mt-2">
+      <div className="flex">
         <table className="border-collapse border border-gray-100 w-full">
           <tbody>
             <tr>
@@ -102,50 +102,42 @@ export default function KelasCard({
           </tbody>
         </table>
       </div>
-      <div className="flex space-x-1 mt-2">
-        <ActionIcon variant="outline">
-          <BiMessageAltDots size={18} />
-        </ActionIcon>
-        <ActionIcon variant="outline">
-          <BsClipboardPlus size={18} />
-        </ActionIcon>
-        {data.kelas.tipe !== 'Akademik' && (
-          <>
-            <ActionIcon
-              variant="outline"
-              onClick={() => {
-                onUndang && onUndang(data.kelas.id)
-              }}
-            >
-              <GrShareOption size={18} />
-            </ActionIcon>
-            {data.peran === 'Pengajar' && (
-              <>
-                <ActionIcon
-                  variant="outline"
-                  onClick={() => {
-                    onPengaturan && onPengaturan(data.kelas.id)
-                  }}
-                >
-                  <PiGear size={18} />
-                </ActionIcon>
-                <ActionIcon
-                  variant="outline"
-                  color="danger"
-                  onClick={() => {
-                    onDelete && onDelete(data.kelas.id)
-                  }}
-                >
-                  <PiTrash size={18} />
-                </ActionIcon>
-              </>
-            )}
-          </>
-        )}
-      </div>
+      {data.kelas.tipe !== 'Akademik' && (
+        <div className="flex space-x-1">
+          <ActionIcon
+            variant="outline"
+            onClick={() => {
+              onUndang && onUndang(data.kelas.id)
+            }}
+          >
+            <GrShareOption size={18} />
+          </ActionIcon>
+          {data.peran === 'Pengajar' && (
+            <>
+              <ActionIcon
+                variant="outline"
+                onClick={() => {
+                  onPengaturan && onPengaturan(data.kelas.id)
+                }}
+              >
+                <PiGear size={18} />
+              </ActionIcon>
+              <ActionIcon
+                variant="outline"
+                color="danger"
+                onClick={() => {
+                  onDelete && onDelete(data.kelas.id)
+                }}
+              >
+                <PiTrash size={18} />
+              </ActionIcon>
+            </>
+          )}
+        </div>
+      )}
       {data.peran === 'Pengajar' || data.status === 'Diterima' ? (
         <Link href={`${routes.pengguna.ruangKelas}/${data.kelas.id}`}>
-          <Button as="span" size="sm" className="w-full mt-2">
+          <Button as="span" size="sm" className="w-full">
             Masuk Kelas
           </Button>
         </Link>
@@ -155,7 +147,7 @@ export default function KelasCard({
           size="sm"
           variant="outline-colorful"
           color="success"
-          className="w-full mt-2"
+          className="w-full"
         >
           Menunggu Persetujuan
         </Button>
