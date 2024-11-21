@@ -55,15 +55,15 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
             className="text-sm"
           />
         </div>
-        <div className="flex items-center space-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mx-2 my-2">
-          <figure className="flex justify-center items-center size-[52px] rounded btn-item-blue">
+        <div className="flex flex-col gap-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mx-2 my-2 xs:flex-row">
+          <figure className="flex justify-center items-center self-center size-[52px] rounded btn-item-blue">
             <BsCardChecklist size={24} />
           </figure>
           <div className="flex flex-col gap-x-2 2xl:flex-row">
             <table>
               <tbody>
                 <tr>
-                  <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                  <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-28">
                     Jumlah Soal
                   </td>
                   <td className="text-xs text-gray-dark font-semibold text-center w-2">
@@ -91,8 +91,8 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                 {data?.aktifitas.waktu_tersedia !==
                   data?.aktifitas.waktu_mulai_ujian && (
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
-                      Waktu mulai pengerjaan
+                    <td className="text-xs text-gray-lighter font-medium">
+                      Mulai pengerjaan
                     </td>
                     <td className="text-xs text-gray-dark font-semibold text-center w-2">
                       :
@@ -107,8 +107,8 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                   </tr>
                 )}
                 <tr>
-                  <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
-                    Batas waktu pengerjaan
+                  <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-36">
+                    Batas pengerjaan
                   </td>
                   <td className="text-xs text-gray-dark font-semibold text-center w-2">
                     :

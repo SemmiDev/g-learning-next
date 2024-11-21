@@ -20,8 +20,8 @@ export default function KelasHeader() {
 
   return (
     <div className="flex justify-between items-start space-x-2">
-      <div className="flex space-x-3">
-        <div className="rounded overflow-clip">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="rounded overflow-clip self-center">
           {data?.kelas.thumbnail ? (
             <Image
               src={data?.kelas.thumbnail}

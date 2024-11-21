@@ -53,7 +53,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
           Hasil Ujian
         </Title>
         <CardSeparator />
-        <div className="flex p-2">
+        <div className="flex flex-col gap-2 p-2 xs:flex-row">
           <table className="flex-1 text-xs text-gray-dark">
             <tbody>
               <tr>
@@ -98,7 +98,7 @@ export default function HasilUjianCard({ className }: HasilUjianCardProps) {
               </tr>
             </tbody>
           </table>
-          <div className="flex flex-col items-center bg-gray-50 w-24 rounded-md p-3">
+          <div className="flex flex-col items-center bg-gray-50 w-24 rounded-md self-center p-3">
             <Text size="sm" weight="medium" variant="lighter">
               Nilai
             </Text>
