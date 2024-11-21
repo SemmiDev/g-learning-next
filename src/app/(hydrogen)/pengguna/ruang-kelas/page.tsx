@@ -8,19 +8,6 @@ export const metadata = {
   ...metaObject('Ruang Kelas'),
 }
 
-const pageHeader = {
-  title: 'Ruang Kelas',
-  breadcrumb: [
-    {
-      href: routes.dashboard,
-      name: 'Dasbor',
-    },
-    {
-      name: 'Ruang Kelas',
-    },
-  ],
-}
-
 type ListKelasPageProps = {
   searchParams: Promise<{ kategori: string }>
 }
@@ -38,6 +25,31 @@ export default async function ListKelasPage({
     },
     undefined
   )
+
+  const pageHeader = {
+    title: 'Ruang Kelas',
+    breadcrumb: [
+      {
+        href: routes.dashboard,
+        name: 'Dasbor',
+      },
+      ...(kategori
+        ? [
+            {
+              href: routes.pengguna.ruangKelas,
+              name: 'Ruang Kelas',
+            },
+            {
+              name: `Kelas ${kategori}`,
+            },
+          ]
+        : [
+            {
+              name: 'Ruang Kelas',
+            },
+          ]),
+    ],
+  }
 
   return (
     <>

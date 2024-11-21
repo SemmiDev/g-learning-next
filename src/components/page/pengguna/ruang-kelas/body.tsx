@@ -1,6 +1,7 @@
 'use client'
 
 import { Button, Text, Title } from '@/components/ui'
+import { switchCaseObject } from '@/utils/switch-case'
 import { useState } from 'react'
 import ListKelasCardList from './card-list'
 import BuatKelasModal from './modal/buat-kelas'
@@ -24,36 +25,49 @@ export default function ListKelasBody({ kategori }: ListKelasBodyProps) {
             weight="semibold"
             className="leading-tight mb-3"
           >
-            Semua Kelas yang {kategori}
+            Semua Kelas {!!kategori ? `yang ${kategori}` : ''}
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">
-            {kategori === 'Dikelola'
-              ? 'Semua kelas yang Kamu buat dan bisa dikelola'
-              : 'Semua daftar kelas yang Kamu ikuti'}
+            {switchCaseObject(
+              kategori,
+              {
+                Dikelola: 'Semua kelas yang Kamu buat dan bisa dikelola',
+                Diikuti: 'Semua daftar kelas yang Kamu ikuti',
+              },
+              'Semua kelas yang terdaftar di akun Anda'
+            )}
           </Text>
         </div>
         <div className="flex justify-end flex-wrap gap-2">
-          <Button
-            size="sm"
-            color="info"
-            onClick={() => setShowGabungKelas(true)}
-          >
-            Gabung Kelas
-          </Button>
-          <Button size="sm" onClick={() => setShowBuatKelas(true)}>
-            Buat Kelas
-          </Button>
+          {(!kategori || kategori === 'Diikuti') && (
+            <Button
+              size="sm"
+              color="info"
+              onClick={() => setShowGabungKelas(true)}
+            >
+              Gabung Kelas
+            </Button>
+          )}
+          {(!kategori || kategori === 'Dikelola') && (
+            <Button size="sm" onClick={() => setShowBuatKelas(true)}>
+              Buat Kelas
+            </Button>
+          )}
         </div>
       </div>
 
       <ListKelasCardList kategori={kategori} />
 
-      <GabungKelasModal show={showGabungKelas} setShow={setShowGabungKelas} />
+      {(!kategori || kategori === 'Diikuti') && (
+        <GabungKelasModal show={showGabungKelas} setShow={setShowGabungKelas} />
+      )}
 
-      <BuatKelasModal
-        showModal={showBuatKelas}
-        setShowModal={setShowBuatKelas}
-      />
+      {(!kategori || kategori === 'Dikelola') && (
+        <BuatKelasModal
+          showModal={showBuatKelas}
+          setShowModal={setShowBuatKelas}
+        />
+      )}
     </>
   )
 }
