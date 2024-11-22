@@ -122,11 +122,15 @@ export default function UploadFile({
           <div className={cn('cursor-pointer px-3 py-2')}>
             {children || (
               <div className="flex flex-col items-center">
-                <figure className="w-20">
+                <figure className="upload-icon w-20">
                   <Image src={dropIcon} alt="seret di sini" />
                 </figure>
                 {placeholder && (
-                  <Text weight="semibold" variant="dark" className="mt-1">
+                  <Text
+                    weight="semibold"
+                    variant="dark"
+                    className="upload-placeholder mt-1"
+                  >
                     {placeholder}
                   </Text>
                 )}
@@ -135,7 +139,7 @@ export default function UploadFile({
                     size="sm"
                     weight="medium"
                     variant="lighter"
-                    className="mt-1"
+                    className="upload-description mt-1"
                     align="center"
                   >
                     {desc}
