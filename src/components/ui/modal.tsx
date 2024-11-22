@@ -26,6 +26,8 @@ export default function Modal({
   headerCustomIcon,
   desc,
   children,
+  size,
+  rounded,
   overlayClassName,
   headerClassName,
   bodyClassName,
@@ -39,6 +41,8 @@ export default function Modal({
     <RizModal
       overlayClassName={cn('cursor-auto', overlayClassName)}
       onClose={onClose ?? (() => null)}
+      size={size}
+      rounded={rounded}
       className={cn(
         {
           '[&_.rizzui-modal-overlay~div]:overflow-visible': overflow,
@@ -53,6 +57,8 @@ export default function Modal({
           icon={headerIcon}
           customIcon={headerCustomIcon}
           className={headerClassName}
+          modalSize={size}
+          rounded={rounded}
         />
       )}
       <div className={cn('modal-body', bodyClassName)}>{children}</div>

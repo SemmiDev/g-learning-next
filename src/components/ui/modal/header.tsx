@@ -1,4 +1,5 @@
 import cn from '@/utils/class-names'
+import { switchCaseObject } from '@/utils/switch-case'
 import { ReactNode } from 'react'
 import { LuAlertTriangle, LuHelpCircle, LuInfo } from 'react-icons/lu'
 import { MdOutlineClose } from 'react-icons/md'
@@ -48,6 +49,8 @@ export type ModalHeaderProps = {
   icon?: IconType
   customIcon?: ReactNode
   desc?: string
+  modalSize?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  rounded?: 'sm' | 'md' | 'lg' | 'xl' | 'none'
   className?: string
   closeButton?: boolean
   onClose?(): void
@@ -60,6 +63,8 @@ export default function ModalHeader({
   icon,
   customIcon,
   desc,
+  modalSize,
+  rounded,
   className,
   closeButton,
   onClose,
@@ -83,12 +88,24 @@ export default function ModalHeader({
       ? 'bg-black'
       : 'bg-gray-dark'
 
+  const classRounded = switchCaseObject(
+    rounded,
+    {
+      none: '',
+      sm: 'rounded-t-lg',
+      lg: 'rounded-t-2xl',
+      xl: 'rounded-t-3xl',
+    },
+    'rounded-t-xl'
+  )
+
   return (
     <div
       className={cn(
-        'modal-header flex justify-between rounded-t-xl p-3',
+        'modal-header flex justify-between p-3',
         bgColor,
         color === 'white' ? 'border-b border-muted' : null,
+        modalSize !== 'full' ? classRounded : null,
         className
       )}
     >
@@ -124,7 +141,7 @@ export default function ModalHeader({
           </Text>
         )}
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center self-start gap-x-2">
         <HeaderIcon icon={icon} customIcon={customIcon} />
         {closeButton && onClose && (
           <ActionIcon
