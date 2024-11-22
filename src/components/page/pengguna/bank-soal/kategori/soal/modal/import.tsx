@@ -124,7 +124,6 @@ export default function ImportSoalModal({
                 errors={errors}
                 desc="(Tipe file yang bisa diupload adalah: xls, xlsx dengan ukuran maksimal 100 MB untuk setiap file yang dipilih)"
                 accept={{ 'application/vnd.ms-excel': ['.xls', '.xlsx'] }}
-                containerClassName="[&_.upload-placeholder]:text-sm xs:[&_.upload-placeholder]:text-base [&_.upload-description]:text-sm xs:[&_.upload-description]:text-base"
                 required
               />
 

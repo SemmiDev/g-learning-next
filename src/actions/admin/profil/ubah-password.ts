@@ -1,6 +1,6 @@
 'use server'
 
-import { UbahPasswordFormSchema } from '@/components/page/pengguna/profil/modal/ubah-sandi'
+import { UbahPasswordFormSchema } from '@/components/page/pengguna/profil/modal/ubah-password'
 import { makeJwtPostRequestAction } from '@/utils/action'
 
 export const ubahPassowrdAction = async (data: UbahPasswordFormSchema) =>

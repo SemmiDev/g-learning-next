@@ -12,20 +12,19 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import cn from '@/utils/class-names'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
-import UbahPasswordModal from '../../admin/profil/modal/ubah-password'
 import UbahModal from './modal/ubah'
 import UbahFotoModal from './modal/ubah-foto'
+import UbahPasswordModal from './modal/ubah-password'
 
 export default function ProfilBody() {
-  const [showUbahModal, setShowUbahModal] = useState(false)
-  const [showFotoModal, setShowFotoModal] = useState(false)
-  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [showUbah, setShowUbah] = useState(false)
+  const [showFoto, setShowFoto] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
@@ -43,7 +42,7 @@ export default function ProfilBody() {
             size="sm"
             variant="outline"
             color="warning"
-            onClick={() => setShowUbahModal(true)}
+            onClick={() => setShowUbah(true)}
           >
             Ubah Data
           </Button>
@@ -58,7 +57,7 @@ export default function ProfilBody() {
                 variant="flat"
                 color="secondary"
                 className="absolute top-1.5 right-1.5"
-                onClick={() => setShowFotoModal(true)}
+                onClick={() => setShowFoto(true)}
               >
                 <LuCamera />
               </ActionIconTooltip>
@@ -128,7 +127,7 @@ export default function ProfilBody() {
             <Button
               variant="outline"
               color="warning"
-              onClick={() => setShowPasswordModal(true)}
+              onClick={() => setShowPassword(true)}
             >
               Ubah Kata Sandi
             </Button>
@@ -136,17 +135,11 @@ export default function ProfilBody() {
         </div>
       </Card>
 
-      <UbahModal showModal={showUbahModal} setShowModal={setShowUbahModal} />
+      <UbahModal show={showUbah} setShow={setShowUbah} />
 
-      <UbahPasswordModal
-        showModal={showPasswordModal}
-        setShowModal={setShowPasswordModal}
-      />
+      <UbahPasswordModal show={showPassword} setShow={setShowPassword} />
 
-      <UbahFotoModal
-        showModal={showFotoModal}
-        setShowModal={setShowFotoModal}
-      />
+      <UbahFotoModal show={showFoto} setShow={setShowFoto} />
     </>
   )
 }
@@ -154,13 +147,11 @@ export default function ProfilBody() {
 function DataRow({
   label,
   children,
-  dark,
   outline,
   outlineClassName,
 }: {
   label: string
   children?: ReactNode
-  dark?: boolean
   outline?: boolean
   outlineClassName?: string
 }) {
@@ -171,11 +162,7 @@ function DataRow({
       </div>
       <div className="col-span-12 sm:col-span-9 lg:col-span-10">
         {outline ? (
-          <TextBordered
-            className={cn({ 'bg-gray-100': dark }, outlineClassName)}
-          >
-            {children}
-          </TextBordered>
+          <TextBordered className={outlineClassName}>{children}</TextBordered>
         ) : (
           children
         )}

@@ -46,11 +46,11 @@ const jenisKelaminOptions: RadioGroupOptionType[] = [
 ]
 
 type UbahModalProps = {
-  showModal: boolean
-  setShowModal(show: boolean): void
+  show: boolean
+  setShow(show: boolean): void
 }
 
-export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
+export default function UbahModal({ show, setShow }: UbahModalProps) {
   const [formError, setFormError] = useState<string>()
   const { update: updateSession } = useSession()
   const queryClient = useQueryClient()
@@ -74,7 +74,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({ queryKey: ['pengguna.profil'] })
         updateSession({ name: data.nama })
       },
@@ -83,7 +83,7 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -92,10 +92,10 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
       title="Ubah Data Profil"
       isLoading={!isLoading && isFetching}
       color="warning"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !showModal ? (
+      {isLoading || !show ? (
         <Loader height={512} />
       ) : (
         <Form<UbahProfilFormSchema>

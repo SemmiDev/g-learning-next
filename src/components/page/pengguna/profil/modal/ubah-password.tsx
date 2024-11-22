@@ -30,17 +30,17 @@ export type UbahPasswordFormSchema = {
   ulangiPassword?: string
 }
 
-type UbahModalProps = {
-  showModal: boolean
-  setShowModal(show: boolean): void
-}
-
 const initialValues = {}
 
-export default function UbahSandiModal({
-  showModal,
-  setShowModal,
-}: UbahModalProps) {
+type UbahPasswordModalProps = {
+  show: boolean
+  setShow(show: boolean): void
+}
+
+export default function UbahPasswordModal({
+  show,
+  setShow,
+}: UbahPasswordModalProps) {
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<UbahPasswordFormSchema> = async (data) => {
@@ -48,13 +48,13 @@ export default function UbahSandiModal({
       loading: 'Menyimpan...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),
-      onSuccess: () => setShowModal(false),
+      onSuccess: () => setShow(false),
       onError: ({ message }) => setFormError(message),
     })
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
@@ -62,7 +62,7 @@ export default function UbahSandiModal({
     <Modal
       title="Ganti Kata Sandi"
       color="warning"
-      isOpen={showModal}
+      isOpen={show}
       onClose={handleClose}
     >
       <Form<UbahPasswordFormSchema>
@@ -108,6 +108,7 @@ export default function UbahSandiModal({
             <ModalFooterButtons
               submit="Simpan Sandi Baru"
               submitColor="warning"
+              submitClassName="text-nowrap"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
             />

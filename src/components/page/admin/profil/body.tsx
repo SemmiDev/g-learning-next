@@ -7,6 +7,7 @@ import {
   Card,
   CardSeparator,
   TextBordered,
+  TextSpan,
   Thumbnail,
   Title,
 } from '@/components/ui'
@@ -19,9 +20,9 @@ import UbahFotoModal from './modal/ubah-foto'
 import UbahPasswordModal from './modal/ubah-password'
 
 export default function ProfilBody() {
-  const [showUbahModal, setShowUbahModal] = useState(false)
-  const [showFotoModal, setShowFotoModal] = useState(false)
-  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [showUbah, setShowUbah] = useState(false)
+  const [showFoto, setShowFoto] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const { data } = useQuery({
     queryKey: ['admin.profil'],
@@ -39,71 +40,65 @@ export default function ProfilBody() {
             size="sm"
             variant="outline"
             color="warning"
-            onClick={() => setShowUbahModal(true)}
+            onClick={() => setShowUbah(true)}
           >
             Ubah Data
           </Button>
         </div>
         <CardSeparator />
-        <table className="text-sm text-gray-dark m-2">
-          <tbody>
-            <DataRow label="Foto">
-              <div className="inline-block relative">
-                <ActionIconTooltip
-                  tooltip="Ganti Foto"
-                  size="sm"
-                  variant="flat"
-                  color="secondary"
-                  className="absolute top-1.5 right-1.5"
-                  onClick={() => setShowFotoModal(true)}
-                >
-                  <LuCamera />
-                </ActionIconTooltip>
-                <Thumbnail
-                  src={data?.foto}
-                  size={150}
-                  rounded="md"
-                  alt="profil"
-                  avatar={data?.nama}
-                  bordered
-                  priority
-                />
-              </div>
-            </DataRow>
-            <DataRow label="Nama Lengkap" outline>
-              {data?.nama || '-'}
-            </DataRow>
-            <DataRow label="Username" outline>
-              {data?.username || '-'}
-            </DataRow>
-            <DataRow label="Jenis Kelamin" outline>
-              {data?.jenis_kelamin || '-'}
-            </DataRow>
-            <DataRow label="Nomor kontak" outline>
-              {data?.hp || '-'}
-            </DataRow>
-            <DataRow label="Kata sandi">
-              <Button
-                variant="outline"
-                color="warning"
-                onClick={() => setShowPasswordModal(true)}
+        <div className="flex flex-col gap-y-4 text-sm text-gray-dark px-2 py-3">
+          <DataRow label="Foto">
+            <div className="inline-block relative">
+              <ActionIconTooltip
+                tooltip="Ganti Foto"
+                size="sm"
+                variant="flat"
+                color="secondary"
+                className="absolute top-1.5 right-1.5"
+                onClick={() => setShowFoto(true)}
               >
-                Ubah Kata Sandi
-              </Button>
-            </DataRow>
-          </tbody>
-        </table>
+                <LuCamera />
+              </ActionIconTooltip>
+              <Thumbnail
+                src={data?.foto}
+                size={150}
+                rounded="md"
+                alt="profil"
+                avatar={data?.nama}
+                bordered
+                priority
+              />
+            </div>
+          </DataRow>
+          <DataRow label="Nama Lengkap" outline>
+            {data?.nama || '-'}
+          </DataRow>
+          <DataRow label="Username" outline>
+            {data?.username || '-'}
+          </DataRow>
+          <DataRow label="Jenis Kelamin" outline>
+            {data?.jenis_kelamin || '-'}
+          </DataRow>
+          <DataRow label="Nomor kontak" outline>
+            {data?.hp || '-'}
+          </DataRow>
+          <DataRow label="Kata sandi">
+            <Button
+              variant="outline"
+              color="warning"
+              onClick={() => setShowPassword(true)}
+            >
+              Ubah Kata Sandi
+            </Button>
+          </DataRow>
+        </div>
       </Card>
 
-      <UbahModal showModal={showUbahModal} setShowModal={setShowUbahModal} />
-      <UbahPasswordModal
-        showModal={showPasswordModal}
-        setShowModal={setShowPasswordModal}
-      />
-      <UbahFotoModal
-        showModal={showFotoModal}
-        setShowModal={setShowFotoModal}
-      />
+      <UbahModal show={showUbah} setShow={setShowUbah} />
+
+      <UbahPasswordModal show={showPassword} setShow={setShowPassword} />
+
+      <UbahFotoModal show={showFoto} setShow={setShowFoto} />
     </>
   )
 }
@@ -112,17 +107,25 @@ function DataRow({
   label,
   children,
   outline,
+  outlineClassName,
 }: {
   label: string
   children?: ReactNode
   outline?: boolean
+  outlineClassName?: string
 }) {
   return (
-    <tr className="[&>td]:py-2">
-      <td className="w-40 font-semibold align-baseline">{label}</td>
-      <td className="">
-        {outline ? <TextBordered>{children}</TextBordered> : children}
-      </td>
-    </tr>
+    <div className="grid grid-cols-12 gap-y-1">
+      <div className="col-span-12 sm:col-span-3 lg:col-span-2">
+        <TextSpan weight="semibold">{label}</TextSpan>
+      </div>
+      <div className="col-span-12 sm:col-span-9 lg:col-span-10">
+        {outline ? (
+          <TextBordered className={outlineClassName}>{children}</TextBordered>
+        ) : (
+          children
+        )}
+      </div>
+    </div>
   )
 }

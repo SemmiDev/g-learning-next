@@ -26,14 +26,11 @@ type FormSchema = {
 const initialValues: FormSchema = {}
 
 type UbahFotoModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show: boolean
+  setShow(show: boolean): void
 }
 
-export default function UbahFotoModal({
-  showModal = false,
-  setShowModal,
-}: UbahFotoModalProps) {
+export default function UbahFotoModal({ show, setShow }: UbahFotoModalProps) {
   const [formError, setFormError] = useState<string>()
   const { update: updateSession } = useSession()
   const queryClient = useQueryClient()
@@ -47,7 +44,7 @@ export default function UbahFotoModal({
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),
       onSuccess: async ({ data }) => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({ queryKey: ['pengguna.profil'] })
         await updateSession({ picture: data?.foto })
       },
@@ -56,12 +53,12 @@ export default function UbahFotoModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
-    <Modal title="Ganti Foto Profil" isOpen={showModal} onClose={handleClose}>
+    <Modal title="Ganti Foto Profil" isOpen={show} onClose={handleClose}>
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
