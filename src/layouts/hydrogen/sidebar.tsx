@@ -1,14 +1,23 @@
 'use client'
 
+import { ActionIcon } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { SidebarMenu } from '@/layouts/hydrogen/sidebar-menu'
+import { useGlobalStore } from '@/stores/global'
 import { cn } from '@/utils/class-names'
 import logo from '@public/logo.svg'
 import Image from 'next/image'
 import Link from 'next/link'
+import { MdOutlineClose } from 'react-icons/md'
 import SimpleBar from 'simplebar-react'
 
-export default function Sidebar({ className }: { className?: string }) {
+type SidebarProps = {
+  className?: string
+}
+
+export default function Sidebar({ className }: SidebarProps) {
+  const { setOpenSidebarMenu } = useGlobalStore()
+
   return (
     <aside
       className={cn(
@@ -16,7 +25,7 @@ export default function Sidebar({ className }: { className?: string }) {
         className
       )}
     >
-      <div className="sticky top-0 z-40 bg-gray-0/10 px-6 pb-5 pt-5 2xl:px-8 2xl:pt-6 dark:bg-gray-100/5">
+      <div className="flex justify-between gap-x-2 sticky top-0 z-40 px-6 pb-5 pt-5 2xl:px-8 2xl:pt-6">
         <Link
           href={routes.dashboard}
           aria-label="Site Logo"
@@ -24,6 +33,15 @@ export default function Sidebar({ className }: { className?: string }) {
         >
           <Image src={logo} alt="logo" priority />
         </Link>
+        <ActionIcon
+          size="sm"
+          variant="text"
+          color="gray"
+          className="xs:hidden"
+          onClick={() => setOpenSidebarMenu(false)}
+        >
+          <MdOutlineClose className="size-[1.125rem]" />
+        </ActionIcon>
       </div>
 
       <SimpleBar className="h-[calc(100%-80px)]">

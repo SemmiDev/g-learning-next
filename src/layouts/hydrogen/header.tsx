@@ -16,7 +16,7 @@ export default function Header() {
 
   return (
     <>
-      <StickyHeader className="z-[990] 2xl:py-5 3xl:px-8  4xl:px-10">
+      <StickyHeader className="z-[990] 2xl:py-5 3xl:px-8 4xl:px-10">
         <div className="flex w-full max-w-2xl items-center">
           <HamburgerButton onClick={() => setOpenSidebarMenu(true)} />
           <Link

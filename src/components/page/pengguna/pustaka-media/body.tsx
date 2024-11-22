@@ -261,7 +261,7 @@ export default function PustakaMediaBody() {
           ))}
       </div>
       <div className="flex justify-between gap-2 flex-wrap">
-        <div className="flex space-x-2">
+        <div className="flex gap-2 flex-wrap">
           <Input
             size="sm"
             type="search"
