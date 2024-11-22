@@ -15,6 +15,7 @@ import {
   TextLabel,
 } from '@/components/ui'
 import { PILIHAN_JAWABAN } from '@/config/const'
+import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { removeIndexFromList } from '@/utils/list'
 import { cleanQuill } from '@/utils/string'
@@ -64,6 +65,7 @@ export default function UbahSoalModal({
   onHide,
 }: UbahSoalModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeExtraLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const {
@@ -134,7 +136,7 @@ export default function UbahSoalModal({
       title="Ubah Soal"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="xl"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >

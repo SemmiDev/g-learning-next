@@ -4,27 +4,30 @@ import { Button, Text, Title } from '@/components/ui'
 import imageBanner from '@public/auth-banner.png'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
+import { ReactNode } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import OrSeparation from './or-separation'
+
+type AuthWrapperProps = {
+  children: ReactNode
+  title?: ReactNode
+  description?: string
+  hideGoogleSignIn?: boolean
+}
 
 export default function AuthWrapper({
   children,
   title,
   description,
   hideGoogleSignIn,
-}: {
-  children: React.ReactNode
-  title?: React.ReactNode
-  description?: string
-  hideGoogleSignIn?: boolean
-}) {
+}: AuthWrapperProps) {
   const googleSignIn = async () => {
     signIn('google')
   }
 
   return (
     <div className="min-h-screen justify-between gap-x-8 lg:flex [&>div]:min-h-[calc(100vh-80px)]">
-      <div className="relative flex w-full items-center justify-center ps-4 py-8 lg:w-6/12 2xl:pe-24">
+      <div className="relative flex w-full items-center justify-center px-2 py-8 lg:ps-4 lg:pe-0 lg:w-6/12 2xl:pe-24">
         <div className=" w-full max-w-sm md:max-w-md lg:py-7 lg:ps-3 lg:pt-16 2xl:w-[630px] 2xl:max-w-none 2xl:ps-20 2xl:pt-7">
           {(title || description) && (
             <div className="mb-7 px-6 pt-3 text-center md:pt-0 lg:px-0 lg:text-start xl:mb-8 2xl:mb-10">

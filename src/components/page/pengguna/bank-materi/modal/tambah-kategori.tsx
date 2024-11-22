@@ -89,6 +89,7 @@ export default function TambahKategoriModal({
 
             <ModalFooterButtons
               submit="Buat Kategori Baru"
+              submitClassName="text-nowrap"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
             />

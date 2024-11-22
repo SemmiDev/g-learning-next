@@ -9,6 +9,7 @@ import {
   Text,
 } from '@/components/ui'
 import { API_URL } from '@/config/const'
+import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -39,8 +40,9 @@ export default function ImportSoalModal({
   setShowModal,
   refetchKey,
 }: ImportSoalModalProps) {
-  const [formError, setFormError] = useState<string>()
   const queryClient = useQueryClient()
+  const size = useAutoSizeExtraLargeModal()
+  const [formError, setFormError] = useState<string>()
 
   const { soal: idBankSoal }: { soal: string } = useParams()
 
@@ -68,7 +70,7 @@ export default function ImportSoalModal({
   return (
     <Modal
       title="Import Soal"
-      size="xl"
+      size={size}
       isOpen={showModal}
       onClose={handleClose}
     >
@@ -80,14 +82,18 @@ export default function ImportSoalModal({
         {({ control, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <div className="flex flex-col border border-dashed border-primary bg-[#EAF4FD] rounded-md p-4">
-                <div className="flex items-center">
-                  <BsExclamationCircle size={32} className="mr-4" />
-                  <Text weight="bold" variant="dark" className="text-[2rem]">
+              <div className="flex flex-col border border-dashed border-primary bg-[#EAF4FD] rounded-md p-2 md:p-4">
+                <div className="flex items-center gap-2 md:gap-4">
+                  <BsExclamationCircle className="size-6 md:size-8" />
+                  <Text
+                    weight="bold"
+                    variant="dark"
+                    className="text-xl md:text-3xl"
+                  >
                     Ketentuan sebelum melakukan Import soal
                   </Text>
                 </div>
-                <ol className="list-decimal text-sm font-semibold text-gray-dark pl-16 mt-4">
+                <ol className="list-decimal text-sm font-semibold text-gray-dark pl-12 mt-2 md:pl-16">
                   <li>
                     Download dan gunakan template yang sudah disediakan{' '}
                     <a
@@ -118,6 +124,7 @@ export default function ImportSoalModal({
                 errors={errors}
                 desc="(Tipe file yang bisa diupload adalah: xls, xlsx dengan ukuran maksimal 100 MB untuk setiap file yang dipilih)"
                 accept={{ 'application/vnd.ms-excel': ['.xls', '.xlsx'] }}
+                containerClassName="[&_.upload-placeholder]:text-sm xs:[&_.upload-placeholder]:text-base [&_.upload-description]:text-sm xs:[&_.upload-description]:text-base"
                 required
               />
 

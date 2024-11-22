@@ -92,7 +92,7 @@ export default function ShareMateriModal({
     await handleActionWithToast(
       shareMateriBankMateriAction(idKelas, materi, data),
       {
-        loading: 'Membagikan materi...',
+        loading: `Membagikan ${materi?.type}...`,
         onStart: () => setFormError(undefined),
         onSuccess: () => onHide(),
         onError: ({ message }) => setFormError(message),
@@ -179,8 +179,8 @@ export default function ShareMateriModal({
                     <BsInfoCircle size={12} className="ml-1" />
                   </div>
                 }
-                className="flex gap-8 my-2"
-                groupClassName="gap-8"
+                className="flex gap-x-8 my-2"
+                groupClassName="gap-x-4 lg:gap-x-8"
                 labelClassName="mb-0"
                 options={optionsPresensi}
               />
@@ -190,19 +190,19 @@ export default function ShareMateriModal({
                   name="tipe_presensi"
                   control={control}
                   label={
-                    <div className="flex items-center">
+                    <div className="flex items-center text-nowrap">
                       Atur Presensi
-                      <BsInfoCircle size={12} className="ml-1" />
+                      <BsInfoCircle size={12} className="shrink-0 ml-1" />
                     </div>
                   }
-                  className="flex gap-8 my-2"
-                  groupClassName="gap-8"
+                  className="flex gap-x-8 my-2"
+                  groupClassName="flex-wrap gap-x-4 lg:gap-x-8"
                   labelClassName="mb-0"
                   options={optionsTipePresensi}
                 />
               )}
 
-              <div className="flex gap-x-4">
+              <div className="flex flex-wrap gap-x-4">
                 <ControlledSwitch
                   name="penjadwalan"
                   control={control}
@@ -217,7 +217,7 @@ export default function ShareMateriModal({
                     showTimeSelect
                     dateFormat="dd MMMM yyyy HH:mm"
                     timeFormat="HH:mm"
-                    className="flex-1"
+                    className="flex-1 min-w-[260px]"
                   />
                 )}
               </div>

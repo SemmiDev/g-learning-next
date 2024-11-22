@@ -108,14 +108,14 @@ export default function TambahBankSoalModal({
                 required
               />
 
-              <div className="flex gap-2">
+              <div className="grid grid-cols-12 gap-2">
                 <ControlledInputNumber
                   name="bobotBenar"
                   control={control}
                   errors={errors}
                   label="Bobot Benar"
                   placeholder="Nilai jawaban benar"
-                  className="flex-1"
+                  className="col-span-12 xs:col-span-4"
                   required
                 />
                 <ControlledInputNumber
@@ -124,7 +124,7 @@ export default function TambahBankSoalModal({
                   errors={errors}
                   label="Bobot Salah"
                   placeholder="Nilai jawaban salah"
-                  className="flex-1"
+                  className="col-span-12 xs:col-span-4"
                   required
                 />
                 <ControlledInputNumber
@@ -133,7 +133,7 @@ export default function TambahBankSoalModal({
                   errors={errors}
                   label="Bobot Kosong"
                   placeholder="Nilai jawaban kosong"
-                  className="flex-1"
+                  className="col-span-12 xs:col-span-4"
                   required
                 />
               </div>

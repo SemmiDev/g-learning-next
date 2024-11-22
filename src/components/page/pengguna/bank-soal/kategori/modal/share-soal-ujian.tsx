@@ -18,6 +18,7 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { selectOption } from '@/utils/object'
@@ -103,6 +104,7 @@ export default function ShareSoalUjianModal({
   show,
   onHide,
 }: ShareSoalUjianModalProps) {
+  const size = useAutoSizeExtraLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const initialValues: ShareSoalUjianFormSchema = {
@@ -134,7 +136,7 @@ export default function ShareSoalUjianModal({
   return (
     <Modal
       title="Bagikan soal ujian ke kelas"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -230,7 +232,7 @@ export default function ShareSoalUjianModal({
                 required
               />
 
-              <div className="flex gap-x-4">
+              <div className="flex flex-wrap gap-x-4">
                 <Switch
                   label="Opsi Penjadwalan"
                   labelClassName="text-gray-dark font-semibold"
@@ -245,13 +247,13 @@ export default function ShareSoalUjianModal({
                     showTimeSelect
                     dateFormat="dd MMMM yyyy HH:mm"
                     timeFormat="HH:mm"
-                    className="flex-1"
+                    className="flex-1 min-w-[260px]"
                     required
                   />
                 )}
               </div>
 
-              <div className="flex gap-x-2">
+              <div className="flex flex-wrap gap-x-2 gap-y-4">
                 <ControlledInput
                   name="durasi"
                   control={control}
@@ -259,34 +261,36 @@ export default function ShareSoalUjianModal({
                   label="Durasi Ujian"
                   type="number"
                   placeholder="Atur lama ujian"
-                  className="w-36"
+                  className="w-full md:w-44"
                   suffix={<small>Menit</small>}
                   required
                 />
-                <ControlledDatePicker
-                  name="mulai"
-                  control={control}
-                  errors={errors}
-                  label="Waktu Mulai"
-                  placeholder="Atur waktu mulai"
-                  showTimeSelect
-                  dateFormat="dd MMMM yyyy HH:mm"
-                  timeFormat="HH:mm"
-                  className="flex-1"
-                  required
-                />
-                <ControlledDatePicker
-                  name="selesai"
-                  control={control}
-                  errors={errors}
-                  label="Waktu Selesai"
-                  placeholder="Atur waktu selesai"
-                  showTimeSelect
-                  dateFormat="dd MMMM yyyy HH:mm"
-                  timeFormat="HH:mm"
-                  className="flex-1"
-                  required
-                />
+                <div className="grid grid-cols-2 gap-x-2 gap-y-4 flex-1">
+                  <ControlledDatePicker
+                    name="mulai"
+                    control={control}
+                    errors={errors}
+                    label="Waktu Mulai"
+                    placeholder="Atur waktu mulai"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="col-span-2 sm:col-span-1"
+                    required
+                  />
+                  <ControlledDatePicker
+                    name="selesai"
+                    control={control}
+                    errors={errors}
+                    label="Waktu Selesai"
+                    placeholder="Atur waktu selesai"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="col-span-2 sm:col-span-1"
+                    required
+                  />
+                </div>
               </div>
 
               <ControlledQuillEditor

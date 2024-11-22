@@ -1,18 +1,20 @@
+import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import Button, { ButtonColors, ButtonVariants } from '../button/button'
 import ButtonSubmit from '../button/submit'
-import cn from '@/utils/class-names'
 
 type ModalFooterButtonsProps = {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   submit?: string
   submitColor?: ButtonColors
   submitVariant?: ButtonVariants
+  submitClassName?: string
   isSubmitting?: boolean
   children?: ReactNode
   cancel?: string
   cancelColor?: ButtonColors
   cancelVariant?: ButtonVariants
+  cancelClassName?: string
   onCancel?(): void
   className?: string
 }
@@ -23,10 +25,12 @@ export default function ModalFooterButtons({
   submitColor = 'primary',
   submitVariant = 'solid',
   isSubmitting = false,
+  submitClassName,
   children,
   cancel = 'Batal',
   cancelColor = 'primary',
   cancelVariant = 'outline',
+  cancelClassName,
   onCancel,
   className,
 }: ModalFooterButtonsProps) {
@@ -39,7 +43,7 @@ export default function ModalFooterButtons({
             size={size}
             variant={submitVariant}
             color={submitColor}
-            className="w-full"
+            className={cn('w-full', submitClassName)}
             isSubmitting={isSubmitting}
           >
             {submit}
@@ -53,7 +57,7 @@ export default function ModalFooterButtons({
             size={size}
             variant={cancelVariant}
             color={cancelColor}
-            className="w-full"
+            className={cn('w-full', cancelClassName)}
             onClick={onCancel}
           >
             {cancel}

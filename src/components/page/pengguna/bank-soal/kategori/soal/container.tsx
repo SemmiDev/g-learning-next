@@ -162,7 +162,10 @@ export default function KelolaSoalBody() {
       <div className="flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start">
         <div className="flex flex-col gap-4 w-full">
           {canBeChanged ? (
-            <Card ref={soalBaruRef} className="flex flex-col scroll-m-24 p-0">
+            <Card
+              ref={soalBaruRef}
+              className="flex flex-col scroll-m-20 lg:scroll-m-24 p-0"
+            >
               <Form<TambahSoalFormSchema>
                 onSubmit={onSubmit}
                 validationSchema={formSchema}
@@ -302,7 +305,7 @@ export default function KelolaSoalBody() {
             <Card
               ref={soalRef[idx]}
               key={soal.id}
-              className="flex flex-col scroll-m-24 p-0"
+              className="flex flex-col scroll-m-20 lg:scroll-m-24 p-0"
             >
               <div className="flex justify-between items-center space-x-2 p-2">
                 <Title as="h6" weight="semibold">
@@ -317,7 +320,9 @@ export default function KelolaSoalBody() {
                       onClick={() => doShowUbah(soal.id)}
                     >
                       <BsPencil className="mr-1" />
-                      Ubah Soal
+                      <span>
+                        Ubah <span className="hidden xs:inline">Soal</span>
+                      </span>
                     </Button>
                     <Button
                       size="sm"
@@ -326,7 +331,9 @@ export default function KelolaSoalBody() {
                       onClick={() => setIdHapus(soal.id)}
                     >
                       <BsTrash className="mr-1" />
-                      Hapus Soal
+                      <span>
+                        Hapus <span className="hidden xs:inline">Soal</span>
+                      </span>
                     </Button>
                   </div>
                 )}
