@@ -1,7 +1,7 @@
 'use client'
 
 import { AnyObject } from '@/utils/type-interface'
-import { ReactNode } from 'react'
+import { ReactNode, useId } from 'react'
 import { GroupBase, OptionsOrGroups } from 'react-select'
 import { AsyncPaginate, AsyncPaginateProps } from 'react-select-async-paginate'
 import { FieldError } from 'rizzui'
@@ -69,6 +69,7 @@ export default function AsyncPaginateSelect<
         </TextLabel>
       )}
       <AsyncPaginate<TOption, Group, Additional, IsMulti>
+        instanceId={useId()}
         unstyled={true}
         classNames={{
           ...makeClassNames(classNames, !!error),
