@@ -1,21 +1,16 @@
 import { aktifSinkronAction } from '@/actions/instansi/profil/sinkron/aktif'
 import { dataSinkronAction } from '@/actions/instansi/profil/sinkron/data'
-import {
-  ControlledInput,
-  Form,
-  ModalFooterButtons,
-  Text,
-} from '@/components/ui'
+import { ubahSinkronSmartAction } from '@/actions/instansi/profil/sinkron/tipe-smart'
+import { ControlledInput, Form, ModalFooterButtons } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoGci from '@public/images/logo/gci.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
-import toast from 'react-hot-toast'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
-import { ubahSinkronSmartAction } from '@/actions/instansi/profil/sinkron/tipe-smart'
+import SinkronSmartButton from './smart-sync-button'
 
 const TIPE = 'Smart'
 
@@ -108,7 +103,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
       >
         {({ control, reset, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="flex flex-col space-y-3 p-2">
+            <div className="flex flex-col gap-y-3 p-2">
               <ControlledInput
                 name="token"
                 control={control}
@@ -123,11 +118,13 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
               isSubmitting={isSubmitting}
               cancel="Batal"
               onCancel={() => reset()}
-              className="p-2"
+              className="p-2 mt-4"
             />
           </>
         )}
       </Form>
+
+      <SinkronSmartButton className="mt-1" />
     </SinkronCardContainer>
   )
 }

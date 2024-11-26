@@ -6,7 +6,6 @@ import {
   ControlledPassword,
   Form,
   ModalFooterButtons,
-  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryData } from '@/utils/query-data'
@@ -14,7 +13,6 @@ import { z } from '@/utils/zod-id'
 import logoDikti from '@public/images/logo/dikti.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
-import toast from 'react-hot-toast'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
 
@@ -115,7 +113,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
       >
         {({ control, reset, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="flex flex-col space-y-3 p-2">
+            <div className="flex flex-col gap-y-3 p-2">
               <ControlledInput
                 name="url"
                 control={control}
@@ -147,7 +145,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
               isSubmitting={isSubmitting}
               cancel="Batal"
               onCancel={() => reset()}
-              className="p-2"
+              className="p-2 mt-4"
             />
           </>
         )}
