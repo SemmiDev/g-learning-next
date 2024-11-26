@@ -49,9 +49,9 @@ export default function Select<
         </TextLabel>
       )}
       <ReactSelect<TOption, IsMulti, Group>
+        instanceId={useId()}
         unstyled={true}
         classNames={makeClassNames(classNames, !!error)}
-        instanceId={useId()}
         className={containerClassName}
         {...props}
       />
