@@ -151,8 +151,11 @@ const ButtonSizeStyles = {
 }
 
 export const getRizVariant = (
-  variant: ButtonVariants
+  variant: ButtonVariants,
+  disabled: boolean = false
 ): RizButtonProps['variant'] => {
+  if (disabled) return 'solid'
+
   switch (variant) {
     case 'solid':
       return 'solid'
@@ -177,6 +180,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     size = 'md',
     fontWeight,
     className,
+    disabled,
     ...props
   }: ButtonProps,
   ref
@@ -186,13 +190,14 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       ref={ref}
       className={cn(
         'h-fit',
-        !props.disabled ? ButtonColorStyles[variant][color] : null,
+        !disabled ? ButtonColorStyles[variant][color] : null,
         ButtonSizeStyles[size],
         fontWeight ? TextWeights[fontWeight] : null,
         className
       )}
       size={size}
-      variant={getRizVariant(variant)}
+      variant={getRizVariant(variant, disabled)}
+      disabled={disabled}
       {...props}
     />
   )
