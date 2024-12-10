@@ -1,8 +1,20 @@
-import { Button, Card, Modal, Text, TextSpan } from '@/components/ui'
+import {
+  Button,
+  Card,
+  Modal,
+  Select,
+  SelectOptionType,
+  Text,
+  TextSpan,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
+import { selectOption } from '@/utils/object'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
+import { useState } from 'react'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
+
+const currentYear = new Date().getFullYear()
 
 type SyncOptionModalProps = {
   logo: string | StaticImport
@@ -11,8 +23,8 @@ type SyncOptionModalProps = {
   bgColor: string
   show: boolean
   setShow(show: boolean): void
-  onSyncPush(): void
-  onSyncPull(): void
+  onSyncPush(semester: string): void
+  onSyncPull(semester: string): void
 }
 
 export default function SyncOptionModal({
@@ -25,7 +37,22 @@ export default function SyncOptionModal({
   onSyncPush,
   onSyncPull,
 }: SyncOptionModalProps) {
+  const [semester, setSemester] = useState<string>()
+
+  const optionsSemester: SelectOptionType<string>[] = [...Array(20)].map(
+    (_, idx) => {
+      const semester = (idx % 2) % 2 == 0 ? 2 : 1
+      const ganjilGenap = semester % 2 == 0 ? 'Genap' : 'Ganjil'
+      const tahun = currentYear - Math.floor(idx / 2)
+      return {
+        label: `${tahun}/${tahun + 1} ${ganjilGenap}`,
+        value: `${tahun}${semester}`,
+      }
+    }
+  )
+
   const handleClose = () => {
+    setSemester(undefined)
     setShow(false)
   }
 
@@ -37,6 +64,16 @@ export default function SyncOptionModal({
       rounded="sm"
       bodyClassName="flex flex-col gap-y-4 px-3 py-3"
     >
+      <Select
+        label="Semester"
+        placeholder="Pilih Semester"
+        options={optionsSemester}
+        onChange={(item) => {
+          if (item?.value) setSemester(item?.value)
+        }}
+        className="flex-1"
+        required
+      />
       <Card className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center gap-x-2">
           <MainBanner />
@@ -51,9 +88,10 @@ export default function SyncOptionModal({
         <Button
           variant="outline"
           className="text-primary"
+          disabled={!semester}
           onClick={() => {
-            onSyncPush()
-            handleClose()
+            onSyncPush(semester || '')
+            // handleClose()
           }}
         >
           Sinkron Data ke {labelTop} {labelBottom}
@@ -73,8 +111,9 @@ export default function SyncOptionModal({
         <Button
           variant="outline"
           className="text-primary"
+          disabled={!semester}
           onClick={() => {
-            onSyncPull()
+            onSyncPull(semester || '')
             handleClose()
           }}
         >

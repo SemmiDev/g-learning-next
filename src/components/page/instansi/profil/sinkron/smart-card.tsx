@@ -11,6 +11,7 @@ import { SubmitHandler } from 'react-hook-form'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
 import SinkronSmartButton from './smart-sync-button'
+import { useSyncStore } from '@/stores/sync'
 
 const TIPE = 'Smart'
 
@@ -30,6 +31,7 @@ type SinkronSmartCardProps = {
 
 export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
   const queryClient = useQueryClient()
+  const { isSyncing } = useSyncStore()
 
   const { data } = useQuery({
     queryKey: queryKey,
@@ -64,7 +66,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
     await handleActionWithToast(aktifSinkronAction(val ? TIPE : ''), {
       success: `${
         val ? 'Mengaktifkan' : 'Menonaktifkan'
-      } sinkronasi Smart Feeder.`,
+      } sinkronasi Smart Campus.`,
       onSuccess: () => {
         queryClient.setQueryData(queryKey, (oldData: DataType) => ({
           ...oldData,
@@ -82,7 +84,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
     <SinkronCardContainer
       logo={logoGci}
       labelTop="Smart"
-      labelBottom="Feeder"
+      labelBottom="Campus"
       bgColor="#D40000"
       className={className}
     >
@@ -108,8 +110,9 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
                 name="token"
                 control={control}
                 errors={errors}
-                label="Token Smart Feeder"
+                label="Token Smart Campus"
                 placeholder="Masukkan token di sini"
+                disabled={isSyncing}
               />
             </div>
 
@@ -119,6 +122,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
               cancel="Batal"
               onCancel={() => reset()}
               className="p-2 mt-4"
+              disabled={isSyncing}
             />
           </>
         )}

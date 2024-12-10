@@ -24,8 +24,10 @@ import {
 } from 'recharts'
 import SimpleBar from 'simplebar-react'
 
+const currentYear = new Date().getFullYear()
+
 const optionsTahun: SelectOptionType<number>[] = [...Array(10)].map((_, idx) =>
-  selectOption(2024 - idx)
+  selectOption(currentYear - idx)
 )
 
 const formatBulan = (bulan: string) => {

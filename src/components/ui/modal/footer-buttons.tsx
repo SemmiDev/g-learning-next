@@ -17,6 +17,7 @@ type ModalFooterButtonsProps = {
   cancelClassName?: string
   onCancel?(): void
   className?: string
+  disabled?: boolean
 }
 
 export default function ModalFooterButtons({
@@ -33,6 +34,7 @@ export default function ModalFooterButtons({
   cancelClassName,
   onCancel,
   className,
+  disabled = false,
 }: ModalFooterButtonsProps) {
   return (
     <div className={cn('flex gap-2 p-3', className)}>
@@ -45,6 +47,7 @@ export default function ModalFooterButtons({
             color={submitColor}
             className={cn('w-full', submitClassName)}
             isSubmitting={isSubmitting}
+            disabled={disabled}
           >
             {submit}
           </ButtonSubmit>
@@ -59,6 +62,7 @@ export default function ModalFooterButtons({
             color={cancelColor}
             className={cn('w-full', cancelClassName)}
             onClick={onCancel}
+            disabled={disabled}
           >
             {cancel}
           </Button>

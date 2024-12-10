@@ -15,6 +15,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
+import { useSyncStore } from '@/stores/sync'
 
 const TIPE = 'Feeder'
 
@@ -38,6 +39,7 @@ type SinkronDiktiCardProps = {
 
 export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
   const queryClient = useQueryClient()
+  const { isSyncing } = useSyncStore()
 
   const { data } = useQuery({
     queryKey: queryKey,
@@ -121,6 +123,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
                 type="url"
                 label="URL Feeder"
                 placeholder="URL Feeder"
+                disabled={isSyncing}
               />
 
               <ControlledInput
@@ -129,6 +132,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
                 errors={errors}
                 label="Username Feeder"
                 placeholder="Username Feeder"
+                disabled={isSyncing}
               />
 
               <ControlledPassword
@@ -137,6 +141,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
                 errors={errors}
                 label="Katasandi Feeder"
                 placeholder="Katasandi Feeder"
+                disabled={isSyncing}
               />
             </div>
 
@@ -146,6 +151,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
               cancel="Batal"
               onCancel={() => reset()}
               className="p-2 mt-4"
+              disabled={isSyncing}
             />
           </>
         )}
