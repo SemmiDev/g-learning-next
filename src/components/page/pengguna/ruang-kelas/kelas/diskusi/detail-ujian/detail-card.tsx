@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { Card, CardSeparator, Komentar, Text, Time } from '@/components/ui'
+import { Card, CardSeparator, Komentar, Time, Title } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
@@ -40,14 +40,14 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex flex-col px-4 py-2">
           <div className="flex justify-between space-x-2">
-            <Text
+            <Title
               size="1.5xl"
               weight="semibold"
               variant="dark"
               className="mb-2"
             >
               {data?.aktifitas.judul || '-'}
-            </Text>
+            </Title>
             {peran === 'Pengajar' && (
               <DropdownMoreAction
                 onEdit={() => doShowUbah(data.aktifitas.id)}

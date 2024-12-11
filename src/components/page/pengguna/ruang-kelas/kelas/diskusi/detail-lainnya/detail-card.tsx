@@ -6,6 +6,7 @@ import {
   Text,
   Thumbnail,
   Time,
+  Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
@@ -52,9 +53,9 @@ export default function DetailCard({ className }: DetailCardProps) {
         </div>
         <CardSeparator />
         <div className="flex flex-col px-4 py-2">
-          <Text size="1.5xl" weight="semibold" variant="dark" className="mb-2">
+          <Title size="1.5xl" weight="semibold" variant="dark" className="mb-2">
             {data.aktifitas.judul || '-'}
-          </Text>
+          </Title>
           <SanitizeHTML
             html={data.aktifitas.deskripsi || '-'}
             className="text-sm"
