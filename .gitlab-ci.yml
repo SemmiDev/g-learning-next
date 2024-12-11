@@ -25,7 +25,7 @@ deploy_staging:
 
   script:
     # Connect to the server using custom port, navigate to the production directory, and run docker-compose
-    - ssh "$SSH_USER@$VM_IP_ADDRESS" "cd ~/g-learning-nextjs && ./build.sh"
+    - ssh "$SSH_USER@$VM_IP_ADDRESS" "cd ~/g-learning-nextjs && nohup ./build.sh > /dev/null 2>&1 &"
 
   only:
     - main
