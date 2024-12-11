@@ -57,7 +57,7 @@ export default function DetailCard({
     <>
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex flex-col px-4 py-2">
-          <Text size="lg" weight="semibold" variant="dark" className="mb-2">
+          <Text size="1.5xl" weight="semibold" variant="dark" className="mb-2">
             {data.aktifitas.judul || '-'}
           </Text>
           <SanitizeHTML

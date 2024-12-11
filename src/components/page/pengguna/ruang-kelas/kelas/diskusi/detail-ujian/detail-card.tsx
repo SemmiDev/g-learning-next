@@ -40,7 +40,12 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex flex-col px-4 py-2">
           <div className="flex justify-between space-x-2">
-            <Text size="lg" weight="semibold" variant="dark" className="mb-2">
+            <Text
+              size="1.5xl"
+              weight="semibold"
+              variant="dark"
+              className="mb-2"
+            >
               {data?.aktifitas.judul || '-'}
             </Text>
             {peran === 'Pengajar' && (
