@@ -102,6 +102,7 @@ export default function SinkronSmartButton({
     }
   }
 
+  /* TODO: fitur sync push ke smart jika sudah ada API */
   const handlePushSync = async (semester: string) => {
     toast.error(<Text>Fitur ini masih belum dapat digunakan</Text>)
   }
