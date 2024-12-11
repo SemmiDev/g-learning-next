@@ -21,7 +21,6 @@ export default function CameraPart({ onChange }: CameraProps) {
       width: 1920,
       height: 1080,
     })
-    cameraPhoto.startCamera()
 
     setCamera(cameraPhoto)
 
