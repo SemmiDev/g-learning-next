@@ -4,7 +4,7 @@ import {
   LuBox,
   LuCreditCard,
   LuFileText,
-  LuHome,
+  LuHouse,
   LuUser,
   LuUsers,
 } from 'react-icons/lu'
@@ -15,7 +15,7 @@ export const menuItemsAdmin: MenuItemType[] = [
   {
     name: 'Dasbor',
     href: routes.dashboard,
-    icon: <LuHome />,
+    icon: <LuHouse />,
   },
   {
     name: 'List Instansi',

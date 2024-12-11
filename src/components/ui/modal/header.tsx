@@ -1,7 +1,7 @@
 import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import { ReactNode } from 'react'
-import { LuAlertTriangle, LuHelpCircle, LuInfo } from 'react-icons/lu'
+import { LuCircleHelp, LuInfo, LuTriangleAlert } from 'react-icons/lu'
 import { MdOutlineClose } from 'react-icons/md'
 import { Loader } from 'rizzui'
 import ActionIcon from '../button/action-icon'
@@ -32,11 +32,11 @@ const HeaderIcon = ({
 
   switch (icon) {
     case 'warning':
-      return <LuAlertTriangle size={size} className="text-white" />
+      return <LuTriangleAlert size={size} className="text-white" />
     case 'info':
       return <LuInfo size={size} className="text-white" />
     case 'help':
-      return <LuHelpCircle size={size} className="text-white" />
+      return <LuCircleHelp size={size} className="text-white" />
     default:
       return customIcon
   }

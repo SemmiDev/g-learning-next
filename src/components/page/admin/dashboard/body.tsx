@@ -3,7 +3,7 @@
 import { dashboardCountAction } from '@/actions/admin/dashboard/count'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import { LuHome, LuUsers } from 'react-icons/lu'
+import { LuHouse, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
 import DashboardJatuhTempoCard from './jatuh-tempo-card'
 import DashboardPenggunaDiblokirCard from './pengguna-diblokir-card'
@@ -25,7 +25,7 @@ export default function DashboardBody() {
             <DashboardCountCard
               label="Total Instansi"
               count={data?.total_instansi ?? 0}
-              Icon={LuHome}
+              Icon={LuHouse}
               iconFigureClassName="bg-badge-blue"
             />
             <DashboardCountCard

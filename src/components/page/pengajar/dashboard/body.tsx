@@ -16,7 +16,7 @@ import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import { DefaultRecordType } from 'rc-table/lib/interface'
 import Calendar from 'react-calendar'
-import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
+import { LuFileText, LuFolder, LuHouse, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
 import DashboardRecentFileCard from './recent-file-card'
 import DashboardRuangPenyimpananCard from './ruang-penyimpanan-card'
@@ -234,7 +234,7 @@ export default function DashboardBody() {
   return (
     <div className="flex flex-col space-y-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <DashboardCountCard label="Jumlah Kelas" count="34" Icon={LuHome} />
+        <DashboardCountCard label="Jumlah Kelas" count="34" Icon={LuHouse} />
         <DashboardCountCard
           label="Jumlah Anggota Kelas"
           count="34"

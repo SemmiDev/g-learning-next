@@ -3,7 +3,7 @@
 import { dashboardCountAction } from '@/actions/pengguna/dashboard/count'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import { LuFileText, LuFolder, LuHome, LuUsers } from 'react-icons/lu'
+import { LuFileText, LuFolder, LuHouse, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
 import JadwalAkanDatangCard from './jadwal-akan-datang-card'
 import KalenderCard from './kalender'
@@ -22,7 +22,7 @@ export default function DashboardBody() {
         <DashboardCountCard
           label="Jumlah Kelas"
           count={data?.jumlah_kelas ?? 0}
-          Icon={LuHome}
+          Icon={LuHouse}
         />
         <DashboardCountCard
           label="Jumlah Anggota Kelas"

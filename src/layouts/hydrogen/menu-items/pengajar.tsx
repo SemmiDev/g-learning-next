@@ -3,7 +3,7 @@ import {
   LuBook,
   LuBox,
   LuFileText,
-  LuHome,
+  LuHouse,
   LuPackage,
   LuSave,
 } from 'react-icons/lu'
@@ -14,7 +14,7 @@ export const menuItemsPengajar: MenuItemType[] = [
   {
     name: 'Dasbor',
     href: routes.dashboard,
-    icon: <LuHome />,
+    icon: <LuHouse />,
   },
   {
     name: 'Akademik',
