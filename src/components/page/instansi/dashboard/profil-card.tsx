@@ -50,27 +50,27 @@ export default function DashboardProfilCard() {
           </div>
         </div>
       </div>
-      <div className="flex space-x-3 p-2">
+      <div className="flex flex-col gap-3 p-2 sm:flex-row">
         <ProfilItem
           Icon={LuPackage}
-          label={'Jenis Paket\nyang digunakan'}
+          label={'Jenis Paket yang digunakan'}
           value={data?.paket_instansi?.nama || '-'}
           variant="solid"
           color="blue"
-          className="w-1/3"
+          className="sm:w-1/3"
         />
         <ProfilItem
           Icon={LuCalendar}
-          label={'Tanggal Pembayaran\nSelanjutnya'}
+          label={'Tanggal Pembayaran Selanjutnya'}
           /* TODO: Tanggal pembayaran selanjutnya jika API sudah ada */
           value="-"
           variant="solid"
           color="green"
-          className="w-1/3"
+          className="sm:w-1/3"
         />
         <ProfilItem
           Icon={LuCreditCard}
-          label={'Biaya\nPaket'}
+          label={'Biaya Paket'}
           value={
             data?.paket_instansi?.harga
               ? rupiah(data?.paket_instansi?.harga)
@@ -78,13 +78,13 @@ export default function DashboardProfilCard() {
           }
           variant="solid"
           color="red"
-          className="w-1/3"
+          className="sm:w-1/3"
         />
       </div>
-      <div className="flex space-x-3 p-2">
+      <div className="flex flex-col gap-3 p-2 sm:flex-row">
         <ProfilItem
           Icon={LuPackage}
-          label={'Limit\nPengguna'}
+          label={'Limit Pengguna'}
           value={processData(
             data?.paket_instansi?.batas_pengguna,
             (val) => angka(val),
@@ -92,11 +92,11 @@ export default function DashboardProfilCard() {
           )}
           variant="outline"
           color="blue"
-          className="w-1/3"
+          className="sm:w-1/3"
         />
         <ProfilItem
           Icon={LuCalendar}
-          label={'Limit\nPembukaan Kelas'}
+          label={'Limit Pembukaan Kelas'}
           value={processData(
             data?.paket_instansi?.batas_kelas,
             (val) => angka(val),
@@ -104,11 +104,11 @@ export default function DashboardProfilCard() {
           )}
           variant="outline"
           color="green"
-          className="w-1/3"
+          className="sm:w-1/3"
         />
         <ProfilItem
           Icon={LuCreditCard}
-          label={'Limit Kelas\nTiap Pengajar'}
+          label={'Limit Kelas Tiap Pengajar'}
           value={processData(
             data?.paket_instansi?.batas_kelas_pengajar,
             (val) => angka(val),
@@ -116,7 +116,7 @@ export default function DashboardProfilCard() {
           )}
           variant="outline"
           color="red"
-          className="w-1/3"
+          className="sm:w-1/3"
         />
       </div>
     </Card>

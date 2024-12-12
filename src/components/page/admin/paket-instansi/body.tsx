@@ -61,6 +61,7 @@ export default function PaketInstansiBody() {
         limitKelas: item.batas_kelas,
         limitKelasPengajar: item.batas_kelas_pengajar,
         harga: item.harga,
+        editable: item.tipe === 'Custom',
       })),
     [data]
   )

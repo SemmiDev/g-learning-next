@@ -38,7 +38,7 @@ export type DataType = {
     kategori_nilai: 'Tugas' | 'UTS' | 'UAS' | null
     judul: string
     deskripsi: string
-    absen: 'Manual' | 'Otomatis' | null
+    absen: 'Manual' | 'Otomatis' | 'GPS' | 'GPS dan Swafoto' | null
     waktu_tersedia: string
     waktu_akhir_absen: string | null
     batas_waktu: string | null

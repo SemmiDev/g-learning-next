@@ -15,7 +15,11 @@ export default function ListInstansiBody() {
           <Title as="h4" size="1.5xl" weight="semibold">
             List instansi yang terdaftar
           </Title>
-          <Button size="sm" onClick={() => setShowTambah(true)}>
+          <Button
+            size="sm"
+            className="text-nowrap"
+            onClick={() => setShowTambah(true)}
+          >
             Tambah Instansi
           </Button>
         </div>

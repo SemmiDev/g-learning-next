@@ -26,7 +26,11 @@ export const tambahAktifitasMateriAction = async (
       tipe: 'Materi',
       tipe_presensi:
         data.presensi === 'aktif'
-          ? mustBe(data.tipe_presensi, ['Manual', 'Otomatis'], 'Manual')
+          ? mustBe(
+              data.tipe_presensi,
+              ['Manual', 'Otomatis', 'GPS', 'GPS dan Swafoto'],
+              'Manual'
+            )
           : null,
       waktu_akhir_absen: undefined,
       jadwal: data.jadwal,

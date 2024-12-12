@@ -13,7 +13,9 @@ const nextConfig = {
       },
     ],
   },
-
+  devIndicators: {
+    appIsrStatus: false,
+  },
   experimental: {
     // esmExternals: false,
     serverActions: {

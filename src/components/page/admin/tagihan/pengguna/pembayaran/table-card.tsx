@@ -211,7 +211,7 @@ export default function TablePembayaranTagihanPenggunaCard() {
   return (
     <>
       <Card className="p-0">
-        <div className="flex justify-between items-center gap-x-6 px-2.5 py-3">
+        <div className="flex flex-col justify-between gap-x-6 gap-y-2 px-2.5 py-3 sm:flex-row sm:items-center">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <RincianItem
               label="Nomor Tagihan"

@@ -1452,6 +1452,13 @@ div[style='z-index: 1000001;'],
   padding: 0;
 }
 
+/* ql-editor */
+.ql-editor.ql-blank:before {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* custom */
 .btn-item-green {
   background-color: #c2ffd7;

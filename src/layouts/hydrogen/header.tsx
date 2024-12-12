@@ -35,7 +35,6 @@ export default function Header() {
         isOpen={openSidebarMenu}
         onClose={() => setOpenSidebarMenu(false)}
         placement="left"
-        customSize={320}
         overlayClassName="cursor-default dark:bg-opacity-40 dark:backdrop-blur-md"
         containerClassName="dark:bg-gray-100"
         className="z-[9999]"

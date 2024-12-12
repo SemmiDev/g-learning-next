@@ -7,6 +7,7 @@ import {
   Card,
   CardSeparator,
   TextBordered,
+  TextSpan,
   Thumbnail,
   Title,
 } from '@/components/ui'
@@ -44,50 +45,48 @@ export default function ProfilDetailBody() {
           </Button>
         </div>
         <CardSeparator />
-        <table className="text-sm text-gray-dark m-2">
-          <tbody>
-            <DataRow label="Nama Instansi" outline>
-              {data?.instansi.nama || '-'}
-            </DataRow>
-            <DataRow label="Nama Pimpinan" outline>
-              {data?.instansi.nama_pimpinan || '-'}
-            </DataRow>
-            <DataRow label="Kontak Pimpinan" outline>
-              {data?.instansi.telepon_pimpinan || '-'}
-            </DataRow>
-            <DataRow label="Alamat Instansi" outline>
-              {data?.instansi.alamat || '-'}
-            </DataRow>
-            <DataRow label="Kontak Instansi" outline>
-              {data?.instansi.telepon_instansi || '-'}
-            </DataRow>
-            <DataRow label="Bio" outline>
-              <SanitizeHTML html={data?.instansi.bio || '-'} />
-            </DataRow>
-            <DataRow label="Logo Instansi">
-              <div className="inline-block relative">
-                <ActionIconTooltip
-                  tooltip="Ganti Logo"
-                  size="sm"
-                  variant="flat"
-                  color="secondary"
-                  className="absolute top-1.5 right-1.5"
-                  onClick={() => setUbahLogo(true)}
-                >
-                  <LuCamera />
-                </ActionIconTooltip>
-                <Thumbnail
-                  src={data?.instansi.logo}
-                  size={150}
-                  rounded="md"
-                  alt="logo instansi"
-                  avatar={data?.instansi?.nama}
-                  bordered
-                />
-              </div>
-            </DataRow>
-          </tbody>
-        </table>
+        <div className="flex flex-col gap-y-4 text-sm text-gray-dark px-2 py-3">
+          <DataRow label="Nama Instansi" outline>
+            {data?.instansi.nama || '-'}
+          </DataRow>
+          <DataRow label="Nama Pimpinan" outline>
+            {data?.instansi.nama_pimpinan || '-'}
+          </DataRow>
+          <DataRow label="Kontak Pimpinan" outline>
+            {data?.instansi.telepon_pimpinan || '-'}
+          </DataRow>
+          <DataRow label="Alamat Instansi" outline>
+            {data?.instansi.alamat || '-'}
+          </DataRow>
+          <DataRow label="Kontak Instansi" outline>
+            {data?.instansi.telepon_instansi || '-'}
+          </DataRow>
+          <DataRow label="Bio" outline>
+            <SanitizeHTML html={data?.instansi.bio || '-'} />
+          </DataRow>
+          <DataRow label="Logo Instansi">
+            <div className="inline-block relative">
+              <ActionIconTooltip
+                tooltip="Ganti Logo"
+                size="sm"
+                variant="flat"
+                color="secondary"
+                className="absolute top-1.5 right-1.5"
+                onClick={() => setUbahLogo(true)}
+              >
+                <LuCamera />
+              </ActionIconTooltip>
+              <Thumbnail
+                src={data?.instansi.logo}
+                size={150}
+                rounded="md"
+                alt="logo instansi"
+                avatar={data?.instansi?.nama}
+                bordered
+              />
+            </div>
+          </DataRow>
+        </div>
       </Card>
 
       <UbahModal show={showUbah} setShow={setShowUbah} />
@@ -101,17 +100,25 @@ function DataRow({
   label,
   children,
   outline,
+  outlineClassName,
 }: {
   label: string
   children?: ReactNode
   outline?: boolean
+  outlineClassName?: string
 }) {
   return (
-    <tr className="[&>td]:py-2">
-      <td className="w-40 font-semibold align-baseline">{label}</td>
-      <td className="">
-        {outline ? <TextBordered>{children}</TextBordered> : children}
-      </td>
-    </tr>
+    <div className="grid grid-cols-12 gap-y-1">
+      <div className="col-span-12 sm:col-span-3 lg:col-span-2">
+        <TextSpan weight="semibold">{label}</TextSpan>
+      </div>
+      <div className="col-span-12 sm:col-span-9 lg:col-span-10">
+        {outline ? (
+          <TextBordered className={outlineClassName}>{children}</TextBordered>
+        ) : (
+          children
+        )}
+      </div>
+    </div>
   )
 }

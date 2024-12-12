@@ -15,7 +15,11 @@ export default function TagihanInstansiBody() {
           <Title as="h4" size="1.5xl" weight="semibold">
             List Tagihan Instansi
           </Title>
-          <Button size="sm" onClick={() => setShowTambah(true)}>
+          <Button
+            size="sm"
+            className="text-nowrap"
+            onClick={() => setShowTambah(true)}
+          >
             Tagihan Baru
           </Button>
         </div>

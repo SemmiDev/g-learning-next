@@ -67,6 +67,8 @@ const presensiOptions: RadioGroupOptionType[] = [
 const tipePresensiOptions: RadioGroupOptionType[] = [
   { label: 'Absensi Manual', value: 'Manual' },
   { label: 'Absensi Otomatis', value: 'Otomatis' },
+  { label: 'Absensi GPS', value: 'GPS' },
+  { label: 'Absensi GPS dan Swafoto', value: 'GPS dan Swafoto' },
 ]
 
 type UbahMateriModalProps = {

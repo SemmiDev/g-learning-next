@@ -18,6 +18,7 @@ import {
   TextLabel,
 } from '@/components/ui'
 import { NAMA_HARI } from '@/config/const'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption, selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -94,6 +95,7 @@ export default function BuatKelasModal({
   setShowModal,
 }: BuatKelasModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<BuatKelasFormSchema> = async (data) => {
@@ -118,7 +120,7 @@ export default function BuatKelasModal({
   return (
     <Modal
       title="Buat Kelas Baru"
-      size="lg"
+      size={size}
       headerClassName="[&_.modal-title]:text-lg"
       isOpen={showModal}
       onClose={handleClose}
@@ -173,16 +175,19 @@ export default function BuatKelasModal({
 
                 <div>
                   <TextLabel>Hari dan Waktu</TextLabel>
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-y-2">
                     {watch('hariWaktu')?.map((_, idx) => (
-                      <div key={idx} className="flex gap-x-2">
+                      <div
+                        key={idx}
+                        className="flex flex-col gap-x-2 gap-y-1 border-b border-b-muted last:border-b-0 pb-2 sm:flex-row sm:border-0 sm:pb-0"
+                      >
                         <ControlledSelect
                           control={control}
                           name={`hariWaktu.${idx}.hari`}
                           options={hariOptions}
                           placeholder="Pilih nama hari"
                         />
-                        <div className="flex flex-2">
+                        <div className="flex flex-col flex-2 gap-y-1 sm:flex-row">
                           <ControlledDatePicker
                             control={control}
                             name={`hariWaktu.${idx}.mulai`}
@@ -197,7 +202,7 @@ export default function BuatKelasModal({
                               )
                             }
                             placeholder="Mulai"
-                            className="flex-1 [&_.rizzui-input-container]:rounded-r-none"
+                            className="flex-1 sm:[&_.rizzui-input-container]:rounded-r-none"
                             dateFormat={'HH:mm'}
                             timeFormat="HH:mm"
                             showTimeSelect
@@ -217,7 +222,7 @@ export default function BuatKelasModal({
                               )
                             }
                             placeholder="Sampai"
-                            className="flex-1 [&_.rizzui-input-container]:rounded-none"
+                            className="flex-1 sm:[&_.rizzui-input-container]:rounded-none"
                             dateFormat={'HH:mm'}
                             timeFormat="HH:mm"
                             showTimeSelect
@@ -229,7 +234,7 @@ export default function BuatKelasModal({
                             options={zonaWaktuOptions}
                             placeholder="Zona"
                             className="w-24"
-                            classNames={{ control: 'rounded-l-none' }}
+                            classNames={{ control: 'sm:rounded-l-none' }}
                           />
                         </div>
                         <Button

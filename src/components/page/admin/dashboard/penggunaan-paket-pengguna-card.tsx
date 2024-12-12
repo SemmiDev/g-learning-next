@@ -57,7 +57,7 @@ export default function DashboardPenggunaanPaketPenggunaCard({
         Penggunaan Paket Pengguna
       </Title>
       <CardSeparator />
-      <div className="flex items-center gap-4 px-2">
+      <div className="flex flex-col items-center gap-x-4 px-2 md:flex-row">
         <SimpleBar className="w-3/5">
           <div className="flex h-60 w-full justify-center">
             <ResponsiveContainer width="100%" height="100%">

@@ -26,50 +26,52 @@ export default function PaketItemCard({
   onDelete,
 }: PaketItemCardProps) {
   return (
-    <Card className="flex flex-col p-0">
-      <Text weight="semibold" variant="dark" className="p-2">
-        {paket.nama}
-      </Text>
-      <CardSeparator />
-      <div className="flex flex-col p-2">
-        <Text size="xs" weight="medium" variant="dark">
-          Detail Paket
+    <div>
+      <Card className="flex flex-col p-0">
+        <Text weight="semibold" variant="dark" className="p-2">
+          {paket.nama}
         </Text>
-        <ul className="text-xs font-medium text-gray-dark list-disc ps-4">
-          <li>Total penyimpanan: {formatBytes(paket.totalPenyimpanan)}</li>
-          <li>Limit kelas: {paket.limitKelas} kelas</li>
-          <li>Limit anggota kelas: {paket.limitAnggotaKelas} orang</li>
-        </ul>
-      </div>
-      <CardSeparator />
-      <Text weight="semibold" variant="dark" className="p-2">
-        {rupiah(paket.harga)}/bulan
-      </Text>
-      <CardSeparator />
-      <div className="flex space-x-2 p-2">
+        <CardSeparator />
+        <div className="flex flex-col p-2">
+          <Text size="xs" weight="medium" variant="dark">
+            Detail Paket
+          </Text>
+          <ul className="text-xs font-medium text-gray-dark list-disc ps-4">
+            <li>Total penyimpanan: {formatBytes(paket.totalPenyimpanan)}</li>
+            <li>Limit kelas: {paket.limitKelas} kelas</li>
+            <li>Limit anggota kelas: {paket.limitAnggotaKelas} orang</li>
+          </ul>
+        </div>
+        <CardSeparator />
+        <Text weight="semibold" variant="dark" className="p-2">
+          {rupiah(paket.harga)}/bulan
+        </Text>
         {paket.editable && (
           <>
-            <ActionIconTooltip
-              tooltip="Ubah"
-              size="sm"
-              variant="flat-colorful"
-              color="warning"
-              onClick={onEdit}
-            >
-              <BsPencilSquare />
-            </ActionIconTooltip>
-            <ActionIconTooltip
-              tooltip="Hapus"
-              size="sm"
-              variant="flat-colorful"
-              color="danger"
-              onClick={onDelete}
-            >
-              <LuTrash2 />
-            </ActionIconTooltip>
+            <CardSeparator />
+            <div className="flex space-x-2 p-2">
+              <ActionIconTooltip
+                tooltip="Ubah"
+                size="sm"
+                variant="flat-colorful"
+                color="warning"
+                onClick={onEdit}
+              >
+                <BsPencilSquare />
+              </ActionIconTooltip>
+              <ActionIconTooltip
+                tooltip="Hapus"
+                size="sm"
+                variant="flat-colorful"
+                color="danger"
+                onClick={onDelete}
+              >
+                <LuTrash2 />
+              </ActionIconTooltip>
+            </div>
           </>
         )}
-      </div>
-    </Card>
+      </Card>
+    </div>
   )
 }

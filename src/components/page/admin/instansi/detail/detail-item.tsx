@@ -10,7 +10,7 @@ type DetailItemProps = {
 
 export default function DetailItem({ Icon, label, value }: DetailItemProps) {
   return (
-    <div className="flex flex-col border border-muted border-dashed rounded-lg space-y-1 px-3 py-1.5">
+    <div className="flex flex-col w-full border border-muted border-dashed rounded-lg space-y-1 px-3 py-1.5 sm:w-fit">
       <div className="flex items-center">
         <Icon size={16} className="text-primary mr-1" />
         <Text size="sm" weight="medium" variant="lighter">
