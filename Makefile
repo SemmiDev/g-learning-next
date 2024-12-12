@@ -6,6 +6,7 @@ stop:
 	@pm2 delete nextjs-glearning || true
 
 build:
+	@npm install --force
 	@NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 start:
