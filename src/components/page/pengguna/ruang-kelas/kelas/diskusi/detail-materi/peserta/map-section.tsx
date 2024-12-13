@@ -1,4 +1,7 @@
 import L, { LatLng } from 'leaflet'
+import iconRetina from 'leaflet/dist/images/marker-icon-2x.png'
+import icon from 'leaflet/dist/images/marker-icon.png'
+import shadow from 'leaflet/dist/images/marker-shadow.png'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import {
@@ -10,9 +13,9 @@ import {
 } from 'react-leaflet'
 
 L.Marker.prototype.options.icon = L.icon({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+  iconRetinaUrl: iconRetina.src ?? (iconRetina as unknown as string),
+  iconUrl: icon.src ?? (icon as unknown as string),
+  shadowUrl: shadow.src ?? (shadow as unknown as string),
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 })
