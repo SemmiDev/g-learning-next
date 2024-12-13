@@ -25,7 +25,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import DropdownMoreAction from './dropdown-more-action'
 import UbahMateriModal from './modal/ubah-materi'
 
@@ -53,10 +53,28 @@ export default function MateriCard({
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
-  const imageFile = (data.file_aktifitas ?? []).find(
-    (item) => item.tipe === 'Gambar'
+  const strippedDesc = useMemo(
+    () => stripHtml(data.aktifitas.deskripsi ?? ''),
+    [data.aktifitas.deskripsi]
   )
+  const imageFile = useMemo(
+    () => (data.file_aktifitas ?? []).find((item) => item.tipe === 'Gambar'),
+    [data.file_aktifitas]
+  )
+
+  const isPengajar = useMemo(() => kelas?.peran === 'Pengajar', [kelas])
+  const isPeserta = useMemo(() => kelas?.peran === 'Peserta', [kelas])
+
+  const absenTanpaInteraksi = useMemo(
+    () => ['Manual', 'Otomatis'].includes(data?.aktifitas.absen || ''),
+    [data]
+  )
+  const absenDenganInteraksi = useMemo(
+    () => ['GPS', 'GPS dan Swafoto'].includes(data?.aktifitas.absen || ''),
+    [data]
+  )
+
+  const showFull = isPengajar || (isPeserta && absenTanpaInteraksi)
 
   const handleHapus = () => {
     if (!idHapus) return
@@ -109,50 +127,54 @@ export default function MateriCard({
           <Title as="h4" size="1.5xl" weight="semibold" className="mb-1">
             {data.aktifitas.judul}
           </Title>
-          <Text size="sm" variant="dark" className="truncate">
-            {strippedDesc.slice(0, 100)}
-            {strippedDesc.length > 100 && '...'}
-          </Text>
-          {imageFile && (
-            <div className="flex justify-center mt-4">
-              <div className="flex max-w-8/12 max-h-60">
-                <Image
-                  src={imageFile.url}
-                  alt="preview"
-                  width={640}
-                  height={640}
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          )}
-          {data.file_aktifitas.length > 0 && (
-            <div className="flex flex-col space-y-2 mt-4">
-              {data.file_aktifitas.map((file) => (
-                <FileListItem
-                  key={file.id}
-                  file={{
-                    id: file.id,
-                    name: file.nama,
-                    folder: false,
-                    extension: file.ekstensi,
-                    size: file.ukuran,
-                    time: file.created_at,
-                    type: getFileType(file),
-                    link: file.url,
-                  }}
-                  onPreview={(file) => {
-                    if (!file.link) return
+          {showFull && (
+            <>
+              <Text size="sm" variant="dark" className="truncate">
+                {strippedDesc.slice(0, 100)}
+                {strippedDesc.length > 100 && '...'}
+              </Text>
+              {imageFile && (
+                <div className="flex justify-center mt-4">
+                  <div className="flex max-w-8/12 max-h-60">
+                    <Image
+                      src={imageFile.url}
+                      alt="preview"
+                      width={640}
+                      height={640}
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+              )}
+              {data.file_aktifitas.length > 0 && (
+                <div className="flex flex-col space-y-2 mt-4">
+                  {data.file_aktifitas.map((file) => (
+                    <FileListItem
+                      key={file.id}
+                      file={{
+                        id: file.id,
+                        name: file.nama,
+                        folder: false,
+                        extension: file.ekstensi,
+                        size: file.ukuran,
+                        time: file.created_at,
+                        type: getFileType(file),
+                        link: file.url,
+                      }}
+                      onPreview={(file) => {
+                        if (!file.link) return
 
-                    setFilePreview({
-                      url: file.link,
-                      extension: file.extension,
-                    })
-                  }}
-                  download
-                />
-              ))}
-            </div>
+                        setFilePreview({
+                          url: file.link,
+                          extension: file.extension,
+                        })
+                      }}
+                      download
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
         <CardSeparator />

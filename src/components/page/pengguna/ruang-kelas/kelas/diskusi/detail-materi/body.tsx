@@ -8,27 +8,54 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import {
+  makeSimpleQueryDataWithId,
+  makeSimpleQueryDataWithParams,
+} from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import AbsensiCard from './absensi-card'
-import BerkasCard from './berkas-card'
 import DetailCard from './detail-card'
+import PengajarAbsensiCard from './pengajar/absensi-card'
+import PesertaBerkasCard from './peserta/berkas-card'
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
+import PesertaAbsensiCard from './peserta/absensi-card'
 
 export default function DiskusiMateriBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { kelas: idKelas }: { kelas: string } = useParams()
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+  })
+
+  const isPengajar = useMemo(() => dataKelas?.peran === 'Pengajar', [dataKelas])
+  const isPeserta = useMemo(() => dataKelas?.peran === 'Peserta', [dataKelas])
+
+  const absenTanpaInteraksi = useMemo(
+    () => ['Manual', 'Otomatis'].includes(data?.aktifitas.absen || ''),
+    [data]
+  )
+  const absenDenganInteraksi = useMemo(
+    () => ['GPS', 'GPS dan Swafoto'].includes(data?.aktifitas.absen || ''),
+    [data]
+  )
+
+  const showFull =
+    isPengajar ||
+    (isPeserta &&
+      (absenTanpaInteraksi || (absenDenganInteraksi && !!data?.absensi)))
 
   return (
     <>
@@ -50,16 +77,31 @@ export default function DiskusiMateriBody() {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
-        <DetailCard
-          kelas={dataKelas || undefined}
-          setFilePreview={setFilePreview}
-          className="w-full lg:w-8/12"
-        />
-        {dataKelas?.peran === 'Pengajar' ? (
-          <AbsensiCard className="flex-1" />
-        ) : (
-          <BerkasCard setFilePreview={setFilePreview} className="flex-1" />
+      <div className="flex flex-wrap items-start gap-4">
+        <div className="flex flex-col gap-y-4 w-full lg:w-8/12">
+          <DetailCard
+            kelas={dataKelas || undefined}
+            data={data || undefined}
+            isLoading={isLoading}
+            showFull={showFull}
+            setFilePreview={setFilePreview}
+          />
+
+          {isPeserta && absenDenganInteraksi && !data?.absensi && (
+            <PesertaAbsensiCard
+              foto={data?.aktifitas.absen === 'GPS dan Swafoto'}
+              className="flex-1"
+            />
+          )}
+        </div>
+
+        {isPengajar && <PengajarAbsensiCard className="flex-1" />}
+
+        {isPeserta && showFull && (
+          <PesertaBerkasCard
+            setFilePreview={setFilePreview}
+            className="flex-1"
+          />
         )}
       </div>
 

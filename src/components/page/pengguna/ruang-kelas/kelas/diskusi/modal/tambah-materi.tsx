@@ -200,8 +200,9 @@ export default function TambahMateriModal({
                     <BsInfoCircle size={12} className="ml-1" />
                   </div>
                 }
-                className="flex gap-8 my-2"
-                groupClassName="gap-8"
+                className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
+                groupClassName="flex-wrap gap-x-8 gap-y-4"
+                optionClassNames="w-full xs:w-auto"
                 labelClassName="mb-0"
                 options={presensiOptions}
               />
@@ -211,13 +212,14 @@ export default function TambahMateriModal({
                   name="tipe_presensi"
                   control={control}
                   label={
-                    <div className="flex items-center">
+                    <div className="flex items-center text-nowrap">
                       Atur Presensi
                       <BsInfoCircle size={12} className="ml-1" />
                     </div>
                   }
-                  className="flex gap-8 my-2"
-                  groupClassName="gap-8"
+                  className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
+                  groupClassName="flex-wrap gap-x-8 gap-y-4"
+                  optionClassNames="w-full xs:w-auto"
                   labelClassName="mb-0"
                   options={tipePresensiOptions}
                 />

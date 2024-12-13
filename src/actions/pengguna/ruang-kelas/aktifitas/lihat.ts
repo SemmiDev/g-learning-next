@@ -67,6 +67,19 @@ export type DataType = {
     nama: string
     foto: string
   }
+  absensi: {
+    id: string
+    id_kelas: string
+    id_aktifitas: string
+    id_peserta: string
+    status: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | ''
+    created_at: string
+    updated_at: string
+    latitude: number | null
+    longitude: number | null
+    swafoto: string | null
+    url_swafoto: string
+  } | null
 }
 
 export const lihatAktifitasAction = async (idKelas: string, id: string) =>

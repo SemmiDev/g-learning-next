@@ -16,15 +16,15 @@ import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
-type BerkasCardProps = {
+type PesertaBerkasCardProps = {
   setFilePreview: (file: FilePreviewType) => void
   className?: string
 }
 
-export default function BerkasCard({
+export default function PesertaBerkasCard({
   className,
   setFilePreview,
-}: BerkasCardProps) {
+}: PesertaBerkasCardProps) {
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({

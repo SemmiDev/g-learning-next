@@ -18,22 +18,23 @@ import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import _ from 'lodash'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Checkbox } from 'rizzui'
-import AbsensiCardShimmer from '../shimmer/absensi-card'
+import AbsensiCardShimmer from '../../shimmer/absensi-card'
 
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 
 type AbsensiType = Record<string, (typeof absensiStatus)[number] | null>
 
-type AbsensiCardProps = {
+type PengajarAbsensiCardProps = {
   className?: string
 }
 
-export default function AbsensiCard({ className }: AbsensiCardProps) {
+export default function PengajarAbsensiCard({
+  className,
+}: PengajarAbsensiCardProps) {
   const [absensi, setAbsensi] = useState<AbsensiType>({})
   const [hadirSemua, setHadirSemua] = useState(false)
 
