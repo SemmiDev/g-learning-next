@@ -1,4 +1,3 @@
-import { publicRoutes, routes } from '@/config/routes'
 import { makeBasicPostRequestAction } from '@/utils/action'
 import { jwtDecode } from 'jwt-decode'
 import { AuthOptions } from 'next-auth'
