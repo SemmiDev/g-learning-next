@@ -7,6 +7,7 @@ import {
   CardSeparator,
   FileListItem,
   FilePreviewType,
+  LinkOrDiv,
   ModalConfirm,
   ModalFilePreview,
   Text,
@@ -14,6 +15,7 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import ModalInfo from '@/components/ui/modal/info'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
@@ -23,21 +25,24 @@ import { getFileType } from '@/utils/file-properties-from-api'
 import { stripHtml } from '@/utils/text'
 import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
 import DropdownMoreAction from './dropdown-more-action'
 import UbahMateriModal from './modal/ubah-materi'
+import Link from 'next/link'
 
 type MateriCardProps = {
   kelas: DataKelasType | undefined
   data: DataType
+  isMobile?: boolean
   className?: string
 }
 
 export default function MateriCard({
   kelas,
   data,
+  isMobile,
   className,
 }: MateriCardProps) {
   const queryClient = useQueryClient()
@@ -48,6 +53,7 @@ export default function MateriCard({
     doHide: doHideUbah,
   } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
+  const [infoMobile, setInfoMobile] = useState<boolean>(false)
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -179,13 +185,23 @@ export default function MateriCard({
         </div>
         <CardSeparator />
         <div className="p-2">
-          <Link
-            href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/materi/${data.aktifitas.id}`}
-          >
-            <Button as="span" size="sm" className="w-full">
+          {isPeserta && absenDenganInteraksi && !isMobile ? (
+            <Button
+              size="sm"
+              className="w-full"
+              onClick={() => setInfoMobile(true)}
+            >
               {kelas?.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
             </Button>
-          </Link>
+          ) : (
+            <Link
+              href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/materi/${data.aktifitas.id}`}
+            >
+              <Button as="span" size="sm" className="w-full">
+                {kelas?.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
+              </Button>
+            </Link>
+          )}
         </div>
       </Card>
 
@@ -205,6 +221,16 @@ export default function MateriCard({
         onConfirm={handleHapus}
         headerIcon="help"
         closeOnCancel
+      />
+
+      <ModalInfo
+        title="Tidak dapat membuka materi ini"
+        desc="Agar bisa membuka materi, lakukan presensi dengan membuka halaman ini melalui smartphone kamu"
+        color="danger"
+        headerIcon="warning"
+        isOpen={infoMobile}
+        close="Oke"
+        onClose={() => setInfoMobile(false)}
       />
     </>
   )

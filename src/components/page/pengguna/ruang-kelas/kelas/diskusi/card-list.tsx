@@ -18,11 +18,13 @@ import UjianCard from './ujian-card'
 
 type DiskusiCardListProps = {
   kelas: DataKelasType | undefined
+  isMobile?: boolean
   className?: string
 }
 
 export default function DiskusiCardList({
   kelas,
+  isMobile,
   className,
 }: DiskusiCardListProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -73,7 +75,12 @@ export default function DiskusiCardList({
           {list.map((item) => (
             <Fragment key={item.aktifitas.id}>
               {item.aktifitas.tipe === 'Materi' ? (
-                <MateriCard kelas={kelas} data={item} className="mt-6" />
+                <MateriCard
+                  kelas={kelas}
+                  data={item}
+                  isMobile={isMobile}
+                  className="mt-6"
+                />
               ) : item.aktifitas.tipe === 'Penugasan' ? (
                 <TugasCard kelas={kelas} data={item} className="mt-6" />
               ) : item.aktifitas.tipe === 'Konferensi' ? (

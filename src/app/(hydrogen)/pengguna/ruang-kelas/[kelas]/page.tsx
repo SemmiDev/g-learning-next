@@ -1,5 +1,8 @@
 import DiskusiBody from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/body'
+import { userAgentMobile } from '@/utils/user-agent'
 
-export default function DiskusiPage() {
-  return <DiskusiBody />
+export default async function DiskusiPage() {
+  const isMobile = await userAgentMobile()
+
+  return <DiskusiBody isMobile={isMobile} />
 }

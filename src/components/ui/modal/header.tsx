@@ -142,7 +142,9 @@ export default function ModalHeader({
         )}
       </div>
       <div className="flex items-center self-start gap-x-2">
-        <HeaderIcon icon={icon} customIcon={customIcon} />
+        <div className="p-1">
+          <HeaderIcon icon={icon} customIcon={customIcon} />
+        </div>
         {closeButton && onClose && (
           <ActionIcon
             size="sm"

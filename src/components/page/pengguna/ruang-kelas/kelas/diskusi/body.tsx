@@ -8,7 +8,11 @@ import DiskusiCardList from './card-list'
 import DaftarTugasCard from './daftar-tugas-card'
 import PresensiCard from './presensi-card'
 
-export default function DiskusiBody() {
+type DiskusiBodyProps = {
+  isMobile?: boolean
+}
+
+export default function DiskusiBody({ isMobile }: DiskusiBodyProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
@@ -18,7 +22,11 @@ export default function DiskusiBody() {
 
   return (
     <div className="flex flex-col-reverse gap-x-4 gap-y-6 mt-8 lg:flex-row">
-      <DiskusiCardList kelas={dataKelas || undefined} className="lg:w-7/12" />
+      <DiskusiCardList
+        kelas={dataKelas || undefined}
+        isMobile={isMobile}
+        className="lg:w-7/12"
+      />
 
       {dataKelas?.peran === 'Peserta' && (
         <div className="flex flex-col flex-1 gap-y-6">
