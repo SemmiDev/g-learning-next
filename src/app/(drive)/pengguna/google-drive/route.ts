@@ -78,11 +78,11 @@ export async function GET(req: NextRequest) {
         expiry: tokens.expiry_date,
       })
     } catch (error) {
-      if (error instanceof Error && error.cause === 'SCOPES') {
-        return NextResponse.redirect(
-          new URL(routes.pengguna.pustakaMedia, req.url)
-        )
-      }
+      // if (error instanceof Error && error.cause === 'SCOPES') {
+      //   return NextResponse.redirect(
+      //     new URL(routes.pengguna.pustakaMedia, req.url)
+      //   )
+      // }
     }
 
     return NextResponse.redirect(new URL(routes.pengguna.pustakaMedia, req.url))
