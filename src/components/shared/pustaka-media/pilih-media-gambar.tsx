@@ -62,7 +62,7 @@ export default function PilihMediaGambar({
   const { status } = useSession()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
-  const [activeDrive, setActiveDrive] = useState<string | null>()
+  const [activeDrive, setActiveDrive] = useState<string>()
   const [activeFolder, setActiveFolder] = useState<string>()
   const [search, setSearch] = useState('')
   const [listFolder, setListFolder] = useState<FolderType[]>([])
@@ -97,10 +97,11 @@ export default function PilihMediaGambar({
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
+      const googleDrive = data?.media_google_drive_info
 
       return [
         {
-          id: null,
+          id: 'PERSONAL',
           name: 'Penyimpanan Personal',
           size: personal?.kuota_total_in_kb ?? 0,
           used: personal?.kuota_terpakai_in_kb ?? 0,
@@ -110,7 +111,15 @@ export default function PilihMediaGambar({
           name: `Penyimpanan ${item.nama_instansi}`,
           size: item.kuota_total_in_kb,
           used: item.kuota_terpakai_in_kb,
+          instansi: true,
         })),
+        {
+          id: 'GOOGLE_DRIVE',
+          name: googleDrive?.email ?? '',
+          size: googleDrive?.kuota_total_in_kb ?? 0,
+          used: googleDrive?.kuota_terpakai_in_kb ?? 0,
+          active: !!googleDrive,
+        },
       ]
     },
   })
@@ -417,6 +426,7 @@ export default function PilihMediaGambar({
         id={keyUbahFile}
         onHide={doHideUbahFile}
         refetchKey={queryKey}
+        alert={activeDrive !== 'GOOGLE_DRIVE'}
       />
 
       <ModalFilePreview

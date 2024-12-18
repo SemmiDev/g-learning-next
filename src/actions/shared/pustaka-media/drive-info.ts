@@ -30,6 +30,20 @@ export type DataType = {
     kuota_total_in_kb: number
     kuota_sisa_in_kb: number
   }[]
+  media_google_drive_info: {
+    id_google_drive: string
+    email: string
+    is_unlimited: false
+    kuota_terpakai_in_gb: number
+    kuota_total_in_gb: number
+    kuota_sisa_in_gb: number
+    kuota_terpakai_in_mb: number
+    kuota_total_in_mb: number
+    kuota_sisa_in_mb: number
+    kuota_terpakai_in_kb: number
+    kuota_total_in_kb: number
+    kuota_sisa_in_kb: number
+  } | null
 }
 
 export const driveInfoAction = async () => {

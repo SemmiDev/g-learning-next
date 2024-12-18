@@ -30,6 +30,7 @@ type TambahModalProps = {
   show: boolean
   setShow(show: boolean): void
   refetchKey: QueryKey
+  googleDrive?: boolean
   idInstansi: string | undefined
   idFolder: string | undefined
 }
@@ -38,6 +39,7 @@ export default function TambahFolderModal({
   show = false,
   setShow,
   refetchKey,
+  googleDrive,
   idInstansi,
   idFolder,
 }: TambahModalProps) {
@@ -46,7 +48,7 @@ export default function TambahFolderModal({
 
   const onSubmit: SubmitHandler<TambahFolderFormSchema> = async (data) => {
     await handleActionWithToast(
-      tambahFolderAction(data, idInstansi, idFolder),
+      tambahFolderAction(data, googleDrive, idInstansi, idFolder),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

@@ -50,6 +50,7 @@ export const penggunaRoutes = {
   },
   transaksi: '/pengguna/transaksi',
   pustakaMedia: '/pengguna/pustaka-media',
+  googleDrive: '/pengguna/google-drive',
 }
 
 export const adminRoutes = {

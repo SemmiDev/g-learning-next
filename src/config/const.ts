@@ -30,3 +30,14 @@ export const NAMA_HARI = [
 export const ZONA_WAKTU = ['WIB', 'WITA', 'WIT'] as const
 
 export const API_URL = 'https://glearning-api-staging.gci.my.id/api/v1'
+
+export const GOOGLE_DRIVE_SCOPES = [
+  'https://www.googleapis.com/auth/userinfo.email',
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/drive.readonly',
+  'https://www.googleapis.com/auth/drive.file',
+  'https://www.googleapis.com/auth/drive.metadata',
+  'https://www.googleapis.com/auth/drive.metadata.readonly',
+  'https://www.googleapis.com/auth/drive.scripts',
+]

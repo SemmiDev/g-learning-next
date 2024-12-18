@@ -22,7 +22,7 @@ import { Dropdown } from 'rizzui'
 import RecentFileItem from './recent-file-item'
 
 const perPage = 5
-const queryKeyDrive = ['shared.pustaka-media.drives']
+const queryKeyDrive = ['pengguna.dashboard.recent-files.drives']
 
 type DashboardRecentFileCardProps = {
   className?: string
@@ -31,7 +31,7 @@ type DashboardRecentFileCardProps = {
 export default function DashboardRecentFileCard({
   className,
 }: DashboardRecentFileCardProps) {
-  const [activeDrive, setActiveDrive] = useState<string | null>(null)
+  const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
   const [page, setPage] = useState(1)
   const [totalData, setTotalData] = useState(0)
   const [previewFile, setPreviewFile] = useState<FilePreviewType>()
@@ -43,10 +43,11 @@ export default function DashboardRecentFileCard({
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
+      const googleDrive = data?.media_google_drive_info
 
       return [
         {
-          id: null,
+          id: 'PERSONAL',
           name: 'Personal',
           size: personal?.kuota_total_in_kb ?? 0,
           used: personal?.kuota_terpakai_in_kb ?? 0,
@@ -56,7 +57,19 @@ export default function DashboardRecentFileCard({
           name: `${item.nama_instansi}`,
           size: item.kuota_total_in_kb,
           used: item.kuota_terpakai_in_kb,
+          instansi: true,
         })),
+        ...(!!googleDrive
+          ? [
+              {
+                id: 'GOOGLE_DRIVE',
+                name: 'Google Drive',
+                size: googleDrive?.kuota_total_in_kb ?? 0,
+                used: googleDrive?.kuota_terpakai_in_kb ?? 0,
+                active: !!googleDrive,
+              },
+            ]
+          : []),
       ]
     },
   })
@@ -65,6 +78,11 @@ export default function DashboardRecentFileCard({
     'pengguna.dashboard.recent-files.files',
     activeDrive === undefined ? 'personal' : activeDrive,
   ]
+
+  const idInstansi =
+    activeDrive !== 'PERSONAL' && activeDrive !== 'GOOGLE_DRIVE'
+      ? activeDrive
+      : undefined
 
   const {
     data: files = [],
@@ -77,8 +95,9 @@ export default function DashboardRecentFileCard({
       const { data } = await listRecentFilesAction({
         page,
         perPage,
-        personal: activeDrive === null,
-        idInstansi: activeDrive ?? undefined,
+        personal: activeDrive === 'PERSONAL',
+        googleDrive: activeDrive === 'GOOGLE_DRIVE',
+        idInstansi,
       })
 
       setTotalData(data?.pagination?.totalData ?? 0)

@@ -7,6 +7,7 @@ import {
   Time,
 } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
+import { downloadFileUrl } from '@/utils/file-url'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsEye, BsPencil } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
@@ -113,7 +114,7 @@ export default function FileButton({
                 </LinkOrDiv>
               )}
             {file.type !== 'link' && (
-              <LinkOrDiv href={file.link} target="_blank">
+              <LinkOrDiv href={downloadFileUrl(file.link)} target="_blank">
                 <ActionIconTooltip
                   tooltip="Unduh"
                   size="sm"

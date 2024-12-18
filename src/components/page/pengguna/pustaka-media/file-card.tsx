@@ -9,6 +9,7 @@ import {
 } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
+import { downloadFileUrl } from '@/utils/file-url'
 import Link from 'next/link'
 import {
   BsDownload,
@@ -78,7 +79,7 @@ export default function FileCard({
             <Dropdown.Menu className="w-30 divide-y !py-0">
               <div className="py-2">
                 {!file.folder && file.type !== 'link' && file.link && (
-                  <Link href={file.link} target="_blank">
+                  <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
                     <Dropdown.Item className="text-gray-dark">
                       <BsDownload className="text-primary size-4 mr-2" />
                       Unduh

@@ -58,7 +58,7 @@ const queryKeyDrive = ['pengguna.pustaka-media.drives']
 
 export default function PustakaMediaBody() {
   const queryClient = useQueryClient()
-  const [activeDrive, setActiveDrive] = useState<string | null>()
+  const [activeDrive, setActiveDrive] = useState<string>()
   const [activeFolder, setActiveFolder] = useState<string>()
   const [sort, setSort] = useState<SortDataType>('terbaru')
   const [search, setSearch] = useState('')
@@ -93,10 +93,11 @@ export default function PustakaMediaBody() {
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
+      const googleDrive = data?.media_google_drive_info
 
       return [
         {
-          id: null,
+          id: 'PERSONAL',
           name: 'Penyimpanan Personal',
           size: personal?.kuota_total_in_kb ?? 0,
           used: personal?.kuota_terpakai_in_kb ?? 0,
@@ -106,20 +107,29 @@ export default function PustakaMediaBody() {
           name: `Penyimpanan ${item.nama_instansi}`,
           size: item.kuota_total_in_kb,
           used: item.kuota_terpakai_in_kb,
+          instansi: true,
         })),
+        {
+          id: 'GOOGLE_DRIVE',
+          name: googleDrive?.email ?? '',
+          size: googleDrive?.kuota_total_in_kb ?? 0,
+          used: googleDrive?.kuota_terpakai_in_kb ?? 0,
+          active: !!googleDrive,
+        },
       ]
     },
   })
 
   const queryKey = [
     'pengguna.pustaka-media.files',
-    activeDrive === undefined
-      ? 'all'
-      : activeDrive === null
-      ? 'personal'
-      : activeDrive,
+    activeDrive === undefined ? 'all' : activeDrive,
     activeFolder ?? 'all',
   ]
+
+  const idInstansi =
+    activeDrive !== 'PERSONAL' && activeDrive !== 'GOOGLE_DRIVE'
+      ? activeDrive
+      : undefined
 
   const {
     data: dataFiles,
@@ -132,8 +142,9 @@ export default function PustakaMediaBody() {
     queryKey,
     queryFn: async ({ pageParam: page }) => {
       const { data } = await listFileAction({
-        personal: activeDrive === null,
-        idInstansi: activeDrive ?? undefined,
+        personal: activeDrive === 'PERSONAL',
+        googleDrive: activeDrive === 'GOOGLE_DRIVE',
+        idInstansi,
         idFolder: activeFolder,
         page,
         search,
@@ -154,7 +165,9 @@ export default function PustakaMediaBody() {
           fileCount: getFileCount(item),
           size: getFileSize(item),
           type: getFileType(item),
-          driveId: item.id_instansi ?? undefined,
+          driveId: item.google_drive
+            ? 'GOOGLE_DRIVE'
+            : item.id_instansi ?? 'PERSONAL',
         })) as PustakaMediaFileType[],
         pagination: data?.pagination,
       }
@@ -219,7 +232,7 @@ export default function PustakaMediaBody() {
               setActiveFolder(undefined)
               setListFolder([])
             }}
-            key={drive.id ?? 'personal'}
+            key={drive.id}
           />
         ))}
       </div>
@@ -227,8 +240,8 @@ export default function PustakaMediaBody() {
         <Title as="h4" size="1.5xl" weight="semibold" className="leading-tight">
           {activeDrive === undefined
             ? 'Pustaka Media'
-            : activeDrive === null
-            ? 'Penyimpanan Personal'
+            : activeDrive === 'GOOGLE_DRIVE'
+            ? 'Google Drive'
             : currentDrive.name}
         </Title>
         {listFolder.length > 0 &&
@@ -296,13 +309,13 @@ export default function PustakaMediaBody() {
           </Dropdown>
         </div>
         {activeDrive !== undefined && (
-          <div className="flex space-x-2">
+          <div className="flex gap-x-2">
             <Button
               size="sm"
               variant="outline-colorful"
               onClick={() => setShowTambahBerkas(true)}
             >
-              Tambah Link/Unggah Media
+              {activeDrive !== 'GOOGLE_DRIVE' ? 'Tambah Link/' : ''}Unggah Media
             </Button>
             <Button
               size="sm"
@@ -372,7 +385,8 @@ export default function PustakaMediaBody() {
         show={showTambahFolder}
         setShow={setShowTambahFolder}
         refetchKey={queryKey}
-        idInstansi={activeDrive ?? undefined}
+        googleDrive={activeDrive === 'GOOGLE_DRIVE'}
+        idInstansi={idInstansi}
         idFolder={activeFolder}
       />
 
@@ -380,8 +394,10 @@ export default function PustakaMediaBody() {
         show={showTambahBerkas}
         setShow={setShowTambahBerkas}
         refetchKeys={[queryKey, ['pengguna.pustaka-media.drives']]}
-        idInstansi={activeDrive ?? undefined}
+        googleDrive={activeDrive === 'GOOGLE_DRIVE'}
+        idInstansi={idInstansi}
         idFolder={activeFolder}
+        uploadLink={activeDrive !== 'GOOGLE_DRIVE'}
       />
 
       <UbahFolderModal
@@ -403,6 +419,7 @@ export default function PustakaMediaBody() {
         id={keyUbahFile}
         onHide={doHideUbahFile}
         refetchKey={queryKey}
+        alert={activeDrive !== 'GOOGLE_DRIVE'}
       />
 
       <ModalFilePreview

@@ -101,7 +101,7 @@ export default function DashboardRiwayatPembayaranCard({
         },
       }),
     },
-    {
+    /* {
       title: <TableHeaderCell title="Invoice" align="center" />,
       width: 70,
       render: (_, row) => (
@@ -116,7 +116,7 @@ export default function DashboardRiwayatPembayaranCard({
           </ActionIconTooltip>
         </div>
       ),
-    },
+    }, */
   ]
 
   return (

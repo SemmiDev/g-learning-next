@@ -112,7 +112,7 @@ export default function ProfilRiwayatPembayaranBody() {
         },
       }),
     },
-    {
+    /* {
       title: <TableHeaderCell title="Invoice" align="center" />,
       width: 70,
       render: (_, row) => (
@@ -127,7 +127,7 @@ export default function ProfilRiwayatPembayaranBody() {
           </ActionIconTooltip>
         </div>
       ),
-    },
+    }, */
   ]
 
   return (

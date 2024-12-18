@@ -31,6 +31,7 @@ type UbahModalProps = {
   show: boolean
   onHide: () => void
   refetchKey: QueryKey
+  alert?: boolean
 }
 
 export default function UbahBerkasModal({
@@ -38,6 +39,7 @@ export default function UbahBerkasModal({
   show,
   onHide,
   refetchKey,
+  alert = true,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
@@ -109,18 +111,20 @@ export default function UbahBerkasModal({
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
-                <Alert color="warning">
-                  <Text
-                    size="sm"
-                    weight="medium"
-                    variant="dark"
-                    className="break-normal"
-                  >
-                    Mengubah nama berkas akan mengubah{' '}
-                    <strong>link berkas</strong>. Pastikan link berkas masih{' '}
-                    <strong>belum digunakan</strong> jika ingin mengubah!
-                  </Text>
-                </Alert>
+                {alert && (
+                  <Alert color="warning">
+                    <Text
+                      size="sm"
+                      weight="medium"
+                      variant="dark"
+                      className="break-normal"
+                    >
+                      Mengubah nama berkas akan mengubah{' '}
+                      <strong>link berkas</strong>. Pastikan link berkas masih{' '}
+                      <strong>belum digunakan</strong> jika ingin mengubah!
+                    </Text>
+                  </Alert>
+                )}
 
                 <ControlledInput
                   name="nama"

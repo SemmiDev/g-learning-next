@@ -51,7 +51,9 @@ export default function LihatMateriModal({
       size: item.ukuran,
       folder: false,
       type: getFileType(item),
-      driveId: item.id_instansi ?? undefined,
+      driveId: item.google_drive
+        ? 'GOOGLE_DRIVE'
+        : item.id_instansi ?? 'PERSONAL',
     })
   )
 

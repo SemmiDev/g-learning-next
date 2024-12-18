@@ -22,11 +22,13 @@ export const listRecentFilesAction = async ({
   page = 1,
   perPage,
   personal,
+  googleDrive,
   idInstansi,
 }: {
   page?: number
   perPage?: number
   personal?: boolean
+  googleDrive?: boolean
   idInstansi?: string
 }) =>
   makeJwtGetRequestTableAction<DataType>(
@@ -35,6 +37,7 @@ export const listRecentFilesAction = async ({
       current_page: page,
       per_page: perPage,
       personal: personal ? 'true' : undefined,
+      google_drive: googleDrive ? 'true' : undefined,
       id_instansi: idInstansi,
     }
   )

@@ -25,6 +25,7 @@ type DataType = {
       ukuran: number
       id_pengguna: string
       id_instansi: string | null
+      google_drive: boolean
       created_at: string
       updated_at: string
     }

@@ -11,6 +11,7 @@ import {
 import { routes } from '@/config/routes'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
+import { downloadFileUrl } from '@/utils/file-url'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { BsDownload, BsThreeDotsVertical } from 'react-icons/bs'
@@ -87,7 +88,7 @@ export default function BerkasCard({
                   </Dropdown.Item>
                 </Link>
                 {!file.folder && file.type !== 'link' && file.link && (
-                  <Link href={file.link} target="_blank">
+                  <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
                     <Dropdown.Item as="li" className="text-gray-dark">
                       <BsDownload className="text-primary size-4 mr-2" />
                       Unduh

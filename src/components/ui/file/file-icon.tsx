@@ -2,6 +2,7 @@
 
 import { PustakaMediaFileType } from '@/components/shared/pustaka-media'
 import cn from '@/utils/class-names'
+import { thumbnailFileUrl } from '@/utils/file-url'
 import { isPlayableVideo } from '@/utils/media-check'
 import iconFolder from '@public/icons/folder.svg'
 import Image from 'next/image'
@@ -120,7 +121,7 @@ export default function FileIcon({
         </figure>
       ) : file.type === 'image' && file.link ? (
         <Thumbnail
-          src={file.link}
+          src={thumbnailFileUrl(file.link)}
           alt="thumbnail"
           size={fullThumbnail ? 44 : 36}
           resize={128}

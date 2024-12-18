@@ -20,7 +20,8 @@ export type DataType = {
   url: string
   ukuran: number
   id_pengguna: string
-  id_instansi: string
+  id_instansi: string | null
+  google_drive: boolean
   created_at: string
   updated_at: string
   total_files: number
@@ -30,6 +31,7 @@ export const listFileAction = async ({
   page = 1,
   search = '',
   personal,
+  googleDrive,
   idInstansi,
   idFolder,
   sort,
@@ -38,6 +40,7 @@ export const listFileAction = async ({
   page?: number
   search?: string
   personal?: boolean
+  googleDrive?: boolean
   idInstansi?: string
   idFolder?: string
   sort?: SortType
@@ -55,6 +58,7 @@ export const listFileAction = async ({
       order: sort?.order,
       per_page: 20,
       personal: personal ? 'true' : undefined,
+      google_drive: googleDrive ? 'true' : undefined,
       id_instansi: idInstansi,
       id_parent: idFolder,
       jenis: jenis,

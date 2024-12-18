@@ -45,6 +45,7 @@ type TambahModalProps = {
   setShow(show: boolean): void
   uploadLink?: boolean
   refetchKeys: QueryKey[]
+  googleDrive?: boolean
   idInstansi: string | undefined
   idFolder: string | undefined
 }
@@ -54,6 +55,7 @@ export default function TambahBerkasModal({
   setShow,
   uploadLink = true,
   refetchKeys,
+  googleDrive,
   idInstansi,
   idFolder,
 }: TambahModalProps) {
@@ -64,6 +66,7 @@ export default function TambahBerkasModal({
     const form = new FormData()
     if (idFolder) form.append('id_parent', idFolder)
     else if (idInstansi) form.append('id_instansi', idInstansi)
+    else if (googleDrive) form.append('google_drive', 'true')
 
     for (let i = 0; i < data.youtube.length; i++) {
       const { label, link } = data.youtube[i]
