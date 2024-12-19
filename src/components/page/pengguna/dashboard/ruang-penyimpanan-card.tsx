@@ -25,7 +25,7 @@ type DashboardRuangPenyimpananCardProps = {
 export default function DashboardRuangPenyimpananCard({
   className,
 }: DashboardRuangPenyimpananCardProps) {
-  const [activeDrive, setActiveDrive] = useState<string | null>(null)
+  const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
 
   const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
     queryKey: queryKeyDrive,
@@ -34,10 +34,11 @@ export default function DashboardRuangPenyimpananCard({
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
+      const googleDrive = data?.media_google_drive_info
 
       return [
         {
-          id: null,
+          id: 'PERSONAL',
           name: 'Personal',
           size: personal?.kuota_total_in_kb ?? 0,
           used: personal?.kuota_terpakai_in_kb ?? 0,
@@ -48,6 +49,17 @@ export default function DashboardRuangPenyimpananCard({
           size: item.kuota_total_in_kb,
           used: item.kuota_terpakai_in_kb,
         })),
+        ...(!!googleDrive
+          ? [
+              {
+                id: 'GOOGLE_DRIVE',
+                name: 'Google Drive',
+                size: googleDrive?.kuota_total_in_kb ?? 0,
+                used: googleDrive?.kuota_terpakai_in_kb ?? 0,
+                active: !!googleDrive,
+              },
+            ]
+          : []),
       ]
     },
   })

@@ -4,11 +4,10 @@ import { authRoutes, publicRoutes, routes } from './config/routes'
 
 export default withAuth(
   function middleware(req) {
+    const isLogin = !!req.nextauth.token
+
     // sudah login dan mengakses route auth maka redirect ke dashboard
-    if (
-      Object.values(authRoutes).includes(req.nextUrl.pathname) &&
-      !!req.nextauth.token
-    ) {
+    if (Object.values(authRoutes).includes(req.nextUrl.pathname) && isLogin) {
       return NextResponse.redirect(new URL(routes.dashboard, req.url))
     }
   },
@@ -23,6 +22,9 @@ export default withAuth(
           !!token
         )
       },
+    },
+    pages: {
+      signIn: '/login',
     },
   }
 )

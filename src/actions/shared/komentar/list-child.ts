@@ -1,12 +1,6 @@
 'use server'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/options'
-import {
-  makeActionResponse,
-  makeJwtGetRequestTableAction,
-  makeTableActionResponse,
-} from '@/utils/action'
-import { getServerSession } from 'next-auth'
+import { makeJwtGetRequestTableAction } from '@/utils/action'
 
 export type DataType = {
   id: string
