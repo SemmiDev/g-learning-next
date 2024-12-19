@@ -7,7 +7,7 @@ stop:
 
 build:
 	@npm install --force
-	@NODE_OPTIONS="--max-old-space-size=4096" npm run build
+	@NODE_OPTIONS="--max-old-space-size=2048" npm run build
 
 start:
 	@pm2 start npm --name "nextjs-glearning" -- start
