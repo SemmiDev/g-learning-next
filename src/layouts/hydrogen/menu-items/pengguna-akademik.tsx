@@ -3,7 +3,7 @@ import { LuBox, LuHouse } from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
-export const menuItemsPeserta: MenuItemType[] = [
+export const menuItemsPenggunaAkademik: MenuItemType[] = [
   {
     name: 'Dasbor',
     href: routes.dashboard,
@@ -14,7 +14,17 @@ export const menuItemsPeserta: MenuItemType[] = [
   },
   {
     name: 'Ruang Kelas',
-    href: routes.peserta.ruangKelas,
+    href: routes.penggunaAkademik.ruangKelas,
     icon: <LuBox />,
+    dropdownItems: [
+      {
+        name: 'Kelas yang Dikelola',
+        href: routes.penggunaAkademik.ruangKelasDikelola,
+      },
+      {
+        name: 'Kelas yang Diikuti',
+        href: routes.penggunaAkademik.ruangKelasDiikuti,
+      },
+    ],
   },
 ]

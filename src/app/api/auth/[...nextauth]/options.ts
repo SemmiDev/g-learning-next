@@ -37,21 +37,12 @@ export const authOptions: AuthOptions = {
           }
         }
 
-        if (username == 'admin@glearning.com') {
+        if (username == 'pengguna@glearning.com') {
           return {
             id: '3',
-            name: 'Nama Admin',
-            username: 'admin@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiQWRtaW4iLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.zrNRs5A5x-9WX5AxtmHmZ7SjsSF1DZdoRBVJrkpSxpk',
-          }
-        }
-
-        if (username == 'instansi@glearning.com') {
-          return {
-            id: '4',
-            name: 'Nama Admin Instansi',
-            username: 'instansi@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6Imluc3RhbnNpQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiSW5zdGFuc2kiLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.45pU23Ljkyy_Jqs4ZXyLo9nUDvoDifLPoILG-5aDJbc',
+            name: 'Nama Pengguna',
+            username: 'pengguna@glearning.com',
+            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjMiLCJ1c2VybmFtZSI6InBlbmdndW5hQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiUGVuZ2d1bmFBa2FkZW1payIsImlzc3VlZF9hdCI6IjIwMjQtMTItMjBUMDg6MzQ6MDcuOTgxODQwMDM3KzA3OjAwIiwiZXhwaXJlZF9hdCI6IjIwMjQtMTItMjJUMTA6MzQ6MDcuOTgxODQwMDk3KzA3OjAwIn0.8pseDlliGXzgxv7qSd-oNO_5Zx-G-pTy7pSY71JEWBI',
           }
         }
 

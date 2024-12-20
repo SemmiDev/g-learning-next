@@ -4,7 +4,14 @@ import { mustBe } from '@/utils/must-be'
 import { jwtDecode } from 'jwt-decode'
 import { useSession } from 'next-auth/react'
 
-const levels = ['Admin', 'Instansi', 'Pengguna', 'Pengajar', 'Peserta'] as const
+const levels = [
+  'Admin',
+  'Instansi',
+  'Pengguna',
+  'Pengajar',
+  'Peserta',
+  'PenggunaAkademik',
+] as const
 
 export function useSessionPengguna() {
   const { data: session } = useSession()

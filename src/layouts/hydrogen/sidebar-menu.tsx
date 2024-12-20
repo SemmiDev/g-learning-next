@@ -14,6 +14,7 @@ import { menuItemsPengajar } from './menu-items/pengajar'
 import { menuItemsPengguna } from './menu-items/pengguna'
 import { menuItemsPeserta } from './menu-items/peserta'
 import StatusBadge from './status-badge'
+import { menuItemsPenggunaAkademik } from './menu-items/pengguna-akademik'
 
 export type MenuDropdownItemType = {
   name: string
@@ -45,6 +46,7 @@ export function SidebarMenu() {
       Pengguna: menuItemsPengguna,
       Pengajar: menuItemsPengajar,
       Peserta: menuItemsPeserta,
+      PenggunaAkademik: menuItemsPenggunaAkademik,
     },
     []
   )

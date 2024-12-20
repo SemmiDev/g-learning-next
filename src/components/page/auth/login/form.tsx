@@ -126,6 +126,10 @@ export default function LoginForm() {
                   username: 'pengajar@glearning.com',
                 },
                 { level: 'Slicing Peserta', username: 'peserta@glearning.com' },
+                {
+                  level: 'Slicing Pengguna Akademik',
+                  username: 'pengguna@glearning.com',
+                },
                 { level: 'Admin', username: 'admin@gmail.com' },
                 { level: 'Instansi', username: 'adminuin' },
                 { level: 'Rizky (Pengguna 1)', username: 'reazon7@gmail.com' },

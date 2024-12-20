@@ -17,7 +17,7 @@ export const menuItemsPengajar: MenuItemType[] = [
     icon: <LuHouse />,
   },
   {
-    name: 'Akademik',
+    name: 'Pembelajaran',
   },
   {
     name: 'Ruang Kelas',
@@ -35,7 +35,7 @@ export const menuItemsPengajar: MenuItemType[] = [
     icon: <LuFileText />,
   },
   {
-    name: 'Umum',
+    name: 'Lainnya',
   },
   {
     name: 'Ruang Kursus',
