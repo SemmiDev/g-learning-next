@@ -17,6 +17,9 @@ type JadwalAkademikProps = {
 }
 
 export default function JadwalAkademik({ className }: JadwalAkademikProps) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
   return (
     <Card className={cn('p-0', className)}>
       <div className="flex flex-wrap justify-between items-center gap-x-2 p-2">
@@ -24,7 +27,7 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
           Jadwal Minggu Ini
         </Title>
         <Text size="sm" weight="medium" variant="lighter">
-          Tanggal hari ini: 01 Desember 2024
+          Tanggal hari ini: <Time date={today} />
         </Text>
       </div>
       <Tanggal />
@@ -97,7 +100,7 @@ function JadwalItem({
   className?: string
 }) {
   return (
-    <div className="flex flex-col px-1 py-2">
+    <div className={cn('flex flex-col px-1 py-2', className)}>
       <div className="flex gap-x-2">
         <Text weight="semibold">{kelas}</Text>
         {status !== 'belum' && (
@@ -141,6 +144,8 @@ function JadwalItem({
 
 function Tanggal({ className }: { className?: string }) {
   const curr = new Date()
+  curr.setHours(0, 0, 0, 0)
+
   const [currentDay, setCurrentDay] = useState(curr.getDay())
 
   const first = curr.getDate() - curr.getDay()
@@ -150,6 +155,7 @@ function Tanggal({ className }: { className?: string }) {
       {[...Array(7)].map((_, i) => {
         return (
           <TanggalItem
+            key={i}
             date={new Date(curr.setDate(first + i))}
             active={currentDay == i}
           />

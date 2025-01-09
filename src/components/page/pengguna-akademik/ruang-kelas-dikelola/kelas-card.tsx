@@ -1,7 +1,9 @@
 import { Badge, Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
+import { routes } from '@/config/routes'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
+import Link from 'next/link'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { Progressbar } from 'rizzui'
 
@@ -103,9 +105,13 @@ export default function KelasCard({
           value={Math.round((10 / 16) * 100)}
         />
       </div>
-      <Button size="sm" className="w-full">
-        Masuk Kelas
-      </Button>
+      <Link
+        href={`${routes.penggunaAkademik.ruangKelasDikelola}/akademik/kelas`}
+      >
+        <Button as="span" size="sm" className="w-full">
+          Masuk Kelas
+        </Button>
+      </Link>
     </Card>
   )
 }

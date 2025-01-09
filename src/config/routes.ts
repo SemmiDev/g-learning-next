@@ -36,7 +36,6 @@ export const pesertaRoutes = {
 }
 
 export const penggunaAkademikRoutes = {
-  ruangKelas: '/pengguna-akademik/ruang-kelas',
   ruangKelasDikelola: '/pengguna-akademik/ruang-kelas-dikelola',
   ruangKelasDiikuti: '/pengguna-akademik/ruang-kelas-diikuti',
 }
