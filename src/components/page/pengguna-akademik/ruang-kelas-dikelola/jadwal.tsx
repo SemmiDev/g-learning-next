@@ -117,19 +117,19 @@ function JadwalItem({
       </div>
       <div className="flex gap-x-4 mt-1">
         <div className="flex items-center gap-x-1">
-          <LuPackage className="size-4" />
+          <LuPackage className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
             Sesi {sesi}
           </Text>
         </div>
         <div className="flex items-center gap-x-1">
-          <LuClock className="size-4" />
+          <LuClock className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
             {jamMulai} - {jamSelesai}
           </Text>
         </div>
         <div className="flex items-center gap-x-1">
-          <LuMapPin className="size-4" />
+          <LuMapPin className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
             {ruangan}
           </Text>
