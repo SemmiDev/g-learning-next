@@ -43,7 +43,7 @@ export default function JadwalCard({ className }: JadwalCardProps) {
       <Tanggal />
       <CardSeparator />
       <div className="flex flex-col px-2 py-2">
-        <div className="flex gap-x-2">
+        <div className="flex items-center gap-x-2">
           <Text weight="semibold">Judul Sesi</Text>
           <Badge size="sm" variant="flat" color="success">
             Sesi sedang berlangsung

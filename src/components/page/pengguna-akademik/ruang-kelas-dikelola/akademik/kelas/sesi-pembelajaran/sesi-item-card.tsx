@@ -1,6 +1,8 @@
 import { Badge, Button, Text, Time } from '@/components/ui'
 import Card from '@/components/ui/card'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
+import Link from 'next/link'
 import { ComponentType } from 'react'
 import {
   BsCardChecklist,
@@ -147,9 +149,14 @@ export default function SesiItemCard({
             Akhiri Sesi
           </Button>
         ) : sesi.status === 'selesai' ? (
-          <Button size="sm" className="flex-1">
-            Lihat Detail
-          </Button>
+          <Link
+            href={`${routes.penggunaAkademik.ruangKelasDikelola}/akademik/kelas/sesi-pembelajaran/detail`}
+            className="flex-1"
+          >
+            <Button as="span" size="sm" className="w-full">
+              Lihat Detail
+            </Button>
+          </Link>
         ) : (
           <Button
             size="sm"

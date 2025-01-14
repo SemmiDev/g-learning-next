@@ -101,7 +101,7 @@ function JadwalItem({
 }) {
   return (
     <div className={cn('flex flex-col px-1 py-2', className)}>
-      <div className="flex gap-x-2">
+      <div className="flex items-center gap-x-2">
         <Text weight="semibold">{kelas}</Text>
         {status !== 'belum' && (
           <Badge
