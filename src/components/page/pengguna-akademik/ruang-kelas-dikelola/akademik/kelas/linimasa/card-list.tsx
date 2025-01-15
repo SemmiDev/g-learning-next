@@ -1,7 +1,8 @@
 import { Select, SelectOptionType, Text } from '@/components/ui'
 import HeaderCard from './header-card'
-import MateriCard from './materi-card'
+import MateriCard from './list-item/materi-card'
 import cn from '@/utils/class-names'
+import SesiCard from './list-item/sesi-card'
 
 const optionsFilter: SelectOptionType[] = [
   { label: 'Hari Ini', value: 'today' },
@@ -32,6 +33,7 @@ export default function LinimasaCardList({ className }: LinimasaCardListProps) {
 
       <div className="flex flex-col gap-y-6">
         <MateriCard />
+        <SesiCard />
       </div>
     </div>
   )

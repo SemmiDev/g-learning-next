@@ -158,6 +158,7 @@ function Tanggal({ className }: { className?: string }) {
             key={i}
             date={new Date(curr.setDate(first + i))}
             active={currentDay == i}
+            onClick={() => setCurrentDay(i)}
           />
         )
       })}
@@ -165,11 +166,22 @@ function Tanggal({ className }: { className?: string }) {
   )
 }
 
-function TanggalItem({ date, active }: { date: Date; active?: boolean }) {
+function TanggalItem({
+  date,
+  active,
+  onClick,
+}: {
+  date: Date
+  active?: boolean
+  onClick?: () => void
+}) {
   const size = useWindowSize()
 
   return (
-    <button className="flex flex-col items-center gap-y-1 rounded w-full py-2 hover:bg-muted sm:px-2">
+    <button
+      className="flex flex-col items-center gap-y-1 rounded w-full py-2 hover:bg-muted sm:px-2"
+      onClick={onClick}
+    >
       <Text
         size="sm"
         weight="semibold"

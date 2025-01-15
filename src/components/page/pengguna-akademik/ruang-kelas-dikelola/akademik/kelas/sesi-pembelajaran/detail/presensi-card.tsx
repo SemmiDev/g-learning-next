@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Button,
   Card,
   CardSeparator,
   Pagination,
@@ -12,7 +11,7 @@ import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
 import { BsPencil, BsThreeDots } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Checkbox, Dropdown } from 'rizzui'
+import { Dropdown } from 'rizzui'
 
 type PresensiCardProps = {
   className?: string
@@ -21,15 +20,15 @@ type PresensiCardProps = {
 export default function PresensiCard({ className }: PresensiCardProps) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <div className="flex justify-between gap-x-2">
-        <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
+      <div className="flex justify-between items-center gap-x-2 px-2 py-2">
+        <Title as="h6" weight="semibold" className="leading-4">
           Presensi
         </Title>
         <Dropdown placement="bottom-end">
           <Dropdown.Trigger>
-            <Button as="span" size="sm" variant="text">
+            <ActionIcon as="span" size="sm" variant="text">
               <BsThreeDots className="size-4" />
-            </Button>
+            </ActionIcon>
           </Dropdown.Trigger>
           <Dropdown.Menu className="w-52 divide-y !py-0">
             <div className="py-2">

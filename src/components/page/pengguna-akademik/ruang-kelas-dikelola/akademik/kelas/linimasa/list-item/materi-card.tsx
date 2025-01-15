@@ -12,8 +12,8 @@ import imagePhoto from '@public/images/photo.png'
 import imagePreview from '@public/images/preview-video.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import DropdownMoreAction from './dropdown-more-action'
-import KomentarSectionZero from './komentar-section-zero'
+import DropdownMoreAction from '../dropdown-more-action'
+import KomentarSectionZero from '../komentar-section-zero'
 
 export default function MateriCard({ className }: { className?: string }) {
   return (
@@ -23,7 +23,7 @@ export default function MateriCard({ className }: { className?: string }) {
           <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
           <div className="flex flex-col">
             <Text weight="semibold" variant="dark">
-              Prabroro Janggar
+              Prabroro Janggar membagikan materi baru
             </Text>
             <Text size="xs" weight="medium" variant="lighter">
               30 Menit
@@ -64,11 +64,9 @@ export default function MateriCard({ className }: { className?: string }) {
       </div>
       <CardSeparator />
       <div className="p-2">
-        <Link href={`${routes.pengajar.kelas}/diskusi/detail`}>
-          <Button size="sm" className="w-full">
-            Buka Kelas
-          </Button>
-        </Link>
+        <Button size="sm" className="w-full">
+          Buka Kelas
+        </Button>
         <KomentarSectionZero className="pt-4 px-2" />
       </div>
     </Card>

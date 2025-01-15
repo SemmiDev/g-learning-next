@@ -1,4 +1,4 @@
-import { Badge, Button, Text, Time } from '@/components/ui'
+import { ActionIcon, Badge, Button, Text, Time } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
@@ -48,7 +48,7 @@ export default function SesiItemCard({
   className,
 }: SesiItemCardProps) {
   return (
-    <Card className={cn('flex flex-col', className)}>
+    <Card className={cn('flex flex-col gap-y-1', className)}>
       <div className="flex justify-between items-start gap-x-2">
         <div className="flex items-center gap-x-2">
           <Text weight="semibold">{sesi.judul}</Text>
@@ -74,9 +74,9 @@ export default function SesiItemCard({
         </div>
         <Dropdown placement="bottom-end">
           <Dropdown.Trigger>
-            <Button as="span" size="sm" variant="text" className="px-1 py-0">
+            <ActionIcon as="span" size="sm" variant="text">
               <BsThreeDots className="size-4" />
-            </Button>
+            </ActionIcon>
           </Dropdown.Trigger>
           <Dropdown.Menu className="w-52 divide-y !py-0">
             <div className="py-2">

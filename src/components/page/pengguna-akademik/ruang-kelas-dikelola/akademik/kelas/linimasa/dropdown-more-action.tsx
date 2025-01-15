@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui'
+import { ActionIcon, Button } from '@/components/ui'
 import { BsPencil, BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 
@@ -6,9 +6,9 @@ export default function DropdownMoreAction() {
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
-        <Button as="span" size="sm" variant="text">
-          <BsThreeDots size={18} />
-        </Button>
+        <ActionIcon as="span" size="sm" variant="text">
+          <BsThreeDots className="size-4" />
+        </ActionIcon>
       </Dropdown.Trigger>
       <Dropdown.Menu className="w-32 divide-y !py-0">
         <div className="py-2">
