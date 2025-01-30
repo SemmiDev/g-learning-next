@@ -7,8 +7,6 @@ import { SoalType } from './ujian-body'
 
 type JawabanType = (typeof PILIHAN_JAWABAN)[number]
 
-const poinJawaban: JawabanType[] = ['A', 'B', 'C', 'D', 'E']
-
 type SoalCardProps = {
   soal: SoalType | undefined
   currentIdx: number
@@ -51,10 +49,10 @@ export default function SoalCard({
                 >
                   <Radio
                     name="jawaban"
-                    value={poinJawaban[idx] ?? 'A'}
-                    checked={soal.jawab === poinJawaban[idx]}
+                    value={PILIHAN_JAWABAN[idx] ?? 'A'}
+                    checked={soal.jawab === PILIHAN_JAWABAN[idx]}
                     onChange={() =>
-                      onChangeJawaban && onChangeJawaban(poinJawaban[idx])
+                      onChangeJawaban && onChangeJawaban(PILIHAN_JAWABAN[idx])
                     }
                   />
                   <SanitizeHTML html={item.teks} />

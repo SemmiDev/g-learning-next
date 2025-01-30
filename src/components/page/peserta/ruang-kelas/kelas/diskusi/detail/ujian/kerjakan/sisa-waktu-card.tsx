@@ -1,14 +1,24 @@
 import { Card, CardSeparator, Text } from '@/components/ui'
+import cn from '@/utils/class-names'
+import { remainingTimeFormat } from '@/utils/remaining-time-format'
 
-export default function SisaWaktuCard() {
+type SisaWaktuCardProps = {
+  sisaWaktu: number | undefined
+  className?: string
+}
+
+export default function SisaWaktuCard({
+  sisaWaktu,
+  className,
+}: SisaWaktuCardProps) {
   return (
-    <Card className="flex flex-col p-0">
-      <Text weight="semibold" variant="dark" className="mx-3 my-2">
+    <Card className={cn('flex flex-col p-0', className)}>
+      <Text weight="semibold" variant="dark" className="truncate mx-3 my-2">
         Sisa waktu pengerjaan
       </Text>
       <CardSeparator />
       <Text weight="semibold" variant="dark" className="mx-3 my-2">
-        00:43:59
+        {sisaWaktu !== undefined ? remainingTimeFormat(sisaWaktu) : '-'}
       </Text>
     </Card>
   )

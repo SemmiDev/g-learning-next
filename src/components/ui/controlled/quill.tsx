@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import {
   Control,
   Controller,
@@ -8,8 +9,6 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import { QuillEditorProps } from '../quill'
-import dynamic from 'next/dynamic'
-import cn from '@/utils/class-names'
 
 const QuillEditor = dynamic(() => import('../quill'), { ssr: false })
 
@@ -21,8 +20,6 @@ export type ControlledQuillEditorProps<
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  noMaxHeight?: boolean
 }
 
 export default function ControlledQuillEditor<
@@ -34,9 +31,6 @@ export default function ControlledQuillEditor<
   errors,
   labelClassName,
   onChange,
-  size = 'sm',
-  noMaxHeight,
-  className,
   ...props
 }: ControlledQuillEditorProps<TFieldValues, TName>) {
   return (
@@ -52,17 +46,6 @@ export default function ControlledQuillEditor<
           }}
           onBlur={onBlur}
           error={errors ? (errors[name]?.message as string) : undefined}
-          className={cn(
-            'col-span-full',
-            {
-              '[&_.ql-editor]:min-h-[80px]': size === 'sm',
-              '[&_.ql-editor]:min-h-[150px]': size === 'md',
-              '[&_.ql-editor]:min-h-[300px]': size === 'lg',
-              '[&_.ql-editor]:min-h-[450px]': size === 'xl',
-              '[&_.ql-editor]:max-h-none': noMaxHeight,
-            },
-            className
-          )}
           {...props}
         />
       )}

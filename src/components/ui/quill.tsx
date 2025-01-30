@@ -22,6 +22,8 @@ export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   errorClassName?: string
   toolbarPosition?: 'top' | 'bottom'
   toolbar?: 'minimalist' | 'minimalist-image' | 'normal' | 'normal-image'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  noMaxHeight?: boolean
 }
 
 export default function QuillEditor({
@@ -35,6 +37,8 @@ export default function QuillEditor({
   tabIndex = 0,
   toolbar = 'normal',
   toolbarPosition = 'top',
+  size = 'sm',
+  noMaxHeight,
   ...props
 }: QuillEditorProps) {
   const [showPilihGambar, setShowPilihGambar] = useState(false)
@@ -101,7 +105,19 @@ export default function QuillEditor({
 
   return (
     <>
-      <div className={cn(className)}>
+      <div
+        className={cn(
+          'col-span-full',
+          {
+            '[&_.ql-editor]:min-h-[80px]': size === 'sm',
+            '[&_.ql-editor]:min-h-[150px]': size === 'md',
+            '[&_.ql-editor]:min-h-[300px]': size === 'lg',
+            '[&_.ql-editor]:min-h-[450px]': size === 'xl',
+            '[&_.ql-editor]:max-h-none': noMaxHeight,
+          },
+          className
+        )}
+      >
         {label && (
           <TextLabel className={cn('mb-1.5', labelClassName)}>
             <Label label={label} required={required} />
