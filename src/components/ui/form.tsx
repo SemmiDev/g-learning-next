@@ -37,7 +37,9 @@ export const Form = <
 
   useEffect(() => {
     if (resetValues) {
-      methods.reset(resetValues)
+      setTimeout(() => {
+        methods.reset(resetValues)
+      }, 0)
     }
   }, [resetValues, methods])
 

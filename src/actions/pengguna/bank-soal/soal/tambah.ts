@@ -1,6 +1,6 @@
 'use server'
 
-import { TambahSoalFormSchema } from '@/components/page/pengguna/bank-soal/kategori/soal/container'
+import { TambahSoalFormSchema } from '@/components/page/pengguna/bank-soal/kategori/soal/body'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

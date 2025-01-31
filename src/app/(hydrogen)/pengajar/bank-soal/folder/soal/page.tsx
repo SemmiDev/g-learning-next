@@ -1,4 +1,4 @@
-import KelolaSoalBody from '@/components/page/pengajar/bank-soal/folder/soal/container'
+import KelolaSoalBody from '@/components/page/pengajar/bank-soal/folder/soal/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
