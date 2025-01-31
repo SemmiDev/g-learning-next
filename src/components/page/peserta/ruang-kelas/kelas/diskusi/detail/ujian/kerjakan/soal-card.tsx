@@ -38,12 +38,12 @@ export default function SoalCard({
 }: SoalCardProps) {
   const soalKe = currentIdx + 1
 
-  const showPrev = !(currentTipe === 'multiple-choice' && soalKe === 1)
+  const showPrev = !(currentTipe === 'single-choice' && soalKe === 1)
   const showNext = !(currentTipe === 'essay' && soalKe === totalSoal)
 
   const handlePrev = () => {
     if (currentTipe === 'essay' && currentIdx === 0) {
-      setCurrentTipe('multiple-choice')
+      setCurrentTipe('single-choice')
       setCurrentIdx(totalSoalPilihan - 1)
     } else {
       setCurrentIdx(currentIdx - 1)
@@ -52,7 +52,7 @@ export default function SoalCard({
 
   const handleNext = () => {
     if (
-      currentTipe === 'multiple-choice' &&
+      currentTipe === 'single-choice' &&
       currentIdx === totalSoalPilihan - 1
     ) {
       setCurrentTipe('essay')
@@ -71,7 +71,7 @@ export default function SoalCard({
           Soal {soalKe} dari {totalSoal}
         </Text>
         <Text weight="semibold" variant="dark">
-          Soal {currentTipe === 'multiple-choice' ? 'Pilihan Ganda' : 'Esai'}
+          Soal {currentTipe === 'single-choice' ? 'Pilihan Ganda' : 'Esai'}
         </Text>
       </div>
       <CardSeparator />
@@ -80,7 +80,7 @@ export default function SoalCard({
           html={soal.soal}
           className="text-sm text-gray-dark font-medium [&_*]:cursor-default !px-3"
         />
-        {soal.tipe === 'multiple-choice' ? (
+        {soal.tipe === 'single-choice' ? (
           <div>
             {(soal.jawaban ?? []).map(
               (item, idx) =>

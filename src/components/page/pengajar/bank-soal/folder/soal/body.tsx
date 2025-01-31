@@ -35,7 +35,7 @@ import ImportSoalModal from './modal/import'
 import NomorSoal from './nomor-soal'
 
 const TipeSoal = {
-  'multiple-choice': 'Pilihan Ganda',
+  'single-choice': 'Pilihan Ganda',
   essay: 'Esai',
 }
 
@@ -61,9 +61,9 @@ const baseFs = z.object({
     .pipe(required),
 })
 
-const isMultipleChoice = z
+const isSingleChoice = z
   .object({
-    tipe: z.object({ label: z.string(), value: z.literal('multiple-choice') }),
+    tipe: z.object({ label: z.string(), value: z.literal('single-choice') }),
     jawaban: z.array(
       z
         .string()
@@ -82,7 +82,7 @@ const isEssay = z
   })
   .merge(baseFs)
 
-const formSchema = z.union([isMultipleChoice, isEssay])
+const formSchema = z.union([isSingleChoice, isEssay])
 
 export type TambahSoalFormSchema = {
   tipe: SelectOptionType
@@ -93,7 +93,7 @@ export type TambahSoalFormSchema = {
 }
 
 const tipeOptions: SelectOptionType[] = [
-  { label: TipeSoal['multiple-choice'], value: 'multiple-choice' },
+  { label: TipeSoal['single-choice'], value: 'single-choice' },
   { label: TipeSoal.essay, value: 'essay' },
 ]
 
@@ -127,7 +127,7 @@ export default function KelolaSoalBody() {
   }
 
   const listSoalPilihan: SoalType[] = [...Array(20)].map((_, idx) => ({
-    tipe: 'multiple-choice',
+    tipe: 'single-choice',
     soal: '<p>hjabsd <b>asjkd</b> hjbs</p>',
     jawaban: pilihanLower.map(() => '<p>etref <b>xss</b> wwqa</p>'),
     jawabanBenar: 'A',
@@ -139,7 +139,7 @@ export default function KelolaSoalBody() {
   }))
 
   const listSoal = useMemo(
-    () => (tipeSoal === 'multiple-choice' ? listSoalPilihan : listSoalEsai),
+    () => (tipeSoal === 'single-choice' ? listSoalPilihan : listSoalEsai),
     [listSoalPilihan, listSoalEsai]
   )
 
@@ -240,7 +240,7 @@ export default function KelolaSoalBody() {
                         required
                       />
 
-                      {watch('tipe').value === 'multiple-choice' && (
+                      {watch('tipe').value === 'single-choice' && (
                         <div className="space-y-2">
                           <div>
                             <TextLabel>
@@ -360,7 +360,7 @@ export default function KelolaSoalBody() {
                 <CardSeparator />
                 <div className="flex flex-col space-y-3 text-gray-dark p-2">
                   <SanitizeHTML html={soal.soal} className="font-medium" />
-                  {soal.tipe === 'multiple-choice' && (
+                  {soal.tipe === 'single-choice' && (
                     <div className="flex flex-col space-y-2">
                       {PILIHAN_JAWABAN.map((pilihan, pilihanIdx) => {
                         const jawaban = soal.jawaban?.[pilihanIdx]

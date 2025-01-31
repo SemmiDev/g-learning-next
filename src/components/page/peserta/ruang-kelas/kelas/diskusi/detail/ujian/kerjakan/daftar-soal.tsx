@@ -111,7 +111,7 @@ export default function DaftarSoal({
         >
           {listSoalPilihan.map((soal, idx) => {
             const color =
-              currentTipe === 'multiple-choice' && idx === currentIdx
+              currentTipe === 'single-choice' && idx === currentIdx
                 ? 'orange'
                 : soal.jawab
                 ? 'green'
@@ -127,10 +127,10 @@ export default function DaftarSoal({
                     boxBehavior(color)
                   )}
                   disabled={
-                    currentTipe === 'multiple-choice' && idx === currentIdx
+                    currentTipe === 'single-choice' && idx === currentIdx
                   }
                   onClick={() => {
-                    setCurrentTipe('multiple-choice')
+                    setCurrentTipe('single-choice')
                     setCurrentIdx(idx)
                     setOpenSidebarMenu(false)
                   }}

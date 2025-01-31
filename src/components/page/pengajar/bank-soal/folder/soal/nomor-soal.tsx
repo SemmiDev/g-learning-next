@@ -60,7 +60,7 @@ export default function NomorSoal({
               </Button>
             </div>
           ))}
-          {canBeChanged && tipeSoal === 'multiple-choice' && (
+          {canBeChanged && tipeSoal === 'single-choice' && (
             <div className="flex justify-center items-center">
               <Button
                 size="sm"

@@ -17,7 +17,7 @@ import SoalCard from './soal-card'
 type JawabanType = (typeof PILIHAN_JAWABAN)[number]
 type JawabanTypeLower = Lowercase<JawabanType>
 
-export type TipeSoal = 'multiple-choice' | 'essay'
+export type TipeSoal = 'single-choice' | 'essay'
 
 export type SoalType = {
   id: string
@@ -35,7 +35,7 @@ export default function KerjakanUjianBody() {
   const { y: scrollY } = useWindowScroll()
   const isMediumScreen = useMedia('(min-width: 768px)', true)
 
-  const [currentTipe, setCurrentTipe] = useState<TipeSoal>('multiple-choice')
+  const [currentTipe, setCurrentTipe] = useState<TipeSoal>('single-choice')
   const [currentIdx, setCurrentIdx] = useState(0)
   const [listSoalPilihan, setListSoalPilihan] = useState<SoalType[]>([])
   const [listSoalEsai, setListSoalEsai] = useState<SoalType[]>([])
@@ -45,7 +45,7 @@ export default function KerjakanUjianBody() {
     const dataSoalPilihan: SoalType[] = [...Array(20)].map((_, idx) => ({
       id: idx.toString(),
       soal: '<p>Mana di bawah ini yg bukan kucing air?</p>',
-      tipe: 'multiple-choice',
+      tipe: 'single-choice',
       jawaban: [
         'https://drive.google.com/thumbnail?id=1_oj7fIKLj7W_sjbZdLv0uO_U8E3ccCcu&sz=s500',
         'https://drive.google.com/thumbnail?id=1509yaRkJZTZp12idOWEkg1C3pICPkB3k&sz=s500',
@@ -87,7 +87,7 @@ export default function KerjakanUjianBody() {
   }
 
   const listSoal = useMemo(
-    () => (currentTipe === 'multiple-choice' ? listSoalPilihan : listSoalEsai),
+    () => (currentTipe === 'single-choice' ? listSoalPilihan : listSoalEsai),
     [currentTipe, listSoalPilihan, listSoalEsai]
   )
 
@@ -157,7 +157,7 @@ export default function KerjakanUjianBody() {
             currentIdx={currentIdx}
             setCurrentIdx={setCurrentIdx}
             onChangeJawaban={(val) => {
-              if (currentTipe === 'multiple-choice') {
+              if (currentTipe === 'single-choice') {
                 setJawabanPilihan(val as JawabanType)
               } else {
                 setJawabanEsai(val)
