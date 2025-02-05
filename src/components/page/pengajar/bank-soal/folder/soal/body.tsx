@@ -78,7 +78,7 @@ const isEssay = z
   .object({
     tipe: z.object({ label: z.string(), value: z.literal('essay') }),
     jawaban: z.array(z.string()),
-    bobot: z.number({ required_error: 'Bobot wajib diisi' }),
+    bobot: z.number().min(0),
   })
   .merge(baseFs)
 

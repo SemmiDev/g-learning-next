@@ -4,11 +4,11 @@ import { Button, Title } from '@/components/ui'
 import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Input } from 'rizzui'
-import TambahSoalModal from './modal/tambah-soal'
+import TambahBankSoalModal from './modal/tambah-bank-soal'
 import SoalCard, { SoalType } from './soal-card'
 
 export default function ListSoalBody() {
-  const [showModalTambahSoal, setShowModalTambahSoal] = useState(false)
+  const [showTambah, setShowTambah] = useState(false)
 
   const listSoal: SoalType[] = [...Array(12)].map((_) => ({
     title: 'Soal UTS',
@@ -39,7 +39,7 @@ export default function ListSoalBody() {
         <Button
           size="sm"
           variant="outline-colorful"
-          onClick={() => setShowModalTambahSoal(true)}
+          onClick={() => setShowTambah(true)}
         >
           Tambah Soal
         </Button>
@@ -53,10 +53,7 @@ export default function ListSoalBody() {
         <Button>Tampilkan Lebih banyak</Button>
       </div>
 
-      <TambahSoalModal
-        showModal={showModalTambahSoal}
-        setShowModal={setShowModalTambahSoal}
-      />
+      <TambahBankSoalModal show={showTambah} setShow={setShowTambah} />
     </>
   )
 }
