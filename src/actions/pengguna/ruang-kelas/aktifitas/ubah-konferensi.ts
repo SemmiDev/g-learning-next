@@ -1,6 +1,6 @@
 'use server'
 
-import { UbahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/ubah-konferensi'
+import { UbahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/modal/ubah-konferensi'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

@@ -1,18 +1,12 @@
 'use server'
 
-import {
-  ControlledAsyncTableActionProps,
-  ControlledAsyncTableActionType,
-} from '@/components/ui/controlled-async-table'
-import {
-  makeJwtGetRequestAction,
-  makeJwtGetRequestTableAction,
-} from '@/utils/action'
+import { makeJwtGetRequestAction } from '@/utils/action'
 
 type DataType = {
   id_kelas: string
   nama_kelas: string
-  tipe: string
+  tipe: 'Akademik' | 'Publik' | 'Privat'
+  peran: 'Pengajar' | 'Peserta'
   thumbnail: string
   nama_instansi: string
   tanggal_mulai: string

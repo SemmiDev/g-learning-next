@@ -1,6 +1,6 @@
 'use server'
 
-import { UbahMateriFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/ubah-materi'
+import { UbahMateriFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/modal/ubah-materi'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'

@@ -1,6 +1,6 @@
 'use server'
 
-import { TambahTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/tambah-tugas'
+import { TambahTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/modal/tambah-tugas'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

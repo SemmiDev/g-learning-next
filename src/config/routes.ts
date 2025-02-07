@@ -44,9 +44,19 @@ export const penggunaRoutes = {
   profile: '/pengguna/profil',
   lengkapiProfil: '/pengguna/lengkapi-profil',
   pemberitahuan: '/pengguna/pemberitahuan',
-  ruangKelas: '/pengguna/ruang-kelas',
-  ruangKelasDikelola: '/pengguna/ruang-kelas?kategori=dikelola',
-  ruangKelasDiikuti: '/pengguna/ruang-kelas?kategori=diikuti',
+  ruangKelas: {
+    default: '/pengguna/ruang-kelas',
+    dikelola: {
+      default: '/pengguna/ruang-kelas/dikelola',
+      akademik: '/pengguna/ruang-kelas/dikelola/akademik',
+      umum: '/pengguna/ruang-kelas/dikelola/umum',
+    },
+    diikuti: {
+      default: '/pengguna/ruang-kelas/diikuti',
+      akademik: '/pengguna/ruang-kelas/diikuti/akademik',
+      umum: '/pengguna/ruang-kelas/diikuti/umum',
+    },
+  },
   bankMateri: '/pengguna/bank-materi',
   bankSoal: '/pengguna/bank-soal',
   ruangKursus: {

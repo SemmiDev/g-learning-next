@@ -1,6 +1,6 @@
 'use server'
 
-import { UbahUjianFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/ubah-ujian'
+import { UbahUjianFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/modal/ubah-ujian'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'

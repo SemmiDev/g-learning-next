@@ -15,6 +15,7 @@ export type DataType = {
     tipe: 'Akademik' | 'Publik' | 'Privat'
     kode_unik: string
     thumbnail: string
+    total_pertemuan: number
     created_at: string
     updated_at: string
     nama_instansi: string
@@ -32,6 +33,7 @@ export type DataType = {
   }[]
   total_peserta: number
   nama_pemilik: string
+  total_pertemuan_terlaksana: number
   status: 'Diterima' | 'Pengajuan'
   peran: 'Pengajar' | 'Peserta'
 }
@@ -40,14 +42,17 @@ export const listKelasAction = async ({
   page = 1,
   search = '',
   kategori,
+  tipe,
 }: {
   page?: number
   search?: string
   kategori?: 'Dikelola' | 'Diikuti'
+  tipe?: 'Akademik' | 'Umum'
 }) =>
   makeJwtGetRequestTableAction<DataType>(`${process.env.API_URL}/kelas`, {
     current_page: page,
     keyword: search,
     per_page: 20,
     kategori,
+    tipe,
   })

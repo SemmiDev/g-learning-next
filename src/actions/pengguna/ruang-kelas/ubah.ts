@@ -1,6 +1,6 @@
 'use server'
 
-import { PengaturanKelasFormSchema } from '@/components/page/pengguna/ruang-kelas/modal/pengaturan-kelas'
+import { PengaturanKelasFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/modal/pengaturan-kelas'
 import { NAMA_HARI, ZONA_WAKTU } from '@/config/const'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'

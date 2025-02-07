@@ -1,6 +1,6 @@
 'use server'
 
-import { PengumpulanTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/detail-tugas/kumpulkan-card'
+import { PengumpulanTugasFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-tugas/kumpulkan-card'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

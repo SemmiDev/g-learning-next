@@ -1,6 +1,6 @@
 'use server'
 
-import { BuatKelasFormSchema } from '@/components/page/pengguna/ruang-kelas/modal/buat-kelas'
+import { BuatKelasFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/modal/buat-kelas'
 import { NAMA_HARI, ZONA_WAKTU } from '@/config/const'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'

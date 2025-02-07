@@ -1,6 +1,6 @@
 'use server'
 
-import { TambahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/tambah-konferensi'
+import { TambahKonferensiFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/modal/tambah-konferensi'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

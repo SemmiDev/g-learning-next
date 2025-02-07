@@ -1,6 +1,6 @@
 'use server'
 
-import { UbahInformasiFormSchema } from '@/components/page/pengguna/ruang-kelas/kelas/diskusi/modal/ubah-informasi'
+import { UbahInformasiFormSchema } from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/modal/ubah-informasi'
 import { makeJwtPutRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
 

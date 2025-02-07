@@ -96,9 +96,12 @@ export default function JadwalAkanDatangCard({
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
       render: (_, row) => {
+        const jenisKelas = row.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
+        const tipeKelas = row.tipe === 'Akademik' ? 'akademik' : 'umum'
+
         return (
           <Link
-            href={`${routes.pengguna.ruangKelas}/${row.id_kelas}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${row.id_kelas}`}
             className="flex justify-center"
           >
             <Button as="span" variant="text-colorful">

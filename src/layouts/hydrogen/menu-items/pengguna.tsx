@@ -14,16 +14,16 @@ export const menuItemsPengguna: MenuItemType[] = [
   },
   {
     name: 'Ruang Kelas',
-    href: routes.pengguna.ruangKelas,
+    href: '#',
     icon: <LuBox />,
     dropdownItems: [
       {
         name: 'Kelas yang Dikelola',
-        href: routes.pengguna.ruangKelasDikelola,
+        href: routes.pengguna.ruangKelas.dikelola.default,
       },
       {
         name: 'Kelas yang Diikuti',
-        href: routes.pengguna.ruangKelasDiikuti,
+        href: routes.pengguna.ruangKelas.diikuti.default,
       },
     ],
   },
