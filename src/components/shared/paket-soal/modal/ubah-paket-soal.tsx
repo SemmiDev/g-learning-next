@@ -10,6 +10,7 @@ import {
   Loader,
   Modal,
   ModalFooterButtons,
+  Text,
   TextBordered,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
@@ -23,18 +24,22 @@ import { Alert } from 'rizzui'
 const formSchema = z.object({
   judul: z.string().pipe(required),
   gunakan: z.number().min(1),
-  bobotBenar: z.number(),
-  bobotSalah: z.number(),
-  bobotKosong: z.number(),
+  bobotPilihanBenar: z.number(),
+  bobotPilihanSalah: z.number(),
+  bobotPilihanKosong: z.number(),
+  bobotPilihan: z.number().min(0).max(100),
+  bobotEsai: z.number().min(0).max(100),
   deskripsi: z.string().optional(),
 })
 
 export type UbahPaketSoalFormSchema = {
   judul?: string
   gunakan?: number
-  bobotBenar?: number
-  bobotSalah?: number
-  bobotKosong?: number
+  bobotPilihanBenar?: number
+  bobotPilihanSalah?: number
+  bobotPilihanKosong?: number
+  bobotPilihan?: number
+  bobotEsai?: number
   deskripsi?: string
   bisaDiubah?: boolean
 }
@@ -71,9 +76,11 @@ export default function UbahSoalModal({
       return {
         judul: data?.judul,
         gunakan: data?.jumlah_soal_yang_digunakan,
-        bobotBenar: data?.bobot_benar,
-        bobotSalah: data?.bobot_salah,
-        bobotKosong: data?.bobot_kosong,
+        bobotPilihanBenar: data?.bobot_benar,
+        bobotPilihanSalah: data?.bobot_salah,
+        bobotPilihanKosong: data?.bobot_kosong,
+        bobotPilihan: data?.persentase_pilihan_ganda,
+        bobotEsai: data?.persentase_essay,
         deskripsi: data?.deskripsi,
         bisaDiubah: !data?.total_aktifitas,
       }
@@ -145,8 +152,8 @@ export default function UbahSoalModal({
                   name="judul"
                   control={control}
                   errors={errors}
-                  label="Judul Soal"
-                  placeholder="Tulis judul soal di sini"
+                  label="Nama Paket Soal"
+                  placeholder="Tulis nama paket soal di sini"
                   required
                 />
 
@@ -162,35 +169,74 @@ export default function UbahSoalModal({
                       required
                     />
 
-                    <div className="flex gap-2">
-                      <ControlledInputNumber
-                        name="bobotBenar"
-                        control={control}
-                        errors={errors}
-                        label="Bobot Benar"
-                        placeholder="Nilai jawaban benar"
-                        className="flex-1"
-                        required
-                      />
-                      <ControlledInputNumber
-                        name="bobotSalah"
-                        control={control}
-                        errors={errors}
-                        label="Bobot Salah"
-                        placeholder="Nilai jawaban salah"
-                        className="flex-1"
-                        required
-                      />
-                      <ControlledInputNumber
-                        name="bobotKosong"
-                        control={control}
-                        errors={errors}
-                        label="Bobot Kosong"
-                        placeholder="Nilai jawaban kosong"
-                        className="flex-1"
-                        required
-                      />
+                    <div className="flex flex-col gap-y-1">
+                      <Text size="sm" weight="semibold" variant="dark">
+                        Bobot Soal Pilihan Ganda
+                      </Text>
+
+                      <div className="grid grid-cols-12 gap-2">
+                        <ControlledInputNumber
+                          name="bobotPilihanBenar"
+                          control={control}
+                          errors={errors}
+                          label="Bobot Benar"
+                          placeholder="Bobot nilai jawaban benar"
+                          className="col-span-12 xs:col-span-4"
+                          required
+                        />
+                        <ControlledInputNumber
+                          name="bobotPilihanSalah"
+                          control={control}
+                          errors={errors}
+                          label="Bobot Salah"
+                          placeholder="Bobot nilai jawaban salah"
+                          className="col-span-12 xs:col-span-4"
+                          required
+                        />
+                        <ControlledInputNumber
+                          name="bobotPilihanKosong"
+                          control={control}
+                          errors={errors}
+                          label="Bobot Kosong"
+                          placeholder="Nilai jawaban kosong"
+                          className="col-span-12 xs:col-span-4"
+                          required
+                        />
+                      </div>
                     </div>
+
+                    <ControlledInputNumber
+                      name="bobotPilihan"
+                      control={control}
+                      errors={errors}
+                      label={
+                        <>
+                          Bobot Total Soal Pilihan Ganda{' '}
+                          <small>(Dalam Persen)</small>
+                        </>
+                      }
+                      placeholder="Bobot nilai dalam persen total soal pilihan ganda"
+                      min={0}
+                      max={100}
+                      suffix="%"
+                      required
+                    />
+
+                    <ControlledInputNumber
+                      name="bobotEsai"
+                      control={control}
+                      errors={errors}
+                      label={
+                        <>
+                          Bobot Total Soal Esai <small>(Dalam Persen)</small>
+                        </>
+                      }
+                      placeholder="Bobot nilai dalam persen total soal esai"
+                      min={0}
+                      max={100}
+                      suffix="%"
+                      required
+                    />
                   </>
                 ) : (
                   <>
@@ -198,17 +244,30 @@ export default function UbahSoalModal({
                       {initialValues?.gunakan || '0'} Soal
                     </TextBordered>
 
-                    <div className="flex gap-2">
-                      <TextBordered label="Bobot Benar" className="flex-1">
-                        {initialValues?.bobotBenar}
-                      </TextBordered>
-                      <TextBordered label="Bobot Salah" className="flex-1">
-                        {initialValues?.bobotSalah}
-                      </TextBordered>
-                      <TextBordered label="Bobot Kosong" className="flex-1">
-                        {initialValues?.bobotKosong}
-                      </TextBordered>
+                    <div className="flex flex-col gap-y-1">
+                      <Text size="sm" weight="semibold" variant="dark">
+                        Bobot Soal Pilihan Ganda
+                      </Text>
+                      <div className="flex gap-2">
+                        <TextBordered label="Bobot Benar" className="flex-1">
+                          {initialValues?.bobotPilihanBenar}
+                        </TextBordered>
+                        <TextBordered label="Bobot Salah" className="flex-1">
+                          {initialValues?.bobotPilihanSalah}
+                        </TextBordered>
+                        <TextBordered label="Bobot Kosong" className="flex-1">
+                          {initialValues?.bobotPilihanKosong}
+                        </TextBordered>
+                      </div>
                     </div>
+
+                    <TextBordered label="Bobot Total Soal Pilihan Ganda">
+                      {initialValues?.bobotPilihan || '0'}%
+                    </TextBordered>
+
+                    <TextBordered label="Bobot Total Soal Esai">
+                      {initialValues?.bobotEsai || '0'}%
+                    </TextBordered>
                   </>
                 )}
 

@@ -35,17 +35,25 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
             </li>
             <li
               title={
-                soal.total < soal.count
-                  ? `Total soal (${soal.total}) masih kurang dari jumlah soal digunakan (${soal.count})`
+                soal.totalPilihan < soal.pilihanDigunakan
+                  ? `Total soal (${soal.totalPilihan}) masih kurang dari jumlah soal digunakan (${soal.pilihanDigunakan})`
                   : ''
               }
             >
-              {soal.count}/
-              <span className={cn({ 'text-danger': soal.total < soal.count })}>
-                {soal.total}
+              {soal.pilihanDigunakan}/
+              <span
+                className={cn({
+                  'text-danger': soal.totalPilihan < soal.pilihanDigunakan,
+                })}
+              >
+                {soal.totalPilihan}
               </span>{' '}
-              soal
+              pilgan
             </li>
+            <li>
+              <GoDotFill size={10} />
+            </li>
+            <li>{soal.totalEsai} esai</li>
           </ul>
         </div>
       </div>

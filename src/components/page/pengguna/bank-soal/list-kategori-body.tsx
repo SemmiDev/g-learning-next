@@ -79,7 +79,7 @@ export default function ListKategoriSoalBody() {
         weight="semibold"
         className="leading-tight mb-3"
       >
-        List Bank Soal
+        List Kategori Bank Soal
       </Title>
       <div className="flex flex-wrap justify-between gap-2">
         <Input

@@ -136,8 +136,12 @@ export default function TambahBankSoalModal({
                 name="bobotPilihan"
                 control={control}
                 errors={errors}
-                label="Bobot Soal Pilihan Ganda (Dalam Persen)"
-                placeholder="Bobot nilai dalam persen soal pilihan ganda"
+                label={
+                  <>
+                    Bobot Total Soal Pilihan Ganda <small>(Dalam Persen)</small>
+                  </>
+                }
+                placeholder="Bobot nilai dalam persen total soal pilihan ganda"
                 min={0}
                 max={100}
                 suffix="%"
@@ -148,8 +152,12 @@ export default function TambahBankSoalModal({
                 name="bobotEsai"
                 control={control}
                 errors={errors}
-                label="Bobot Soal Esai (Dalam Persen)"
-                placeholder="Bobot nilai dalam persen soal esai"
+                label={
+                  <>
+                    Bobot Total Soal Esai <small>(Dalam Persen)</small>
+                  </>
+                }
+                placeholder="Bobot nilai dalam persen total soal esai"
                 min={0}
                 max={100}
                 suffix="%"

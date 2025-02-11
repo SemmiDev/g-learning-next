@@ -70,8 +70,9 @@ export default function ListSoalBody() {
                 title: item.judul,
                 desc: item.deskripsi,
                 time: item.created_at,
-                count: item.jumlah_soal_yang_digunakan,
-                total: item.total_soal,
+                pilihanDigunakan: item.jumlah_soal_yang_digunakan,
+                totalPilihan: item.total_soal_pilihan_ganda,
+                totalEsai: item.total_soal_essay,
                 used: !!item.total_aktifitas,
               } as SoalType)
           ),
@@ -116,7 +117,7 @@ export default function ListSoalBody() {
         weight="semibold"
         className="leading-tight mb-3"
       >
-        Bank Soal {kategori?.nama_kategori ?? ''}
+        List Bank Soal - {kategori?.nama_kategori ?? ''}
       </Title>
       <div className="flex justify-between flex-wrap gap-2">
         <Input

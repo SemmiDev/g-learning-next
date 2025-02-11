@@ -155,8 +155,9 @@ export default function PaketSoal({
           name: item.judul,
           desc: item.deskripsi,
           time: item.created_at,
-          count: item.jumlah_soal_yang_digunakan,
-          total: item.total_soal,
+          pilihanDigunakan: item.jumlah_soal_yang_digunakan,
+          totalPilihan: item.total_soal_pilihan_ganda,
+          totalEsai: item.total_soal_essay,
         })) as PaketSoalItemType[],
         pagination: data?.pagination,
       }
@@ -250,7 +251,7 @@ export default function PaketSoal({
                 <Input
                   size="sm"
                   type="search"
-                  placeholder="Cari Soal"
+                  placeholder="Cari Paket Soal"
                   clearable
                   className="w-72 sm:w-96"
                   prefix={

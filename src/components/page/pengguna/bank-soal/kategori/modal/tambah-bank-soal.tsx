@@ -8,6 +8,7 @@ import {
   FormError,
   Modal,
   ModalFooterButtons,
+  Text,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
@@ -20,25 +21,29 @@ import { SubmitHandler } from 'react-hook-form'
 const formSchema = z.object({
   judul: z.string().pipe(required),
   gunakan: z.number().min(1),
-  bobotBenar: z.number(),
-  bobotSalah: z.number(),
-  bobotKosong: z.number(),
+  bobotPilihanBenar: z.number(),
+  bobotPilihanSalah: z.number(),
+  bobotPilihanKosong: z.number(),
+  bobotPilihan: z.number().min(0).max(100),
+  bobotEsai: z.number().min(0).max(100),
   deskripsi: z.string().optional(),
 })
 
 export type TambahBankSoalFormSchema = {
   judul?: string
   gunakan?: number
-  bobotBenar?: number
-  bobotSalah?: number
-  bobotKosong?: number
+  bobotPilihanBenar?: number
+  bobotPilihanSalah?: number
+  bobotPilihanKosong?: number
+  bobotPilihan?: number
+  bobotEsai?: number
   deskripsi?: string
 }
 
 const initialValues: TambahBankSoalFormSchema = {
-  bobotBenar: 1,
-  bobotSalah: 0,
-  bobotKosong: 0,
+  bobotPilihanBenar: 1,
+  bobotPilihanSalah: 0,
+  bobotPilihanKosong: 0,
 }
 
 type TambahBankSoalModalProps = {
@@ -93,8 +98,8 @@ export default function TambahBankSoalModal({
                 name="judul"
                 control={control}
                 errors={errors}
-                label="Judul Soal"
-                placeholder="Tulis judul soal di sini"
+                label="Nama Paket Soal"
+                placeholder="Tulis nama paket soal di sini"
                 required
               />
 
@@ -102,41 +107,79 @@ export default function TambahBankSoalModal({
                 name="gunakan"
                 control={control}
                 errors={errors}
-                label="Jumlah Soal Digunakan"
+                label="Jumlah Soal Pilihan Ganda Digunakan"
                 placeholder="Jumlah soal yang akan digunakan dari keseluruhan soal"
                 suffix="Soal"
                 required
               />
 
-              <div className="grid grid-cols-12 gap-2">
-                <ControlledInputNumber
-                  name="bobotBenar"
-                  control={control}
-                  errors={errors}
-                  label="Bobot Benar"
-                  placeholder="Nilai jawaban benar"
-                  className="col-span-12 xs:col-span-4"
-                  required
-                />
-                <ControlledInputNumber
-                  name="bobotSalah"
-                  control={control}
-                  errors={errors}
-                  label="Bobot Salah"
-                  placeholder="Nilai jawaban salah"
-                  className="col-span-12 xs:col-span-4"
-                  required
-                />
-                <ControlledInputNumber
-                  name="bobotKosong"
-                  control={control}
-                  errors={errors}
-                  label="Bobot Kosong"
-                  placeholder="Nilai jawaban kosong"
-                  className="col-span-12 xs:col-span-4"
-                  required
-                />
+              <div className="flex flex-col gap-y-1">
+                <Text size="sm" weight="semibold" variant="dark">
+                  Bobot Soal Pilihan Ganda
+                </Text>
+
+                <div className="grid grid-cols-12 gap-2">
+                  <ControlledInputNumber
+                    name="bobotPilihanBenar"
+                    control={control}
+                    errors={errors}
+                    label="Bobot Benar"
+                    placeholder="Bobot nilai jawaban benar"
+                    className="col-span-12 xs:col-span-4"
+                    required
+                  />
+                  <ControlledInputNumber
+                    name="bobotPilihanSalah"
+                    control={control}
+                    errors={errors}
+                    label="Bobot Salah"
+                    placeholder="Bobot nilai jawaban salah"
+                    className="col-span-12 xs:col-span-4"
+                    required
+                  />
+                  <ControlledInputNumber
+                    name="bobotPilihanKosong"
+                    control={control}
+                    errors={errors}
+                    label="Bobot Kosong"
+                    placeholder="Nilai jawaban kosong"
+                    className="col-span-12 xs:col-span-4"
+                    required
+                  />
+                </div>
               </div>
+
+              <ControlledInputNumber
+                name="bobotPilihan"
+                control={control}
+                errors={errors}
+                label={
+                  <>
+                    Bobot Total Soal Pilihan Ganda <small>(Dalam Persen)</small>
+                  </>
+                }
+                placeholder="Bobot nilai dalam persen total soal pilihan ganda"
+                min={0}
+                max={100}
+                suffix="%"
+                required
+              />
+
+              <ControlledInputNumber
+                name="bobotEsai"
+                control={control}
+                errors={errors}
+                label={
+                  <>
+                    Bobot Total Soal Esai <small>(Dalam Persen)</small>
+                  </>
+                }
+                placeholder="Bobot nilai dalam persen total soal esai"
+                min={0}
+                max={100}
+                suffix="%"
+                required
+              />
 
               <ControlledQuillEditor
                 name="deskripsi"

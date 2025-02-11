@@ -131,14 +131,16 @@ export default function UbahUjianModal({
 
       return {
         paket: bankSoal
-          ? {
+          ? ({
               id: bankSoal.id,
               idKategori: bankSoal.id_kategori,
               name: bankSoal.judul,
               desc: bankSoal.deskripsi,
               time: bankSoal.created_at,
-              count: bankSoal.jumlah_soal_yang_digunakan,
-            }
+              pilihanDigunakan: bankSoal.jumlah_soal_yang_digunakan,
+              totalPilihan: bankSoal.total_soal_pilihan_ganda,
+              totalEsai: bankSoal.total_soal_essay,
+            } as UbahUjianFormSchema['paket'])
           : undefined,
         judul: data?.aktifitas.judul,
         jenis: selectOption(
@@ -250,7 +252,14 @@ export default function UbahUjianModal({
                             <li>
                               <GoDotFill size={10} />
                             </li>
-                            <li>{paket.count} Soal</li>
+                            <li>
+                              {paket.pilihanDigunakan}/{paket.totalPilihan}{' '}
+                              pilgan
+                            </li>
+                            <li>
+                              <GoDotFill size={10} />
+                            </li>
+                            <li>{paket.totalEsai} esai</li>
                           </ul>
                         </div>
                       </div>

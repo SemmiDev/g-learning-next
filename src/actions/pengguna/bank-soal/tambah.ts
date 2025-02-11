@@ -13,9 +13,11 @@ export const tambahBankSoalAction = async (
     {
       judul: data.judul,
       jumlah_soal_yang_digunakan: data.gunakan,
-      bobot_benar: data.bobotBenar,
-      bobot_salah: data.bobotSalah,
-      bobot_kosong: data.bobotKosong,
+      bobot_benar: data.bobotPilihanBenar,
+      bobot_salah: data.bobotPilihanSalah,
+      bobot_kosong: data.bobotPilihanKosong,
+      persentase_pilihan_ganda: data.bobotPilihan,
+      persentase_essay: data.bobotEsai,
       deskripsi: cleanQuill(data.deskripsi),
     }
   )

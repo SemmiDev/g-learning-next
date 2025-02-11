@@ -13,7 +13,11 @@ type DataType = {
   bobot_salah: number
   bobot_kosong: number
   total_soal: number
+  total_soal_essay: number
+  total_soal_pilihan_ganda: number
   total_aktifitas: number
+  persentase_essay: number
+  persentase_pilihan_ganda: number
   created_at: string
   update_at: string
 }

@@ -10,8 +10,9 @@ export type PaketSoalItemType = {
   name: string
   desc: string
   time: string
-  count: number
-  total: number
+  pilihanDigunakan: number
+  totalPilihan: number
+  totalEsai: number
 }
 
 export type SoalButtonProps = {
@@ -29,7 +30,7 @@ export default function SoalButton({
   checked = false,
   onChange,
 }: SoalButtonProps) {
-  const selectable = soal.total >= soal.count
+  const selectable = soal.totalPilihan >= soal.pilihanDigunakan
 
   return (
     <LabelOrDiv
@@ -71,19 +72,25 @@ export default function SoalButton({
               </li>
               <li
                 title={
-                  soal.total < soal.count
-                    ? `Total soal (${soal.total}) masih kurang dari jumlah soal digunakan (${soal.count})`
+                  soal.totalPilihan < soal.pilihanDigunakan
+                    ? `Total soal pilihan ganda (${soal.totalPilihan}) masih kurang dari jumlah soal pilihan ganda digunakan (${soal.pilihanDigunakan})`
                     : ''
                 }
               >
-                {soal.count}/
+                {soal.pilihanDigunakan}/
                 <span
-                  className={cn({ 'text-danger': soal.total < soal.count })}
+                  className={cn({
+                    'text-danger': soal.totalPilihan < soal.pilihanDigunakan,
+                  })}
                 >
-                  {soal.total}
+                  {soal.totalPilihan}
                 </span>{' '}
-                soal
+                pilgan
               </li>
+              <li>
+                <GoDotFill size={10} />
+              </li>
+              <li>{soal.totalEsai} esai</li>
             </ul>
           </div>
         </div>
