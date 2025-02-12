@@ -3,6 +3,7 @@
 import { UbahSoalFormSchema } from '@/components/page/pengguna/bank-soal/kategori/soal/modal/ubah'
 import { makeJwtPostRequestAction } from '@/utils/action'
 import { cleanQuill } from '@/utils/string'
+import { switchCaseObject } from '@/utils/switch-case'
 
 export const ubahSoalAction = async (
   idBankSoal: string,
@@ -14,21 +15,46 @@ export const ubahSoalAction = async (
     {
       id,
       pertanyaan: cleanQuill(data.soal),
-      jawaban_a: {
-        teks: cleanQuill(data.jawaban[0]) ?? '',
-      },
-      jawaban_b: {
-        teks: cleanQuill(data.jawaban[1]) ?? '',
-      },
-      jawaban_c: {
-        teks: cleanQuill(data.jawaban[2]) ?? '',
-      },
-      jawaban_d: {
-        teks: cleanQuill(data.jawaban[3]) ?? '',
-      },
-      jawaban_e: {
-        teks: cleanQuill(data.jawaban[4]) ?? '',
-      },
-      jawaban_benar: data.benar,
+      tipe: switchCaseObject(
+        data.tipe.value,
+        {
+          'single-choice': 'PILIHAN_GANDA',
+          essay: 'ESSAY',
+        },
+        undefined
+      ),
+      jawaban_a:
+        data.tipe.value !== 'essay'
+          ? {
+              teks: cleanQuill(data.jawaban[0]) ?? '',
+            }
+          : undefined,
+      jawaban_b:
+        data.tipe.value !== 'essay'
+          ? {
+              teks: cleanQuill(data.jawaban[1]) ?? '',
+            }
+          : undefined,
+      jawaban_c:
+        data.tipe.value !== 'essay'
+          ? {
+              teks: cleanQuill(data.jawaban[2]) ?? '',
+            }
+          : undefined,
+      jawaban_d:
+        data.tipe.value !== 'essay'
+          ? {
+              teks: cleanQuill(data.jawaban[3]) ?? '',
+            }
+          : undefined,
+      jawaban_e:
+        data.tipe.value !== 'essay'
+          ? {
+              teks: cleanQuill(data.jawaban[4]) ?? '',
+            }
+          : undefined,
+      jawaban_benar:
+        data.tipe.value === 'single-choice' ? data.benar : undefined,
+      bobot_essay: data.bobot,
     }
   )

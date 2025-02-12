@@ -6,6 +6,7 @@ import { makeJwtGetRequestAction } from '@/utils/action'
 type DataType = {
   id: string
   pertanyaan: string
+  tipe: 'PILIHAN_GANDA' | 'ESSAY'
   gambar_soal: string[]
   jawaban_a: {
     teks: string
@@ -33,6 +34,7 @@ type DataType = {
     url_foto: string | null
   }
   jawaban_benar: (typeof PILIHAN_JAWABAN)[number]
+  bobot_essay: number | null
 }
 
 export const lihatSoalAction = async (idKategori: string, id: string) =>

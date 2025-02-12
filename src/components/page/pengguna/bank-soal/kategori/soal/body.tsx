@@ -10,12 +10,15 @@ import {
   Button,
   Card,
   CardSeparator,
+  ControlledInputNumber,
   ControlledQuillEditor,
   ControlledRadio,
+  ControlledSelect,
   Form,
   FormError,
   Label,
   ModalConfirm,
+  SelectOptionType,
   Text,
   TextLabel,
   Title,
@@ -41,38 +44,74 @@ import { Alert, FieldError } from 'rizzui'
 import UbahBankSoalModal from '../modal/ubah-bank-soal'
 import ImportSoalModal from './modal/import'
 import UbahSoalModal from './modal/ubah'
+import NomorSoal from './nomor-soal'
+
+const TipeSoal = {
+  'single-choice': 'Pilihan Ganda',
+  essay: 'Esai',
+}
+
+export type TipeSoalType = keyof typeof TipeSoal
+
+type JawabanType = (typeof PILIHAN_JAWABAN)[number]
 
 const pilihanLower = PILIHAN_JAWABAN.map(
-  (pilihan) =>
-    pilihan.toLowerCase() as Lowercase<(typeof PILIHAN_JAWABAN)[number]>
+  (pilihan) => pilihan.toLowerCase() as Lowercase<JawabanType>
 )
 
-const formSchema = z.object({
+const baseFs = z.object({
   soal: z
     .string()
     .transform((val) => cleanQuill(val))
     .pipe(required),
-  jawaban: z.array(
-    z
-      .string()
-      .transform((val) => cleanQuill(val))
-      .pipe(required)
-  ),
-  benar: z.string({ required_error: 'Pilihan jawaban wajib dipilih' }),
 })
 
+const isSingleChoice = z
+  .object({
+    tipe: z.object({ label: z.string(), value: z.literal('single-choice') }),
+    jawaban: z.array(
+      z
+        .string()
+        .transform((val) => cleanQuill(val))
+        .pipe(required)
+    ),
+    benar: z.string({ required_error: 'Pilihan jawaban wajib dipilih' }),
+  })
+  .merge(baseFs)
+
+const isEssay = z
+  .object({
+    tipe: z.object({ label: z.string(), value: z.literal('essay') }),
+    jawaban: z.array(z.string()),
+    bobot: z.number().min(0),
+  })
+  .merge(baseFs)
+
+const formSchema = z.union([isSingleChoice, isEssay])
+
 export type TambahSoalFormSchema = {
+  tipe: SelectOptionType
   soal?: string
   jawaban: string[]
   benar?: string
+  bobot?: number
 }
+
+const tipeOptions: SelectOptionType[] = [
+  { label: TipeSoal['single-choice'], value: 'single-choice' },
+  { label: TipeSoal.essay, value: 'essay' },
+]
 
 const initialValues: TambahSoalFormSchema = {
   jawaban: ['', '', ''],
+  tipe: tipeOptions[0],
 }
 
 export default function KelolaSoalBody() {
   const queryClient = useQueryClient()
+  const [tipeSoal, setTipeSoal] = useState<TipeSoalType>(
+    initialValues.tipe.value as TipeSoalType
+  )
   const [formError, setFormError] = useState<string>()
   const {
     show: showUbahPaket,
@@ -106,22 +145,48 @@ export default function KelolaSoalBody() {
     ),
   })
 
-  const queryKey = ['pengguna.bank-soal.soal.list', idKategori, idBankSoal]
+  const queryKey = [
+    'pengguna.bank-soal.soal.list',
+    idKategori,
+    idBankSoal,
+    'single-choice',
+  ]
 
-  const { data: listSoal = [] } = useQuery({
-    queryKey,
+  const queryKeyPilihan = [...queryKey, 'single-choice']
+  const { data: listSoalPilihan = [] } = useQuery({
+    queryKey: queryKeyPilihan,
     queryFn: async () => {
-      const { data } = await listSoalAction(idBankSoal)
+      const { data } = await listSoalAction(idBankSoal, 'single-choice')
 
       return data?.list ?? []
     },
   })
 
+  const queryKeyEsai = [...queryKey, 'essay']
+  const { data: listSoalEsai = [] } = useQuery({
+    queryKey: queryKeyEsai,
+    queryFn: async () => {
+      const { data } = await listSoalAction(idBankSoal, 'essay')
+
+      return data?.list ?? []
+    },
+  })
+
+  const listSoal = useMemo(
+    () => (tipeSoal === 'single-choice' ? listSoalPilihan : listSoalEsai),
+    [listSoalPilihan, listSoalEsai]
+  )
+
   type DataType = (typeof listSoal)[number]
 
+  const listAllSoal = useMemo(
+    () => [...listSoalPilihan, ...listSoalEsai],
+    [listSoalPilihan, listSoalEsai]
+  )
+
   const soalRef = useMemo(
-    () => listSoal.map(() => createRef() as RefObject<HTMLDivElement>),
-    [listSoal]
+    () => listAllSoal.map(() => createRef() as RefObject<HTMLDivElement>),
+    [listAllSoal]
   )
 
   const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
@@ -131,6 +196,7 @@ export default function KelolaSoalBody() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey })
         setResetValues({
+          tipe: data.tipe,
           soal: undefined,
           jawaban: data.jawaban.map(() => ''),
           benar: undefined,
@@ -147,7 +213,10 @@ export default function KelolaSoalBody() {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)
-        queryClient.setQueryData(queryKey, (oldData: DataType[]) =>
+        queryClient.setQueryData(queryKeyPilihan, (oldData: DataType[]) =>
+          oldData.filter((item) => item.id !== idHapus)
+        )
+        queryClient.setQueryData(queryKeyEsai, (oldData: DataType[]) =>
           oldData.filter((item) => item.id !== idHapus)
         )
         queryClient.invalidateQueries({ queryKey })
@@ -179,12 +248,13 @@ export default function KelolaSoalBody() {
                   control,
                   watch,
                   setValue,
+                  clearErrors,
                   formState: { errors, isSubmitting },
                 }) => (
                   <>
                     <div className="flex justify-between items-center space-x-2 p-2">
                       <Title as="h6" weight="semibold">
-                        Soal Nomor {listSoal.length + 1}
+                        Soal Nomor {listSoal.length + 1} ({TipeSoal[tipeSoal]})
                       </Title>
                       {canBeChanged && (
                         <div className="flex space-x-2">
@@ -205,6 +275,31 @@ export default function KelolaSoalBody() {
                     <div className="flex flex-col space-y-3 p-2">
                       <FormError error={formError} />
 
+                      <ControlledSelect
+                        name="tipe"
+                        control={control}
+                        options={tipeOptions}
+                        label="Tipe Soal"
+                        placeholder="Pilih Tipe Soal"
+                        errors={errors}
+                        onChange={(val) => {
+                          setTipeSoal(val.value as TipeSoalType)
+                          clearErrors()
+                        }}
+                      />
+
+                      {watch('tipe').value === 'essay' && (
+                        <ControlledInputNumber
+                          name="bobot"
+                          control={control}
+                          label="Bobot Soal"
+                          placeholder="Masukkan bobot soal di sini"
+                          min={0}
+                          errors={errors}
+                          required
+                        />
+                      )}
+
                       <ControlledQuillEditor
                         name="soal"
                         control={control}
@@ -218,75 +313,77 @@ export default function KelolaSoalBody() {
                         required
                       />
 
-                      <div className="space-y-2">
-                        <div>
-                          <TextLabel>
-                            <Label label="Pilihan Jawaban" required />
-                          </TextLabel>
-                          {errors.benar?.message && (
-                            <FieldError
-                              size="md"
-                              error={errors.benar?.message}
-                            />
-                          )}
-                        </div>
-                        {watch('jawaban')?.map((_, idx) => (
-                          <div className="flex items-center gap-2" key={idx}>
-                            <ControlledRadio
-                              name="benar"
-                              control={control}
-                              value={PILIHAN_JAWABAN[idx]}
-                            />
-                            <ControlledQuillEditor
-                              name={`jawaban.${idx}`}
-                              control={control}
-                              placeholder="Deskripsi jawaban"
-                              toolbar="minimalist-image"
-                              size="sm"
-                              className="flex-1 text-gray-dark"
-                              error={errors.jawaban?.[idx]?.message}
-                              noMaxHeight
-                            />
-                            {watch('jawaban').length > 3 && (
-                              <ActionIcon
-                                size="sm"
-                                variant="outline"
-                                color="danger"
-                                className="hover:border-danger-lighter"
-                                onClick={() => {
-                                  if (watch('jawaban').length <= 3) return
-
-                                  setValue(
-                                    'jawaban',
-                                    removeIndexFromList(watch('jawaban'), idx)
-                                  )
-                                }}
-                              >
-                                <BsTrash />
-                              </ActionIcon>
+                      {watch('tipe').value === 'single-choice' && (
+                        <div className="space-y-2">
+                          <div>
+                            <TextLabel>
+                              <Label label="Pilihan Jawaban" required />
+                            </TextLabel>
+                            {errors.benar?.message && (
+                              <FieldError
+                                size="md"
+                                error={errors.benar?.message}
+                              />
                             )}
                           </div>
-                        ))}
+                          {watch('jawaban')?.map((_, idx) => (
+                            <div className="flex items-center gap-2" key={idx}>
+                              <ControlledRadio
+                                name="benar"
+                                control={control}
+                                value={PILIHAN_JAWABAN[idx]}
+                              />
+                              <ControlledQuillEditor
+                                name={`jawaban.${idx}`}
+                                control={control}
+                                placeholder="Deskripsi jawaban"
+                                toolbar="minimalist-image"
+                                size="sm"
+                                className="flex-1 text-gray-dark"
+                                error={errors.jawaban?.[idx]?.message}
+                                noMaxHeight
+                              />
+                              {watch('jawaban').length > 3 && (
+                                <ActionIcon
+                                  size="sm"
+                                  variant="outline"
+                                  color="danger"
+                                  className="hover:border-danger-lighter"
+                                  onClick={() => {
+                                    if (watch('jawaban').length <= 3) return
 
-                        {watch('jawaban').length < PILIHAN_JAWABAN.length && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              if (
-                                watch('jawaban').length >=
-                                PILIHAN_JAWABAN.length
-                              )
-                                return
+                                    setValue(
+                                      'jawaban',
+                                      removeIndexFromList(watch('jawaban'), idx)
+                                    )
+                                  }}
+                                >
+                                  <BsTrash />
+                                </ActionIcon>
+                              )}
+                            </div>
+                          ))}
 
-                              setValue('jawaban', [...watch('jawaban'), ''])
-                            }}
-                          >
-                            <BsPlus size={20} className="mr-2" />
-                            Tambah Pilihan Jawaban
-                          </Button>
-                        )}
-                      </div>
+                          {watch('jawaban').length < PILIHAN_JAWABAN.length && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                if (
+                                  watch('jawaban').length >=
+                                  PILIHAN_JAWABAN.length
+                                )
+                                  return
+
+                                setValue('jawaban', [...watch('jawaban'), ''])
+                              }}
+                            >
+                              <BsPlus size={20} className="mr-2" />
+                              Tambah Pilihan Jawaban
+                            </Button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </>
                 )}
@@ -301,82 +398,102 @@ export default function KelolaSoalBody() {
             </Alert>
           )}
 
-          {listSoal.map((soal, idx) => (
-            <Card
-              ref={soalRef[idx]}
-              key={soal.id}
-              className="flex flex-col scroll-m-20 lg:scroll-m-24 p-0"
-            >
-              <div className="flex justify-between items-center space-x-2 p-2">
-                <Title as="h6" weight="semibold">
-                  Soal Nomor {idx + 1}
-                </Title>
-                {canBeChanged && (
-                  <div className="flex space-x-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      color="warning"
-                      onClick={() => doShowUbah(soal.id)}
-                    >
-                      <BsPencil className="mr-1" />
-                      <span>
-                        Ubah <span className="hidden xs:inline">Soal</span>
-                      </span>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      color="danger"
-                      onClick={() => setIdHapus(soal.id)}
-                    >
-                      <BsTrash className="mr-1" />
-                      <span>
-                        Hapus <span className="hidden xs:inline">Soal</span>
-                      </span>
-                    </Button>
-                  </div>
-                )}
-              </div>
-              <CardSeparator />
-              <div className="flex flex-col space-y-3 text-gray-dark p-2">
-                <SanitizeHTML html={soal.pertanyaan} className="font-medium" />
-                <div className="flex flex-col space-y-2">
-                  {PILIHAN_JAWABAN.map((pilihan) => {
-                    const jawaban =
-                      soal[
-                        `jawaban_${mustBe(
-                          pilihan.toLowerCase(),
-                          pilihanLower,
-                          'a'
-                        )}`
-                      ].teks
-                    if (!jawaban) return null
-
-                    return (
-                      <div
-                        key={`${soal.id}.${pilihan}`}
-                        className="flex space-x-1 items-center"
-                      >
-                        <div className="relative">
-                          <Text size="sm" weight="bold">
-                            {pilihan}.{' '}
-                          </Text>
-                          {pilihan === soal.jawaban_benar && (
-                            <BiCircle
-                              size={23}
-                              className="absolute top-1/2 left-[5.5px] transform -translate-x-1/2 -translate-y-1/2 text-primary stroke-2"
-                            />
-                          )}
-                        </div>
-                        <SanitizeHTML html={jawaban} className="font-medium" />
-                      </div>
+          {[listSoalPilihan, listSoalEsai].map((listSoal) =>
+            listSoal.map((soal, idx) => (
+              <Card
+                ref={
+                  soal.tipe === 'ESSAY'
+                    ? soalRef[listSoalPilihan.length + idx]
+                    : soalRef[idx]
+                }
+                key={`pilihan.${idx}`}
+                className="flex flex-col scroll-m-20 lg:scroll-m-24 p-0"
+              >
+                <div className="flex justify-between items-center space-x-2 p-2">
+                  <Title as="h6" weight="semibold">
+                    Soal Nomor {idx + 1} (
+                    {
+                      TipeSoal[
+                        soal.tipe === 'ESSAY' ? 'essay' : 'single-choice'
+                      ]
+                    }
                     )
-                  })}
+                  </Title>
+                  {canBeChanged && (
+                    <div className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        color="warning"
+                        onClick={() => doShowUbah(soal.id)}
+                      >
+                        <BsPencil className="mr-1" />
+                        <span>
+                          Ubah <span className="hidden xs:inline">Soal</span>
+                        </span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        color="danger"
+                        onClick={() => setIdHapus(soal.id)}
+                      >
+                        <BsTrash className="mr-1" />
+                        <span>
+                          Hapus <span className="hidden xs:inline">Soal</span>
+                        </span>
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </Card>
-          ))}
+                <CardSeparator />
+                <div className="flex flex-col space-y-3 text-gray-dark p-2">
+                  <SanitizeHTML
+                    html={soal.pertanyaan}
+                    className="font-medium"
+                  />
+                  {soal.tipe !== 'ESSAY' && (
+                    <div className="flex flex-col space-y-2">
+                      {PILIHAN_JAWABAN.map((pilihan) => {
+                        const jawaban =
+                          soal[
+                            `jawaban_${mustBe(
+                              pilihan.toLowerCase(),
+                              pilihanLower,
+                              'a'
+                            )}`
+                          ].teks
+                        if (!jawaban) return null
+
+                        return (
+                          <div
+                            key={`${soal.id}.${pilihan}`}
+                            className="flex space-x-1 items-center"
+                          >
+                            <div className="relative">
+                              <Text size="sm" weight="bold">
+                                {pilihan}.{' '}
+                              </Text>
+                              {pilihan === soal.jawaban_benar && (
+                                <BiCircle
+                                  size={23}
+                                  className="absolute top-1/2 left-[5.5px] transform -translate-x-1/2 -translate-y-1/2 text-primary stroke-2"
+                                />
+                              )}
+                            </div>
+                            <SanitizeHTML
+                              html={jawaban}
+                              className="font-medium"
+                            />
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))
+          )}
         </div>
         <Card className="flex flex-col w-full p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
           <div className="flex flex-col p-2">
@@ -404,51 +521,15 @@ export default function KelolaSoalBody() {
             />
           </div>
           <CardSeparator />
-          <div className="flex flex-col pb-2">
-            <Text
-              size="sm"
-              weight="semibold"
-              variant="dark"
-              className="text-center my-2"
-            >
-              Soal yang sudah dibuat
-            </Text>
-            <div className="grid grid-cols-10 gap-2 max-h-96 overflow-y-auto m-auto px-2 pb-2 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
-              {listSoal.map((soal, idx) => (
-                <div key={soal.id} className="flex justify-center items-center">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="size-8"
-                    onClick={() => {
-                      soalRef[idx]?.current?.scrollIntoView({
-                        behavior: 'smooth',
-                      })
-                    }}
-                  >
-                    {idx + 1}
-                  </Button>
-                </div>
-              ))}
-              {canBeChanged && (
-                <div className="flex justify-center items-center">
-                  <Button
-                    size="sm"
-                    variant="solid"
-                    className="size-8"
-                    onClick={() => {
-                      soalBaruRef.current?.scrollIntoView({
-                        behavior: 'smooth',
-                      })
-                    }}
-                  >
-                    {listSoal.length + 1}
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-          <CardSeparator />
+          <NomorSoal
+            canBeChanged={canBeChanged}
+            tipeSoal={tipeSoal}
+            listSoalPilihan={listSoalPilihan}
+            listSoalEsai={listSoalEsai}
+            listSoal={listSoal}
+            soalRef={soalRef}
+            soalBaruRef={soalBaruRef}
+          />
         </Card>
       </div>
 
