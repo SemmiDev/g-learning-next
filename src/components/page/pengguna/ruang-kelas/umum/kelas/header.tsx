@@ -5,6 +5,7 @@ import { Badge, Text, Title } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { deskripsiSemester } from '@/utils/semester'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
@@ -17,6 +18,8 @@ export default function KelasHeader() {
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
+
+  const jadwal = data?.jadwal ?? []
 
   return (
     <div className="flex justify-between items-start space-x-2">
@@ -54,21 +57,30 @@ export default function KelasHeader() {
               {data?.kelas.tipe || '-'}
             </Badge>
           </div>
+          {data?.kelas.id_instansi && (
+            <Text size="sm">
+              {data?.kelas.nama_instansi || '-'}
+              {!!data?.kelas.id_kelas_semester &&
+                ` | Semester ${deskripsiSemester(
+                  data?.kelas.id_kelas_semester
+                )}`}
+            </Text>
+          )}
           <Text size="sm">
             {data?.kelas.sub_judul || '-'} | {data?.total_peserta || 0} Peserta
-            |{' '}
-            {(data?.jadwal ?? [])
-              .map(
-                (item) =>
-                  `${item.hari}, ${item.waktu_mulai.substring(
-                    0,
-                    5
-                  )}-${item.waktu_sampai.substring(0, 5)}`
-              )
-              .join(' | ')}
+            {jadwal.length > 0 &&
+              ` | ${jadwal
+                .map(
+                  (item) =>
+                    `${item.hari}, ${item.waktu_mulai.substring(
+                      0,
+                      5
+                    )}-${item.waktu_sampai.substring(0, 5)}`
+                )
+                .join(' | ')}`}
           </Text>
           <SanitizeHTML
-            html={data?.kelas.deskripsi || '-'}
+            html={data?.kelas.deskripsi || ''}
             className="text-gray-dark text-sm mt-2"
           />
         </div>

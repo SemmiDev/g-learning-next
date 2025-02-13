@@ -1,16 +1,24 @@
+import { listJadwalAction } from '@/actions/pengguna/ruang-kelas/list-jadwal'
 import {
   Badge,
   Button,
   Card,
   CardSeparator,
+  Loader,
   Text,
   Time,
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { useState } from 'react'
+import { switchCaseObject } from '@/utils/switch-case'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { Fragment, useState } from 'react'
 import { LuClock, LuMapPin, LuPackage } from 'react-icons/lu'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useWindowSize } from 'react-use'
+
+const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
 
 type JadwalAkademikProps = {
   className?: string
@@ -19,6 +27,53 @@ type JadwalAkademikProps = {
 export default function JadwalAkademik({ className }: JadwalAkademikProps) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
+
+  const [currentDay, setCurrentDay] = useState(today.getDay())
+
+  const { jenis: jenisKelas }: { jenis: string } = useParams()
+  const kategori = switchCaseObject(
+    jenisKelas,
+    {
+      dikelola: 'Dikelola',
+      diikuti: 'Diikuti',
+    },
+    undefined
+  ) as 'Dikelola' | 'Diikuti' | undefined
+
+  const queryKey = [
+    'pengguna.ruang-kelas.list-jadwal',
+    kategori,
+    HARI[currentDay],
+  ]
+
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listJadwalAction({
+        page,
+        kategori,
+        hari: HARI[currentDay],
+      })
+
+      return {
+        list: data?.list ?? [],
+        pagination: data?.pagination,
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const list = data?.pages.flatMap((page) => page.list) ?? []
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
 
   return (
     <Card className={cn('p-0', className)}>
@@ -30,123 +85,103 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
           Tanggal hari ini: <Time date={today} />
         </Text>
       </div>
-      <Tanggal />
+      <Tanggal
+        currentDay={currentDay}
+        setCurrentDay={setCurrentDay}
+        className="mx-1 mb-1"
+      />
       <CardSeparator />
       <div className="flex flex-col px-1">
-        <JadwalItem
-          kelas="Sistem Operasi"
-          status="sedang"
-          sesi={7}
-          jamMulai="08:00"
-          jamSelesai="10:00"
-          ruangan="GB 202"
-        />
-        <CardSeparator />
-        <JadwalItem
-          kelas="Matematika Deskrit"
-          status="selesai"
-          sesi={6}
-          jamMulai="08:00"
-          jamSelesai="10:00"
-          ruangan="GB 202"
-        />
-        <CardSeparator />
-        <JadwalItem
-          kelas="Basis Data"
-          status="belum"
-          sesi={9}
-          jamMulai="08:00"
-          jamSelesai="10:00"
-          ruangan="GB 202"
-        />
-        <CardSeparator />
-        <JadwalItem
-          kelas="Jaringan Komputer"
-          status="belum"
-          sesi={6}
-          jamMulai="08:00"
-          jamSelesai="10:00"
-          ruangan="GB 301"
-        />
-        <CardSeparator />
-        <JadwalItem
-          kelas="Rekayasa Perangkat Lunak"
-          status="belum"
-          sesi={7}
-          jamMulai="10:00"
-          jamSelesai="12:00"
-          ruangan="AP 101"
-        />
+        {isLoading ? (
+          <Loader className="py-4" />
+        ) : list.length > 0 ? (
+          <>
+            {list.map((item) => (
+              <Fragment key={item.id}>
+                <div className="flex flex-col px-1 py-2">
+                  <div className="flex items-center gap-x-2">
+                    <Text weight="semibold">
+                      {item.nama_kelas} - {item.sub_judul}
+                    </Text>
+                    {item.status !== 'Belum Dibuka' && (
+                      <Badge
+                        size="sm"
+                        variant="flat"
+                        color={
+                          item.status === 'Sedang Berlangsung'
+                            ? 'success'
+                            : 'danger'
+                        }
+                      >
+                        {item.status === 'Sedang Berlangsung'
+                          ? 'Sesi sedang berlangsung'
+                          : 'Sesi telah selesai'}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex gap-x-4 mt-1">
+                    <div className="flex items-center gap-x-1">
+                      <LuPackage className="size-4 text-gray-lighter" />
+                      <Text size="sm" weight="medium">
+                        Sesi {item.pertemuan}
+                      </Text>
+                    </div>
+                    <div className="flex items-center gap-x-1">
+                      <LuClock className="size-4 text-gray-lighter" />
+                      <Text size="sm" weight="medium">
+                        {item.waktu_mulai.substring(0, 5)} -{' '}
+                        {item.waktu_sampai.substring(0, 5)}
+                      </Text>
+                    </div>
+                    <div className="flex items-center gap-x-1">
+                      <LuMapPin className="size-4 text-gray-lighter" />
+                      <Text size="sm" weight="medium">
+                        {item.lokasi_pertemuan}
+                      </Text>
+                    </div>
+                  </div>
+                  {/* TODO: Link ke halaman sesi pembelajaran */}
+                  <Button
+                    size="sm"
+                    variant="outline-colorful"
+                    className="w-full mt-3"
+                  >
+                    Lihat Daftar Sesi
+                  </Button>
+                </div>
+                <CardSeparator />
+              </Fragment>
+            ))}
+            {!isLoading && hasNextPage && (
+              <Loader ref={refSentry} className="py-4" />
+            )}
+          </>
+        ) : (
+          <Text
+            size="sm"
+            weight="medium"
+            variant="lighter"
+            className="text-center my-4"
+          >
+            Belum ada jadwal
+          </Text>
+        )}
       </div>
     </Card>
   )
 }
 
-function JadwalItem({
-  kelas,
-  sesi,
-  status,
-  jamMulai,
-  jamSelesai,
-  ruangan,
+function Tanggal({
+  currentDay,
+  setCurrentDay,
   className,
 }: {
-  kelas: string
-  sesi: number
-  status: 'belum' | 'sedang' | 'selesai'
-  jamMulai: string
-  jamSelesai: string
-  ruangan: string
+  currentDay?: number
+  setCurrentDay?: any
   className?: string
 }) {
-  return (
-    <div className={cn('flex flex-col px-1 py-2', className)}>
-      <div className="flex items-center gap-x-2">
-        <Text weight="semibold">{kelas}</Text>
-        {status !== 'belum' && (
-          <Badge
-            size="sm"
-            variant="flat"
-            color={status === 'sedang' ? 'success' : 'danger'}
-          >
-            {status === 'sedang'
-              ? 'Sesi sedang berlangsung'
-              : 'Sesi telah selesai'}
-          </Badge>
-        )}
-      </div>
-      <div className="flex gap-x-4 mt-1">
-        <div className="flex items-center gap-x-1">
-          <LuPackage className="size-4 text-gray-lighter" />
-          <Text size="sm" weight="medium">
-            Sesi {sesi}
-          </Text>
-        </div>
-        <div className="flex items-center gap-x-1">
-          <LuClock className="size-4 text-gray-lighter" />
-          <Text size="sm" weight="medium">
-            {jamMulai} - {jamSelesai}
-          </Text>
-        </div>
-        <div className="flex items-center gap-x-1">
-          <LuMapPin className="size-4 text-gray-lighter" />
-          <Text size="sm" weight="medium">
-            {ruangan}
-          </Text>
-        </div>
-      </div>
-      <Button size="sm" variant="outline-colorful" className="w-full mt-3">
-        Lihat Daftar Sesi
-      </Button>
-    </div>
-  )
-}
-
-function Tanggal({ className }: { className?: string }) {
   const curr = new Date()
   curr.setHours(0, 0, 0, 0)
-
-  const [currentDay, setCurrentDay] = useState(curr.getDay())
 
   const first = curr.getDate() - curr.getDay()
 

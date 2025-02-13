@@ -63,6 +63,65 @@ export default async function KelasLayout({
     ],
   }
 
+  const tabItems =
+    data?.kelas.tipe === 'Akademik'
+      ? [
+          {
+            text: 'Linimasa',
+            slugAlias: 'linimasa',
+          },
+          {
+            text: 'Sesi Pembelajaran',
+            slug: 'sesi-pembelajaran',
+          },
+          {
+            text: 'Presensi',
+            slug: 'presensi',
+          },
+          {
+            text: 'Tugas',
+            slug: 'tugas',
+          },
+          {
+            text: 'Ujian',
+            slug: 'ujian',
+          },
+          {
+            text: 'Berkas',
+            slug: 'berkas',
+          },
+          {
+            text: 'Anggota Kelas',
+            slug: 'anggota-kelas',
+          },
+        ]
+      : [
+          {
+            text: 'Diskusi',
+            slugAlias: 'diskusi',
+          },
+          {
+            text: 'Presensi',
+            slug: 'presensi',
+          },
+          {
+            text: 'Tugas',
+            slug: 'tugas',
+          },
+          {
+            text: 'Ujian',
+            slug: 'ujian',
+          },
+          {
+            text: 'Berkas',
+            slug: 'berkas',
+          },
+          {
+            text: 'Anggota Kelas',
+            slug: 'anggota-kelas',
+          },
+        ]
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
@@ -72,32 +131,7 @@ export default async function KelasLayout({
           <TabGroup
             className="mt-2 mb-2"
             path={`${ruangKelasUrl}/${idKelas}`}
-            items={[
-              {
-                text: 'Diskusi',
-                slugAlias: 'diskusi',
-              },
-              {
-                text: 'Presensi',
-                slug: 'presensi',
-              },
-              {
-                text: 'Tugas',
-                slug: 'tugas',
-              },
-              {
-                text: 'Ujian',
-                slug: 'ujian',
-              },
-              {
-                text: 'Berkas',
-                slug: 'berkas',
-              },
-              {
-                text: 'Anggota Kelas',
-                slug: 'anggota-kelas',
-              },
-            ]}
+            items={tabItems}
           />
         </Card>
         {children}

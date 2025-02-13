@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Text, Title } from '@/components/ui'
+import { Text, Title } from '@/components/ui'
 import { switchCaseObject } from '@/utils/switch-case'
 import _ from 'lodash'
 import { useParams } from 'next/navigation'
@@ -8,7 +8,7 @@ import ListKelasCardList from './card-list'
 import JadwalAkademik from './jadwal'
 
 export default function RuangKelasAkademikBody() {
-  const { jenis }: { jenis: string } = useParams()
+  const { jenis: jenisKelas }: { jenis: string } = useParams()
 
   return (
     <>
@@ -20,11 +20,11 @@ export default function RuangKelasAkademikBody() {
             weight="semibold"
             className="leading-tight mb-3"
           >
-            Semua Kelas {!!jenis ? `yang ${_.startCase(jenis)}` : ''}
+            Semua Kelas {!!jenisKelas ? `yang ${_.startCase(jenisKelas)}` : ''}
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">
             {switchCaseObject(
-              jenis,
+              jenisKelas,
               {
                 dikelola: 'Semua kelas akademik yang Kamu bisa kelola',
                 diikuti: 'Semua kelas akademik yang Kamu ikuti',
@@ -33,9 +33,6 @@ export default function RuangKelasAkademikBody() {
             )}
           </Text>
         </div>
-        <Button as="span" size="sm" variant="outline-colorful">
-          Semester 2024/2025 Ganjil
-        </Button>
       </div>
       <div className="flex flex-wrap items-start gap-5">
         <JadwalAkademik className="w-full md:w-8/12 lg:w-5/12" />

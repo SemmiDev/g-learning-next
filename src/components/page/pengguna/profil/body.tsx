@@ -3,6 +3,7 @@
 import { dataProfilAction } from '@/actions/pengguna/profil/data'
 import {
   ActionIconTooltip,
+  Badge,
   Button,
   Card,
   CardSeparator,
@@ -20,6 +21,7 @@ import { LuCamera } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
 import UbahFotoModal from './modal/ubah-foto'
 import UbahPasswordModal from './modal/ubah-password'
+import { RiMailSendLine } from 'react-icons/ri'
 
 export default function ProfilBody() {
   const [showUbah, setShowUbah] = useState(false)
@@ -97,8 +99,27 @@ export default function ProfilBody() {
           </DataRow>
           <DataRow label="Email" outline>
             {data?.email?.length
-              ? data?.email?.map((item: Record<string, string>) => (
-                  <TextSpan key={item.id}>{item.email}</TextSpan>
+              ? data?.email?.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center flex-wrap gap-x-2 gap-y-1"
+                  >
+                    <TextSpan>{item.email}</TextSpan>
+                    <Badge
+                      size="sm"
+                      variant="flat"
+                      color={item.status_aktif ? 'primary' : 'danger'}
+                    >
+                      {item.status_aktif ? 'Aktif' : 'Belum Aktif'}
+                    </Badge>
+                    {/* TODO: kirim ulang verifikasi email */}
+                    {!item.status_aktif && (
+                      <Button size="sm" color="success" onClick={() => {}}>
+                        <RiMailSendLine className="size-4 me-1" />
+                        Kirim Verifikasi Email
+                      </Button>
+                    )}
+                  </div>
                 ))
               : '-'}
           </DataRow>

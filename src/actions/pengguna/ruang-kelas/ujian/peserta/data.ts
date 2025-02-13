@@ -43,8 +43,8 @@ export type DataType = {
     waktu_akhir_absen: string | null
     batas_waktu: string | null
     id_bank_soal: string
-    acak_soal: number
-    acak_jawaban: number
+    acak_soal: 0 | 1
+    acak_jawaban: 0 | 1
     waktu_mulai_ujian: string
     waktu_selesai_ujian: string
     durasi_ujian: number

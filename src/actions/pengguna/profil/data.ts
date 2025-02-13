@@ -18,7 +18,7 @@ export type DataType = {
   created_at: string
   updated_at: string
   instansi: string[]
-  email: { id: string; email: string }[]
+  email: { id: string; email: string; status_aktif: 0 | 1 }[]
 }
 
 export const dataProfilAction = async () =>

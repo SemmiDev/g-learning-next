@@ -144,7 +144,7 @@ function CardListShimmer() {
           <div className="flex justify-between items-start mt-2">
             <div className="flex-1 space-y-2.5 py-1">
               <Shimmer className="h-4 w-6/12 mb-3" />
-              <Shimmer className="h-2.5 w-9/12" />
+              <Shimmer className="h-2.5 w-4/12" />
               <Shimmer className="h-2.5 w-7/12" />
               <Shimmer className="h-2.5 w-7/12" />
             </div>

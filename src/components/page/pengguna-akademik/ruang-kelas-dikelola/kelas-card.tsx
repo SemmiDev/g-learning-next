@@ -78,7 +78,7 @@ export default function KelasCard({
               </td>
               <td className="border border-gray-100 p-1">
                 <Text size="sm" weight="medium" variant="lighter">
-                  Jumlah Siswa
+                  Jumlah Peserta
                 </Text>
                 <Text size="sm" weight="medium">
                   36 Orang

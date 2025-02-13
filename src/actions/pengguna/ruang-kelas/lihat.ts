@@ -10,13 +10,17 @@ export type DataType = {
     nama_kelas: string
     sub_judul: string
     id_kelas_instansi: string
+    id_kelas_semester: string
     status: string
     deskripsi: string
     tipe: 'Akademik' | 'Publik' | 'Privat'
     kode_unik: string
     thumbnail: string
+    total_pertemuan: number | null
     nama_instansi: string
     verifikasi_instansi: boolean
+    created_at: string
+    updated_at: string
   }
   jadwal: {
     id: string
@@ -25,9 +29,13 @@ export type DataType = {
     waktu_mulai: string
     waktu_sampai: string
     zona_waktu: string
+    ruangan: string | null
+    created_at: string
+    updated_at: string
   }[]
   total_peserta: number
   nama_pemilik: string
+  total_pertemuan_terlaksana: number
   peran: 'Pengajar' | 'Peserta'
 }
 

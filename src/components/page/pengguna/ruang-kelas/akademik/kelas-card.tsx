@@ -2,6 +2,7 @@ import { DataType as DataListKelasType } from '@/actions/pengguna/ruang-kelas/li
 import { Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
+import { deskripsiSemester } from '@/utils/semester'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsCheckCircleFill } from 'react-icons/bs'
@@ -55,6 +56,9 @@ export default function KelasCard({ data }: KelasCardProps) {
           <BsCheckCircleFill size={10} className="text-primary mt-0.5" />
         </div>
         <Text size="sm" weight="medium" variant="lighter">
+          {deskripsiSemester(data.kelas.id_kelas_semester)}
+        </Text>
+        <Text size="sm" weight="medium" variant="lighter">
           {data.nama_pemilik}
         </Text>
       </div>
@@ -79,7 +83,7 @@ export default function KelasCard({ data }: KelasCardProps) {
               </td>
               <td className="border border-gray-100 p-1">
                 <Text size="sm" weight="medium" variant="lighter">
-                  Jumlah Siswa
+                  Jumlah Peserta
                 </Text>
                 <Text size="sm" weight="medium">
                   {data.total_peserta} Orang
