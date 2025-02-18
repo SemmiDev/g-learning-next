@@ -26,8 +26,8 @@ export default function VerifikasiEmailBody() {
         })) ?? {}
 
       if (ok) {
-        toast.success(<Text>Akun berhasil divalidasi</Text>)
-        router.replace(routes.dashboard)
+        toast.success(<Text>Email berhasil diverifikasi</Text>)
+        router.replace(routes.pengguna.profile)
         return
       }
     } else {

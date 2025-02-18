@@ -1,5 +1,6 @@
 'use client'
 
+import { duplikatBankSoalAction } from '@/actions/pengguna/bank-soal/duplikat'
 import { hapusBankSoalAction } from '@/actions/pengguna/bank-soal/hapus'
 import { lihatKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/lihat'
 import { listBankSoalAction } from '@/actions/pengguna/bank-soal/list'
@@ -39,6 +40,7 @@ export default function ListSoalBody() {
     doShow: doShowUbah,
     doHide: doHideUbah,
   } = useShowModal<string>()
+  const [idDuplikat, setIdDuplikat] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -96,16 +98,23 @@ export default function ListSoalBody() {
 
   useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
+  const handleDuplikat = () => {
+    if (!idDuplikat) return
+
+    handleActionWithToast(duplikatBankSoalAction(idKategori, idDuplikat), {
+      loading: 'Menduplikat...',
+      onStart: () => setIdDuplikat(undefined),
+      onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+    })
+  }
+
   const handleHapus = () => {
     if (!idHapus) return
 
     handleActionWithToast(hapusBankSoalAction(idKategori, idHapus), {
       loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
-
-        queryClient.invalidateQueries({ queryKey })
-      },
+      onStart: () => setIdHapus(undefined),
+      onSuccess: () => queryClient.invalidateQueries({ queryKey }),
     })
   }
 
@@ -117,13 +126,13 @@ export default function ListSoalBody() {
         weight="semibold"
         className="leading-tight mb-3"
       >
-        List Bank Soal - {kategori?.nama_kategori ?? ''}
+        List Paket Soal - {kategori?.nama_kategori ?? ''}
       </Title>
       <div className="flex justify-between flex-wrap gap-2">
         <Input
           size="sm"
           type="search"
-          placeholder="Cari Bank Soal"
+          placeholder="Cari Paket Soal"
           clearable
           className="w-72 sm:w-96"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
@@ -136,7 +145,7 @@ export default function ListSoalBody() {
           variant="outline-colorful"
           onClick={() => setShowTambah(true)}
         >
-          Tambah Soal
+          Tambah Paket Soal
         </Button>
       </div>
 
@@ -149,6 +158,7 @@ export default function ListSoalBody() {
               key={soal.id}
               onShare={(soal) => doShowShareSoalUjian(soal)}
               onEdit={(soal) => doShowUbah(soal.id)}
+              onDuplicate={(soal) => setIdDuplikat(soal.id)}
               onDelete={!soal.used ? (soal) => setIdHapus(soal.id) : undefined}
               soal={soal}
             />
@@ -175,8 +185,21 @@ export default function ListSoalBody() {
       />
 
       <ModalConfirm
-        title="Hapus Bank Soal"
-        desc="Apakah Anda yakin ingin menghapus bank soal ini?"
+        title="Duplikat Paket Soal"
+        desc="Apakah Anda yakin ingin menduplikat paket soal ini?"
+        color="info"
+        isOpen={!!idDuplikat}
+        onClose={() => setIdDuplikat(undefined)}
+        onConfirm={handleDuplikat}
+        headerIcon="help"
+        confirm="Duplikat"
+        cancel="Batal"
+        closeOnCancel
+      />
+
+      <ModalConfirm
+        title="Hapus Paket Soal"
+        desc="Apakah Anda yakin ingin menghapus paket soal ini?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}

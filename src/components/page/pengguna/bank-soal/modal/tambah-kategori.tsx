@@ -58,7 +58,7 @@ export default function TambahKategoriModal({
   return (
     <Modal
       title="Tambah Kategori Baru"
-      desc="Buat kategori baru untuk menyimpan soal Kamu"
+      desc="Buat kategori baru untuk menyimpan paket soal Kamu"
       isOpen={show}
       onClose={handleClose}
     >

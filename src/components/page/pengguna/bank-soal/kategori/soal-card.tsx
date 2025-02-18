@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation'
 import { BiShareAlt } from 'react-icons/bi'
 import {
   BsCardChecklist,
+  BsCopy,
   BsPencil,
   BsThreeDotsVertical,
   BsTrash3,
@@ -29,6 +30,7 @@ type SoalCardProps = {
   soal: SoalType
   onShare?: (soal: SoalType) => void
   onEdit?: (soal: SoalType) => void
+  onDuplicate?: (soal: SoalType) => void
   onDelete?: (soal: SoalType) => void
   className?: string
 }
@@ -37,6 +39,7 @@ export default function SoalCard({
   soal,
   onShare,
   onEdit,
+  onDuplicate,
   onDelete,
   className,
 }: SoalCardProps) {
@@ -81,6 +84,15 @@ export default function SoalCard({
                 <BsPencil className="text-orange size-4 mr-2" />
                 Ubah
               </Dropdown.Item>
+              {onDuplicate && (
+                <Dropdown.Item
+                  className="text-gray-dark"
+                  onClick={() => onDuplicate(soal)}
+                >
+                  <BsCopy className="text-success size-4 mr-2" />
+                  Duplikat
+                </Dropdown.Item>
+              )}
             </div>
             {onDelete && (
               <div className="py-2">

@@ -81,7 +81,7 @@ export default function TambahBankSoalModal({
 
   return (
     <Modal
-      title="Buat Bank Soal Baru"
+      title="Buat Paket Soal Baru"
       size="lg"
       isOpen={show}
       onClose={handleClose}

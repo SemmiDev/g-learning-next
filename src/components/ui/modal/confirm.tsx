@@ -1,12 +1,12 @@
 import cn from '@/utils/class-names'
+import { ReactNode } from 'react'
 import Button, { ButtonColors } from '../button/button'
 import CardSeparator from '../card-separator'
 import Modal, { ModalProps } from '../modal'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
-import { ReactNode } from 'react'
 
-export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
+export type ModalConfirmProps = Omit<ModalProps, 'children' | 'desc'> & {
   confirm?: string
   confirmColor?: ButtonColors
   onConfirm?(): void
@@ -14,12 +14,13 @@ export type ModalConfirmProps = Omit<ModalProps, 'children'> & {
   onCancel?(): void
   closeOnCancel?: boolean
   children?: ReactNode
+  desc?: string
   footerButtons?: ReactNode
 }
 
 export default function ModalConfirm({
   title,
-  desc = 'Anda yakin?',
+  desc,
   size = 'sm',
   confirm = 'Ya',
   confirmColor,
@@ -50,9 +51,11 @@ export default function ModalConfirm({
       closeButton={false}
       {...props}
     >
-      <Text weight="semibold" variant="dark" className="text-center p-3">
-        {desc}
-      </Text>
+      {!!desc && (
+        <Text weight="semibold" variant="dark" className="text-center p-3">
+          {desc}
+        </Text>
+      )}
 
       {children}
 

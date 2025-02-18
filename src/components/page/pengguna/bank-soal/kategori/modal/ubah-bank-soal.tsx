@@ -123,7 +123,7 @@ export default function UbahBankSoalModal({
 
   return (
     <Modal
-      title="Ubah Bank Soal"
+      title="Ubah Paket Soal"
       isLoading={!isLoading && isFetching}
       color="warning"
       size="lg"
@@ -147,7 +147,7 @@ export default function UbahBankSoalModal({
               <div className="flex flex-col gap-4 p-3">
                 {!bisaDiubah && (
                   <Alert color="warning" className="break-words">
-                    Bank soal yang <b>sudah digunakan</b> pada kelas hanya bisa
+                    Paket soal yang <b>sudah digunakan</b> pada kelas hanya bisa
                     diubah judul dan deskripsi saja.
                   </Alert>
                 )}

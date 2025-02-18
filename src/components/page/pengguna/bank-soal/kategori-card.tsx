@@ -88,7 +88,7 @@ export default function KategoriCard({
           {kategori.name}
         </Title>
         <Text size="sm" className="truncate">
-          {kategori.count} Bank Soal
+          {kategori.count} Paket Soal
         </Text>
       </Link>
     </div>

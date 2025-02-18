@@ -391,10 +391,10 @@ export default function KelolaSoalBody() {
             </Card>
           ) : (
             <Alert color="warning" className="break-words">
-              Bank soal yang <b>sudah digunakan</b> pada kelas tidak dapat
+              Paket soal yang <b>sudah digunakan</b> pada kelas tidak dapat
               diubah lagi. Jika ingin membuat{' '}
-              <b>bank soal dengan variasi berbeda</b>, bisa dilakukan dengan
-              membuat duplikat dari bank soal yang sudah dibuat sebelumnya.
+              <b>paket soal dengan variasi berbeda</b>, bisa dilakukan dengan
+              membuat duplikat dari paket soal yang sudah dibuat sebelumnya.
             </Alert>
           )}
 

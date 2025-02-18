@@ -79,13 +79,13 @@ export default function ListKategoriSoalBody() {
         weight="semibold"
         className="leading-tight mb-3"
       >
-        List Kategori Bank Soal
+        List Kategori Paket Soal
       </Title>
       <div className="flex flex-wrap justify-between gap-2">
         <Input
           size="sm"
           type="search"
-          placeholder="Cari Bank Soal"
+          placeholder="Cari Kategori"
           clearable
           className="w-72 sm:w-96"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}

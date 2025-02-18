@@ -1,37 +1,56 @@
 'use client'
 
 import { dataProfilAction } from '@/actions/pengguna/profil/data'
+import { kirimEmailVerifikasiAction } from '@/actions/pengguna/profil/kirim-email-verifikasi'
 import {
   ActionIconTooltip,
   Badge,
   Button,
   Card,
   CardSeparator,
+  ModalConfirm,
+  Text,
   TextBordered,
   TextSpan,
   Thumbnail,
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
+import { RiMailSendLine } from 'react-icons/ri'
 import UbahModal from './modal/ubah'
 import UbahFotoModal from './modal/ubah-foto'
 import UbahPasswordModal from './modal/ubah-password'
-import { RiMailSendLine } from 'react-icons/ri'
+
+type EmailType = {
+  id: string
+  email: string
+}
 
 export default function ProfilBody() {
   const [showUbah, setShowUbah] = useState(false)
   const [showFoto, setShowFoto] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [emailVerifikasi, setEmailVerifikasi] = useState<EmailType>()
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
     queryFn: makeSimpleQueryData(dataProfilAction),
   })
+
+  const handleKirimEmailVerifikasi = async () => {
+    if (!emailVerifikasi) return
+
+    handleActionWithToast(kirimEmailVerifikasiAction(emailVerifikasi?.id), {
+      loading: 'Mengirim email...',
+      onStart: () => setEmailVerifikasi(undefined),
+    })
+  }
 
   return (
     <>
@@ -112,11 +131,14 @@ export default function ProfilBody() {
                     >
                       {item.status_aktif ? 'Aktif' : 'Belum Aktif'}
                     </Badge>
-                    {/* TODO: kirim ulang verifikasi email */}
                     {!item.status_aktif && (
-                      <Button size="sm" color="success" onClick={() => {}}>
+                      <Button
+                        size="sm"
+                        color="success"
+                        onClick={() => setEmailVerifikasi(item)}
+                      >
                         <RiMailSendLine className="size-4 me-1" />
-                        Kirim Verifikasi Email
+                        Kirim Email Verifikasi
                       </Button>
                     )}
                   </div>
@@ -161,6 +183,26 @@ export default function ProfilBody() {
       <UbahPasswordModal show={showPassword} setShow={setShowPassword} />
 
       <UbahFotoModal show={showFoto} setShow={setShowFoto} />
+
+      <ModalConfirm
+        title="Kirim Email Verifikasi"
+        color="info"
+        size="md"
+        isOpen={!!emailVerifikasi}
+        onClose={() => setEmailVerifikasi(undefined)}
+        onConfirm={handleKirimEmailVerifikasi}
+        headerIcon="help"
+        confirm="Kirim Sekarang"
+        cancel="Batal"
+        closeOnCancel
+      >
+        <Text weight="medium" variant="dark" className="text-center p-3">
+          Kamu akan mendapatkan email untuk melakukan verifikasi email di
+          akunmu. Email verifikasi akan dikirimkan ke alamat email{' '}
+          <TextSpan weight="bold">{emailVerifikasi?.email}</TextSpan>. Silahkan
+          cek email kamu untuk melakukan verifikasi email.
+        </Text>
+      </ModalConfirm>
     </>
   )
 }
