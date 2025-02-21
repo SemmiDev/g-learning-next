@@ -17,11 +17,16 @@ import { SubmitHandler } from 'react-hook-form'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 const formSchema = z.object({
-  nilai: z.array(z.number().min(0).max(100)),
+  nilai: z.array(
+    z.object({
+      id: z.string(),
+      value: z.number().min(0).max(100),
+    })
+  ),
 })
 
 export type NilaiUjianFormSchema = {
-  nilai: (number | null)[]
+  nilai: { id: string; value: number | null }[]
 }
 
 export default function UjianDetailPage() {
@@ -40,7 +45,10 @@ export default function UjianDetailPage() {
   ]
 
   const initialValues: NilaiUjianFormSchema = {
-    nilai: listJawaban.map(() => null),
+    nilai: listJawaban.map((item) => ({
+      id: item.id.toString(),
+      value: null,
+    })),
   }
 
   const onSubmit: SubmitHandler<NilaiUjianFormSchema> = async (data) => {
@@ -102,7 +110,7 @@ export default function UjianDetailPage() {
                       </td>
                       <td>
                         <ControlledInputNumber
-                          name={`nilai.${idx}`}
+                          name={`nilai.${idx}.value`}
                           control={control}
                           error={errors.nilai?.[idx]?.message}
                           min={0}
