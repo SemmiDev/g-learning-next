@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui'
-import { BsThreeDots, BsTrash3 } from 'react-icons/bs'
+import { routes } from '@/config/routes'
+import Link from 'next/link'
+import { BsCardChecklist, BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 
 export default function DropdownNilaiAction() {
@@ -11,6 +13,12 @@ export default function DropdownNilaiAction() {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Menu className="divide-y">
+        <Link href={`${routes.pengajar.kelas}/ujian/detail`}>
+          <Dropdown.Item className="text-gray-dark">
+            <BsCardChecklist className="text-primary size-4 mr-2" />
+            Cek Jawaban
+          </Dropdown.Item>
+        </Link>
         <Dropdown.Item className="text-gray-dark">
           <BsTrash3 className="text-danger size-4 mr-2" />
           Hapus Nilai

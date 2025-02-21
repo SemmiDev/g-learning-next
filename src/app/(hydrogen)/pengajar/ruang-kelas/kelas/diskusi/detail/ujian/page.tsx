@@ -33,7 +33,8 @@ export default function DiskusiDetailUjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 91,
+      nilaiPilihan: 91,
+      nilaiEsai: 80,
     },
     {
       id: 2,
@@ -42,7 +43,8 @@ export default function DiskusiDetailUjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 89,
+      nilaiPilihan: 89,
+      nilaiEsai: 80,
     },
     {
       id: 3,
@@ -51,7 +53,8 @@ export default function DiskusiDetailUjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 86,
+      nilaiPilihan: 86,
+      nilaiEsai: 90,
     },
     {
       id: 4,
@@ -60,7 +63,8 @@ export default function DiskusiDetailUjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 85,
+      nilaiPilihan: 85,
+      nilaiEsai: 88,
     },
     {
       id: 5,
@@ -69,7 +73,8 @@ export default function DiskusiDetailUjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 85,
+      nilaiPilihan: 85,
+      nilaiEsai: 75,
     },
   ]
 
@@ -117,8 +122,22 @@ export default function DiskusiDetailUjianPage() {
       ),
     },
     {
-      title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'nilai',
+      title: (
+        <TableHeaderCell
+          title="Nilai Pilihan Ganda"
+          className="justify-center"
+        />
+      ),
+      dataIndex: 'nilaiPilihan',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {value ?? '-'}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Nilai Esai" className="justify-center" />,
+      dataIndex: 'nilaiEsai',
       render: (value: string) => (
         <Text size="sm" weight="medium" variant="dark" className="text-center">
           {value ?? '-'}
@@ -127,8 +146,7 @@ export default function DiskusiDetailUjianPage() {
     },
     {
       title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
-      render: () => (
+      render: (_) => (
         <div className="flex justify-end">
           <DropdownNilaiAction />
         </div>

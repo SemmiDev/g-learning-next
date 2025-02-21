@@ -13,9 +13,11 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
+import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCheck, BsChevronDown, BsPencil, BsTrash } from 'react-icons/bs'
@@ -31,7 +33,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: null,
+      nilaiPilihan: null,
+      nilaiEsai: null,
     },
     {
       id: 2,
@@ -40,7 +43,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: null,
+      nilaiPilihan: 89,
+      nilaiEsai: null,
     },
     {
       id: 3,
@@ -49,7 +53,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: null,
+      nilaiPilihan: null,
+      nilaiEsai: null,
     },
     {
       id: 4,
@@ -58,7 +63,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: null,
+      nilaiPilihan: null,
+      nilaiEsai: null,
     },
     {
       id: 5,
@@ -67,7 +73,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 92,
+      nilaiPilihan: 92,
+      nilaiEsai: 88,
     },
     {
       id: 6,
@@ -76,7 +83,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 91,
+      nilaiPilihan: 91,
+      nilaiEsai: 83,
     },
     {
       id: 7,
@@ -85,7 +93,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 89,
+      nilaiPilihan: 89,
+      nilaiEsai: 84,
     },
     {
       id: 8,
@@ -94,7 +103,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 89,
+      nilaiPilihan: null,
+      nilaiEsai: null,
     },
     {
       id: 9,
@@ -103,7 +113,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 86,
+      nilaiPilihan: 30,
+      nilaiEsai: null,
     },
     {
       id: 10,
@@ -112,7 +123,8 @@ export default function UjianPage() {
       image: imagePhoto,
       tanggal: '15 Des 24',
       jam: '15 : 36',
-      nilai: 81,
+      nilaiPilihan: 81,
+      nilaiEsai: 90,
     },
   ]
 
@@ -120,7 +132,6 @@ export default function UjianPage() {
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
       dataIndex: 'no',
-      key: 'no',
       render: (_: string, __, idx: number) => (
         <Text size="sm" weight="medium" variant="dark" className="text-center">
           {idx + 1}
@@ -130,7 +141,6 @@ export default function UjianPage() {
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
-      key: 'nama',
       render: (_: string, row) => (
         <div className="flex space-x-3">
           <Image src={row.image} alt="profil" className="size-10 rounded-md" />
@@ -153,7 +163,6 @@ export default function UjianPage() {
     {
       title: <TableHeaderCell title="Waktu Pengumpulan" />,
       dataIndex: 'tanggal',
-      key: 'tanggal',
       render: (_: string, row) => (
         <Text size="sm" weight="medium" variant="dark">
           {row.tanggal}
@@ -163,9 +172,22 @@ export default function UjianPage() {
       ),
     },
     {
-      title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
+      title: (
+        <TableHeaderCell
+          title="Nilai Pilihan Ganda"
+          className="justify-center"
+        />
+      ),
+      dataIndex: 'nilaiPilihan',
+      render: (value: string) => (
+        <Text size="sm" weight="medium" variant="dark" className="text-center">
+          {value ?? '-'}
+        </Text>
+      ),
+    },
+    {
+      title: <TableHeaderCell title="Nilai Esai" className="justify-center" />,
+      dataIndex: 'nilaiEsai',
       render: (value: string) => (
         <Text size="sm" weight="medium" variant="dark" className="text-center">
           {value ?? '-'}
@@ -174,13 +196,15 @@ export default function UjianPage() {
     },
     {
       title: <TableHeaderCell title="" />,
-      dataIndex: 'nilai',
-      key: 'nilai',
-      render: (_: string, row) => (
-        <div className="flex justify-end">
-          <DropdownNilaiAction />
-        </div>
-      ),
+      render: (_, row) => {
+        if (row.nilaiPilihan === null) return
+
+        return (
+          <div className="flex justify-end">
+            <DropdownNilaiAction />
+          </div>
+        )
+      },
     },
   ]
 
