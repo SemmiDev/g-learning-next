@@ -310,6 +310,8 @@ export default function ShareSoalUjianModal({
               <ControlledRadioGroup
                 name="acakSoal"
                 control={control}
+                options={acakOptions}
+                errors={errors}
                 label={
                   <div className="flex items-center">
                     Acak Soal
@@ -318,12 +320,13 @@ export default function ShareSoalUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={acakOptions}
               />
 
               <ControlledRadioGroup
                 name="acakJawaban"
                 control={control}
+                options={acakOptions}
+                errors={errors}
                 label={
                   <div className="flex items-center">
                     Acak Jawaban
@@ -332,12 +335,13 @@ export default function ShareSoalUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={acakOptions}
               />
 
               <ControlledRadioGroup
                 name="presensi"
                 control={control}
+                options={presensiOptions}
+                errors={errors}
                 label={
                   <div className="flex items-center">
                     Presensi
@@ -346,7 +350,6 @@ export default function ShareSoalUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={presensiOptions}
               />
             </div>
 

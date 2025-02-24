@@ -151,6 +151,8 @@ export default function TambahKonferensiModal({
               <ControlledRadioGroup
                 name="presensi"
                 control={control}
+                options={presensiOptions}
+                errors={errors}
                 label={
                   <div className="flex items-center">
                     Presensi
@@ -160,7 +162,6 @@ export default function TambahKonferensiModal({
                 className="flex gap-8 my-2"
                 groupClassName="gap-8"
                 labelClassName="mb-0"
-                options={presensiOptions}
               />
             </div>
 

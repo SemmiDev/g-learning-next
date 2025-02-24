@@ -9,9 +9,11 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Fragment, useState } from 'react'
 import { LuClock, LuMapPin, LuPackage } from 'react-icons/lu'
@@ -30,7 +32,8 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
 
   const [currentDay, setCurrentDay] = useState(today.getDay())
 
-  const { jenis: jenisKelas }: { jenis: string } = useParams()
+  const { jenis: jenisKelas }: { jenis: 'dikelola' | 'diikuti' } = useParams()
+
   const kategori = switchCaseObject(
     jenisKelas,
     {
@@ -140,14 +143,18 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
                       </Text>
                     </div>
                   </div>
-                  {/* TODO: Link ke halaman sesi pembelajaran */}
-                  <Button
-                    size="sm"
-                    variant="outline-colorful"
-                    className="w-full mt-3"
+                  <Link
+                    href={`${routes.pengguna.ruangKelas[jenisKelas].akademik}/${item.id_kelas}/sesi-pembelajaran`}
                   >
-                    Lihat Daftar Sesi
-                  </Button>
+                    <Button
+                      as="span"
+                      size="sm"
+                      variant="outline-colorful"
+                      className="w-full mt-3"
+                    >
+                      Lihat Daftar Sesi
+                    </Button>
+                  </Link>
                 </div>
                 <CardSeparator />
               </Fragment>

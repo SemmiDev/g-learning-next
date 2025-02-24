@@ -356,6 +356,7 @@ export default function UbahUjianModal({
                 <ControlledRadioGroup
                   name="acakSoal"
                   control={control}
+                  errors={errors}
                   label={
                     <div className="flex items-center">
                       Acak Soal
@@ -370,6 +371,7 @@ export default function UbahUjianModal({
                 <ControlledRadioGroup
                   name="acakJawaban"
                   control={control}
+                  errors={errors}
                   label={
                     <div className="flex items-center">
                       Acak Jawaban
@@ -384,6 +386,8 @@ export default function UbahUjianModal({
                 <ControlledRadioGroup
                   name="presensi"
                   control={control}
+                  options={presensiOptions}
+                  errors={errors}
                   label={
                     <div className="flex items-center">
                       Presensi
@@ -392,7 +396,6 @@ export default function UbahUjianModal({
                   }
                   className="mb-1.5"
                   groupClassName="gap-8"
-                  options={presensiOptions}
                 />
               </div>
 

@@ -207,6 +207,8 @@ export default function UbahMateriModal({
                 <ControlledRadioGroup
                   name="presensi"
                   control={control}
+                  options={presensiOptions}
+                  errors={errors}
                   label={
                     <div className="flex items-center">
                       Presensi
@@ -217,13 +219,14 @@ export default function UbahMateriModal({
                   groupClassName="flex-wrap gap-x-8 gap-y-4"
                   optionClassNames="w-full xs:w-auto"
                   labelClassName="mb-0"
-                  options={presensiOptions}
                 />
 
                 {watch('presensi') === 'aktif' && (
                   <ControlledRadioGroup
                     name="tipe_presensi"
                     control={control}
+                    options={tipePresensiOptions}
+                    errors={errors}
                     label={
                       <div className="flex items-center text-nowrap">
                         Atur Presensi
@@ -234,7 +237,6 @@ export default function UbahMateriModal({
                     groupClassName="flex-wrap gap-x-8 gap-y-4"
                     optionClassNames="w-full xs:w-auto"
                     labelClassName="mb-0"
-                    options={tipePresensiOptions}
                   />
                 )}
               </div>

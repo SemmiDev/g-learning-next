@@ -164,6 +164,7 @@ export default function BuatKelasModal({
                   name="tipe"
                   control={control}
                   options={tipeOptions}
+                  errors={errors}
                   groupClassName="gap-x-8"
                   label={
                     <div className="flex items-center">

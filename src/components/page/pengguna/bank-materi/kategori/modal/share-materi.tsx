@@ -173,6 +173,7 @@ export default function ShareMateriModal({
               <ControlledRadioGroup
                 name="presensi"
                 control={control}
+                errors={errors}
                 label={
                   <div className="flex items-center">
                     Presensi
