@@ -8,7 +8,7 @@ type CameraProps = {
   onChange?: (photo?: File) => void
 }
 
-export default function CameraPart({ onChange }: CameraProps) {
+export default function Camera({ onChange }: CameraProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [camera, setCamera] = useState<CameraPhoto>()
   const [photoData, setPhotoData] = useState<string>()
@@ -25,6 +25,7 @@ export default function CameraPart({ onChange }: CameraProps) {
     setCamera(cameraPhoto)
 
     return () => {
+      cameraPhoto.stopCamera()
       camera?.stopCamera()
     }
   }, [videoRef])

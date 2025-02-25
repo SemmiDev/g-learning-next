@@ -1,18 +1,24 @@
 import { listSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { ModalConfirm } from '@/components/ui'
 import Loader from '@/components/ui/loader'
+import { routes } from '@/config/routes'
 import { useShowModal } from '@/hooks/use-show-modal'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import UbahJenisAbsenSesiModal from './pengajar/modal/ubah-jenis-absen'
 import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
 import SesiItemCard from './pengajar/sesi-item-card'
+import { handleActionWithToast } from '@/utils/action'
+import { akhiriSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
 
 export default function PengajarSesiPembelajaranBody() {
-  const [mulaiModal, setMulaiModal] = useState(false)
-  const [akhiriModal, setAkhiriModal] = useState(false)
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const [idSesiMulai, setIdSesiMulai] = useState<string>()
+  const [idSesiAkhiri, setIdSesiAkhiri] = useState<string>()
   const {
     show: showUbahJudul,
     key: keyUbahJudul,
@@ -54,12 +60,27 @@ export default function PengajarSesiPembelajaranBody() {
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
   const firstBelumMulai = list.find((item) => item.status === 'Belum Dibuka')
+  const adaBerlangsung = !!list.find(
+    (item) => item.status === 'Sedang Berlangsung'
+  )
 
   const [refSentry] = useInfiniteScroll({
     loading: isLoading,
     hasNextPage: hasNextPage,
     onLoadMore: fetchNextPage,
   })
+
+  const handleAkhiriSesi = async () => {
+    if (!idSesiAkhiri) return
+
+    await handleActionWithToast(akhiriSesiAction(idKelas, idSesiAkhiri), {
+      loading: 'Mengakhiri sesi...',
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey })
+      },
+      onFinish: () => setIdSesiAkhiri(undefined),
+    })
+  }
 
   return (
     <>
@@ -68,11 +89,11 @@ export default function PengajarSesiPembelajaranBody() {
           <SesiItemCard
             key={idx}
             sesi={sesi}
-            bisaMulai={sesi.id === firstBelumMulai?.id}
+            bisaMulai={sesi.id === firstBelumMulai?.id && !adaBerlangsung}
             onUbahJudul={() => doShowUbahJudul(sesi.id)}
             onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
-            onMulai={() => setMulaiModal(true)}
-            onAkhiri={() => setAkhiriModal(true)}
+            onMulai={() => setIdSesiMulai(sesi.id)}
+            onAkhiri={() => setIdSesiAkhiri(sesi.id)}
           />
         ))}
         {!isLoading && hasNextPage && (
@@ -94,21 +115,26 @@ export default function PengajarSesiPembelajaranBody() {
 
       <ModalConfirm
         title="Mulai Sesi"
-        isOpen={mulaiModal}
-        onClose={() => setMulaiModal(false)}
+        isOpen={!!idSesiMulai}
+        onClose={() => setIdSesiMulai(undefined)}
         desc="Apakah anda yakin ingin memulai sesi pembelajaran?"
         confirm="Ya, mulai"
         closeOnCancel
-        onConfirm={() => setMulaiModal(false)}
+        onConfirm={() => {
+          router.push(
+            `${routes.pengguna.ruangKelas.dikelola.akademik}/${idKelas}/sesi-pembelajaran/${idSesiMulai}/mulai`
+          )
+        }}
       />
 
       <ModalConfirm
         title="Akhiri Sesi"
-        isOpen={akhiriModal}
-        onClose={() => setAkhiriModal(false)}
+        isOpen={!!idSesiAkhiri}
+        onClose={() => setIdSesiAkhiri(undefined)}
         desc="Apakah anda yakin ingin mengakhiri sesi pembelajaran?"
         confirm="Ya, akhiri"
         closeOnCancel
+        onConfirm={handleAkhiriSesi}
       />
     </>
   )

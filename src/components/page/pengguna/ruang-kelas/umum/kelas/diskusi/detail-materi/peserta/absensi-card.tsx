@@ -1,15 +1,12 @@
 import { absensiPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/absensi'
+import { Camera, Map } from '@/components/shared/absen'
 import { Button, Card, CardSeparator, Title } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
 import { LatLng } from 'leaflet'
-import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import CameraSection from './camera-section'
-
-const MapSection = dynamic(() => import('./map-section'), { ssr: false })
 
 type PesertaAbsensiCardProps = {
   foto: boolean
@@ -56,13 +53,13 @@ export default function PesertaAbsensiCard({
 
       <CardSeparator />
 
-      <MapSection
+      <Map
         height={foto ? 240 : 450}
         onChange={(pos) => setPosition(pos)}
         className="[&_.leaflet-control-attribution]:hidden"
       />
 
-      {foto && <CameraSection onChange={(image) => setPhoto(image)} />}
+      {foto && <Camera onChange={(image) => setPhoto(image)} />}
 
       <CardSeparator />
 

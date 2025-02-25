@@ -1,18 +1,13 @@
 'use client'
 
+import { Camera, Map } from '@/components/shared/absen'
 import { Button, Card, CardSeparator, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { LatLng } from 'leaflet'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
-import Camera from './camera'
-
-const Map = dynamic(() => import('./map'), {
-  ssr: false,
-})
 
 export default function DiskusiDetailAbsenGpsBody() {
   const searchParams = useSearchParams()

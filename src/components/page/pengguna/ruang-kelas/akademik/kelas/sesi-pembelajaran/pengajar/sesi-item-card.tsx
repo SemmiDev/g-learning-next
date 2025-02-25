@@ -47,9 +47,12 @@ export default function SesiItemCard({
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
+  const realisasi = parseDate(sesi.tanggal_realisasi)
+  if (realisasi) realisasi.setHours(0, 0, 0, 0)
+
   const danger =
-    !!sesi.tanggal_realisasi &&
-    today === parseDate(sesi.tanggal_realisasi) &&
+    !!realisasi &&
+    today.getUTCMilliseconds() === realisasi.getUTCMilliseconds() &&
     sesi.status === 'Telah Berakhir'
 
   return (
@@ -183,7 +186,7 @@ export default function SesiItemCard({
           </Button>
         ) : sesi.status === 'Telah Berakhir' ? (
           <Link
-            href={`${routes.penggunaAkademik.ruangKelasDikelola}/akademik/kelas/sesi-pembelajaran/detail`}
+            href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${sesi.id_kelas}/sesi-pembelajaran/${sesi.id}`}
             className="flex-1"
           >
             <Button as="span" size="sm" className="w-full">
