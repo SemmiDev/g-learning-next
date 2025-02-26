@@ -40,6 +40,9 @@ export type DataType = {
     bobot_salah: number
     bobot_kosong: number
     jumlah_soal_yang_digunakan: number
+    total_soal: number
+    total_soal_essay: number
+    total_soal_pilihan_ganda: number
     created_at: string
     updated_at: string
   }

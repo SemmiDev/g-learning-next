@@ -138,7 +138,12 @@ export default function HasilUjianCard({
         show={showModalMulai}
         setShow={setShowModalMulai}
         tipeKelas={tipeKelas}
-        jumlahSoal={data?.bank_soal?.jumlah_soal_yang_digunakan}
+        jumlahSoal={
+          data?.bank_soal
+            ? data?.bank_soal?.jumlah_soal_yang_digunakan +
+              data?.bank_soal?.total_soal_essay
+            : undefined
+        }
         durasi={data?.aktifitas.durasi_ujian || undefined}
         lanjut={!!data?.jawaban.waktu_mulai}
       />

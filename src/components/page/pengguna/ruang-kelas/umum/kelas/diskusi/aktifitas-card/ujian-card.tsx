@@ -114,13 +114,25 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                 <tbody>
                   <tr>
                     <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
-                      Jumlah Soal
+                      Jumlah Soal Pilgan
                     </td>
                     <td className="text-xs text-gray-dark font-semibold text-center w-2">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
-                      {data.bank_soal?.jumlah_soal_yang_digunakan}
+                      {data.bank_soal?.jumlah_soal_yang_digunakan}/
+                      {data.bank_soal?.total_soal_pilihan_ganda}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                      Jumlah Soal Esai
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                      :
+                    </td>
+                    <td className="text-xs text-gray-dark font-semibold">
+                      {data.bank_soal?.total_soal_essay}
                     </td>
                   </tr>
                   <tr>
