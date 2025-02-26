@@ -5,9 +5,13 @@ import {
   Button,
   Card,
   CardSeparator,
+  FileListItem,
+  FilePreviewType,
   Komentar,
   ModalConfirm,
+  ModalFilePreview,
   Text,
+  TextSpan,
   Thumbnail,
   Time,
   Title,
@@ -17,26 +21,22 @@ import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { stripHtml } from '@/utils/text'
+import { getFileType } from '@/utils/file-properties-from-api'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import { BsCameraVideo } from 'react-icons/bs'
-import DropdownMoreAction from './dropdown-more-action'
-import UbahKonferensiModal from './modal/ubah-konferensi'
+import DropdownMoreAction from '../dropdown-more-action'
+import UbahTugasModal from '../modal/ubah-tugas'
 
-type KonferensiCardProps = {
+type TugasCardProps = {
   kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
 
-export default function KonferensiCard({
-  kelas,
-  data,
-  className,
-}: KonferensiCardProps) {
+export default function TugasCard({ kelas, data, className }: TugasCardProps) {
   const queryClient = useQueryClient()
   const {
     show: showUbah,
@@ -45,11 +45,10 @@ export default function KonferensiCard({
     doHide: doHideUbah,
   } = useShowModal<string>()
   const [idHapus, setIdHapus] = useState<string>()
+  const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
-
-  const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
 
   const handleHapus = () => {
     if (!idHapus) return
@@ -69,21 +68,23 @@ export default function KonferensiCard({
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  if (!data.aktifitas) return null
+
   return (
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex items-center space-x-3">
             <Thumbnail
-              src={data.pembuat.foto}
+              src={data.pembuat?.foto}
               alt="profil"
               size={48}
               rounded="lg"
-              avatar={data.pembuat.nama}
+              avatar={data.pembuat?.nama}
             />
             <div className="flex flex-col">
               <Text weight="semibold" variant="dark">
-                {data.pembuat.nama}
+                {data.pembuat?.nama}
               </Text>
               <Text size="xs" weight="medium" variant="lighter">
                 <Time date={data.aktifitas.created_at} fromNow />
@@ -91,9 +92,9 @@ export default function KonferensiCard({
             </div>
           </div>
           <DropdownMoreAction
-            onEdit={() => doShowUbah(data.aktifitas.id)}
+            onEdit={() => doShowUbah(data.aktifitas?.id || '')}
             showEdit={data.aktifitas.id_pembuat === idPengguna}
-            onDelete={() => setIdHapus(data.aktifitas.id)}
+            onDelete={() => setIdHapus(data.aktifitas?.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas?.peran === 'Pengajar'
@@ -106,18 +107,52 @@ export default function KonferensiCard({
             {data.aktifitas.judul}
           </Title>
           <Text size="sm" variant="dark" className="truncate">
-            {strippedDesc.slice(0, 100)}
-            {strippedDesc.length > 100 && '...'}
+            {stripHtmlAndEllipsis(data.aktifitas.deskripsi ?? '', 100)}
           </Text>
+          {!!data.file_aktifitas && data.file_aktifitas.length > 0 && (
+            <div className="flex flex-col space-y-2 mt-4">
+              {data.file_aktifitas.map((file) => (
+                <FileListItem
+                  key={file.id}
+                  file={{
+                    id: file.id,
+                    name: file.nama,
+                    folder: false,
+                    extension: file.ekstensi,
+                    size: file.ukuran,
+                    time: file.created_at,
+                    type: getFileType(file),
+                    link: file.url,
+                  }}
+                  onPreview={(file) => {
+                    if (!file.link) return
+
+                    setFilePreview({
+                      url: file.link,
+                      extension: file.extension,
+                    })
+                  }}
+                  download
+                />
+              ))}
+            </div>
+          )}
+          {data.aktifitas.batas_waktu && (
+            <Text weight="semibold" variant="dark" className="mt-4">
+              Batas Waktu Pengumpulan:{' '}
+              <TextSpan color="danger">
+                <Time date={data.aktifitas.batas_waktu} format="datetime" />
+              </TextSpan>
+            </Text>
+          )}
         </div>
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/konferensi/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/tugas/${data.aktifitas.id}`}
           >
-            <Button as="span" size="sm" color="primary" className="w-full">
-              <BsCameraVideo size={16} className="me-2" />{' '}
-              {kelas?.peran === 'Pengajar' ? 'Buka Kelas' : 'Masuk Kelas'}
+            <Button as="span" size="sm" className="w-full">
+              {kelas?.peran === 'Pengajar' ? 'Cek Tugas' : 'Kumpulkan Tugas'}
             </Button>
           </Link>
           <Komentar
@@ -129,11 +164,16 @@ export default function KonferensiCard({
         </div>
       </Card>
 
-      <UbahKonferensiModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+      <UbahTugasModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+
+      <ModalFilePreview
+        file={filePreview}
+        onClose={() => setFilePreview(undefined)}
+      />
 
       <ModalConfirm
-        title="Hapus Konferensi"
-        desc="Apakah Anda yakin ingin menghapus konferensi ini?"
+        title="Hapus Tugas"
+        desc="Apakah Anda yakin ingin menghapus tugas ini?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}

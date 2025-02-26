@@ -17,14 +17,14 @@ import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { BsCardChecklist } from 'react-icons/bs'
-import DropdownMoreAction from './dropdown-more-action'
-import UbahUjianModal from './modal/ubah-ujian'
+import DropdownMoreAction from '../dropdown-more-action'
+import UbahUjianModal from '../modal/ubah-ujian'
 
 type UjianCardProps = {
   kelas: DataKelasType | undefined
@@ -45,8 +45,6 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
-
   const handleHapus = () => {
     if (!idHapus) return
 
@@ -65,21 +63,23 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  if (!data.aktifitas) return null
+
   return (
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex items-center space-x-3">
             <Thumbnail
-              src={data.pembuat.foto}
+              src={data.pembuat?.foto}
               alt="profil"
               size={48}
               rounded="lg"
-              avatar={data.pembuat.nama}
+              avatar={data.pembuat?.nama}
             />
             <div className="flex flex-col">
               <Text weight="semibold" variant="dark">
-                {data.pembuat.nama}
+                {data.pembuat?.nama}
               </Text>
               <Text size="xs" weight="medium" variant="lighter">
                 <Time date={data.aktifitas.created_at} fromNow />
@@ -87,9 +87,9 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
             </div>
           </div>
           <DropdownMoreAction
-            onEdit={() => doShowUbah(data.aktifitas.id)}
+            onEdit={() => doShowUbah(data.aktifitas?.id || '')}
             showEdit={data.aktifitas.id_pembuat === idPengguna}
-            onDelete={() => setIdHapus(data.aktifitas.id)}
+            onDelete={() => setIdHapus(data.aktifitas?.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas?.peran === 'Pengajar'
@@ -102,8 +102,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
             {data.aktifitas.judul}
           </Title>
           <Text size="sm" variant="dark" className="truncate">
-            {strippedDesc.slice(0, 100)}
-            {strippedDesc.length > 100 && '...'}
+            {stripHtmlAndEllipsis(data.aktifitas.deskripsi ?? '', 100)}
           </Text>
 
           <div className="flex items-center space-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mt-2">
@@ -121,7 +120,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
-                      {data.bank_soal.jumlah_soal_yang_digunakan}
+                      {data.bank_soal?.jumlah_soal_yang_digunakan}
                     </td>
                   </tr>
                   <tr>

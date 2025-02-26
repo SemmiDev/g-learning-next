@@ -9,7 +9,8 @@ import {
   TimeIndo,
 } from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
-import { stripHtml } from '@/utils/text'
+import { parseDate } from '@/utils/date'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -19,7 +20,6 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { Dropdown } from 'rizzui'
 import HasilUjianModal from './modal/hasil-ujian'
-import { parseDate } from '@/utils/date'
 
 type SortDataType = {
   title: string
@@ -154,8 +154,6 @@ export default function PesertaDaftarUjianSection() {
         <Card className="p-0">
           {list.length > 0 ? (
             list.map((item) => {
-              const strippedDesc = stripHtml(item.deskripsi ?? '')
-
               const mengerjakan = !!item.id_jawaban
               const selesai = !!item.waktu_selesai
               const jadwalMulai = parseDate(item.jadwal_mulai)
@@ -178,8 +176,7 @@ export default function PesertaDaftarUjianSection() {
                       {item.judul}
                     </Text>
                     <Text variant="lighter" className="line-clamp-2">
-                      {strippedDesc.slice(0, 150)}
-                      {strippedDesc.length > 150 && '...'}
+                      {stripHtmlAndEllipsis(item.deskripsi ?? '', 150)}
                     </Text>
                     <Text size="sm" weight="semibold" variant="dark">
                       Mulai:{' '}

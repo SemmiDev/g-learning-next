@@ -12,7 +12,7 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -157,7 +157,6 @@ export default function PesertaDaftarTugasSection() {
         <Card className="p-0">
           {list.length > 0 ? (
             list.map((item) => {
-              const strippedDesc = stripHtml(item.deskripsi ?? '')
               const sudah = item.status === 'SUDAH_MENGUMPULKAN'
               const terlambat =
                 !!item.batas_waktu && new Date(item.batas_waktu) < new Date()
@@ -172,8 +171,7 @@ export default function PesertaDaftarTugasSection() {
                       {item.judul}
                     </Text>
                     <Text variant="lighter" className="line-clamp-2">
-                      {strippedDesc.slice(0, 150)}
-                      {strippedDesc.length > 150 && '...'}
+                      {stripHtmlAndEllipsis(item.deskripsi ?? '', 150)}
                     </Text>
                     <Text size="sm" weight="semibold" variant="lighter">
                       Batas waktu pengumpulan

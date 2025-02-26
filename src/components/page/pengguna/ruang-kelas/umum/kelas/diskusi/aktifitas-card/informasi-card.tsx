@@ -11,32 +11,36 @@ import {
   ModalConfirm,
   ModalFilePreview,
   Text,
-  TextSpan,
   Thumbnail,
   Time,
   Title,
 } from '@/components/ui'
+import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { stripHtml } from '@/utils/text'
 import { useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import DropdownMoreAction from './dropdown-more-action'
-import UbahTugasModal from './modal/ubah-tugas'
+import DropdownMoreAction from '../dropdown-more-action'
+import UbahInformasiModal from '../modal/ubah-informasi'
 
-type TugasCardProps = {
+type InformasiCardProps = {
   kelas: DataKelasType | undefined
   data: DataType
   className?: string
 }
 
-export default function TugasCard({ kelas, data, className }: TugasCardProps) {
+export default function InformasiCard({
+  kelas,
+  data,
+  className,
+}: InformasiCardProps) {
   const queryClient = useQueryClient()
   const {
     show: showUbah,
@@ -50,7 +54,9 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
+  const imageFile = (data.file_aktifitas ?? []).find(
+    (item) => item.tipe === 'Gambar'
+  )
 
   const handleHapus = () => {
     if (!idHapus) return
@@ -70,21 +76,23 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  if (!data.aktifitas) return null
+
   return (
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex items-center space-x-3">
             <Thumbnail
-              src={data.pembuat.foto}
+              src={data.pembuat?.foto}
               alt="profil"
               size={48}
               rounded="lg"
-              avatar={data.pembuat.nama}
+              avatar={data.pembuat?.nama}
             />
             <div className="flex flex-col">
               <Text weight="semibold" variant="dark">
-                {data.pembuat.nama}
+                {data.pembuat?.nama}
               </Text>
               <Text size="xs" weight="medium" variant="lighter">
                 <Time date={data.aktifitas.created_at} fromNow />
@@ -92,9 +100,9 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
             </div>
           </div>
           <DropdownMoreAction
-            onEdit={() => doShowUbah(data.aktifitas.id)}
+            onEdit={() => doShowUbah(data.aktifitas?.id || '')}
             showEdit={data.aktifitas.id_pembuat === idPengguna}
-            onDelete={() => setIdHapus(data.aktifitas.id)}
+            onDelete={() => setIdHapus(data.aktifitas?.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas?.peran === 'Pengajar'
@@ -106,13 +114,26 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
           <Title as="h4" size="1.5xl" weight="semibold" className="mb-1">
             {data.aktifitas.judul}
           </Title>
-          <Text size="sm" variant="dark" className="truncate">
-            {strippedDesc.slice(0, 100)}
-            {strippedDesc.length > 100 && '...'}
-          </Text>
-          {data.file_aktifitas.length > 0 && (
+          <SanitizeHTML
+            html={data.aktifitas.deskripsi || '-'}
+            className="text-gray-dark"
+          />
+          {imageFile && (
+            <div className="flex justify-center mt-4">
+              <div className="flex max-w-8/12 max-h-60">
+                <Image
+                  src={imageFile.url}
+                  alt="preview"
+                  width={640}
+                  height={640}
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          )}
+          {!!data.file_aktifitas && data.file_aktifitas.length > 0 && (
             <div className="flex flex-col space-y-2 mt-4">
-              {data.file_aktifitas.map((file) => (
+              {data.file_aktifitas?.map((file) => (
                 <FileListItem
                   key={file.id}
                   file={{
@@ -138,34 +159,26 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
               ))}
             </div>
           )}
-          {data.aktifitas.batas_waktu && (
-            <Text weight="semibold" variant="dark" className="mt-4">
-              Batas Waktu Pengumpulan:{' '}
-              <TextSpan color="danger">
-                <Time date={data.aktifitas.batas_waktu} format="datetime" />
-              </TextSpan>
-            </Text>
-          )}
         </div>
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/tugas/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/informasi/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
-              {kelas?.peran === 'Pengajar' ? 'Cek Tugas' : 'Kumpulkan Tugas'}
+              Lihat Informasi
             </Button>
           </Link>
           <Komentar
             idKelas={idKelas}
             idAktifitas={data.aktifitas.id}
             total={data.total_komentar}
-            className="pt-4 px-2 pb-2"
+            className="pt-4 px-4 pb-2"
           />
         </div>
       </Card>
 
-      <UbahTugasModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
+      <UbahInformasiModal show={showUbah} id={keyUbah} onHide={doHideUbah} />
 
       <ModalFilePreview
         file={filePreview}
@@ -173,8 +186,8 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
       />
 
       <ModalConfirm
-        title="Hapus Tugas"
-        desc="Apakah Anda yakin ingin menghapus tugas ini?"
+        title="Hapus Informasi"
+        desc="Apakah Anda yakin ingin menghapus informasi ini?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}

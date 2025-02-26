@@ -21,14 +21,14 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import DropdownMoreAction from './dropdown-more-action'
-import UbahMateriModal from './modal/ubah-materi'
+import DropdownMoreAction from '../dropdown-more-action'
+import UbahMateriModal from '../modal/ubah-materi'
 
 type MateriCardProps = {
   kelas: DataKelasType | undefined
@@ -55,10 +55,6 @@ export default function MateriCard({
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const strippedDesc = useMemo(
-    () => stripHtml(data.aktifitas.deskripsi ?? ''),
-    [data.aktifitas.deskripsi]
-  )
   const imageFile = useMemo(
     () => (data.file_aktifitas ?? []).find((item) => item.tipe === 'Gambar'),
     [data.file_aktifitas]
@@ -68,11 +64,11 @@ export default function MateriCard({
   const isPeserta = useMemo(() => kelas?.peran === 'Peserta', [kelas])
 
   const absenTanpaInteraksi = useMemo(
-    () => ['Manual', 'Otomatis'].includes(data?.aktifitas.absen || ''),
+    () => ['Manual', 'Otomatis'].includes(data?.aktifitas?.absen || ''),
     [data]
   )
   const absenDenganInteraksi = useMemo(
-    () => ['GPS', 'GPS dan Swafoto'].includes(data?.aktifitas.absen || ''),
+    () => ['GPS', 'GPS dan Swafoto'].includes(data?.aktifitas?.absen || ''),
     [data]
   )
 
@@ -96,21 +92,23 @@ export default function MateriCard({
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  if (!data.aktifitas) return null
+
   return (
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex items-center space-x-3">
             <Thumbnail
-              src={data.pembuat.foto}
+              src={data.pembuat?.foto}
               alt="profil"
               size={48}
               rounded="lg"
-              avatar={data.pembuat.nama}
+              avatar={data.pembuat?.nama}
             />
             <div className="flex flex-col">
               <Text weight="semibold" variant="dark">
-                {data.pembuat.nama}
+                {data.pembuat?.nama}
               </Text>
               <Text size="xs" weight="medium" variant="lighter">
                 <Time date={data.aktifitas.created_at} fromNow />
@@ -118,9 +116,9 @@ export default function MateriCard({
             </div>
           </div>
           <DropdownMoreAction
-            onEdit={() => doShowUbah(data.aktifitas.id)}
+            onEdit={() => doShowUbah(data.aktifitas?.id || '')}
             showEdit={data.aktifitas.id_pembuat === idPengguna}
-            onDelete={() => setIdHapus(data.aktifitas.id)}
+            onDelete={() => setIdHapus(data.aktifitas?.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas?.peran === 'Pengajar'
@@ -135,8 +133,7 @@ export default function MateriCard({
           {showFull && (
             <>
               <Text size="sm" variant="dark" className="truncate">
-                {strippedDesc.slice(0, 100)}
-                {strippedDesc.length > 100 && '...'}
+                {stripHtmlAndEllipsis(data.aktifitas.deskripsi ?? '', 100)}
               </Text>
               {imageFile && (
                 <div className="flex justify-center mt-4">
@@ -151,7 +148,7 @@ export default function MateriCard({
                   </div>
                 </div>
               )}
-              {data.file_aktifitas.length > 0 && (
+              {!!data.file_aktifitas && data.file_aktifitas.length > 0 && (
                 <div className="flex flex-col space-y-2 mt-4">
                   {data.file_aktifitas.map((file) => (
                     <FileListItem

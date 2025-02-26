@@ -6,15 +6,16 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import DiskusiCard from './diskusi-card'
-import InformasiCard from './informasi-card'
-import KonferensiCard from './konferensi-card'
-import MateriCard from './materi-card'
+import DiskusiCard from './aktifitas-card/diskusi-card'
+import InformasiCard from './aktifitas-card/informasi-card'
+import KonferensiCard from './aktifitas-card/konferensi-card'
+import MateriCard from './aktifitas-card/materi-card'
+import SesiCard from './aktifitas-card/sesi-card'
+import TugasCard from './aktifitas-card/tugas-card'
+import UjianCard from './aktifitas-card/ujian-card'
 import PengajarHeaderCard from './pengajar-header-card'
 import PesertaHeaderCard from './peserta-header-card'
 import ListCardShimmer from './shimmer/card-list-shimmer'
-import TugasCard from './tugas-card'
-import UjianCard from './ujian-card'
 
 type DiskusiCardListProps = {
   kelas: DataKelasType | undefined
@@ -35,6 +36,8 @@ export default function DiskusiCardList({
       const { data } = await listAktifitasAction({
         page,
         idKelas,
+        tanpaSesi: true,
+        order: 'DESC',
       })
 
       return {
@@ -70,23 +73,32 @@ export default function DiskusiCardList({
 
       {list.length > 0 ? (
         <div>
-          {list.map((item) => (
-            <Fragment key={item.aktifitas.id}>
-              {item.aktifitas.tipe === 'Materi' ? (
-                <MateriCard kelas={kelas} data={item} className="mt-6" />
-              ) : item.aktifitas.tipe === 'Penugasan' ? (
-                <TugasCard kelas={kelas} data={item} className="mt-6" />
-              ) : item.aktifitas.tipe === 'Konferensi' ? (
-                <KonferensiCard kelas={kelas} data={item} className="mt-6" />
-              ) : item.aktifitas.tipe === 'Ujian' ? (
-                <UjianCard kelas={kelas} data={item} className="mt-6" />
-              ) : item.aktifitas.tipe === 'Pengumuman' ? (
-                <InformasiCard kelas={kelas} data={item} className="mt-6" />
-              ) : (
-                <DiskusiCard kelas={kelas} data={item} className="mt-6" />
-              )}
-            </Fragment>
-          ))}
+          {list.map((item) =>
+            !!item.aktifitas ? (
+              <Fragment key={item.aktifitas.id}>
+                {item.aktifitas.tipe === 'Materi' ? (
+                  <MateriCard kelas={kelas} data={item} className="mt-6" />
+                ) : item.aktifitas.tipe === 'Penugasan' ? (
+                  <TugasCard kelas={kelas} data={item} className="mt-6" />
+                ) : item.aktifitas.tipe === 'Konferensi' ? (
+                  <KonferensiCard kelas={kelas} data={item} className="mt-6" />
+                ) : item.aktifitas.tipe === 'Ujian' ? (
+                  <UjianCard kelas={kelas} data={item} className="mt-6" />
+                ) : item.aktifitas.tipe === 'Pengumuman' ? (
+                  <InformasiCard kelas={kelas} data={item} className="mt-6" />
+                ) : (
+                  <DiskusiCard kelas={kelas} data={item} className="mt-6" />
+                )}
+              </Fragment>
+            ) : (
+              <SesiCard
+                key={item.pertemuan_kelas?.id}
+                kelas={kelas}
+                data={item}
+                className="mt-6"
+              />
+            )
+          )}
         </div>
       ) : (
         <div className="flex items-center justify-center h-80">

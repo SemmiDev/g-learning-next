@@ -19,7 +19,7 @@ import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { parseDate } from '@/utils/date'
-import { rupiah } from '@/utils/text'
+import { ellipsis, rupiah } from '@/utils/text'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import toast from 'react-hot-toast'
@@ -92,9 +92,7 @@ export default function TableTagihanPenggunaCard() {
       dataIndex: 'nomor_invoice',
       render: (value: string) => (
         <div className="flex items-center gap-1">
-          <TableCellText title={value}>
-            {value.substring(0, 10)}...
-          </TableCellText>
+          <TableCellText title={value}>{ellipsis(value, 10)}</TableCellText>
           <ActionIconTooltip
             tooltip="Salin nomor tagihan"
             size="sm"

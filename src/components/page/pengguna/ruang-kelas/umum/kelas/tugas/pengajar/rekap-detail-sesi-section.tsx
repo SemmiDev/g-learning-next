@@ -13,7 +13,7 @@ import {
   makeSimpleQueryDataWithId,
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -52,8 +52,6 @@ export default function PengajarRekapTugasDetailSesiSection({
     enabled: !!idAktifitas,
   })
 
-  const strippedDesc = stripHtml(data?.aktifitas.deskripsi ?? '')
-
   if (isLoading) return <ShimmerSection className={className} />
 
   if (!idAktifitas || !data) return null
@@ -73,8 +71,7 @@ export default function PengajarRekapTugasDetailSesiSection({
             variant="lighter"
             className="line-clamp-2"
           >
-            {strippedDesc.slice(0, 150)}
-            {strippedDesc.length > 150 && '...'}
+            {stripHtmlAndEllipsis(data?.aktifitas.deskripsi ?? '', 150)}
           </Text>
           <Text size="sm" weight="medium" variant="lighter" className="mt-2">
             Batas waktu pengumpulan

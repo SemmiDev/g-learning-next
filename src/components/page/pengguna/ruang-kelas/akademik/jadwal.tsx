@@ -12,6 +12,7 @@ import {
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
+import { hourMinute } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -132,8 +133,8 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
                     <div className="flex items-center gap-x-1">
                       <LuClock className="size-4 text-gray-lighter" />
                       <Text size="sm" weight="medium">
-                        {item.waktu_mulai.substring(0, 5)} -{' '}
-                        {item.waktu_sampai.substring(0, 5)}
+                        {hourMinute(item.waktu_mulai)} -{' '}
+                        {hourMinute(item.waktu_sampai)}
                       </Text>
                     </div>
                     <div className="flex items-center gap-x-1">

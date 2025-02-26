@@ -8,7 +8,7 @@ import {
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -50,8 +50,6 @@ export default function PengajarRekapPresensiDetailSesiSection({
     ),
     enabled: !!idAktifitas,
   })
-
-  const strippedDesc = stripHtml(data?.aktifitas.deskripsi ?? '')
 
   const linkTipe = switchCaseObject(
     data?.aktifitas.tipe,
@@ -129,8 +127,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
             variant="lighter"
             className="line-clamp-2"
           >
-            {strippedDesc.slice(0, 150)}
-            {strippedDesc.length > 150 && '...'}
+            {stripHtmlAndEllipsis(data?.aktifitas.deskripsi ?? '', 150)}
           </Text>
           <Text size="sm" weight="medium" variant="dark" className="mt-2">
             <TimeIndo

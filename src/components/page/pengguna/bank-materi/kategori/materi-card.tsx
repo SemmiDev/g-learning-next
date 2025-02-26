@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Text, Time, Title } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { BiShareAlt } from 'react-icons/bi'
 import {
   BsClipboardPlus,
@@ -38,8 +38,6 @@ export default function MateriCard({
   onDelete,
   className,
 }: MateriCardProps) {
-  const strippedDesc = stripHtml(materi.desc)
-
   return (
     <div
       className={cn(
@@ -105,8 +103,7 @@ export default function MateriCard({
       </div>
 
       <Text size="sm" weight="medium" variant="dark" className="line-clamp-2">
-        {strippedDesc.slice(0, 100)}
-        {strippedDesc.length > 100 && '...'}
+        {stripHtmlAndEllipsis(materi.desc, 100)}
       </Text>
 
       <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">

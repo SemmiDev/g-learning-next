@@ -3,6 +3,7 @@ import { Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
 import { deskripsiSemester } from '@/utils/semester'
+import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsCheckCircleFill } from 'react-icons/bs'
@@ -72,12 +73,9 @@ export default function KelasCard({ data }: KelasCardProps) {
                 </Text>
                 <Text size="sm" weight="medium">
                   {data.jadwal && data.jadwal.length > 0
-                    ? `${
-                        data.jadwal[0].hari
-                      }, ${data.jadwal[0].waktu_mulai.substring(
-                        0,
-                        5
-                      )} - ${data.jadwal[0].waktu_sampai.substring(0, 5)}`
+                    ? `${data.jadwal[0].hari}, ${hourMinute(
+                        data.jadwal[0].waktu_mulai
+                      )} - ${hourMinute(data.jadwal[0].waktu_sampai)}`
                     : '-'}
                 </Text>
               </td>

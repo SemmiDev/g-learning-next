@@ -18,7 +18,8 @@ import { routes } from '@/config/routes'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
-import { rupiah } from '@/utils/text'
+import { parseDate } from '@/utils/date'
+import { ellipsis, rupiah } from '@/utils/text'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import toast from 'react-hot-toast'
@@ -26,7 +27,6 @@ import { BsPencilSquare } from 'react-icons/bs'
 import { LiaMoneyCheckAltSolid } from 'react-icons/lia'
 import { LuCopy, LuTrash } from 'react-icons/lu'
 import UbahModal from './modal/ubah'
-import { parseDate } from '@/utils/date'
 
 const queryKey = ['admin.tagihan-instansi.table'] as const
 
@@ -92,9 +92,7 @@ export default function TableTagihanInstansiCard() {
       dataIndex: 'nomor_invoice',
       render: (value: string) => (
         <div className="flex items-center gap-1">
-          <TableCellText title={value}>
-            {value.substring(0, 10)}...
-          </TableCellText>
+          <TableCellText title={value}>{ellipsis(value, 10)}</TableCellText>
           <ActionIconTooltip
             tooltip="Salin nomor tagihan"
             size="sm"

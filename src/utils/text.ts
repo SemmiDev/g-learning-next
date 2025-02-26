@@ -26,6 +26,18 @@ export const rupiah = (
     maximumFractionDigits: options?.maximumFractionDigits,
   })
 
+export const ellipsis = (text: string, maxLength: number) => {
+  return text.substring(0, maxLength) + (text.length > maxLength ? '...' : '')
+}
+
 export const stripHtml = (html: string) => {
   return html.replace(/(<([^>]+)>)/gi, '')
+}
+
+export const stripHtmlAndEllipsis = (html: string, maxLength: number) => {
+  return ellipsis(stripHtml(html), maxLength)
+}
+
+export const hourMinute = (hourMinuteSecond: string) => {
+  return hourMinuteSecond.substring(0, 5)
 }

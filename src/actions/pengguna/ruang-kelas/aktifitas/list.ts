@@ -29,12 +29,12 @@ export type DataType = {
     durasi_ujian: string | null
     created_at: string
     updated_at: string
-  }
+  } | null
   pembuat: {
     username: string
     nama: string
     foto: string
-  }
+  } | null
   total_komentar: number
   bank_soal: {
     id: string
@@ -46,35 +46,96 @@ export type DataType = {
     bobot_salah: number
     bobot_kosong: number
     jumlah_soal_yang_digunakan: number
-  }
-  file_aktifitas: {
+    total_soal: number
+    total_soal_essay: number
+    total_soal_pilihan_ganda: number
+  } | null
+  file_aktifitas:
+    | {
+        id: string
+        id_parent: string | null
+        nama: string
+        deskripsi: string
+        content: string
+        ekstensi: string
+        tipe:
+          | 'Dokumen'
+          | 'Audio'
+          | 'Video'
+          | 'Gambar'
+          | 'Folder'
+          | 'Teks'
+          | null
+        url: string
+        ukuran: number
+        id_pengguna: string
+        id_instansi: string | null
+        created_at: string
+        updated_at: string
+      }[]
+    | null
+  tipe: 'aktifitas' | 'pertemuan kelas'
+  pertemuan_kelas: {
     id: string
-    id_parent: string | null
-    nama: string
-    deskripsi: string
-    content: string
-    ekstensi: string
-    tipe: 'Dokumen' | 'Audio' | 'Video' | 'Gambar' | 'Folder' | 'Teks' | null
-    url: string
-    ukuran: number
-    id_pengguna: string
-    id_instansi: string | null
+    id_kelas: string
+    judul: string
+    pertemuan: number
+    hari:
+      | 'Senin'
+      | 'Selasa'
+      | 'Rabu'
+      | 'Kamis'
+      | 'Jumat'
+      | 'Sabtu'
+      | 'Minggu'
+      | null
+    waktu_mulai: string
+    waktu_sampai: string
+    tanggal_realisasi: string | null
+    status: 'Sedang Berlangsung' | 'Belum Dibuka' | 'Telah Berakhir'
+    jenis_absensi_pengajar: 'GPS' | 'Swafoto' | 'GPS dan Swafoto'
+    jenis_absensi_peserta:
+      | 'Manual'
+      | 'Otomatis'
+      | 'GPS'
+      | 'Swafoto'
+      | 'GPS dan Swafoto'
+    status_absensi_pengajar: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha'
+    latitude: number | null
+    longitude: number | null
+    swafoto: string | null
     created_at: string
     updated_at: string
-  }[]
+    swafoto_url: string | null
+    lokasi_pertemuan: string
+    total_bahan_ajar: number
+  } | null
 }
 
 export const listAktifitasAction = async ({
   page = 1,
   idKelas,
+  idSesi,
+  tipe,
+  tanpaSesi,
+  order,
 }: {
   page?: number
   idKelas: string
+  idSesi?: string
+  tipe?: 'aktifitas' | 'pertemuan kelas'
+  tanpaSesi?: boolean
+  order?: 'ASC' | 'DESC'
 }) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.API_URL}/kelas/${idKelas}/aktifitas`,
     {
+      id_pertemuan_kelas: idSesi,
+      tipe,
+      aktifitas_tanpa_sesi:
+        tanpaSesi !== undefined ? (tanpaSesi ? 'true' : 'false') : undefined,
       current_page: page,
       per_page: 10,
+      order,
     }
   )

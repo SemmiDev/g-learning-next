@@ -1,7 +1,7 @@
 import { ActionIcon, Button, Text, Time, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { BiShareAlt } from 'react-icons/bi'
@@ -44,7 +44,6 @@ export default function SoalCard({
   className,
 }: SoalCardProps) {
   const { kategori: idKategori }: { kategori: string } = useParams()
-  const strippedDesc = stripHtml(soal.desc)
 
   return (
     <div
@@ -110,8 +109,7 @@ export default function SoalCard({
       </div>
 
       <Text size="sm" weight="medium" variant="dark" className="line-clamp-2">
-        {strippedDesc.slice(0, 100)}
-        {strippedDesc.length > 100 && '...'}
+        {stripHtmlAndEllipsis(soal.desc, 100)}
       </Text>
 
       <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter mb-2">

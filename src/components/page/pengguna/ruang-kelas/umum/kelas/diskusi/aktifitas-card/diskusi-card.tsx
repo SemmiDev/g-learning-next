@@ -18,12 +18,12 @@ import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { stripHtml } from '@/utils/text'
+import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import DropdownMoreAction from './dropdown-more-action'
+import DropdownMoreAction from '../dropdown-more-action'
 
 type DiskusiCardProps = {
   kelas: DataKelasType | undefined
@@ -43,8 +43,6 @@ export default function DiskusiCard({
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const strippedDesc = stripHtml(data.aktifitas.deskripsi ?? '')
-
   const handleHapus = () => {
     if (!idHapus) return
 
@@ -63,21 +61,23 @@ export default function DiskusiCard({
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  if (!data.aktifitas) return null
+
   return (
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
           <div className="flex items-center space-x-3">
             <Thumbnail
-              src={data.pembuat.foto}
+              src={data.pembuat?.foto}
               alt="profil"
               size={48}
               rounded="lg"
-              avatar={data.pembuat.nama}
+              avatar={data.pembuat?.nama}
             />
             <div className="flex flex-col">
               <Text weight="semibold" variant="dark">
-                {data.pembuat.nama}
+                {data.pembuat?.nama}
               </Text>
               <Text size="xs" weight="medium" variant="lighter">
                 <Time date={data.aktifitas.created_at} fromNow />
@@ -85,7 +85,7 @@ export default function DiskusiCard({
             </div>
           </div>
           <DropdownMoreAction
-            onDelete={() => setIdHapus(data.aktifitas.id)}
+            onDelete={() => setIdHapus(data.aktifitas?.id)}
             showDelete={
               data.aktifitas.id_pembuat === idPengguna ||
               kelas?.peran === 'Pengajar'
@@ -98,8 +98,7 @@ export default function DiskusiCard({
             {data.aktifitas.judul}
           </Title>
           <Text size="sm" variant="dark" className="truncate">
-            {strippedDesc.slice(0, 100)}
-            {strippedDesc.length > 100 && '...'}
+            {stripHtmlAndEllipsis(data.aktifitas.deskripsi ?? '', 100)}
           </Text>
         </div>
         <CardSeparator />

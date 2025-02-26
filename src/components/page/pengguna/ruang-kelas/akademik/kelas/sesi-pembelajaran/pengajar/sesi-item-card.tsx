@@ -5,8 +5,8 @@ import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import { parseDate } from '@/utils/date'
 import { switchCaseObject } from '@/utils/switch-case'
+import { hourMinute } from '@/utils/text'
 import Link from 'next/link'
-import { ComponentType, Dispatch, SetStateAction } from 'react'
 import {
   BsCardChecklist,
   BsClipboardPlus,
@@ -15,7 +15,6 @@ import {
   BsThreeDots,
   BsWebcam,
 } from 'react-icons/bs'
-import { IconBaseProps } from 'react-icons/lib'
 import {
   LuBook,
   LuCalendar,
@@ -24,6 +23,7 @@ import {
   LuPackage,
 } from 'react-icons/lu'
 import { Dropdown, Popover } from 'rizzui'
+import TambahBahanPopoverItem from './popover-item'
 
 type SesiItemCardProps = {
   sesi: DataSesiType
@@ -111,14 +111,16 @@ export default function SesiItemCard({
             Sesi {sesi.pertemuan}
           </Text>
         </div>
-        {!!sesi.total_bahan_ajar && (
-          <div className="flex items-center gap-x-1">
-            <LuBook className="size-4 text-gray-lighter" />
-            <Text size="sm" weight="medium">
-              {sesi.total_bahan_ajar} Bahan Ajar
-            </Text>
-          </div>
-        )}
+        <div className="flex items-center gap-x-1">
+          <LuBook className="size-4 text-gray-lighter" />
+          <Text
+            size="sm"
+            weight="medium"
+            color={sesi.total_bahan_ajar ? 'gray' : 'danger'}
+          >
+            {sesi.total_bahan_ajar || '0'} Bahan Ajar
+          </Text>
+        </div>
         <div className="flex items-center gap-x-1">
           <LuCalendar className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
@@ -132,7 +134,7 @@ export default function SesiItemCard({
         <div className="flex items-center gap-x-1">
           <LuClock className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
-            {sesi.waktu_mulai} - {sesi.waktu_sampai}
+            {hourMinute(sesi.waktu_mulai)} - {hourMinute(sesi.waktu_sampai)}
           </Text>
         </div>
         <div className="flex items-center gap-x-1">
@@ -152,25 +154,25 @@ export default function SesiItemCard({
           <Popover.Content className="flex flex-col px-0 py-1">
             {({ setOpen }) => (
               <>
-                <PopoverItem
+                <TambahBahanPopoverItem
                   title="Materi"
                   color="green"
                   Icon={BsFileRichtext}
                   setOpen={setOpen}
                 />
-                <PopoverItem
+                <TambahBahanPopoverItem
                   title="Tugas"
                   color="violet"
                   Icon={BsClipboardPlus}
                   setOpen={setOpen}
                 />
-                <PopoverItem
+                <TambahBahanPopoverItem
                   title="Ujian"
                   color="blue"
                   Icon={BsCardChecklist}
                   setOpen={setOpen}
                 />
-                <PopoverItem
+                <TambahBahanPopoverItem
                   title="Conference"
                   color="red"
                   Icon={BsWebcam}
@@ -205,41 +207,5 @@ export default function SesiItemCard({
         )}
       </div>
     </Card>
-  )
-}
-
-function PopoverItem({
-  title,
-  color,
-  Icon,
-  setOpen,
-  onClick,
-}: {
-  title: string
-  color: 'green' | 'violet' | 'blue' | 'red' | 'indigo'
-  Icon: ComponentType<IconBaseProps>
-  setOpen: Dispatch<SetStateAction<boolean>>
-  onClick?: () => void
-}) {
-  return (
-    <button
-      className="flex gap-x-2 px-2 py-1 hover:bg-muted/40"
-      onClick={() => {
-        onClick && onClick()
-        setOpen(false)
-      }}
-    >
-      <div
-        className={cn(
-          'flex justify-center items-center size-[1.375rem] rounded-sm',
-          `btn-item-${color}`
-        )}
-      >
-        <Icon className="size-2.5" />
-      </div>
-      <Text size="sm" weight="semibold">
-        {title}
-      </Text>
-    </button>
   )
 }
