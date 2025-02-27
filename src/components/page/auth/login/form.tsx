@@ -20,6 +20,30 @@ import toast from 'react-hot-toast'
 import { TbSelect } from 'react-icons/tb'
 import { Input, Password } from 'rizzui'
 
+const listUser = [
+  {
+    level: 'Slicing Pengajar',
+    username: 'pengajar@glearning.com',
+  },
+  { level: 'Slicing Peserta', username: 'peserta@glearning.com' },
+  {
+    level: 'Slicing Pengguna Akademik',
+    username: 'pengguna@glearning.com',
+  },
+  { level: 'Admin', username: 'admin@gmail.com' },
+  { level: 'Instansi', username: 'adminuin' },
+  { level: 'Contoh Dosen', username: '1502021102950004' },
+  { level: 'Contoh Mahasiswa', username: '1502020105060001' },
+  { level: 'Rizky (Pengguna 1)', username: 'reazon7@gmail.com' },
+  {
+    level: 'Sammi (Pengguna 2)',
+    username: 'sammidev4@gmail.com',
+  },
+  { level: 'Peserta 1', username: 'peserta1@gmail.com' },
+  { level: 'Peserta 2', username: 'peserta2@gmail.com' },
+  { level: 'Pengajar 1', username: 'pengajar1@gmail.com' },
+]
+
 const formSchema = z.object({
   username: z.string().pipe(required),
   password: z.string().pipe(requiredPassword),
@@ -120,27 +144,7 @@ export default function LoginForm() {
               onClose={() => setShowModalUser(false)}
               bodyClassName="flex flex-col space-y-2 p-3"
             >
-              {[
-                {
-                  level: 'Slicing Pengajar',
-                  username: 'pengajar@glearning.com',
-                },
-                { level: 'Slicing Peserta', username: 'peserta@glearning.com' },
-                {
-                  level: 'Slicing Pengguna Akademik',
-                  username: 'pengguna@glearning.com',
-                },
-                { level: 'Admin', username: 'admin@gmail.com' },
-                { level: 'Instansi', username: 'adminuin' },
-                { level: 'Rizky (Pengguna 1)', username: 'reazon7@gmail.com' },
-                {
-                  level: 'Sammi (Pengguna 2)',
-                  username: 'sammidev4@gmail.com',
-                },
-                { level: 'Peserta 1', username: 'peserta1@gmail.com' },
-                { level: 'Peserta 2', username: 'peserta2@gmail.com' },
-                { level: 'Pengajar 1', username: 'pengajar1@gmail.com' },
-              ].map(({ level, username }, idx) => (
+              {listUser.map(({ level, username }, idx) => (
                 <div
                   className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"
                   onClick={() => {
