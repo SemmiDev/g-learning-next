@@ -1,23 +1,18 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasMateriAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-materi'
+import { ubahAktifitasMateriSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-materi'
 import {
   CardSeparator,
-  ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
-  ControlledRadioGroup,
-  ControlledSwitch,
   Form,
   FormError,
   Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
-  RadioGroupOptionType,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { parseDate } from '@/utils/date'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -25,82 +20,52 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
 
-const baseFormSchema = z.object({
+const formSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
   berkas: z.array(z.any()),
-  presensi: z.string(),
-  tipe_presensi: z.string(),
 })
 
-const formSchema = z.discriminatedUnion('penjadwalan', [
-  z
-    .object({
-      penjadwalan: z.literal(false),
-    })
-    .merge(baseFormSchema),
-  z
-    .object({
-      penjadwalan: z.literal(true),
-      jadwal: z.date(),
-    })
-    .merge(baseFormSchema),
-])
-
-export type UbahMateriFormSchema = {
+export type UbahMateriSesiFormSchema = {
   judul?: string
   catatan?: string
-  presensi: string
-  tipe_presensi: string
-  penjadwalan: boolean
-  jadwal?: Date
   berkas: PustakaMediaFileType[]
 }
 
-const presensiOptions: RadioGroupOptionType[] = [
-  { label: 'Aktif', value: 'aktif' },
-  { label: 'Tidak Aktif', value: 'non-aktif' },
-]
-
-const tipePresensiOptions: RadioGroupOptionType[] = [
-  { label: 'Absensi Manual', value: 'Manual' },
-  { label: 'Absensi Otomatis', value: 'Otomatis' },
-  { label: 'Absensi GPS', value: 'GPS' },
-  { label: 'Absensi GPS dan Swafoto', value: 'GPS dan Swafoto' },
-]
-
-type UbahMateriModalProps = {
+type UbahMateriSesiModalProps = {
+  idSesi: string
   id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function UbahMateriModal({
+export default function UbahMateriSesiModal({
+  idSesi,
   id,
   show,
   onHide,
-}: UbahMateriModalProps) {
+}: UbahMateriSesiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.ubah', idKelas, id]
+  const queryKey = [
+    'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.ubah',
+    idKelas,
+    id,
+  ]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahMateriFormSchema>({
+  } = useQuery({
     queryKey,
-    queryFn: async () => {
+    queryFn: async (): Promise<UbahMateriSesiFormSchema> => {
       if (!id)
         return {
-          presensi: 'non-aktif',
-          tipe_presensi: 'Manual',
-          penjadwalan: false,
           berkas: [],
         }
 
@@ -109,10 +74,6 @@ export default function UbahMateriModal({
       return {
         judul: data?.aktifitas.judul,
         catatan: data?.aktifitas.deskripsi ?? undefined,
-        presensi: data?.aktifitas.absen ? 'aktif' : 'non-aktif',
-        tipe_presensi: data?.aktifitas.absen ?? 'Manual',
-        penjadwalan: !!data?.aktifitas.waktu_tersedia,
-        jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),
         berkas: (data?.file_aktifitas ?? []).map((item) => ({
           id: item.id,
           name: item.nama,
@@ -128,24 +89,34 @@ export default function UbahMateriModal({
     },
   })
 
-  const onSubmit: SubmitHandler<UbahMateriFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahMateriSesiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasMateriAction(idKelas, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-        queryClient.setQueryData(queryKey, (oldData: UbahMateriFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      ubahAktifitasMateriSesiAction(idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.list',
+              idKelas,
+              idSesi,
+            ],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahMateriSesiFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {
@@ -166,7 +137,7 @@ export default function UbahMateriModal({
       {isLoading ? (
         <Loader height={500} />
       ) : (
-        <Form<UbahMateriFormSchema>
+        <Form<UbahMateriSesiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -204,66 +175,6 @@ export default function UbahMateriModal({
                   multiple
                 />
 
-                <ControlledRadioGroup
-                  name="presensi"
-                  control={control}
-                  options={presensiOptions}
-                  errors={errors}
-                  label={
-                    <div className="flex items-center">
-                      Presensi
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
-                  className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
-                  groupClassName="flex-wrap gap-x-8 gap-y-4"
-                  optionClassNames="w-full xs:w-auto"
-                  labelClassName="mb-0"
-                />
-
-                {watch('presensi') === 'aktif' && (
-                  <ControlledRadioGroup
-                    name="tipe_presensi"
-                    control={control}
-                    options={tipePresensiOptions}
-                    errors={errors}
-                    label={
-                      <div className="flex items-center text-nowrap">
-                        Atur Presensi
-                        <BsInfoCircle size={12} className="ml-1" />
-                      </div>
-                    }
-                    className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
-                    groupClassName="flex-wrap gap-x-8 gap-y-4"
-                    optionClassNames="w-full xs:w-auto"
-                    labelClassName="mb-0"
-                  />
-                )}
-              </div>
-
-              <CardSeparator />
-
-              <div className="flex gap-x-4 px-3 py-3">
-                <ControlledSwitch
-                  name="penjadwalan"
-                  control={control}
-                  label="Opsi Penjadwalan"
-                />
-                {watch('penjadwalan', false) && (
-                  <ControlledDatePicker
-                    name="jadwal"
-                    control={control}
-                    errors={errors}
-                    placeholder="Atur Tanggal dan Jam Terbit"
-                    showTimeSelect
-                    dateFormat="dd MMMM yyyy HH:mm"
-                    timeFormat="HH:mm"
-                    className="flex-1"
-                  />
-                )}
-              </div>
-
-              <div className="px-3">
                 <FormError error={formError} />
               </div>
 

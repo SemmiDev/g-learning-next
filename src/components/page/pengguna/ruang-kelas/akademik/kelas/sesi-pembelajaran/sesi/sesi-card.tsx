@@ -1,3 +1,4 @@
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import {
   Badge,
@@ -23,13 +24,14 @@ import {
   LuMapPin,
   LuPackage,
 } from 'react-icons/lu'
-import UbahJudulSesiModal from '../../pengajar/modal/ubah-judul'
+import UbahJudulSesiModal from '../pengajar/modal/ubah-judul'
 
 type SesiCardProps = {
+  kelas: DataKelasType
   className?: string
 }
 
-export default function PengajarSesiCard({ className }: SesiCardProps) {
+export default function SesiCard({ kelas, className }: SesiCardProps) {
   const {
     show: showUbahJudul,
     key: keyUbahJudul,
@@ -37,13 +39,14 @@ export default function PengajarSesiCard({ className }: SesiCardProps) {
     doHide: doHideUbahJudul,
   } = useShowModal<string>()
 
-  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+  const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
+    useParams()
 
   const queryKey = [
     'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
     'pengajar',
     idKelas,
-    id,
+    idSesi,
   ]
 
   const { data, isLoading } = useQuery({
@@ -51,7 +54,7 @@ export default function PengajarSesiCard({ className }: SesiCardProps) {
     queryFn: makeSimpleQueryDataWithParams(
       lihatSesiPembelajaranAction,
       idKelas,
-      id
+      idSesi
     ),
   })
 
@@ -81,15 +84,17 @@ export default function PengajarSesiCard({ className }: SesiCardProps) {
               )}
             </Badge>
           </div>
-          <Button
-            size="sm"
-            variant="text"
-            color="warning"
-            className="min-h-0 p-0 mt-1"
-            onClick={() => doShowUbahJudul(id)}
-          >
-            <BsPencilSquare className="size-3 mr-1" /> Ubah Judul Sesi
-          </Button>
+          {kelas.peran === 'Pengajar' && (
+            <Button
+              size="sm"
+              variant="text"
+              color="warning"
+              className="min-h-0 p-0 mt-1"
+              onClick={() => doShowUbahJudul(idSesi)}
+            >
+              <BsPencilSquare className="size-3 mr-1" /> Ubah Judul Sesi
+            </Button>
+          )}
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1.5">
           <div className="flex items-center gap-x-1">
@@ -134,11 +139,13 @@ export default function PengajarSesiCard({ className }: SesiCardProps) {
         </div>
       </Card>
 
-      <UbahJudulSesiModal
-        id={keyUbahJudul}
-        show={showUbahJudul}
-        onHide={doHideUbahJudul}
-      />
+      {kelas.peran === 'Pengajar' && (
+        <UbahJudulSesiModal
+          id={keyUbahJudul}
+          show={showUbahJudul}
+          onHide={doHideUbahJudul}
+        />
+      )}
     </>
   )
 }

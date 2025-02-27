@@ -218,7 +218,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
                               }}
                             >
                               <Text size="xs" weight="semibold">
-                                {status}
+                                {status.substring(0, 1)}
                               </Text>
                             </ActionIconTooltip>
                           ))

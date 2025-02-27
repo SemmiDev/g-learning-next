@@ -1,90 +1,67 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasKonferensiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-konferensi'
+import { ubahAktifitasKonferensiSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-konferensi'
 import {
   CardSeparator,
-  ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
-  ControlledRadioGroup,
   Form,
   FormError,
   Loader,
   Modal,
   ModalFooterButtons,
-  RadioGroupOptionType,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { parseDate } from '@/utils/date'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
-import { Switch } from 'rizzui'
 
-const baseFormSchema = z.object({
+const formSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
   link: z.string().pipe(required.url()),
-  presensi: z.string(),
 })
 
-const formSchema = z.discriminatedUnion('penjadwalan', [
-  z
-    .object({
-      penjadwalan: z.literal(false),
-    })
-    .merge(baseFormSchema),
-  z
-    .object({
-      penjadwalan: z.literal(true),
-      jadwal: z.date(),
-    })
-    .merge(baseFormSchema),
-])
-
-export type UbahKonferensiFormSchema = {
+export type UbahKonferensiSesiFormSchema = {
   judul?: string
   catatan?: string
   link?: string
-  presensi: string
-  penjadwalan: boolean
-  jadwal?: Date
 }
 
-const presensiOptions: RadioGroupOptionType[] = [
-  { label: 'Aktif', value: 'aktif' },
-  { label: 'Tidak Aktif', value: 'non-aktif' },
-]
-
-type UbahKonferensiModalProps = {
+type UbahKonferensiSesiModalProps = {
+  idSesi: string
   id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function UbahKonferensiModal({
+export default function UbahKonferensiSesiModal({
+  idSesi,
   id,
   show,
   onHide,
-}: UbahKonferensiModalProps) {
+}: UbahKonferensiSesiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.ubah', idKelas, id]
+  const queryKey = [
+    'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.ubah',
+    idKelas,
+    id,
+  ]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahKonferensiFormSchema>({
+  } = useQuery({
     queryKey,
-    queryFn: async () => {
-      if (!id) return { presensi: 'non-aktif', penjadwalan: false }
+    queryFn: async (): Promise<UbahKonferensiSesiFormSchema> => {
+      if (!id) return {}
 
       const { data } = await lihatAktifitasAction(idKelas, id)
 
@@ -92,28 +69,31 @@ export default function UbahKonferensiModal({
         judul: data?.aktifitas.judul,
         catatan: data?.aktifitas.deskripsi ?? undefined,
         link: data?.link_conference,
-        presensi: !!data?.aktifitas.absen ? 'aktif' : 'non-aktif',
-        penjadwalan: !!data?.aktifitas.waktu_tersedia,
-        jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahKonferensiFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahKonferensiSesiFormSchema> = async (
+    data
+  ) => {
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasKonferensiAction(idKelas, id, data),
+      ubahAktifitasKonferensiSesiAction(idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.list',
+              idKelas,
+              idSesi,
+            ],
           })
           queryClient.setQueryData(
             queryKey,
-            (oldData: UbahKonferensiFormSchema) => ({
+            (oldData: UbahKonferensiSesiFormSchema) => ({
               ...oldData,
               ...data,
             })
@@ -143,7 +123,7 @@ export default function UbahKonferensiModal({
       {isLoading ? (
         <Loader height={500} />
       ) : (
-        <Form<UbahKonferensiFormSchema>
+        <Form<UbahKonferensiSesiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -187,46 +167,6 @@ export default function UbahKonferensiModal({
                   required
                 />
 
-                <ControlledRadioGroup
-                  name="presensi"
-                  control={control}
-                  options={presensiOptions}
-                  errors={errors}
-                  label={
-                    <div className="flex items-center">
-                      Presensi
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
-                  className="flex gap-8 my-2"
-                  groupClassName="gap-8"
-                  labelClassName="mb-0"
-                />
-              </div>
-
-              <CardSeparator />
-
-              <div className="flex gap-x-4 px-3 py-3">
-                <Switch
-                  label="Opsi Penjadwalan"
-                  labelClassName="text-gray-dark font-semibold"
-                  {...register('penjadwalan')}
-                />
-                {watch('penjadwalan', false) && (
-                  <ControlledDatePicker
-                    name="jadwal"
-                    control={control}
-                    errors={errors}
-                    placeholder="Atur Tanggal dan Jam Terbit"
-                    showTimeSelect
-                    dateFormat="dd MMMM yyyy HH:mm"
-                    timeFormat="HH:mm"
-                    className="flex-1"
-                  />
-                )}
-              </div>
-
-              <div className="px-3">
                 <FormError error={formError} />
               </div>
 

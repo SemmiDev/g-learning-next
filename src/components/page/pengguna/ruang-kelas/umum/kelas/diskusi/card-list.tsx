@@ -36,6 +36,7 @@ export default function DiskusiCardList({
       const { data } = await listAktifitasAction({
         page,
         idKelas,
+        tipe: kelas?.kelas.tipe !== 'Akademik' ? 'aktifitas' : undefined,
         tanpaSesi: true,
         order: 'DESC',
       })

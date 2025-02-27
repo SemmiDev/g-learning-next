@@ -51,9 +51,7 @@ export default function SesiItemCard({
   if (realisasi) realisasi.setHours(0, 0, 0, 0)
 
   const danger =
-    !!realisasi &&
-    today.getUTCMilliseconds() === realisasi.getUTCMilliseconds() &&
-    sesi.status === 'Telah Berakhir'
+    today.getTime() === realisasi?.getTime() && sesi.status === 'Telah Berakhir'
 
   return (
     <Card className={cn('flex flex-col gap-y-1', className)}>

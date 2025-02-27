@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-tugas'
+import { ubahAktifitasTugasSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-tugas'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -44,7 +44,7 @@ const formSchema = z.discriminatedUnion('dibatasiWaktu', [
     .merge(baseFormSchema),
 ])
 
-export type UbahTugasFormSchema = {
+export type UbahTugasSesiFormSchema = {
   judul?: string
   catatan?: string
   dibatasiWaktu: boolean
@@ -52,35 +52,40 @@ export type UbahTugasFormSchema = {
   berkas: PustakaMediaFileType[]
 }
 
-type UbahTugasModalProps = {
+type UbahTugasSesiModalProps = {
+  idSesi: string
   id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function UbahTugasModal({
+export default function UbahTugasSesiModal({
+  idSesi,
   id,
   show,
   onHide,
-}: UbahTugasModalProps) {
+}: UbahTugasSesiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.ubah', idKelas, id]
+  const queryKey = [
+    'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.ubah',
+    idKelas,
+    id,
+  ]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahTugasFormSchema>({
+  } = useQuery({
     queryKey,
-    queryFn: async () => {
+    queryFn: async (): Promise<UbahTugasSesiFormSchema> => {
       if (!id)
         return {
           dibatasiWaktu: false,
-          share: true,
           berkas: [],
         }
 
@@ -106,24 +111,34 @@ export default function UbahTugasModal({
     },
   })
 
-  const onSubmit: SubmitHandler<UbahTugasFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahTugasSesiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasTugasAction(idKelas, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-        queryClient.setQueryData(queryKey, (oldData: UbahTugasFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      ubahAktifitasTugasSesiAction(idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.list',
+              idKelas,
+              idSesi,
+            ],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahTugasSesiFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {
@@ -144,7 +159,7 @@ export default function UbahTugasModal({
       {isLoading ? (
         <Loader height={500} />
       ) : (
-        <Form<UbahTugasFormSchema>
+        <Form<UbahTugasSesiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{

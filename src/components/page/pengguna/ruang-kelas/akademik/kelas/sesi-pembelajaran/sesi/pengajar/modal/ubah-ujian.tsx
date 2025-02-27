@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-ujian'
+import { ubahAktifitasUjianSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-ujian'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -34,9 +34,9 @@ import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BsCardChecklist, BsInfoCircle } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
-import { Switch, Tooltip } from 'rizzui'
+import { Tooltip } from 'rizzui'
 
-const baseFormSchema = z.object({
+const formSchema = z.object({
   judul: z.string().pipe(required),
   jenis: z.any().superRefine(objectRequired),
   durasi: z.number(),
@@ -45,36 +45,18 @@ const baseFormSchema = z.object({
   catatan: z.string().optional(),
   acakSoal: z.string(),
   acakJawaban: z.string(),
-  presensi: z.string(),
 })
 
-const formSchema = z.discriminatedUnion('penjadwalan', [
-  z
-    .object({
-      penjadwalan: z.literal(false),
-    })
-    .merge(baseFormSchema),
-  z
-    .object({
-      penjadwalan: z.literal(true),
-      jadwal: z.date(),
-    })
-    .merge(baseFormSchema),
-])
-
-export type UbahUjianFormSchema = {
+export type UbahUjianSesiFormSchema = {
   paket?: Omit<PaketSoalItemType, 'total'> & { idKategori: string }
   judul?: string
   jenis?: SelectOptionType
-  penjadwalan: boolean
-  jadwal?: Date
   durasi?: number
   mulai?: Date
   selesai?: Date
   catatan?: string
   acakSoal: string
   acakJawaban: string
-  presensi: string
 }
 
 const jenisOptions: SelectOptionType[] = [
@@ -88,42 +70,41 @@ const acakOptions: RadioGroupOptionType[] = [
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const presensiOptions: RadioGroupOptionType[] = [
-  { label: 'Aktif', value: 'aktif' },
-  { label: 'Tidak Aktif', value: 'non-aktif' },
-]
-
-type UbahUjianModalProps = {
+type UbahUjianSesiModalProps = {
+  idSesi: string
   id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function UbahUjianModal({
+export default function UbahUjianSesiModal({
+  idSesi,
   id,
   show,
   onHide,
-}: UbahUjianModalProps) {
+}: UbahUjianSesiModalProps) {
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.ubah', idKelas, id]
+  const queryKey = [
+    'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.ubah',
+    idKelas,
+    id,
+  ]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahUjianFormSchema>({
+  } = useQuery({
     queryKey,
-    queryFn: async () => {
+    queryFn: async (): Promise<UbahUjianSesiFormSchema> => {
       if (!id)
         return {
-          penjadwalan: false,
           acakSoal: 'aktif',
           acakJawaban: 'non-aktif',
-          presensi: 'aktif',
         }
 
       const { data } = await lihatAktifitasAction(idKelas, id)
@@ -140,7 +121,7 @@ export default function UbahUjianModal({
               pilihanDigunakan: bankSoal.jumlah_soal_yang_digunakan,
               totalPilihan: bankSoal.total_soal_pilihan_ganda,
               totalEsai: bankSoal.total_soal_essay,
-            } as UbahUjianFormSchema['paket'])
+            } as UbahUjianSesiFormSchema['paket'])
           : undefined,
         judul: data?.aktifitas.judul,
         jenis: selectOption(
@@ -150,40 +131,44 @@ export default function UbahUjianModal({
             'Tugas'
           )
         ),
-        penjadwalan: !!data?.aktifitas.waktu_tersedia,
-        jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),
         durasi: data?.aktifitas.durasi_ujian ?? undefined,
         mulai: parseDate(data?.aktifitas.waktu_mulai_ujian ?? undefined),
         selesai: parseDate(data?.aktifitas.waktu_selesai_ujian ?? undefined),
         catatan: data?.aktifitas.deskripsi ?? undefined,
         acakSoal: data?.aktifitas.acak_soal === 1 ? 'aktif' : 'non-aktif',
         acakJawaban: data?.aktifitas.acak_jawaban === 1 ? 'aktif' : 'non-aktif',
-        presensi: data?.aktifitas.absen === 'Otomatis' ? 'aktif' : 'non-aktif',
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahUjianFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahUjianSesiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasUjianAction(idKelas, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id],
-        })
-        queryClient.setQueryData(queryKey, (oldData: UbahUjianFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      ubahAktifitasUjianSesiAction(idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.list',
+              idKelas,
+              idSesi,
+            ],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahUjianSesiFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const paket = initialValues?.paket
@@ -206,7 +191,7 @@ export default function UbahUjianModal({
       {isLoading ? (
         <Loader height={500} />
       ) : (
-        <Form<UbahUjianFormSchema>
+        <Form<UbahUjianSesiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -286,27 +271,6 @@ export default function UbahUjianModal({
                   required
                 />
 
-                <div className="flex gap-x-4">
-                  <Switch
-                    label="Opsi Penjadwalan"
-                    labelClassName="text-gray-dark font-semibold"
-                    {...register('penjadwalan')}
-                  />
-                  {watch('penjadwalan', false) && (
-                    <ControlledDatePicker
-                      name="jadwal"
-                      control={control}
-                      errors={errors}
-                      placeholder="Atur Tanggal dan Jam Terbit"
-                      showTimeSelect
-                      dateFormat="dd MMMM yyyy HH:mm"
-                      timeFormat="HH:mm"
-                      className="flex-1"
-                      required
-                    />
-                  )}
-                </div>
-
                 <div className="flex gap-x-2">
                   <ControlledInputNumber
                     name="durasi"
@@ -381,21 +345,6 @@ export default function UbahUjianModal({
                   className="mb-1.5"
                   groupClassName="gap-8"
                   options={acakOptions}
-                />
-
-                <ControlledRadioGroup
-                  name="presensi"
-                  control={control}
-                  options={presensiOptions}
-                  errors={errors}
-                  label={
-                    <div className="flex items-center">
-                      Presensi
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
-                  className="mb-1.5"
-                  groupClassName="gap-8"
                 />
               </div>
 

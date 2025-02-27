@@ -220,7 +220,7 @@ export default function PengajarAbsensiCard({
                               }}
                             >
                               <Text size="xs" weight="semibold">
-                                {status}
+                                {status.substring(0, 1)}
                               </Text>
                             </ActionIconTooltip>
                           ))

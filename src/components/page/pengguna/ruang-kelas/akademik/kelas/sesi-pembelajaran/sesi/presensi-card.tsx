@@ -1,3 +1,4 @@
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   Card,
@@ -14,10 +15,11 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 
 type PresensiCardProps = {
+  kelas: DataKelasType
   className?: string
 }
 
-export default function PengajarPresensiCard({ className }: PresensiCardProps) {
+export default function PresensiCard({ kelas, className }: PresensiCardProps) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
       <div className="flex justify-between items-center gap-x-2 px-2 py-2">

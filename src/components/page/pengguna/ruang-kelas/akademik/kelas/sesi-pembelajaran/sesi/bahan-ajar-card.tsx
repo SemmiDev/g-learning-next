@@ -1,4 +1,5 @@
 import { listAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import { Button, Card, Loader, Title } from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
@@ -14,21 +15,23 @@ import {
 } from 'react-icons/bs'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Popover } from 'rizzui'
-import TambahBahanPopoverItem from '../../pengajar/popover-item'
+import TambahBahanPopoverItem from '../pengajar/popover-item'
 import KonferensiItem from './bahan-ajar-item/konferensi'
 import MateriItem from './bahan-ajar-item/materi'
 import TugasItem from './bahan-ajar-item/tugas'
 import UjianItem from './bahan-ajar-item/ujian'
-import TambahKonferensiSesiModal from './modal/tambah-konferensi'
-import TambahMateriSesiModal from './modal/tambah-materi'
-import TambahTugasSesiModal from './modal/tambah-tugas'
-import TambahUjianSesiModal from './modal/tambah-ujian'
+import TambahKonferensiSesiModal from './pengajar/modal/tambah-konferensi'
+import TambahMateriSesiModal from './pengajar/modal/tambah-materi'
+import TambahTugasSesiModal from './pengajar/modal/tambah-tugas'
+import TambahUjianSesiModal from './pengajar/modal/tambah-ujian'
 
 type BahanAjarCardProps = {
+  kelas: DataKelasType
   className?: string
 }
 
-export default function PengajarBahanAjarCard({
+export default function BahanAjarCard({
+  kelas,
   className,
 }: BahanAjarCardProps) {
   const {
@@ -56,7 +59,7 @@ export default function PengajarBahanAjarCard({
     doHide: doHideTambahKonferensi,
   } = useShowModal<string>()
 
-  const { kelas: idKelas, id: idSesi }: { kelas: string; id: string } =
+  const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
     useParams()
 
   const queryKey = [
@@ -102,47 +105,49 @@ export default function PengajarBahanAjarCard({
           <Title as="h6" weight="semibold">
             Bahan Ajar
           </Title>
-          <Popover>
-            <Popover.Trigger>
-              <Button size="sm" variant="text" className="min-h-0 p-0 mt-1">
-                <BsPlusCircle className="size-3 mr-1" /> Tambah bahan ajar
-              </Button>
-            </Popover.Trigger>
-            <Popover.Content className="flex flex-col px-0 py-1">
-              {({ setOpen }) => (
-                <>
-                  <TambahBahanPopoverItem
-                    title="Materi"
-                    color="green"
-                    Icon={BsFileRichtext}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahMateri(idSesi)}
-                  />
-                  <TambahBahanPopoverItem
-                    title="Tugas"
-                    color="violet"
-                    Icon={BsClipboardPlus}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahTugas(idSesi)}
-                  />
-                  <TambahBahanPopoverItem
-                    title="Ujian"
-                    color="blue"
-                    Icon={BsCardChecklist}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahUjian(idSesi)}
-                  />
-                  <TambahBahanPopoverItem
-                    title="Conference"
-                    color="red"
-                    Icon={BsWebcam}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahKonferensi(idSesi)}
-                  />
-                </>
-              )}
-            </Popover.Content>
-          </Popover>
+          {kelas.peran === 'Pengajar' && (
+            <Popover>
+              <Popover.Trigger>
+                <Button size="sm" variant="text" className="min-h-0 p-0 mt-1">
+                  <BsPlusCircle className="size-3 mr-1" /> Tambah bahan ajar
+                </Button>
+              </Popover.Trigger>
+              <Popover.Content className="flex flex-col px-0 py-1">
+                {({ setOpen }) => (
+                  <>
+                    <TambahBahanPopoverItem
+                      title="Materi"
+                      color="green"
+                      Icon={BsFileRichtext}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahMateri(idSesi)}
+                    />
+                    <TambahBahanPopoverItem
+                      title="Tugas"
+                      color="violet"
+                      Icon={BsClipboardPlus}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahTugas(idSesi)}
+                    />
+                    <TambahBahanPopoverItem
+                      title="Ujian"
+                      color="blue"
+                      Icon={BsCardChecklist}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahUjian(idSesi)}
+                    />
+                    <TambahBahanPopoverItem
+                      title="Conference"
+                      color="red"
+                      Icon={BsWebcam}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahKonferensi(idSesi)}
+                    />
+                  </>
+                )}
+              </Popover.Content>
+            </Popover>
+          )}
         </div>
         <div className="[&>*]:border-t [&>*]:border-muted">
           {list.map(
@@ -150,13 +155,13 @@ export default function PengajarBahanAjarCard({
               !!item.aktifitas && (
                 <Fragment key={item.aktifitas.id}>
                   {item.aktifitas.tipe === 'Materi' ? (
-                    <MateriItem data={item} />
+                    <MateriItem kelas={kelas} data={item} />
                   ) : item.aktifitas.tipe === 'Penugasan' ? (
-                    <TugasItem data={item} />
+                    <TugasItem kelas={kelas} data={item} />
                   ) : item.aktifitas.tipe === 'Konferensi' ? (
-                    <KonferensiItem data={item} />
+                    <KonferensiItem kelas={kelas} data={item} />
                   ) : item.aktifitas.tipe === 'Ujian' ? (
-                    <UjianItem data={item} />
+                    <UjianItem kelas={kelas} data={item} />
                   ) : null}
                 </Fragment>
               )
@@ -167,29 +172,33 @@ export default function PengajarBahanAjarCard({
         </div>
       </Card>
 
-      <TambahMateriSesiModal
-        idSesi={keyTambahMateri}
-        show={showTambahMateri}
-        onHide={doHideTambahMateri}
-      />
+      {kelas.peran === 'Pengajar' && (
+        <>
+          <TambahMateriSesiModal
+            idSesi={keyTambahMateri}
+            show={showTambahMateri}
+            onHide={doHideTambahMateri}
+          />
 
-      <TambahTugasSesiModal
-        idSesi={keyTambahTugas}
-        show={showTambahTugas}
-        onHide={doHideTambahTugas}
-      />
+          <TambahTugasSesiModal
+            idSesi={keyTambahTugas}
+            show={showTambahTugas}
+            onHide={doHideTambahTugas}
+          />
 
-      <TambahUjianSesiModal
-        idSesi={keyTambahUjian}
-        show={showTambahUjian}
-        onHide={doHideTambahUjian}
-      />
+          <TambahUjianSesiModal
+            idSesi={keyTambahUjian}
+            show={showTambahUjian}
+            onHide={doHideTambahUjian}
+          />
 
-      <TambahKonferensiSesiModal
-        idSesi={keyTambahKonferensi}
-        show={showTambahKonferensi}
-        onHide={doHideTambahKonferensi}
-      />
+          <TambahKonferensiSesiModal
+            idSesi={keyTambahKonferensi}
+            show={showTambahKonferensi}
+            onHide={doHideTambahKonferensi}
+          />
+        </>
+      )}
     </>
   )
 }
