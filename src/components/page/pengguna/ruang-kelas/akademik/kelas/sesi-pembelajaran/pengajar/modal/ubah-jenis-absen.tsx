@@ -90,6 +90,14 @@ export default function UbahJenisAbsenSesiModal({
             idKelas,
           ],
         })
+        queryClient.invalidateQueries({
+          queryKey: [
+            'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
+            'pengajar',
+            idKelas,
+            id,
+          ],
+        })
         queryClient.setQueryData(
           queryKey,
           (oldData: UbahJenisAbsenSesiFormSchema) => ({

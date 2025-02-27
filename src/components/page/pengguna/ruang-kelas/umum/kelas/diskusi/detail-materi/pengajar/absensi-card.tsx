@@ -138,134 +138,124 @@ export default function PengajarAbsensiCard({
         <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
           Anggota Kelas
         </Title>
-        {isLoading ? (
-          <Loader height={100} />
-        ) : (
-          <>
-            {tipe === 'Manual' && list.length > 0 && (
-              <div className="flex px-2 mb-4">
-                <Checkbox
-                  size="sm"
-                  label="Tandai Hadir Semua"
-                  className="text-gray-lighter text-xs"
-                  iconClassName="h-3 top-1"
-                  checked={hadirSemua || isHadirSemua}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setHadirSemua(true)
-                    }
-                  }}
-                />
-              </div>
-            )}
-            <CardSeparator />
-            <div className="flex flex-col divide-y max-h-[calc(100dvh-250px)] overflow-y-auto">
-              {list.map((peserta) => {
-                return (
-                  <div
-                    key={peserta.id_peserta}
-                    className="flex justify-between items-center space-x-2 border-muted p-2"
-                  >
-                    <div className="flex space-x-3">
-                      <Thumbnail
-                        src={peserta.foto || undefined}
-                        alt="profil"
-                        size={40}
-                        rounded="md"
-                        avatar={peserta.nama}
-                        className="flex-shrink-0"
-                      />
-                      <div className="flex flex-col">
-                        <Text size="sm" weight="semibold" variant="dark">
-                          {peserta.nama}
-                        </Text>
-                        <Text size="2xs" weight="medium" variant="lighter">
-                          {peserta.email}
-                        </Text>
-                      </div>
-                    </div>
-                    {!!tipe && (
-                      <div className="flex flex-wrap gap-2">
-                        {tipe === 'Manual' ? (
-                          absensiStatus.map((status) => (
-                            <ActionIconTooltip
-                              key={status}
-                              tooltip={status}
-                              as={tipe === 'Manual' ? 'button' : 'span'}
-                              size="sm"
-                              rounded="lg"
-                              variant={
-                                absensi[peserta.id_peserta] === status
-                                  ? 'solid'
-                                  : 'outline'
-                              }
-                              color={
-                                status === 'Hadir'
-                                  ? 'primary'
-                                  : status === 'Izin'
-                                  ? 'success'
-                                  : status === 'Sakit'
-                                  ? 'warning'
-                                  : status === 'Alpha'
-                                  ? 'danger'
-                                  : 'gray'
-                              }
-                              onClick={() => {
-                                if (tipe !== 'Manual') return
+        {tipe === 'Manual' && list.length > 0 && (
+          <div className="flex px-2 mb-4">
+            <Checkbox
+              size="sm"
+              label="Tandai Hadir Semua"
+              className="text-gray-lighter text-xs"
+              iconClassName="h-3 top-1"
+              checked={hadirSemua || isHadirSemua}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setHadirSemua(true)
+                }
+              }}
+            />
+          </div>
+        )}
+        <CardSeparator />
+        <div className="flex flex-col divide-y max-h-[calc(100dvh-250px)] overflow-y-auto">
+          {list.map((peserta) => {
+            return (
+              <div
+                key={peserta.id_peserta}
+                className="flex justify-between items-center space-x-2 border-muted p-2"
+              >
+                <div className="flex space-x-3">
+                  <Thumbnail
+                    src={peserta.foto || undefined}
+                    alt="profil"
+                    size={40}
+                    rounded="md"
+                    avatar={peserta.nama}
+                    className="flex-shrink-0"
+                  />
+                  <div className="flex flex-col">
+                    <Text size="sm" weight="semibold" variant="dark">
+                      {peserta.nama}
+                    </Text>
+                    <Text size="2xs" weight="medium" variant="lighter">
+                      {peserta.email}
+                    </Text>
+                  </div>
+                </div>
+                {!!tipe && (
+                  <div className="flex flex-wrap gap-2">
+                    {tipe === 'Manual' ? (
+                      absensiStatus.map((status) => (
+                        <ActionIconTooltip
+                          key={status}
+                          tooltip={status}
+                          as={tipe === 'Manual' ? 'button' : 'span'}
+                          size="sm"
+                          rounded="lg"
+                          variant={
+                            absensi[peserta.id_peserta] === status
+                              ? 'solid'
+                              : 'outline'
+                          }
+                          color={
+                            status === 'Hadir'
+                              ? 'primary'
+                              : status === 'Izin'
+                              ? 'success'
+                              : status === 'Sakit'
+                              ? 'warning'
+                              : status === 'Alpha'
+                              ? 'danger'
+                              : 'gray'
+                          }
+                          onClick={() => {
+                            if (tipe !== 'Manual') return
 
-                                setAbsensi({
-                                  ...absensi,
-                                  [peserta.id_peserta]: status,
-                                })
-                              }}
-                            >
-                              <Text size="xs" weight="semibold">
-                                {status.substring(0, 1)}
-                              </Text>
-                            </ActionIconTooltip>
-                          ))
-                        ) : (
-                          <Badge
-                            rounded="md"
-                            variant="flat"
-                            color={
-                              peserta.status === 'Hadir'
-                                ? 'primary'
-                                : peserta.status === 'Izin'
-                                ? 'success'
-                                : peserta.status === 'Sakit'
-                                ? 'warning'
-                                : peserta.status === 'Alpha'
-                                ? 'danger'
-                                : 'gray'
-                            }
-                          >
-                            {peserta.status || '-'}
-                          </Badge>
-                        )}
-                      </div>
+                            setAbsensi({
+                              ...absensi,
+                              [peserta.id_peserta]: status,
+                            })
+                          }}
+                        >
+                          <Text size="xs" weight="semibold">
+                            {status.substring(0, 1)}
+                          </Text>
+                        </ActionIconTooltip>
+                      ))
+                    ) : (
+                      <Badge
+                        rounded="md"
+                        variant="flat"
+                        color={
+                          peserta.status === 'Hadir'
+                            ? 'primary'
+                            : peserta.status === 'Izin'
+                            ? 'success'
+                            : peserta.status === 'Sakit'
+                            ? 'warning'
+                            : peserta.status === 'Alpha'
+                            ? 'danger'
+                            : 'gray'
+                        }
+                      >
+                        {peserta.status || '-'}
+                      </Badge>
                     )}
                   </div>
-                )
-              })}
-              {!isLoading && hasNextPage && (
-                <Loader
-                  ref={refSentry}
-                  size="sm"
-                  className="border-muted py-4"
-                />
-              )}
+                )}
+              </div>
+            )
+          })}
+          {!isLoading && hasNextPage && (
+            <Loader ref={refSentry} size="sm" className="border-muted py-4" />
+          )}
+        </div>
+        {tipe === 'Manual' && (
+          <>
+            <CardSeparator />
+            <div className="flex justify-end p-2">
+              <Button size="sm" onClick={handleSimpan}>
+                Simpan Presensi
+              </Button>
             </div>
-            {tipe === 'Manual' && (
-              <>
-                <CardSeparator />
-                <div className="flex justify-end p-2">
-                  <Button size="sm" onClick={handleSimpan}>
-                    Simpan Presensi
-                  </Button>
-                </div>
-              </>
-            )}
           </>
         )}
       </Card>
