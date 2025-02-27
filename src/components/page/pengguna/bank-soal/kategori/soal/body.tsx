@@ -418,6 +418,15 @@ export default function KelolaSoalBody() {
                       ]
                     }
                     )
+                    {soal.tipe === 'ESSAY' && (
+                      <>
+                        {' '}
+                        -{' '}
+                        <small className="font-bold">
+                          Bobot Soal: {soal.bobot_essay}
+                        </small>
+                      </>
+                    )}
                   </Title>
                   {canBeChanged && (
                     <div className="flex space-x-2">

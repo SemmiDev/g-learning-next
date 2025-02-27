@@ -231,6 +231,7 @@ export default function UbahUjianModal({
                   >
                     <Link
                       href={`${routes.pengguna.bankSoal}/${paket.idKategori}/soal/${paket.id}`}
+                      target="_blank"
                     >
                       <div className="flex space-x-2 border border-dashed border-muted rounded-md p-2">
                         <div className="flex size-11 items-center justify-center rounded-md btn-item-blue">
