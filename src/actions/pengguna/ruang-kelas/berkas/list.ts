@@ -18,6 +18,7 @@ export type DataType = {
   created_at: string
   updated_at: string
   id_aktifitas: string
+  id_pertemuan: string | null
   judul_aktifitas: string
   tipe_aktifitas:
     | 'Diskusi'

@@ -1,3 +1,4 @@
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   FileIcon,
@@ -20,18 +21,21 @@ import { GrShare } from 'react-icons/gr'
 import { Dropdown } from 'rizzui'
 
 export type BerkasType = PustakaMediaFileType & {
+  idPertemuan: string | null
   idAktifitas: string
   aktifitas: string
   tipeAktifitas: string
 }
 
 type BerkasCardProps = {
+  kelas: DataKelasType
   file: BerkasType
   onPreview?: (file: BerkasType) => void
   className?: string
 }
 
 export default function BerkasCard({
+  kelas,
   file,
   onPreview,
   className,
@@ -56,6 +60,14 @@ export default function BerkasCard({
     file.type === 'link' ||
     (!!file.link && isPreviewableFile(file.link, file.extension))
 
+  const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
+  const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
+
+  const linkToKelas =
+    kelas?.kelas.tipe === 'Akademik' && file.idPertemuan
+      ? `${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/sesi-pembelajaran/${file.idPertemuan}/materi/${file.idAktifitas}`
+      : `${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/${file.tipeAktifitas}/${file.idAktifitas}`
+
   return (
     <div
       className={cn(
@@ -79,15 +91,12 @@ export default function BerkasCard({
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-30 divide-y !py-0">
               <div className="py-2">
-                {/* TODO: link buka diskusi terkait */}
-                {/* <Link
-                  href={`${routes.pengguna.ruangKelas}/${idKelas}/diskusi/${file.tipeAktifitas}/${file.idAktifitas}`}
-                >
+                <Link href={linkToKelas}>
                   <Dropdown.Item className="text-gray-dark">
                     <GrShare className="text-success-dark size-4 mr-2" />
                     Buka Diskusi Terkait
                   </Dropdown.Item>
-                </Link> */}
+                </Link>
                 {!file.folder && file.type !== 'link' && file.link && (
                   <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
                     <Dropdown.Item as="li" className="text-gray-dark">

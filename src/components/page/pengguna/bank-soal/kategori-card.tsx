@@ -26,57 +26,24 @@ export default function KategoriCard({
   onDelete,
   className,
 }: KategoriCardProps) {
-  const linkingProps = {
-    href: `${routes.pengguna.bankSoal}/${kategori.id}`,
-  }
-
   return (
     <div
       className={cn(
-        'relative rounded-lg border border-muted p-2 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
+        'relative rounded-lg border border-muted shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
         className
       )}
     >
-      <div className="flex">
-        <Link className="flex-1 h-[60px]" {...linkingProps}>
+      <Link
+        href={`${routes.pengguna.bankMateri}/${kategori.id}`}
+        className="flex flex-col p-2"
+      >
+        <div className="h-[60px]">
           <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
             <figure className="size-5">
               <Image src={iconFolder} alt="folder" />
             </figure>
           </div>
-        </Link>
-        <div className="flex flex-col">
-          <Dropdown placement="bottom-end">
-            <Dropdown.Trigger>
-              <ActionIcon as="span" size="sm" variant="outline-hover">
-                <BsThreeDotsVertical size={14} />
-              </ActionIcon>
-            </Dropdown.Trigger>
-            <Dropdown.Menu className="w-30 divide-y !py-0">
-              <div className="py-2">
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={() => onEdit && onEdit(kategori.id)}
-                >
-                  <BsPencil className="text-warning size-4 mr-2" />
-                  Ubah
-                </Dropdown.Item>
-              </div>
-              <div className="py-2">
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={() => onDelete && onDelete(kategori.id)}
-                >
-                  <BsTrash3 className="text-danger size-4 mr-2" />
-                  Hapus
-                </Dropdown.Item>
-              </div>
-            </Dropdown.Menu>
-          </Dropdown>
-          <Link className="flex-1" {...linkingProps} />
         </div>
-      </div>
-      <Link {...linkingProps}>
         <Title
           as="h4"
           size="base"
@@ -91,6 +58,34 @@ export default function KategoriCard({
           {kategori.count} Paket Soal
         </Text>
       </Link>
+
+      <Dropdown placement="bottom-end" className="absolute top-2 right-2">
+        <Dropdown.Trigger>
+          <ActionIcon as="span" size="sm" variant="outline-hover">
+            <BsThreeDotsVertical size={14} />
+          </ActionIcon>
+        </Dropdown.Trigger>
+        <Dropdown.Menu className="w-30 divide-y !py-0">
+          <div className="py-2">
+            <Dropdown.Item
+              className="text-gray-dark"
+              onClick={() => onEdit && onEdit(kategori.id)}
+            >
+              <BsPencil className="text-warning size-4 mr-2" />
+              Ubah
+            </Dropdown.Item>
+          </div>
+          <div className="py-2">
+            <Dropdown.Item
+              className="text-gray-dark"
+              onClick={() => onDelete && onDelete(kategori.id)}
+            >
+              <BsTrash3 className="text-danger size-4 mr-2" />
+              Hapus
+            </Dropdown.Item>
+          </div>
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   )
 }

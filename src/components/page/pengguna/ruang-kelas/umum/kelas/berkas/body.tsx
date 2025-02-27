@@ -1,6 +1,7 @@
 'use client'
 
 import { listBerkasKelasAction } from '@/actions/pengguna/ruang-kelas/berkas/list'
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   FilePreviewType,
@@ -10,7 +11,8 @@ import {
   Text,
 } from '@/components/ui'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
@@ -52,6 +54,11 @@ export default function BerkasBody() {
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+  })
+
   const queryKey = ['pengguna.ruang-kelas.berkas', idKelas]
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
@@ -77,6 +84,7 @@ export default function BerkasBody() {
             type: getFileType(item),
             driveId: item.id_instansi ?? undefined,
             idAktifitas: item.id_aktifitas,
+            idPertemuan: item.id_pertemuan,
             aktifitas: item.judul_aktifitas,
             tipeAktifitas:
               item.tipe_aktifitas === 'Materi'
@@ -118,6 +126,8 @@ export default function BerkasBody() {
   const sorting = sortData.find(
     (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
   )
+
+  if (!dataKelas) return null
 
   return (
     <>
@@ -173,6 +183,7 @@ export default function BerkasBody() {
           {files.map((file) => (
             <BerkasCard
               key={file.id}
+              kelas={dataKelas}
               file={file}
               onPreview={(file) => {
                 if (!file.link) return

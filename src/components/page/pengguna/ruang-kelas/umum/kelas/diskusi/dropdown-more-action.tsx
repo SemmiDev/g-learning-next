@@ -31,11 +31,6 @@ export default function DropdownMoreAction({
               <BsPencil className="text-warning size-4 mr-2" />
               Ubah
             </Dropdown.Item>
-            {/* TODO: fitur bagikan ke kelas lain */}
-            {/* <Dropdown.Item className="text-gray-dark">
-            <PiShareFat className="text-primary size-4 mr-2" />
-            Bagikan
-          </Dropdown.Item> */}
           </div>
         )}
         {showDelete && (
