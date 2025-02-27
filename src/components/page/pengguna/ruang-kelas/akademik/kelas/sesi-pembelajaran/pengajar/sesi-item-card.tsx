@@ -25,7 +25,7 @@ import {
 import { Dropdown, Popover } from 'rizzui'
 import TambahBahanPopoverItem from './popover-item'
 
-type SesiItemCardProps = {
+type PengajarSesiItemCardProps = {
   sesi: DataSesiType
   bisaMulai?: boolean
   onUbahJudul?: () => void
@@ -35,7 +35,7 @@ type SesiItemCardProps = {
   className?: string
 }
 
-export default function SesiItemCard({
+export default function PengajarSesiItemCard({
   sesi,
   bisaMulai,
   onUbahJudul,
@@ -43,7 +43,7 @@ export default function SesiItemCard({
   onMulai,
   onAkhiri,
   className,
-}: SesiItemCardProps) {
+}: PengajarSesiItemCardProps) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 

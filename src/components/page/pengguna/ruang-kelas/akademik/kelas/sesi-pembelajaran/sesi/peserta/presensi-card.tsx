@@ -1,4 +1,3 @@
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   Card,
@@ -10,41 +9,21 @@ import {
 import cn from '@/utils/class-names'
 import imagePhoto from '@public/images/photo.png'
 import Image from 'next/image'
-import { BsPencil, BsThreeDots } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Dropdown } from 'rizzui'
 
-type PresensiCardProps = {
-  kelas: DataKelasType
+type PesertaPresensiCardProps = {
   className?: string
 }
 
-export default function PresensiCard({ kelas, className }: PresensiCardProps) {
+export default function PesertaPresensiCard({
+  className,
+}: PesertaPresensiCardProps) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <div className="flex justify-between items-center gap-x-2 px-2 py-2">
+      <div className="px-2 py-3">
         <Title as="h6" weight="semibold" className="leading-4">
           Presensi
         </Title>
-        <Dropdown placement="bottom-end">
-          <Dropdown.Trigger>
-            <ActionIcon as="span" size="sm" variant="text">
-              <BsThreeDots className="size-4" />
-            </ActionIcon>
-          </Dropdown.Trigger>
-          <Dropdown.Menu className="w-52 divide-y !py-0">
-            <div className="py-2">
-              <Dropdown.Item className="text-gray-dark">
-                <BsPencil className="text-warning size-4 mr-2" />
-                Ubah Jenis Presensi
-              </Dropdown.Item>
-              <Dropdown.Item className="text-gray-dark">
-                <BsPencil className="text-warning size-4 mr-2" />
-                Ubah Data Presensi
-              </Dropdown.Item>
-            </div>
-          </Dropdown.Menu>
-        </Dropdown>
       </div>
       <div>
         {[...Array(10)].map((val, idx) => {

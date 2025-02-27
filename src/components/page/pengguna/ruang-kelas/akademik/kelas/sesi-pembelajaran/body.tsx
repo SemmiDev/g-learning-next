@@ -16,8 +16,8 @@ export default function SesiPembelajaranBody() {
   })
 
   if (dataKelas?.peran === 'Pengajar') {
-    return <PengajarSesiPembelajaranBody />
+    return <PengajarSesiPembelajaranBody kelas={dataKelas} />
   } else if (dataKelas?.peran === 'Peserta') {
-    return <PesertaSesiPembelajaranBody />
+    return <PesertaSesiPembelajaranBody kelas={dataKelas} />
   }
 }

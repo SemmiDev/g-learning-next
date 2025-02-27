@@ -1,3 +1,59 @@
-export default function PesertaSesiPembelajaranBody() {
-  return <div></div>
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
+import { listSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/list'
+import { Loader } from '@/components/ui'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
+import PesertaSesiItemCard from './peserta/sesi-item-card'
+
+type PesertaSesiPembelajaranBodyProps = {
+  kelas: DataKelasType
+}
+
+export default function PesertaSesiPembelajaranBody({
+  kelas,
+}: PesertaSesiPembelajaranBodyProps) {
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const queryKey = [
+    'pengguna.ruang-kelas.sesi-pembelajaran.list',
+    'pengajar',
+    idKelas,
+  ]
+
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listSesiPembelajaranAction({ page, idKelas })
+
+      return {
+        list: data?.list ?? [],
+        pagination: data?.pagination,
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const list = data?.pages.flatMap((page) => page.list) ?? []
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
+
+  return (
+    <div className="flex flex-col gap-y-2 mt-8 lg:w-7/12">
+      {list.map((sesi, idx) => (
+        <PesertaSesiItemCard key={idx} sesi={sesi} />
+      ))}
+      {!isLoading && hasNextPage && (
+        <Loader ref={refSentry} size="sm" className="py-4" />
+      )}
+    </div>
+  )
 }

@@ -1,8 +1,11 @@
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import { listSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/list'
+import { akhiriSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
 import { ModalConfirm } from '@/components/ui'
 import Loader from '@/components/ui/loader'
 import { routes } from '@/config/routes'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { handleActionWithToast } from '@/utils/action'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
@@ -10,11 +13,15 @@ import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import UbahJenisAbsenSesiModal from './pengajar/modal/ubah-jenis-absen'
 import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
-import SesiItemCard from './pengajar/sesi-item-card'
-import { handleActionWithToast } from '@/utils/action'
-import { akhiriSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
+import PengajarSesiItemCard from './pengajar/sesi-item-card'
 
-export default function PengajarSesiPembelajaranBody() {
+type PengajarSesiPembelajaranBodyProps = {
+  kelas: DataKelasType
+}
+
+export default function PengajarSesiPembelajaranBody({
+  kelas,
+}: PengajarSesiPembelajaranBodyProps) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [idSesiMulai, setIdSesiMulai] = useState<string>()
@@ -86,7 +93,7 @@ export default function PengajarSesiPembelajaranBody() {
     <>
       <div className="flex flex-col gap-y-2 mt-8 lg:w-7/12">
         {list.map((sesi, idx) => (
-          <SesiItemCard
+          <PengajarSesiItemCard
             key={idx}
             sesi={sesi}
             bisaMulai={sesi.id === firstBelumMulai?.id && !adaBerlangsung}

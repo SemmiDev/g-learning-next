@@ -10,7 +10,8 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import BahanAjarCard from './bahan-ajar-card'
-import PresensiCard from './presensi-card'
+import PengajarPresensiCard from './pengajar/presensi-card'
+import PesertaPresensiCard from './peserta/presensi-card'
 import SesiCard from './sesi-card'
 
 export default function LihatSesiBody() {
@@ -53,7 +54,11 @@ export default function LihatSesiBody() {
           <SesiCard kelas={dataKelas} />
           <BahanAjarCard kelas={dataKelas} />
         </div>
-        <PresensiCard kelas={dataKelas} className="flex-1" />
+        {dataKelas.peran === 'Pengajar' ? (
+          <PengajarPresensiCard className="flex-1" />
+        ) : (
+          <PesertaPresensiCard className="flex-1" />
+        )}
       </div>
     </>
   )
