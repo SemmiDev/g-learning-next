@@ -1,6 +1,6 @@
 import { listAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/list'
 import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
-import { Button, Card, Loader, Title } from '@/components/ui'
+import { Button, Card, Loader, Shimmer, Title } from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -149,27 +149,31 @@ export default function BahanAjarCard({
             </Popover>
           )}
         </div>
-        <div className="[&>*]:border-t [&>*]:border-muted">
-          {list.map(
-            (item) =>
-              !!item.aktifitas && (
-                <Fragment key={item.aktifitas.id}>
-                  {item.aktifitas.tipe === 'Materi' ? (
-                    <MateriItem kelas={kelas} data={item} />
-                  ) : item.aktifitas.tipe === 'Penugasan' ? (
-                    <TugasItem kelas={kelas} data={item} />
-                  ) : item.aktifitas.tipe === 'Konferensi' ? (
-                    <KonferensiItem kelas={kelas} data={item} />
-                  ) : item.aktifitas.tipe === 'Ujian' ? (
-                    <UjianItem kelas={kelas} data={item} />
-                  ) : null}
-                </Fragment>
-              )
-          )}
-          {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} size="sm" className="py-4" />
-          )}
-        </div>
+        {isLoading ? (
+          <ShimmerSection />
+        ) : (
+          <div className="[&>*]:border-t [&>*]:border-muted">
+            {list.map(
+              (item) =>
+                !!item.aktifitas && (
+                  <Fragment key={item.aktifitas.id}>
+                    {item.aktifitas.tipe === 'Materi' ? (
+                      <MateriItem kelas={kelas} data={item} />
+                    ) : item.aktifitas.tipe === 'Penugasan' ? (
+                      <TugasItem kelas={kelas} data={item} />
+                    ) : item.aktifitas.tipe === 'Konferensi' ? (
+                      <KonferensiItem kelas={kelas} data={item} />
+                    ) : item.aktifitas.tipe === 'Ujian' ? (
+                      <UjianItem kelas={kelas} data={item} />
+                    ) : null}
+                  </Fragment>
+                )
+            )}
+            {!isLoading && hasNextPage && (
+              <Loader ref={refSentry} size="sm" className="py-4" />
+            )}
+          </div>
+        )}
       </Card>
 
       {kelas.peran === 'Pengajar' && (
@@ -200,5 +204,22 @@ export default function BahanAjarCard({
         </>
       )}
     </>
+  )
+}
+
+function ShimmerSection() {
+  return (
+    <div className="[&>*]:border-t [&>*]:border-muted">
+      {[...Array(3)].map((_, idx) => (
+        <div key={idx} className="flex flex-1 gap-x-2 px-2 py-4">
+          <Shimmer className="size-[2.625rem]" />
+          <div className="flex flex-col gap-y-4 flex-1">
+            <Shimmer className="h-3 w-2/12" />
+            <Shimmer className="h-2.5 w-3/12" />
+            <Shimmer className="h-2.5 w-2/12" />
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }

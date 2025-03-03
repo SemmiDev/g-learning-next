@@ -9,8 +9,8 @@ export type DataType = {
   id_pertemuan_kelas: string
   id_peserta: string
   status: string | null
-  latitude: string | null
-  longitude: string | null
+  latitude: number | null
+  longitude: number | null
   swafoto: string | null
   created_at: string
   updated_at: string

@@ -75,11 +75,11 @@ export default function UjianItem({ kelas, data, className }: UjianItemProps) {
             <Text size="sm" className="line-clamp-2 lg:line-clamp-1">
               {stripHtmlAndEllipsis(data.aktifitas?.deskripsi ?? '', 200)}
             </Text>
-            <div className="flex flex-col gap-x-2 2xl:flex-row">
+            <div className="flex flex-col gap-x-3 2xl:flex-row">
               <table>
                 <tbody>
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                    <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-32">
                       Jumlah Soal Pilgan
                     </td>
                     <td className="text-xs text-gray-dark font-semibold text-center w-2">
@@ -91,7 +91,7 @@ export default function UjianItem({ kelas, data, className }: UjianItemProps) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                    <td className="text-xs text-gray-lighter font-medium">
                       Jumlah Soal Esai
                     </td>
                     <td className="text-xs text-gray-dark font-semibold text-center w-2">
@@ -119,7 +119,7 @@ export default function UjianItem({ kelas, data, className }: UjianItemProps) {
                   {data.aktifitas.waktu_tersedia !==
                     data.aktifitas.waktu_mulai_ujian && (
                     <tr>
-                      <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
+                      <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-36">
                         Waktu mulai pengerjaan
                       </td>
                       <td className="text-xs text-gray-dark font-semibold text-center w-2">
@@ -135,7 +135,7 @@ export default function UjianItem({ kelas, data, className }: UjianItemProps) {
                     </tr>
                   )}
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
+                    <td className="text-xs text-gray-lighter font-medium">
                       Batas waktu pengerjaan
                     </td>
                     <td className="text-xs text-gray-dark font-semibold text-center w-2">

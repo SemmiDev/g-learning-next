@@ -1,8 +1,8 @@
 import cn from '@/utils/class-names'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
-import ImageName from './image-with-name'
 import { ReactNode } from 'react'
+import ImageName from './image-with-name'
 
 export type ThumbnailProps = {
   size: number
@@ -14,6 +14,7 @@ export type ThumbnailProps = {
   bordered?: boolean
   priority?: boolean
   defaultImage?: ReactNode
+  onClick?: () => void
   className?: string
 }
 
@@ -27,6 +28,7 @@ export default function Thumbnail({
   bordered,
   priority,
   defaultImage,
+  onClick,
   className,
 }: ThumbnailProps) {
   return (
@@ -45,6 +47,7 @@ export default function Thumbnail({
         width: `${size}px`,
         height: `${size}px`,
       }}
+      onClick={onClick}
     >
       {src ? (
         <Image

@@ -64,7 +64,7 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
     <>
       <Card className={cn('flex flex-col gap-y-2', className)}>
         <div className="flex justify-between gap-x-2">
-          <div className="flex items-center gap-x-2">
+          <div className="flex flex-wrap items-center gap-x-2">
             <Title as="h6" weight="semibold">
               {data?.judul || '-'}
             </Title>
@@ -92,7 +92,8 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
               className="min-h-0 p-0 mt-1"
               onClick={() => doShowUbahJudul(idSesi)}
             >
-              <BsPencilSquare className="size-3 mr-1" /> Ubah Judul Sesi
+              <BsPencilSquare className="size-3 mr-1" />{' '}
+              <span className="hidden xs:inline">Ubah Judul Sesi</span>
             </Button>
           )}
         </div>

@@ -1,5 +1,8 @@
 import { simpanPresensiPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/simpan-presensi-peserta'
-import { tablePresensiPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/table-presensi-peserta'
+import {
+  DataType as DataPresensiType,
+  tablePresensiPesertaSesiAction,
+} from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/table-presensi-peserta'
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import {
   ActionIcon,
@@ -28,10 +31,11 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 import UbahJenisAbsenSesiModal from '../../pengajar/modal/ubah-jenis-absen'
 import PresensiCardShimmer from '../shimmer/presensi-card'
+import DetailPresensiModal from './modal/detail-presensi'
 
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 
-type AbsensiType = Record<string, (typeof absensiStatus)[number] | null>
+type AbsensiType = Record<string, (typeof absensiStatus)[number]>
 
 type PengajarPresensiCardProps = {
   className?: string
@@ -42,13 +46,19 @@ export default function PengajarPresensiCard({
 }: PengajarPresensiCardProps) {
   const queryClient = useQueryClient()
   const [ubahData, setUbahData] = useState(false)
-  const [dataPerubahan, setDataPerubahan] = useState<Record<string, string>>({})
+  const [dataPerubahan, setDataPerubahan] = useState<AbsensiType>({})
   const {
     show: showUbahAbsensi,
     key: keyUbahAbsensi,
     doShow: doShowUbahAbsensi,
     doHide: doHideUbahAbsensi,
   } = useShowModal<string>()
+  const {
+    show: showDetailPresensi,
+    key: dataDetailPresensi,
+    doShow: doShowDetailPresensi,
+    doHide: doHideDetailPresensi,
+  } = useShowModal<DataPresensiType>()
 
   const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
     useParams()
@@ -194,7 +204,7 @@ export default function PengajarPresensiCard({
             return (
               <div
                 key={item.id_peserta}
-                className="flex justify-between items-center border-t-2 border-t-gray-100 px-2 py-4"
+                className="flex justify-between items-center gap-x-2 border-t-2 border-t-gray-100 px-2 py-4"
               >
                 <div className="flex items-center gap-x-3">
                   <Thumbnail
@@ -214,7 +224,7 @@ export default function PengajarPresensiCard({
                     </Text>
                   </div>
                 </div>
-                <div className="flex gap-x-8">
+                <div className="flex gap-x-4">
                   <div className="flex gap-x-2">
                     {dataSesi?.jenis_absensi_peserta === 'Manual' ||
                     ubahData ? (
@@ -279,6 +289,7 @@ export default function PengajarPresensiCard({
                       rounded="lg"
                       variant="outline-colorful"
                       className="rounded-lg"
+                      onClick={() => doShowDetailPresensi(item)}
                     >
                       <PiMagnifyingGlass />
                     </ActionIcon>
@@ -302,6 +313,12 @@ export default function PengajarPresensiCard({
         id={keyUbahAbsensi}
         show={showUbahAbsensi}
         onHide={doHideUbahAbsensi}
+      />
+
+      <DetailPresensiModal
+        data={dataDetailPresensi}
+        show={showDetailPresensi}
+        onHide={doHideDetailPresensi}
       />
     </>
   )

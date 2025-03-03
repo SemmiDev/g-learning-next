@@ -27,7 +27,7 @@ export type DataType = {
     | 'GPS'
     | 'Swafoto'
     | 'GPS dan Swafoto'
-  status_absensi_pengajar: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha'
+  status_absensi_pengajar: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | null
   latitude: number | null
   longitude: number | null
   swafoto: string | null
@@ -36,6 +36,7 @@ export type DataType = {
   swafoto_url: string | null
   lokasi_pertemuan: string
   total_bahan_ajar: number
+  status_absensi_siswa: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | null
 }
 
 export const listSesiPembelajaranAction = async ({

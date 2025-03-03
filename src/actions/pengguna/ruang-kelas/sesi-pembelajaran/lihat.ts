@@ -36,6 +36,7 @@ export type DataType = {
   swafoto_url: string | null
   lokasi_pertemuan: string
   total_bahan_ajar: number
+  status_absensi_siswa: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | null
 }
 
 export const lihatSesiPembelajaranAction = async (

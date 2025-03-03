@@ -180,28 +180,40 @@ export default function PengajarSesiItemCard({
             )}
           </Popover.Content>
         </Popover>
-        {sesi.status === 'Sedang Berlangsung' ? (
-          <Button size="sm" className="flex-1" onClick={onAkhiri}>
-            Akhiri Sesi
-          </Button>
-        ) : sesi.status === 'Telah Berakhir' ? (
+        {sesi.status !== 'Belum Dibuka' && (
           <Link
             href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${sesi.id_kelas}/sesi-pembelajaran/${sesi.id}`}
             className="flex-1"
           >
-            <Button as="span" size="sm" className="w-full">
-              Lihat Detail
+            <Button
+              as="span"
+              size="sm"
+              color={
+                sesi.status === 'Sedang Berlangsung' ? 'success' : 'primary'
+              }
+              className="w-full text-center"
+            >
+              {sesi.status === 'Sedang Berlangsung'
+                ? 'Lihat Sesi Berlangsung'
+                : 'Lihat Detail'}
             </Button>
           </Link>
-        ) : (
-          <Button
-            size="sm"
-            disabled={!bisaMulai}
-            className="flex-1"
-            onClick={onMulai}
-          >
-            Mulai Sesi
+        )}
+        {sesi.status === 'Sedang Berlangsung' ? (
+          <Button size="sm" className="flex-1" onClick={onAkhiri}>
+            Akhiri Sesi
           </Button>
+        ) : (
+          sesi.status === 'Belum Dibuka' && (
+            <Button
+              size="sm"
+              disabled={!bisaMulai}
+              className="flex-1"
+              onClick={onMulai}
+            >
+              Mulai Sesi
+            </Button>
+          )
         )}
       </div>
     </Card>
