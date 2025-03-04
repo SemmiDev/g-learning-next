@@ -182,7 +182,7 @@ export default function BerkasBody() {
         <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {files.map((file) => (
             <BerkasCard
-              key={file.id}
+              key={`${file.id}-${file.idAktifitas}`}
               kelas={dataKelas}
               file={file}
               onPreview={(file) => {
