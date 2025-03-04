@@ -87,6 +87,9 @@ export default function UbahJudulSesiModal({
             id,
           ],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
+        })
         queryClient.setQueryData(
           queryKey,
           (oldData: UbahJudulSesiFormSchema) => ({

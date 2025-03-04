@@ -25,7 +25,7 @@ export default function Camera({ onChange }: CameraProps) {
     setCamera(cameraPhoto)
 
     return () => {
-      cameraPhoto.stopCamera()
+      if (cameraPhoto.stream) cameraPhoto.stopCamera()
       camera?.stopCamera()
     }
   }, [videoRef])

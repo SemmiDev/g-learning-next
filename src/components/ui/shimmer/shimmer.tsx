@@ -3,7 +3,16 @@ import { ReactNode } from 'react'
 import './shimmer.css'
 
 export type ShimmerProps = {
-  rounded?: 'normal' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
+  rounded?:
+    | 'normal'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | 'full'
+    | 'none'
   children?: ReactNode
   className?: string
 }
@@ -17,7 +26,9 @@ export default function Shimmer({
     <div
       className={cn(
         'shimmer',
-        rounded == 'normal' ? 'rounded' : `rounded-${rounded}`,
+        rounded !== 'none' && rounded === 'normal'
+          ? 'rounded'
+          : `rounded-${rounded}`,
         className
       )}
     >

@@ -16,7 +16,7 @@ import { hourMinute } from '@/utils/text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import { LuClock, LuMapPin, LuPackage } from 'react-icons/lu'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useWindowSize } from 'react-use'
@@ -101,64 +101,64 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
         ) : list.length > 0 ? (
           <>
             {list.map((item) => (
-              <Fragment key={item.id}>
-                <div className="flex flex-col px-1 py-2">
-                  <div className="flex items-center gap-x-2">
-                    <Text weight="semibold">
-                      {item.nama_kelas} - {item.sub_judul}
-                    </Text>
-                    {item.status !== 'Belum Dibuka' && (
-                      <Badge
-                        size="sm"
-                        variant="flat"
-                        color={
-                          item.status === 'Sedang Berlangsung'
-                            ? 'success'
-                            : 'danger'
-                        }
-                      >
-                        {item.status === 'Sedang Berlangsung'
-                          ? 'Sesi sedang berlangsung'
-                          : 'Sesi telah selesai'}
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="flex gap-x-4 mt-1">
-                    <div className="flex items-center gap-x-1">
-                      <LuPackage className="size-4 text-gray-lighter" />
-                      <Text size="sm" weight="medium">
-                        Sesi {item.pertemuan}
-                      </Text>
-                    </div>
-                    <div className="flex items-center gap-x-1">
-                      <LuClock className="size-4 text-gray-lighter" />
-                      <Text size="sm" weight="medium">
-                        {hourMinute(item.waktu_mulai)} -{' '}
-                        {hourMinute(item.waktu_sampai)}
-                      </Text>
-                    </div>
-                    <div className="flex items-center gap-x-1">
-                      <LuMapPin className="size-4 text-gray-lighter" />
-                      <Text size="sm" weight="medium">
-                        {item.lokasi_pertemuan}
-                      </Text>
-                    </div>
-                  </div>
-                  <Link
-                    href={`${routes.pengguna.ruangKelas[jenisKelas].akademik}/${item.id_kelas}/sesi-pembelajaran`}
-                  >
-                    <Button
-                      as="span"
+              <div
+                key={item.id}
+                className="flex flex-col [&:not(:last-child)]:border-b border-b-muted px-1 py-2"
+              >
+                <div className="flex items-center gap-x-2">
+                  <Text weight="semibold">
+                    {item.nama_kelas} - {item.sub_judul}
+                  </Text>
+                  {item.status !== 'Belum Dibuka' && (
+                    <Badge
                       size="sm"
-                      variant="outline-colorful"
-                      className="w-full mt-3"
+                      variant="flat"
+                      color={
+                        item.status === 'Sedang Berlangsung'
+                          ? 'success'
+                          : 'danger'
+                      }
                     >
-                      Lihat Daftar Sesi
-                    </Button>
-                  </Link>
+                      {item.status === 'Sedang Berlangsung'
+                        ? 'Sesi sedang berlangsung'
+                        : 'Sesi telah selesai'}
+                    </Badge>
+                  )}
                 </div>
-                <CardSeparator />
-              </Fragment>
+                <div className="flex gap-x-4 mt-1">
+                  <div className="flex items-center gap-x-1">
+                    <LuPackage className="size-4 text-gray-lighter" />
+                    <Text size="sm" weight="medium">
+                      Sesi {item.pertemuan}
+                    </Text>
+                  </div>
+                  <div className="flex items-center gap-x-1">
+                    <LuClock className="size-4 text-gray-lighter" />
+                    <Text size="sm" weight="medium">
+                      {hourMinute(item.waktu_mulai)} -{' '}
+                      {hourMinute(item.waktu_sampai)}
+                    </Text>
+                  </div>
+                  <div className="flex items-center gap-x-1">
+                    <LuMapPin className="size-4 text-gray-lighter" />
+                    <Text size="sm" weight="medium">
+                      {item.lokasi_pertemuan}
+                    </Text>
+                  </div>
+                </div>
+                <Link
+                  href={`${routes.pengguna.ruangKelas[jenisKelas].akademik}/${item.id_kelas}/sesi-pembelajaran`}
+                >
+                  <Button
+                    as="span"
+                    size="sm"
+                    variant="outline-colorful"
+                    className="w-full mt-3"
+                  >
+                    Lihat Daftar Sesi
+                  </Button>
+                </Link>
+              </div>
             ))}
             {!isLoading && hasNextPage && (
               <Loader ref={refSentry} className="py-4" />

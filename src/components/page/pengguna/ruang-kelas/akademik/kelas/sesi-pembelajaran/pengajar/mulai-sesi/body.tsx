@@ -29,12 +29,13 @@ export default function MulaiSesiBody() {
   const [photo, setPhoto] = useState<File>()
   const [isSending, setIsSending] = useState(false)
 
-  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+  const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
+    useParams()
 
   const queryKey = [
     'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
     'pengajar',
-    id,
+    idSesi,
   ]
 
   const { data, isLoading } = useQuery({
@@ -42,7 +43,7 @@ export default function MulaiSesiBody() {
     queryFn: makeSimpleQueryDataWithParams(
       lihatSesiPembelajaranAction,
       idKelas,
-      id
+      idSesi
     ),
   })
 
@@ -62,7 +63,7 @@ export default function MulaiSesiBody() {
 
     if (photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(mulaiSesiAction(idKelas, id, form), {
+    await handleActionWithToast(mulaiSesiAction(idKelas, idSesi, form), {
       loading: 'Memulai sesi...',
       onStart: () => setIsSending(true),
       onSuccess: () => {

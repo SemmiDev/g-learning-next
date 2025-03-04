@@ -1,4 +1,4 @@
-import { tambahAktifitasDiskusiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-diskusi'
+import { tambahAktifitasDiskusiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/umum/tambah-diskusi'
 import {
   CardSeparator,
   ControlledInput,

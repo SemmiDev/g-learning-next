@@ -54,6 +54,14 @@ export default function MateriItem({
             idSesi,
           ],
         })
+        queryClient.invalidateQueries({
+          queryKey: [
+            'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
+            'pengajar',
+            idKelas,
+            idSesi,
+          ],
+        })
       },
     })
   }

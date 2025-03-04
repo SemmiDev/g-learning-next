@@ -31,11 +31,8 @@ export default function PengajarHeaderCard({
     <>
       <Card className={className}>
         <Title as="h6" weight="semibold" className="leading-4">
-          Mulai Diskusi
+          Bagikan sesuatu di kelas
         </Title>
-        <Text size="xs" weight="semibold" variant="lighter" className="mt-1">
-          Pilih jenis diskusi yang Kamu inginkan
-        </Text>
         <div className="flex gap-5 mt-4">
           <ButtonIcon
             title="Materi"

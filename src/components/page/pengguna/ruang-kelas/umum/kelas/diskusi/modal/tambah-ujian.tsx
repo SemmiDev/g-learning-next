@@ -1,4 +1,4 @@
-import { tambahAktifitasUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-ujian'
+import { tambahAktifitasUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/umum/tambah-ujian'
 import {
   CardSeparator,
   ControlledDatePicker,

@@ -68,10 +68,10 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
             <table>
               <tbody>
                 <tr>
-                  <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-28">
+                  <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-32">
                     Jumlah Soal Pilgan
                   </td>
-                  <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                  <td className="text-xs text-gray-dark font-semibold text-center align-top w-2">
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
@@ -80,10 +80,10 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-28">
+                  <td className="text-xs text-gray-lighter font-medium">
                     Jumlah Soal Esai
                   </td>
-                  <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                  <td className="text-xs text-gray-dark font-semibold text-center align-top">
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
@@ -94,29 +94,29 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                   <td className="text-xs text-gray-lighter font-medium">
                     Durasi pengerjaan
                   </td>
-                  <td className="text-xs text-gray-dark font-semibold text-center">
+                  <td className="text-xs text-gray-dark font-semibold text-center align-top">
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
-                    {data?.aktifitas.durasi_ujian} menit
+                    {data.aktifitas.durasi_ujian} menit
                   </td>
                 </tr>
               </tbody>
             </table>
             <table>
               <tbody>
-                {data?.aktifitas.waktu_tersedia !==
-                  data?.aktifitas.waktu_mulai_ujian && (
+                {data.aktifitas.waktu_tersedia !==
+                  data.aktifitas.waktu_mulai_ujian && (
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium">
-                      Mulai pengerjaan
+                    <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-36">
+                      Waktu mulai pengerjaan
                     </td>
-                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                    <td className="text-xs text-gray-dark font-semibold text-center align-top w-2">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
                       <Time
-                        date={data?.aktifitas.waktu_mulai_ujian}
+                        date={data.aktifitas.waktu_mulai_ujian}
                         format="datetime"
                         empty="-"
                       />
@@ -124,15 +124,15 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                   </tr>
                 )}
                 <tr>
-                  <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-36">
-                    Batas pengerjaan
+                  <td className="text-xs text-gray-lighter font-medium">
+                    Batas waktu pengerjaan
                   </td>
-                  <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                  <td className="text-xs text-gray-dark font-semibold text-center align-top">
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
                     <Time
-                      date={data?.aktifitas.waktu_selesai_ujian}
+                      date={data.aktifitas.waktu_selesai_ujian}
                       format="datetime"
                       empty="-"
                     />
@@ -142,11 +142,11 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                   <td className="text-xs text-gray-lighter font-medium">
                     Jenis ujian
                   </td>
-                  <td className="text-xs text-gray-dark font-semibold text-center">
+                  <td className="text-xs text-gray-dark font-semibold text-center align-top">
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
-                    {data?.aktifitas.kategori_nilai}
+                    {data.aktifitas.kategori_nilai}
                   </td>
                 </tr>
               </tbody>

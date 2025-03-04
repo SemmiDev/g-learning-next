@@ -113,10 +113,10 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
               <table>
                 <tbody>
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                    <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-32">
                       Jumlah Soal Pilgan
                     </td>
-                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                    <td className="text-xs text-gray-dark font-semibold text-center align-top w-2">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
@@ -125,10 +125,10 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-28">
+                    <td className="text-xs text-gray-lighter font-medium">
                       Jumlah Soal Esai
                     </td>
-                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                    <td className="text-xs text-gray-dark font-semibold text-center align-top">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
@@ -139,7 +139,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                     <td className="text-xs text-gray-lighter font-medium">
                       Durasi pengerjaan
                     </td>
-                    <td className="text-xs text-gray-dark font-semibold text-center">
+                    <td className="text-xs text-gray-dark font-semibold text-center align-top">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
@@ -153,10 +153,10 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                   {data.aktifitas.waktu_tersedia !==
                     data.aktifitas.waktu_mulai_ujian && (
                     <tr>
-                      <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
+                      <td className="text-xs text-gray-lighter font-medium w-28 sm:w-40 2xl:w-36">
                         Waktu mulai pengerjaan
                       </td>
-                      <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                      <td className="text-xs text-gray-dark font-semibold text-center align-top w-2">
                         :
                       </td>
                       <td className="text-xs text-gray-dark font-semibold">
@@ -169,10 +169,10 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                     </tr>
                   )}
                   <tr>
-                    <td className="text-xs text-gray-lighter font-medium w-40 2xl:w-36">
+                    <td className="text-xs text-gray-lighter font-medium">
                       Batas waktu pengerjaan
                     </td>
-                    <td className="text-xs text-gray-dark font-semibold text-center w-2">
+                    <td className="text-xs text-gray-dark font-semibold text-center align-top">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
@@ -187,7 +187,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
                     <td className="text-xs text-gray-lighter font-medium">
                       Jenis ujian
                     </td>
-                    <td className="text-xs text-gray-dark font-semibold text-center">
+                    <td className="text-xs text-gray-dark font-semibold text-center align-top">
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">

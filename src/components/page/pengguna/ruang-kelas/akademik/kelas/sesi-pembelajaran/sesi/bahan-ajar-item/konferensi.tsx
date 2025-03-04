@@ -53,6 +53,14 @@ export default function KonferensiItem({
             idSesi,
           ],
         })
+        queryClient.invalidateQueries({
+          queryKey: [
+            'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
+            'pengajar',
+            idKelas,
+            idSesi,
+          ],
+        })
       },
     })
   }

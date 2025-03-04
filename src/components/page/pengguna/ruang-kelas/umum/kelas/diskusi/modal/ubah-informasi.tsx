@@ -1,5 +1,5 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasInformasiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/ubah-informasi'
+import { ubahAktifitasInformasiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/umum/ubah-informasi'
 import {
   CardSeparator,
   ControlledDatePicker,

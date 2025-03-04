@@ -1,4 +1,4 @@
-import { tambahAktifitasKonferensiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/tambah-konferensi'
+import { tambahAktifitasKonferensiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/umum/tambah-konferensi'
 import {
   CardSeparator,
   ControlledDatePicker,

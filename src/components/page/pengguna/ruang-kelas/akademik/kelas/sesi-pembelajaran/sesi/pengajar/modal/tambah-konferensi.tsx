@@ -74,6 +74,19 @@ export default function TambahKonferensiSesiModal({
               idSesi,
             ],
           })
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.list',
+              'pengajar',
+              idKelas,
+            ],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.linimasa.list-jadwal-kelas'],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
+          })
           onHide()
         },
         onError: ({ message }) => setFormError(message),

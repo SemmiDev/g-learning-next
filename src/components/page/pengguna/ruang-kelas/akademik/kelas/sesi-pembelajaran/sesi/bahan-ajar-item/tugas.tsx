@@ -50,6 +50,14 @@ export default function TugasItem({ kelas, data, className }: TugasItemProps) {
             idSesi,
           ],
         })
+        queryClient.invalidateQueries({
+          queryKey: [
+            'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
+            'pengajar',
+            idKelas,
+            idSesi,
+          ],
+        })
       },
     })
   }

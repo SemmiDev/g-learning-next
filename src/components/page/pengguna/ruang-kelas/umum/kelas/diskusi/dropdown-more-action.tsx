@@ -21,7 +21,7 @@ export default function DropdownMoreAction({
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
         <Button as="span" size="sm" variant="text">
-          <BsThreeDots size={18} />
+          <BsThreeDots className="size-4" />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Menu className="w-32 divide-y !py-0">
