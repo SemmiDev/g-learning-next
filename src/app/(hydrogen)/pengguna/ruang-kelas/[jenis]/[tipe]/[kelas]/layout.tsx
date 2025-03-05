@@ -33,10 +33,7 @@ export default async function KelasLayout({
 
   if (code === 404 || code === 403) return notFound()
 
-  await queryClient.prefetchQuery({
-    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: async () => data,
-  })
+  await queryClient.setQueryData(['pengguna.ruang-kelas.lihat', idKelas], data)
 
   const jenisKelas = data?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = data?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
