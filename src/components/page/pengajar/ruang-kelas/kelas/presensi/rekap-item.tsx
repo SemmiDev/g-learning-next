@@ -9,7 +9,7 @@ export default function RekapPresensiItem({
   return (
     <div
       className={cn(
-        'cursor-pointer px-3 py-2 hover:bg-gray-50',
+        'cursor-pointer px-3 py-2 hover:bg-gray-50/50',
         active
           ? 'border-t-[3px] border-t-primary'
           : 'border-t border-t-gray-100'

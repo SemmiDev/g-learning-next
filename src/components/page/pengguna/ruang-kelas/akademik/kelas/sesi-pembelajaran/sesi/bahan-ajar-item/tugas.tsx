@@ -67,7 +67,7 @@ export default function TugasItem({ kelas, data, className }: TugasItemProps) {
 
   return (
     <>
-      <div className={cn('relative hover:bg-gray-50', className)}>
+      <div className={cn('relative', className)}>
         <Link
           href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/sesi-pembelajaran/${idSesi}/tugas/${data.aktifitas?.id}`}
           className="flex gap-x-2 px-2 py-4"

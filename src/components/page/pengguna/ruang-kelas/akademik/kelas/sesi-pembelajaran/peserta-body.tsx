@@ -1,4 +1,3 @@
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import { listSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { Loader } from '@/components/ui'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -6,13 +5,7 @@ import { useParams } from 'next/navigation'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PesertaSesiItemCard from './peserta/sesi-item-card'
 
-type PesertaSesiPembelajaranBodyProps = {
-  kelas: DataKelasType
-}
-
-export default function PesertaSesiPembelajaranBody({
-  kelas,
-}: PesertaSesiPembelajaranBodyProps) {
+export default function PesertaSesiPembelajaranBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const queryKey = [

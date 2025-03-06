@@ -68,7 +68,7 @@ export default function UjianItem({ kelas, data, className }: UjianItemProps) {
 
   return (
     <>
-      <div className={cn('relative hover:bg-gray-50', className)}>
+      <div className={cn('relative', className)}>
         <Link
           href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/sesi-pembelajaran/${idSesi}/ujian/${data.aktifitas?.id}`}
           className="flex gap-x-2 px-2 py-4"

@@ -1,4 +1,3 @@
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import { listSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { akhiriSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
 import { ModalConfirm } from '@/components/ui'
@@ -15,13 +14,7 @@ import UbahJenisAbsenSesiModal from './pengajar/modal/ubah-jenis-absen'
 import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
 
-type PengajarSesiPembelajaranBodyProps = {
-  kelas: DataKelasType
-}
-
-export default function PengajarSesiPembelajaranBody({
-  kelas,
-}: PengajarSesiPembelajaranBodyProps) {
+export default function PengajarSesiPembelajaranBody() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [idSesiMulai, setIdSesiMulai] = useState<string>()

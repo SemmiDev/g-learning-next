@@ -156,7 +156,7 @@ export default function BahanAjarCard({
             {list.map(
               (item) =>
                 !!item.aktifitas && (
-                  <Fragment key={item.aktifitas.id}>
+                  <div key={item.aktifitas.id} className="hover:bg-gray-50/50">
                     {item.aktifitas.tipe === 'Materi' ? (
                       <MateriItem kelas={kelas} data={item} />
                     ) : item.aktifitas.tipe === 'Penugasan' ? (
@@ -166,7 +166,7 @@ export default function BahanAjarCard({
                     ) : item.aktifitas.tipe === 'Ujian' ? (
                       <UjianItem kelas={kelas} data={item} />
                     ) : null}
-                  </Fragment>
+                  </div>
                 )
             )}
             {!isLoading && hasNextPage && (

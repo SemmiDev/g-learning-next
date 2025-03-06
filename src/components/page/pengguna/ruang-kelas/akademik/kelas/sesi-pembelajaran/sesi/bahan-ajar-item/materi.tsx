@@ -73,7 +73,7 @@ export default function MateriItem({
 
   return (
     <>
-      <div className={cn('relative hover:bg-gray-50', className)}>
+      <div className={cn('relative', className)}>
         <Link
           href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/sesi-pembelajaran/${idSesi}/materi/${data.aktifitas?.id}`}
           className="flex flex-1 gap-x-2 px-2 py-4"
