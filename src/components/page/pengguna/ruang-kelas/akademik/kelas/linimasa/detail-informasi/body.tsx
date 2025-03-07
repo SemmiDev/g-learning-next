@@ -8,7 +8,6 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
@@ -16,11 +15,10 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
+import BerkasCard from './berkas-card'
 import DetailCard from './detail-card'
-import KumpulkanTugasCard from './kumpulkan-card'
-import TableTugasPesertaCard from './table-peserta-card'
 
-export default function DiskusiTugasBody() {
+export default function LinimasaInformasiBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -54,25 +52,14 @@ export default function DiskusiTugasBody() {
           </Button>
         </Link>
       </div>
-
-      <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
+      <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
         <DetailCard
+          kelas={dataKelas || undefined}
           setFilePreview={setFilePreview}
-          className={cn(
-            'w-full',
-            dataKelas?.peran === 'Pengajar' ? 'lg:w-6/12' : 'lg:w-7/12'
-          )}
+          className="w-full lg:w-8/12"
         />
-
-        {dataKelas?.peran === 'Pengajar' ? (
-          <TableTugasPesertaCard
-            tipeKelas={
-              dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
-            }
-            className="flex-1"
-          />
-        ) : (
-          <KumpulkanTugasCard className="flex-1" />
+        {dataKelas?.peran !== 'Pengajar' && (
+          <BerkasCard setFilePreview={setFilePreview} className="flex-1" />
         )}
       </div>
 

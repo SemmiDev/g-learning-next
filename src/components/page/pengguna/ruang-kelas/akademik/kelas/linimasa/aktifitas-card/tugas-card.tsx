@@ -149,7 +149,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/tugas/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/linimasa/tugas/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
               Lihat Detail Tugas

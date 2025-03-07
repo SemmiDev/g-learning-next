@@ -11,7 +11,7 @@ export default function TablePesertaCardShimmer({
   return (
     <Card className={cn('flex flex-col p-0', className)}>
       <div className="px-2 py-3">
-        <Shimmer className="h-3.5 w-1/2" />
+        <Shimmer className="h-4 w-1/2" />
       </div>
       <CardSeparator />
       <div className="flex justify-between p-2">
@@ -29,10 +29,13 @@ export default function TablePesertaCardShimmer({
               <Shimmer className="h-2.5 w-24" />
             </td>
             <td className="p-2.5">
-              <Shimmer className="h-2.5 w-48" />
+              <Shimmer className="h-2.5 w-20" />
             </td>
             <td className="p-2.5">
-              <Shimmer className="h-2.5 w-8" />
+              <Shimmer className="h-2.5 w-16" />
+            </td>
+            <td className="p-2.5">
+              <Shimmer className="h-2.5 w-16" />
             </td>
             <td></td>
           </tr>
@@ -55,6 +58,9 @@ export default function TablePesertaCardShimmer({
                   <Shimmer className="h-2.5 w-1/3" />
                   <Shimmer className="h-2.5 w-1/4" />
                 </div>
+              </td>
+              <td className="p-2.5">
+                <Shimmer className="h-2.5 w-8" />
               </td>
               <td className="p-2.5">
                 <Shimmer className="h-2.5 w-8" />

@@ -20,7 +20,7 @@ import DetailCard from './detail-card'
 import KumpulkanTugasCard from './kumpulkan-card'
 import TableTugasPesertaCard from './table-peserta-card'
 
-export default function DiskusiTugasBody() {
+export default function LinimasaTugasBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 

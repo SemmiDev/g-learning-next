@@ -192,7 +192,7 @@ export default function MateriCard({
             </Button>
           ) : (
             <Link
-              href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/materi/${data.aktifitas.id}`}
+              href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/linimasa/materi/${data.aktifitas.id}`}
             >
               <Button as="span" size="sm" className="w-full">
                 Lihat Detail Materi

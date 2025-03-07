@@ -1,5 +1,6 @@
 'use client'
 
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
@@ -8,28 +9,37 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import {
+  makeSimpleQueryDataWithId,
+  makeSimpleQueryDataWithParams,
+} from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'
-import KumpulkanTugasCard from './kumpulkan-card'
-import TableTugasPesertaCard from './table-peserta-card'
+import PesertaBerkasCard from './peserta/berkas-card'
 
-export default function DiskusiTugasBody() {
+export default function LinimasaMateriBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { kelas: idKelas }: { kelas: string } = useParams()
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.linimasa.materi', idKelas, id],
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+  })
+
+  const isPengajar = useMemo(() => dataKelas?.peran === 'Pengajar', [dataKelas])
+  const isPeserta = useMemo(() => dataKelas?.peran === 'Peserta', [dataKelas])
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -54,25 +64,21 @@ export default function DiskusiTugasBody() {
           </Button>
         </Link>
       </div>
+      <div className="flex flex-wrap items-start gap-4">
+        <div className="flex flex-col gap-y-4 w-full lg:w-8/12">
+          <DetailCard
+            kelas={dataKelas || undefined}
+            data={data || undefined}
+            isLoading={isLoading}
+            setFilePreview={setFilePreview}
+          />
+        </div>
 
-      <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
-        <DetailCard
-          setFilePreview={setFilePreview}
-          className={cn(
-            'w-full',
-            dataKelas?.peran === 'Pengajar' ? 'lg:w-6/12' : 'lg:w-7/12'
-          )}
-        />
-
-        {dataKelas?.peran === 'Pengajar' ? (
-          <TableTugasPesertaCard
-            tipeKelas={
-              dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
-            }
+        {isPeserta && (
+          <PesertaBerkasCard
+            setFilePreview={setFilePreview}
             className="flex-1"
           />
-        ) : (
-          <KumpulkanTugasCard className="flex-1" />
         )}
       </div>
 

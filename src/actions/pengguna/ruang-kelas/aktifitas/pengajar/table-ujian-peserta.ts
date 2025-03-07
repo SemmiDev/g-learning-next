@@ -22,6 +22,8 @@ export type DataType = {
   skor_salah: number | null
   skor_kosong: number | null
   skor_akhir: number | null
+  skor_akhir_essay: number | null
+  skor_akhir_pilihan_ganda: number | null
   jawaban_benar: number | null
   jawaban_salah: number | null
   jawaban_kosong: number | null

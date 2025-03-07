@@ -208,7 +208,7 @@ export default function PengajarSesiItemCard({
                     onClick={() => doShowTambahUjian(sesi.id)}
                   />
                   <TambahBahanPopoverItem
-                    title="Conference"
+                    title="Konferensi"
                     color="red"
                     Icon={BsWebcam}
                     setOpen={setOpen}

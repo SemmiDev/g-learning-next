@@ -105,6 +105,7 @@ export default function SelesaiUjianBody() {
               <Button
                 className="w-full"
                 onClick={() => {
+                  /* TODO: jika tipe kelas akademik maka: jika memiliki sesi maka alihkan ke detail ujian di sesi, jika tidak maka alihkan ke detail di linimasa. jika tipe kelas umum maka: alihkan ke detail di diskusi */
                   router.replace(
                     `${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/diskusi/ujian/${id}`
                   )

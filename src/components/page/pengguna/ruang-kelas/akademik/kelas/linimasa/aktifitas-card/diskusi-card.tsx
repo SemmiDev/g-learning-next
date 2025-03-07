@@ -104,7 +104,7 @@ export default function DiskusiCard({
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/lainnya/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/linimasa/lainnya/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
               Lihat Diskusi

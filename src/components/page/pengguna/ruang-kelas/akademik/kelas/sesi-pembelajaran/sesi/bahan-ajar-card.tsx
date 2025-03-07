@@ -137,7 +137,7 @@ export default function BahanAjarCard({
                       onClick={() => doShowTambahUjian(idSesi)}
                     />
                     <TambahBahanPopoverItem
-                      title="Conference"
+                      title="Konferensi"
                       color="red"
                       Icon={BsWebcam}
                       setOpen={setOpen}

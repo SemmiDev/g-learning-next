@@ -1,5 +1,6 @@
-import { hapusNilaiUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
-import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
+import { hapusNilaiTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-tugas'
+import { tableTugasPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -8,6 +9,7 @@ import {
   CardSeparator,
   Input,
   ModalConfirm,
+  Shimmer,
   TableCellNumber,
   TableCellText,
   TableHeaderCell,
@@ -17,10 +19,13 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { useQueryClient } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
 import { useState } from 'react'
@@ -28,12 +33,12 @@ import { BiFilterAlt } from 'react-icons/bi'
 import {
   BsCheck,
   BsChevronDown,
+  BsPencil,
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
-import TablePesertaCardShimmer from '../shimmer/table-peserta-card'
 
 type SortDataType = {
   title: string
@@ -54,14 +59,14 @@ const sortData: SortDataType[] = [
   {
     title: 'Nilai Tertinggi',
     sort: {
-      name: 'skor_akhir',
+      name: 'nilai',
       order: 'desc',
     },
   },
   {
     title: 'Nilai Terendah',
     sort: {
-      name: 'skor_akhir',
+      name: 'nilai',
       order: 'asc',
     },
   },
@@ -69,27 +74,38 @@ const sortData: SortDataType[] = [
 
 const filterData = {
   ALL: 'Semua',
-  SUDAH_MENGUMPULKAN: 'Sudah Ujian',
-  BELUM_MENGUMPULKAN: 'Belum Ujian',
+  SUDAH_MENGUMPULKAN: 'Sudah Mengumpulkan',
+  BELUM_MENGUMPULKAN: 'Belum Mengumpulkan',
 }
 
 type FilterDataType = keyof typeof filterData
 
-type TableUjianPesertaCardProps = {
+type TableTugasPesertaCardProps = {
+  tipeKelas: 'akademik' | 'umum'
   className?: string
 }
 
-export default function TableUjianPesertaCard({
+export default function TableTugasPesertaCard({
+  tipeKelas,
   className,
-}: TableUjianPesertaCardProps) {
+}: TableTugasPesertaCardProps) {
   const queryClient = useQueryClient()
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
 
   const { kelas: idKelas, id: idAktifitas }: { kelas: string; id: string } =
     useParams()
 
+  const { data: dataAktifitas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.linimasa.tugas', idKelas, idAktifitas],
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatAktifitasAction,
+      idKelas,
+      idAktifitas
+    ),
+  })
+
   const queryKey = [
-    'pengguna.ruang-kelas.diskusi.ujian.table-peserta',
+    'pengguna.ruang-kelas.linimasa.tugas.table-peserta',
     idKelas,
     idAktifitas,
   ]
@@ -111,7 +127,7 @@ export default function TableUjianPesertaCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tableUjianPesertaAction,
+    action: tableTugasPesertaAction,
     actionParams: {
       idKelas,
       idAktifitas,
@@ -126,12 +142,13 @@ export default function TableUjianPesertaCard({
   const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
       title: <TableHeaderCell title="No" className="justify-center" />,
+      dataIndex: 'no',
       render: (_, __, idx) => <TableCellNumber>{from + idx}</TableCellNumber>,
     },
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       render: (_, row) => (
-        <div className="flex gap-x-3">
+        <div className="flex space-x-3">
           <Thumbnail
             src={row.foto || undefined}
             alt="profil"
@@ -156,30 +173,29 @@ export default function TableUjianPesertaCard({
       ),
     },
     {
-      title: <TableHeaderCell title="Waktu Mulai Pengerjaan" />,
-      dataIndex: 'waktu_mulai',
-      render: (value: string) => {
+      title: <TableHeaderCell title="Waktu Pengumpulan" />,
+      render: (_, row) => {
+        const terlambat =
+          !!dataAktifitas?.aktifitas.batas_waktu &&
+          row.waktu_pengumpulan &&
+          dataAktifitas?.aktifitas.batas_waktu < row.waktu_pengumpulan
+
         return (
-          <TableCellText>
-            <Time date={value} customFormat="DD MMM YY" empty="-" />
+          <TableCellText color={terlambat ? 'danger' : 'gray'}>
+            <Time
+              date={row.waktu_pengumpulan}
+              customFormat="DD MMM YY"
+              empty="-"
+            />
             <br />
-            <Time date={value} format="time" empty="" />
+            <Time date={row.waktu_pengumpulan} format="time" empty="" />
           </TableCellText>
         )
       },
     },
     {
-      title: (
-        <TableHeaderCell title="Nilai Pilgan" className="justify-center" />
-      ),
-      dataIndex: 'skor_akhir_pilihan_ganda',
-      render: (value: string) => (
-        <TableCellText align="center">{value ?? '-'}</TableCellText>
-      ),
-    },
-    {
-      title: <TableHeaderCell title="Nilai Esai" className="justify-center" />,
-      dataIndex: 'skor_akhir_essay',
+      title: <TableHeaderCell title="Nilai" className="justify-center" />,
+      dataIndex: 'nilai',
       render: (value: string) => (
         <TableCellText align="center">{value ?? '-'}</TableCellText>
       ),
@@ -187,26 +203,51 @@ export default function TableUjianPesertaCard({
     {
       title: <TableHeaderCell title="" />,
       render: (_, row) => {
-        if (!row.id) return
-
         return (
           <div className="flex justify-end">
-            <Dropdown placement="bottom-end">
-              <Dropdown.Trigger>
-                <ActionIcon as="span" size="sm" variant="outline">
-                  <BsThreeDotsVertical size={14} />
-                </ActionIcon>
-              </Dropdown.Trigger>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={() => setIdHapusNilai(row.id_peserta)}
+            {row.nilai === null ? (
+              <Link
+                href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
+              >
+                <Button
+                  as="span"
+                  size="sm"
+                  variant="solid"
+                  className="whitespace-nowrap"
                 >
-                  <BsTrash3 className="text-danger size-4 mr-2" />
-                  Hapus Nilai
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+                  Cek Tugas
+                </Button>
+              </Link>
+            ) : (
+              <Dropdown placement="bottom-end">
+                <Dropdown.Trigger>
+                  <ActionIcon as="span" size="sm" variant="outline">
+                    <BsThreeDotsVertical size={14} />
+                  </ActionIcon>
+                </Dropdown.Trigger>
+                <Dropdown.Menu className="divide-y">
+                  <div className="mb-2">
+                    <Link
+                      href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/tugas/${idAktifitas}/nilai/${row.id_peserta}`}
+                    >
+                      <Dropdown.Item className="text-gray-dark">
+                        <BsPencil className="text-warning size-4 mr-2" />
+                        Ubah Nilai
+                      </Dropdown.Item>
+                    </Link>
+                  </div>
+                  <div className="mt-2 pt-2">
+                    <Dropdown.Item
+                      className="text-gray-dark"
+                      onClick={() => setIdHapusNilai(row.id || undefined)}
+                    >
+                      <BsTrash3 className="text-danger size-4 mr-2" />
+                      Hapus Nilai
+                    </Dropdown.Item>
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
           </div>
         )
       },
@@ -221,7 +262,7 @@ export default function TableUjianPesertaCard({
     if (!idHapusNilai) return
 
     handleActionWithToast(
-      hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
+      hapusNilaiTugasAction(idKelas, idAktifitas, idHapusNilai),
       {
         loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',
@@ -240,7 +281,7 @@ export default function TableUjianPesertaCard({
     <>
       <Card className={cn('flex flex-col p-0', className)}>
         <Title as="h6" weight="semibold" className="px-2 py-3 leading-4">
-          Peserta yang Mengikuti Ujian
+          Pengumpulan Tugas Peserta
         </Title>
         <CardSeparator />
         <div className="flex justify-between p-2">
@@ -319,7 +360,7 @@ export default function TableUjianPesertaCard({
           isLoading={isLoading}
           isFetching={isFetching}
           columns={tableColumns}
-          rowKey={(row) => row.id_peserta}
+          rowKey={(row) => row.id_aktifitas + row.id_peserta}
           paginatorOptions={{
             current: page,
             pageSize: perPage,
@@ -332,7 +373,7 @@ export default function TableUjianPesertaCard({
 
       <ModalConfirm
         title="Hapus Nilai"
-        desc="Apakah Anda yakin ingin menghapus pengerjaan ujian/nilai peserta ini?"
+        desc="Apakah Anda yakin ingin menghapus nilai tugas peserta ini?"
         color="danger"
         isOpen={!!idHapusNilai}
         onClose={() => setIdHapusNilai(undefined)}
@@ -341,5 +382,68 @@ export default function TableUjianPesertaCard({
         closeOnCancel
       />
     </>
+  )
+}
+
+function TablePesertaCardShimmer({ className }: { className?: string }) {
+  return (
+    <Card className={cn('flex flex-col p-0', className)}>
+      <div className="px-2 py-3">
+        <Shimmer className="h-3.5 w-1/2" />
+      </div>
+      <CardSeparator />
+      <div className="flex justify-between p-2">
+        <Shimmer className="h-8 w-1/3" />
+        <Shimmer className="h-8 w-1/3" />
+      </div>
+      <CardSeparator />
+      <table className="[&_td]:border-b [&_td]:border-b-muted">
+        <tbody>
+          <tr>
+            <td className="p-2.5">
+              <Shimmer className="h-2.5 w-2.5" />
+            </td>
+            <td className="p-2.5">
+              <Shimmer className="h-2.5 w-24" />
+            </td>
+            <td className="p-2.5">
+              <Shimmer className="h-2.5 w-48" />
+            </td>
+            <td className="p-2.5">
+              <Shimmer className="h-2.5 w-8" />
+            </td>
+            <td></td>
+          </tr>
+          {[...Array(5)].map((_, idx) => (
+            <tr key={idx}>
+              <td className="p-2.5">
+                <Shimmer className="h-2.5 w-2.5" />
+              </td>
+              <td className="p-2.5">
+                <div key={idx} className="flex items-center space-x-2">
+                  <Shimmer className="size-10" />
+                  <div className="flex-1 space-y-2">
+                    <Shimmer className="h-2.5 w-1/2" />
+                    <Shimmer className="h-2.5 w-1/3" />
+                  </div>
+                </div>
+              </td>
+              <td className="p-2.5">
+                <div className="flex-1 space-y-2">
+                  <Shimmer className="h-2.5 w-1/3" />
+                  <Shimmer className="h-2.5 w-1/4" />
+                </div>
+              </td>
+              <td className="p-2.5">
+                <Shimmer className="h-2.5 w-8" />
+              </td>
+              <td className="p-2.5">
+                {idx % 2 === 0 && <Shimmer className="h-6 w-8" />}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Card>
   )
 }

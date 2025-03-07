@@ -18,7 +18,7 @@ export default function DetailCard({ kelas, className }: DetailCardProps) {
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.konferensi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.linimasa.konferensi', idKelas, id],
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 

@@ -112,7 +112,7 @@ export default function KonferensiCard({
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/konferensi/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/linimasa/konferensi/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" color="primary" className="w-full">
               <BsCameraVideo size={16} className="me-2" /> Lihat Detail

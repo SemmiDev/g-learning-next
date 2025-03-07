@@ -15,6 +15,8 @@ export default function DropdownMoreAction({
   onEdit,
   onDelete,
 }: DropdownMoreActionProps) {
+  if (!showEdit && !showDelete) return null
+
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>

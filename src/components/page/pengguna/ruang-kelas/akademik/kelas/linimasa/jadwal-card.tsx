@@ -196,7 +196,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                             onClick={() => doShowTambahUjian(data.id)}
                           />
                           <PopoverItem
-                            title="Conference"
+                            title="Konferensi"
                             color="red"
                             Icon={BsWebcam}
                             setOpen={setOpen}

@@ -202,7 +202,7 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/ujian/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/linimasa/ujian/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
               Lihat Detail Ujian

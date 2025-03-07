@@ -163,7 +163,7 @@ export default function InformasiCard({
         <CardSeparator />
         <div className="p-2">
           <Link
-            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/diskusi/informasi/${data.aktifitas.id}`}
+            href={`${routes.pengguna.ruangKelas[jenisKelas][tipeKelas]}/${idKelas}/linimasa/informasi/${data.aktifitas.id}`}
           >
             <Button as="span" size="sm" className="w-full">
               Lihat Detail Informasi
