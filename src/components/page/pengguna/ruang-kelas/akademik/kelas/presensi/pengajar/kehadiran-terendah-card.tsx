@@ -1,4 +1,4 @@
-import { tableKehadiranTerendahAction } from '@/actions/pengguna/ruang-kelas/presensi/umum/pengajar/table-kehadiran-terendah'
+import { tableKehadiranTerendahAction } from '@/actions/pengguna/ruang-kelas/presensi/akademik/pengajar/table-kehadiran-terendah'
 import {
   Card,
   CardSeparator,

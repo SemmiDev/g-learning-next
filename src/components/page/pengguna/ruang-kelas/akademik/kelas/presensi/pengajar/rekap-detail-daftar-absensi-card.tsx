@@ -1,5 +1,5 @@
-import { simpanAbsensiAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
-import { tableAbsensiPesertaAction } from '@/actions/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
+import { simpanPresensiPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/simpan-presensi-peserta'
+import { tableAbsensiPesertaAction } from '@/actions/pengguna/ruang-kelas/presensi/akademik/pengajar/table-absensi-peserta'
 import {
   ActionIconTooltip,
   Badge,
@@ -25,12 +25,12 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 
 export default function PengajarRekapPresensiDaftarAbsensiCard({
-  idAktifitas,
+  idSesi,
   ubahData,
   hideUbahData,
   className,
 }: {
-  idAktifitas: string
+  idSesi: string
   ubahData: boolean
   hideUbahData: () => void
   className?: string
@@ -43,7 +43,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     'pengguna.ruang-kelas.presensi.table-absensi-peserta',
     'pengajar',
     idKelas,
-    idAktifitas,
+    idSesi,
   ]
 
   const {
@@ -59,8 +59,8 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
   } = useTableAsync({
     queryKey,
     action: tableAbsensiPesertaAction,
-    actionParams: { idKelas, idAktifitas },
-    enabled: !!idKelas && !!idAktifitas,
+    actionParams: { idKelas, idSesi },
+    enabled: !!idKelas && !!idSesi,
   })
 
   type TableDataType = Awaited<
@@ -83,7 +83,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     }))
 
     await handleActionWithToast(
-      simpanAbsensiAktifitasAction(idKelas, idAktifitas, dataAbsen),
+      simpanPresensiPesertaSesiAction(idKelas, idSesi, dataAbsen),
       {
         loading: 'Menyimpan absensi...',
         onSuccess: () => {

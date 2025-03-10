@@ -230,7 +230,7 @@ export default function TambahUjianSesiModal({
                 control={control}
                 errors={errors}
                 label="Catatan Tambahan"
-                placeholder="Buat catatan singkat terkait materi yang diberikan"
+                placeholder="Buat catatan singkat terkait ujian yang diberikan"
                 toolbar="minimalist"
               />
 

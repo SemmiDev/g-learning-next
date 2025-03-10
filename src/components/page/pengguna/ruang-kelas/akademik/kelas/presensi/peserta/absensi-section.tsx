@@ -1,4 +1,4 @@
-import { listSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/umum/peserta/list-sesi-absensi'
+import { listSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/akademik/peserta/list-sesi-absensi'
 import {
   Badge,
   Button,

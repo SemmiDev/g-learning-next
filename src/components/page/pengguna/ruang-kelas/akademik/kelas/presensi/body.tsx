@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation'
 import PengajarPresensiBody from './pengajar-body'
 import PesertaPresensiBody from './peserta-body'
 
-export default function PresensiUmumBody() {
+export default function PresensiAkademikBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({

@@ -34,7 +34,7 @@ export default function KategoriCard({
       )}
     >
       <Link
-        href={`${routes.pengguna.bankMateri}/${kategori.id}`}
+        href={`${routes.pengguna.bankSoal}/${kategori.id}`}
         className="flex flex-col p-2"
       >
         <div className="h-[60px]">

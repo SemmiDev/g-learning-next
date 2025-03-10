@@ -1,4 +1,4 @@
-import { dataPersentaseKehadiranAction } from '@/actions/pengguna/ruang-kelas/presensi/umum/pengajar/persentase-kehadiran'
+import { dataPersentaseKehadiranAction } from '@/actions/pengguna/ruang-kelas/presensi/akademik/pengajar/persentase-kehadiran'
 import { Card, Shimmer, Text, Title } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'

@@ -1,14 +1,12 @@
-import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
-import { tableAbsensiPesertaAction } from '@/actions/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
+import { tableAbsensiPesertaAction } from '@/actions/pengguna/ruang-kelas/presensi/akademik/pengajar/table-absensi-peserta'
+import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import { Button, Card, Shimmer, Text, TimeIndo } from '@/components/ui'
 import { routes } from '@/config/routes'
 import {
   makeSimpleQueryDataWithId,
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
-import { switchCaseObject } from '@/utils/switch-case'
-import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -26,7 +24,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
   className,
 }: PengajarRekapDetailSesiSectionProps) {
   const searchParams = useSearchParams()
-  const idAktifitas = searchParams.get('sesi') || undefined
+  const idSesi = searchParams.get('sesi') || undefined
   const [ubahData, setUbahData] = useState(false)
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -41,28 +39,18 @@ export default function PengajarRekapPresensiDetailSesiSection({
       'pengguna.ruang-kelas.presensi.sesi-aktif',
       'pengajar',
       idKelas,
-      idAktifitas,
+      idSesi,
     ],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatAktifitasAction,
+      lihatSesiPembelajaranAction,
       idKelas,
-      idAktifitas ?? null
+      idSesi ?? null
     ),
-    enabled: !!idAktifitas,
+    enabled: !!idSesi,
   })
 
-  const linkTipe = switchCaseObject(
-    data?.aktifitas.tipe,
-    {
-      Materi: 'materi',
-      Ujian: 'ujian',
-      Konferensi: 'konferensi',
-    },
-    null
-  )
-
   const handleExport = useCallback(async () => {
-    if (!idAktifitas) return
+    if (!idSesi) return
 
     const toastId = toast.loading(<Text>Memuat data...</Text>)
 
@@ -77,7 +65,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
       const { data } = await tableAbsensiPesertaAction({
         page,
         perPage: 100,
-        params: { idKelas, idAktifitas },
+        params: { idKelas, idSesi },
       })
 
       allData = [
@@ -101,8 +89,8 @@ export default function PengajarRekapPresensiDetailSesiSection({
     const ws = utils.json_to_sheet(allData)
     const wb = utils.book_new()
     utils.book_append_sheet(wb, ws, 'Data')
-    writeFile(wb, `Data Absensi - ${data?.aktifitas.judul}.xlsx`)
-  }, [idKelas, idAktifitas, data])
+    writeFile(wb, `Data Absensi - ${data?.judul}.xlsx`)
+  }, [idKelas, idSesi, data])
 
   useEffect(() => {
     setUbahData(false)
@@ -110,7 +98,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   if (isLoading) return <ShimmerSection className={className} />
 
-  if (!idAktifitas) return null
+  if (!idSesi) return null
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
@@ -119,7 +107,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
       <Card className="flex justify-between space-x-2">
         <div className="flex flex-col">
           <Text weight="semibold" variant="dark">
-            {data?.aktifitas.judul}
+            {data?.judul}
           </Text>
           <Text
             size="sm"
@@ -127,26 +115,24 @@ export default function PengajarRekapPresensiDetailSesiSection({
             variant="lighter"
             className="line-clamp-2"
           >
-            {stripHtmlAndEllipsis(data?.aktifitas.deskripsi ?? '', 150)}
+            Sesi {data?.pertemuan}
           </Text>
           <Text size="sm" weight="medium" variant="dark" className="mt-2">
             <TimeIndo
-              date={data?.aktifitas.created_at}
+              date={data?.tanggal_realisasi}
               format="datetimeday"
               empty="-"
             />
           </Text>
         </div>
         <div className="flex shrink-0">
-          {linkTipe && (
-            <Link
-              href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/diskusi/${linkTipe}/${idAktifitas}`}
-            >
-              <Button as="span" size="sm" color="primary" variant="text">
-                <BsDoorOpen className="mr-2" /> Lihat Sesi
-              </Button>
-            </Link>
-          )}
+          <Link
+            href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/sesi-pembelajaran/${idSesi}`}
+          >
+            <Button as="span" size="sm" color="primary" variant="text">
+              <BsDoorOpen className="mr-2" /> Lihat Sesi
+            </Button>
+          </Link>
           <Button
             size="sm"
             color="success"
@@ -169,7 +155,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
       </Card>
 
       <PengajarRekapPresensiDaftarAbsensiCard
-        idAktifitas={idAktifitas}
+        idSesi={idSesi}
         ubahData={ubahData}
         hideUbahData={() => setUbahData(false)}
         className="mt-4"
