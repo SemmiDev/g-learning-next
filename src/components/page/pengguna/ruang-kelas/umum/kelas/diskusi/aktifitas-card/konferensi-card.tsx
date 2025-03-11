@@ -123,6 +123,7 @@ export default function KonferensiCard({
             idKelas={idKelas}
             idAktifitas={data.aktifitas.id}
             total={data.total_komentar}
+            invalidateQueries={[['pengguna.ruang-kelas.diskusi.list', idKelas]]}
             className="pt-4 px-2 pb-2"
           />
         </div>

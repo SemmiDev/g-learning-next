@@ -1,6 +1,5 @@
 'use client'
 
-import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
@@ -9,10 +8,7 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import {
-  makeSimpleQueryDataWithId,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
@@ -26,19 +22,13 @@ export default function LinimasaMateriBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+  const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.linimasa.materi', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
-  })
-
-  const isPengajar = useMemo(() => dataKelas?.peran === 'Pengajar', [dataKelas])
   const isPeserta = useMemo(() => dataKelas?.peran === 'Peserta', [dataKelas])
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
@@ -68,8 +58,6 @@ export default function LinimasaMateriBody() {
         <div className="flex flex-col gap-y-4 w-full lg:w-8/12">
           <DetailCard
             kelas={dataKelas || undefined}
-            data={data || undefined}
-            isLoading={isLoading}
             setFilePreview={setFilePreview}
           />
         </div>

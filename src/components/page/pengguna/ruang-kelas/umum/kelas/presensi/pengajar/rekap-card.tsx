@@ -1,12 +1,21 @@
 import { tableSesiAbsensiAction } from '@/actions/pengguna/ruang-kelas/presensi/umum/pengajar/table-sesi-absensi'
-import { Button, Card, Input, Shimmer, Text, Title } from '@/components/ui'
-import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import {
+  Button,
+  Card,
+  Input,
+  Loader,
+  Shimmer,
+  Text,
+  Title,
+} from '@/components/ui'
+import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
-import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Dropdown } from 'rizzui'
 import PengajarRekapPresensiDetailSesiSection from './rekap-detail-sesi-section'
 import PengajarRekapPresensiItem from './rekap-item'
@@ -53,15 +62,13 @@ export default function PengajarRekapPresensiCard({
     data,
     isLoading,
     isFetching,
-    page,
-    perPage,
-    onPageChange,
-    totalData,
     sort,
     onSort,
     search,
     onSearch,
-  } = useTableAsync({
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.presensi.list-sesi', 'pengajar', idKelas],
     action: tableSesiAbsensiAction,
     initialSort: {
@@ -74,6 +81,12 @@ export default function PengajarRekapPresensiCard({
   const sorting = sortData.find(
     (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
   )
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
 
   if (isLoading) return <ShimmerOuterCard className={className} />
 
@@ -125,10 +138,15 @@ export default function PengajarRekapPresensiCard({
             </Dropdown>
           </div>
 
-          {isFetching ? (
-            <ShimmerCard count={3} className="mt-2" />
-          ) : (
-            <Card className="p-0 mt-2">
+          <Card className="relative p-0 mt-2">
+            {isFetching && (
+              <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 rounded-md">
+                <div className="size-10 rounded-full bg-transparent">
+                  <CgSpinner className="size-10 animate-spin text-primary" />
+                </div>
+              </div>
+            )}
+            <div className="lg:max-h-[49.2rem] lg:overflow-y-auto">
               {data.length > 0 ? (
                 data.map((item, idx) => {
                   return (
@@ -152,16 +170,12 @@ export default function PengajarRekapPresensiCard({
                   </Text>
                 </div>
               )}
-            </Card>
-          )}
+            </div>
 
-          <TablePagination
-            isLoading={isFetching}
-            current={page}
-            pageSize={perPage}
-            total={totalData}
-            onChange={(page) => onPageChange(page)}
-          />
+            {!isLoading && hasNextPage && (
+              <Loader ref={refSentry} className="py-4" />
+            )}
+          </Card>
         </div>
 
         {idSesiAktif && (

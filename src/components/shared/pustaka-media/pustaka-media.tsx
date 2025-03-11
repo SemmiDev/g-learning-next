@@ -588,7 +588,7 @@ export default function PustakaMedia({
         setShow={setShowTambahFolder}
         refetchKey={queryKey}
         googleDrive={activeDrive === 'GOOGLE_DRIVE'}
-        idInstansi={activeDrive ?? undefined}
+        idInstansi={idInstansi}
         idFolder={activeFolder}
       />
 
@@ -597,7 +597,7 @@ export default function PustakaMedia({
         setShow={setShowTambahBerkas}
         refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
         googleDrive={activeDrive === 'GOOGLE_DRIVE'}
-        idInstansi={activeDrive ?? undefined}
+        idInstansi={idInstansi}
         idFolder={activeFolder}
         uploadLink={
           (!types || (!!types && types?.includes('link'))) &&

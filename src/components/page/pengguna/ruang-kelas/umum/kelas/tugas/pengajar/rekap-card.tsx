@@ -1,13 +1,14 @@
 import { tableSesiTugasAction } from '@/actions/pengguna/ruang-kelas/tugas/pengajar/table-sesi-tugas'
-import { Button, Card, Shimmer, Text, Title } from '@/components/ui'
-import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { Button, Card, Loader, Shimmer, Text, Title } from '@/components/ui'
+import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
-import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { parseDate } from '@/utils/date'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Dropdown, Input } from 'rizzui'
 import PengajarRekapTugasDetailSesiSection from './rekap-detail-sesi-section'
 import RekapTugasItem from './rekap-item'
@@ -54,15 +55,13 @@ export default function PengajarRekapTugasCard({
     data,
     isLoading,
     isFetching,
-    page,
-    perPage,
-    onPageChange,
-    totalData,
     sort,
     onSort,
     search,
     onSearch,
-  } = useTableAsync({
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.tugas.list-sesi', 'pengajar', idKelas],
     action: tableSesiTugasAction,
     initialSort: sortData[0].sort,
@@ -72,6 +71,12 @@ export default function PengajarRekapTugasCard({
   const sorting = sortData.find(
     (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
   )
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
 
   if (isLoading) return <ShimmerOuterCard className={className} />
 
@@ -123,10 +128,15 @@ export default function PengajarRekapTugasCard({
             </Dropdown>
           </div>
 
-          {isFetching ? (
-            <ShimmerCard count={3} className="mt-2" />
-          ) : (
-            <Card className="p-0 mt-2">
+          <Card className="relative p-0 mt-2">
+            {isFetching && (
+              <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 rounded-md">
+                <div className="size-10 rounded-full bg-transparent">
+                  <CgSpinner className="size-10 animate-spin text-primary" />
+                </div>
+              </div>
+            )}
+            <div className="lg:max-h-[58rem] lg:overflow-y-auto">
               {data.length > 0 ? (
                 data.map((item, idx) => {
                   const batasWaktu = parseDate(item.batas_waktu)
@@ -154,16 +164,12 @@ export default function PengajarRekapTugasCard({
                   </Text>
                 </div>
               )}
-            </Card>
-          )}
+            </div>
 
-          <TablePagination
-            isLoading={isFetching}
-            current={page}
-            pageSize={perPage}
-            total={totalData}
-            onChange={(page) => onPageChange(page)}
-          />
+            {!isLoading && hasNextPage && (
+              <Loader ref={refSentry} className="py-4" />
+            )}
+          </Card>
         </div>
 
         <PengajarRekapTugasDetailSesiSection className="w-full lg:w-7/12" />

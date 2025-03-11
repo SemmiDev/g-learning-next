@@ -36,6 +36,7 @@ export type KomentarProps = {
   total?: number
   firstShow?: number
   showPer?: number
+  invalidateQueries?: any[]
   className?: string
 }
 
@@ -45,6 +46,7 @@ export default function Komentar({
   total,
   firstShow = 1,
   showPer = 3,
+  invalidateQueries,
   className,
 }: KomentarProps) {
   const queryClient = useQueryClient()
@@ -58,10 +60,12 @@ export default function Komentar({
   const [showLv2, setShowLv2] = useState<Record<string, boolean>>({})
   const [loadLv2, setLoadLv2] = useState<Record<string, boolean>>({})
 
+  const queryKeyFirstLv1 = ['shared.komentar.firstLv1', idKelas, idAktifitas]
+
   const { data: firstDataLv1, isLoading: isLoadingFirstLv1 } = useQuery<
     KomentarType[]
   >({
-    queryKey: ['shared.komentar.firstLv1', idKelas, idAktifitas],
+    queryKey: queryKeyFirstLv1,
     queryFn: async () => {
       const { data } = await listKomentarParentAction({
         perPage: firstShow,
@@ -176,7 +180,14 @@ export default function Komentar({
         loading: 'Memberi komentar...',
         onStart: () => setIsSendingLv1(true),
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
+          if (isLoadMore) {
+            queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
+          } else {
+            queryClient.invalidateQueries({ queryKey: queryKeyFirstLv1 })
+          }
+          invalidateQueries?.forEach((query) =>
+            queryClient.invalidateQueries({ queryKey: query })
+          )
           setKomentarLv1('')
         },
         onFinish: () => setIsSendingLv1(false),
@@ -194,10 +205,17 @@ export default function Komentar({
         success: 'Komentar ditambahkan',
         onStart: () => setIsSendingLv2(true),
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
+          if (isLoadMore) {
+            queryClient.invalidateQueries({ queryKey: queryKeyLv1 })
+          } else {
+            queryClient.invalidateQueries({ queryKey: queryKeyFirstLv1 })
+          }
           queryClient.invalidateQueries({
             queryKey: ['shared.komentar.lv2', parentLv2.id],
           })
+          invalidateQueries?.forEach((query) =>
+            queryClient.invalidateQueries({ queryKey: query })
+          )
           setKomentarLv2('')
         },
         onFinish: () => {

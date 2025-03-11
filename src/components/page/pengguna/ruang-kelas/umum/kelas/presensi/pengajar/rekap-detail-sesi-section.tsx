@@ -143,7 +143,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
               href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/diskusi/${linkTipe}/${idAktifitas}`}
             >
               <Button as="span" size="sm" color="primary" variant="text">
-                <BsDoorOpen className="mr-2" /> Lihat Sesi
+                <BsDoorOpen className="mr-2" /> Lihat Detail
               </Button>
             </Link>
           )}

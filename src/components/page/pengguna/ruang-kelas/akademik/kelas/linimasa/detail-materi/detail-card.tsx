@@ -1,4 +1,4 @@
-import { DataType as DataAktifitasType } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Card,
@@ -12,26 +12,32 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
 
 type DetailCardProps = {
   kelas: DataKelasType | undefined
-  data: DataAktifitasType | undefined
-  isLoading?: boolean
   setFilePreview: (file: FilePreviewType) => void
   className?: string
 }
 
 export default function DetailCard({
   kelas,
-  data,
-  isLoading,
   setFilePreview,
   className,
 }: DetailCardProps) {
-  if (isLoading) return <DetailCardShimmer className={className} />
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
-  if (!kelas || !data) return null
+  const queryKey = ['pengguna.ruang-kelas.linimasa.materi', idKelas, id]
+
+  const { data, isLoading } = useQuery({
+    queryKey,
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+  })
+
+  if (isLoading) return <DetailCardShimmer className={className} />
 
   if (data?.aktifitas.tipe !== 'Materi') return null
 
@@ -85,9 +91,10 @@ export default function DetailCard({
         )}
         <CardSeparator />
         <Komentar
-          idKelas={kelas.kelas.id}
+          idKelas={idKelas}
           idAktifitas={data.aktifitas.id}
           total={data.total_komentar}
+          invalidateQueries={[queryKey]}
           firstShow={5}
           showPer={10}
           className="p-4"

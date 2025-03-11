@@ -212,6 +212,9 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
             idKelas={idKelas}
             idAktifitas={data.aktifitas.id}
             total={data.total_komentar}
+            invalidateQueries={[
+              ['pengguna.ruang-kelas.linimasa.list', idKelas],
+            ]}
             className="pt-4 px-2 pb-2"
           />
         </div>

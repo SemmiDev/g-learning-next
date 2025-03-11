@@ -13,6 +13,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import DetailCardShimmer from '../shimmer/detail-card'
+import { useParams } from 'next/navigation'
 
 type DetailCardProps = {
   kelas: DataKelasType | undefined
@@ -31,6 +32,8 @@ export default function DetailCard({
   setFilePreview,
   className,
 }: DetailCardProps) {
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
+
   if (isLoading) return <DetailCardShimmer className={className} />
 
   if (!kelas || !data) return null
@@ -94,6 +97,9 @@ export default function DetailCard({
               idKelas={kelas.kelas.id}
               idAktifitas={data.aktifitas.id}
               total={data.total_komentar}
+              invalidateQueries={[
+                ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+              ]}
               firstShow={5}
               showPer={10}
               className="p-4"

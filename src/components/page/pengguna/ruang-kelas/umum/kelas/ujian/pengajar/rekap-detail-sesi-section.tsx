@@ -39,13 +39,15 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  const queryKey = [
+    'pengguna.ruang-kelas.ujian.sesi-aktif',
+    'pengajar',
+    idKelas,
+    idAktifitas ?? null,
+  ]
+
   const { data, isLoading } = useQuery({
-    queryKey: [
-      'pengguna.ruang-kelas.ujian.sesi-aktif',
-      'pengajar',
-      idKelas,
-      idAktifitas,
-    ],
+    queryKey,
     queryFn: makeSimpleQueryDataWithParams(
       lihatAktifitasAction,
       idKelas,
@@ -80,7 +82,7 @@ export default function PengajarRekapUjianDetailSesiSection({
               href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/diskusi/ujian/${idAktifitas}`}
             >
               <Button as="span" size="sm" color="primary" variant="text">
-                <BsDoorOpen className="mr-2" /> Lihat Sesi
+                <BsDoorOpen className="mr-2" /> Lihat Detail
               </Button>
             </Link>
           </div>
@@ -131,6 +133,7 @@ export default function PengajarRekapUjianDetailSesiSection({
           idKelas={idKelas}
           idAktifitas={idAktifitas}
           total={data.total_komentar}
+          invalidateQueries={[queryKey]}
         />
       </Card>
     </div>
