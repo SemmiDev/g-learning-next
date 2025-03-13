@@ -14,8 +14,8 @@ import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { Tooltip } from 'rizzui'
 import MulaiUjianModal from './modal/mulai-ujian'
-import { Popover, Tooltip } from 'rizzui'
 
 type HasilUjianCardProps = {
   tipeKelas: 'akademik' | 'umum'
