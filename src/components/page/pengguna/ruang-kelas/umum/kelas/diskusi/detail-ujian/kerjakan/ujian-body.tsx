@@ -55,6 +55,7 @@ export default function KerjakanUjianBody() {
   const [currentIdx, setCurrentIdx] = useState(0)
   const [listSoalPilihan, setListSoalPilihan] = useState<SoalType[]>([])
   const [listSoalEsai, setListSoalEsai] = useState<SoalType[]>([])
+  const [acakPilihan, setAcakPilihan] = useState(false)
   const [showSelesai, setShowSelesai] = useState(false)
   const [typing, setTyping] = useState<string>()
 
@@ -74,6 +75,8 @@ export default function KerjakanUjianBody() {
       judul: data?.aktifitas.judul,
       durasi: data?.aktifitas.durasi_ujian,
     })
+
+    setAcakPilihan(data?.aktifitas.acak_jawaban === 1)
 
     const sisaWaktu = data?.sisa_durasi || 0
 
@@ -268,6 +271,7 @@ export default function KerjakanUjianBody() {
             setCurrentTipe={setCurrentTipe}
             currentIdx={currentIdx}
             setCurrentIdx={setCurrentIdx}
+            acakPilihan={acakPilihan}
             onChangeJawaban={(val) => {
               if (currentTipe === 'single-choice') {
                 setJawabanPilihan(val as JawabanType)

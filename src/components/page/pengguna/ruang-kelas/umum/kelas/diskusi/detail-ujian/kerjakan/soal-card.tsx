@@ -1,9 +1,12 @@
 import { Button, Card, CardSeparator, Text } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { PILIHAN_JAWABAN } from '@/config/const'
+import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import cn from '@/utils/class-names'
+import { shuffleListWithSeed } from '@/utils/list'
 import { stripHtml } from '@/utils/text'
 import dynamic from 'next/dynamic'
+import { useMemo } from 'react'
 import { Radio } from 'rizzui'
 import { SoalType, TipeSoal } from './ujian-body'
 
@@ -21,6 +24,7 @@ type SoalCardProps = {
   setCurrentTipe(val: TipeSoal): void
   currentIdx: number
   setCurrentIdx(val: number): void
+  acakPilihan: boolean
   onChangeJawaban?(val: JawabanType | string): void
   className?: string
 }
@@ -33,9 +37,12 @@ export default function SoalCard({
   setCurrentTipe,
   currentIdx,
   setCurrentIdx,
+  acakPilihan,
   onChangeJawaban,
   className,
 }: SoalCardProps) {
+  const { id: idPengguna } = useSessionPengguna()
+
   const soalKe = currentIdx + 1
 
   const showPrev = !(currentTipe === 'single-choice' && soalKe === 1)
@@ -62,6 +69,17 @@ export default function SoalCard({
     }
   }
 
+  const pilihanJawaban = useMemo(
+    () =>
+      acakPilihan
+        ? shuffleListWithSeed(
+            (soal?.jawaban ?? []).filter((item) => !!item.teks),
+            idPengguna
+          )
+        : (soal?.jawaban ?? []).filter((item) => !!item.teks),
+    [soal]
+  )
+
   if (!soal) return null
 
   return (
@@ -82,25 +100,22 @@ export default function SoalCard({
         />
         {soal.tipe === 'single-choice' ? (
           <div>
-            {(soal.jawaban ?? []).map(
-              (item, idx) =>
-                !!item.teks && (
-                  <label
-                    key={idx}
-                    className="flex gap-x-2 flex-1 cursor-pointer py-2 px-3 hover:bg-green-50 [&_*]:!cursor-pointer"
-                  >
-                    <Radio
-                      name="jawaban"
-                      value={PILIHAN_JAWABAN[idx] ?? 'A'}
-                      checked={soal.jawab === PILIHAN_JAWABAN[idx]}
-                      onChange={() =>
-                        onChangeJawaban && onChangeJawaban(PILIHAN_JAWABAN[idx])
-                      }
-                    />
-                    <SanitizeHTML html={item.teks} />
-                  </label>
-                )
-            )}
+            {pilihanJawaban.map((item) => (
+              <label
+                key={item.pilihan}
+                className="flex gap-x-2 flex-1 cursor-pointer py-2 px-3 hover:bg-green-50 [&_*]:!cursor-pointer"
+              >
+                <Radio
+                  name="jawaban"
+                  value={item.pilihan}
+                  checked={soal.jawab === item.pilihan}
+                  onChange={() =>
+                    onChangeJawaban && onChangeJawaban(item.pilihan)
+                  }
+                />
+                <SanitizeHTML html={item.teks} />
+              </label>
+            ))}
           </div>
         ) : (
           <QuillEditor
