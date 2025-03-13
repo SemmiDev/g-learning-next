@@ -6,7 +6,7 @@ import { makeJwtPostRequestAction } from '@/utils/action'
 type DataType = {
   jawaban: {
     id: string
-    jw: (typeof PILIHAN_JAWABAN)[number] | ''
+    jw: string
   }[]
   durasi: number
 }

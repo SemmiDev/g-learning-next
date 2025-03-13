@@ -34,6 +34,24 @@ export default function SelesaiUjianBody() {
     queryFn: makeSimpleQueryDataWithParams(lihatHasilUjianAction, idKelas, id),
   })
 
+  const handleKembali = () => {
+    if (dataKelas?.kelas.tipe === 'Akademik') {
+      if (data?.aktifitas.id_pertemuan_kelas) {
+        router.replace(
+          `${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/sesi-pembelajaran/${data?.aktifitas.id_pertemuan_kelas}/ujian/${id}`
+        )
+      } else {
+        router.replace(
+          `${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/linimasa/ujian/${id}`
+        )
+      }
+    } else {
+      router.replace(
+        `${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/diskusi/ujian/${id}`
+      )
+    }
+  }
+
   return (
     <div className="flex justify-center gap-8 py-10 px-2 md:px-10 lg:px-24 xl:px-40">
       <Card className="flex flex-col w-full rounded-md overflow-clip max-w-[500px] p-0">
@@ -52,20 +70,34 @@ export default function SelesaiUjianBody() {
               <table className="flex-1 text-xs text-gray-dark w-full">
                 <tbody>
                   <tr>
-                    <td className="w-28">Jumlah pertanyaan</td>
+                    <td className="w-40">Total soal</td>
+                    <td className="w-3 text-center"> : </td>
+                    <td className="font-semibold">
+                      {data?.bank_soal?.total_soal ?? '-'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="w-28">Jumlah soal pilgan</td>
                     <td className="w-3 text-center"> : </td>
                     <td className="font-semibold">
                       {data?.bank_soal?.jumlah_soal_yang_digunakan ?? '-'}
                     </td>
                   </tr>
                   <tr>
-                    <td>Benar/salah/kosong</td>
+                    <td>Pilgan Benar/salah/kosong</td>
                     <td className="text-center"> : </td>
                     <td className="font-semibold">{`${
                       data?.jawaban.jawaban_benar ?? '-'
                     } / ${data?.jawaban.jawaban_salah ?? '-'} / ${
                       data?.jawaban.jawaban_kosong ?? '-'
                     }`}</td>
+                  </tr>
+                  <tr>
+                    <td className="w-28">Jumlah soal esai</td>
+                    <td className="w-3 text-center"> : </td>
+                    <td className="font-semibold">
+                      {data?.bank_soal?.total_soal_essay ?? '-'}
+                    </td>
                   </tr>
                   <tr>
                     <td>Waktu mulai</td>
@@ -91,26 +123,18 @@ export default function SelesaiUjianBody() {
                   </tr>
                 </tbody>
               </table>
-              <div className="flex flex-col items-center bg-gray-50 w-24 rounded-md self-center p-3">
+              <div className="flex flex-col items-center bg-gray-50 w-28 rounded-md self-center p-3">
                 <Text size="sm" weight="medium" variant="lighter">
-                  Nilai
+                  Nilai Pilgan
                 </Text>
                 <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-                  {data?.jawaban.skor_akhir ?? '-'}
+                  {data?.jawaban.skor_akhir_pilihan_ganda ?? '-'}
                 </Text>
               </div>
             </div>
             <CardSeparator />
             <div className="p-2">
-              <Button
-                className="w-full"
-                onClick={() => {
-                  /* TODO: jika tipe kelas akademik maka: jika memiliki sesi maka alihkan ke detail ujian di sesi, jika tidak maka alihkan ke detail di linimasa. jika tipe kelas umum maka: alihkan ke detail di diskusi */
-                  router.replace(
-                    `${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/diskusi/ujian/${id}`
-                  )
-                }}
-              >
+              <Button className="w-full" onClick={handleKembali}>
                 Kembali
               </Button>
             </div>

@@ -2,7 +2,7 @@ import { ActionIcon, Button, CardSeparator, Text } from '@/components/ui'
 import { useGlobalStore } from '@/stores/global'
 import cn from '@/utils/class-names'
 import { MdOutlineClose } from 'react-icons/md'
-import { SoalType } from './ujian-body'
+import { SoalType, TipeSoal } from './ujian-body'
 
 const boxColor = (color: 'green' | 'orange' | 'white'): string => {
   switch (color) {
@@ -27,23 +27,31 @@ const boxBehavior = (color: 'green' | 'orange' | 'white'): string => {
 }
 
 export type DaftarSoalProps = {
-  listSoal: SoalType[]
+  listSoalPilihan: SoalType[]
+  listSoalEsai: SoalType[]
+  totalSoal: number
+  jumlahTerjawab: number
+  currentTipe: TipeSoal
+  setCurrentTipe(val: TipeSoal): void
   currentIdx: number
   setCurrentIdx(val: number): void
   bigger?: boolean
 }
 
 export default function DaftarSoal({
-  listSoal,
+  listSoalPilihan,
+  listSoalEsai,
+  totalSoal,
+  jumlahTerjawab,
+  currentTipe,
+  setCurrentTipe,
   currentIdx,
   setCurrentIdx,
   bigger,
 }: DaftarSoalProps) {
   const { setOpenSidebarMenu } = useGlobalStore()
 
-  const total = listSoal.length
-  const dijawab = listSoal.filter((item) => !!item.jawab).length
-  const belum = total - dijawab
+  const belum = totalSoal - jumlahTerjawab
 
   return (
     <>
@@ -64,13 +72,13 @@ export default function DaftarSoal({
       </div>
       <CardSeparator />
       <div className="flex flex-col">
-        <div className="flex gap-x-2 px-3 pt-3">
+        <div className="flex gap-x-2 px-3 pt-3 pb-4">
           <div className="flex flex-col items-center flex-1 bg-slight-blue rounded-md px-4 py-2">
             <Text size="2xs" weight="medium" variant="lighter" align="center">
               Jumlah soal
             </Text>
             <Text weight="semibold" variant="dark">
-              {total}
+              {totalSoal}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md px-4 py-2">
@@ -78,7 +86,7 @@ export default function DaftarSoal({
               Sudah dijawab
             </Text>
             <Text weight="semibold" variant="dark">
-              {dijawab}
+              {jumlahTerjawab}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-red rounded-md px-4 py-2">
@@ -90,6 +98,9 @@ export default function DaftarSoal({
             </Text>
           </div>
         </div>
+        <Text size="sm" weight="semibold" variant="dark" className="px-3">
+          Pilihan Ganda
+        </Text>
         <div
           className={cn(
             'grid grid-cols-5 gap-2 p-3 overflow-auto max-h-[calc(100dvh-160px)]',
@@ -98,9 +109,13 @@ export default function DaftarSoal({
             }
           )}
         >
-          {listSoal.map((soal, idx) => {
+          {listSoalPilihan.map((soal, idx) => {
             const color =
-              idx === currentIdx ? 'orange' : soal.jawab ? 'green' : 'white'
+              currentTipe === 'single-choice' && idx === currentIdx
+                ? 'orange'
+                : soal.jawab
+                ? 'green'
+                : 'white'
 
             return (
               <div className="flex justify-center items-center" key={idx}>
@@ -111,8 +126,52 @@ export default function DaftarSoal({
                     boxColor(color),
                     boxBehavior(color)
                   )}
-                  disabled={idx === currentIdx}
+                  disabled={
+                    currentTipe === 'single-choice' && idx === currentIdx
+                  }
                   onClick={() => {
+                    setCurrentTipe('single-choice')
+                    setCurrentIdx(idx)
+                    setOpenSidebarMenu(false)
+                  }}
+                >
+                  {idx + 1}
+                </Button>
+              </div>
+            )
+          })}
+        </div>
+        <Text size="sm" weight="semibold" variant="dark" className="px-3 mt-2">
+          Esai
+        </Text>
+        <div
+          className={cn(
+            'grid grid-cols-5 gap-2 p-3 overflow-auto max-h-[calc(100dvh-160px)]',
+            {
+              'grid-cols-10': bigger,
+            }
+          )}
+        >
+          {listSoalEsai.map((soal, idx) => {
+            const color =
+              currentTipe === 'essay' && idx === currentIdx
+                ? 'orange'
+                : soal.jawab
+                ? 'green'
+                : 'white'
+
+            return (
+              <div className="flex justify-center items-center" key={idx}>
+                <Button
+                  size="sm"
+                  className={cn(
+                    'size-8 border',
+                    boxColor(color),
+                    boxBehavior(color)
+                  )}
+                  disabled={currentTipe === 'essay' && idx === currentIdx}
+                  onClick={() => {
+                    setCurrentTipe('essay')
                     setCurrentIdx(idx)
                     setOpenSidebarMenu(false)
                   }}

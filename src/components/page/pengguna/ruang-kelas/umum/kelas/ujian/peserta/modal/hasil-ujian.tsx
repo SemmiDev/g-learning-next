@@ -18,6 +18,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
+import { Tooltip } from 'rizzui'
 
 type MulaiUjianModalProps = {
   id: string | undefined
@@ -69,6 +70,10 @@ export default function HasilUjianModal({
     jadwalMulai <= new Date() &&
     jadwalSelesai >= new Date()
 
+  const sudahDinilai =
+    !data?.bank_soal.total_soal_essay ||
+    (!!data?.bank_soal.total_soal_essay && !!data?.jawaban.skor_akhir_essay)
+
   return (
     <Modal
       title="Hasil Ujian"
@@ -86,14 +91,21 @@ export default function HasilUjianModal({
             <table className="flex-1 text-xs text-gray-dark">
               <tbody>
                 <tr>
-                  <td className="w-32">Jumlah pertanyaan</td>
+                  <td className="w-40">Total soal</td>
                   <td className="w-3 text-center"> : </td>
                   <td className="font-semibold">
                     {data?.bank_soal.jumlah_soal_yang_digunakan ?? '-'}
                   </td>
                 </tr>
                 <tr>
-                  <td>Benar/salah/kosong</td>
+                  <td>Jumlah soal pilgan</td>
+                  <td className="w-3 text-center"> : </td>
+                  <td className="font-semibold">
+                    {data?.bank_soal.total_soal_pilihan_ganda ?? '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Pilgan Benar/salah/kosong</td>
                   <td className="text-center"> : </td>
                   <td className="font-semibold">
                     {selesai
@@ -101,6 +113,13 @@ export default function HasilUjianModal({
                       ${data?.jawaban.jawaban_salah ?? '-'} /
                       ${data?.jawaban.jawaban_kosong ?? '-'}`
                       : '- / - / -'}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Jumlah soal esai</td>
+                  <td className="w-3 text-center"> : </td>
+                  <td className="font-semibold">
+                    {data?.bank_soal.total_soal_essay ?? '-'}
                   </td>
                 </tr>
                 <tr>
@@ -127,14 +146,37 @@ export default function HasilUjianModal({
                 </tr>
               </tbody>
             </table>
-            <div className="flex flex-col items-center w-24 rounded-md bg-gray-50 p-3">
-              <Text size="sm" weight="medium" variant="lighter">
-                Nilai
-              </Text>
-              <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-                {selesai ? data?.jawaban.skor_akhir || 0 : '-'}
-              </Text>
-            </div>
+            <Tooltip
+              placement="left"
+              content={
+                selesai ? (
+                  <div>
+                    Nilai Pilgan:{' '}
+                    {data?.jawaban.skor_akhir_pilihan_ganda || '-'}
+                    <br />
+                    Nilai Esai:{' '}
+                    {sudahDinilai ? (
+                      data?.jawaban.skor_akhir_essay || '-'
+                    ) : (
+                      <small>Belum Dinilai</small>
+                    )}
+                  </div>
+                ) : (
+                  'Belum Ujian'
+                )
+              }
+            >
+              <div className="flex flex-col items-center w-24 rounded-md bg-gray-50 self-center p-3">
+                <Text size="sm" weight="medium" variant="lighter">
+                  Nilai
+                </Text>
+                <Text size="3xl" weight="bold" variant="dark" className="mt-1">
+                  {selesai && sudahDinilai
+                    ? data?.jawaban.skor_akhir || 0
+                    : '-'}
+                </Text>
+              </div>
+            </Tooltip>
           </div>
           <CardSeparator />
           <ModalFooterButtons

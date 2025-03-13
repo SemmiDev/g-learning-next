@@ -5,24 +5,23 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
-import { SoalType } from '../kerjakan/ujian-body'
 
 type SelesaiUjianModalProps = {
   show?: boolean
   setShow(show: boolean): void
-  listSoal: SoalType[]
+  totalSoal: number
+  totalTerjawab: number
   onSelesaiUjian(): void
 }
 
 export default function SelesaiUjianModal({
   show = false,
   setShow,
-  listSoal,
+  totalSoal,
+  totalTerjawab,
   onSelesaiUjian,
 }: SelesaiUjianModalProps) {
-  const total = listSoal.length
-  const dijawab = listSoal.filter((item) => !!item.jawab).length
-  const belum = total - dijawab
+  const belum = totalSoal - totalTerjawab
 
   return (
     <Modal
@@ -39,7 +38,7 @@ export default function SelesaiUjianModal({
               Jumlah soal
             </Text>
             <Text weight="semibold" variant="dark">
-              {total}
+              {totalSoal}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-green rounded-md px-4 py-2">
@@ -47,7 +46,7 @@ export default function SelesaiUjianModal({
               Sudah dijawab
             </Text>
             <Text weight="semibold" variant="dark">
-              {dijawab}
+              {totalTerjawab}
             </Text>
           </div>
           <div className="flex flex-col items-center flex-1 bg-slight-red rounded-md px-4 py-2">

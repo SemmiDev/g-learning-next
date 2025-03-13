@@ -2,23 +2,14 @@ import { Drawer } from '@/components/ui'
 import { useGlobalStore } from '@/stores/global'
 import DaftarSoal, { DaftarSoalProps } from './daftar-soal'
 
-type DrawerDaftarSoalProps = DaftarSoalProps & {}
+type DrawerDaftarSoalProps = Omit<DaftarSoalProps, 'bigger'>
 
-export default function DrawerDaftarSoal({
-  listSoal,
-  currentIdx,
-  setCurrentIdx,
-}: DrawerDaftarSoalProps) {
+export default function DrawerDaftarSoal(props: DrawerDaftarSoalProps) {
   const { openSidebarMenu, setOpenSidebarMenu } = useGlobalStore()
 
   return (
     <Drawer isOpen={openSidebarMenu} onClose={() => setOpenSidebarMenu(false)}>
-      <DaftarSoal
-        listSoal={listSoal}
-        currentIdx={currentIdx}
-        setCurrentIdx={setCurrentIdx}
-        bigger
-      />
+      <DaftarSoal {...props} bigger />
     </Drawer>
   )
 }

@@ -6,16 +6,18 @@ export type DataType = {
   soal: {
     id: string
     id_bank_soal: string
+    tipe: 'PILIHAN_GANDA' | 'ESSAY'
     soal: string
     jawaban_a: string
     jawaban_b: string
     jawaban_c: string
     jawaban_d: string
     jawaban_e: string
+    bobot_essay: number
     created_at: string
     updated_at: string
     telah_dijawab: boolean
-    jawaban_anda: 'A' | 'B' | 'C' | 'D' | 'E' | ''
+    jawaban_anda: string
   }[]
   info: {
     jumlah_soal: number

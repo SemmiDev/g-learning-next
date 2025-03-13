@@ -15,6 +15,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import MulaiUjianModal from './modal/mulai-ujian'
+import { Popover, Tooltip } from 'rizzui'
 
 type HasilUjianCardProps = {
   tipeKelas: 'akademik' | 'umum'
@@ -55,6 +56,10 @@ export default function HasilUjianCard({
     jadwalMulai <= new Date() &&
     jadwalSelesai >= new Date()
 
+  const sudahDinilai =
+    !data?.bank_soal.total_soal_essay ||
+    (!!data?.bank_soal.total_soal_essay && !!data?.jawaban.skor_akhir_essay)
+
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
@@ -66,12 +71,19 @@ export default function HasilUjianCard({
           <table className="flex-1 text-xs text-gray-dark">
             <tbody>
               <tr>
-                <td className="w-32">Jumlah soal</td>
+                <td className="w-40">Total soal</td>
                 <td className="w-3 text-center"> : </td>
                 <td className="font-semibold">{jumlahSoal ?? '-'}</td>
               </tr>
               <tr>
-                <td>Benar/salah/kosong</td>
+                <td>Jumlah soal pilgan</td>
+                <td className="w-3 text-center"> : </td>
+                <td className="font-semibold">
+                  {data?.bank_soal?.jumlah_soal_yang_digunakan ?? '-'}
+                </td>
+              </tr>
+              <tr>
+                <td>Pilgan Benar/salah/kosong</td>
                 <td className="text-center"> : </td>
                 <td className="font-semibold">
                   {selesai
@@ -79,6 +91,13 @@ export default function HasilUjianCard({
                       ${data?.jawaban.jawaban_salah ?? '-'} /
                       ${data?.jawaban.jawaban_kosong ?? '-'}`
                     : '- / - / -'}
+                </td>
+              </tr>
+              <tr>
+                <td>Jumlah soal esai</td>
+                <td className="w-3 text-center"> : </td>
+                <td className="font-semibold">
+                  {data?.bank_soal?.total_soal_essay ?? '-'}
                 </td>
               </tr>
               <tr>
@@ -105,14 +124,34 @@ export default function HasilUjianCard({
               </tr>
             </tbody>
           </table>
-          <div className="flex flex-col items-center bg-gray-50 w-24 rounded-md self-center p-3">
-            <Text size="sm" weight="medium" variant="lighter">
-              Nilai
-            </Text>
-            <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-              {selesai ? data?.jawaban.skor_akhir || 0 : '-'}
-            </Text>
-          </div>
+          <Tooltip
+            placement="left"
+            content={
+              selesai ? (
+                <div>
+                  Nilai Pilgan: {data?.jawaban.skor_akhir_pilihan_ganda || '-'}
+                  <br />
+                  Nilai Esai:{' '}
+                  {sudahDinilai ? (
+                    data?.jawaban.skor_akhir_essay || '-'
+                  ) : (
+                    <small>Belum Dinilai</small>
+                  )}
+                </div>
+              ) : (
+                'Belum Ujian'
+              )
+            }
+          >
+            <div className="flex flex-col items-center bg-gray-50 w-24 rounded-md self-center p-3">
+              <Text size="sm" weight="medium" variant="lighter">
+                Nilai
+              </Text>
+              <Text size="3xl" weight="bold" variant="dark" className="mt-1">
+                {selesai && sudahDinilai ? data?.jawaban.skor_akhir || 0 : '-'}
+              </Text>
+            </div>
+          </Tooltip>
         </div>
         <CardSeparator />
         {(selesai || dalamJadwal) && (
@@ -158,10 +197,9 @@ function CardShimmer({ className }: { className?: string }) {
       <CardSeparator />
       <div className="flex items-center space-x-2 p-2">
         <div className="flex flex-col space-y-2 flex-1">
-          <Shimmer className="h-2.5 w-1/2" />
-          <Shimmer className="h-2.5 w-1/2" />
-          <Shimmer className="h-2.5 w-1/2" />
-          <Shimmer className="h-2.5 w-1/2" />
+          {[...Array(6)].map((_, i) => (
+            <Shimmer key={i} className="h-2.5 w-1/2" />
+          ))}
         </div>
         <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md space-y-5 px-3 py-4">
           <Shimmer className="h-2.5 w-1/2" />

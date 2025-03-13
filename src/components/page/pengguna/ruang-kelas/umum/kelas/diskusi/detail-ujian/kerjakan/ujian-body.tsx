@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { useWindowScroll } from 'react-use'
+import { useDebounce, useWindowScroll } from 'react-use'
 import useMedia from 'react-use/lib/useMedia'
 import SelesaiUjianModal from '../modal/selesai-ujian'
 import DaftarSoalCard from './daftar-soal-card'
@@ -26,14 +26,17 @@ import SoalCard from './soal-card'
 type JawabanType = (typeof PILIHAN_JAWABAN)[number]
 type JawabanTypeLower = Lowercase<JawabanType>
 
+export type TipeSoal = 'single-choice' | 'essay'
+
 export type SoalType = {
   id: string
   soal: string
-  jawaban: {
+  tipe: TipeSoal
+  jawaban?: {
     pilihan: JawabanType
     teks: string
   }[]
-  jawab?: JawabanType | null
+  jawab?: string | null
 }
 
 export default function KerjakanUjianBody() {
@@ -48,9 +51,12 @@ export default function KerjakanUjianBody() {
   const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error'>()
   const [targetWaktu, setTargetWaktu] = useState<number>()
   const [sisaWaktu, setSisaWaktu] = useState<number>()
+  const [currentTipe, setCurrentTipe] = useState<TipeSoal>('single-choice')
   const [currentIdx, setCurrentIdx] = useState(0)
-  const [listSoal, setListSoal] = useState<SoalType[]>([])
+  const [listSoalPilihan, setListSoalPilihan] = useState<SoalType[]>([])
+  const [listSoalEsai, setListSoalEsai] = useState<SoalType[]>([])
   const [showSelesai, setShowSelesai] = useState(false)
+  const [typing, setTyping] = useState<string>()
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
@@ -77,16 +83,30 @@ export default function KerjakanUjianBody() {
 
     setSaveStatus('saved')
 
-    setListSoal(
-      (data?.soal ?? []).map((item) => ({
-        id: item.id,
-        soal: item.soal,
-        jawaban: PILIHAN_JAWABAN.map((pilihan) => ({
-          pilihan,
-          teks: item[`jawaban_${pilihan.toLowerCase() as JawabanTypeLower}`],
-        })),
-        jawab: item.jawaban_anda || null,
-      }))
+    setListSoalPilihan(
+      (data?.soal ?? [])
+        .filter((item) => item.tipe === 'PILIHAN_GANDA')
+        .map((item) => ({
+          id: item.id,
+          tipe: 'single-choice',
+          soal: item.soal,
+          jawaban: PILIHAN_JAWABAN.map((pilihan) => ({
+            pilihan,
+            teks: item[`jawaban_${pilihan.toLowerCase() as JawabanTypeLower}`],
+          })),
+          jawab: item.jawaban_anda || null,
+        }))
+    )
+
+    setListSoalEsai(
+      (data?.soal ?? [])
+        .filter((item) => item.tipe === 'ESSAY')
+        .map((item) => ({
+          id: item.id,
+          tipe: 'essay',
+          soal: item.soal,
+          jawab: item.jawaban_anda || null,
+        }))
     )
   }
 
@@ -108,22 +128,32 @@ export default function KerjakanUjianBody() {
     }
   }
 
-  const setJawaban = async (jawaban: JawabanType) => {
-    const dataSoal = [...listSoal]
+  const setJawabanPilihan = (jawaban: JawabanType) => {
+    const dataSoal = [...listSoalPilihan]
     dataSoal[currentIdx].jawab = jawaban
 
-    setListSoal(dataSoal)
+    setListSoalPilihan(dataSoal)
     setSaveStatus('saving')
 
-    simpanJawaban(dataSoal)
+    simpanJawaban(listSemuaSoal)
   }
+
+  const setJawabanEsai = (jawaban: string) => {
+    const dataSoal = [...listSoalEsai]
+    dataSoal[currentIdx].jawab = jawaban
+
+    setListSoalEsai(dataSoal)
+  }
+
+  // simpan jawaban 3 detik setelah mengetik jawaban
+  useDebounce(() => simpanJawaban(listSemuaSoal), typing ? 3000 : 0, [typing])
 
   const processSelesaiUjian = async (sisa: number) => {
     clearInterval(timer)
 
     await handleActionWithToast(
       selesaiUjianAction(idKelas, id, {
-        jawaban: listSoal.map((item) => ({
+        jawaban: listSemuaSoal.map((item) => ({
           id: item.id,
           jw: item.jawab || '',
         })),
@@ -148,6 +178,21 @@ export default function KerjakanUjianBody() {
     processSelesaiUjian(sisaWaktu || 0)
   }
 
+  const listSoal = useMemo(
+    () => (currentTipe === 'single-choice' ? listSoalPilihan : listSoalEsai),
+    [currentTipe, listSoalPilihan, listSoalEsai]
+  )
+
+  const listSemuaSoal = useMemo(
+    () => [...listSoalPilihan, ...listSoalEsai],
+    [listSoalPilihan, listSoalEsai]
+  )
+
+  const totalTerjawab = useMemo(
+    () => listSemuaSoal.filter((item) => !!item.jawab).length,
+    [listSemuaSoal]
+  )
+
   const currentSoal = useMemo(
     () => listSoal[currentIdx],
     [listSoal, currentIdx]
@@ -168,7 +213,7 @@ export default function KerjakanUjianBody() {
           sisa % 30 === 0 ||
           (saveStatus === 'error' && sisa % 5 === 0)
         ) {
-          simpanJawaban(listSoal)
+          simpanJawaban(listSemuaSoal)
         }
 
         setSisaWaktu(sisa)
@@ -204,7 +249,12 @@ export default function KerjakanUjianBody() {
         <div className="flex items-start flex-wrap gap-2 md:gap-4 xl:gap-6">
           {isMediumScreen && (
             <DaftarSoalCard
-              listSoal={listSoal}
+              listSoalPilihan={listSoalPilihan}
+              listSoalEsai={listSoalEsai}
+              totalSoal={listSemuaSoal.length}
+              jumlahTerjawab={totalTerjawab}
+              currentTipe={currentTipe}
+              setCurrentTipe={setCurrentTipe}
               currentIdx={currentIdx}
               setCurrentIdx={setCurrentIdx}
               className="w-full hidden lg:flex lg:w-[30%] xl:w-1/4"
@@ -212,10 +262,20 @@ export default function KerjakanUjianBody() {
           )}
           <SoalCard
             soal={currentSoal}
+            totalSoal={listSoal.length}
+            totalSoalPilihan={listSoalPilihan.length}
+            currentTipe={currentTipe}
+            setCurrentTipe={setCurrentTipe}
             currentIdx={currentIdx}
             setCurrentIdx={setCurrentIdx}
-            totalSoal={listSoal.length}
-            onChangeJawaban={(val) => setJawaban(val)}
+            onChangeJawaban={(val) => {
+              if (currentTipe === 'single-choice') {
+                setJawabanPilihan(val as JawabanType)
+              } else {
+                setJawabanEsai(val)
+                setTyping(val)
+              }
+            }}
             className="flex-1"
           />
         </div>
@@ -224,12 +284,18 @@ export default function KerjakanUjianBody() {
       <SelesaiUjianModal
         show={showSelesai}
         setShow={setShowSelesai}
-        listSoal={listSoal}
+        totalSoal={listSemuaSoal.length}
+        totalTerjawab={totalTerjawab}
         onSelesaiUjian={handleSelesaiUjian}
       />
 
       <DrawerDaftarSoal
-        listSoal={listSoal}
+        listSoalPilihan={listSoalPilihan}
+        listSoalEsai={listSoalEsai}
+        totalSoal={listSemuaSoal.length}
+        jumlahTerjawab={totalTerjawab}
+        currentTipe={currentTipe}
+        setCurrentTipe={setCurrentTipe}
         currentIdx={currentIdx}
         setCurrentIdx={setCurrentIdx}
       />

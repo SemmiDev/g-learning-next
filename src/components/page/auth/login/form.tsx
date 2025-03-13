@@ -33,7 +33,8 @@ const listUser = [
   { level: 'Admin', username: 'admin@gmail.com' },
   { level: 'Instansi', username: 'adminuin' },
   { level: 'Contoh Dosen', username: '1502021102950004' },
-  { level: 'Contoh Mahasiswa', username: '1502020105060001' },
+  { level: 'Contoh Mahasiswa 1', username: '1502020105060001' },
+  { level: 'Contoh Mahasiswa 2', username: '1502082008050001' },
   { level: 'Rizky (Pengguna 1)', username: 'reazon7@gmail.com' },
   {
     level: 'Sammi (Pengguna 2)',

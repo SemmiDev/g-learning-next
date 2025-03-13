@@ -27,6 +27,7 @@ export type DataType = {
     waktu_mulai_ujian: string | null
     waktu_selesai_ujian: string | null
     durasi_ujian: number | null
+    id_pertemuan_kelas: string | null
     created_at: string
     updated_at: string
   }
@@ -64,6 +65,8 @@ export type DataType = {
     skor_salah: number | null
     skor_kosong: number | null
     skor_akhir: number | null
+    skor_akhir_essay: number | null
+    skor_akhir_pilihan_ganda: number | null
     jawaban_benar: number | null
     jawaban_salah: number | null
     jawaban_kosong: number | null
