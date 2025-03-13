@@ -94,8 +94,10 @@ export default function UjianItem({ kelas, data, className }: UjianItemProps) {
                       :
                     </td>
                     <td className="text-xs text-gray-dark font-semibold">
-                      {data.bank_soal?.jumlah_soal_yang_digunakan}/
-                      {data.bank_soal?.total_soal_pilihan_ganda}
+                      {data.bank_soal?.jumlah_soal_yang_digunakan}
+                      {kelas?.peran === 'Pengajar'
+                        ? `/${data.bank_soal?.total_soal_pilihan_ganda}`
+                        : ''}
                     </td>
                   </tr>
                   <tr>

@@ -1,5 +1,5 @@
-import LinimasaMateriBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/linimasa/detail-materi/body'
+import DetailMateriBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/linimasa/detail-materi/body'
 
 export default async function LinimasaMateriPage() {
-  return <LinimasaMateriBody />
+  return <DetailMateriBody />
 }

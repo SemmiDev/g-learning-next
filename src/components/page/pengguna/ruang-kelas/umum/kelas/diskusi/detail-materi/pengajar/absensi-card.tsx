@@ -41,13 +41,13 @@ export default function PengajarAbsensiCard({
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataAktifitas } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   const tipe = dataAktifitas?.aktifitas.absen ?? null
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.absensi', idKelas, id]
+  const queryKey = ['pengguna.ruang-kelas.detail.absensi', idKelas, id]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,

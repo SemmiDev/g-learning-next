@@ -26,7 +26,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.ujian', idKelas, id]
+  const queryKey = ['pengguna.ruang-kelas.detail.ujian', idKelas, id]
 
   const { data, isLoading } = useQuery({
     queryKey,
@@ -77,8 +77,10 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                     :
                   </td>
                   <td className="text-xs text-gray-dark font-semibold">
-                    {data.bank_soal?.jumlah_soal_yang_digunakan}/
-                    {data.bank_soal?.total_soal_pilihan_ganda}
+                    {data.bank_soal?.jumlah_soal_yang_digunakan}
+                    {peran === 'Pengajar'
+                      ? `/${data.bank_soal?.total_soal_pilihan_ganda}`
+                      : ''}
                   </td>
                 </tr>
                 <tr>

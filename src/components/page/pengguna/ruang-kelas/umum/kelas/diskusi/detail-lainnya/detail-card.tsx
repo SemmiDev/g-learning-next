@@ -22,7 +22,7 @@ type DetailCardProps = {
 export default function DetailCard({ className }: DetailCardProps) {
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.lainnya', idKelas, id]
+  const queryKey = ['pengguna.ruang-kelas.detail.lainnya', idKelas, id]
 
   const { data, isLoading } = useQuery({
     queryKey,

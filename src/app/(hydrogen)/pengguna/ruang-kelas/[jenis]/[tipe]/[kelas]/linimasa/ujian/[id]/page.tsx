@@ -1,5 +1,5 @@
-import LinimasaUjianBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/linimasa/detail-ujian/body'
+import DetailUjianBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-ujian/body'
 
 export default function LinimasaUjianPage() {
-  return <LinimasaUjianBody />
+  return <DetailUjianBody />
 }

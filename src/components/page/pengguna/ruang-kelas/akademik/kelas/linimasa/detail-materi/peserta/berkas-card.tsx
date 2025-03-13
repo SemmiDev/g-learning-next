@@ -28,7 +28,7 @@ export default function PesertaBerkasCard({
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.linimasa.materi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 

@@ -12,7 +12,7 @@ import { RiArrowLeftLine } from 'react-icons/ri'
 import AbsensiCard from './absensi-card'
 import DetailCard from './detail-card'
 
-export default function DiskusiKonferensiBody() {
+export default function DetailKonferensiBody() {
   const router = useRouter()
 
   const { kelas: idKelas }: { kelas: string } = useParams()

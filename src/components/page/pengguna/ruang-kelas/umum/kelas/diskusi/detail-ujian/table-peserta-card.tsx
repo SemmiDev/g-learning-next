@@ -89,7 +89,7 @@ export default function TableUjianPesertaCard({
     useParams()
 
   const queryKey = [
-    'pengguna.ruang-kelas.diskusi.ujian.table-peserta',
+    'pengguna.ruang-kelas.detail.ujian.table-peserta',
     idKelas,
     idAktifitas,
   ]

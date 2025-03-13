@@ -18,7 +18,7 @@ import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'
 import PesertaBerkasCard from './peserta/berkas-card'
 
-export default function LinimasaMateriBody() {
+export default function DetailMateriBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 

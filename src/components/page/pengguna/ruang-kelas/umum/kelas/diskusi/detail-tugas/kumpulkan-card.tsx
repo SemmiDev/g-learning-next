@@ -54,7 +54,7 @@ export default function KumpulkanTugasCard({
     useParams()
 
   const queryKey = [
-    'pengguna.ruang-kelas.diskusi.tugas.kumpulkan',
+    'pengguna.ruang-kelas.detail.tugas.kumpulkan',
     idKelas,
     idAktifitas,
   ]

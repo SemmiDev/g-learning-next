@@ -18,7 +18,7 @@ import { RiArrowLeftLine } from 'react-icons/ri'
 import BerkasCard from './berkas-card'
 import DetailCard from './detail-card'
 
-export default function DiskusiInformasiBody() {
+export default function DetailInformasiBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 

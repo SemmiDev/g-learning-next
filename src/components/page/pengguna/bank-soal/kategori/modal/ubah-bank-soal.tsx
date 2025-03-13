@@ -167,7 +167,7 @@ export default function UbahBankSoalModal({
                       name="gunakan"
                       control={control}
                       errors={errors}
-                      label="Jumlah Soal Digunakan"
+                      label="Jumlah Soal Pilihan Ganda Digunakan"
                       placeholder="Jumlah soal yang akan digunakan dari keseluruhan soal"
                       suffix="Soal"
                       required
@@ -244,7 +244,7 @@ export default function UbahBankSoalModal({
                   </>
                 ) : (
                   <>
-                    <TextBordered label="Jumlah Soal Digunakan">
+                    <TextBordered label="Jumlah Soal Pilihan Ganda Digunakan">
                       {initialValues?.gunakan || '0'} Soal
                     </TextBordered>
 

@@ -98,7 +98,7 @@ export default function DetailCard({
               idAktifitas={data.aktifitas.id}
               total={data.total_komentar}
               invalidateQueries={[
-                ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+                ['pengguna.ruang-kelas.detail.materi', idKelas, id],
               ]}
               firstShow={5}
               showPer={10}

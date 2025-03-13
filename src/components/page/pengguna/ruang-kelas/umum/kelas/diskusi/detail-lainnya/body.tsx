@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'
 
-export default function DiskusiLainnyaBody() {
+export default function DetailLainnyaBody() {
   const router = useRouter()
 
   const [filePreview, setFilePreview] = useState<FilePreviewType>()

@@ -24,7 +24,7 @@ import PengajarAbsensiCard from './pengajar/absensi-card'
 import PesertaAbsensiCard from './peserta/absensi-card'
 import PesertaBerkasCard from './peserta/berkas-card'
 
-export default function DiskusiMateriBody() {
+export default function DetailMateriBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -36,7 +36,7 @@ export default function DiskusiMateriBody() {
   })
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 

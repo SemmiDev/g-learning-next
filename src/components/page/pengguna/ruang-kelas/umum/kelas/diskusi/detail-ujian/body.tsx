@@ -14,7 +14,7 @@ import DetailCard from './detail-card'
 import HasilUjianCard from './hasil-ujian'
 import TableUjianPesertaCard from './table-peserta-card'
 
-export default function DiskusiUjianBody() {
+export default function DetailUjianBody() {
   const router = useRouter()
 
   const { kelas: idKelas }: { kelas: string } = useParams()

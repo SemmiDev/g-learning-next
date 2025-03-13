@@ -38,7 +38,7 @@ export default function PesertaAbsensiCard({
       onStart: () => setIsSending(true),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.materi', idKelas, id],
+          queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
         })
       },
       onFinish: () => setIsSending(false),

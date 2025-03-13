@@ -11,7 +11,7 @@ import { useParams } from 'next/navigation'
 import { RiArrowLeftLine } from 'react-icons/ri'
 import DetailCard from './detail-card'
 
-export default function LinimasaKonferensiBody() {
+export default function DetailKonferensiBody() {
   const router = useRouter()
 
   const { kelas: idKelas }: { kelas: string } = useParams()

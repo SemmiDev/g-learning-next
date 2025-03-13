@@ -39,13 +39,13 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataAktifitas } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.konferensi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.detail.konferensi', idKelas, id],
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   const tipe = mustBe(dataAktifitas?.aktifitas.absen, ['Manual', null], null)
 
-  const queryKey = ['pengguna.ruang-kelas.diskusi.absensi', idKelas, id]
+  const queryKey = ['pengguna.ruang-kelas.detail.absensi', idKelas, id]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,

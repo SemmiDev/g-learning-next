@@ -1,5 +1,5 @@
-import LinimasaLainnyaBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/linimasa/detail-lainnya/body'
+import DetailLainnyaBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-lainnya/body'
 
 export default function LinimasaLainnyaPage() {
-  return <LinimasaLainnyaBody />
+  return <DetailLainnyaBody />
 }

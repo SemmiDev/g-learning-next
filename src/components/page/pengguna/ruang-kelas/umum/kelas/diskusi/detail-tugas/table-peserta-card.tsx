@@ -96,7 +96,7 @@ export default function TableTugasPesertaCard({
     useParams()
 
   const { data: dataAktifitas } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
+    queryKey: ['pengguna.ruang-kelas.detail.tugas', idKelas, idAktifitas],
     queryFn: makeSimpleQueryDataWithParams(
       lihatAktifitasAction,
       idKelas,
@@ -105,7 +105,7 @@ export default function TableTugasPesertaCard({
   })
 
   const queryKey = [
-    'pengguna.ruang-kelas.diskusi.tugas.table-peserta',
+    'pengguna.ruang-kelas.detail.tugas.table-peserta',
     idKelas,
     idAktifitas,
   ]

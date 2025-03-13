@@ -28,7 +28,7 @@ export default function BerkasCard({
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pengguna.ruang-kelas.diskusi.informasi', idKelas, id],
+    queryKey: ['pengguna.ruang-kelas.detail.informasi', idKelas, id],
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
