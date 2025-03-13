@@ -27,25 +27,6 @@ export const removeFromListWhere = <T extends AnyObject>(
   return removeIndexFromList(list, idx)
 }
 
-export const shuffleList = <T>(list: T[]) => {
-  let currentIndex = list.length
-
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-
-    // And swap it with the current element.
-    ;[list[currentIndex], list[randomIndex]] = [
-      list[randomIndex],
-      list[currentIndex],
-    ]
-  }
-
-  return list
-}
-
 export const shuffleListWithSeed = <T>(list: T[], seed: string) => {
   const chance = new Chance(seed)
   const newList = [...list]
