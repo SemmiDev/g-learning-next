@@ -1,4 +1,4 @@
-.PHONY: rebuild build stop start boot
+.PHONY: rebuild build clean stop start boot
 
 rebuild: stop clean build start
 
@@ -6,11 +6,12 @@ stop:
 	@pm2 delete nextjs-glearning || true
 
 clean:
-	@npm run clean
+	@rm -rf node_modules .next .cache package-lock.json pnpm-lock.yaml || true
 
 build:
 	@npm install --force
-	@NEXT_DISABLE_ESLINT=1 NODE_OPTIONS="--max-old-space-size=2048" npm run build
+	@export NODE_OPTIONS="--max-old-space-size=4096"
+	@npm run build
 
 start:
 	@pm2 start npm --name "nextjs-glearning" -- start
