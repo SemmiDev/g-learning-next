@@ -120,7 +120,7 @@ export default function TambahBerkasModal({
               {uploadLink && (
                 <div>
                   <TextLabel>Link YouTube atau Media Lainnya</TextLabel>
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-y-2">
                     {watch('youtube')?.map((_, idx) => {
                       return (
                         <div key={idx} className="flex gap-x-2">

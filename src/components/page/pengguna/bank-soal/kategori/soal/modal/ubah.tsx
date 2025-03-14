@@ -224,7 +224,7 @@ export default function UbahSoalModal({
                 />
 
                 {getValues('tipe').value === 'single-choice' && (
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-y-2">
                     <div>
                       <TextLabel>
                         <Label label="Pilihan Jawaban" required />

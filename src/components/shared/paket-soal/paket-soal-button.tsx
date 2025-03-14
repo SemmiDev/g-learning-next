@@ -49,8 +49,8 @@ export default function SoalButton({
       ) : (
         <div className="w-[3.25rem]"></div>
       )}
-      <div className="flex flex-1 justify-between items-center space-x-2">
-        <div className="flex space-x-2">
+      <div className="flex flex-1 justify-between items-center gap-x-2">
+        <div className="flex gap-x-2">
           <div className="flex size-11 items-center justify-center rounded-md btn-item-blue mr-2">
             <BsCardChecklist size={22} />
           </div>
@@ -94,7 +94,7 @@ export default function SoalButton({
             </ul>
           </div>
         </div>
-        <div className="flex space-x-1 pr-4">
+        <div className="flex gap-x-1 pr-4">
           <ActionIconTooltip
             tooltip="Lihat"
             size="sm"

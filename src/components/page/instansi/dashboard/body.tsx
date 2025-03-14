@@ -9,12 +9,12 @@ import DashboardTotalRuangPenyimpananCard from './total-ruang-penyimpanan-card'
 export default function DashboardBody() {
   return (
     <div className="flex flex-wrap gap-4">
-      <div className="flex flex-col space-y-4 w-full lg:w-7/12">
+      <div className="flex flex-col gap-y-4 w-full lg:w-7/12">
         <DashboardProfilCard />
         <DashboardPenggunaCard />
         <DashboardRiwayatPembayaranCard />
       </div>
-      <div className="flex flex-col space-y-4 flex-1 order-last lg:order-none">
+      <div className="flex flex-col gap-y-4 flex-1 order-last lg:order-none">
         <DashboardTotalRuangPenyimpananCard />
         <DashboardTotalPenggunaCard />
         <DashboardTotalKelasCard />

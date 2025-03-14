@@ -95,7 +95,7 @@ export default function DashboardPenggunaanPenyimpananCard({
       </div>
       <CardSeparator />
       <div className="p-2">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-x-2">
           <Text size="sm" weight="medium" variant="lighter">
             Total penyimpanan
           </Text>

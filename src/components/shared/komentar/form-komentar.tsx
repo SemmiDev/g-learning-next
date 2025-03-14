@@ -24,7 +24,7 @@ export default function FormKomentar({
   const { image: imagePengguna, name: namaPengguna } = useSessionPengguna()
 
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
+    <div className={cn('flex items-center gap-x-2', className)}>
       <Thumbnail
         src={imagePengguna || undefined}
         alt="profil"

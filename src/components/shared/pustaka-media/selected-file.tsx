@@ -12,7 +12,7 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
       className="flex justify-between gap-2 rounded-sm border border-gray-50 w-full cursor-auto p-2 sm:w-auto"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex space-x-2">
+      <div className="flex gap-x-2">
         <FileIcon file={file} />
         <div className="flex flex-col">
           <Text
@@ -44,7 +44,7 @@ export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
           </ul>
         </div>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex gap-x-1">
         <ActionIcon
           size="sm"
           variant="outline-hover-colorful"

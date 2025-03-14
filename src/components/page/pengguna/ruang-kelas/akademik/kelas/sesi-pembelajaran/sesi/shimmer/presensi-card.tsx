@@ -16,9 +16,9 @@ export default function PresensiCardShimmer({
       <CardSeparator />
       <div className="flex flex-col divide-y">
         {[...Array(5)].map((_, idx) => (
-          <div key={idx} className="flex items-center space-x-2 px-2 py-4">
+          <div key={idx} className="flex items-center gap-x-2 px-2 py-4">
             <Shimmer className="size-[2.375rem]" />
-            <div className="flex-1 space-y-2">
+            <div className="flex flex-col flex-1 gap-y-2">
               <Shimmer className="h-2.5 w-1/2" />
               <Shimmer className="h-2.5 w-1/3" />
             </div>

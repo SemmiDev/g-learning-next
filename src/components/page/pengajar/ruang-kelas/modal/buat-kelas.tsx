@@ -129,7 +129,7 @@ export default function BuatKelasModal({
 
                 <div>
                   <TextLabel>Hari dan Waktu</TextLabel>
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-y-2">
                     {watch('hariWaktu')?.map((_, idx) => {
                       return (
                         <div key={idx} className="flex gap-x-2">

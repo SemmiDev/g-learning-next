@@ -28,7 +28,7 @@ export default function KursusDiikutiCard({
       title: <TableHeaderCell title="Nama Kursus" />,
       dataIndex: 'nama',
       render: (value: string, row) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-x-2">
           <Image
             src={row.image}
             alt="cover"

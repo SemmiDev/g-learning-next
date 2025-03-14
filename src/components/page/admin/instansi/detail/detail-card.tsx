@@ -45,9 +45,7 @@ export default function DetailCard({ className }: { className?: string }) {
 
   return (
     <>
-      <Card
-        className={cn('flex justify-between space-x-2 relative', className)}
-      >
+      <Card className={cn('flex justify-between gap-x-2 relative', className)}>
         <div className="flex flex-col items-center gap-3 md:flex-row">
           <div className="inline-block relative">
             <ActionIconTooltip
@@ -70,7 +68,7 @@ export default function DetailCard({ className }: { className?: string }) {
               priority
             />
           </div>
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-y-1.5">
             <Title as="h3" size="1.5xl" className="text-center md:text-left">
               {data?.instansi?.nama}
             </Title>

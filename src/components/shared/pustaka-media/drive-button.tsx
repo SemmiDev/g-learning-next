@@ -28,7 +28,7 @@ export default function DriveButton({
     return (
       <>
         <button
-          className="flex flex-col items-stretch text-left space-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50"
+          className="flex flex-col items-stretch text-left gap-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50"
           onClick={() => setShowInfo(true)}
         >
           <div className="flex flex-wrap items-center gap-x-1">
@@ -61,12 +61,12 @@ export default function DriveButton({
   return (
     <button
       className={cn(
-        'flex flex-col items-stretch text-left space-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50',
+        'flex flex-col items-stretch text-left gap-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50',
         { 'bg-blue-50/50': active }
       )}
       {...props}
     >
-      <div className="flex justify-between space-x-2">
+      <div className="flex justify-between gap-x-2">
         {drive.id === 'GOOGLE_DRIVE' ? (
           <Text
             weight="semibold"

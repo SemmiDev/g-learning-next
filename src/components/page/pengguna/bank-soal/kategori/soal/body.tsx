@@ -252,12 +252,12 @@ export default function KelolaSoalBody() {
                   formState: { errors, isSubmitting },
                 }) => (
                   <>
-                    <div className="flex justify-between items-center space-x-2 p-2">
+                    <div className="flex justify-between items-center gap-x-2 p-2">
                       <Title as="h6" weight="semibold">
                         Soal Nomor {listSoal.length + 1} ({TipeSoal[tipeSoal]})
                       </Title>
                       {canBeChanged && (
-                        <div className="flex space-x-2">
+                        <div className="flex gap-x-2">
                           <Button
                             size="sm"
                             variant="outline"
@@ -272,7 +272,7 @@ export default function KelolaSoalBody() {
                       )}
                     </div>
                     <CardSeparator />
-                    <div className="flex flex-col space-y-3 p-2">
+                    <div className="flex flex-col gap-y-3 p-2">
                       <FormError error={formError} />
 
                       <ControlledSelect
@@ -314,7 +314,7 @@ export default function KelolaSoalBody() {
                       />
 
                       {watch('tipe').value === 'single-choice' && (
-                        <div className="space-y-2">
+                        <div className="flex flex-col gap-y-2">
                           <div>
                             <TextLabel>
                               <Label label="Pilihan Jawaban" required />
@@ -409,7 +409,7 @@ export default function KelolaSoalBody() {
                 key={`pilihan.${idx}`}
                 className="flex flex-col scroll-m-20 lg:scroll-m-24 p-0"
               >
-                <div className="flex justify-between items-center space-x-2 p-2">
+                <div className="flex justify-between items-center gap-x-2 p-2">
                   <Title as="h6" weight="semibold">
                     Soal Nomor {idx + 1} (
                     {
@@ -429,7 +429,7 @@ export default function KelolaSoalBody() {
                     )}
                   </Title>
                   {canBeChanged && (
-                    <div className="flex space-x-2">
+                    <div className="flex gap-x-2">
                       <Button
                         size="sm"
                         variant="outline"
@@ -456,13 +456,13 @@ export default function KelolaSoalBody() {
                   )}
                 </div>
                 <CardSeparator />
-                <div className="flex flex-col space-y-3 text-gray-dark p-2">
+                <div className="flex flex-col gap-y-3 text-gray-dark p-2">
                   <SanitizeHTML
                     html={soal.pertanyaan}
                     className="font-medium"
                   />
                   {soal.tipe !== 'ESSAY' && (
-                    <div className="flex flex-col space-y-2">
+                    <div className="flex flex-col gap-y-2">
                       {PILIHAN_JAWABAN.map((pilihan) => {
                         const jawaban =
                           soal[
@@ -477,7 +477,7 @@ export default function KelolaSoalBody() {
                         return (
                           <div
                             key={`${soal.id}.${pilihan}`}
-                            className="flex space-x-1 items-center"
+                            className="flex gap-x-1 items-center"
                           >
                             <div className="relative">
                               <Text size="sm" weight="bold">
@@ -506,7 +506,7 @@ export default function KelolaSoalBody() {
         </div>
         <Card className="flex flex-col w-full p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
           <div className="flex flex-col p-2">
-            <div className="flex justify-between space-x-2">
+            <div className="flex justify-between gap-x-2">
               <Title as="h6" weight="semibold">
                 {dataBankSoal?.judul ?? ''}
               </Title>

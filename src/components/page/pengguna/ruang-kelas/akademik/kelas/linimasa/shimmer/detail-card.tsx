@@ -10,9 +10,9 @@ export default function DetailCardShimmer({
 }: DetailCardShimmerProps) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <div className="flex flex-col space-y-2 p-4">
+      <div className="flex flex-col gap-y-2 p-4">
         <Shimmer className="h-3.5 w-1/2" />
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col gap-y-2">
           {[...Array(12)].map((_, idx) => (
             <Shimmer
               key={idx}

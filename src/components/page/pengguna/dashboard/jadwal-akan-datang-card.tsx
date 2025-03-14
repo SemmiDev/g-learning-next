@@ -44,7 +44,7 @@ export default function JadwalAkanDatangCard({
       title: <TableHeaderCell title="Nama Kelas" />,
       dataIndex: 'nama_kelas',
       render: (value: string, row) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-x-2">
           <Thumbnail
             src={row.thumbnail}
             alt="kelas"

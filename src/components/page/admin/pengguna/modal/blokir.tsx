@@ -75,7 +75,7 @@ export default function BlokirModal({
       >
         {({ control, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="space-y-3 p-3">
+            <div className="flex flex-col gap-y-3 p-3">
               <Text weight="semibold" variant="dark" className="text-center">
                 Yakin ingin memblokir pengguna ini dari aplikasi? Tuliskan
                 alasan pemblokiran

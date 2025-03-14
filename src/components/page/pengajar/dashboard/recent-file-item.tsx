@@ -20,8 +20,8 @@ type FileButtonProps = {
 export default function RecentFileItem({ file }: FileButtonProps) {
   return (
     <div className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 px-4 hover:bg-gray-50/50">
-      <div className="flex flex-1 justify-between items-center space-x-2">
-        <div className="flex space-x-2">
+      <div className="flex flex-1 justify-between items-center gap-x-2">
+        <div className="flex gap-x-2">
           <div className="flex size-11 items-center justify-center rounded-md shrink-0 bg-gray-50">
             {file.icon === 'video' ? (
               <BsFillPlayBtnFill size={20} className="text-danger-dark" />
@@ -51,7 +51,7 @@ export default function RecentFileItem({ file }: FileButtonProps) {
             </ul>
           </div>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <ActionIcon
             size="sm"
             variant="outline-hover-colorful"

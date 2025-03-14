@@ -232,7 +232,7 @@ export default function PilihMediaGambar({
             <div className="flex flex-col flex-1">
               {activeDrive !== undefined && (
                 <>
-                  <div className="flex justify-between items-center space-x-2 p-3">
+                  <div className="flex justify-between items-center gap-x-2 p-3">
                     <Input
                       size="sm"
                       type="search"
@@ -249,7 +249,7 @@ export default function PilihMediaGambar({
                       onChange={(e) => setSearch(e.target.value)}
                       onClear={() => setSearch('')}
                     />
-                    <div className="flex space-x-1">
+                    <div className="flex gap-x-1">
                       <ActionIconTooltip
                         tooltip="Tambah Link/Unggah Media"
                         size="sm"
@@ -365,7 +365,7 @@ export default function PilihMediaGambar({
           </div>
           <div>
             <CardSeparator />
-            <div className="flex justify-end space-x-2 p-3">
+            <div className="flex justify-end gap-x-2 p-3">
               <Button
                 size="sm"
                 className="w-36"

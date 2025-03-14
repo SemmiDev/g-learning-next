@@ -24,7 +24,7 @@ export default function SinkronCardContainer({
   return (
     <Card className={cn('p-0', className)}>
       <div
-        className="flex justify-center items-center h-[150px] space-x-2 px-3 py-3"
+        className="flex justify-center items-center h-[150px] gap-x-2 px-3 py-3"
         style={{ backgroundColor: bgColor }}
       >
         <figure className="shrink-0 h-[60px] xs:h-[100px] sm:h-[125px]">

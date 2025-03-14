@@ -12,7 +12,7 @@ export default function UjianCard({ className }: { className?: string }) {
   return (
     <Card className={cn('flex flex-col px-0 py-0', className)}>
       <div className="flex justify-between items-start px-4 py-2">
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
           <div className="flex flex-col">
             <Text weight="semibold" variant="dark">
@@ -35,7 +35,7 @@ export default function UjianCard({ className }: { className?: string }) {
           buat dalam 2 kalimat dan tambahkan.
         </Text>
 
-        <div className="flex items-center space-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mt-2">
+        <div className="flex items-center gap-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mt-2">
           <figure className="flex justify-center items-center size-[52px] rounded btn-item-blue">
             <BsCardChecklist size={24} />
           </figure>

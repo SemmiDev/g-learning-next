@@ -82,7 +82,7 @@ export default function LihatMateriModal({
                 <SanitizeHTML html={data?.bank_ajar.deskripsi || '-'} />
               </DataRow>
               <DataRow label="Berkas">
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col gap-y-2">
                   {files.length > 0
                     ? files.map((file) => (
                         <FileListItem

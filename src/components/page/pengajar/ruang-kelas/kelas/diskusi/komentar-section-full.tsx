@@ -13,7 +13,7 @@ export default function KomentarSectionFull({
 }) {
   return (
     <div className={cn('flex flex-col', className)}>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-x-2">
         <Image src={imagePhoto} alt="profil" className="size-8 rounded-md" />
         <Textarea
           className="flex-1"
@@ -28,7 +28,7 @@ export default function KomentarSectionFull({
         <Button
           size="sm"
           variant="text"
-          className="flex space-x-1 items-center text-gray-dark p-0 hover:text-primary"
+          className="flex gap-x-1 items-center text-gray-dark p-0 hover:text-primary"
         >
           <BsChatSquareText size={14} />
           <Text size="2xs" weight="semibold">
@@ -36,8 +36,8 @@ export default function KomentarSectionFull({
           </Text>
         </Button>
       </div>
-      <div className="space-y-4 ps-4 mt-2">
-        <div className="flex space-x-2">
+      <div className="flex flex-col gap-y-4 ps-4 mt-2">
+        <div className="flex gap-x-2">
           <Image src={imagePhoto} alt="profil" className="size-8 rounded-md" />
           <div className="flex flex-col items-start text-gray-dark">
             <Text weight="semibold">Anjal Karman</Text>
@@ -47,7 +47,7 @@ export default function KomentarSectionFull({
               user yang membuat komentar ini adalah komentar dari user yang
               membuat komentar
             </Text>
-            <div className="flex space-x-2 mt-1">
+            <div className="flex gap-x-2 mt-1">
               <Text size="sm" weight="medium">
                 4 hari
               </Text>
@@ -68,7 +68,7 @@ export default function KomentarSectionFull({
             </Button>
           </div>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex gap-x-2">
           <Image src={imagePhoto} alt="profil" className="size-8 rounded-md" />
           <div className="flex flex-col items-start text-gray-dark">
             <Text weight="semibold">Anjal Karman</Text>
@@ -78,7 +78,7 @@ export default function KomentarSectionFull({
               user yang membuat komentar ini adalah komentar dari user yang
               membuat komentar
             </Text>
-            <div className="flex space-x-2 mt-1">
+            <div className="flex gap-x-2 mt-1">
               <Text size="sm" weight="medium">
                 5 hari
               </Text>
@@ -92,8 +92,8 @@ export default function KomentarSectionFull({
             </div>
           </div>
         </div>
-        <div className="flex flex-col space-y-4">
-          <div className="flex space-x-2">
+        <div className="flex flex-col gap-y-4">
+          <div className="flex gap-x-2">
             <Image
               src={imagePhoto}
               alt="profil"
@@ -107,7 +107,7 @@ export default function KomentarSectionFull({
                 dari user yang membuat komentar ini adalah komentar dari user
                 yang membuat komentar
               </Text>
-              <div className="flex space-x-2 mt-1">
+              <div className="flex gap-x-2 mt-1">
                 <Text size="sm" weight="medium">
                   8 hari
                 </Text>
@@ -128,8 +128,8 @@ export default function KomentarSectionFull({
               </Button>
             </div>
           </div>
-          <div className="flex flex-col space-y-4 ps-8">
-            <div className="flex space-x-2">
+          <div className="flex flex-col gap-y-4 ps-8">
+            <div className="flex gap-x-2">
               <Image
                 src={imagePhoto}
                 alt="profil"
@@ -150,7 +150,7 @@ export default function KomentarSectionFull({
                 </div>
               </div>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex gap-x-2">
               <Image
                 src={imagePhoto}
                 alt="profil"
@@ -171,7 +171,7 @@ export default function KomentarSectionFull({
                 </div>
               </div>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex gap-x-2">
               <Image
                 src={imagePhoto}
                 alt="profil"

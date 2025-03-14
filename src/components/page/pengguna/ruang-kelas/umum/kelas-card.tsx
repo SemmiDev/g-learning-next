@@ -53,7 +53,7 @@ export default function KelasCard({
           <Text size="sm" weight="medium" variant="lighter">
             {data.kelas.sub_judul}
           </Text>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-x-1">
             <Text size="sm" weight="medium" variant="lighter">
               Umum
             </Text>
@@ -95,7 +95,7 @@ export default function KelasCard({
         </table>
       </div>
       {data.kelas.tipe !== 'Akademik' && (
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <ActionIcon
             variant="outline"
             onClick={() => {

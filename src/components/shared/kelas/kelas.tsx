@@ -168,7 +168,7 @@ export default function Kelas({
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
           <div className="flex flex-col min-h-[400px]">
-            <div className="flex justify-between space-x-2 border-b border-muted p-3">
+            <div className="flex justify-between gap-x-2 border-b border-muted p-3">
               <Input
                 size="sm"
                 type="search"
@@ -211,7 +211,7 @@ export default function Kelas({
           </div>
           <div>
             <CardSeparator />
-            <div className="flex justify-end space-x-2 p-3">
+            <div className="flex justify-end gap-x-2 p-3">
               <Button
                 size="sm"
                 className="w-36"

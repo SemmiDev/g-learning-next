@@ -15,8 +15,8 @@ export default function PembayaranTagihanPenggunaBody() {
 
   return (
     <>
-      <div className="flex flex-col space-y-4">
-        <div className="flex justify-between space-x-2">
+      <div className="flex flex-col gap-y-4">
+        <div className="flex justify-between gap-x-2">
           <Link
             href={routes.admin.tagihanPengguna}
             onClick={() => router.back()}

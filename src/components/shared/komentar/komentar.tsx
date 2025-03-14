@@ -245,7 +245,7 @@ export default function Komentar({
       <div className="flex py-2">
         <Text
           size="sm"
-          className="flex space-x-1 items-center text-gray-dark py-2"
+          className="flex gap-x-1 items-center text-gray-dark py-2"
         >
           <BsChatSquareText size={14} />
           <TextSpan size="2xs" weight="bold">
@@ -256,12 +256,12 @@ export default function Komentar({
       {isLoadingFirstLv1 && total && total > 0 ? (
         <Loader size="sm" className="pb-3" />
       ) : (
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col gap-y-2">
           {listLv1.map((item, idx) => {
             const listLv2 = queryLv2[idx]?.data ?? []
 
             return (
-              <div key={item.id} className="flex space-x-2">
+              <div key={item.id} className="flex gap-x-2">
                 <Thumbnail
                   src={item.foto || undefined}
                   alt="profil"
@@ -273,7 +273,7 @@ export default function Komentar({
                 <div className="flex flex-col flex-1 items-start text-gray-dark">
                   <Text weight="semibold">{item.nama}</Text>
                   <Text weight="medium">{item.komentar}</Text>
-                  <div className="flex space-x-2 my-1">
+                  <div className="flex gap-x-2 my-1">
                     <Text size="sm" weight="medium">
                       <Time date={item.waktu} fromNow />
                     </Text>
@@ -321,9 +321,9 @@ export default function Komentar({
                     <Loader size="sm" className="w-full" />
                   ) : (
                     showLv2[item.id] && (
-                      <div className="flex flex-col space-y-2 mt-1">
+                      <div className="flex flex-col gap-y-2 mt-1">
                         {listLv2.map((item2) => (
-                          <div key={item2.id} className="flex space-x-2">
+                          <div key={item2.id} className="flex gap-x-2">
                             <Thumbnail
                               src={item2.foto || undefined}
                               alt="profil"
@@ -335,7 +335,7 @@ export default function Komentar({
                             <div className="flex flex-col flex-1 items-start text-gray-dark">
                               <Text weight="semibold">{item2.nama}</Text>
                               <Text weight="medium">{item2.komentar}</Text>
-                              <div className="flex space-x-2 my-1">
+                              <div className="flex gap-x-2 my-1">
                                 <Text size="sm" weight="medium">
                                   <Time date={item2.waktu} fromNow />
                                 </Text>
@@ -366,23 +366,19 @@ export default function Komentar({
         hasNextPageLv1 ||
         isLoadingFirstLv1 ||
         hasMoreThanFirst) && (
-        <div className="space-y-4 ps-4 mt-2">
+        <div className="flex justify-center ps-4 mt-2">
           {isLoadingLv1 || isFetchingNextPageLv1 ? (
-            <div className="flex justify-center">
-              <Loader size="sm" />
-            </div>
+            <Loader size="sm" />
           ) : (
             (hasNextPageLv1 || (!isLoadMore && hasMoreThanFirst)) && (
-              <div className="flex justify-center">
-                <Button
-                  variant="text-colorful"
-                  color="primary"
-                  className="h-auto p-0"
-                  onClick={loadMore}
-                >
-                  Muat Lebih
-                </Button>
-              </div>
+              <Button
+                variant="text-colorful"
+                color="primary"
+                className="h-auto p-0"
+                onClick={loadMore}
+              >
+                Muat Lebih
+              </Button>
             )
           )}
         </div>

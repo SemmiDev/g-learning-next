@@ -28,7 +28,7 @@ export default function DashboardBody() {
       dataIndex: 'kelas',
       key: 'kelas',
       render: (value: string, row) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-x-2">
           <Image
             src={row.image}
             alt="profil"
@@ -134,7 +134,7 @@ export default function DashboardBody() {
       dataIndex: 'nama',
       key: 'nama',
       render: (value: string, row) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-x-2">
           <Image
             src={row.image}
             alt="profil"
@@ -232,7 +232,7 @@ export default function DashboardBody() {
   ]
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col gap-y-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <DashboardCountCard label="Jumlah Kelas" count="34" Icon={LuHouse} />
         <DashboardCountCard

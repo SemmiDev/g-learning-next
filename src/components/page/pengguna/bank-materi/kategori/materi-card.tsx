@@ -45,7 +45,7 @@ export default function MateriCard({
         className
       )}
     >
-      <div className="flex justify-between items-start space-x-2 mb-2">
+      <div className="flex justify-between items-start gap-x-2 mb-2">
         <div className="flex items-center">
           <div
             className={cn(

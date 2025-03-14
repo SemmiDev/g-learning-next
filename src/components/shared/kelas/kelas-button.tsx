@@ -33,7 +33,7 @@ export default function KelasButton({
           checked={checked}
           onChange={() => onChange && onChange()}
         />
-        <div className="flex flex-1 items-center space-x-2">
+        <div className="flex flex-1 items-center gap-x-2">
           <div className="h-16 max-w-20 rounded overflow-clip">
             {!!kelas.cover ? (
               <Image

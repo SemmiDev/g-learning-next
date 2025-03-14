@@ -23,7 +23,7 @@ export default function KelasHeader() {
   const jadwal = data?.jadwal ?? []
 
   return (
-    <div className="flex justify-between items-start space-x-2">
+    <div className="flex justify-between items-start gap-x-2">
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="rounded overflow-clip self-center">
           {data?.kelas.thumbnail ? (
@@ -45,7 +45,7 @@ export default function KelasHeader() {
           )}
         </div>
         <div>
-          <div className="flex space-x-2 items-center">
+          <div className="flex gap-x-2 items-center">
             <Title as="h5" weight="semibold">
               {data?.kelas.nama_kelas || '-'}
             </Title>

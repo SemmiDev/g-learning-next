@@ -386,8 +386,8 @@ export default function PustakaMedia({
         isLoading={isFetchingDrives || isFetchingFiles}
       >
         <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] xl:min-h-full">
-          <div className="flex flex-col min-h-[400px] lg:flex-row">
-            <div className="flex flex-col lg:w-4/12 lg:border-r lg:border-r-gray-100">
+          <div className="grid grid-cols-3 min-h-[400px]">
+            <div className="flex flex-col col-span-3 lg:col-span-1 lg:border-r lg:border-r-gray-100">
               {drives.map((drive) => (
                 <DriveButton
                   key={drive.id}
@@ -401,7 +401,7 @@ export default function PustakaMedia({
                 />
               ))}
             </div>
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col col-span-3 lg:col-span-2">
               {activeDrive !== undefined && (
                 <>
                   <div className="flex justify-between items-center gap-x-2 p-3">

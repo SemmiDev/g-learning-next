@@ -49,7 +49,7 @@ export default function PaketItemCard({
         {paket.editable && (
           <>
             <CardSeparator />
-            <div className="flex space-x-2 p-2">
+            <div className="flex gap-x-2 p-2">
               <ActionIconTooltip
                 tooltip="Ubah"
                 size="sm"

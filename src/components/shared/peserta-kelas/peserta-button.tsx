@@ -30,7 +30,7 @@ export default function PesertaKelasButton({
           checked={checked}
           onChange={() => onChange && onChange()}
         />
-        <div className="flex flex-1 items-center space-x-2">
+        <div className="flex flex-1 items-center gap-x-2">
           <Thumbnail
             src={peserta.foto}
             alt="profil"

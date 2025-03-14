@@ -24,7 +24,7 @@ export default function KeteranganTugasCard({
 
 function ShimmerCard({ className }: { className?: string }) {
   return (
-    <Card className={cn('flex flex-col space-y-3 py-3', className)}>
+    <Card className={cn('flex flex-col gap-y-3 py-3', className)}>
       <Shimmer className="h-4 w-1/6" />
       <Shimmer className="h-3 w-1/2" />
     </Card>

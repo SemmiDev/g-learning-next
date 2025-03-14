@@ -19,9 +19,9 @@ export default function FolderButton({
 }: FolderButtonProps) {
   return (
     <>
-      <div className="flex justify-between items-center space-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
+      <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
         <div
-          className="flex space-x-2 cursor-pointer pe-2"
+          className="flex gap-x-2 cursor-pointer pe-2"
           onClick={() => onOpen && onOpen(file)}
         >
           <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 ms-8">
@@ -32,7 +32,7 @@ export default function FolderButton({
               weight="semibold"
               variant="dark"
               title={file.name}
-              className="truncate"
+              className="line-clamp-1"
             >
               {file.name}
             </Text>
@@ -41,7 +41,7 @@ export default function FolderButton({
             </Text>
           </div>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <ActionIconTooltip
             tooltip="Buka Folder"
             size="sm"

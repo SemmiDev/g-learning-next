@@ -113,7 +113,7 @@ export default function HomePustakaMediaBody() {
         Pustaka Media
       </Title>
       <div className="flex justify-between">
-        <div className="flex space-x-2">
+        <div className="flex gap-x-2">
           <Input
             size="sm"
             type="search"

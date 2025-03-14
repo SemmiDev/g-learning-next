@@ -36,38 +36,36 @@ export default function FileButton({
 }: FileButtonProps) {
   return (
     <>
-      <label className="flex border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
-        <div className="mt-3">
-          {multiple ? (
-            <Checkbox
-              size="sm"
-              className="px-3"
-              iconClassName="h-4 top-0.5 left"
-              checked={checked}
-              onChange={(e) => {
-                onChange && onChange(e.target.checked)
-              }}
-            />
-          ) : (
-            <Radio
-              name="pustaka_media_radio"
-              value={file.id}
-              size="sm"
-              className="px-3"
-              checked={checked}
-              onChange={() => onChange && onChange(true)}
-            />
-          )}
-        </div>
-        <div className="flex flex-1 justify-between items-center space-x-2">
-          <div className="flex space-x-2">
+      <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
+        {multiple ? (
+          <Checkbox
+            size="sm"
+            className="px-3"
+            iconClassName="h-4 top-0.5 left"
+            checked={checked}
+            onChange={(e) => {
+              onChange && onChange(e.target.checked)
+            }}
+          />
+        ) : (
+          <Radio
+            name="pustaka_media_radio"
+            value={file.id}
+            size="sm"
+            className="px-3"
+            checked={checked}
+            onChange={() => onChange && onChange(true)}
+          />
+        )}
+        <div className="flex flex-1 justify-between items-center gap-x-2">
+          <div className="flex gap-x-2">
             <FileIcon file={file} />
             <div className="flex flex-col">
               <Text
                 weight="semibold"
                 variant="dark"
                 title={file.name}
-                className="truncate"
+                className="line-clamp-1"
               >
                 {file.name}
               </Text>
@@ -92,7 +90,7 @@ export default function FileButton({
               </ul>
             </div>
           </div>
-          <div className="flex flex-wrap justify-end space-x-1 pr-4">
+          <div className="flex flex-wrap justify-end gap-x-1 pr-4">
             {!!file.link &&
               (file.type === 'link' ||
                 isPreviewableFile(file.link, file.extension)) && (

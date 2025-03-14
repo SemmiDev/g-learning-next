@@ -14,7 +14,7 @@ type SelectedFileProps = {
 export default function SelectedKelas({ kelas, onRemove }: SelectedFileProps) {
   return (
     <div className="flex justify-between items-center flex-1 gap-2">
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-x-2">
         <div className="h-16 max-w-20 rounded overflow-clip">
           {!!kelas.cover ? (
             <Image
@@ -68,7 +68,7 @@ export default function SelectedKelas({ kelas, onRemove }: SelectedFileProps) {
         </div>
       </div>
 
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center gap-x-1">
         {!!onRemove && (
           <ActionIcon
             size="sm"

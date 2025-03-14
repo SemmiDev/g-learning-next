@@ -63,7 +63,7 @@ export default function TablePenggunaAktifCard() {
       title: <TableHeaderCell title="Instansi" align="center" />,
       dataIndex: 'instansi',
       render: (value: string[]) => (
-        <div className="flex justify-center items-center space-x-1">
+        <div className="flex justify-center items-center gap-x-1">
           <TableCellText>{value.length > 0 ? value[0] : 'Umum'}</TableCellText>
           {value.length > 1 && (
             <Badge size="sm" variant="flat" color="gray">

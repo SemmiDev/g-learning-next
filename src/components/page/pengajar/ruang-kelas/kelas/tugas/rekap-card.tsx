@@ -131,7 +131,7 @@ export default function RekapTugasCard() {
       dataIndex: 'nama',
       key: 'nama',
       render: (_, row) => (
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Image src={row.image} alt="profil" className="size-10 rounded-md" />
           <div className="flex flex-col justify-center">
             <Text size="sm" weight="semibold" variant="dark">
@@ -292,7 +292,7 @@ export default function RekapTugasCard() {
                   <PiMagnifyingGlass size={20} className="text-gray-lighter" />
                 }
               />
-              <div className="flex space-x-2">
+              <div className="flex gap-x-2">
                 <Dropdown>
                   <Dropdown.Trigger>
                     <Button as="span" size="sm" variant="outline">

@@ -21,13 +21,13 @@ export default function DetailPesertaCard({
         )}
       >
         <div className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer p-2 lg:w-6/12">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-x-2">
             <Thumbnail src={imagePhoto} alt="profil" size={48} />
             <Text weight="semibold" variant="dark">
               Prabroro Janggar
             </Text>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-x-4">
             <Text
               weight="semibold"
               color={sudahDinilai ? 'primary' : 'gray'}

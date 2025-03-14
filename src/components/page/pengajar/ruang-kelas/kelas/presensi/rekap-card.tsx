@@ -115,7 +115,7 @@ export default function RekapPresensiCard() {
                   <Fragment key={idx}>
                     <CardSeparator />
                     <div className="flex justify-between items-center px-3 py-2">
-                      <div className="flex space-x-3">
+                      <div className="flex gap-x-3">
                         <Image
                           src={imagePhoto}
                           alt="profil"
@@ -130,7 +130,7 @@ export default function RekapPresensiCard() {
                           </Text>
                         </div>
                       </div>
-                      <div className="flex space-x-2">
+                      <div className="flex gap-x-2">
                         <ActionIcon size="sm" rounded="lg">
                           <Text size="xs" weight="semibold">
                             H

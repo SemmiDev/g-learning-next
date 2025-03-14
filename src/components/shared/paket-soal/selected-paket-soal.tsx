@@ -13,7 +13,7 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
       className="flex justify-between gap-2 rounded-sm border border-gray-50 w-full cursor-auto p-2 sm:w-auto"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex space-x-2">
+      <div className="flex gap-x-2">
         <div className="flex size-11 items-center justify-center rounded-md btn-item-blue mr-2">
           <BsCardChecklist size={22} />
         </div>
@@ -57,7 +57,7 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
           </ul>
         </div>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex gap-x-1">
         <ActionIcon
           size="sm"
           variant="outline-hover-colorful"

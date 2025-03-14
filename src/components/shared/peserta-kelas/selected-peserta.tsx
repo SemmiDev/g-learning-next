@@ -15,7 +15,7 @@ export default function SelectedPeserta({
 }: SelectedFileProps) {
   return (
     <div className="flex justify-between items-center flex-1 gap-2">
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-x-2">
         <Thumbnail
           src={peserta.foto}
           alt="profil"
@@ -45,7 +45,7 @@ export default function SelectedPeserta({
         </div>
       </div>
 
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center gap-x-1">
         {!!onRemove && (
           <ActionIcon
             size="sm"

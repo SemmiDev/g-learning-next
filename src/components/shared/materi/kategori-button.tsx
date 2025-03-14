@@ -26,11 +26,8 @@ export default function KategoriButton({
 
   return (
     <>
-      <div className="flex justify-between items-center space-x-2 border-b border-b-gray-100 select-none transition duration-200 px-4 py-3 hover:bg-gray-50/50">
-        <div
-          className="flex space-x-2 cursor-pointer pe-2"
-          onClick={handleOpen}
-        >
+      <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-4 py-3 hover:bg-gray-50/50">
+        <div className="flex gap-x-2 cursor-pointer pe-2" onClick={handleOpen}>
           <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
             <BsFolderFill size={20} className="text-primary" />
           </div>
@@ -48,7 +45,7 @@ export default function KategoriButton({
             </Text>
           </div>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <ActionIconTooltip
             tooltip="Buka Kategori"
             size="sm"

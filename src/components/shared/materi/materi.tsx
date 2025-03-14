@@ -431,7 +431,7 @@ export default function Materi({
           </div>
           <div>
             <CardSeparator />
-            <div className="flex justify-end space-x-2 p-3">
+            <div className="flex justify-end gap-x-2 p-3">
               <Button
                 size="sm"
                 className="w-36"

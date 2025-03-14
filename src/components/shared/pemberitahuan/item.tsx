@@ -24,7 +24,7 @@ export default function PemberitahuanItem({
   return (
     <div
       className={cn(
-        'flex justify-between items-center space-x-2 border-b border-muted px-2.5 py-2',
+        'flex justify-between items-center gap-x-2 border-b border-muted px-2.5 py-2',
         {
           'bg-gray-50/40': dibaca,
         }
@@ -38,7 +38,7 @@ export default function PemberitahuanItem({
           {deskripsi}
         </Text>
       </div>
-      <div className="flex space-x-1 items-baseline">
+      <div className="flex gap-x-1 items-baseline">
         <Text size="xs" weight="bold" className="leading-3">
           {date < oneWeekAgo ? (
             <Time date={waktu} />

@@ -24,7 +24,7 @@ export default function ChartPresensiCard({
             {data.map((val, idx) => {
               return (
                 <div key={idx}>
-                  <div className="flex space-x-1 items-center">
+                  <div className="flex gap-x-1 items-center">
                     <div
                       className="rounded-xl w-3 h-3"
                       style={{ backgroundColor: colors[idx] }}

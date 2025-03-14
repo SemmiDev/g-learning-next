@@ -10,8 +10,8 @@ export default function ManajemenAdminBody() {
 
   return (
     <>
-      <div className="flex flex-col space-y-4">
-        <div className="flex justify-between space-x-2">
+      <div className="flex flex-col gap-y-4">
+        <div className="flex justify-between gap-x-2">
           <Title as="h4" size="1.5xl" weight="semibold">
             List admin
           </Title>

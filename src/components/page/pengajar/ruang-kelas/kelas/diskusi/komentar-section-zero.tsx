@@ -12,7 +12,7 @@ export default function KomentarSectionZero({
 }) {
   return (
     <div className={cn('flex flex-col', className)}>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-x-2">
         <Image src={imagePhoto} alt="profil" className="size-8 rounded-md" />
         <Textarea
           className="flex-1"
@@ -27,7 +27,7 @@ export default function KomentarSectionZero({
         <Button
           size="sm"
           variant="text"
-          className="flex space-x-1 items-center text-gray-dark p-0 hover:text-primary"
+          className="flex gap-x-1 items-center text-gray-dark p-0 hover:text-primary"
         >
           <BsChatSquareText size={14} />
           <Text size="2xs" weight="semibold">

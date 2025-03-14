@@ -68,7 +68,7 @@ export default function PaketInstansiBody() {
 
   return (
     <>
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col gap-y-4">
         <div className="flex justify-between">
           <Title as="h4" size="1.5xl" weight="semibold">
             List Paket Instansi
@@ -103,7 +103,7 @@ export default function PaketInstansiBody() {
             />
           </>
         ) : (
-          <div className="flex flex-col justify-center items-center space-y-2 h-64">
+          <div className="flex flex-col justify-center items-center gap-y-2 h-64">
             {isLoading ? (
               <Loader />
             ) : (
