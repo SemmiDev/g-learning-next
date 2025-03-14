@@ -27,6 +27,7 @@ export type DataType = {
     waktu_mulai_ujian: string | null
     waktu_selesai_ujian: string | null
     durasi_ujian: number | null
+    id_pertemuan_kelas: string
     created_at: string
     updated_at: string
   }

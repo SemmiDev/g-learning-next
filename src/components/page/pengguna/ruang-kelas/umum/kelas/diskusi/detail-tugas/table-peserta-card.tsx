@@ -132,7 +132,7 @@ export default function TableTugasPesertaCard({
       idKelas,
       idAktifitas,
     },
-    initialPerPage: 5,
+    initialPerPage: 10,
     initialSort: sortData[0].sort,
     initialFilter: {
       status: 'ALL',

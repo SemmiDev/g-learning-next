@@ -121,8 +121,8 @@ export interface TableHeaderCellProps {
 
 // A util func
 function handleTextAlignment(align: TextAlign) {
-  if (align === 'center') return 'justify-center'
-  if (align === 'right') return 'justify-end'
+  if (align === 'center') return 'justify-center text-center'
+  if (align === 'right') return 'justify-end text-right'
 
   return ''
 }

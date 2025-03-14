@@ -60,6 +60,15 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   if (!idAktifitas || !data) return null
 
+  const tipeLink = dataKelas?.kelas.tipe === 'Akademik' ? 'linimasa' : 'diskusi'
+  const linkDetail = `${
+    routes.pengguna.ruangKelas.dikelola[tipeKelas]
+  }/${idKelas}/${
+    data.aktifitas.id_pertemuan_kelas
+      ? `sesi-pembelajaran/${data.aktifitas.id_pertemuan_kelas}`
+      : tipeLink
+  }/ujian/${idAktifitas}`
+
   return (
     <div className={className}>
       <Card>
@@ -78,9 +87,7 @@ export default function PengajarRekapUjianDetailSesiSection({
             </Text>
           </div>
           <div className="flex flex-wrap justify-end">
-            <Link
-              href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/diskusi/ujian/${idAktifitas}`}
-            >
+            <Link href={linkDetail}>
               <Button as="span" size="sm" color="primary" variant="text">
                 <BsDoorOpen className="mr-2" /> Lihat Detail
               </Button>

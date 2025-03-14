@@ -17,6 +17,7 @@ export type DataType = {
   jawaban: string | null
   sisa_waktu: number | null
   status_pengumpulan: 'SUDAH_MENGUMPULKAN' | 'BELUM_MENGUMPULKAN'
+  status_penilaian_essay: 0 | 1 | null
   selesai: number | null
   skor_benar: number | null
   skor_salah: number | null

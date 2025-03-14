@@ -71,8 +71,8 @@ export default function HasilUjianModal({
     jadwalSelesai >= new Date()
 
   const sudahDinilai =
-    !data?.bank_soal.total_soal_essay ||
-    (!!data?.bank_soal.total_soal_essay && !!data?.jawaban.skor_akhir_essay)
+    data?.jawaban.status_penilaian_essay === 1 ||
+    data?.jawaban.status_penilaian_essay === null
 
   return (
     <Modal

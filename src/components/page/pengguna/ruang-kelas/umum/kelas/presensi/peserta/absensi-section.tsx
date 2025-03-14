@@ -206,7 +206,9 @@ export default function PesertaAbsensiSection() {
           ) : (
             <div className="flex items-center justify-center h-40">
               <Text size="sm" weight="medium">
-                {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
+                {search
+                  ? 'Sesi materi tidak ditemukan'
+                  : 'Belum ada sesi materi'}
               </Text>
             </div>
           )}

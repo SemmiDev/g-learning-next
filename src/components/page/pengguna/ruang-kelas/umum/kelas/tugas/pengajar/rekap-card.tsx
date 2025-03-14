@@ -160,7 +160,9 @@ export default function PengajarRekapTugasCard({
               ) : (
                 <div className="flex items-center justify-center h-40">
                   <Text size="sm" weight="medium">
-                    {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
+                    {search
+                      ? 'Sesi tugas tidak ditemukan'
+                      : 'Belum ada sesi tugas'}
                   </Text>
                 </div>
               )}

@@ -226,7 +226,7 @@ export default function PesertaDaftarUjianSection() {
           ) : (
             <div className="flex items-center justify-center h-40">
               <Text size="sm" weight="medium">
-                {search ? 'Sesi tidak ditemukan' : 'Belum ada sesi'}
+                {search ? 'Sesi ujian tidak ditemukan' : 'Belum ada sesi ujian'}
               </Text>
             </div>
           )}

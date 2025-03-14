@@ -1,13 +1,14 @@
 import { tableSesiUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/pengajar/table-sesi'
-import { Button, Card, Shimmer, Text } from '@/components/ui'
-import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { Button, Card, Loader, Shimmer, Text } from '@/components/ui'
+import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
-import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { parseDate } from '@/utils/date'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Dropdown, Input } from 'rizzui'
 import PengajarRekapUjianDetailSesiSection from './pengajar/rekap-detail-sesi-section'
 import PengajarRekapUjianItem from './pengajar/rekap-item'
@@ -48,15 +49,13 @@ export default function PengajarUjianBody() {
     data,
     isLoading,
     isFetching,
-    page,
-    perPage,
-    onPageChange,
-    totalData,
     sort,
     onSort,
     search,
     onSearch,
-  } = useTableAsync({
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.ujian.list-sesi', 'pengajar', idKelas],
     action: tableSesiUjianAction,
     initialSort: sortData[0].sort,
@@ -66,6 +65,12 @@ export default function PengajarUjianBody() {
   const sorting = sortData.find(
     (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
   )
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
 
   if (isLoading) return <ShimmerOuterCard className="mt-8" />
 
@@ -113,41 +118,56 @@ export default function PengajarUjianBody() {
           </Dropdown>
         </div>
 
-        <Card className="p-0 mt-2">
-          {data.map((item, idx) => {
-            const waktuMulai = parseDate(item.waktu_mulai_ujian)
-            const waktuSelesai = parseDate(item.waktu_selesai_ujian)
+        <Card className="relative p-0 mt-2">
+          {isFetching && (
+            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 rounded-md">
+              <div className="size-10 rounded-full bg-transparent">
+                <CgSpinner className="size-10 animate-spin text-primary" />
+              </div>
+            </div>
+          )}
+          <div className="lg:max-h-[58rem] lg:overflow-y-auto">
+            {data.length > 0 ? (
+              data.map((item, idx) => {
+                const waktuMulai = parseDate(item.waktu_mulai_ujian)
+                const waktuSelesai = parseDate(item.waktu_selesai_ujian)
 
-            return (
-              <PengajarRekapUjianItem
-                key={item.id}
-                idx={idx}
-                sesi={{
-                  id: item.id,
-                  judul: item.judul,
-                  waktuMulai: item.waktu_mulai_ujian,
-                  waktuSelesai: item.waktu_selesai_ujian,
-                }}
-                active={item.id === idSesiAktif}
-                open={
-                  !!waktuMulai &&
-                  !!waktuSelesai &&
-                  waktuMulai <= new Date() &&
-                  waktuSelesai >= new Date()
-                }
-                onClick={() => setSearchParams({ sesi: item.id })}
-              />
-            )
-          })}
+                return (
+                  <PengajarRekapUjianItem
+                    key={item.id}
+                    idx={idx}
+                    sesi={{
+                      id: item.id,
+                      judul: item.judul,
+                      waktuMulai: item.waktu_mulai_ujian,
+                      waktuSelesai: item.waktu_selesai_ujian,
+                    }}
+                    active={item.id === idSesiAktif}
+                    open={
+                      !!waktuMulai &&
+                      !!waktuSelesai &&
+                      waktuMulai <= new Date() &&
+                      waktuSelesai >= new Date()
+                    }
+                    onClick={() => setSearchParams({ sesi: item.id })}
+                  />
+                )
+              })
+            ) : (
+              <div className="flex items-center justify-center h-40">
+                <Text size="sm" weight="medium">
+                  {search
+                    ? 'Sesi ujian tidak ditemukan'
+                    : 'Belum ada sesi ujian'}
+                </Text>
+              </div>
+            )}
+          </div>
+
+          {!isLoading && hasNextPage && (
+            <Loader ref={refSentry} className="py-4" />
+          )}
         </Card>
-
-        <TablePagination
-          isLoading={isFetching}
-          current={page}
-          pageSize={perPage}
-          total={totalData}
-          onChange={(page) => onPageChange(page)}
-        />
       </div>
 
       <PengajarRekapUjianDetailSesiSection className="w-full lg:w-7/12" />

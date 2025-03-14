@@ -1,6 +1,7 @@
 import { DataType as DataSesiType } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { hapusNilaiUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
 import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
+import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -18,10 +19,12 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
 import { useState } from 'react'
@@ -29,6 +32,7 @@ import { BiFilterAlt } from 'react-icons/bi'
 import {
   BsCheck,
   BsChevronDown,
+  BsPencilSquare,
   BsThreeDotsVertical,
   BsTrash3,
 } from 'react-icons/bs'
@@ -91,6 +95,13 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const idAktifitas = sesi.aktifitas.id
+
+  const kelas = queryClient.getQueryData<DataKelasType>([
+    'pengguna.ruang-kelas.lihat',
+    idKelas,
+  ])
+
+  const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
   const queryKey = [
     'pengguna.ruang-kelas.ujian.table-tugas-peserta',
@@ -173,10 +184,31 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
       },
     },
     {
-      title: <TableHeaderCell title="Nilai" className="justify-center" />,
-      dataIndex: 'skor_akhir',
-      render: (value: string) => (
+      title: (
+        <TableHeaderCell
+          title="Nilai Pilgan"
+          align="center"
+          className="justify-center"
+        />
+      ),
+      dataIndex: 'skor_akhir_pilihan_ganda',
+      render: (value: number) => (
         <TableCellText align="center">{value ?? '-'}</TableCellText>
+      ),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Nilai Esai"
+          align="center"
+          className="justify-center"
+        />
+      ),
+      dataIndex: 'skor_akhir_essay',
+      render: (value: number, row) => (
+        <TableCellText align="center">
+          {row.status_penilaian_essay === 1 ? value : '-'}
+        </TableCellText>
       ),
     },
     {
@@ -192,14 +224,35 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
                   <BsThreeDotsVertical size={14} />
                 </ActionIcon>
               </Dropdown.Trigger>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={() => setIdHapusNilai(row.id_peserta)}
-                >
-                  <BsTrash3 className="text-danger size-4 mr-2" />
-                  Hapus Nilai
-                </Dropdown.Item>
+              <Dropdown.Menu className="w-40 divide-y !py-0">
+                {row.status_penilaian_essay !== null && (
+                  <div className="py-2">
+                    <Link
+                      href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/ujian/${idAktifitas}/nilai/${row.id_peserta}`}
+                    >
+                      <Dropdown.Item className="text-gray-dark">
+                        <BsPencilSquare
+                          className={cn(
+                            'size-4 mr-2',
+                            row.status_penilaian_essay === 1
+                              ? 'text-warning'
+                              : 'text-primary'
+                          )}
+                        />
+                        Cek Jawaban
+                      </Dropdown.Item>
+                    </Link>
+                  </div>
+                )}
+                <div className="py-2">
+                  <Dropdown.Item
+                    className="text-gray-dark"
+                    onClick={() => setIdHapusNilai(row.id_peserta)}
+                  >
+                    <BsTrash3 className="text-danger size-4 mr-2" />
+                    Hapus Nilai
+                  </Dropdown.Item>
+                </div>
               </Dropdown.Menu>
             </Dropdown>
           </div>
