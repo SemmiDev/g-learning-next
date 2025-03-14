@@ -5,7 +5,6 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { Fragment } from 'react'
 import {
   BsCardChecklist,
   BsClipboardPlus,

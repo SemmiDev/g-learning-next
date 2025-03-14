@@ -86,7 +86,11 @@ export default function TugasItem({ kelas, data, className }: TugasItemProps) {
               <Text size="sm" weight="semibold">
                 Batas Waktu Pengumpulan:{' '}
                 <TextSpan color="danger">
-                  <Time date={data.aktifitas.batas_waktu} format="datetime" />
+                  <Time
+                    date={data.aktifitas.batas_waktu}
+                    format="datetime"
+                    empty="-"
+                  />
                 </TextSpan>
               </Text>
             )}

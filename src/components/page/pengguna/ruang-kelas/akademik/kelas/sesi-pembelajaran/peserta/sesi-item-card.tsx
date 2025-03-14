@@ -77,11 +77,11 @@ export default function PesertaSesiItemCard({
         <div className="flex items-center gap-x-1">
           <LuCalendar className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
-            {sesi.tanggal_realisasi ? (
-              <Time date={sesi.tanggal_realisasi} format="dateday" />
-            ) : (
-              sesi.hari || '-'
-            )}
+            <Time
+              date={sesi.tanggal_realisasi}
+              format="dateday"
+              empty={sesi.hari || '-'}
+            />
           </Text>
         </div>
         <div className="flex items-center gap-x-1">

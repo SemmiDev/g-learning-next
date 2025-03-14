@@ -117,11 +117,11 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
           <div className="flex items-center gap-x-1">
             <LuCalendar className="size-4 text-gray-lighter" />
             <Text size="sm" weight="medium">
-              {data?.tanggal_realisasi ? (
-                <Time date={data?.tanggal_realisasi} format="dateday" />
-              ) : (
-                data?.hari || '-'
-              )}
+              <Time
+                date={data?.tanggal_realisasi}
+                format="dateday"
+                empty={data?.hari || '-'}
+              />
             </Text>
           </div>
           <div className="flex items-center gap-x-1">
