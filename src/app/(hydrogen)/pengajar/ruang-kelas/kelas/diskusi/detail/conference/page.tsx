@@ -30,7 +30,7 @@ export default function DiskusiDetailConferencePage() {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
+      <div className="flex flex-wrap items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
         <Card className="flex flex-col p-0 w-full lg:w-6/12">
           <div className="flex justify-between items-start px-4 py-2">
             <div className="flex flex-col">
@@ -74,7 +74,7 @@ export default function DiskusiDetailConferencePage() {
                   key={idx}
                   className="flex justify-between items-center border-t-2 border-t-gray-100 p-2"
                 >
-                  <div className="flex space-x-3">
+                  <div className="flex gap-x-3">
                     <Image
                       src={imagePhoto}
                       alt="profil"
@@ -89,7 +89,7 @@ export default function DiskusiDetailConferencePage() {
                       </Text>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex gap-x-2">
                     <ActionIcon size="sm" rounded="lg">
                       <Text size="xs" weight="semibold">
                         H

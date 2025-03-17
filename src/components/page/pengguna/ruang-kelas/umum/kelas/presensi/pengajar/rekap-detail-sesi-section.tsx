@@ -116,7 +116,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card className="flex justify-between space-x-2">
+      <Card className="flex justify-between gap-x-2">
         <div className="flex flex-col">
           <Text weight="semibold" variant="dark">
             {data?.aktifitas.judul}
@@ -181,14 +181,14 @@ export default function PengajarRekapPresensiDetailSesiSection({
 function ShimmerSection({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <Card className="flex justify-between space-x-6 py-4">
-        <div className="flex flex-col flex-1 space-y-2.5">
+      <Card className="flex justify-between gap-x-6 py-4">
+        <div className="flex flex-col flex-1 gap-y-2.5">
           <Shimmer className="h-3 w-5/12" />
           <Shimmer className="h-2.5 w-full" />
           <Shimmer className="h-2.5 w-2/3" />
           <Shimmer className="h-3 w-7/12 !mt-4" />
         </div>
-        <div className="flex space-x-6 p-2">
+        <div className="flex gap-x-6 p-2">
           <Shimmer className="h-2.5 w-12" />
           <Shimmer className="h-2.5 w-12" />
           <Shimmer className="h-2.5 w-12" />

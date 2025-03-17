@@ -25,7 +25,7 @@ export default function DaftarTugasCard({ className }: { className?: string }) {
           Daftar Tugas
         </Title>
         <CardSeparator />
-        <div className="flex flex-col space-y-3 px-2 py-3">
+        <div className="flex flex-col gap-y-3 px-2 py-3">
           {listTugas.map((item, idx) => (
             <DaftarTugasItem
               judul={item.judul}
@@ -45,7 +45,7 @@ type DaftarTugasItemProps = {
 }
 function DaftarTugasItem({ judul, batasWaktu }: DaftarTugasItemProps) {
   return (
-    <div className="flex space-x-2">
+    <div className="flex gap-x-2">
       <div className="flex justify-center items-center size-9 btn-item-violet rounded">
         <BsClipboard2Plus size={17} />
       </div>

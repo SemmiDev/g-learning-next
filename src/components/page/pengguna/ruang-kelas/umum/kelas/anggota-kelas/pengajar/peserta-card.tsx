@@ -115,7 +115,7 @@ export default function PengajarPesertaCard({
             return (
               <Fragment key={item.id}>
                 <div className="flex justify-between items-center">
-                  <div className="flex space-x-3 p-2">
+                  <div className="flex gap-x-3 p-2">
                     <Thumbnail
                       src={item.foto || undefined}
                       alt="profil"
@@ -185,12 +185,12 @@ export default function PengajarPesertaCard({
 function ShimmerCard({ className }: { className?: string }) {
   return (
     <Card className={cn('p-0', className)}>
-      <div className="flex flex-col space-y-2 px-2 py-2.5">
+      <div className="flex flex-col gap-y-2 px-2 py-2.5">
         <Shimmer className="h-3 w-2/12" />
         <Shimmer className="h-2.5 w-3/12" />
       </div>
       <CardSeparator />
-      <div className="flex justify-between space-x-2 px-2 py-2.5">
+      <div className="flex justify-between gap-x-2 px-2 py-2.5">
         <Shimmer className="h-7 w-7/12" />
         <Shimmer className="h-7 w-28" />
       </div>
@@ -200,9 +200,9 @@ function ShimmerCard({ className }: { className?: string }) {
           key={idx}
           className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
         >
-          <div className="flex items-center space-x-2 flex-1">
+          <div className="flex items-center gap-x-2 flex-1">
             <Shimmer className="size-10" />
-            <div className="flex-1 space-y-2">
+            <div className="flex flex-col flex-1 gap-y-2">
               <Shimmer className="h-2.5 w-4/12" />
               <Shimmer className="h-2.5 w-2/12" />
             </div>

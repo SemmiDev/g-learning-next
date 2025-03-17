@@ -13,7 +13,7 @@ export default function AbsensiCard({ listAbsen }: AbsensiCardProps) {
           className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
           key={idx}
         >
-          <div className="flex flex-col space-y-1">
+          <div className="flex flex-col gap-y-1">
             <Text weight="semibold" variant="dark">
               {item.judul}
             </Text>

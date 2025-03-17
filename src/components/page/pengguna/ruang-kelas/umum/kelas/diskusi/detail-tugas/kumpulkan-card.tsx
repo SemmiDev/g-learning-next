@@ -145,7 +145,7 @@ export default function KumpulkanTugasCard({
             formState: { errors, isSubmitting },
           }) => (
             <>
-              <div className="flex flex-col space-y-2 p-2">
+              <div className="flex flex-col gap-y-2 p-2">
                 <ControlledPustakaMedia
                   name="berkas"
                   control={control}
@@ -153,7 +153,7 @@ export default function KumpulkanTugasCard({
                   hideSelected
                   multiple
                 >
-                  <div className="flex justify-center items-center flex-1 space-x-1">
+                  <div className="flex justify-center items-center flex-1 gap-x-1">
                     <Text size="sm" weight="semibold" color="primary">
                       Tambah Berkas
                     </Text>
@@ -161,7 +161,7 @@ export default function KumpulkanTugasCard({
                   </div>
                 </ControlledPustakaMedia>
 
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col gap-y-2">
                   {watch('berkas').map((file, idx) => (
                     <FileListItem
                       key={file.id + idx}
@@ -230,12 +230,12 @@ function CardShimmer({ className }: { className?: string }) {
         <Shimmer className="h-3.5 w-1/2" />
       </div>
       <CardSeparator />
-      <div className="flex space-x-2 p-2">
-        <div className="flex flex-col space-y-2 flex-1">
+      <div className="flex gap-x-2 p-2">
+        <div className="flex flex-col gap-y-2 flex-1">
           <Shimmer className="h-3.5 w-1/2" />
           <Shimmer className="h-2.5 w-1/3" />
         </div>
-        <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md space-y-5 px-3 py-4">
+        <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md gap-y-5 px-3 py-4">
           <Shimmer className="h-2.5 w-1/2" />
           <Shimmer className="h-5 w-1/2" />
         </div>
@@ -245,7 +245,7 @@ function CardShimmer({ className }: { className?: string }) {
         <Shimmer className="h-8 w-full" />
       </div>
       <CardSeparator />
-      <div className="flex flex-col space-y-2 p-2">
+      <div className="flex flex-col gap-y-2 p-2">
         <Shimmer className="h-2.5 w-1/4" />
         <Shimmer className="h-2.5 w-1/2" />
         <Shimmer className="h-2.5 w-1/2" />

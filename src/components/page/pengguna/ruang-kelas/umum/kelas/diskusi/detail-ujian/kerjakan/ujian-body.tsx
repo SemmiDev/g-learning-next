@@ -338,7 +338,7 @@ function ShimmerBody() {
             <Shimmer className="h-4 w-4/12" />
           </div>
           <CardSeparator />
-          <div className="flex flex-col space-y-3 p-3">
+          <div className="flex flex-col gap-y-3 p-3">
             <div className="flex gap-x-2">
               <Shimmer className="h-16 flex-1" />
               <Shimmer className="h-16 flex-1" />
@@ -355,7 +355,7 @@ function ShimmerBody() {
           <CardSeparator />
           <div className="flex flex-wrap gap-x-3 gap-y-1 px-3 py-1">
             {[...Array(3)].map((_, idx) => (
-              <div key={idx} className="flex items-center space-x-1">
+              <div key={idx} className="flex items-center gap-x-1">
                 <Shimmer className="size-3 rounded-sm" />
                 <Shimmer className="h-2 w-14" />
               </div>
@@ -374,19 +374,19 @@ function ShimmerBody() {
               <Shimmer className="h-2.5 w-8/12" />
             </div>
             <div className="flex flex-col gap-y-2">
-              <div className="flex items-center space-x-2 w-4/12">
+              <div className="flex items-center gap-x-2 w-4/12">
                 <Shimmer className="h-6 w-6 rounded-full" />
                 <Shimmer className="h-2.5 flex-1" />
               </div>
-              <div className="flex items-center space-x-2 w-6/12">
+              <div className="flex items-center gap-x-2 w-6/12">
                 <Shimmer className="h-6 w-6 rounded-full" />
                 <Shimmer className="h-2.5 flex-1" />
               </div>
-              <div className="flex items-center space-x-2 w-3/12">
+              <div className="flex items-center gap-x-2 w-3/12">
                 <Shimmer className="h-6 w-6 rounded-full" />
                 <Shimmer className="h-2.5 flex-1" />
               </div>
-              <div className="flex items-center space-x-2 w-5/12">
+              <div className="flex items-center gap-x-2 w-5/12">
                 <Shimmer className="h-6 w-6 rounded-full" />
                 <Shimmer className="h-2.5 flex-1" />
               </div>

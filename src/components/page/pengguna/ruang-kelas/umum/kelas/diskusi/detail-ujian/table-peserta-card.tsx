@@ -300,7 +300,7 @@ export default function TableUjianPesertaCard({
             onChange={(e) => onSearch(e.target.value)}
             onClear={() => onSearch('')}
           />
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-x-2">
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">

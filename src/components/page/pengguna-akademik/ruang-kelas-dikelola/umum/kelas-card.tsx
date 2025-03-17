@@ -57,7 +57,7 @@ export default function KelasCard({
           <Text size="sm" weight="medium" variant="lighter">
             {kelas}
           </Text>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-x-1">
             <Text size="sm" weight="medium" variant="lighter">
               {instansi || '-'}
             </Text>
@@ -101,7 +101,7 @@ export default function KelasCard({
           </tbody>
         </table>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex gap-x-1">
         <ActionIcon variant="outline">
           <BiMessageAltDots size={18} />
         </ActionIcon>

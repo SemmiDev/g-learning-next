@@ -65,7 +65,7 @@ function ShimmerCard() {
       <div className="pt-2 pb-5">
         <Shimmer className="h-6 w-1/4" />
       </div>
-      <div className="flex justify-center items-end space-x-2 h-[8.625rem] border-b-2 border-l-2 border-gray-100 ml-16 mb-8 mr-2 sm:space-x-4 md:space-x-6 lg:space-x-8">
+      <div className="flex justify-center items-end gap-x-2 h-[8.625rem] border-b-2 border-l-2 border-gray-100 ml-16 mb-8 mr-2 sm:gap-x-4 md:gap-x-6 lg:gap-x-8">
         {[...Array(14)].map((_, idx) => (
           <Shimmer
             key={idx}

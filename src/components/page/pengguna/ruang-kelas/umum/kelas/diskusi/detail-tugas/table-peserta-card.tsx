@@ -148,7 +148,7 @@ export default function TableTugasPesertaCard({
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       render: (_, row) => (
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Thumbnail
             src={row.foto || undefined}
             alt="profil"
@@ -297,7 +297,7 @@ export default function TableTugasPesertaCard({
             onChange={(e) => onSearch(e.target.value)}
             onClear={() => onSearch('')}
           />
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-x-2">
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">
@@ -420,16 +420,16 @@ function TablePesertaCardShimmer({ className }: { className?: string }) {
                 <Shimmer className="h-2.5 w-2.5" />
               </td>
               <td className="p-2.5">
-                <div key={idx} className="flex items-center space-x-2">
+                <div key={idx} className="flex items-center gap-x-2">
                   <Shimmer className="size-10" />
-                  <div className="flex-1 space-y-2">
+                  <div className="flex flex-col flex-1 gap-y-2">
                     <Shimmer className="h-2.5 w-1/2" />
                     <Shimmer className="h-2.5 w-1/3" />
                   </div>
                 </div>
               </td>
               <td className="p-2.5">
-                <div className="flex-1 space-y-2">
+                <div className="flex flex-col flex-1 gap-y-2">
                   <Shimmer className="h-2.5 w-1/3" />
                   <Shimmer className="h-2.5 w-1/4" />
                 </div>

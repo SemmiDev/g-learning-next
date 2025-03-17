@@ -147,7 +147,7 @@ export default function PengajarRekapTugasDaftarPengumpulanCard({
     {
       title: <TableHeaderCell title="Nama Peserta" />,
       render: (_, row) => (
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Thumbnail
             src={row.foto || undefined}
             alt="profil"
@@ -296,7 +296,7 @@ export default function PengajarRekapTugasDaftarPengumpulanCard({
             onChange={(e) => onSearch(e.target.value)}
             onClear={() => onSearch('')}
           />
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-x-2">
             <Dropdown>
               <Dropdown.Trigger>
                 <Button as="span" size="sm" variant="outline">

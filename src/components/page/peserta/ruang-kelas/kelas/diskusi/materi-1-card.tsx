@@ -41,7 +41,7 @@ export default function MateriCard({ className }: { className?: string }) {
   return (
     <Card className={cn('flex flex-col px-0 py-0', className)}>
       <div className="flex justify-between items-start px-4 py-2">
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Image src={imagePhoto} alt="foto" className="size-12 rounded-lg" />
           <div className="flex flex-col">
             <Text weight="semibold" variant="dark">
@@ -62,7 +62,7 @@ export default function MateriCard({ className }: { className?: string }) {
           Ini merupakan catatan dari sebuah diskui yang telah dibuat, cukup di
           buat dalam 2 kalimat dan tambahkan.
         </Text>
-        <div className="flex flex-col space-y-2 mt-4">
+        <div className="flex flex-col gap-y-2 mt-4">
           {files.map((file, idx) => (
             <FileListItem file={file} key={idx} />
           ))}

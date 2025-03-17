@@ -110,7 +110,7 @@ export default function ModalHeader({
       )}
     >
       <div>
-        <div className="flex space-x-2">
+        <div className="flex gap-x-2">
           <Title
             as="h4"
             weight="semibold"

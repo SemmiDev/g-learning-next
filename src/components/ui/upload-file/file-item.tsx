@@ -47,7 +47,7 @@ export const UploadFileItem = ({
 }) => {
   return (
     <div className="flex justify-between items-center">
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-x-2">
         <FileUploadIcon file={file} />
         <Text weight="semibold" variant="dark">
           {file.name}
@@ -74,7 +74,7 @@ export const UploadFileItemRejected = ({
 }) => {
   return (
     <div className="flex justify-between items-center">
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-x-2">
         <figure className="flex justify-center items-center size-11 rounded-md bg-gray-50">
           <FileUploadIcon file={file} />
         </figure>

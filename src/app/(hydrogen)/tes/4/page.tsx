@@ -2,14 +2,14 @@ import { Button } from '@/components/ui'
 
 export default function Tes4Page() {
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex space-x-2">
+    <div className="flex flex-col gap-y-4">
+      <div className="flex gap-x-2">
         <Button size="xl">Tombol Extra Large</Button>
         <Button size="lg">Tombol Large</Button>
         <Button size="md">Tombol Medium</Button>
         <Button size="sm">Tombol Small</Button>
       </div>
-      <div className="flex space-x-2">
+      <div className="flex gap-x-2">
         <Button color="primary">Tombol Primary</Button>
         <Button color="secondary">Tombol Secondary</Button>
         <Button color="info">Tombol Info</Button>
@@ -18,7 +18,7 @@ export default function Tes4Page() {
         <Button color="danger">Tombol Danger</Button>
         <Button color="gray">Tombol Gray</Button>
       </div>
-      <div className="flex space-x-2">
+      <div className="flex gap-x-2">
         <Button variant="flat" color="primary">
           Tombol Primary
         </Button>
@@ -41,7 +41,7 @@ export default function Tes4Page() {
           Tombol Gray
         </Button>
       </div>
-      <div className="flex space-x-2">
+      <div className="flex gap-x-2">
         <Button variant="outline-colorful" color="primary">
           Tombol Primary
         </Button>

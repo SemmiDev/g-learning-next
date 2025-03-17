@@ -67,7 +67,7 @@ export default function DiskusiCard({
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-x-3">
             <Thumbnail
               src={data.pembuat?.foto}
               alt="profil"

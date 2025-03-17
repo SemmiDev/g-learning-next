@@ -106,7 +106,7 @@ export default function Tes2Page() {
       }}
     >
       {({ control, formState: { errors, isSubmitting } }) => (
-        <div className="space-y-4">
+        <div className="flex flex-col gap-y-4">
           <div>{JSON.stringify(errors)}</div>
           {/* <ControlledInput
             name="tesInput"

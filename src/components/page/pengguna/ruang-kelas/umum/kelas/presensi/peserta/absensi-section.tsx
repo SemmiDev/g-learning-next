@@ -116,7 +116,7 @@ export default function PesertaAbsensiSection() {
 
   return (
     <>
-      <div className="flex justify-between space-x-2 mb-4">
+      <div className="flex justify-between gap-x-2 mb-4">
         <Input
           size="sm"
           type="search"
@@ -168,10 +168,10 @@ export default function PesertaAbsensiSection() {
           {list.length > 0 ? (
             list.map((item, idx) => (
               <div
-                className="flex justify-between items-center space-x-2 p-2 [&:not(:last-child)]:border-b border-b-gray-100"
+                className="flex justify-between items-center gap-x-2 p-2 [&:not(:last-child)]:border-b border-b-gray-100"
                 key={idx}
               >
-                <div className="flex flex-col space-y-1">
+                <div className="flex flex-col gap-y-1">
                   <Text weight="semibold" variant="dark">
                     {item.judul}
                   </Text>
@@ -224,7 +224,7 @@ export default function PesertaAbsensiSection() {
 function ShimmerSection() {
   return (
     <>
-      <div className="flex justify-between space-x-2 mb-4">
+      <div className="flex justify-between gap-x-2 mb-4">
         <Shimmer className="h-7 w-6/12" />
         <Shimmer className="h-7 w-2/12" />
       </div>
@@ -241,7 +241,7 @@ function ShimmerCard({ count = 5 }: { count?: number }) {
           key={idx}
           className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
         >
-          <div className="flex flex-col space-y-3.5 flex-1 py-1.5">
+          <div className="flex flex-col gap-y-3.5 flex-1 py-1.5">
             <Shimmer className="h-3 w-1/4" />
             <Shimmer className="h-2.5 w-1/3" />
           </div>

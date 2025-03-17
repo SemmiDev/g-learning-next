@@ -16,7 +16,7 @@ export default function AnggotaKelasPage() {
   }))
 
   return (
-    <div className="flex flex-wrap items-start space-y-8 mt-8 lg:space-x-6 lg:space-y-0">
+    <div className="flex flex-wrap items-start gap-y-8 mt-8 lg:gap-x-6 lg:gap-y-0">
       <Card className="w-full lg:w-7/12 p-0">
         <div className="p-2">
           <Title as="h6" className="leading-4">
@@ -43,8 +43,8 @@ export default function AnggotaKelasPage() {
         <div className="flex flex-col">
           {listAnggota.map((item, idx) => (
             <Fragment key={idx}>
-              <div className="flex justify-between items-center space-x-2 p-2">
-                <div className="flex space-x-3">
+              <div className="flex justify-between items-center gap-x-2 p-2">
+                <div className="flex gap-x-3">
                   <Image
                     src={item.image}
                     alt="profil"

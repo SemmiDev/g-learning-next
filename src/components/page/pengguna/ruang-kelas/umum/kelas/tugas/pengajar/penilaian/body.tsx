@@ -161,7 +161,7 @@ export default function PenilaianTugasBody() {
               className="mb-4"
             />
 
-            <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
+            <div className="flex flex-wrap items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
               {isLoading ? (
                 <ShimmerSection />
               ) : (
@@ -186,7 +186,7 @@ export default function PenilaianTugasBody() {
                     <div className="p-2">
                       <SanitizeHTML html={data?.catatan_peserta || '-'} />
                       {files.length > 0 && (
-                        <div className="flex flex-col space-y-2 mt-2">
+                        <div className="flex flex-col gap-y-2 mt-2">
                           {files.map((file) => (
                             <FileListItem
                               key={file.id}
@@ -208,7 +208,7 @@ export default function PenilaianTugasBody() {
                   </Card>
 
                   <Card className="flex flex-col p-0 w-full lg:w-5/12">
-                    <div className="space-y-5 p-2">
+                    <div className="flex flex-col gap-y-5 p-2">
                       <ControlledInputNumber
                         name="nilai"
                         control={control}
@@ -252,12 +252,12 @@ function ShimmerSection() {
   return (
     <>
       <Card className="flex flex-col flex-1 p-0">
-        <div className="flex flex-col space-y-2 px-2 py-2.5">
+        <div className="flex flex-col gap-y-2 px-2 py-2.5">
           <Shimmer className="h-3 w-1/3" />
           <Shimmer className="h-2 w-1/3" />
         </div>
         <CardSeparator />
-        <div className="space-y-2 px-2 py-2.5">
+        <div className="flex flex-col gap-y-2 px-2 py-2.5">
           <Shimmer className="h-2 w-full" />
           <Shimmer className="h-2 w-full" />
           <Shimmer className="h-2 w-1/3" />
@@ -265,12 +265,12 @@ function ShimmerSection() {
       </Card>
 
       <Card className="flex flex-col p-0 w-full lg:w-5/12">
-        <div className="space-y-5 px-2 py-3">
-          <div className="space-y-2">
+        <div className="flex flex-col gap-y-5 px-2 py-3">
+          <div className="flex flex-col gap-y-2">
             <Shimmer className="h-3 w-1/5" />
             <Shimmer className="h-10 w-full" />
           </div>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-y-2">
             <Shimmer className="h-3 w-1/4" />
             <Shimmer className="h-[12.175rem] w-full" />
           </div>

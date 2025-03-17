@@ -8,7 +8,7 @@ type CardListShimmerProps = {
 
 export default function CardListShimmer({ className }: CardListShimmerProps) {
   return (
-    <div className={cn('flex flex-col space-y-6', className)}>
+    <div className={cn('flex flex-col gap-y-6', className)}>
       <HeaderShimmer />
       {[...Array(2)].map((_, idx) => (
         <AktifitasCardShimmer key={idx} />
@@ -23,7 +23,7 @@ function HeaderShimmer() {
       <Shimmer className="h-3 w-1/4" />
       <div className="flex gap-5 mt-4">
         {[...Array(3)].map((_, idx) => (
-          <div key={idx} className="flex flex-col items-center space-y-1">
+          <div key={idx} className="flex flex-col items-center gap-y-1">
             <Shimmer className="size-16" />
             <Shimmer className="h-2 w-5/12" />
           </div>
@@ -36,17 +36,17 @@ function HeaderShimmer() {
 function AktifitasCardShimmer() {
   return (
     <Card className="flex flex-col p-0">
-      <div className="flex items-center space-x-3 px-4 py-2">
+      <div className="flex items-center gap-x-3 px-4 py-2">
         <Shimmer className="size-12" />
-        <div className="flex flex-col space-y-2 flex-1">
+        <div className="flex flex-col gap-y-2 flex-1">
           <Shimmer className="h-3 w-1/4" />
           <Shimmer className="h-2 w-1/6" />
         </div>
       </div>
       <CardSeparator />
-      <div className="flex flex-col space-y-3 p-4">
+      <div className="flex flex-col gap-y-3 p-4">
         <Shimmer className="h-3.5 w-1/2" />
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col gap-y-2">
           {[...Array(2)].map((_, idx) => (
             <Shimmer
               key={idx}

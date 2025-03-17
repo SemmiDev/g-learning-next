@@ -81,7 +81,7 @@ export default function DetailCard({
       {files.length > 0 && (
         <>
           <CardSeparator />
-          <div className="flex flex-col space-y-2 px-3 py-2">
+          <div className="flex flex-col gap-y-2 px-3 py-2">
             {files.map((file) => (
               <FileListItem
                 key={file.id}

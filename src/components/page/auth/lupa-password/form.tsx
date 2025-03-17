@@ -53,7 +53,7 @@ export default function LupaPasswordForm() {
         }}
       >
         {({ control, formState: { errors } }) => (
-          <div className="space-y-6">
+          <div className="flex flex-col gap-y-6">
             <ControlledInput
               name="email"
               control={control}

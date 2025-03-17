@@ -127,7 +127,7 @@ export default function ResetPasswordForm() {
         }}
       >
         {({ control, formState: { errors } }) => (
-          <div className="space-y-6">
+          <div className="flex flex-col gap-y-6">
             <ControlledPassword
               name="password"
               control={control}

@@ -99,7 +99,7 @@ export default function TugasDetailPage() {
                 className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer p-2 lg:w-8/12"
                 onClick={() => {}}
               >
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-x-2">
                   <figure className="flex justify-center items-center size-12 rounded overflow-clip">
                     <Image
                       src={imagePhoto}
@@ -111,7 +111,7 @@ export default function TugasDetailPage() {
                     Prabroro Janggar
                   </Text>
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center gap-x-4">
                   <Text weight="semibold" variant="lighter">
                     Sudah Dinilai
                   </Text>
@@ -125,7 +125,7 @@ export default function TugasDetailPage() {
               </div>
             </Card>
 
-            <div className="flex flex-wrap items-start space-y-8 lg:space-x-4 lg:space-y-0">
+            <div className="flex flex-wrap items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
               <Card className="flex flex-col flex-1 p-0">
                 <div className="flex flex-col p-2">
                   <Text weight="semibold" variant="dark">
@@ -143,7 +143,7 @@ export default function TugasDetailPage() {
                     mengumpulkan tugas di LMS. Ini merupakan catatan atau
                     tulisan dari yang mengumpulkan tugas di LMS.
                   </ReadMore>
-                  <div className="flex flex-col space-y-2 mt-4">
+                  <div className="flex flex-col gap-y-2 mt-4">
                     {files.map((file, idx) => (
                       <FileListItem file={file} key={idx} download />
                     ))}
@@ -152,7 +152,7 @@ export default function TugasDetailPage() {
               </Card>
 
               <Card className="flex flex-col p-0 w-full lg:w-5/12">
-                <div className="space-y-5 p-2">
+                <div className="flex flex-col gap-y-5 p-2">
                   <ControlledInput
                     name="nilai"
                     control={control}

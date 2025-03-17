@@ -41,7 +41,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
     <>
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex flex-col px-4 py-2">
-          <div className="flex justify-between space-x-2">
+          <div className="flex justify-between gap-x-2">
             <Title
               size="1.5xl"
               weight="semibold"

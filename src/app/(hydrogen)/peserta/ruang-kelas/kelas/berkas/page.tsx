@@ -19,7 +19,7 @@ export default function BerkasPage() {
 
   return (
     <>
-      <div className="flex space-x-2 mt-8">
+      <div className="flex gap-x-2 mt-8">
         <Input
           size="sm"
           type="search"

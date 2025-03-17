@@ -195,13 +195,13 @@ function CardShimmer({ className }: { className?: string }) {
         <Shimmer className="h-3.5 w-1/4" />
       </div>
       <CardSeparator />
-      <div className="flex items-center space-x-2 p-2">
-        <div className="flex flex-col space-y-2 flex-1">
+      <div className="flex items-center gap-x-2 p-2">
+        <div className="flex flex-col gap-y-2 flex-1">
           {[...Array(6)].map((_, i) => (
             <Shimmer key={i} className="h-2.5 w-1/2" />
           ))}
         </div>
-        <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md space-y-5 px-3 py-4">
+        <div className="flex flex-col items-center h-[5.25rem] w-24 bg-gray-50/80 rounded-md gap-y-5 px-3 py-4">
           <Shimmer className="h-2.5 w-1/2" />
           <Shimmer className="h-5 w-1/2" />
         </div>

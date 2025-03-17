@@ -56,7 +56,7 @@ export default function BerkasCard({
         Berkas Informasi
       </Title>
       <CardSeparator />
-      <div className="flex flex-col space-y-2 p-2">
+      <div className="flex flex-col gap-y-2 p-2">
         {files.length > 0 ? (
           files.map((file) => (
             <FileListItem
@@ -90,7 +90,7 @@ function BerkasCardShimmer({ className }: { className?: string }) {
         <Shimmer className="h-3.5 w-1/2" />
       </div>
       <CardSeparator />
-      <div className="flex flex-col space-y-2 p-2">
+      <div className="flex flex-col gap-y-2 p-2">
         {[...Array(3)].map((_, idx) => (
           <FileListItemShimmer key={idx} />
         ))}

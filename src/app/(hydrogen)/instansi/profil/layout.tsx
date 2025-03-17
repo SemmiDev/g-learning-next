@@ -43,7 +43,7 @@ export default async function ProfilInstansiLayout({
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col gap-y-4">
           <HeaderCard />
           {children}
         </div>

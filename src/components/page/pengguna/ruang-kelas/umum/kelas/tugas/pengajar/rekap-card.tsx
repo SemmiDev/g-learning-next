@@ -188,7 +188,7 @@ function ShimmerOuterCard({ className }: { className?: string }) {
       </div>
       <div className="flex flex-wrap gap-4 mt-4 lg:flex-nowrap">
         <div className="w-full lg:w-5/12">
-          <div className="flex justify-between space-x-2 mb-4">
+          <div className="flex justify-between gap-x-2 mb-4">
             <Shimmer className="h-7 w-5/12" />
             <Shimmer className="h-7 w-2/12" />
           </div>
@@ -213,13 +213,13 @@ function ShimmerCard({
           key={idx}
           className="flex justify-between items-center p-2 [&:not(:last-child)]:border-b border-b-gray-100"
         >
-          <div className="flex flex-col space-y-3.5 flex-1 py-1.5">
-            <div className="flex justify-between space-x-2">
+          <div className="flex flex-col gap-y-3.5 flex-1 py-1.5">
+            <div className="flex justify-between gap-x-2">
               <Shimmer className="h-3 w-1/3" />
               <Shimmer className="h-6 w-10 rounded-full" />
             </div>
-            <div className="flex justify-between items-center space-x-2">
-              <div className="flex flex-col space-y-2 w-5/12">
+            <div className="flex justify-between items-center gap-x-2">
+              <div className="flex flex-col gap-y-2 w-5/12">
                 <Shimmer className="h-2.5 w-11/12" />
                 <Shimmer className="h-2.5 w-full" />
               </div>

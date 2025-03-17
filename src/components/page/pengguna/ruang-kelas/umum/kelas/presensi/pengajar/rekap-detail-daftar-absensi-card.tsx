@@ -110,7 +110,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
         Daftar Hadir Peserta Kelas
       </Text>
       <CardSeparator />
-      <div className="flex justify-between space-x-2 p-2">
+      <div className="flex justify-between gap-x-2 p-2">
         <Input
           size="sm"
           type="search"
@@ -145,8 +145,8 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
           return (
             <Fragment key={item.id_peserta}>
               <CardSeparator />
-              <div className="flex justify-between items-center space-x-2 px-3 py-2">
-                <div className="flex space-x-3">
+              <div className="flex justify-between items-center gap-x-2 px-3 py-2">
+                <div className="flex gap-x-3">
                   <Thumbnail
                     src={item.foto || undefined}
                     alt="profil"
@@ -163,7 +163,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
                     </Text>
                   </div>
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex gap-x-2">
                   {ubahData ? (
                     absensiStatus.map((status) => (
                       <ActionIconTooltip
@@ -248,10 +248,10 @@ function ShimmerCard({ className }: { className?: string }) {
       {[...Array(5)].map((_, idx) => (
         <Fragment key={idx}>
           <CardSeparator />
-          <div className="flex justify-between items-center space-x-2 px-3 py-2">
-            <div key={idx} className="flex items-center space-x-3 flex-1">
+          <div className="flex justify-between items-center gap-x-2 px-3 py-2">
+            <div key={idx} className="flex items-center gap-x-3 flex-1">
               <Shimmer className="size-10" />
-              <div className="flex-1 space-y-2">
+              <div className="flex flex-col flex-1 gap-y-2">
                 <Shimmer className="h-2.5 w-1/4" />
                 <Shimmer className="h-2.5 w-1/5" />
               </div>

@@ -33,8 +33,8 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
       <Card className="flex flex-col">
-        <div className="flex justify-between items-start space-x-2">
-          <div className="flex space-x-3">
+        <div className="flex justify-between items-start gap-x-2">
+          <div className="flex gap-x-3">
             <div className="w-56 h-28 rounded overflow-clip">
               <Image
                 src={imageKelas}
@@ -43,7 +43,7 @@ export default function KelasLayout({ children }: { children: ReactNode }) {
               />
             </div>
             <div>
-              <div className="flex space-x-2 items-center">
+              <div className="flex gap-x-2 items-center">
                 <Title as="h5" weight="semibold">
                   Aljabar Linier
                 </Title>

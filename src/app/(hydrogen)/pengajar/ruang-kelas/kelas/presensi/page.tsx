@@ -77,7 +77,7 @@ export default function PresensiPage() {
       dataIndex: 'nama',
       key: 'nama',
       render: (_: string, row) => (
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Image src={row.image} alt="profil" className="size-10 rounded-md" />
           <div className="flex flex-col justify-center">
             <Text size="sm" weight="semibold" variant="dark">

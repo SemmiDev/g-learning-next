@@ -36,7 +36,7 @@ export default function DetailCard({ className }: DetailCardProps) {
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
-        <div className="flex items-center space-x-3 px-4 py-3">
+        <div className="flex items-center gap-x-3 px-4 py-3">
           <Thumbnail
             src={data.pembuat.foto || undefined}
             alt="profil"

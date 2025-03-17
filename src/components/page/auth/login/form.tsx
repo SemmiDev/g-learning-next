@@ -100,7 +100,7 @@ export default function LoginForm() {
       >
         {({ register, setValue, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="space-y-5 lg:space-y-6">
+            <div className="flex flex-col gap-y-5 lg:gap-y-6">
               <Input
                 label="Username/Email"
                 placeholder="Tulis username atau email Anda di sini"
@@ -143,7 +143,7 @@ export default function LoginForm() {
               size="sm"
               isOpen={showModalUser}
               onClose={() => setShowModalUser(false)}
-              bodyClassName="flex flex-col space-y-2 p-3"
+              bodyClassName="flex flex-col gap-y-2 p-3"
             >
               {listUser.map(({ level, username }, idx) => (
                 <div

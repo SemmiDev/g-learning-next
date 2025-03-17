@@ -142,7 +142,7 @@ export default function UjianPage() {
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       render: (_: string, row) => (
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Image src={row.image} alt="profil" className="size-10 rounded-md" />
           <div className="flex flex-col justify-center">
             <Text size="sm" weight="semibold" variant="dark">
@@ -320,7 +320,7 @@ export default function UjianPage() {
                 <PiMagnifyingGlass size={20} className="text-gray-lighter" />
               }
             />
-            <div className="flex space-x-2">
+            <div className="flex gap-x-2">
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button as="span" size="sm" variant="outline">

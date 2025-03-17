@@ -66,7 +66,7 @@ export default function DetailPesertaCard({
           className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer p-2 lg:w-8/12"
           onClick={() => setShowPilihPeserta(true)}
         >
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-x-2">
             <Thumbnail
               src={data?.foto || undefined}
               alt="profil"
@@ -77,7 +77,7 @@ export default function DetailPesertaCard({
               {data?.nama || '-'}
             </Text>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-x-4">
             <Text
               weight="semibold"
               color={sudahDinilai ? 'primary' : 'gray'}
@@ -114,11 +114,11 @@ function ShimmerCard({ className }: { className?: string }) {
       )}
     >
       <div className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer p-2 lg:w-8/12">
-        <div className="flex items-center space-x-2 w-9/12">
+        <div className="flex items-center gap-x-2 w-9/12">
           <Shimmer className="size-12" />
           <Shimmer className="h-3 w-1/3" />
         </div>
-        <div className="flex items-center space-x-4 flex-1">
+        <div className="flex items-center gap-x-4 flex-1">
           <Shimmer className="h-3 flex-1" />
           <Shimmer className="size-3 shrink-0" />
         </div>

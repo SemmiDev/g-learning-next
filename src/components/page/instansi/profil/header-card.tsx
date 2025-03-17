@@ -29,7 +29,7 @@ export default function HeaderCard({ className }: { className?: string }) {
           bordered
           priority
         />
-        <div className="space-y-1.5">
+        <div className="flex flex-col gap-y-1.5">
           <Title as="h3" size="1.5xl" className="text-center md:text-left">
             {data?.instansi.nama || '-'}
           </Title>

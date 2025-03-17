@@ -65,7 +65,7 @@ export default function DaftarForm() {
         }}
       >
         {({ control, formState: { errors, isSubmitting } }) => (
-          <div className="space-y-5 lg:space-y-6">
+          <div className="flex flex-col gap-y-5 lg:gap-y-6">
             <ControlledInput
               name="email"
               control={control}
@@ -83,7 +83,7 @@ export default function DaftarForm() {
               placeholder="Tuliskan nama lengkap Anda di sini"
             />
 
-            <div className="space-y-5 2xl:grid 2xl:grid-cols-2 2xl:gap-3 2xl:space-y-0">
+            <div className="flex flex-col gap-y-5 2xl:grid 2xl:grid-cols-2 2xl:gap-3 2xl:gap-y-0">
               <ControlledPassword
                 name="password"
                 control={control}

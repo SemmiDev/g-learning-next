@@ -72,7 +72,7 @@ export default function PengajarChartPersentaseKehadiranCard({
             {data.map((val, idx) => {
               return (
                 <div key={idx}>
-                  <div className="flex space-x-1 items-center">
+                  <div className="flex gap-x-1 items-center">
                     <div
                       className="rounded-xl w-3 h-3"
                       style={{ backgroundColor: COLORS[idx] }}
@@ -111,8 +111,8 @@ function CardShimmer({ className }: { className?: string }) {
             </div>
             <div className="grid grid-cols-4 gap-2 lg:gap-6">
               {[...Array(4)].map((_, idx) => (
-                <div key={idx} className="flex flex-col space-y-2.5 w-14">
-                  <div className="flex items-center space-x-1.5">
+                <div key={idx} className="flex flex-col gap-y-2.5 w-14">
+                  <div className="flex items-center gap-x-1.5">
                     <Shimmer className="size-3" rounded="full" />
                     <Shimmer className="h-4 w-1/2" />
                   </div>

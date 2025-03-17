@@ -46,7 +46,7 @@ export default function PengajarKehadiranTerendahCard({
       title: <TableHeaderCell title="Nama Peserta" />,
       dataIndex: 'nama',
       render: (_, row) => (
-        <div className="flex space-x-3">
+        <div className="flex gap-x-3">
           <Thumbnail
             src={row.foto_pengguna || undefined}
             alt="profil"
@@ -157,9 +157,9 @@ function ShimmerCard({ className }: { className?: string }) {
           {[...Array(5)].map((_, idx) => (
             <tr key={idx}>
               <td className="p-2.5">
-                <div key={idx} className="flex items-center space-x-2">
+                <div key={idx} className="flex items-center gap-x-2">
                   <Shimmer className="size-10" />
-                  <div className="flex-1 space-y-2">
+                  <div className="flex flex-col flex-1 gap-y-2">
                     <Shimmer className="h-2.5 w-1/2" />
                     <Shimmer className="h-2.5 w-1/3" />
                   </div>

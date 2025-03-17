@@ -160,9 +160,9 @@ export default function PengajarAbsensiCard({
             return (
               <div
                 key={peserta.id_peserta}
-                className="flex justify-between items-center space-x-2 border-muted p-2"
+                className="flex justify-between items-center gap-x-2 border-muted p-2"
               >
-                <div className="flex space-x-3">
+                <div className="flex gap-x-3">
                   <Thumbnail
                     src={peserta.foto || undefined}
                     alt="profil"

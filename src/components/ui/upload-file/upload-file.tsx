@@ -150,7 +150,7 @@ export default function UploadFile({
           </div>
         </div>
         {(hasFiles || fileRejections.length > 0) && (
-          <aside className="flex flex-col space-y-2 border-dashed border-t p-2">
+          <aside className="flex flex-col gap-y-2 border-dashed border-t p-2">
             {files.map((file: UploadFileType, idx) => (
               <UploadFileItem
                 file={file}

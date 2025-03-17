@@ -52,7 +52,7 @@ export default function KelasCard({
         <Text size="sm" weight="medium" variant="lighter">
           {kelas}
         </Text>
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-x-1">
           <Text size="sm" weight="medium" variant="lighter">
             {instansi || '-'}
           </Text>

@@ -154,7 +154,7 @@ export default function PengajarPermintaanBergabungCard({
               return (
                 <label
                   key={item.id}
-                  className="flex space-x-2 p-2 hover:bg-gray-50/70"
+                  className="flex gap-x-2 p-2 hover:bg-gray-50/70"
                 >
                   <Checkbox
                     size="sm"
@@ -181,7 +181,7 @@ export default function PengajarPermintaanBergabungCard({
                     <Text size="2xs" weight="medium" variant="lighter">
                       {item.email || '-'}
                     </Text>
-                    <div className="flex space-x-2 mt-2">
+                    <div className="flex gap-x-2 mt-2">
                       <Button
                         size="sm"
                         onClick={(e) => {
@@ -218,7 +218,7 @@ export default function PengajarPermintaanBergabungCard({
         {list.length > 0 && (
           <>
             <CardSeparator />
-            <div className="flex space-x-2 p-2">
+            <div className="flex gap-x-2 p-2">
               <Button
                 size="sm"
                 className="flex-1"
@@ -266,22 +266,22 @@ export default function PengajarPermintaanBergabungCard({
 function ShimmerCard({ className }: { className?: string }) {
   return (
     <Card className={cn('p-0', className)}>
-      <div className="flex flex-col space-y-2 px-2 py-2.5">
+      <div className="flex flex-col gap-y-2 px-2 py-2.5">
         <Shimmer className="h-3 w-1/2" />
-        <div className="flex items-center space-x-2 w-1/2">
+        <div className="flex items-center gap-x-2 w-1/2">
           <Shimmer className="size-5" />
           <Shimmer className="h-2.5 flex-1" />
         </div>
       </div>
       <CardSeparator />
       {[...Array(3)].map((_, idx) => (
-        <div key={idx} className="flex space-x-2 flex-1 p-2">
+        <div key={idx} className="flex gap-x-2 flex-1 p-2">
           <Shimmer className="size-5" />
           <Shimmer className="size-10" />
-          <div className="flex-1 space-y-2 py-1">
+          <div className="flex flex-col flex-1 gap-y-2 py-1">
             <Shimmer className="h-2.5 w-2/3" />
             <Shimmer className="h-2.5 w-1/2" />
-            <div className="flex space-x-2">
+            <div className="flex gap-x-2">
               <Shimmer className="h-7 w-14" />
               <Shimmer className="h-7 w-14" />
             </div>

@@ -185,7 +185,7 @@ export default function DaftarSoal({
       </div>
       <CardSeparator />
       <div className="flex flex-wrap gap-x-3 gap-y-1 px-3 py-1">
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <div
             className={cn('size-3 border rounded-sm', boxColor('green'))}
           ></div>
@@ -193,7 +193,7 @@ export default function DaftarSoal({
             Terjawab
           </Text>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <div
             className={cn('size-3 border rounded-sm', boxColor('orange'))}
           ></div>
@@ -201,7 +201,7 @@ export default function DaftarSoal({
             Dikerjakan
           </Text>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex gap-x-1">
           <div
             className={cn('size-3 border rounded-sm', boxColor('white'))}
           ></div>

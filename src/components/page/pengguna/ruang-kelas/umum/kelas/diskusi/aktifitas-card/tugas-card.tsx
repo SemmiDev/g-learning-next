@@ -74,7 +74,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
     <>
       <Card className={cn('flex flex-col px-0 py-0', className)}>
         <div className="flex justify-between items-start px-4 py-2">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-x-3">
             <Thumbnail
               src={data.pembuat?.foto}
               alt="profil"
@@ -110,7 +110,7 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
             {stripHtmlAndEllipsis(data.aktifitas.deskripsi ?? '', 100)}
           </Text>
           {!!data.file_aktifitas && data.file_aktifitas.length > 0 && (
-            <div className="flex flex-col space-y-2 mt-4">
+            <div className="flex flex-col gap-y-2 mt-4">
               {data.file_aktifitas.map((file) => (
                 <FileListItem
                   key={file.id}
