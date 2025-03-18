@@ -334,7 +334,10 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
             <Dropdown>
               <Dropdown.Trigger>
                 <ActionIconTooltip
-                  tooltip="Filter"
+                  tooltip={`Filter: ${
+                    filterData[filters.status as FilterDataType]
+                  }`}
+                  tooltipPosition="left"
                   as="span"
                   size="sm"
                   variant="outline"
