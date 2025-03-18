@@ -105,7 +105,7 @@ export default function HasilUjianModal({
                   </td>
                 </tr>
                 <tr>
-                  <td>Pilgan Benar/salah/kosong</td>
+                  <td>Pilgan benar/salah/kosong</td>
                   <td className="text-center"> : </td>
                   <td className="font-semibold">
                     {selesai

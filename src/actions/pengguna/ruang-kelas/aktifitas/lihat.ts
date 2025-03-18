@@ -44,6 +44,8 @@ export type DataType = {
     total_soal: number
     total_soal_essay: number
     total_soal_pilihan_ganda: number
+    persentase_essay: number
+    persentase_pilihan_ganda: number
     created_at: string
     updated_at: string
   }
