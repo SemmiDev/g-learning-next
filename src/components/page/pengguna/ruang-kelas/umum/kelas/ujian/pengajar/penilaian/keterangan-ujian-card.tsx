@@ -6,13 +6,13 @@ import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
-type KeteranganTugasCardProps = {
+type KeteranganUjianCardProps = {
   className?: string
 }
 
-export default function KeteranganTugasCard({
+export default function KeteranganUjianCard({
   className,
-}: KeteranganTugasCardProps) {
+}: KeteranganUjianCardProps) {
   const {
     kelas: idKelas,
     id: idAktifitas,

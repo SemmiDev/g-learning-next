@@ -55,12 +55,15 @@ export type DataType = {
     id_bank_soal: string | null
     jawaban: string | null
     sisa_waktu: number | null
-    status_pengumpulan: string | null
+    status_pengumpulan: 'SUDAH_MENGUMPULKAN' | 'BELUM_MENGUMPULKAN' | null
+    status_penilaian_essay: 0 | 1 | null
     selesai: number | null
     skor_benar: number | null
     skor_salah: number | null
     skor_kosong: number | null
     skor_akhir: number | null
+    skor_akhir_essay: number | null
+    skor_akhir_pilihan_ganda: number | null
     jawaban_benar: number | null
     jawaban_salah: number | null
     jawaban_kosong: number | null

@@ -56,9 +56,9 @@ export default function PenilaianTugasBody() {
 
   const {
     kelas: idKelas,
-    aktifitas: idAktifitas,
-    id: idPeserta,
-  }: { kelas: string; aktifitas: string; id: string } = useParams()
+    id: idAktifitas,
+    peserta: idPeserta,
+  }: { kelas: string; id: string; peserta: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],

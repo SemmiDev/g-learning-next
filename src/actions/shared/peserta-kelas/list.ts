@@ -28,6 +28,8 @@ export const listPesertaKelasAction = async ({
     {
       current_page: page,
       keyword: search,
-      per_page: 8,
+      per_page: 10,
+      sort_by: 'nama',
+      order: 'ASC',
     }
   )
