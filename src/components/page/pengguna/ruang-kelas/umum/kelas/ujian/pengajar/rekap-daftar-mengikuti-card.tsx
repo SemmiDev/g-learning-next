@@ -291,7 +291,7 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
           Peserta yang Mengikuti Ujian
         </Title>
         <CardSeparator />
-        <div className="flex justify-between p-2">
+        <div className="flex justify-between flex-wrap gap-2 p-2">
           <Input
             size="sm"
             type="search"
@@ -337,7 +337,6 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
                   tooltip={`Filter: ${
                     filterData[filters.status as FilterDataType]
                   }`}
-                  tooltipPosition="left"
                   as="span"
                   size="sm"
                   variant="outline"

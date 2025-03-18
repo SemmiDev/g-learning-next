@@ -284,7 +284,7 @@ export default function TableTugasPesertaCard({
           Pengumpulan Tugas Peserta
         </Title>
         <CardSeparator />
-        <div className="flex justify-between p-2">
+        <div className="flex justify-between flex-wrap gap-2 p-2">
           <Input
             size="sm"
             type="search"
@@ -330,7 +330,6 @@ export default function TableTugasPesertaCard({
                   tooltip={`Filter: ${
                     filterData[filters.status as FilterDataType]
                   }`}
-                  tooltipPosition="left"
                   as="span"
                   size="sm"
                   variant="outline"
