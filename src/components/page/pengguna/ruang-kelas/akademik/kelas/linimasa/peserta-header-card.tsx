@@ -1,4 +1,5 @@
 import { Card, Title } from '@/components/ui'
+import cn from '@/utils/class-names'
 import { useState } from 'react'
 import { BsMegaphone } from 'react-icons/bs'
 import ButtonIcon from './button-icon'
@@ -15,11 +16,11 @@ export default function PesertaHeaderCard({
 
   return (
     <>
-      <Card className={className}>
-        <Title as="h6" weight="semibold" className="leading-4">
+      <Card className={cn('p-0', className)}>
+        <Title as="h6" weight="semibold" className="leading-4 p-2">
           Bagikan sesuatu di kelas
         </Title>
-        <div className="flex gap-5 mt-4">
+        <div className="flex gap-5 overflow-x-auto p-2">
           <ButtonIcon
             title="Diskusi"
             color="indigo"

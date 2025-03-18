@@ -1,4 +1,5 @@
-import { Card, Text, Title } from '@/components/ui'
+import { Card, Title } from '@/components/ui'
+import cn from '@/utils/class-names'
 import { useState } from 'react'
 import {
   BsCardChecklist,
@@ -29,11 +30,11 @@ export default function PengajarHeaderCard({
 
   return (
     <>
-      <Card className={className}>
-        <Title as="h6" weight="semibold" className="leading-4">
+      <Card className={cn('p-0', className)}>
+        <Title as="h6" weight="semibold" className="leading-4 p-2">
           Bagikan sesuatu di kelas
         </Title>
-        <div className="flex gap-5 mt-4">
+        <div className="flex gap-5 overflow-x-auto p-2">
           <ButtonIcon
             title="Materi"
             color="green"
