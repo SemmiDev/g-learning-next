@@ -20,6 +20,7 @@ import {
 } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
@@ -41,6 +42,7 @@ export type PenilaianUjianFormSchema = {
 }
 
 export default function PenilaianUjianBody() {
+  const router = useRouter()
   const queryClient = useQueryClient()
 
   const {
@@ -127,7 +129,10 @@ export default function PenilaianUjianBody() {
   return (
     <>
       <div className="mt-4 mb-4">
-        <Link href={`${routes.pengajar.kelas}/ujian`}>
+        <Link
+          href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/diskusi/ujian/${idAktifitas}`}
+          onClick={() => router.back()}
+        >
           <Button
             as="span"
             variant="text"
