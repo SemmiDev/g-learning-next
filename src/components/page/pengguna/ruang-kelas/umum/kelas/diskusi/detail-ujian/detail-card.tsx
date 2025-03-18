@@ -96,7 +96,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                 </tr>
                 <tr>
                   <td className="text-xs text-gray-lighter font-medium">
-                    Bobot Total Soal Pilgan
+                    Bobot Total Pilgan
                   </td>
                   <td className="text-xs text-gray-dark font-semibold text-center">
                     :
@@ -107,7 +107,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
                 </tr>
                 <tr>
                   <td className="text-xs text-gray-lighter font-medium">
-                    Bobot Total Soal Esai
+                    Bobot Total Esai
                   </td>
                   <td className="text-xs text-gray-dark font-semibold text-center">
                     :

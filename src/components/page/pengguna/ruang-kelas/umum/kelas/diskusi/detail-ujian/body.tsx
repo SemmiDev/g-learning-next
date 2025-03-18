@@ -47,18 +47,21 @@ export default function DetailUjianBody() {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
+      <div className="grid grid-cols-12 gap-y-8 gap-x-4">
         <DetailCard
           peran={dataKelas?.peran}
           className={cn(
-            'w-full',
-            dataKelas?.peran === 'Pengajar' ? 'lg:w-6/12' : 'lg:w-7/12'
+            'w-full col-span-12',
+            dataKelas?.peran === 'Pengajar' ? 'lg:col-span-6' : 'lg:col-span-7'
           )}
         />
         {dataKelas?.peran === 'Pengajar' ? (
-          <TableUjianPesertaCard className="flex-1" />
+          <TableUjianPesertaCard className="col-span-12 lg:col-span-6" />
         ) : (
-          <HasilUjianCard tipeKelas={tipeKelas} className="flex-1" />
+          <HasilUjianCard
+            tipeKelas={tipeKelas}
+            className="col-span-12 lg:col-span-5"
+          />
         )}
       </div>
     </>

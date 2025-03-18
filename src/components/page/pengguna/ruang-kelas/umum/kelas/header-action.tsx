@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation'
 import { GrShareOption } from 'react-icons/gr'
 import PengaturanKelasModal from '../modal/pengaturan-kelas'
 import UndangKelasModal from '../modal/undang-kelas'
+import { PiGear } from 'react-icons/pi'
 
 type KelasHeaderActionProps = {
   tipe: 'Akademik' | 'Publik' | 'Privat' | undefined
@@ -33,22 +34,33 @@ export default function KelasHeaderAction({
 
   return (
     <>
-      <div className="flex gap-x-2 items-center">
+      <div className="absolute top-0 right-0 flex flex-col gap-2 items-center xs:flex-row">
         <ActionIcon
           size="sm"
           variant="outline"
+          className="bg-white"
           onClick={() => doShowUndang(idKelas)}
         >
           <GrShareOption size={16} />
         </ActionIcon>
         {pemilik && (
-          <Button
-            size="sm"
-            className="h-7"
-            onClick={() => doShowPengaturan(idKelas)}
-          >
-            Pengaturan
-          </Button>
+          <>
+            <Button
+              size="sm"
+              className="h-7 hidden sm:block"
+              onClick={() => doShowPengaturan(idKelas)}
+            >
+              Pengaturan
+            </Button>
+            <ActionIcon
+              size="sm"
+              variant="outline"
+              className="bg-white sm:hidden"
+              onClick={() => doShowPengaturan(idKelas)}
+            >
+              <PiGear size={16} />
+            </ActionIcon>
+          </>
         )}
       </div>
 

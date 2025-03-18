@@ -23,8 +23,8 @@ export default function KelasHeader() {
   const jadwal = data?.jadwal ?? []
 
   return (
-    <div className="flex justify-between items-start gap-x-2">
-      <div className="flex flex-col gap-3 sm:flex-row">
+    <div className="flex justify-between items-start gap-x-2 relative">
+      <div className="flex flex-col gap-3 flex-1 sm:flex-row">
         <div className="rounded overflow-clip self-center">
           {data?.kelas.thumbnail ? (
             <Image
