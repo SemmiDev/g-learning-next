@@ -1,4 +1,4 @@
-import { DataType as DataPresensiType } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/table-presensi-peserta'
+import { DataType as DataPresensiType } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
 import {
   CardSeparator,
   FilePreviewType,
@@ -10,7 +10,6 @@ import {
   Thumbnail,
 } from '@/components/ui'
 import { thumbnailFileUrl } from '@/utils/file-url'
-import { LatLng } from 'leaflet'
 import dynamic from 'next/dynamic'
 import { ReactNode, useState } from 'react'
 
@@ -46,10 +45,7 @@ export default function DetailPresensiModal({
           </DataRow>
           {!!data?.latitude && !!data?.longitude && (
             <DataRow label="Posisi Absen">
-              <Map
-                height={250}
-                position={new LatLng(data.latitude, data.longitude)}
-              />
+              <Map height={250} latLong={[data.latitude, data.longitude]} />
             </DataRow>
           )}
           {!!data?.swafoto_url && (

@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardSeparator,
+  LinkOrDiv,
   Loader,
   ModalConfirm,
   Text,
@@ -17,7 +18,6 @@ import cn from '@/utils/class-names'
 import { hourMinute } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ComponentType, Dispatch, SetStateAction, useState } from 'react'
 import {
@@ -217,14 +217,20 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                     Mulai Sesi
                   </Button>
                 ) : (
-                  <Link
+                  <LinkOrDiv
                     href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${data.id_kelas}/sesi-pembelajaran/${data.id}`}
+                    disabled={data.status !== 'Sedang Berlangsung'}
                     className="flex-1"
                   >
-                    <Button as="span" size="sm" className="w-full">
+                    <Button
+                      as="span"
+                      size="sm"
+                      className="w-full"
+                      disabled={data.status !== 'Sedang Berlangsung'}
+                    >
                       Masuk Sesi
                     </Button>
-                  </Link>
+                  </LinkOrDiv>
                 )}
               </div>
             </div>

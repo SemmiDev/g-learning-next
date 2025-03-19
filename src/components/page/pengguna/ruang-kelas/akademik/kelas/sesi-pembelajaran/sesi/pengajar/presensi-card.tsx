@@ -2,7 +2,7 @@ import { simpanPresensiPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/
 import {
   DataType as DataPresensiType,
   tablePresensiPesertaSesiAction,
-} from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/table-presensi-peserta'
+} from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import {
   ActionIcon,
@@ -30,8 +30,8 @@ import { BsFloppy2, BsPencil, BsThreeDots, BsXSquare } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 import UbahJenisAbsenSesiModal from '../../pengajar/modal/ubah-jenis-absen'
+import DetailPresensiModal from '../modal/detail-presensi'
 import PresensiCardShimmer from '../shimmer/presensi-card'
-import DetailPresensiModal from './modal/detail-presensi'
 
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 

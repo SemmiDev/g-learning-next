@@ -12,16 +12,18 @@ L.Marker.prototype.options.icon = L.icon({
 })
 
 type MapProps = {
-  position: LatLng
+  latLong: [number, number]
   height?: number
   className?: string
 }
 
-export default function Map({ position, height, className }: MapProps) {
+export default function Map({ latLong, height, className }: MapProps) {
+  const position = new LatLng(latLong[0], latLong[1])
+
   return (
     <div className={className}>
       <MapContainer
-        center={[position.lat, position.lng]}
+        center={[latLong[0], latLong[1]]}
         zoom={16}
         scrollWheelZoom={false}
         style={{ height }}

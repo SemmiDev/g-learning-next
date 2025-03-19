@@ -7,16 +7,18 @@ export type LinkOrDivProps = DOMAttributes<HTMLDivElement> & {
   target?: HTMLAttributeAnchorTarget
   className?: string
   children?: ReactNode
+  disabled?: boolean
 }
 
 export default function LinkOrDiv({
   href,
   target,
   children,
+  disabled,
   className,
   ...props
 }: LinkOrDivProps) {
-  if (!href)
+  if (!href || disabled)
     return (
       <div className={className} {...props}>
         {children}
