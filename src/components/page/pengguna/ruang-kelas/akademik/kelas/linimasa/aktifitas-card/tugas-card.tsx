@@ -23,6 +23,7 @@ import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { stripHtmlAndEllipsis } from '@/utils/text'
+import { passedTime } from '@/utils/time'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -140,7 +141,12 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
           {data.aktifitas.batas_waktu && (
             <Text weight="semibold" variant="dark" className="mt-4">
               Batas Waktu Pengumpulan:{' '}
-              <TextSpan color="danger">
+              <TextSpan
+                variant="dark"
+                color={
+                  passedTime(data.aktifitas.batas_waktu) ? 'danger' : 'gray'
+                }
+              >
                 <Time date={data.aktifitas.batas_waktu} format="datetime" />
               </TextSpan>
             </Text>

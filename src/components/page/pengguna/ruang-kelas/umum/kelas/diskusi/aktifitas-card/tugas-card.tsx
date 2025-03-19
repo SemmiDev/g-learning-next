@@ -29,6 +29,7 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import DropdownMoreAction from '../dropdown-more-action'
 import UbahTugasModal from '../modal/ubah-tugas'
+import { passedTime } from '@/utils/time'
 
 type TugasCardProps = {
   kelas: DataKelasType | undefined
@@ -140,7 +141,12 @@ export default function TugasCard({ kelas, data, className }: TugasCardProps) {
           {data.aktifitas.batas_waktu && (
             <Text weight="semibold" variant="dark" className="mt-4">
               Batas Waktu Pengumpulan:{' '}
-              <TextSpan color="danger">
+              <TextSpan
+                variant="dark"
+                color={
+                  passedTime(data.aktifitas.batas_waktu) ? 'danger' : 'gray'
+                }
+              >
                 <Time date={data.aktifitas.batas_waktu} format="datetime" />
               </TextSpan>
             </Text>

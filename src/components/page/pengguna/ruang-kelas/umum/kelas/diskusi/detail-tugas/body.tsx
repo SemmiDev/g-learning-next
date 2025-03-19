@@ -1,5 +1,6 @@
 'use client'
 
+import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
@@ -9,7 +10,10 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import {
+  makeSimpleQueryDataWithId,
+  makeSimpleQueryDataWithParams,
+} from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
@@ -24,11 +28,16 @@ export default function DetailTugasBody() {
   const router = useRouter()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { kelas: idKelas }: { kelas: string } = useParams()
+  const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+  })
+
+  const { data: dataTugas, isLoading: isLoadingTugas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.detail.tugas', idKelas, id],
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
@@ -57,6 +66,8 @@ export default function DetailTugasBody() {
 
       <div className="flex flex-wrap items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
         <DetailCard
+          data={dataTugas || undefined}
+          isLoading={isLoadingTugas}
           setFilePreview={setFilePreview}
           className={cn(
             'w-full',
@@ -72,7 +83,10 @@ export default function DetailTugasBody() {
             className="flex-1"
           />
         ) : (
-          <KumpulkanTugasCard className="flex-1" />
+          <KumpulkanTugasCard
+            tugas={dataTugas || undefined}
+            className="flex-1"
+          />
         )}
       </div>
 

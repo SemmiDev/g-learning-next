@@ -14,6 +14,7 @@ import {
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
+import { passedTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -87,7 +88,12 @@ export default function PengajarRekapTugasDetailSesiSection({
           <Text size="sm" weight="medium" variant="lighter" className="mt-2">
             Batas waktu pengumpulan
           </Text>
-          <Text size="sm" weight="medium" variant="dark">
+          <Text
+            size="sm"
+            weight="medium"
+            variant="dark"
+            color={passedTime(data?.aktifitas.batas_waktu) ? 'danger' : 'gray'}
+          >
             <TimeIndo
               date={data?.aktifitas.batas_waktu}
               format="datetimeday"

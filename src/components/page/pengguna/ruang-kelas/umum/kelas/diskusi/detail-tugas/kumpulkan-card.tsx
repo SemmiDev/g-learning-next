@@ -1,3 +1,4 @@
+import { DataType as DataTugasType } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatPengumpulanTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-pengumpulan-tugas'
 import { simpanPengumpulanTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/simpan-pengumpulan-tugas'
 import {
@@ -21,6 +22,7 @@ import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { passedTime } from '@/utils/time'
 import { arrayRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -40,10 +42,12 @@ export type PengumpulanTugasFormSchema = {
 }
 
 type KumpulkanTugasCardProps = {
+  tugas: DataTugasType | undefined
   className?: string
 }
 
 export default function KumpulkanTugasCard({
+  tugas,
   className,
 }: KumpulkanTugasCardProps) {
   const queryClient = useQueryClient()
@@ -100,6 +104,8 @@ export default function KumpulkanTugasCard({
   }
 
   if (isLoading) return <CardShimmer className={className} />
+
+  const terlambat = passedTime(tugas?.aktifitas.batas_waktu)
 
   return (
     <>
@@ -206,6 +212,7 @@ export default function KumpulkanTugasCard({
                 <ButtonSubmit
                   color={data?.status_pengumpulan ? 'warning' : 'primary'}
                   isSubmitting={isSubmitting}
+                  disabled={terlambat}
                 >
                   Kumpulkan {data?.status_pengumpulan && 'Ulang'} Tugas
                 </ButtonSubmit>

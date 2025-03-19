@@ -7,6 +7,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtmlAndEllipsis } from '@/utils/text'
+import { passedTime } from '@/utils/time'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -85,7 +86,11 @@ export default function TugasItem({ kelas, data, className }: TugasItemProps) {
             {data.aktifitas?.batas_waktu && (
               <Text size="sm" weight="semibold">
                 Batas Waktu Pengumpulan:{' '}
-                <TextSpan color="danger">
+                <TextSpan
+                  color={
+                    passedTime(data.aktifitas.batas_waktu) ? 'danger' : 'gray'
+                  }
+                >
                   <Time
                     date={data.aktifitas.batas_waktu}
                     format="datetime"

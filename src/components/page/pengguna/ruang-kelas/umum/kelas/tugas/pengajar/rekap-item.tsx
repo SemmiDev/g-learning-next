@@ -1,5 +1,6 @@
 import { Badge, Text, TimeIndo } from '@/components/ui'
 import cn from '@/utils/class-names'
+import { passedTime } from '@/utils/time'
 
 type TugasItemType = {
   id: string
@@ -51,7 +52,12 @@ export default function PengajarRekapTugasItem({
         Batas waktu pengumpulan
       </Text>
       <div className="flex justify-between">
-        <Text size="sm" weight="semibold" variant="dark">
+        <Text
+          size="sm"
+          weight="semibold"
+          variant="dark"
+          color={passedTime(sesi.batasWaktu) ? 'danger' : 'gray'}
+        >
           <TimeIndo date={sesi.batasWaktu} format="datetime" empty="-" />
         </Text>
         <Text size="xs" weight="medium" variant="lighter">

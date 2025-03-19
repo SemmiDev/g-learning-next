@@ -11,5 +11,5 @@ export type DataType = {
 
 export const dataPersentaseKehadiranAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(
-    `${process.env.API_URL}/peserta/kelas/${id}/absensi/persentase-kehadiran`
+    `${process.env.API_URL}/peserta/kelas-akademik/${id}/absensi/persentase-kehadiran`
   )

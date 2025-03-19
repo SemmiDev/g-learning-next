@@ -1,7 +1,6 @@
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import { listTugasAction } from '@/actions/pengguna/ruang-kelas/tugas/peserta/list'
 import {
-  Badge,
   Button,
   Card,
   Input,
@@ -13,6 +12,7 @@ import {
 import { routes } from '@/config/routes'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
+import { passedTime } from '@/utils/time'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -158,8 +158,7 @@ export default function PesertaDaftarTugasSection() {
           {list.length > 0 ? (
             list.map((item) => {
               const sudah = item.status === 'SUDAH_MENGUMPULKAN'
-              const terlambat =
-                !!item.batas_waktu && new Date(item.batas_waktu) < new Date()
+              const terlambat = passedTime(item.batas_waktu)
 
               return (
                 <div
@@ -179,7 +178,7 @@ export default function PesertaDaftarTugasSection() {
                     <Text
                       size="sm"
                       weight="semibold"
-                      variant={!sudah && terlambat ? 'default' : 'dark'}
+                      variant="dark"
                       color={!sudah && terlambat ? 'danger' : 'gray'}
                     >
                       <TimeIndo
@@ -189,23 +188,23 @@ export default function PesertaDaftarTugasSection() {
                       />
                     </Text>
                   </div>
-                  {!sudah && !terlambat ? (
-                    <Link
-                      href={`${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/diskusi/tugas/${item.id}`}
+                  <Link
+                    href={`${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/diskusi/tugas/${item.id}`}
+                  >
+                    <Button
+                      as="span"
+                      size="sm"
+                      color={
+                        sudah ? 'success' : !terlambat ? 'primary' : 'danger'
+                      }
                     >
-                      <Button as="span" size="sm">
-                        Kumpulkan Tugas
-                      </Button>
-                    </Link>
-                  ) : (
-                    <Badge
-                      variant="solid"
-                      rounded="md"
-                      className={sudah ? 'bg-badge-green' : 'bg-badge-red'}
-                    >
-                      {sudah ? 'Sudah Mengumpulkan' : 'Tidak Mengumpulkan'}
-                    </Badge>
-                  )}
+                      {sudah
+                        ? 'Sudah Mengumpulkan'
+                        : !terlambat
+                        ? 'Kumpulkan Tugas'
+                        : 'Tidak Mengumpulkan'}
+                    </Button>
+                  </Link>
                 </div>
               )
             })

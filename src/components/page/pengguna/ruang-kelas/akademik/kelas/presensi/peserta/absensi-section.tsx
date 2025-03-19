@@ -14,6 +14,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
@@ -31,14 +32,14 @@ const sortData: SortDataType[] = [
   {
     title: 'Terbaru',
     sort: {
-      name: 'waktu_aktifitas',
+      name: 'pertemuan',
       order: 'desc',
     },
   },
   {
     title: 'Terlawas',
     sort: {
-      name: 'waktu_aktifitas',
+      name: 'pertemuan',
       order: 'asc',
     },
   },
@@ -56,43 +57,50 @@ export default function PesertaAbsensiSection() {
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
-    useInfiniteQuery({
-      queryKey: [
-        'pengguna.ruang-kelas.presensi.sesi-absensi',
-        'peserta',
+  const {
+    data,
+    isLoading,
+    isFetching,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      'pengguna.ruang-kelas.presensi.sesi-absensi',
+      'peserta',
+      idKelas,
+    ],
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listSesiAbsensiAction({
+        page,
+        search,
+        sort,
         idKelas,
-      ],
-      queryFn: async ({ pageParam: page }) => {
-        const { data } = await listSesiAbsensiAction({
-          page,
-          search,
-          sort,
-          idKelas,
-        })
+      })
 
-        return {
-          list: (data?.list ?? []).map(
-            (item) =>
-              ({
-                judul: item.judul_aktifitas,
-                waktu: item.waktu_absen,
-                status: mustBe(
-                  item.status,
-                  ['Hadir', 'Izin', 'Sakit', 'Alpha'],
-                  undefined
-                ),
-              } as AbsenItemType)
-          ),
-          pagination: data?.pagination,
-        }
-      },
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) =>
-        lastPage.pagination?.hasNextPage
-          ? (lastPage.pagination?.page ?? 1) + 1
-          : undefined,
-    })
+      return {
+        list: (data?.list ?? []).map(
+          (item) =>
+            ({
+              judul: item.judul,
+              waktu: item.tanggal_realisasi,
+              status: mustBe(
+                item.status_absensi,
+                ['Hadir', 'Izin', 'Sakit', 'Alpha'],
+                undefined
+              ),
+            } as AbsenItemType)
+        ),
+        pagination: data?.pagination,
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
 
   const list = data?.pages.flatMap((page) => page.list) || []
 
@@ -161,10 +169,17 @@ export default function PesertaAbsensiSection() {
         </Dropdown>
       </div>
 
-      {isFetching ? (
+      {isLoading ? (
         <ShimmerCard count={3} />
       ) : (
-        <Card className="p-0">
+        <Card className="relative p-0">
+          {isFetching && !isFetchingNextPage && (
+            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 rounded-md">
+              <div className="size-10 rounded-full bg-transparent">
+                <CgSpinner className="size-10 animate-spin text-primary" />
+              </div>
+            </div>
+          )}
           {list.length > 0 ? (
             list.map((item, idx) => (
               <div
@@ -212,6 +227,7 @@ export default function PesertaAbsensiSection() {
               </Text>
             </div>
           )}
+
           {!isLoading && hasNextPage && (
             <Loader ref={refSentry} size="sm" className="py-4" />
           )}
