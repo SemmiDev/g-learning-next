@@ -27,11 +27,11 @@ export type UbahJenisAbsenSesiFormSchema = {
 }
 
 const jenisAbsenOptions: RadioGroupOptionType[] = [
-  { label: 'Absensi Manual', value: 'Manual' },
-  { label: 'Absensi Otomatis', value: 'Otomatis' },
-  { label: 'Absensi GPS', value: 'GPS' },
-  { label: 'Absensi Swafoto', value: 'Swafoto' },
-  { label: 'Absensi GPS dan Swafoto', value: 'GPS dan Swafoto' },
+  { label: 'Presensi Manual', value: 'Manual' },
+  { label: 'Presensi Otomatis', value: 'Otomatis' },
+  { label: 'Presensi GPS', value: 'GPS' },
+  { label: 'Presensi Swafoto', value: 'Swafoto' },
+  { label: 'Presensi GPS dan Swafoto', value: 'GPS dan Swafoto' },
 ]
 
 type UbahMateriModalProps = {

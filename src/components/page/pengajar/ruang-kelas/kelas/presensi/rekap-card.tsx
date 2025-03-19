@@ -71,7 +71,7 @@ export default function RekapPresensiCard() {
           <Card className="flex justify-between">
             <div>
               <Text weight="semibold" variant="dark">
-                Judul sesi absensi
+                Judul sesi presensi
               </Text>
               <Text size="sm" weight="medium" variant="lighter">
                 Keterangan singkat terkait sesi kelas

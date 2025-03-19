@@ -121,7 +121,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
     await handleActionWithToast(
       simpanAbsensiAktifitasAction(idKelas, id, dataAbsen),
       {
-        loading: 'Menyimpan absensi...',
+        loading: 'Menyimpan presensi...',
       }
     )
   }

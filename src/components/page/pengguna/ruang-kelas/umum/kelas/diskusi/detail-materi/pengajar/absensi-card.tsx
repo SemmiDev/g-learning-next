@@ -123,7 +123,7 @@ export default function PengajarAbsensiCard({
     await handleActionWithToast(
       simpanAbsensiAktifitasAction(idKelas, id, dataAbsen),
       {
-        loading: 'Menyimpan absensi...',
+        loading: 'Menyimpan presensi...',
       }
     )
   }

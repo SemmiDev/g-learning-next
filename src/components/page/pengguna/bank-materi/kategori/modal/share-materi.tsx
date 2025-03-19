@@ -68,8 +68,8 @@ const optionsPresensi: RadioGroupOptionType[] = [
 ]
 
 const optionsTipePresensi: RadioGroupOptionType[] = [
-  { label: 'Absensi Manual', value: 'manual' },
-  { label: 'Absensi Otomatis', value: 'otomatis' },
+  { label: 'Presensi Manual', value: 'manual' },
+  { label: 'Presensi Otomatis', value: 'otomatis' },
 ]
 
 type ShareMateriModalProps = {

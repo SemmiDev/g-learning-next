@@ -112,7 +112,7 @@ export default function PengajarPresensiCard({
     await handleActionWithToast(
       simpanPresensiPesertaSesiAction(idKelas, idSesi, dataAbsen),
       {
-        loading: 'Menyimpan absensi...',
+        loading: 'Menyimpan presensi...',
         onSuccess: () => {
           queryClient.setQueryData(queryKey, (oldData: TableDataType) => ({
             ...oldData,

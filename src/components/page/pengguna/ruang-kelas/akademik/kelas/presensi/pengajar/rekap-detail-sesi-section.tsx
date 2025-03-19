@@ -89,7 +89,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
     const ws = utils.json_to_sheet(allData)
     const wb = utils.book_new()
     utils.book_append_sheet(wb, ws, 'Data')
-    writeFile(wb, `Data Absensi - ${data?.judul}.xlsx`)
+    writeFile(wb, `Data Presensi - ${data?.judul}.xlsx`)
   }, [idKelas, idSesi, data])
 
   useEffect(() => {

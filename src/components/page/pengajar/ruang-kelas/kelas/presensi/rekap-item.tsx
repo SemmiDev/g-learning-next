@@ -19,7 +19,7 @@ export default function RekapPresensiItem({
         weight="semibold"
         className={cn(active ? 'text-primary' : 'text-gray-dark')}
       >
-        Judul sesi absensi
+        Judul sesi presensi
       </Text>
       <Text size="sm" weight="semibold" variant="lighter">
         Kamis, 29 februari 2024, 23:59 WIB

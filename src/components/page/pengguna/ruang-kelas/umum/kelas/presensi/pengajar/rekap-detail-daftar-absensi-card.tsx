@@ -85,7 +85,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     await handleActionWithToast(
       simpanAbsensiAktifitasAction(idKelas, idAktifitas, dataAbsen),
       {
-        loading: 'Menyimpan absensi...',
+        loading: 'Menyimpan presensi...',
         onSuccess: () => {
           queryClient.setQueryData(queryKey, (oldData: TableDataType) => ({
             ...oldData,

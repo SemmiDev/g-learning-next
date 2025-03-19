@@ -44,12 +44,12 @@ export default function DetailPresensiModal({
             {data?.status || '-'}
           </DataRow>
           {!!data?.latitude && !!data?.longitude && (
-            <DataRow label="Posisi Absen">
+            <DataRow label="Posisi Presensi">
               <Map height={250} latLong={[data.latitude, data.longitude]} />
             </DataRow>
           )}
           {!!data?.swafoto_url && (
-            <DataRow label="Swafoto Absen">
+            <DataRow label="Swafoto Presensi">
               <Thumbnail
                 src={thumbnailFileUrl(data?.swafoto_url || undefined)}
                 alt="Swafoto"
