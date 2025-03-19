@@ -145,6 +145,7 @@ export default function HasilUjianModal({
             </table>
             <Tooltip
               placement="left"
+              color="invert"
               content={
                 selesai ? (
                   <div>

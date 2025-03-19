@@ -123,6 +123,7 @@ export default function HasilUjianCard({
           </table>
           <Tooltip
             placement="left"
+            color="invert"
             content={
               selesai ? (
                 <div>

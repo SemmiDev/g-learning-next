@@ -36,7 +36,7 @@ import {
   BsTrash3,
 } from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
-import { Dropdown } from 'rizzui'
+import { Dropdown, Tooltip } from 'rizzui'
 import TablePesertaCardShimmer from '../shimmer/table-peserta-card'
 
 type SortDataType = {
@@ -182,29 +182,35 @@ export default function TableUjianPesertaCard({
     {
       title: (
         <TableHeaderCell
-          title="Nilai Pilgan"
+          title="Nilai"
           align="center"
           className="justify-center"
         />
       ),
-      dataIndex: 'skor_akhir_pilihan_ganda',
-      render: (value: number) => (
-        <TableCellText align="center">{value ?? '-'}</TableCellText>
-      ),
-    },
-    {
-      title: (
-        <TableHeaderCell
-          title="Nilai Esai"
-          align="center"
-          className="justify-center"
-        />
-      ),
-      dataIndex: 'skor_akhir_essay',
+      dataIndex: 'skor_akhir',
       render: (value: number, row) => (
-        <TableCellText align="center">
-          {row.status_penilaian_essay === 1 ? value : '-'}
-        </TableCellText>
+        <Tooltip
+          color="invert"
+          content={
+            row.waktu_selesai ? (
+              <div>
+                Nilai Pilgan: {row?.skor_akhir_pilihan_ganda || '-'}
+                <br />
+                Nilai Esai:{' '}
+                {row?.status_penilaian_essay === 1 ||
+                row?.status_penilaian_essay === null ? (
+                  row?.skor_akhir_essay || '-'
+                ) : (
+                  <small>Belum Dinilai</small>
+                )}
+              </div>
+            ) : (
+              'Belum Ujian'
+            )
+          }
+        >
+          <TableCellText align="center">{value ?? '-'}</TableCellText>
+        </Tooltip>
       ),
     },
     {

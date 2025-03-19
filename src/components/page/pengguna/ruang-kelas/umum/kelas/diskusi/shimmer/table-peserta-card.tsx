@@ -29,13 +29,10 @@ export default function TablePesertaCardShimmer({
               <Shimmer className="h-2.5 w-24" />
             </td>
             <td className="p-2.5">
-              <Shimmer className="h-2.5 w-20" />
+              <Shimmer className="h-2.5 w-24" />
             </td>
             <td className="p-2.5">
-              <Shimmer className="h-2.5 w-16" />
-            </td>
-            <td className="p-2.5">
-              <Shimmer className="h-2.5 w-16" />
+              <Shimmer className="h-2.5 w-8" />
             </td>
             <td></td>
           </tr>
@@ -63,10 +60,7 @@ export default function TablePesertaCardShimmer({
                 <Shimmer className="h-2.5 w-8" />
               </td>
               <td className="p-2.5">
-                <Shimmer className="h-2.5 w-8" />
-              </td>
-              <td className="p-2.5">
-                {idx % 2 === 0 && <Shimmer className="h-6 w-8" />}
+                {idx % 2 === 0 && <Shimmer className="h-7 w-7" />}
               </td>
             </tr>
           ))}
