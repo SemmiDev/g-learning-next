@@ -9,8 +9,8 @@ import {
   TimeIndo,
 } from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
-import { parseDate } from '@/utils/date'
 import { stripHtmlAndEllipsis } from '@/utils/text'
+import { betweenTime, futureTime, passedTime } from '@/utils/time'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -156,15 +156,12 @@ export default function PesertaDaftarUjianSection() {
             list.map((item) => {
               const mengerjakan = !!item.id_jawaban
               const selesai = !!item.waktu_selesai
-              const jadwalMulai = parseDate(item.jadwal_mulai)
-              const jadwalSelesai = parseDate(item.jadwal_selesai)
-              const belumJadwal = !!jadwalMulai && jadwalMulai > new Date()
-              const lewatJadwal = !!jadwalSelesai && jadwalSelesai < new Date()
-              const dalamJadwal =
-                !!jadwalMulai &&
-                !!jadwalSelesai &&
-                jadwalMulai <= new Date() &&
-                jadwalSelesai >= new Date()
+              const belumJadwal = futureTime(item.jadwal_mulai)
+              const lewatJadwal = passedTime(item.jadwal_selesai)
+              const dalamJadwal = betweenTime(
+                item.jadwal_mulai,
+                item.jadwal_selesai
+              )
 
               return (
                 <div

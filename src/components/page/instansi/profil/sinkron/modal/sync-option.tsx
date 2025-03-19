@@ -7,8 +7,6 @@ import {
   Text,
   TextSpan,
 } from '@/components/ui'
-import cn from '@/utils/class-names'
-import { selectOption } from '@/utils/object'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useState } from 'react'

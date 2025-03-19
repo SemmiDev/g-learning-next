@@ -16,9 +16,9 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
-import { parseDate } from '@/utils/date'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { rupiah } from '@/utils/text'
+import { passedTime } from '@/utils/time'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
@@ -205,8 +205,7 @@ export default function TablePembayaranTagihanPenggunaCard() {
   }
 
   const lunas = dataTagihan?.status_tagihan === 'Lunas'
-  const jatuhTempo = parseDate(dataTagihan?.jatuh_tempo)
-  const lewatJatuhTempo = !lunas && jatuhTempo && jatuhTempo < new Date()
+  const lewatJatuhTempo = !lunas && passedTime(dataTagihan?.jatuh_tempo)
 
   return (
     <>

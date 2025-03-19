@@ -3,7 +3,7 @@ import { Button, Card, Loader, Shimmer, Text, Title } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import cn from '@/utils/class-names'
-import { parseDate } from '@/utils/date'
+import { passedTime } from '@/utils/time'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
@@ -138,25 +138,21 @@ export default function PengajarRekapTugasCard({
             )}
             <div className="lg:max-h-[58rem] lg:overflow-y-auto">
               {data.length > 0 ? (
-                data.map((item, idx) => {
-                  const batasWaktu = parseDate(item.batas_waktu)
-
-                  return (
-                    <RekapTugasItem
-                      key={item.id}
-                      idx={idx}
-                      sesi={{
-                        id: item.id,
-                        judul: item.judul,
-                        batasWaktu: item.batas_waktu,
-                        jumlah: item.total_pengumpulan_tugas,
-                      }}
-                      active={idSesiAktif === item.id}
-                      open={!batasWaktu || batasWaktu >= new Date()}
-                      onClick={() => setSearchParams({ sesi: item.id })}
-                    />
-                  )
-                })
+                data.map((item, idx) => (
+                  <RekapTugasItem
+                    key={item.id}
+                    idx={idx}
+                    sesi={{
+                      id: item.id,
+                      judul: item.judul,
+                      batasWaktu: item.batas_waktu,
+                      jumlah: item.total_pengumpulan_tugas,
+                    }}
+                    active={idSesiAktif === item.id}
+                    open={!passedTime(item.batas_waktu)}
+                    onClick={() => setSearchParams({ sesi: item.id })}
+                  />
+                ))
               ) : (
                 <div className="flex items-center justify-center h-40">
                   <Text size="sm" weight="medium">

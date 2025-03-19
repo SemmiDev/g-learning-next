@@ -9,8 +9,8 @@ import {
   Title,
 } from '@/components/ui'
 import cn from '@/utils/class-names'
-import { parseDate } from '@/utils/date'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { betweenTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -48,13 +48,10 @@ export default function HasilUjianCard({
     : undefined
 
   const selesai = !!data?.jawaban.waktu_selesai
-  const jadwalMulai = parseDate(data?.aktifitas.waktu_mulai_ujian)
-  const jadwalSelesai = parseDate(data?.aktifitas.waktu_selesai_ujian)
-  const dalamJadwal =
-    !!jadwalMulai &&
-    !!jadwalSelesai &&
-    jadwalMulai <= new Date() &&
-    jadwalSelesai >= new Date()
+  const dalamJadwal = betweenTime(
+    data?.aktifitas.waktu_mulai_ujian,
+    data?.aktifitas.waktu_selesai_ujian
+  )
 
   const sudahDinilai =
     data?.jawaban.status_penilaian_essay === 1 ||

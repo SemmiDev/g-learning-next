@@ -3,7 +3,7 @@ import { Button, Card, Loader, Shimmer, Text } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import cn from '@/utils/class-names'
-import { parseDate } from '@/utils/date'
+import { betweenTime } from '@/utils/time'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
@@ -128,31 +128,24 @@ export default function PengajarUjianBody() {
           )}
           <div className="lg:max-h-[58rem] lg:overflow-y-auto">
             {data.length > 0 ? (
-              data.map((item, idx) => {
-                const waktuMulai = parseDate(item.waktu_mulai_ujian)
-                const waktuSelesai = parseDate(item.waktu_selesai_ujian)
-
-                return (
-                  <PengajarRekapUjianItem
-                    key={item.id}
-                    idx={idx}
-                    sesi={{
-                      id: item.id,
-                      judul: item.judul,
-                      waktuMulai: item.waktu_mulai_ujian,
-                      waktuSelesai: item.waktu_selesai_ujian,
-                    }}
-                    active={item.id === idSesiAktif}
-                    open={
-                      !!waktuMulai &&
-                      !!waktuSelesai &&
-                      waktuMulai <= new Date() &&
-                      waktuSelesai >= new Date()
-                    }
-                    onClick={() => setSearchParams({ sesi: item.id })}
-                  />
-                )
-              })
+              data.map((item, idx) => (
+                <PengajarRekapUjianItem
+                  key={item.id}
+                  idx={idx}
+                  sesi={{
+                    id: item.id,
+                    judul: item.judul,
+                    waktuMulai: item.waktu_mulai_ujian,
+                    waktuSelesai: item.waktu_selesai_ujian,
+                  }}
+                  active={item.id === idSesiAktif}
+                  open={betweenTime(
+                    item.waktu_mulai_ujian,
+                    item.waktu_selesai_ujian
+                  )}
+                  onClick={() => setSearchParams({ sesi: item.id })}
+                />
+              ))
             ) : (
               <div className="flex items-center justify-center h-40">
                 <Text size="sm" weight="medium">

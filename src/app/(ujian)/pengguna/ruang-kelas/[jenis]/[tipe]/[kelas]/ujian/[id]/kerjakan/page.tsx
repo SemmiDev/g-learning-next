@@ -1,7 +1,7 @@
 import { lihatHasilUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import KerjakanUjianBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-ujian/kerjakan/ujian-body'
 import { metaObject } from '@/config/site.config'
-import { parseDate } from '@/utils/date'
+import { betweenTime } from '@/utils/time'
 import { notFound } from 'next/navigation'
 
 export const metadata = {
@@ -22,13 +22,10 @@ export default async function UjianPesertaPage({
   if (code === 404) return notFound()
 
   const selesai = !!data?.jawaban.waktu_selesai
-  const jadwalMulai = parseDate(data?.aktifitas.waktu_mulai_ujian)
-  const jadwalSelesai = parseDate(data?.aktifitas.waktu_selesai_ujian)
-  const dalamJadwal =
-    !!jadwalMulai &&
-    !!jadwalSelesai &&
-    jadwalMulai <= new Date() &&
-    jadwalSelesai >= new Date()
+  const dalamJadwal = betweenTime(
+    data?.aktifitas.waktu_mulai_ujian,
+    data?.aktifitas.waktu_selesai_ujian
+  )
 
   if (selesai || !dalamJadwal) return notFound()
 

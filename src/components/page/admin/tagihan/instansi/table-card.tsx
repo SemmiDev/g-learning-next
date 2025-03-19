@@ -20,6 +20,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { parseDate } from '@/utils/date'
 import { ellipsis, rupiah } from '@/utils/text'
+import { passedTime } from '@/utils/time'
 import Link from 'next/link'
 import { ColumnsType } from 'rc-table'
 import toast from 'react-hot-toast'
@@ -159,8 +160,7 @@ export default function TableTagihanInstansiCard() {
       dataIndex: 'jatuh_tempo',
       render: (value: string, row) => {
         const lunas = row?.status_tagihan === 'Lunas'
-        const jatuhTempo = parseDate(row.jatuh_tempo)
-        const lewatJatuhTempo = !lunas && jatuhTempo && jatuhTempo < new Date()
+        const lewatJatuhTempo = !lunas && passedTime(row.jatuh_tempo)
 
         return (
           <TableCellText
@@ -208,7 +208,7 @@ export default function TableTagihanInstansiCard() {
       render: (value: string, row) => {
         const lunas = row?.status_tagihan === 'Lunas'
         const jatuhTempo = parseDate(row.jatuh_tempo)
-        const lewatJatuhTempo = !lunas && jatuhTempo && jatuhTempo < new Date()
+        const lewatJatuhTempo = !lunas && passedTime(row.jatuh_tempo)
 
         return (
           <TableCellText align="center">

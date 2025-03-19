@@ -10,11 +10,11 @@ import {
   Time,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { parseDate } from '@/utils/date'
 import {
   makeSimpleQueryDataWithId,
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
+import { betweenTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
@@ -62,13 +62,10 @@ export default function HasilUjianModal({
   }
 
   const selesai = !!data?.jawaban.waktu_selesai
-  const jadwalMulai = parseDate(data?.aktifitas.waktu_mulai_ujian)
-  const jadwalSelesai = parseDate(data?.aktifitas.waktu_selesai_ujian)
-  const dalamJadwal =
-    !!jadwalMulai &&
-    !!jadwalSelesai &&
-    jadwalMulai <= new Date() &&
-    jadwalSelesai >= new Date()
+  const dalamJadwal = betweenTime(
+    data?.aktifitas.waktu_mulai_ujian,
+    data?.aktifitas.waktu_selesai_ujian
+  )
 
   const sudahDinilai =
     data?.jawaban.status_penilaian_essay === 1 ||
