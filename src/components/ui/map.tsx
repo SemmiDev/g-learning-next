@@ -5,10 +5,13 @@ import 'leaflet/dist/leaflet.css'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 L.Marker.prototype.options.icon = L.icon({
-  iconUrl: icon as unknown as string,
+  iconUrl: typeof icon === 'object' ? icon.src : (icon as unknown as string),
   iconSize: [25, 41],
   iconAnchor: [12, 41],
-  shadowUrl: iconShadow as unknown as string,
+  shadowUrl:
+    typeof iconShadow === 'object'
+      ? iconShadow.src
+      : (iconShadow as unknown as string),
 })
 
 type MapProps = {
