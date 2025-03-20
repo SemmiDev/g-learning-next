@@ -1,6 +1,6 @@
 import { lihatPesertaKelasAction } from '@/actions/shared/peserta-kelas/lihat'
 import PilihPesertaKelas from '@/components/shared/peserta-kelas/pilih-peserta'
-import { Button, Card, Shimmer, Text, Thumbnail } from '@/components/ui'
+import { ButtonSubmit, Card, Shimmer, Text, Thumbnail } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
@@ -89,9 +89,9 @@ export default function DetailPesertaCard({
           </div>
         </div>
         <div className="flex justify-end flex-1">
-          <Button type="submit" disabled={isSubmitting}>
+          <ButtonSubmit type="submit" isSubmitting={isSubmitting}>
             Simpan Penilaian
-          </Button>
+          </ButtonSubmit>
         </div>
       </Card>
 

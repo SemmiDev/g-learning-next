@@ -1,6 +1,6 @@
 import { absensiPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/absensi'
 import { Camera, Map } from '@/components/shared/absen'
-import { Button, Card, CardSeparator, Title } from '@/components/ui'
+import { ButtonSubmit, Card, CardSeparator, Title } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
@@ -64,15 +64,14 @@ export default function PesertaAbsensiCard({
       <CardSeparator />
 
       <div className="p-2">
-        <Button
+        <ButtonSubmit
           className="w-full"
           onClick={handleAbsensi}
-          disabled={
-            !(!!position && (!foto || (!!foto && !!photo))) || isSending
-          }
+          isSubmitting={isSending}
+          disabled={!(!!position && (!foto || (!!foto && !!photo)))}
         >
           Presensi dan Masuk Kelas
-        </Button>
+        </ButtonSubmit>
       </div>
     </Card>
   )

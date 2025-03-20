@@ -5,6 +5,7 @@ import { mulaiSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajara
 import { Camera, Map } from '@/components/shared/absen'
 import {
   Button,
+  ButtonSubmit,
   Card,
   CardSeparator,
   Loader,
@@ -125,18 +126,18 @@ export default function MulaiSesiBody() {
         <CardSeparator />
 
         <div className="p-2">
-          <Button
+          <ButtonSubmit
             className="w-full"
             onClick={handleAbsensi}
+            isSubmitting={isSending}
             disabled={
               (tipe === 'Swafoto' && !photo) ||
               (tipe === 'GPS' && !position) ||
-              (tipe !== 'Swafoto' && tipe !== 'GPS' && (!photo || !position)) ||
-              isSending
+              (tipe !== 'Swafoto' && tipe !== 'GPS' && (!photo || !position))
             }
           >
             Presensi dan Mulai Sesi
-          </Button>
+          </ButtonSubmit>
         </div>
       </Card>
     </>

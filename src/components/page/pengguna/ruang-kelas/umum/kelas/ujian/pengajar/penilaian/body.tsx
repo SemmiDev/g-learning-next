@@ -6,6 +6,7 @@ import { listJawabanUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/pen
 import { simpanNilaiUjianAction } from '@/actions/pengguna/ruang-kelas/ujian/pengajar/simpan-nilai-tugas'
 import {
   Button,
+  ButtonSubmit,
   Card,
   ControlledInputNumber,
   Form,
@@ -204,9 +205,9 @@ export default function PenilaianUjianBody() {
                   <tfoot>
                     <tr>
                       <td colSpan={4} align="right">
-                        <Button type="submit" disabled={isSubmitting}>
+                        <ButtonSubmit type="submit" isSubmitting={isSubmitting}>
                           Simpan Penilaian
-                        </Button>
+                        </ButtonSubmit>
                       </td>
                     </tr>
                   </tfoot>

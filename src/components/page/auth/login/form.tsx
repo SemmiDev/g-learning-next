@@ -2,7 +2,7 @@
 
 import {
   ActionIcon,
-  Button,
+  ButtonSubmit,
   Form,
   Modal,
   Text,
@@ -133,9 +133,13 @@ export default function LoginForm() {
                 </Link>
               </div>
 
-              <Button className="w-full" type="submit" disabled={isSubmitting}>
+              <ButtonSubmit
+                className="w-full"
+                type="submit"
+                isSubmitting={isSubmitting}
+              >
                 Masuk
-              </Button>
+              </ButtonSubmit>
             </div>
 
             <Modal
