@@ -9,6 +9,7 @@ export type DataType = {
   status: string
   deskripsi: string | null
   batas_waktu: string | null
+  id_pertemuan_kelas: string | null
 }
 
 export const listTugasAction = async ({

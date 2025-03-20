@@ -59,8 +59,6 @@ export default function PesertaDaftarTugasSection() {
     queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
   })
 
-  const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
-
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
       queryKey: ['pengguna.ruang-kelas.tugas.daftar-tugas', 'peserta', idKelas],
@@ -103,6 +101,9 @@ export default function PesertaDaftarTugasSection() {
   )
 
   if (isLoading) return <ShimmerSection />
+
+  const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
+  const tipeLink = dataKelas?.kelas.tipe === 'Akademik' ? 'linimasa' : 'diskusi'
 
   return (
     <>
@@ -160,6 +161,14 @@ export default function PesertaDaftarTugasSection() {
               const sudah = item.status === 'SUDAH_MENGUMPULKAN'
               const terlambat = passedTime(item.batas_waktu)
 
+              const linkDetail = `${
+                routes.pengguna.ruangKelas.diikuti[tipeKelas]
+              }/${idKelas}/${
+                item.id_pertemuan_kelas
+                  ? `sesi-pembelajaran/${item.id_pertemuan_kelas}`
+                  : tipeLink
+              }/tugas/${item.id}`
+
               return (
                 <div
                   key={item.id}
@@ -188,9 +197,7 @@ export default function PesertaDaftarTugasSection() {
                       />
                     </Text>
                   </div>
-                  <Link
-                    href={`${routes.pengguna.ruangKelas.diikuti[tipeKelas]}/${idKelas}/diskusi/tugas/${item.id}`}
-                  >
+                  <Link href={linkDetail}>
                     <Button
                       as="span"
                       size="sm"
