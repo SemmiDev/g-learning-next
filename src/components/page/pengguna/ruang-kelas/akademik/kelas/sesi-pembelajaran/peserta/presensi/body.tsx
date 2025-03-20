@@ -1,10 +1,11 @@
 'use client'
 
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { mulaiSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/mulai-sesi'
+import { presensiSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
 import { Camera, Map } from '@/components/shared/absen'
 import {
   Button,
+  ButtonSubmit,
   Card,
   CardSeparator,
   Loader,
@@ -23,7 +24,7 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
-export default function MulaiSesiBody() {
+export default function PresensiSesiBody() {
   const router = useRouter()
   const [position, setPosition] = useState<LatLng>()
   const [photo, setPhoto] = useState<File>()
@@ -48,7 +49,7 @@ export default function MulaiSesiBody() {
   })
 
   const tipe = mustBe(
-    data?.jenis_absensi_pengajar,
+    data?.jenis_absensi_peserta,
     ['GPS', 'Swafoto', 'GPS dan Swafoto'] as const,
     undefined
   )
@@ -63,12 +64,12 @@ export default function MulaiSesiBody() {
 
     if (photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(mulaiSesiAction(idKelas, idSesi, form), {
-      loading: 'Memulai sesi...',
+    await handleActionWithToast(presensiSesiAction(idKelas, idSesi, form), {
+      loading: 'Presensi sesi...',
       onStart: () => setIsSending(true),
       onSuccess: () => {
         router.replace(
-          `${routes.pengguna.ruangKelas.dikelola.akademik}/${idKelas}/sesi-pembelajaran`
+          `${routes.pengguna.ruangKelas.diikuti.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}`
         )
       },
       onFinish: () => setIsSending(false),
@@ -98,7 +99,7 @@ export default function MulaiSesiBody() {
           weight="semibold"
           className="flex flex-wrap gap-1.5 px-4 py-4 leading-4"
         >
-          <span>Mulai {data?.judul}</span>
+          <span>{data?.judul}</span>
           <small>
             (Presensi{' '}
             {tipe === 'Swafoto'
@@ -125,18 +126,18 @@ export default function MulaiSesiBody() {
         <CardSeparator />
 
         <div className="p-2">
-          <Button
+          <ButtonSubmit
             className="w-full"
             onClick={handleAbsensi}
+            isSubmitting={isSending}
             disabled={
               (tipe === 'Swafoto' && !photo) ||
               (tipe === 'GPS' && !position) ||
-              (tipe !== 'Swafoto' && tipe !== 'GPS' && (!photo || !position)) ||
-              isSending
+              (tipe !== 'Swafoto' && tipe !== 'GPS' && (!photo || !position))
             }
           >
-            Presensi dan Mulai Sesi
-          </Button>
+            Presensi dan Masuk Sesi
+          </ButtonSubmit>
         </div>
       </Card>
     </>

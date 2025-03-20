@@ -2,7 +2,8 @@ import L, { LatLng } from 'leaflet'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 import 'leaflet/dist/leaflet.css'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { useEffect } from 'react'
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: typeof icon === 'object' ? icon.src : (icon as unknown as string),
@@ -35,7 +36,18 @@ export default function Map({ latLong, height, className }: MapProps) {
         <Marker position={position}>
           <Popup>Posisi Sekarang</Popup>
         </Marker>
+        <MapReloader />
       </MapContainer>
     </div>
   )
+}
+
+function MapReloader() {
+  const map = useMap()
+
+  useEffect(() => {
+    map.invalidateSize()
+  }, [map])
+
+  return null
 }

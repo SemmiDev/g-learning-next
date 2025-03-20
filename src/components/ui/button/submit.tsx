@@ -1,8 +1,8 @@
+import { forwardRef } from 'react'
 import { Loader, LoaderTypes } from 'rizzui'
 import Button, { ButtonProps } from './button'
-import { forwardRef } from 'react'
 
-export type ButtonSubmitProps = ButtonProps & {
+export type ButtonSubmitProps = Omit<ButtonProps, 'isLoading'> & {
   isSubmitting?: boolean
   loaderSize?: LoaderTypes['size']
 }

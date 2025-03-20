@@ -138,7 +138,7 @@ export default function UbahUjianModal({
         jenis: selectOption(
           mustBe(
             data?.aktifitas.kategori_nilai,
-            ['Tugas', 'UTS', 'UAS'],
+            ['Tugas', 'UTS', 'UAS'] as const,
             'Tugas'
           )
         ),

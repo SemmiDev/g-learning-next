@@ -12,6 +12,7 @@ import {
 import { thumbnailFileUrl } from '@/utils/file-url'
 import dynamic from 'next/dynamic'
 import { ReactNode, useState } from 'react'
+import 'leaflet/dist/leaflet.css'
 
 const Map = dynamic(() => import('@/components/ui/map'), { ssr: false })
 

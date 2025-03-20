@@ -43,7 +43,11 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
     queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
   })
 
-  const tipe = mustBe(dataAktifitas?.aktifitas.absen, ['Manual', null], null)
+  const tipe = mustBe(
+    dataAktifitas?.aktifitas.absen,
+    ['Manual', null] as const,
+    null
+  )
 
   const queryKey = ['pengguna.ruang-kelas.detail.absensi', idKelas, id]
 
