@@ -82,17 +82,23 @@ export default function PengajarUjianBody() {
             size="sm"
             type="search"
             placeholder="Cari Sesi Ujian"
-            clearable
+            inputClassName="bg-white"
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }
             value={search}
             onChange={(e) => onSearch(e.target.value)}
+            clearable
             onClear={() => onSearch('')}
           />
           <Dropdown>
             <Dropdown.Trigger>
-              <Button as="span" size="sm" variant="outline">
+              <Button
+                as="span"
+                size="sm"
+                variant="outline"
+                className="bg-white"
+              >
                 {sorting && (
                   <>
                     {sorting?.title} <BsChevronDown className="ml-2 w-5" />
