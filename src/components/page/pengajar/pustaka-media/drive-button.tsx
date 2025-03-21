@@ -26,7 +26,7 @@ export default function DriveButton({
   return (
     <button
       className={cn(
-        'flex text-left rounded-lg border border-mute shadow-sm min-w-80 overflow-clip duration-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-gray-50/30',
+        'flex text-left rounded-lg border border-muted shadow-sm min-w-80 overflow-clip duration-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-gray-50/30',
         { 'border-primary': active }
       )}
       {...props}

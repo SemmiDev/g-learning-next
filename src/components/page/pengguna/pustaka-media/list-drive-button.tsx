@@ -39,6 +39,7 @@ function ListShimmer({ className }: { className?: string }) {
       {[...Array(2)].map((_, idx) => (
         <Card
           key={idx}
+          rounded="lg"
           className="flex flex-col items-stretch w-80 gap-y-1 p-2"
         >
           <div className="flex justify-between gap-x-2 py-1.5">

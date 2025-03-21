@@ -2,11 +2,20 @@
 
 import { hapusKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/hapus'
 import { listKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/list'
-import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import {
+  Button,
+  Card,
+  Loader,
+  ModalConfirm,
+  Shimmer,
+  Text,
+  Title,
+} from '@/components/ui'
 import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
@@ -104,28 +113,39 @@ export default function ListKategoriSoalBody() {
         </Button>
       </div>
 
-      {isLoading || (!list.length && isFetching) ? (
-        <Loader height={300} />
-      ) : list.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {list.map((kategori) => (
-            <KategoriCard
-              key={kategori.id}
-              kategori={kategori}
-              onEdit={(id) => doShowUbah(id)}
-              onDelete={(id) => setIdHapus(id)}
-            />
-          ))}
-        </div>
+      {isLoading ? (
+        <ListItemShimmer />
       ) : (
-        <div className="flex items-center justify-center h-72">
-          <Text size="sm" weight="medium">
-            {search ? 'Kategori tidak ditemukan' : 'Belum ada kategori'}
-          </Text>
+        <div className="relative mt-4">
+          {isFetching && (
+            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-white/50 rounded-lg z-10">
+              <div className="size-10 rounded-full bg-transparent">
+                <CgSpinner className="size-10 animate-spin text-primary" />
+              </div>
+            </div>
+          )}
+          {list.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {list.map((kategori) => (
+                <KategoriCard
+                  key={kategori.id}
+                  kategori={kategori}
+                  onEdit={(id) => doShowUbah(id)}
+                  onDelete={(id) => setIdHapus(id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-72">
+              <Text size="sm" weight="medium">
+                {search ? 'Kategori tidak ditemukan' : 'Belum ada kategori'}
+              </Text>
+            </div>
+          )}
+
+          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
         </div>
       )}
-
-      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <TambahKategoriModal show={showTambah} setShow={setShowTambah} />
 
@@ -142,5 +162,19 @@ export default function ListKategoriSoalBody() {
         closeOnCancel
       />
     </>
+  )
+}
+
+function ListItemShimmer() {
+  return (
+    <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {[...Array(5)].map((_, idx) => (
+        <Card key={idx} shadow="sm" rounded="lg">
+          <Shimmer className="size-11 mb-4" />
+          <Shimmer className="h-3.5 w-5/12 my-3.5" />
+          <Shimmer className="h-2.5 w-8/12 my-1.5" />
+        </Card>
+      ))}
+    </div>
   )
 }

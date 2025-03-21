@@ -37,12 +37,10 @@ export default function KategoriCard({
         href={`${routes.pengguna.bankMateri}/${kategori.id}`}
         className="flex flex-col p-2"
       >
-        <div className="h-[60px]">
-          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
-            <figure className="size-5">
-              <Image src={iconFolder} alt="folder" />
-            </figure>
-          </div>
+        <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 mb-4">
+          <figure className="size-5">
+            <Image src={iconFolder} alt="folder" />
+          </figure>
         </div>
         <Title
           as="h4"

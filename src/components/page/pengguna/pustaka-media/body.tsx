@@ -5,6 +5,7 @@ import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
 import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
 import {
   Button,
+  Card,
   FilePreviewType,
   isPreviewableFile,
   Loader,
@@ -13,6 +14,7 @@ import {
   PustakaMediaDriveType,
   PustakaMediaFileType,
   PustakaMediaFolderType,
+  Shimmer,
   Text,
   TextSpan,
   Title,
@@ -44,6 +46,7 @@ import TambahFolderModal from './modal/tambah-folder'
 import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
+import { CgSpinner } from 'react-icons/cg'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -335,57 +338,67 @@ export default function PustakaMediaBody() {
         )}
       </div>
 
-      {isLoadingFiles || (!files.length && isFetchingFiles) ? (
-        <Loader height={300} />
-      ) : files.length ? (
-        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {files.map((file) => (
-            <FileCard
-              key={file.id}
-              file={file}
-              onEdit={handleUbah}
-              onDelete={(file) => setFileHapus(file)}
-              onFileClick={(file) => {
-                if (!file.link) return
-
-                setFilePreview({
-                  url: file.link,
-                  extension: file.extension,
-                })
-              }}
-              onFolderClick={(file) => {
-                setActiveFolder(file.id)
-                setListFolder((list) => [
-                  ...list,
-                  {
-                    name: file.name,
-                    id: file.id,
-                  },
-                ])
-
-                const drive = drives.filter(
-                  (d) => d.id === (file.driveId ?? null)
-                )[0]
-                setActiveDrive(drive.id)
-              }}
-              pointer={
-                file.folder ||
-                file.type === 'link' ||
-                (!!file.link && isPreviewableFile(file.link, file.extension))
-              }
-            />
-          ))}
-        </div>
+      {isLoadingFiles ? (
+        <ListFileShimmer />
       ) : (
-        <div className="flex items-center justify-center h-72">
-          <Text size="sm" weight="medium">
-            {search ? 'Berkas tidak ditemukan' : 'Belum ada berkas'}
-          </Text>
-        </div>
-      )}
+        <div className="relative mt-4">
+          {isFetchingFiles && (
+            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-white/50 rounded-lg z-10">
+              <div className="size-10 rounded-full bg-transparent">
+                <CgSpinner className="size-10 animate-spin text-primary" />
+              </div>
+            </div>
+          )}
+          {files.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {files.map((file) => (
+                <FileCard
+                  key={file.id}
+                  file={file}
+                  onEdit={handleUbah}
+                  onDelete={(file) => setFileHapus(file)}
+                  onFileClick={(file) => {
+                    if (!file.link) return
 
-      {!isLoadingFiles && hasNextPageFiles && (
-        <Loader ref={refSentry} className="py-4" />
+                    setFilePreview({
+                      url: file.link,
+                      extension: file.extension,
+                    })
+                  }}
+                  onFolderClick={(file) => {
+                    setActiveFolder(file.id)
+                    setListFolder((list) => [
+                      ...list,
+                      {
+                        name: file.name,
+                        id: file.id,
+                      },
+                    ])
+
+                    const drive = drives.filter(
+                      (d) => d.id === (file.driveId ?? null)
+                    )[0]
+                    setActiveDrive(drive.id)
+                  }}
+                  pointer={
+                    file.folder ||
+                    file.type === 'link' ||
+                    (!!file.link &&
+                      isPreviewableFile(file.link, file.extension))
+                  }
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-72">
+              <Text size="sm" weight="medium">
+                {search ? 'Berkas tidak ditemukan' : 'Belum ada berkas'}
+              </Text>
+            </div>
+          )}
+
+          {hasNextPageFiles && <Loader ref={refSentry} className="py-4" />}
+        </div>
       )}
 
       <TambahFolderModal
@@ -447,5 +460,19 @@ export default function PustakaMediaBody() {
         closeOnCancel
       />
     </>
+  )
+}
+
+function ListFileShimmer() {
+  return (
+    <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {[...Array(5)].map((_, idx) => (
+        <Card key={idx} shadow="sm" rounded="lg">
+          <Shimmer className="size-11 mb-4" />
+          <Shimmer className="h-3.5 w-5/12 my-3.5" />
+          <Shimmer className="h-2.5 w-8/12 my-1.5" />
+        </Card>
+      ))}
+    </div>
   )
 }

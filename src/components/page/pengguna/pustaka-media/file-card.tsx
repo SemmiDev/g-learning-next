@@ -62,59 +62,11 @@ export default function FileCard({
         className
       )}
     >
-      <div className="flex">
-        <LinkOrDiv
-          className={cn('flex-1 h-[60px]', { 'cursor-pointer': pointer })}
-          {...linkingProps}
-        >
-          <FileIcon file={file} />
-        </LinkOrDiv>
-        <div className="flex flex-col">
-          <Dropdown placement="bottom-end">
-            <Dropdown.Trigger>
-              <ActionIcon as="span" size="sm" variant="outline-hover">
-                <BsThreeDotsVertical size={14} />
-              </ActionIcon>
-            </Dropdown.Trigger>
-            <Dropdown.Menu className="w-30 divide-y !py-0">
-              <div className="py-2">
-                {!file.folder && file.type !== 'link' && file.link && (
-                  <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
-                    <Dropdown.Item className="text-gray-dark">
-                      <BsDownload className="text-primary size-4 mr-2" />
-                      Unduh
-                    </Dropdown.Item>
-                  </Link>
-                )}
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={() => onEdit && onEdit(file)}
-                >
-                  <BsPencil className="text-warning size-4 mr-2" />
-                  Ubah
-                </Dropdown.Item>
-              </div>
-              <div className="py-2">
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={() => onDelete && onDelete(file)}
-                >
-                  <BsTrash3 className="text-danger size-4 mr-2" />
-                  Hapus
-                </Dropdown.Item>
-              </div>
-            </Dropdown.Menu>
-          </Dropdown>
-          <LinkOrDiv
-            className={cn('flex-1', { 'cursor-pointer': pointer })}
-            {...linkingProps}
-          />
-        </div>
-      </div>
       <LinkOrDiv
         className={cn({ 'cursor-pointer': pointer })}
         {...linkingProps}
       >
+        <FileIcon file={file} className="mb-4" />
         <Title
           as="h4"
           size="base"
@@ -157,6 +109,41 @@ export default function FileCard({
           </ul>
         )}
       </LinkOrDiv>
+      <Dropdown placement="bottom-end" className="absolute top-2 right-2">
+        <Dropdown.Trigger>
+          <ActionIcon as="span" size="sm" variant="outline-hover">
+            <BsThreeDotsVertical size={14} />
+          </ActionIcon>
+        </Dropdown.Trigger>
+        <Dropdown.Menu className="w-30 divide-y !py-0">
+          <div className="py-2">
+            {!file.folder && file.type !== 'link' && file.link && (
+              <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
+                <Dropdown.Item className="text-gray-dark">
+                  <BsDownload className="text-primary size-4 mr-2" />
+                  Unduh
+                </Dropdown.Item>
+              </Link>
+            )}
+            <Dropdown.Item
+              className="text-gray-dark"
+              onClick={() => onEdit && onEdit(file)}
+            >
+              <BsPencil className="text-warning size-4 mr-2" />
+              Ubah
+            </Dropdown.Item>
+          </div>
+          <div className="py-2">
+            <Dropdown.Item
+              className="text-gray-dark"
+              onClick={() => onDelete && onDelete(file)}
+            >
+              <BsTrash3 className="text-danger size-4 mr-2" />
+              Hapus
+            </Dropdown.Item>
+          </div>
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   )
 }
