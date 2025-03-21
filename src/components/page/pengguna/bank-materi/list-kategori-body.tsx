@@ -169,10 +169,10 @@ function ListItemShimmer() {
   return (
     <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {[...Array(5)].map((_, idx) => (
-        <Card key={idx} shadow="sm" rounded="lg">
+        <Card key={idx} shadow="sm" rounded="lg" className="flex flex-col">
           <Shimmer className="size-11 mb-4" />
-          <Shimmer className="h-3.5 w-5/12 my-3.5" />
-          <Shimmer className="h-2.5 w-8/12 my-1.5" />
+          <Shimmer className="h-3 w-5/12 my-1.5" />
+          <Shimmer className="h-2 w-8/12 my-1.5" />
         </Card>
       ))}
     </div>

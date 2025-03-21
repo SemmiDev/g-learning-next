@@ -71,53 +71,15 @@ export default function BerkasCard({
   return (
     <div
       className={cn(
-        'relative rounded-lg border border-muted p-2 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
+        'relative bg-white rounded-lg border border-muted p-2 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-muted/5',
         className
       )}
     >
-      <div className="flex">
-        <LinkOrDiv
-          className={cn('flex-1 h-[60px]', { 'cursor-pointer': pointer })}
-          {...linkingProps}
-        >
-          <FileIcon file={file} />
-        </LinkOrDiv>
-        <div className="flex flex-col">
-          <Dropdown placement="bottom-end">
-            <Dropdown.Trigger>
-              <ActionIcon as="span" size="sm" variant="outline-hover">
-                <BsThreeDotsVertical size={14} />
-              </ActionIcon>
-            </Dropdown.Trigger>
-            <Dropdown.Menu className="w-30 divide-y !py-0">
-              <div className="py-2">
-                <Link href={linkToKelas}>
-                  <Dropdown.Item className="text-gray-dark">
-                    <GrShare className="text-success-dark size-4 mr-2" />
-                    Buka Diskusi Terkait
-                  </Dropdown.Item>
-                </Link>
-                {!file.folder && file.type !== 'link' && file.link && (
-                  <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
-                    <Dropdown.Item as="li" className="text-gray-dark">
-                      <BsDownload className="text-primary size-4 mr-2" />
-                      Unduh
-                    </Dropdown.Item>
-                  </Link>
-                )}
-              </div>
-            </Dropdown.Menu>
-          </Dropdown>
-          <LinkOrDiv
-            className={cn('flex-1', { 'cursor-pointer': pointer })}
-            {...linkingProps}
-          />
-        </div>
-      </div>
       <LinkOrDiv
         className={cn({ 'cursor-pointer': pointer })}
         {...linkingProps}
       >
+        <FileIcon file={file} className="mb-4" />
         <Title
           as="h4"
           size="base"
@@ -151,6 +113,31 @@ export default function BerkasCard({
           {file.aktifitas}
         </Text>
       </LinkOrDiv>
+      <Dropdown placement="bottom-end" className="absolute top-2 right-2">
+        <Dropdown.Trigger>
+          <ActionIcon as="span" size="sm" variant="outline-hover">
+            <BsThreeDotsVertical size={14} />
+          </ActionIcon>
+        </Dropdown.Trigger>
+        <Dropdown.Menu className="w-30 divide-y !py-0">
+          <div className="py-2">
+            <Link href={linkToKelas}>
+              <Dropdown.Item className="text-gray-dark">
+                <GrShare className="text-success-dark size-4 mr-2" />
+                Buka Diskusi Terkait
+              </Dropdown.Item>
+            </Link>
+            {!file.folder && file.type !== 'link' && file.link && (
+              <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
+                <Dropdown.Item as="li" className="text-gray-dark">
+                  <BsDownload className="text-primary size-4 mr-2" />
+                  Unduh
+                </Dropdown.Item>
+              </Link>
+            )}
+          </div>
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   )
 }

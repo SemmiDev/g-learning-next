@@ -4,10 +4,12 @@ import { listBerkasKelasAction } from '@/actions/pengguna/ruang-kelas/berkas/lis
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
+  Card,
   FilePreviewType,
   Input,
   Loader,
   ModalFilePreview,
+  Shimmer,
   Text,
 } from '@/components/ui'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
@@ -16,6 +18,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
@@ -177,40 +180,66 @@ export default function BerkasBody() {
         </Dropdown>
       </div>
 
-      {isLoading || (!files.length && isFetching) ? (
-        <Loader height={300} />
-      ) : files.length ? (
-        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          {files.map((file) => (
-            <BerkasCard
-              key={`${file.id}-${file.idAktifitas}`}
-              kelas={dataKelas}
-              file={file}
-              onPreview={(file) => {
-                if (!file.link) return
-
-                setFilePreview({
-                  url: file.link,
-                  extension: file.extension,
-                })
-              }}
-            />
-          ))}
-        </div>
+      {isLoading ? (
+        <ListItemShimmer />
       ) : (
-        <div className="flex items-center justify-center h-72">
-          <Text size="sm" weight="medium">
-            {search ? 'Berkas tidak ditemukan' : 'Belum ada berkas'}
-          </Text>
+        <div className="relative mt-4">
+          {isFetching && (
+            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-white/50 rounded-lg z-10">
+              <div className="size-10 rounded-full bg-transparent">
+                <CgSpinner className="size-10 animate-spin text-primary" />
+              </div>
+            </div>
+          )}
+          {files.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              {files.map((file) => (
+                <BerkasCard
+                  key={`${file.id}-${file.idAktifitas}`}
+                  kelas={dataKelas}
+                  file={file}
+                  onPreview={(file) => {
+                    if (!file.link) return
+
+                    setFilePreview({
+                      url: file.link,
+                      extension: file.extension,
+                    })
+                  }}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-72">
+              <Text size="sm" weight="medium">
+                {search ? 'Berkas tidak ditemukan' : 'Belum ada berkas'}
+              </Text>
+            </div>
+          )}
+
+          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
         </div>
       )}
-
-      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <ModalFilePreview
         file={filePreview}
         onClose={() => setFilePreview(undefined)}
       />
     </>
+  )
+}
+
+function ListItemShimmer() {
+  return (
+    <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {[...Array(5)].map((_, idx) => (
+        <Card key={idx} shadow="sm" rounded="lg" className="flex flex-col">
+          <Shimmer className="size-11 mb-4" />
+          <Shimmer className="h-3 w-5/12 my-2" />
+          <Shimmer className="h-2 w-8/12 my-1.5" />
+          <Shimmer className="h-2 w-6/12 my-1" />
+        </Card>
+      ))}
+    </div>
   )
 }
