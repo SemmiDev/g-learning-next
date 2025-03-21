@@ -36,7 +36,7 @@ export default function ListDriveButton({
 function ListShimmer({ className }: { className?: string }) {
   return (
     <div className={cn('flex flex-wrap gap-4', className)}>
-      {[...Array(3)].map((_, idx) => (
+      {[...Array(2)].map((_, idx) => (
         <Card
           key={idx}
           className="flex flex-col items-stretch w-80 gap-y-1 p-2"
