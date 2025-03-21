@@ -279,18 +279,24 @@ export default function PustakaMediaBody() {
             size="sm"
             type="search"
             placeholder="Cari Berkas"
-            clearable
             className="w-72 sm:w-96"
+            inputClassName="bg-white"
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            clearable
             onClear={() => setSearch('')}
           />
           <Dropdown>
             <Dropdown.Trigger>
-              <Button as="span" size="sm" variant="outline">
+              <Button
+                as="span"
+                size="sm"
+                variant="outline"
+                className="bg-white"
+              >
                 {sortData[sort]} <BsChevronDown className="ml-2 w-5" />
               </Button>
             </Dropdown.Trigger>
@@ -313,6 +319,7 @@ export default function PustakaMediaBody() {
             <Button
               size="sm"
               variant="outline-colorful"
+              className="bg-white"
               onClick={() => setShowTambahBerkas(true)}
             >
               {activeDrive !== 'GOOGLE_DRIVE' ? 'Tambah Link/' : ''}Unggah Media
@@ -320,6 +327,7 @@ export default function PustakaMediaBody() {
             <Button
               size="sm"
               variant="outline-colorful"
+              className="bg-white"
               onClick={() => setShowTambahFolder(true)}
             >
               Tambah Folder

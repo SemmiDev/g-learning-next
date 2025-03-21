@@ -144,16 +144,18 @@ export default function ListMateriBody() {
           size="sm"
           type="search"
           placeholder="Cari Bank Materi"
-          clearable
           className="w-72 sm:w-96"
+          inputClassName="bg-white"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          clearable
           onClear={() => setSearch('')}
         />
         <Button
           size="sm"
           variant="outline-colorful"
+          className="bg-white"
           onClick={() => setShowTambah(true)}
         >
           Tambah Materi

@@ -1,5 +1,5 @@
 import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
-import ListMateriBody from '@/components/page/pengguna/bank-materi/kategori/list-materi'
+import ListMateriBody from '@/components/page/pengguna/bank-materi/kategori/list-materi-body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

@@ -112,16 +112,17 @@ export default function PesertaDaftarTugasSection() {
           size="sm"
           type="search"
           placeholder="Cari sesi belajar"
-          clearable
           className="w-72 sm:w-96"
+          inputClassName="bg-white"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          clearable
           onClear={() => setSearch('')}
         />
         <Dropdown>
           <Dropdown.Trigger>
-            <Button as="span" size="sm" variant="outline">
+            <Button as="span" size="sm" variant="outline" className="bg-white">
               {sorting && (
                 <>
                   {sorting?.title} <BsChevronDown className="ml-2 w-5" />

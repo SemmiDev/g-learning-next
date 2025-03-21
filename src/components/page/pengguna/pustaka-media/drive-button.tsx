@@ -22,7 +22,7 @@ export default function DriveButton({
   if (drive.id === 'GOOGLE_DRIVE' && !drive.active) {
     return (
       <button
-        className="flex text-left rounded-lg border border-mute shadow-sm min-w-80 overflow-clip duration-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-gray-50/30"
+        className="flex bg-white text-left rounded-lg border border-mute shadow-sm min-w-80 overflow-clip duration-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-muted/5"
         onClick={() => {
           location.href = routes.pengguna.googleDrive
         }}
@@ -57,7 +57,7 @@ export default function DriveButton({
   return (
     <button
       className={cn(
-        'flex text-left rounded-lg border border-mute shadow-sm min-w-80 overflow-clip duration-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-gray-50/30',
+        'flex bg-white text-left rounded-lg border border-mute shadow-sm min-w-80 overflow-clip duration-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-muted/5',
         { 'border-primary': active }
       )}
       {...props}

@@ -48,7 +48,7 @@ export default function SoalCard({
   return (
     <div
       className={cn(
-        'relative rounded-lg border border-muted p-2 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
+        'relative bg-white rounded-lg border border-muted p-2 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
         className
       )}
     >
