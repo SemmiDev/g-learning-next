@@ -63,7 +63,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
           />
         </div>
         <div className="flex flex-col gap-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mx-2 my-2 xs:flex-row">
-          <figure className="flex justify-center items-center self-center size-[52px] rounded btn-item-blue">
+          <figure className="flex justify-center items-center self-center size-14 rounded btn-item-blue">
             <BsCardChecklist size={24} />
           </figure>
           <div className="flex flex-col gap-x-2 2xl:flex-row [&_td]:align-top">

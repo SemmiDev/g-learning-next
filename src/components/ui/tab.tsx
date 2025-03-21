@@ -81,7 +81,7 @@ export const TabGroup = ({
       >
         <PiCaretLeftBold className="w-5" />
       </Button>
-      <div className="flex h-[52px] items-start overflow-hidden">
+      <div className="flex items-start overflow-hidden">
         <div
           className="flex w-full overflow-x-auto scroll-smooth"
           ref={sliderEl}

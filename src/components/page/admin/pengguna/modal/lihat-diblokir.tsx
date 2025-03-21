@@ -68,7 +68,7 @@ export default function LihatDiblokirModal({
       ) : (
         <>
           <div className="flex flex-col items-center p-3">
-            <figure className="shrink-0 size-[150px] border border-muted rounded mb-2">
+            <figure className="shrink-0 size-36 border border-muted rounded mb-2">
               <Image
                 src={imagePhoto}
                 alt="foto profil"

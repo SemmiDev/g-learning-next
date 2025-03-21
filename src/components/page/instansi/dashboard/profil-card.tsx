@@ -19,12 +19,12 @@ export default function DashboardProfilCard() {
 
   return (
     <Card className="flex flex-col p-0">
-      <div className="relative h-[250px]">
+      <div className="relative h-60">
         <BackgroundProfil
           persistentKey={`${data?.instansi?.nama}${new Date()
             .toJSON()
             .slice(0, 10)}`}
-          className="absolute w-full h-[150px]"
+          className="absolute w-full h-36"
         />
         <div className="absolute flex flex-col items-center pt-4 pb-4 m-auto left-0 right-0">
           <Thumbnail

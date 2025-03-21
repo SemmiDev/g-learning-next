@@ -36,7 +36,7 @@ export default function UjianCard({ className }: { className?: string }) {
         </Text>
 
         <div className="flex items-center gap-x-2 bg-gray-50/40 border border-dashed border-gray-100 rounded-md p-2 mt-2">
-          <figure className="flex justify-center items-center size-[52px] rounded btn-item-blue">
+          <figure className="flex justify-center items-center size-14 rounded btn-item-blue">
             <BsCardChecklist size={24} />
           </figure>
           <div className="flex flex-col gap-2 2xl:flex-row">

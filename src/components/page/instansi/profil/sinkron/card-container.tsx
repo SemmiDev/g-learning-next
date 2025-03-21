@@ -24,10 +24,10 @@ export default function SinkronCardContainer({
   return (
     <Card className={cn('p-0', className)}>
       <div
-        className="flex justify-center items-center h-[150px] gap-x-2 px-3 py-3"
+        className="flex justify-center items-center h-36 gap-x-2 px-3 py-3"
         style={{ backgroundColor: bgColor }}
       >
-        <figure className="shrink-0 h-[60px] xs:h-[100px] sm:h-[125px]">
+        <figure className="shrink-0 h-16 xs:h-24 sm:h-28">
           <Image
             src={logo}
             alt="sinkron"
