@@ -58,7 +58,7 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
     ),
   })
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>
@@ -151,7 +151,7 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn('flex flex-col gap-y-3', className)}>
       <div className="flex justify-between items-center gap-x-2 py-1">

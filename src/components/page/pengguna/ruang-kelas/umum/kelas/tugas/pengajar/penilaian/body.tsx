@@ -163,7 +163,7 @@ export default function PenilaianTugasBody() {
 
             <div className="flex flex-wrap items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
               {isLoading ? (
-                <ShimmerSection />
+                <SectionShimmer />
               ) : (
                 <>
                   <Card className="flex flex-col flex-1 p-0">
@@ -248,7 +248,7 @@ export default function PenilaianTugasBody() {
   )
 }
 
-function ShimmerSection() {
+function SectionShimmer() {
   return (
     <>
       <Card className="flex flex-col flex-1 p-0">

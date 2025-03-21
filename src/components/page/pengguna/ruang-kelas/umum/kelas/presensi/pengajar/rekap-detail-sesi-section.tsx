@@ -108,7 +108,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
     setUbahData(false)
   }, [data])
 
-  if (isLoading) return <ShimmerSection className={className} />
+  if (isLoading) return <SectionShimmer className={className} />
 
   if (!idAktifitas) return null
 
@@ -178,7 +178,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
   )
 }
 
-function ShimmerSection({ className }: { className?: string }) {
+function SectionShimmer({ className }: { className?: string }) {
   return (
     <div className={className}>
       <Card className="flex justify-between gap-x-6 py-4">

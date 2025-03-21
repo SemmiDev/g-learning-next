@@ -37,8 +37,8 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { Dropdown, Input } from 'rizzui'
-import DriveButton from './drive-button'
 import FileCard from './file-card'
+import ListDriveButton from './list-drive-button'
 import TambahBerkasModal from './modal/tambah-berkas'
 import TambahFolderModal from './modal/tambah-folder'
 import UbahBerkasModal from './modal/ubah-berkas'
@@ -86,7 +86,9 @@ export default function PustakaMediaBody() {
   } = useShowModal<string>()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
-  const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
+  const { data: drives = [], isLoading: isLoadingDrive } = useQuery<
+    PustakaMediaDriveType[]
+  >({
     queryKey: queryKeyDrive,
     queryFn: async () => {
       const { data } = await driveInfoAction()
@@ -222,20 +224,17 @@ export default function PustakaMediaBody() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-4 mb-6">
-        {drives.map((drive) => (
-          <DriveButton
-            drive={drive}
-            active={activeDrive === drive.id}
-            onClick={() => {
-              setActiveDrive(drive.id)
-              setActiveFolder(undefined)
-              setListFolder([])
-            }}
-            key={drive.id}
-          />
-        ))}
-      </div>
+      <ListDriveButton
+        drives={drives}
+        activeDrive={activeDrive}
+        isLoading={isLoadingDrive}
+        className="mb-6"
+        onClick={(id) => {
+          setActiveDrive(id)
+          setActiveFolder(undefined)
+          setListFolder([])
+        }}
+      />
       <div className="flex flex-wrap items-center gap-y-1 mb-3">
         <Title as="h4" size="1.5xl" weight="semibold" className="leading-tight">
           {activeDrive === undefined

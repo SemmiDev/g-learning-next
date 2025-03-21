@@ -100,7 +100,7 @@ export default function PesertaDaftarTugasSection() {
     (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
   )
 
-  if (isLoading) return <ShimmerSection />
+  if (isLoading) return <SectionShimmer />
 
   const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
   const tipeLink = dataKelas?.kelas.tipe === 'Akademik' ? 'linimasa' : 'diskusi'
@@ -154,7 +154,7 @@ export default function PesertaDaftarTugasSection() {
       </div>
 
       {isFetching ? (
-        <ShimmerCard count={3} />
+        <CardShimmer count={3} />
       ) : (
         <Card className="p-0">
           {list.length > 0 ? (
@@ -232,19 +232,19 @@ export default function PesertaDaftarTugasSection() {
   )
 }
 
-function ShimmerSection() {
+function SectionShimmer() {
   return (
     <>
       <div className="flex justify-between gap-x-2 mb-4">
         <Shimmer className="h-7 w-6/12" />
         <Shimmer className="h-7 w-2/12" />
       </div>
-      <ShimmerCard />
+      <CardShimmer />
     </>
   )
 }
 
-function ShimmerCard({ count = 5 }: { count?: number }) {
+function CardShimmer({ count = 5 }: { count?: number }) {
   return (
     <Card className="p-0">
       {[...Array(count)].map((_, idx) => (

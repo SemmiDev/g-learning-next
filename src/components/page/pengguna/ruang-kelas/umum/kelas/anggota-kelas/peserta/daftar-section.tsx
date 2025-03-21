@@ -64,7 +64,7 @@ export default function PesertaDaftarAnggotaSection({
 
   useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <Card className={cn('p-0', className)}>
@@ -139,7 +139,7 @@ export default function PesertaDaftarAnggotaSection({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn('p-0', className)}>
       <div className="flex flex-col gap-y-2 px-2 py-2.5">

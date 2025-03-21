@@ -88,7 +88,7 @@ export default function PengajarRekapPresensiCard({
     onLoadMore: fetchNextPage,
   })
 
-  if (isLoading) return <ShimmerOuterCard className={className} />
+  if (isLoading) return <OuterCardShimmer className={className} />
 
   return (
     <Card className={className}>
@@ -188,7 +188,7 @@ export default function PengajarRekapPresensiCard({
   )
 }
 
-function ShimmerOuterCard({ className }: { className?: string }) {
+function OuterCardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn(className)}>
       <div className="pt-1.5">
@@ -200,14 +200,14 @@ function ShimmerOuterCard({ className }: { className?: string }) {
             <Shimmer className="h-7 w-5/12" />
             <Shimmer className="h-7 w-2/12" />
           </div>
-          <ShimmerCard />
+          <CardShimmer />
         </div>
       </div>
     </Card>
   )
 }
 
-function ShimmerCard({
+function CardShimmer({
   count = 5,
   className,
 }: {

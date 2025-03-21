@@ -15,7 +15,7 @@ import TugasCard from './aktifitas-card/tugas-card'
 import UjianCard from './aktifitas-card/ujian-card'
 import PengajarHeaderCard from './pengajar-header-card'
 import PesertaHeaderCard from './peserta-header-card'
-import CardListShimmer from './shimmer/card-list-shimmer'
+import CardListShimmer from './shimmer/card-list'
 
 type LinimasaCardListProps = {
   kelas: DataKelasType | undefined

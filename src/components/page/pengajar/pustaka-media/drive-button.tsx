@@ -54,6 +54,7 @@ export default function DriveButton({
         <Progressbar
           variant="solid"
           color="primary"
+          className="gap-0"
           value={Math.round((drive.used / drive.size) * 100)}
         />
         <Text size="sm" weight="medium" variant="lighter">

@@ -230,7 +230,7 @@ export default function KerjakanUjianBody() {
 
   const showFixedNavBar = useMemo(() => scrollY >= 162, [scrollY])
 
-  if (!ujian) return <ShimmerBody />
+  if (!ujian) return <BodyShimmer />
 
   return (
     <>
@@ -307,7 +307,7 @@ export default function KerjakanUjianBody() {
   )
 }
 
-function ShimmerBody() {
+function BodyShimmer() {
   return (
     <div className="flex flex-col gap-4 py-2 px-2 md:px-10 md:py-6 lg:px-20 xl:gap-6 xl:px-40">
       <div className="flex flex-col-reverse items-start gap-4 lg:flex-row xl:gap-6">

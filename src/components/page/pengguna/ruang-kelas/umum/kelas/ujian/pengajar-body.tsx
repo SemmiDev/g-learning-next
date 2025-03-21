@@ -72,7 +72,7 @@ export default function PengajarUjianBody() {
     onLoadMore: fetchNextPage,
   })
 
-  if (isLoading) return <ShimmerOuterCard className="mt-8" />
+  if (isLoading) return <OuterCardShimmer className="mt-8" />
 
   return (
     <div className="flex flex-wrap gap-4 mt-8 lg:flex-nowrap">
@@ -168,7 +168,7 @@ export default function PengajarUjianBody() {
   )
 }
 
-function ShimmerOuterCard({ className }: { className?: string }) {
+function OuterCardShimmer({ className }: { className?: string }) {
   return (
     <div className={cn('flex flex-wrap gap-4 lg:flex-nowrap', className)}>
       <div className="w-full lg:w-5/12">
@@ -176,13 +176,13 @@ function ShimmerOuterCard({ className }: { className?: string }) {
           <Shimmer className="h-7 w-5/12" />
           <Shimmer className="h-7 w-2/12" />
         </div>
-        <ShimmerCard className="mt-2" />
+        <CardShimmer className="mt-2" />
       </div>
     </div>
   )
 }
 
-function ShimmerCard({
+function CardShimmer({
   count = 5,
   className,
 }: {

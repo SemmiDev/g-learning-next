@@ -27,7 +27,7 @@ export default function KeteranganTugasCard({
     ),
   })
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <Card className={cn('flex flex-col', className)}>
@@ -40,7 +40,7 @@ export default function KeteranganTugasCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn('flex flex-col gap-y-3 py-3', className)}>
       <Shimmer className="h-4 w-1/6" />

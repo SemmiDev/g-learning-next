@@ -102,7 +102,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     )
   }
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <Card className={cn('p-0', className)}>
@@ -234,7 +234,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
       <div className="px-2 py-3">

@@ -99,7 +99,7 @@ export default function PesertaDaftarUjianSection() {
     (item) => item.sort.name === sort?.name && item.sort.order === sort?.order
   )
 
-  if (isLoading) return <ShimmerSection />
+  if (isLoading) return <SectionShimmer />
 
   return (
     <>
@@ -150,7 +150,7 @@ export default function PesertaDaftarUjianSection() {
       </div>
 
       {isFetching ? (
-        <ShimmerCard count={3} />
+        <CardShimmer count={3} />
       ) : (
         <Card className="p-0">
           {list.length > 0 ? (
@@ -239,19 +239,19 @@ export default function PesertaDaftarUjianSection() {
   )
 }
 
-function ShimmerSection() {
+function SectionShimmer() {
   return (
     <>
       <div className="flex justify-between gap-x-2 mb-4">
         <Shimmer className="h-7 w-6/12" />
         <Shimmer className="h-7 w-2/12" />
       </div>
-      <ShimmerCard />
+      <CardShimmer />
     </>
   )
 }
 
-function ShimmerCard({ count = 5 }: { count?: number }) {
+function CardShimmer({ count = 5 }: { count?: number }) {
   return (
     <Card className="p-0">
       {[...Array(count)].map((_, idx) => (

@@ -20,7 +20,7 @@ export default function RingkasanKelasCard({
     queryFn: makeSimpleQueryDataWithId(ringkasanKelasAction, idKelas),
   })
 
-  if (isLoading || !data) return <ShimmerCard className={className} />
+  if (isLoading || !data) return <CardShimmer className={className} />
 
   return (
     <Card className={cn('flex flex-col p-0', className)}>
@@ -81,7 +81,7 @@ function ProgressItem({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
       <div className="px-2 py-3">

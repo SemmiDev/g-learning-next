@@ -75,7 +75,7 @@ export default function PengajarPesertaCard({
     })
   }
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>
@@ -182,7 +182,7 @@ export default function PengajarPesertaCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn('p-0', className)}>
       <div className="flex flex-col gap-y-2 px-2 py-2.5">

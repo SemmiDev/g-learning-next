@@ -149,7 +149,7 @@ export default function BahanAjarCard({
           )}
         </div>
         {isLoading ? (
-          <ShimmerSection />
+          <SectionShimmer />
         ) : (
           <div className="[&>*]:border-t [&>*]:border-muted">
             {list.map(
@@ -206,7 +206,7 @@ export default function BahanAjarCard({
   )
 }
 
-function ShimmerSection() {
+function SectionShimmer() {
   return (
     <div className="[&>*]:border-t [&>*]:border-muted">
       {[...Array(3)].map((_, idx) => (

@@ -54,7 +54,7 @@ export default function DetailPesertaCard({
     )
   }
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>
@@ -115,7 +115,7 @@ export default function DetailPesertaCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={className}>
       <div className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer p-2 lg:w-6/12">

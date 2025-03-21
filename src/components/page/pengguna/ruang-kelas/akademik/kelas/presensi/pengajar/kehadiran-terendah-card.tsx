@@ -108,7 +108,7 @@ export default function PengajarKehadiranTerendahCard({
     },
   ]
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <Card className={cn(className)}>
@@ -133,7 +133,7 @@ export default function PengajarKehadiranTerendahCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card className={cn(className)}>
       <div className="px-2 py-3">

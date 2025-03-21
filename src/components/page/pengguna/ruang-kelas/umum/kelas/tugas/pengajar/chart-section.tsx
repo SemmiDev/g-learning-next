@@ -40,7 +40,7 @@ export default function PengajarChartSection() {
     },
   })
 
-  if (isLoading) return <ShimmerSection />
+  if (isLoading) return <SectionShimmer />
 
   return (
     <>
@@ -50,16 +50,16 @@ export default function PengajarChartSection() {
   )
 }
 
-function ShimmerSection() {
+function SectionShimmer() {
   return (
     <>
-      <ShimmerCard />
-      <ShimmerCard />
+      <CardShimmer />
+      <CardShimmer />
     </>
   )
 }
 
-function ShimmerCard() {
+function CardShimmer() {
   return (
     <Card className="flex flex-col">
       <div className="pt-2 pb-5">

@@ -52,7 +52,7 @@ export default function DetailPesertaCard({
     )
   }
 
-  if (isLoading) return <ShimmerCard className={className} />
+  if (isLoading) return <CardShimmer className={className} />
 
   return (
     <>
@@ -105,7 +105,7 @@ export default function DetailPesertaCard({
   )
 }
 
-function ShimmerCard({ className }: { className?: string }) {
+function CardShimmer({ className }: { className?: string }) {
   return (
     <Card
       className={cn(
