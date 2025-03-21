@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import Loader from '../../loader'
 import Modal from '../../modal'
+import cn from '@/utils/class-names'
 
 type ModalImagePreviewProps = {
   openUrl: string | undefined
@@ -29,7 +30,7 @@ export default function ModalImagePreview({
           alt="Preview"
           width={1080}
           height={720}
-          className="relative w-fit z-10"
+          className={cn({ 'w-fit': loading })}
           onLoad={() => setLoading(false)}
         />
       )}
