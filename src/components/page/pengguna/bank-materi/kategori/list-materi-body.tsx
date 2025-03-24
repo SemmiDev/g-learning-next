@@ -177,20 +177,19 @@ export default function ListMateriBody() {
             </div>
           )}
           {list.length > 0 ? (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
+            <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
               {list.map((materi) => (
-                <div key={materi.id}>
-                  <MateriCard
-                    materi={materi}
-                    onEdit={(materi) => doShowUbah(materi.id)}
-                    onDelete={(materi) => setIdHapus(materi.id)}
-                    onDetail={(materi) => doShowLihat(materi.id)}
-                    onShare={() => {
-                      if (materi.type === 'materi') doShowShareMateri(materi)
-                      else doShowShareTugas(materi)
-                    }}
-                  />
-                </div>
+                <MateriCard
+                  key={materi.id}
+                  materi={materi}
+                  onEdit={(materi) => doShowUbah(materi.id)}
+                  onDelete={(materi) => setIdHapus(materi.id)}
+                  onDetail={(materi) => doShowLihat(materi.id)}
+                  onShare={() => {
+                    if (materi.type === 'materi') doShowShareMateri(materi)
+                    else doShowShareTugas(materi)
+                  }}
+                />
               ))}
             </div>
           ) : (

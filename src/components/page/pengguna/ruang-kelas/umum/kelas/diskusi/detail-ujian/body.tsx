@@ -47,7 +47,7 @@ export default function DetailUjianBody() {
           </Button>
         </Link>
       </div>
-      <div className="grid grid-cols-12 gap-y-8 gap-x-4">
+      <div className="grid grid-cols-12 items-start gap-y-8 gap-x-4">
         <DetailCard
           peran={dataKelas?.peran}
           className={cn(

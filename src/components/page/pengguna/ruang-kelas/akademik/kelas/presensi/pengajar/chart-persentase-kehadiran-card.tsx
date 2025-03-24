@@ -59,38 +59,36 @@ export default function PengajarChartPersentaseKehadiranCard({
   if (isLoading) return <CardShimmer className={className} />
 
   return (
-    <div className={className}>
-      <Card>
-        <Title as="h4" size="1.5xl" weight="semibold">
-          Persentase Tingkat Kehadiran
-        </Title>
-        <div className="flex flex-col items-center">
-          <div className="w-[200px] h-[200px]">
-            <ChartPresensi data={data} colors={COLORS} />
-          </div>
-          <div className="grid grid-cols-4 gap-2 lg:gap-6">
-            {data.map((val, idx) => {
-              return (
-                <div key={idx}>
-                  <div className="flex gap-x-1 items-center">
-                    <div
-                      className="rounded-xl w-3 h-3"
-                      style={{ backgroundColor: COLORS[idx] }}
-                    ></div>
-                    <Text size="sm" weight="semibold">
-                      {val.name}
-                    </Text>
-                  </div>
-                  <Text size="1.5xl" weight="semibold" variant="dark">
-                    {val.value.toFixed(2)}%
+    <Card className={className}>
+      <Title as="h4" size="1.5xl" weight="semibold">
+        Persentase Tingkat Kehadiran
+      </Title>
+      <div className="flex flex-col items-center">
+        <div className="w-[200px] h-[200px]">
+          <ChartPresensi data={data} colors={COLORS} />
+        </div>
+        <div className="grid grid-cols-4 gap-2 lg:gap-6">
+          {data.map((val, idx) => {
+            return (
+              <div key={idx}>
+                <div className="flex gap-x-1 items-center">
+                  <div
+                    className="rounded-xl w-3 h-3"
+                    style={{ backgroundColor: COLORS[idx] }}
+                  ></div>
+                  <Text size="sm" weight="semibold">
+                    {val.name}
                   </Text>
                 </div>
-              )
-            })}
-          </div>
+                <Text size="1.5xl" weight="semibold" variant="dark">
+                  {val.value.toFixed(2)}%
+                </Text>
+              </div>
+            )
+          })}
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   )
 }
 

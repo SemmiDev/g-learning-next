@@ -79,7 +79,7 @@ export default function PaketPenggunaBody() {
 
         {list.length ? (
           <>
-            <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
+            <div className="grid grid-cols-1 items-start gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
               {list.map((item) => (
                 <PaketItemCard
                   key={item.id}
