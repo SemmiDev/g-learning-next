@@ -42,6 +42,52 @@ export default function Tes4Page() {
         </Button>
       </div>
       <div className="flex gap-x-2">
+        <Button variant="flat-colorful" color="primary">
+          Tombol Primary
+        </Button>
+        <Button variant="flat-colorful" color="secondary">
+          Tombol Secondary
+        </Button>
+        <Button variant="flat-colorful" color="info">
+          Tombol Info
+        </Button>
+        <Button variant="flat-colorful" color="success">
+          Tombol Success
+        </Button>
+        <Button variant="flat-colorful" color="warning">
+          Tombol Warning
+        </Button>
+        <Button variant="flat-colorful" color="danger">
+          Tombol Danger
+        </Button>
+        <Button variant="flat-colorful" color="gray">
+          Tombol Gray
+        </Button>
+      </div>
+      <div className="flex gap-x-2">
+        <Button variant="outline" color="primary">
+          Tombol Primary
+        </Button>
+        <Button variant="outline" color="secondary">
+          Tombol Secondary
+        </Button>
+        <Button variant="outline" color="info">
+          Tombol Info
+        </Button>
+        <Button variant="outline" color="success">
+          Tombol Success
+        </Button>
+        <Button variant="outline" color="warning">
+          Tombol Warning
+        </Button>
+        <Button variant="outline" color="danger">
+          Tombol Danger
+        </Button>
+        <Button variant="outline" color="gray">
+          Tombol Gray
+        </Button>
+      </div>
+      <div className="flex gap-x-2">
         <Button variant="outline-colorful" color="primary">
           Tombol Primary
         </Button>
@@ -61,6 +107,98 @@ export default function Tes4Page() {
           Tombol Danger
         </Button>
         <Button variant="outline-colorful" color="gray">
+          Tombol Gray
+        </Button>
+      </div>
+      <div className="flex gap-x-2">
+        <Button variant="outline-hover" color="primary">
+          Tombol Primary
+        </Button>
+        <Button variant="outline-hover" color="secondary">
+          Tombol Secondary
+        </Button>
+        <Button variant="outline-hover" color="info">
+          Tombol Info
+        </Button>
+        <Button variant="outline-hover" color="success">
+          Tombol Success
+        </Button>
+        <Button variant="outline-hover" color="warning">
+          Tombol Warning
+        </Button>
+        <Button variant="outline-hover" color="danger">
+          Tombol Danger
+        </Button>
+        <Button variant="outline-hover" color="gray">
+          Tombol Gray
+        </Button>
+      </div>
+      <div className="flex gap-x-2">
+        <Button variant="outline-hover-colorful" color="primary">
+          Tombol Primary
+        </Button>
+        <Button variant="outline-hover-colorful" color="secondary">
+          Tombol Secondary
+        </Button>
+        <Button variant="outline-hover-colorful" color="info">
+          Tombol Info
+        </Button>
+        <Button variant="outline-hover-colorful" color="success">
+          Tombol Success
+        </Button>
+        <Button variant="outline-hover-colorful" color="warning">
+          Tombol Warning
+        </Button>
+        <Button variant="outline-hover-colorful" color="danger">
+          Tombol Danger
+        </Button>
+        <Button variant="outline-hover-colorful" color="gray">
+          Tombol Gray
+        </Button>
+      </div>
+      <div className="flex gap-x-2">
+        <Button variant="text" color="primary">
+          Tombol Primary
+        </Button>
+        <Button variant="text" color="secondary">
+          Tombol Secondary
+        </Button>
+        <Button variant="text" color="info">
+          Tombol Info
+        </Button>
+        <Button variant="text" color="success">
+          Tombol Success
+        </Button>
+        <Button variant="text" color="warning">
+          Tombol Warning
+        </Button>
+        <Button variant="text" color="danger">
+          Tombol Danger
+        </Button>
+        <Button variant="text" color="gray">
+          Tombol Gray
+        </Button>
+      </div>
+      <div className="flex gap-x-2">
+        <Button variant="text-colorful" color="primary">
+          Tombol Primary
+        </Button>
+        <Button variant="text-colorful" color="secondary">
+          Tombol Secondary
+        </Button>
+        <Button variant="text-colorful" color="info">
+          Tombol Info
+        </Button>
+        <Button variant="text-colorful" color="success">
+          Tombol Success
+        </Button>
+        <Button variant="text-colorful" color="warning">
+          Tombol Warning
+        </Button>
+        <Button variant="text-colorful" color="danger">
+          Tombol Danger
+        </Button>
+        <Button variant="text-colorful" color="gray">
           Tombol Gray
         </Button>
       </div>

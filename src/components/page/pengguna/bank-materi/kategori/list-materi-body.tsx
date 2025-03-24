@@ -5,9 +5,11 @@ import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/ka
 import { listBankMateriAction } from '@/actions/pengguna/bank-materi/list'
 import {
   Button,
+  Card,
   Loader,
   MateriItemType,
   ModalConfirm,
+  Shimmer,
   Text,
   Title,
 } from '@/components/ui'
@@ -21,6 +23,7 @@ import {
 } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
@@ -162,34 +165,45 @@ export default function ListMateriBody() {
         </Button>
       </div>
 
-      {isLoading || (!list.length && isFetching) ? (
-        <Loader height={300} />
-      ) : list.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
-          {list.map((materi) => (
-            <div key={materi.id}>
-              <MateriCard
-                materi={materi}
-                onEdit={(materi) => doShowUbah(materi.id)}
-                onDelete={(materi) => setIdHapus(materi.id)}
-                onDetail={(materi) => doShowLihat(materi.id)}
-                onShare={() => {
-                  if (materi.type === 'materi') doShowShareMateri(materi)
-                  else doShowShareTugas(materi)
-                }}
-              />
-            </div>
-          ))}
-        </div>
+      {isLoading ? (
+        <ListItemShimmer />
       ) : (
-        <div className="flex items-center justify-center h-72">
-          <Text size="sm" weight="medium">
-            {search ? 'Materi tidak ditemukan' : 'Belum ada materi'}
-          </Text>
+        <div className="relative mt-4">
+          {isFetching && (
+            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-white/50 rounded-lg z-10">
+              <div className="size-10 rounded-full bg-transparent">
+                <CgSpinner className="size-10 animate-spin text-primary" />
+              </div>
+            </div>
+          )}
+          {list.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
+              {list.map((materi) => (
+                <div key={materi.id}>
+                  <MateriCard
+                    materi={materi}
+                    onEdit={(materi) => doShowUbah(materi.id)}
+                    onDelete={(materi) => setIdHapus(materi.id)}
+                    onDetail={(materi) => doShowLihat(materi.id)}
+                    onShare={() => {
+                      if (materi.type === 'materi') doShowShareMateri(materi)
+                      else doShowShareTugas(materi)
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-72">
+              <Text size="sm" weight="medium">
+                {search ? 'Materi tidak ditemukan' : 'Belum ada materi'}
+              </Text>
+            </div>
+          )}
+
+          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
         </div>
       )}
-
-      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <TambahMateriModal show={showTambah} setShow={setShowTambah} />
 
@@ -220,5 +234,26 @@ export default function ListMateriBody() {
         closeOnCancel
       />
     </>
+  )
+}
+
+function ListItemShimmer() {
+  return (
+    <div className="grid grid-cols-1 gap-5 mt-4 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4">
+      {[...Array(4)].map((_, idx) => (
+        <Card key={idx} shadow="sm" rounded="lg" className="flex flex-col">
+          <div className="flex items-center mb-2">
+            <Shimmer className="size-12 mr-2" />
+            <Shimmer className="h-4 w-5/12 my-1" />
+          </div>
+          <Shimmer className="h-3 w-5/12 my-1.5" />
+          <Shimmer className="h-2 w-8/12 my-1" />
+          <div className="flex gap-x-2 mt-2">
+            <Shimmer className="h-8 flex-1" />
+            <Shimmer className="h-8 flex-1" />
+          </div>
+        </Card>
+      ))}
+    </div>
   )
 }

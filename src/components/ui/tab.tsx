@@ -39,7 +39,7 @@ export const Tab = ({ path, item }: { path: string; item: TabItem }) => {
           as="span"
           size="sm"
           weight="semibold"
-          className="inline-flex rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-gray-100/70"
+          className="inline-flex rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-muted/40"
         >
           {item.text}
         </Text>

@@ -83,19 +83,13 @@ export default function FileListItem({
           )}
         </div>
       </div>
-      {download &&
-        file.type !== 'link' &&
-        (file.link ? (
-          <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
-            <Button size="sm" variant="text" className="text-sm">
-              Unduh
-            </Button>
-          </Link>
-        ) : (
-          <Button size="sm" variant="text" className="text-sm">
+      {download && file.type !== 'link' && file.link && (
+        <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
+          <Button as="span" size="sm" variant="text" className="text-sm">
             Unduh
           </Button>
-        ))}
+        </Link>
+      )}
       {onDelete && (
         <Button
           size="sm"

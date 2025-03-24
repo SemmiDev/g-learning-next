@@ -43,7 +43,7 @@ export default function NomorSoal({
             >
               Pilihan Ganda
             </Text>
-            <div className="grid grid-cols-10 gap-2 mb-2 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
+            <div className="grid grid-cols-5 gap-2 mb-2 xs:grid-cols-10 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
               {listSoalPilihan.map((soal, idx) => (
                 <div
                   key={`pilihan.${idx}`}
@@ -92,7 +92,7 @@ export default function NomorSoal({
             >
               Esai
             </Text>
-            <div className="grid grid-cols-10 gap-2 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
+            <div className="grid grid-cols-5 gap-2 mb-2 xs:grid-cols-10 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
               {listSoalEsai.map((soal, idx) => (
                 <div
                   key={`esai.${idx}`}

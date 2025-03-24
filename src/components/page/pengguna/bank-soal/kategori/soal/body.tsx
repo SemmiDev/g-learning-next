@@ -19,6 +19,7 @@ import {
   Label,
   ModalConfirm,
   SelectOptionType,
+  Shimmer,
   Text,
   TextLabel,
   Title,
@@ -28,6 +29,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { PILIHAN_JAWABAN } from '@/config/const'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
+import cn from '@/utils/class-names'
 import { removeIndexFromList } from '@/utils/list'
 import { mustBe } from '@/utils/must-be'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
@@ -153,7 +155,7 @@ export default function KelolaSoalBody() {
   ]
 
   const queryKeyPilihan = [...queryKey, 'single-choice']
-  const { data: listSoalPilihan = [] } = useQuery({
+  const { data: listSoalPilihan = [], isLoading: isLoadingPilihan } = useQuery({
     queryKey: queryKeyPilihan,
     queryFn: async () => {
       const { data } = await listSoalAction(idBankSoal, 'single-choice')
@@ -163,7 +165,7 @@ export default function KelolaSoalBody() {
   })
 
   const queryKeyEsai = [...queryKey, 'essay']
-  const { data: listSoalEsai = [] } = useQuery({
+  const { data: listSoalEsai = [], isLoading: isLoadingEsai } = useQuery({
     queryKey: queryKeyEsai,
     queryFn: async () => {
       const { data } = await listSoalAction(idBankSoal, 'essay')
@@ -226,9 +228,20 @@ export default function KelolaSoalBody() {
 
   const canBeChanged = !dataBankSoal?.total_aktifitas
 
+  const isLoading = isLoadingPilihan || isLoadingEsai
+
   return (
     <>
-      <div className="flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start">
+      <BodyShimmer className={!isLoading ? 'hidden' : ''} />
+
+      <div
+        className={cn(
+          'flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start',
+          {
+            hidden: isLoading,
+          }
+        )}
+      >
         <div className="flex flex-col gap-4 w-full">
           {canBeChanged ? (
             <Card
@@ -286,6 +299,7 @@ export default function KelolaSoalBody() {
                           setTipeSoal(val.value as TipeSoalType)
                           clearErrors()
                         }}
+                        required
                       />
 
                       {watch('tipe').value === 'essay' && (
@@ -571,5 +585,76 @@ export default function KelolaSoalBody() {
         </>
       )}
     </>
+  )
+}
+
+function BodyShimmer({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col-reverse items-center gap-4 lg:flex-row lg:items-start',
+        className
+      )}
+    >
+      <div className="flex flex-col gap-4 w-full">
+        <Card className="p-0">
+          <div className="flex items-center justify-between gap-x-2 p-2">
+            <Shimmer className="h-4 w-3/12" />
+            <div className="flex gap-x-2 w-48">
+              <Shimmer className="h-8 flex-1" />
+              <Shimmer className="h-8 flex-1" />
+            </div>
+          </div>
+          <CardSeparator />
+          <div className="flex flex-col gap-y-3 p-2">
+            <div className="flex flex-col gap-y-1.5">
+              <Shimmer className="h-3 w-16 my-1" />
+              <Shimmer className="h-10 w-full" />
+            </div>
+            <div className="flex flex-col gap-y-1.5">
+              <Shimmer className="h-3 w-8 my-1" />
+              <div className="flex flex-col gap-y-0.5">
+                <Shimmer className="h-11 w-full rounded-b-none" />
+                <Shimmer className="h-36 w-full rounded-t-none" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-1.5">
+              <Shimmer className="h-3 w-28 my-1" />
+              {[...Array(3)].map((_, idx) => (
+                <div key={idx} className="flex items-center gap-x-2">
+                  <Shimmer rounded="full" className="size-6" />
+                  <div className="flex flex-col gap-y-0.5 flex-1">
+                    <Shimmer className="h-11 w-full rounded-b-none" />
+                    <Shimmer className="h-20 w-full rounded-t-none" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      </div>
+      <Card className="flex flex-col w-full p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
+        <div className="flex flex-col p-2">
+          <Shimmer className="h-4 w-5/12 my-1.5" />
+          <Shimmer className="h-3 w-8/12 my-1" />
+        </div>
+        <CardSeparator />
+        <div className="flex flex-col items-center pb-2">
+          <Shimmer className="h-3 w-28 my-3" />
+          <Shimmer className="h-3 w-20 mt-1 mb-2.5" />
+          <div className="grid grid-cols-5 gap-2 mb-2 xs:grid-cols-10 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
+            {[...Array(7)].map((_, idx) => (
+              <Shimmer key={idx} className="size-8" />
+            ))}
+          </div>
+          <Shimmer className="h-3 w-20 mt-1 mb-2.5" />
+          <div className="grid grid-cols-5 gap-2 mb-2 xs:grid-cols-10 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
+            {[...Array(3)].map((_, idx) => (
+              <Shimmer key={idx} className="size-8" />
+            ))}
+          </div>
+        </div>
+      </Card>
+    </div>
   )
 }

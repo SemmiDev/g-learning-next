@@ -97,6 +97,7 @@ export default function FileButton({
                 <LinkOrDiv
                   href={file.type === 'link' ? file.link : undefined}
                   target="_blank"
+                  tabIndex={-1}
                 >
                   <ActionIconTooltip
                     tooltip="Lihat"
@@ -112,7 +113,11 @@ export default function FileButton({
                 </LinkOrDiv>
               )}
             {file.type !== 'link' && (
-              <LinkOrDiv href={downloadFileUrl(file.link)} target="_blank">
+              <LinkOrDiv
+                href={downloadFileUrl(file.link)}
+                target="_blank"
+                tabIndex={-1}
+              >
                 <ActionIconTooltip
                   tooltip="Unduh"
                   size="sm"

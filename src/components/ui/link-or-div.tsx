@@ -5,6 +5,7 @@ import { DOMAttributes, HTMLAttributeAnchorTarget, ReactNode } from 'react'
 export type LinkOrDivProps = DOMAttributes<HTMLDivElement> & {
   href?: Url
   target?: HTMLAttributeAnchorTarget
+  tabIndex?: number
   className?: string
   children?: ReactNode
   disabled?: boolean
@@ -13,6 +14,7 @@ export type LinkOrDivProps = DOMAttributes<HTMLDivElement> & {
 export default function LinkOrDiv({
   href,
   target,
+  tabIndex,
   children,
   disabled,
   className,
@@ -26,7 +28,7 @@ export default function LinkOrDiv({
     )
 
   return (
-    <Link target={target} href={href} className={className}>
+    <Link target={target} href={href} className={className} tabIndex={tabIndex}>
       {children}
     </Link>
   )

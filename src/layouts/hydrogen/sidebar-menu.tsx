@@ -89,7 +89,7 @@ export function SidebarMenu() {
                           'group relative mx-3 flex cursor-pointer items-center justify-between rounded-md px-3 py-2 font-medium lg:my-1 2xl:mx-5 2xl:my-2',
                           isDropdownOpen
                             ? 'before:top-2/5 text-primary before:absolute before:-start-3 before:block before:h-4/5 before:w-1 before:rounded-ee-md before:rounded-se-md before:bg-primary 2xl:before:-start-5'
-                            : 'text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-700/90 dark:hover:text-gray-700'
+                            : 'text-gray-700 transition-colors duration-200 hover:bg-muted/40 dark:text-gray-700/90 dark:hover:text-gray-700'
                         )}
                       >
                         <span className="flex items-center">
@@ -133,7 +133,7 @@ export function SidebarMenu() {
                             'mx-3.5 mb-0.5 flex items-center justify-between rounded-md px-3.5 py-2 font-medium last-of-type:mb-1 lg:last-of-type:mb-2 2xl:mx-5',
                             isChildActive
                               ? 'text-primary'
-                              : 'text-gray-500 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-dark'
+                              : 'text-gray-500 transition-colors duration-200 hover:bg-muted/40 hover:text-gray-dark'
                           )}
                           onClick={() => setOpenSidebarMenu(false)}
                         >
@@ -164,7 +164,7 @@ export function SidebarMenu() {
                       'group relative mx-3 my-0.5 flex items-center justify-between rounded-md px-3 py-2 font-medium lg:my-1 2xl:mx-5 2xl:my-2',
                       isActive
                         ? 'before:top-2/5 text-primary before:absolute before:-start-3 before:block before:h-4/5 before:w-1 before:rounded-ee-md before:rounded-se-md before:bg-primary 2xl:before:-start-5'
-                        : 'text-gray-700 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-dark dark:text-gray-700/90'
+                        : 'text-gray-700 transition-colors duration-200 hover:bg-muted/40 hover:text-gray-dark dark:text-gray-700/90'
                     )}
                     onClick={() => setOpenSidebarMenu(false)}
                   >

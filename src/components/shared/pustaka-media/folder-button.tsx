@@ -21,7 +21,7 @@ export default function FolderButton({
     <>
       <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
         <div
-          className="flex gap-x-2 cursor-pointer pe-2"
+          className="flex gap-x-2 flex-1 cursor-pointer"
           onClick={() => onOpen && onOpen(file)}
         >
           <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 ms-8">
