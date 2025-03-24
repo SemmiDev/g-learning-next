@@ -11,6 +11,8 @@ import { AnyObject } from './type-interface'
 const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
 const CONSOLE_LOG_REQUEST =
   process.env.CONSOLE_LOG_REQUEST?.toLowerCase() === 'true'
+const CONSOLE_LOG_RESPONSE =
+  process.env.CONSOLE_LOG_RESPONSE?.toLowerCase() === 'true'
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean
@@ -193,7 +195,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
 
     const { success, message, errors, code, data } = await res.json()
 
-    if (CONSOLE_LOG_REQUEST)
+    if (CONSOLE_LOG_RESPONSE)
       console.log('Response', { success, message, errors, code, data })
 
     return makeActionResponse<T>(success, message, errors, code, data)
@@ -252,7 +254,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
 
     const { success, message, errors, code, data } = await res.json()
 
-    if (CONSOLE_LOG_REQUEST)
+    if (CONSOLE_LOG_RESPONSE)
       console.log('Response', { success, message, errors, code, data })
 
     return makeActionResponse<T>(success, message, errors, code, data)
