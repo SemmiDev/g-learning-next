@@ -1,6 +1,6 @@
 import { keluarkanAnggotaKelasAction } from '@/actions/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
 import { listPesertaKelasAction } from '@/actions/pengguna/ruang-kelas/anggota-kelas/pengajar/list-peserta'
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
@@ -16,7 +16,8 @@ import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { useQueryClient } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -35,10 +36,10 @@ export default function PengajarPesertaCard({
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const dataKelas = queryClient.getQueryData<DataKelasType>([
-    'pengguna.ruang-kelas.lihat',
-    idKelas,
-  ])
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+  })
 
   const queryKey = [
     'pengguna.ruang-kelas.anggota-kelas.daftar-peserta',

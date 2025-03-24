@@ -1,7 +1,7 @@
 import { DataType as DataSesiType } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { hapusNilaiUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
 import { tableUjianPesertaAction } from '@/actions/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -23,7 +23,8 @@ import { routes } from '@/config/routes'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { useQueryClient } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
@@ -96,12 +97,12 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
 
   const idAktifitas = sesi.aktifitas.id
 
-  const kelas = queryClient.getQueryData<DataKelasType>([
-    'pengguna.ruang-kelas.lihat',
-    idKelas,
-  ])
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+  })
 
-  const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
+  const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
   const queryKey = [
     'pengguna.ruang-kelas.ujian.table-tugas-peserta',

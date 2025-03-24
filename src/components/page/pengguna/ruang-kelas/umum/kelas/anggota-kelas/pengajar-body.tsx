@@ -1,18 +1,17 @@
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
-import { useQueryClient } from '@tanstack/react-query'
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import PengajarPermintaanBergabungCard from './pengajar/permintaan-bergabung-card'
 import PengajarPesertaCard from './pengajar/peserta-card'
 
 export default function PengajarAnggotaKelasBody() {
-  const queryClient = useQueryClient()
-
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const dataKelas = queryClient.getQueryData<DataKelasType>([
-    'pengguna.ruang-kelas.lihat',
-    idKelas,
-  ])
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+  })
 
   return (
     <>

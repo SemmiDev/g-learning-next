@@ -1,4 +1,4 @@
-import { DataType as DataKelasType } from '@/actions/pengguna/ruang-kelas/lihat'
+import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIconTooltip,
   CardSeparator,
@@ -6,7 +6,8 @@ import {
   ModalFooterButtons,
 } from '@/components/ui'
 import { useWindowLocation } from '@/hooks/use-window-location'
-import { useQueryClient } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { MdOutlineContentCopy } from 'react-icons/md'
@@ -21,17 +22,16 @@ export default function PengajarUndangAnggotaModal({
   showModal = false,
   setShowModal,
 }: PengajarUndangAnggotaModalProps) {
-  const queryClient = useQueryClient()
   const location = useWindowLocation()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const kelas = queryClient.getQueryData<DataKelasType>([
-    'pengguna.ruang-kelas.lihat',
-    idKelas,
-  ])
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+  })
 
-  const kodeUndang = kelas?.kelas.kode_unik || ''
+  const kodeUndang = dataKelas?.kelas.kode_unik || ''
 
   const linkUndangan = `${location?.origin}/undangan-kelas/${kodeUndang}`
 
