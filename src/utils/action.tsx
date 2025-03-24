@@ -90,11 +90,11 @@ export const makeActionResponse = <T extends AnyObject>(
   code?: number,
   data?: T
 ): ActionResponseType<T> => ({
-  success: success,
+  success,
   message: message ?? (!success ? 'Terjadi kesalahan!' : undefined),
-  error: error,
-  code: code,
-  data: data,
+  error,
+  code,
+  data,
 })
 
 export type ActionResponsePaginationDataType<T extends AnyObject = AnyObject> =
