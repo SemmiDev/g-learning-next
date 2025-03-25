@@ -9,7 +9,7 @@ import Label from '../label'
 import TextLabel from '../text/label'
 import { ClassNamesType, makeClassNames } from './style'
 
-export type SelectOptionType<T extends string | number = string> = {
+export type SelectOptionType<T extends string | number | null = string> = {
   label: string
   value: T
 } & AnyObject

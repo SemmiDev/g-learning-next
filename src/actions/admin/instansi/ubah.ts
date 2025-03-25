@@ -14,7 +14,6 @@ export const ubahInstansiAction = async (
     telepon_pimpinan: data.kontakPimpinan,
     jenis: data.jenis?.value,
     id_paket: data.paket?.value,
-    jatuh_tempo: data.jatuhTempo?.toISOString(),
     pengguna: {
       username: data.usernameAdmin,
       kata_sandi: data.passwordAdmin,

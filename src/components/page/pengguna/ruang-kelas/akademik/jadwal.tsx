@@ -24,10 +24,14 @@ import { useWindowSize } from 'react-use'
 const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
 
 type JadwalAkademikProps = {
+  semester: string | null
   className?: string
 }
 
-export default function JadwalAkademik({ className }: JadwalAkademikProps) {
+export default function JadwalAkademik({
+  semester,
+  className,
+}: JadwalAkademikProps) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -48,6 +52,7 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
     'pengguna.ruang-kelas.list-jadwal',
     kategori,
     HARI[currentDay],
+    semester,
   ]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
@@ -57,6 +62,7 @@ export default function JadwalAkademik({ className }: JadwalAkademikProps) {
         page,
         kategori,
         hari: HARI[currentDay],
+        semester: semester ?? undefined,
       })
 
       return {

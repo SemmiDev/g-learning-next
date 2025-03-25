@@ -7,7 +7,15 @@ import { useParams } from 'next/navigation'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import KelasCard from './kelas-card'
 
-export default function ListKelasCardList() {
+type ListKelasCardListProps = {
+  semester: string | null
+  className?: string
+}
+
+export default function ListKelasCardList({
+  semester,
+  className,
+}: ListKelasCardListProps) {
   const { jenis: jenisKelas }: { jenis: string } = useParams()
   const kategori = switchCaseObject(
     jenisKelas,
@@ -18,7 +26,7 @@ export default function ListKelasCardList() {
     undefined
   ) as 'Dikelola' | 'Diikuti' | undefined
 
-  const queryKey = ['pengguna.ruang-kelas.list', kategori, 'Akademik']
+  const queryKey = ['pengguna.ruang-kelas.list', kategori, 'Akademik', semester]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
@@ -27,6 +35,7 @@ export default function ListKelasCardList() {
         page,
         kategori,
         tipe: 'Akademik',
+        semester: semester ?? undefined,
       })
 
       return {

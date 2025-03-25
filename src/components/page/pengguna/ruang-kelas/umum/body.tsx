@@ -23,7 +23,7 @@ export default function RuangKelasUmumBody() {
             as="h4"
             size="1.5xl"
             weight="semibold"
-            className="leading-tight mb-3"
+            className="leading-tight mb-1"
           >
             Semua Kelas {!!jenisKelas ? `yang ${_.startCase(jenisKelas)}` : ''}
           </Title>

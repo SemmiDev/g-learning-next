@@ -1,7 +1,4 @@
-import {
-  DataType,
-  tableJatuhTempoAction,
-} from '@/actions/admin/dashboard/table-jatuh-tempo'
+import { tableJatuhTempoAction } from '@/actions/admin/dashboard/table-jatuh-tempo'
 import {
   Card,
   CardSeparator,
@@ -19,7 +16,6 @@ import {
 import { useTableAsync } from '@/hooks/use-table-async'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 
 type DashboardJatuhTempoCardProps = {
   className?: string
@@ -28,8 +24,6 @@ type DashboardJatuhTempoCardProps = {
 export default function DashboardJatuhTempoCard({
   className,
 }: DashboardJatuhTempoCardProps) {
-  const [ubahJatuhTempo, setUbahJatuhTempo] = useState<DataType | undefined>()
-
   const {
     data,
     isLoading,
@@ -99,7 +93,7 @@ export default function DashboardJatuhTempoCard({
         isLoading={isLoading}
         isFetching={isFetching}
         columns={tableColumns}
-        rowKey={(row) => row.id}
+        rowKey={(row) => row.id + row.jatuh_tempo}
         filterOptions={{
           searchTerm: search,
           searchSize: 'sm',

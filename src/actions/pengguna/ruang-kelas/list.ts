@@ -45,11 +45,13 @@ export const listKelasAction = async ({
   search = '',
   kategori,
   tipe,
+  semester,
 }: {
   page?: number
   search?: string
   kategori?: 'Dikelola' | 'Diikuti'
   tipe?: 'Akademik' | 'Umum'
+  semester?: string
 }) =>
   makeJwtGetRequestTableAction<DataType>(`${process.env.API_URL}/kelas`, {
     current_page: page,
@@ -57,4 +59,5 @@ export const listKelasAction = async ({
     per_page: 20,
     kategori,
     tipe,
+    semester,
   })

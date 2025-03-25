@@ -4,7 +4,6 @@ import { ubahInstansiAction } from '@/actions/admin/instansi/ubah'
 import {
   CardSeparator,
   ControlledAsyncPaginateSelect,
-  ControlledDatePicker,
   ControlledInput,
   ControlledPassword,
   ControlledSelect,
@@ -17,7 +16,6 @@ import {
   TextSpan,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
-import { parseDate } from '@/utils/date'
 import { selectOption } from '@/utils/object'
 import { processData } from '@/utils/process-data'
 import { required, requiredPassword } from '@/utils/validations/pipe'
@@ -34,7 +32,6 @@ const formSchema = z.object({
   kontakPimpinan: z.string().pipe(required),
   jenis: z.any().superRefine(objectRequired),
   paket: z.any().superRefine(objectRequired),
-  jatuhTempo: z.date(),
   usernameAdmin: z.string().pipe(required),
   passwordAdmin: z.string().pipe(requiredPassword).optional().or(z.literal('')),
 })
@@ -46,7 +43,6 @@ export type UbahInstansiFormSchema = {
   kontakPimpinan?: string
   jenis?: SelectOptionType
   paket?: SelectOptionType
-  jatuhTempo?: Date
   usernameAdmin?: string
   passwordAdmin?: string
 }
@@ -95,7 +91,6 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
               label: data?.paket_instansi?.nama ?? '',
             }
           : undefined,
-        jatuhTempo: parseDate(data?.instansi?.jatuh_tempo),
         usernameAdmin: data?.pengguna?.username,
       }
     },
@@ -215,17 +210,6 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                     value: data.id,
                   })}
                   errors={errors}
-                  required
-                />
-
-                <ControlledDatePicker
-                  name="jatuhTempo"
-                  control={control}
-                  errors={errors}
-                  label="Tanggal Jatuh Tempo"
-                  placeholder="Tanggal Jatuh Tempo"
-                  showMonthDropdown
-                  showYearDropdown
                   required
                 />
 
