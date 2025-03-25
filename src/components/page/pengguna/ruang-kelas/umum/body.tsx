@@ -17,7 +17,7 @@ export default function RuangKelasUmumBody() {
 
   return (
     <>
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between items-start gap-2 flex-wrap mb-4">
         <div>
           <Title
             as="h4"

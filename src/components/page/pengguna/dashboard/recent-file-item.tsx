@@ -22,9 +22,9 @@ export default function RecentFileItem({ file, onPreview }: FileButtonProps) {
 
   return (
     <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 py-3 px-4 hover:bg-gray-50/50">
-      <div className="flex gap-x-2">
+      <div className="flex gap-x-2 min-w-0">
         <FileIcon file={file} />
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <Text
             weight="semibold"
             variant="dark"

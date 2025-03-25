@@ -59,10 +59,6 @@ export default function PesertaPresensiCard({
     enabled: !!idKelas && !!idSesi,
   })
 
-  type TableDataType = Awaited<
-    ReturnType<typeof tablePresensiPesertaSesiAction>
-  >['data']
-
   if (isLoading) return <PresensiCardShimmer className={className} />
 
   return (
@@ -79,7 +75,7 @@ export default function PesertaPresensiCard({
                 key={item.id_peserta}
                 className="flex justify-between items-center gap-x-2 border-t-2 border-t-gray-100 px-2 py-4"
               >
-                <div className="flex items-center gap-x-3">
+                <div className="flex items-center gap-x-3 min-w-0">
                   <Thumbnail
                     src={item.foto || undefined}
                     alt="profil"
@@ -88,11 +84,21 @@ export default function PesertaPresensiCard({
                     avatar={item.nama}
                     className="flex-shrink-0"
                   />
-                  <div className="flex flex-col">
-                    <Text size="sm" weight="semibold" variant="dark">
+                  <div className="flex flex-col min-w-0">
+                    <Text
+                      size="sm"
+                      weight="semibold"
+                      variant="dark"
+                      className="truncate"
+                    >
                       {item.nama}
                     </Text>
-                    <Text size="2xs" weight="medium" variant="lighter">
+                    <Text
+                      size="2xs"
+                      weight="medium"
+                      variant="lighter"
+                      className="truncate"
+                    >
                       {item.email}
                     </Text>
                   </div>

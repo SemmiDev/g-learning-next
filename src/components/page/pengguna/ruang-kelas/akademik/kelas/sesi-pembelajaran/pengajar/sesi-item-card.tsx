@@ -176,7 +176,7 @@ export default function PengajarSesiItemCard({
             </Text>
           </div>
         </div>
-        <div className="flex gap-x-2 mt-4">
+        <div className="flex items-center gap-x-2 mt-4">
           <Popover>
             <Popover.Trigger>
               <Button size="sm" variant="outline-colorful" className="flex-1">

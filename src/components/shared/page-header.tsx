@@ -18,6 +18,8 @@ export default function PageHeader({
   children,
   className,
 }: React.PropsWithChildren<PageHeaderProps>) {
+  console.log(breadcrumb)
+
   return (
     <header className={cn('mb-6 @container xs:-mt-2 lg:mb-7', className)}>
       <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between">

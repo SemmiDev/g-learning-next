@@ -59,7 +59,7 @@ export default function FileListItem({
         className
       )}
     >
-      <div className="flex items-center">
+      <div className="flex items-center min-w-0">
         <figure className="flex justify-center items-center size-11">
           <FileIcon
             file={file}
@@ -67,12 +67,17 @@ export default function FileListItem({
             thumbnailClassName="-ms-1"
           />
         </figure>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <LinkOrDiv
             className={cn({ 'cursor-pointer': pointer })}
             {...linkingProps}
           >
-            <Text size="sm" weight="semibold" color="primary">
+            <Text
+              size="sm"
+              weight="semibold"
+              color="primary"
+              className="truncate"
+            >
               {file.name}
             </Text>
           </LinkOrDiv>

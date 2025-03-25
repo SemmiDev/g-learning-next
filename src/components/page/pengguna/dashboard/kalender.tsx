@@ -8,7 +8,7 @@ type KalenderCardProps = {
 
 export default function KalenderCard({ className }: KalenderCardProps) {
   return (
-    <Card className={cn('flex flex-col flex-1 p-0', className)}>
+    <Card className={cn('flex flex-col flex-1 min-w-0 p-0', className)}>
       <Title as="h4" weight="semibold" className="p-2">
         Kalender
       </Title>

@@ -49,15 +49,15 @@ export default function LihatSesiBody() {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-wrap items-start gap-y-8 gap-x-4">
-        <div className="flex flex-col gap-y-4 w-full lg:w-7/12">
+      <div className="grid grid-cols-12 items-start gap-y-8 gap-x-4">
+        <div className="flex flex-col gap-y-4 w-full col-span-12 lg:col-span-7">
           <SesiCard kelas={dataKelas} />
           <BahanAjarCard kelas={dataKelas} />
         </div>
         {dataKelas.peran === 'Pengajar' ? (
-          <PengajarPresensiCard className="flex-1" />
+          <PengajarPresensiCard className="col-span-12 lg:col-span-5" />
         ) : (
-          <PesertaPresensiCard className="flex-1" />
+          <PesertaPresensiCard className="col-span-12 lg:col-span-5" />
         )}
       </div>
     </>

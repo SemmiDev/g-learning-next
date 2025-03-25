@@ -21,18 +21,18 @@ export default function FolderButton({
     <>
       <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
         <div
-          className="flex gap-x-2 flex-1 cursor-pointer"
+          className="flex gap-x-2 flex-1 min-w-0 cursor-pointer"
           onClick={() => onOpen && onOpen(file)}
         >
-          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50 ms-8">
+          <div className="flex size-11 items-center justify-center shrink-0 rounded-md bg-gray-50 ms-8">
             <BsFolderFill size={20} className="text-primary" />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0">
             <Text
               weight="semibold"
               variant="dark"
               title={file.name}
-              className="line-clamp-1"
+              className="line-clamp-2"
             >
               {file.name}
             </Text>

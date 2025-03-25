@@ -116,7 +116,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
             <Loader className="py-4" />
           ) : data ? (
             <div className="flex flex-col [&:not(:last-child)]:border-b border-b-muted px-1 py-2">
-              <div className="flex items-center gap-x-2">
+              <div className="flex items-center flex-wrap gap-x-2">
                 <Text weight="semibold">{data.judul}</Text>
                 {data.status !== 'Telah Berakhir' && (
                   <Badge
@@ -331,8 +331,6 @@ function TanggalItem({
   active?: boolean
   onClick?: () => void
 }) {
-  const size = useWindowSize()
-
   return (
     <button
       className="flex flex-col items-center gap-y-1 rounded w-full py-2 hover:bg-muted sm:px-2"
@@ -344,12 +342,16 @@ function TanggalItem({
         color={active ? 'primary' : 'gray'}
         variant={active ? 'dark' : 'default'}
       >
-        <Time date={date} customFormat={size.width > 768 ? 'dddd' : 'ddd'} />
+        <span className="hidden sm:block">
+          <Time date={date} customFormat="dddd" />
+        </span>
+        <span className="sm:hidden">
+          <Time date={date} customFormat="ddd" />
+        </span>
       </Text>
       <div
         className={cn(
-          'flex justify-center items-center',
-          size.width > 768 ? 'size-8' : 'size-6',
+          'flex justify-center items-center size-6 md:size-8',
           active ? 'bg-primary rounded-full' : ''
         )}
       >

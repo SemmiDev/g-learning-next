@@ -57,15 +57,15 @@ export default function FileButton({
             onChange={() => onChange && onChange(true)}
           />
         )}
-        <div className="flex flex-1 justify-between items-center gap-x-2">
-          <div className="flex gap-x-2">
+        <div className="flex flex-1 justify-between items-center gap-x-2 min-w-0">
+          <div className="flex items-center gap-x-2 min-w-0">
             <FileIcon file={file} />
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
               <Text
                 weight="semibold"
                 variant="dark"
                 title={file.name}
-                className="line-clamp-1"
+                className="line-clamp-2"
               >
                 {file.name}
               </Text>

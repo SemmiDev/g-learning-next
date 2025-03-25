@@ -124,7 +124,7 @@ export default function DashboardRecentFileCard({
 
   return (
     <>
-      <Card className={cn('flex flex-col flex-1 p-0', className)}>
+      <Card className={cn('flex flex-col flex-1 max-w-full p-0', className)}>
         <div className="flex justify-between items-center p-2">
           <Title as="h4" weight="semibold">
             Berkas Terbaru

@@ -39,6 +39,8 @@ export default async function KelasLayout({
   const tipeKelas = data?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
   const ruangKelasUrl = routes.pengguna.ruangKelas[jenisKelas][tipeKelas]
 
+  const bcTipeKelas = data?.kelas.tipe === 'Akademik' ? 'default' : 'umum'
+
   const pageHeader = {
     title: 'Ruang Kelas',
     breadcrumb: [
@@ -51,7 +53,7 @@ export default async function KelasLayout({
         name: 'Ruang Kelas',
       },
       {
-        href: ruangKelasUrl,
+        href: routes.pengguna.ruangKelas[jenisKelas][bcTipeKelas],
         name: data?.peran === 'Pengajar' ? 'Kelas Dikelola' : 'Kelas Diikuti',
       },
       {
