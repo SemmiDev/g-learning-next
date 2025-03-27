@@ -14,6 +14,7 @@ import {
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
+import { deskripsiSemester } from '@/utils/semester'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -30,6 +31,7 @@ const formSchema = z.object({
   paket: z.any().superRefine(objectRequired),
   usernameAdmin: z.string().pipe(required),
   passwordAdmin: z.string().pipe(requiredPassword),
+  semester: z.any().optional(),
 })
 
 export type TambahInstansiFormSchema = {
@@ -41,12 +43,27 @@ export type TambahInstansiFormSchema = {
   paket?: SelectOptionType
   usernameAdmin?: string
   passwordAdmin?: string
+  semester?: SelectOptionType
 }
 
 const jenisOptions: SelectOptionType[] = [
   selectOption('Instansi'),
   selectOption('Bimbel'),
 ]
+
+const currentYear = new Date().getFullYear()
+export const semesterOptions: SelectOptionType<string>[] = [...Array(20)].map(
+  (_, idx) => {
+    const semester = `${currentYear - Math.floor(idx / 2)}${
+      (idx % 2) % 2 == 0 ? 2 : 1
+    }`
+
+    return {
+      value: semester,
+      label: deskripsiSemester(semester),
+    }
+  }
+)
 
 const initialValues: TambahInstansiFormSchema = {}
 
@@ -82,7 +99,7 @@ export default function TambahModal({
   }
 
   return (
-    <Modal title="Tambah Instansi" isOpen={show} onClose={handleClose}>
+    <Modal title="Tambah Instansi" isOpen={show} onClose={handleClose} overflow>
       <Form<TambahInstansiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -170,6 +187,15 @@ export default function TambahModal({
                 label="Kata Sandi Admin Instansi"
                 placeholder="Kata Sandi untuk Admin Instansi"
                 required
+              />
+
+              <ControlledSelect
+                name="semester"
+                control={control}
+                options={semesterOptions}
+                label="Semester Aktif"
+                placeholder="Pilih Semester"
+                errors={errors}
               />
 
               <FormError error={formError} />

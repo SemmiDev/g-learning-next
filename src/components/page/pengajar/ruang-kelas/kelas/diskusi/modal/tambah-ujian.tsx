@@ -64,12 +64,12 @@ const initialValues: FormSchema = {
   presensi: 'aktif',
 }
 
-const optionsAcak: RadioGroupOptionType[] = [
+const acakOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const optionsPresensi: RadioGroupOptionType[] = [
+const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
@@ -200,7 +200,7 @@ export default function TambahUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={optionsAcak}
+                options={acakOptions}
               />
 
               <ControlledRadioGroup
@@ -214,7 +214,7 @@ export default function TambahUjianModal({
                 }
                 className="mb-1.5"
                 groupClassName="gap-8"
-                options={optionsPresensi}
+                options={presensiOptions}
               />
             </div>
 

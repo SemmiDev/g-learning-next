@@ -18,12 +18,14 @@ import {
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { processData } from '@/utils/process-data'
+import { deskripsiSemester } from '@/utils/semester'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { semesterOptions } from './tambah'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -34,6 +36,7 @@ const formSchema = z.object({
   paket: z.any().superRefine(objectRequired),
   usernameAdmin: z.string().pipe(required),
   passwordAdmin: z.string().pipe(requiredPassword).optional().or(z.literal('')),
+  semester: z.any().optional(),
 })
 
 export type UbahInstansiFormSchema = {
@@ -45,6 +48,7 @@ export type UbahInstansiFormSchema = {
   paket?: SelectOptionType
   usernameAdmin?: string
   passwordAdmin?: string
+  semester?: SelectOptionType
 }
 
 const jenisOptions: SelectOptionType[] = [
@@ -75,6 +79,8 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
 
       const { data } = await lihatInstansiAction(id)
 
+      const semesterAktif = data?.instansi?.semester_aktif
+
       return {
         nama: data?.instansi?.nama,
         kontak: data?.instansi?.telepon_instansi,
@@ -92,6 +98,12 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
             }
           : undefined,
         usernameAdmin: data?.pengguna?.username,
+        semester: semesterAktif
+          ? {
+              value: semesterAktif,
+              label: deskripsiSemester(semesterAktif),
+            }
+          : undefined,
       }
     },
   })
@@ -137,6 +149,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       color="warning"
       isOpen={show}
       onClose={handleClose}
+      overflow
     >
       {isLoading ? (
         <Loader height={336} />
@@ -233,6 +246,15 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                     </TextSpan>
                   }
                   placeholder="Kata Sandi untuk Admin Instansi"
+                />
+
+                <ControlledSelect
+                  name="semester"
+                  control={control}
+                  options={semesterOptions}
+                  label="Semester Aktif"
+                  placeholder="Pilih Semester"
+                  errors={errors}
                 />
 
                 <FormError error={formError} />

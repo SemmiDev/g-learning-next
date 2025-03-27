@@ -11,7 +11,7 @@ import JadwalAkademik from './jadwal'
 
 const currentYear = new Date().getFullYear()
 
-const optionsSemester: SelectOptionType<string | null>[] = [
+const semesterOptions: SelectOptionType<string | null>[] = [
   {
     value: null,
     label: 'Semester Aktif',
@@ -30,7 +30,7 @@ const optionsSemester: SelectOptionType<string | null>[] = [
 
 export default function RuangKelasAkademikBody() {
   const [semester, setSemester] = useState<SelectOptionType<string | null>>(
-    optionsSemester[0]
+    semesterOptions[0]
   )
 
   const { jenis: jenisKelas }: { jenis: string } = useParams()
@@ -61,7 +61,7 @@ export default function RuangKelasAkademikBody() {
         <div>
           <Select
             placeholder="Semester Aktif"
-            options={optionsSemester}
+            options={semesterOptions}
             onChange={(item) => {
               if (item) setSemester(item)
             }}

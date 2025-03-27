@@ -61,13 +61,13 @@ const initialValues: FormSchema = {
   ],
 }
 
-const optionsJenis: RadioGroupOptionType[] = [
+const jenisOptions: RadioGroupOptionType[] = [
   { label: 'Publik', value: 'Public' },
   { label: 'Private', value: 'Private' },
   { label: 'Internal', value: 'Internal' },
 ]
 
-const optionsHari: SelectOption[] = NAMA_HARI.map((hari) => ({
+const hariOptions: SelectOption[] = NAMA_HARI.map((hari) => ({
   label: hari,
   value: hari,
 }))
@@ -127,7 +127,7 @@ export default function PengaturanKelasModal({
               <ControlledRadioGroup
                 name="jenis"
                 control={control}
-                options={optionsJenis}
+                options={jenisOptions}
                 groupClassName="gap-x-8"
                 label={
                   <div className="flex items-center">
@@ -149,7 +149,7 @@ export default function PengaturanKelasModal({
                           render={({ field: { value, onChange } }) => (
                             <Select<SelectOption>
                               placeholder="Pilih nama hari"
-                              options={optionsHari}
+                              options={hariOptions}
                               onChange={onChange}
                               value={value}
                               getOptionValue={(option: SelectOption) =>

@@ -77,12 +77,12 @@ const initialValues: FormSchema = {
   share: true,
 }
 
-const optionsPresensi: RadioGroupOptionType[] = [
+const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
 
-const optionsTipePresensi: RadioGroupOptionType[] = [
+const tipePresensiOptions: RadioGroupOptionType[] = [
   { label: 'Presensi Manual', value: 'manual' },
   { label: 'Presensi Otomatis', value: 'otomatis' },
 ]
@@ -170,7 +170,7 @@ export default function TambahMateriModal({
                 className="flex gap-8 my-2"
                 groupClassName="gap-8"
                 labelClassName="mb-0"
-                options={optionsPresensi}
+                options={presensiOptions}
               />
 
               {watch('presensi') === 'aktif' && (
@@ -186,7 +186,7 @@ export default function TambahMateriModal({
                   className="flex gap-8 my-2"
                   groupClassName="gap-8"
                   labelClassName="mb-0"
-                  options={optionsTipePresensi}
+                  options={tipePresensiOptions}
                 />
               )}
             </div>

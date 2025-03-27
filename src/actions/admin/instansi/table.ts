@@ -12,6 +12,7 @@ export type DataType = {
   jenis: string
   id_paket: string
   nama_paket: string
+  semester_aktif: string
   jatuh_tempo: string
   jumlah_pengguna: number
   jumlah_penyimpanan_terpakai: number

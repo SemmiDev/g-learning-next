@@ -1,10 +1,10 @@
 import { Select, SelectOptionType, Text } from '@/components/ui'
+import cn from '@/utils/class-names'
 import HeaderCard from './header-card'
 import MateriCard from './list-item/materi-card'
-import cn from '@/utils/class-names'
 import SesiCard from './list-item/sesi-card'
 
-const optionsFilter: SelectOptionType[] = [
+const filterOptions: SelectOptionType[] = [
   { label: 'Hari Ini', value: 'today' },
   { label: '3 Hari', value: '3days' },
   { label: '1 Minggu', value: 'week' },
@@ -26,8 +26,8 @@ export default function LinimasaCardList({ className }: LinimasaCardListProps) {
         </Text>
         <Select
           placeholder="Filter"
-          options={optionsFilter}
-          defaultValue={optionsFilter[0]}
+          options={filterOptions}
+          defaultValue={filterOptions[0]}
         />
       </div>
 

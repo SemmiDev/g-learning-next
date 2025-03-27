@@ -19,6 +19,7 @@ import {
   LuCamera,
   LuLink,
   LuPackage,
+  LuRibbon,
   LuSave,
   LuServer,
   LuUsers,
@@ -26,6 +27,7 @@ import {
 import UbahModal from '../modal/ubah'
 import DetailItem from './detail-item'
 import UbahLogoModal from './modal/ubah-logo'
+import { deskripsiSemester } from '@/utils/semester'
 
 export default function DetailCard({ className }: { className?: string }) {
   const [ubahLogo, setUbahLogo] = useState(false)
@@ -73,6 +75,11 @@ export default function DetailCard({ className }: { className?: string }) {
               {data?.instansi?.nama}
             </Title>
             <div className="flex flex-wrap gap-1.5">
+              <DetailItem
+                Icon={LuRibbon}
+                label="Semester Aktif"
+                value={deskripsiSemester(data?.instansi?.semester_aktif || '-')}
+              />
               <DetailItem
                 Icon={LuLink}
                 label="Tipe sinkron"

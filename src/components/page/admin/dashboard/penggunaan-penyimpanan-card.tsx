@@ -25,8 +25,7 @@ import {
 import SimpleBar from 'simplebar-react'
 
 const currentYear = new Date().getFullYear()
-
-const optionsTahun: SelectOptionType<number>[] = [...Array(10)].map((_, idx) =>
+const tahunOptions: SelectOptionType<number>[] = [...Array(10)].map((_, idx) =>
   selectOption(currentYear - idx)
 )
 
@@ -85,7 +84,7 @@ export default function DashboardPenggunaanPenyimpananCard({
         </Title>
         <Select
           placeholder="Pilih Tahun"
-          options={optionsTahun}
+          options={tahunOptions}
           onChange={(item) => {
             if (item?.value) setTahun(item?.value)
           }}

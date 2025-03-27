@@ -7,6 +7,7 @@ import {
   Form,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSyncStore } from '@/stores/sync'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
@@ -15,7 +16,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
-import { useSyncStore } from '@/stores/sync'
 
 const TIPE = 'Feeder'
 
@@ -113,7 +113,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
           values: initialValues,
         }}
       >
-        {({ control, reset, formState: { errors, isSubmitting } }) => (
+        {({ control, reset, formState: { errors, isSubmitting, isDirty } }) => (
           <>
             <div className="flex flex-col gap-y-3 p-2">
               <ControlledInput
@@ -151,7 +151,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
               cancel="Batal"
               onCancel={() => reset()}
               className="p-2 mt-4"
-              disabled={isSyncing}
+              disabled={isSyncing || !isDirty}
             />
           </>
         )}

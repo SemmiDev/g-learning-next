@@ -103,7 +103,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
           values: initialValues,
         }}
       >
-        {({ control, reset, formState: { errors, isSubmitting } }) => (
+        {({ control, reset, formState: { errors, isSubmitting, isDirty } }) => (
           <>
             <div className="flex flex-col gap-y-3 p-2">
               <ControlledInput
@@ -122,7 +122,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
               cancel="Batal"
               onCancel={() => reset()}
               className="p-2 mt-4"
-              disabled={isSyncing}
+              disabled={isSyncing || !isDirty}
             />
           </>
         )}

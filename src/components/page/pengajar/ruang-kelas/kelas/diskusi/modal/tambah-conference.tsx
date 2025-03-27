@@ -51,7 +51,7 @@ const initialValues: FormSchema = {
   penjadwalan: false,
 }
 
-const optionsPresensi: RadioGroupOptionType[] = [
+const presensiOptions: RadioGroupOptionType[] = [
   { label: 'Aktif', value: 'aktif' },
   { label: 'Tidak Aktif', value: 'non-aktif' },
 ]
@@ -127,7 +127,7 @@ export default function TambahConferenceModal({
                 className="flex gap-8 my-2"
                 groupClassName="gap-8"
                 labelClassName="mb-0"
-                options={optionsPresensi}
+                options={presensiOptions}
               />
             </div>
 

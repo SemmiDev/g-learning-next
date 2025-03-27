@@ -184,8 +184,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
   params?: GetRequestParamsType
 ) => {
   try {
-    if (CONSOLE_LOG_REQUEST && !CONSOLE_LOG_ON_ERROR)
-      console.log('Send Request', makeUrl(url, params))
+    if (CONSOLE_LOG_REQUEST) console.log('Send Request', makeUrl(url, params))
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -199,7 +198,8 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
     const { success, message, errors, code, data } = await res.json()
 
     if (CONSOLE_LOG_ON_ERROR && !success) {
-      console.log('Send Request', makeUrl(url, params))
+      if (!CONSOLE_LOG_REQUEST)
+        console.log('Send Request', makeUrl(url, params))
       console.log('Response', { success, message, errors, code, data })
     } else if (CONSOLE_LOG_RESPONSE) {
       console.log('Response', { success, message, errors, code, data })
@@ -242,8 +242,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
   payload: PayloadType = {}
 ) => {
   try {
-    if (CONSOLE_LOG_REQUEST && !CONSOLE_LOG_ON_ERROR)
-      console.log('Send Request', url, payload)
+    if (CONSOLE_LOG_REQUEST) console.log('Send Request', url, payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -263,7 +262,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
     const { success, message, errors, code, data } = await res.json()
 
     if (CONSOLE_LOG_ON_ERROR && !success) {
-      console.log('Send Request', url, payload)
+      if (!CONSOLE_LOG_REQUEST) console.log('Send Request', url, payload)
       console.log('Response', { success, message, errors, code, data })
     } else if (CONSOLE_LOG_RESPONSE) {
       console.log('Response', { success, message, errors, code, data })

@@ -18,4 +18,5 @@ export const ubahInstansiAction = async (
       username: data.usernameAdmin,
       kata_sandi: data.passwordAdmin,
     },
+    semester_aktif: data.semester?.value,
   })

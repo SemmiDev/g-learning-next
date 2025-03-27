@@ -11,8 +11,8 @@ export type DataType = {
     telepon_pimpinan?: string
     telepon_instansi?: string
     tipe_sinkron?: string
-    // kata_sandi_feeder?: string,
-    // token_smart?: string,
+    kata_sandi_feeder?: string
+    token_smart?: string
     jenis?: string
     id_paket?: string
     jatuh_tempo?: string
@@ -20,6 +20,7 @@ export type DataType = {
     id_pengguna?: string
     bio?: string
     logo?: string
+    semester_aktif?: string
     created_at?: string
     updated_at?: string
   }

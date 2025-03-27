@@ -20,6 +20,7 @@ export type DataType = {
     id_pengguna: string
     bio: string
     logo: string
+    semester_aktif: string
   }
   paket_instansi: {
     id: string

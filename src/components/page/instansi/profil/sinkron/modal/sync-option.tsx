@@ -7,12 +7,25 @@ import {
   Text,
   TextSpan,
 } from '@/components/ui'
+import { deskripsiSemester } from '@/utils/semester'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useState } from 'react'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 
 const currentYear = new Date().getFullYear()
+const semesterOptions: SelectOptionType<string>[] = [...Array(20)].map(
+  (_, idx) => {
+    const semester = `${currentYear - Math.floor(idx / 2)}${
+      (idx % 2) % 2 == 0 ? 2 : 1
+    }`
+
+    return {
+      value: semester,
+      label: deskripsiSemester(semester),
+    }
+  }
+)
 
 type SyncOptionModalProps = {
   logo: string | StaticImport
@@ -37,18 +50,6 @@ export default function SyncOptionModal({
 }: SyncOptionModalProps) {
   const [semester, setSemester] = useState<string>()
 
-  const optionsSemester: SelectOptionType<string>[] = [...Array(20)].map(
-    (_, idx) => {
-      const semester = (idx % 2) % 2 == 0 ? 2 : 1
-      const ganjilGenap = semester % 2 == 0 ? 'Genap' : 'Ganjil'
-      const tahun = currentYear - Math.floor(idx / 2)
-      return {
-        label: `${tahun}/${tahun + 1} ${ganjilGenap}`,
-        value: `${tahun}${semester}`,
-      }
-    }
-  )
-
   const handleClose = () => {
     setSemester(undefined)
     setShow(false)
@@ -61,11 +62,12 @@ export default function SyncOptionModal({
       onClose={handleClose}
       rounded="sm"
       bodyClassName="flex flex-col gap-y-4 px-3 py-3"
+      overflow
     >
       <Select
         label="Semester"
         placeholder="Pilih Semester"
-        options={optionsSemester}
+        options={semesterOptions}
         onChange={(item) => {
           if (item?.value) setSemester(item?.value)
         }}
