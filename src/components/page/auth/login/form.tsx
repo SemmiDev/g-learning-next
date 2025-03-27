@@ -137,8 +137,8 @@ export default function LoginForm({ devMode }: LoginFormProps) {
               </div>
 
               <ButtonSubmit
-                className="w-full"
                 type="submit"
+                className="w-full"
                 isSubmitting={isSubmitting}
               >
                 Masuk

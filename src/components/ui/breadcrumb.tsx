@@ -42,7 +42,9 @@ const Breadcrumb = ({
   const numOfItems = React.Children.count(children)
 
   return (
-    <div className={cn('inline-flex items-center gap-2.5', className)}>
+    <div
+      className={cn('inline-flex items-center gap-x-2.5 gap-y-0.5', className)}
+    >
       {React.Children.map(children, (child, index) => {
         if (!React.isValidElement<BreadcrumbItemProps>(child)) return child
 

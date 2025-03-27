@@ -65,11 +65,7 @@ export default function LupaPasswordForm() {
 
             <FormError error={formError} />
 
-            <Button
-              className="w-full"
-              type="submit"
-              size={isMedium ? 'lg' : 'xl'}
-            >
+            <Button type="submit" className="w-full">
               Reset Kata Sandi
             </Button>
           </div>

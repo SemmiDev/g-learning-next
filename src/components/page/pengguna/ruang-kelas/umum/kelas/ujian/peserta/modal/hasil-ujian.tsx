@@ -84,7 +84,7 @@ export default function HasilUjianModal({
         <Loader height={172} />
       ) : (
         <>
-          <div className="flex p-3">
+          <div className="flex flex-col-reverse gap-y-3 p-3 md:flex-row">
             <table className="flex-1 text-xs text-gray-dark">
               <tbody>
                 <tr>
@@ -144,7 +144,7 @@ export default function HasilUjianModal({
               </tbody>
             </table>
             <Tooltip
-              placement="left"
+              placement="bottom"
               color="invert"
               content={
                 selesai ? (

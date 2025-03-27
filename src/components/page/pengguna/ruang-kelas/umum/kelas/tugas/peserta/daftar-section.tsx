@@ -205,6 +205,7 @@ export default function PesertaDaftarTugasSection() {
                       color={
                         sudah ? 'success' : !terlambat ? 'primary' : 'danger'
                       }
+                      className="text-center"
                     >
                       {sudah
                         ? 'Sudah Mengumpulkan'

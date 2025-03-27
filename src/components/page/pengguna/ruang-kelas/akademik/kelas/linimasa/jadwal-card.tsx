@@ -132,7 +132,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                   </Badge>
                 )}
               </div>
-              <div className="flex gap-x-4 mt-1">
+              <div className="flex gap-x-4 gap-y-1.5 flex-wrap mt-1">
                 <div className="flex items-center gap-x-1">
                   <LuPackage className="size-4 text-gray-lighter" />
                   <Text size="sm" weight="medium">

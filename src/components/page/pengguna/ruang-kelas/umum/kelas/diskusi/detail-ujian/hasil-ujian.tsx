@@ -64,7 +64,7 @@ export default function HasilUjianCard({
           Hasil Ujian
         </Title>
         <CardSeparator />
-        <div className="flex flex-col gap-2 p-2 xs:flex-row">
+        <div className="flex flex-col-reverse gap-2 p-2 xs:flex-row">
           <table className="flex-1 text-xs text-gray-dark">
             <tbody>
               <tr>
@@ -122,7 +122,7 @@ export default function HasilUjianCard({
             </tbody>
           </table>
           <Tooltip
-            placement="left"
+            placement="top"
             color="invert"
             content={
               selesai ? (
