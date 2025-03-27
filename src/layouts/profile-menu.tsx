@@ -13,16 +13,18 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Popover } from 'rizzui'
 
+type ProfileMenuProps = {
+  buttonClassName?: string
+  devMode?: boolean
+}
+
 export default function ProfileMenu({
   buttonClassName,
-}: {
-  buttonClassName?: string
-}) {
+  devMode,
+}: ProfileMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const { name, image } = useSessionPengguna()
-  // const { data: session } = useSession()
-  // const user = session?.user
 
   useEffect(() => {
     setIsOpen(false)
@@ -53,7 +55,7 @@ export default function ProfileMenu({
       </Popover.Trigger>
 
       <Popover.Content className="z-[9999] p-0 dark:bg-gray-100 [&>svg]:dark:fill-gray-100">
-        <DropdownMenu />
+        <DropdownMenu devMode={devMode} />
       </Popover.Content>
     </Popover>
   )
@@ -66,7 +68,7 @@ const linkProfiles = {
   Peserta: routes.peserta.profile,
 }
 
-function DropdownMenu() {
+function DropdownMenu({ devMode }: { devMode?: boolean }) {
   const queryClient = useQueryClient()
   const router = useRouter()
   const { data: session } = useSession()
@@ -78,6 +80,15 @@ function DropdownMenu() {
     queryClient.invalidateQueries()
     router.replace(publicRoutes.login)
   }
+
+  const handleCopyToken = devMode
+    ? async () => {
+        await navigator.clipboard.writeText(session?.jwt ?? '')
+        toast.success('Token berhasil disalin ke clipboard', {
+          position: 'bottom-center',
+        })
+      }
+    : () => {}
 
   const menuItems = []
 
@@ -97,13 +108,8 @@ function DropdownMenu() {
     <div className="min-w-64 text-left rtl:text-right">
       <div className="flex items-center px-6 pb-5 pt-6">
         <div
-          className="cursor-pointer"
-          onClick={async () => {
-            await navigator.clipboard.writeText(session?.jwt ?? '')
-            toast.success('Token berhasil disalin ke clipboard', {
-              position: 'bottom-center',
-            })
-          }}
+          className={cn({ 'cursor-pointer': devMode })}
+          onClick={handleCopyToken}
         >
           <Thumbnail
             src={user?.image || undefined}

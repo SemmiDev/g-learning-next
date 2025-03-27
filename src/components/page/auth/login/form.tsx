@@ -55,15 +55,16 @@ type LoginFormSchema = {
   password?: string
 }
 
-const initialValues: LoginFormSchema = {
-  username: 'admin@gmail.com',
-  password: 'password',
+type LoginFormProps = {
+  devMode?: boolean
 }
 
-export default function LoginForm() {
+export default function LoginForm({ devMode }: LoginFormProps) {
   const router = useRouter()
 
   const [showModalUser, setShowModalUser] = useState(false)
+
+  const initialValues: LoginFormSchema = {}
 
   const doLogin = async (data: LoginFormSchema) => {
     const { ok, error } =
@@ -108,13 +109,15 @@ export default function LoginForm() {
                 {...register('username')}
                 error={errors.username?.message}
                 suffix={
-                  <ActionIcon
-                    size="sm"
-                    variant="flat"
-                    onClick={() => setShowModalUser(true)}
-                  >
-                    <TbSelect />
-                  </ActionIcon>
+                  devMode && (
+                    <ActionIcon
+                      size="sm"
+                      variant="flat"
+                      onClick={() => setShowModalUser(true)}
+                    >
+                      <TbSelect />
+                    </ActionIcon>
+                  )
                 }
               />
               <Password
@@ -142,31 +145,34 @@ export default function LoginForm() {
               </ButtonSubmit>
             </div>
 
-            <Modal
-              title="Pilih User (Dev Mode)"
-              size="sm"
-              isOpen={showModalUser}
-              onClose={() => setShowModalUser(false)}
-              bodyClassName="flex flex-col gap-y-2 p-3"
-            >
-              {listUser.map(({ level, username }, idx) => (
-                <div
-                  className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"
-                  onClick={() => {
-                    setValue('username', username)
-                    setShowModalUser(false)
-                  }}
-                  key={idx}
-                >
-                  <Text size="sm" weight="medium">
-                    {level}
-                  </Text>
-                  <Text size="xs" weight="semibold" variant="dark">
-                    {username}
-                  </Text>
-                </div>
-              ))}
-            </Modal>
+            {devMode && (
+              <Modal
+                title="Pilih User (Dev Mode)"
+                size="sm"
+                isOpen={showModalUser}
+                onClose={() => setShowModalUser(false)}
+                bodyClassName="flex flex-col gap-y-2 p-3"
+              >
+                {listUser.map(({ level, username }, idx) => (
+                  <div
+                    className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"
+                    onClick={() => {
+                      setValue('username', username)
+                      setValue('password', 'password')
+                      setShowModalUser(false)
+                    }}
+                    key={idx}
+                  >
+                    <Text size="sm" weight="medium">
+                      {level}
+                    </Text>
+                    <Text size="xs" weight="semibold" variant="dark">
+                      {username}
+                    </Text>
+                  </div>
+                ))}
+              </Modal>
+            )}
           </>
         )}
       </Form>
