@@ -18,7 +18,12 @@ export default function LoginPage() {
       }
       description="Dengan mendaftar di G-Learning, jelajahi sumber belajar yang beragam dan juga dapat terhubung dengan guru, dosen, siswa dan mahasiswa diseluruh indonesia"
     >
-      <LoginForm devMode={process.env.NODE_ENV === 'development'} />
+      <LoginForm
+        devMode={
+          process.env.NODE_ENV === 'development' ||
+          process.env.DEV_MODE === 'true'
+        }
+      />
     </AuthWrapper>
   )
 }
