@@ -9,6 +9,7 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import { required } from '@/utils/validations/pipe'
@@ -42,6 +43,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ show, setShow }: UbahModalProps) {
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
   const { update: updateSession } = useSession()
   const queryClient = useQueryClient()
@@ -87,7 +89,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
       title="Ubah Data Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -102,6 +104,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>

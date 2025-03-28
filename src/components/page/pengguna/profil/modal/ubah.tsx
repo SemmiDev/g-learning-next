@@ -1,7 +1,6 @@
 import { dataProfilAction } from '@/actions/pengguna/profil/data'
 import { ubahProfilAction } from '@/actions/pengguna/profil/ubah-data'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
@@ -12,6 +11,7 @@ import {
   ModalFooterButtons,
   RadioGroupOptionType,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
 import { makeSimpleQueryData } from '@/utils/query-data'
@@ -51,6 +51,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ show, setShow }: UbahModalProps) {
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
   const { update: updateSession } = useSession()
   const queryClient = useQueryClient()
@@ -92,6 +93,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
       title="Ubah Data Profil"
       isLoading={!isLoading && isFetching}
       color="warning"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -106,6 +108,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>

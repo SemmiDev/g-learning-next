@@ -22,7 +22,6 @@ const formSchema = z.object({
   bio: z.string().optional(),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   nama?: string
   nik?: string

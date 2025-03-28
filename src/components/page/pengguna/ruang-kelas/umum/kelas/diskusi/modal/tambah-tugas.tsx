@@ -13,6 +13,7 @@ import {
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -76,6 +77,7 @@ export default function TambahTugasModal({
   setShow,
 }: TambahTugasModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -102,7 +104,7 @@ export default function TambahTugasModal({
   return (
     <Modal
       title="Bagikan Tugas"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -114,76 +116,79 @@ export default function TambahTugasModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledSwitch
-                name="share"
-                control={control}
-                label="Bagikan dari Bank Materi"
-              />
-
-              {watch('share') ? (
-                <ControlledMateri
-                  name="materi"
-                  control={control}
-                  errors={errors}
-                  type="tugas"
-                />
-              ) : (
-                <>
-                  <ControlledInput
-                    name="judul"
-                    control={control}
-                    errors={errors}
-                    label="Judul Tugas"
-                    placeholder="Tulis judul tugas di sini"
-                    required
-                  />
-
-                  <ControlledQuillEditor
-                    name="catatan"
-                    control={control}
-                    errors={errors}
-                    label="Catatan Tambahan"
-                    placeholder="Buat catatan singkat terkait tugas yang diberikan"
-                    toolbar="minimalist"
-                  />
-
-                  <ControlledPustakaMedia
-                    name="berkas"
-                    control={control}
-                    label="Pilih Berkas"
-                    errors={errors}
-                    multiple
-                  />
-                </>
-              )}
-
-              <div className="flex gap-x-4 px-3 py-3">
+            <div className="flex flex-col">
+              <div className="flex flex-col gap-4 p-3">
                 <ControlledSwitch
-                  name="dibatasiWaktu"
+                  name="share"
                   control={control}
-                  label="Opsi Batas Waktu Penyerahan"
+                  label="Bagikan dari Bank Materi"
                 />
-                {watch('dibatasiWaktu', false) && (
-                  <ControlledDatePicker
-                    name="batasWaktu"
+
+                {watch('share') ? (
+                  <ControlledMateri
+                    name="materi"
                     control={control}
                     errors={errors}
-                    placeholder="Atur Tanggal dan Jam Batas Waktu"
-                    showTimeSelect
-                    dateFormat="dd MMMM yyyy HH:mm"
-                    timeFormat="HH:mm"
-                    className="flex-1"
+                    type="tugas"
                   />
-                )}
-              </div>
-            </div>
+                ) : (
+                  <>
+                    <ControlledInput
+                      name="judul"
+                      control={control}
+                      errors={errors}
+                      label="Judul Tugas"
+                      placeholder="Tulis judul tugas di sini"
+                      required
+                    />
 
-            <div className="px-3">
-              <FormError error={formError} />
+                    <ControlledQuillEditor
+                      name="catatan"
+                      control={control}
+                      errors={errors}
+                      label="Catatan Tambahan"
+                      placeholder="Buat catatan singkat terkait tugas yang diberikan"
+                      toolbar="minimalist"
+                    />
+
+                    <ControlledPustakaMedia
+                      name="berkas"
+                      control={control}
+                      label="Pilih Berkas"
+                      errors={errors}
+                      multiple
+                    />
+                  </>
+                )}
+
+                <div className="flex gap-x-4 gap-y-1 flex-wrap">
+                  <ControlledSwitch
+                    name="dibatasiWaktu"
+                    control={control}
+                    label="Opsi Batas Waktu Penyerahan"
+                  />
+                  {watch('dibatasiWaktu', false) && (
+                    <ControlledDatePicker
+                      name="batasWaktu"
+                      control={control}
+                      errors={errors}
+                      placeholder="Atur Tanggal dan Jam Batas Waktu"
+                      showTimeSelect
+                      dateFormat="dd MMMM yyyy HH:mm"
+                      timeFormat="HH:mm"
+                      className="flex-1 min-w-72"
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="px-3">
+                <FormError error={formError} />
+              </div>
             </div>
 
             <ModalFooterButtons

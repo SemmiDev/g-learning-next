@@ -43,7 +43,6 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   jenis?: string
   penjadwalan: boolean
@@ -193,7 +192,7 @@ export default function TambahUjianModal({
                 control={control}
                 label={
                   <div className="flex items-center">
-                    Acak Soal
+                    Acak Soal Pilihan Ganda
                     <BsInfoCircle size={12} className="ml-1" />
                   </div>
                 }

@@ -183,6 +183,7 @@ export default function PengaturanKelasModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({
             control,

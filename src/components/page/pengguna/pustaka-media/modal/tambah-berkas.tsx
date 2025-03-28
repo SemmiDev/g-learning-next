@@ -9,6 +9,7 @@ import {
   ModalFooterButtons,
   TextLabel,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -59,6 +60,7 @@ export default function TambahBerkasModal({
   idFolder,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahBerkasFormSchema> = async (data) => {
@@ -100,7 +102,7 @@ export default function TambahBerkasModal({
   return (
     <Modal
       title={`${uploadLink ? 'Tambah Link/' : ''}Unggah Media`}
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -111,6 +113,7 @@ export default function TambahBerkasModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({
           register,
@@ -127,7 +130,10 @@ export default function TambahBerkasModal({
                   <div className="flex flex-col gap-y-2">
                     {watch('youtube')?.map((_, idx) => {
                       return (
-                        <div key={idx} className="flex gap-x-2">
+                        <div
+                          key={idx}
+                          className="flex flex-col gap-2 border-b border-b-muted pb-2 last:border-b-0 sm:flex-row sm:items-center sm:border-b-0 sm:pb-0"
+                        >
                           <Input
                             placeholder="Label"
                             labelClassName="text-gray-dark font-semibold"
@@ -146,7 +152,6 @@ export default function TambahBerkasModal({
                             size="sm"
                             variant="outline-colorful"
                             color="danger"
-                            className="mt-2.5"
                             onClick={() => {
                               setValue(
                                 'youtube',

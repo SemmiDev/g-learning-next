@@ -10,6 +10,7 @@ import {
   ModalFooterButtons,
   TextSpan,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -53,6 +54,7 @@ type UbahModalProps = {
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['admin.manajemen-admin.table.ubah', id]
@@ -105,6 +107,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       title="Ubah Admin"
       isLoading={!isLoading && isFetching}
       color="warning"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -119,6 +122,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>

@@ -72,7 +72,7 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card className="flex justify-between">
+      <Card className="flex justify-between gap-2 flex-wrap">
         <div>
           <Text weight="semibold" variant="dark">
             {data?.aktifitas.judul}
@@ -101,7 +101,7 @@ export default function PengajarRekapTugasDetailSesiSection({
             />
           </Text>
         </div>
-        <div className="flex flex-wrap justify-end">
+        <div className="flex flex-wrap shrink-0">
           <Link href={linkDetail}>
             <Button as="span" size="sm" color="primary" variant="text">
               <BsDoorOpen className="mr-2" /> Lihat Detail

@@ -17,7 +17,6 @@ const formSchema = z.object({
   berkas: z.array(z.any()),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   judul?: string
   catatan?: string

@@ -44,7 +44,6 @@ const formSchema = z.union([
   isNotShareFs.merge(isNotDibatasiWaktuFs),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   share: boolean
   materi?: MateriItemType

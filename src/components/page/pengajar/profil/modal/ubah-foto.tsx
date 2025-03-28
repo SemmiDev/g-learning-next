@@ -12,7 +12,6 @@ const formSchema = z.object({
   foto: z.any().superRefine(objectRequired),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   foto?: any
 }

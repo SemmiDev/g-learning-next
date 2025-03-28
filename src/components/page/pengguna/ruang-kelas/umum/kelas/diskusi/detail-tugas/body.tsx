@@ -64,14 +64,14 @@ export default function DetailTugasBody() {
         </Link>
       </div>
 
-      <div className="flex flex-wrap items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
+      <div className="grid grid-cols-12 items-start gap-y-8 lg:gap-x-4 lg:gap-y-0">
         <DetailCard
           data={dataTugas || undefined}
           isLoading={isLoadingTugas}
           setFilePreview={setFilePreview}
           className={cn(
-            'w-full',
-            dataKelas?.peran === 'Pengajar' ? 'lg:w-6/12' : 'lg:w-7/12'
+            'col-span-12',
+            dataKelas?.peran === 'Pengajar' ? 'lg:col-span-6' : 'lg:col-span-7'
           )}
         />
 
@@ -80,12 +80,12 @@ export default function DetailTugasBody() {
             tipeKelas={
               dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
             }
-            className="flex-1"
+            className="col-span-12 lg:col-span-6"
           />
         ) : (
           <KumpulkanTugasCard
             tugas={dataTugas || undefined}
-            className="flex-1"
+            className="col-span-12 lg:col-span-5"
           />
         )}
       </div>

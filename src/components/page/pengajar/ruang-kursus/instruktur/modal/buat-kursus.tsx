@@ -38,7 +38,6 @@ const isNotBayarFs = z
 
 const formSchema = z.union([isBayarFs, isNotBayarFs])
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   nama?: string
   bayar: boolean

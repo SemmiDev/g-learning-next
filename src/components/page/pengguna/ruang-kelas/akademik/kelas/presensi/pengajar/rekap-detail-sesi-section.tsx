@@ -104,7 +104,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card className="flex justify-between gap-x-2">
+      <Card className="flex justify-between gap-2 flex-wrap">
         <div className="flex flex-col">
           <Text weight="semibold" variant="dark">
             {data?.judul}
@@ -125,7 +125,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
             />
           </Text>
         </div>
-        <div className="flex shrink-0">
+        <div className="flex flex-wrap shrink-0">
           <Link
             href={`${routes.pengguna.ruangKelas.dikelola[tipeKelas]}/${idKelas}/sesi-pembelajaran/${idSesi}`}
           >

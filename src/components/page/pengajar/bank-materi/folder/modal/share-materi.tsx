@@ -48,7 +48,6 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFs),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   kelas?: KelasType
   presensi: string

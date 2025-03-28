@@ -11,6 +11,7 @@ import {
   ModalFooterButtons,
   SelectOptionType,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { deskripsiSemester } from '@/utils/semester'
@@ -76,6 +77,7 @@ export default function TambahModal({
   setShow,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahInstansiFormSchema> = async (data) => {
@@ -98,7 +100,13 @@ export default function TambahModal({
   }
 
   return (
-    <Modal title="Tambah Instansi" isOpen={show} onClose={handleClose} overflow>
+    <Modal
+      title="Tambah Instansi"
+      size={size}
+      isOpen={show}
+      onClose={handleClose}
+      overflow
+    >
       <Form<TambahInstansiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -106,6 +114,7 @@ export default function TambahModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, formState: { errors, isSubmitting } }) => (
           <>

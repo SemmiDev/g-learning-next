@@ -12,6 +12,7 @@ import {
   ModalFooterButtons,
   SelectOptionType,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { FILE_SIZE_UNIT_SCALE } from '@/utils/bytes'
 import { selectOption } from '@/utils/object'
@@ -78,6 +79,7 @@ type UbahModalProps = {
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['admin.paket-pengguna.table.ubah', id]
@@ -139,6 +141,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       title="Ubah Paket Pengguna"
       isLoading={!isLoading && isFetching}
       color="warning"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -153,6 +156,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
@@ -226,6 +230,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
 
               <ModalFooterButtons
                 submit="Simpan"
+                submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
                 borderTop

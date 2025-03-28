@@ -12,6 +12,7 @@ import {
   Text,
   TextBordered,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -56,6 +57,7 @@ export default function UbahBankSoalModal({
   onHide,
 }: UbahBankSoalModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -125,7 +127,7 @@ export default function UbahBankSoalModal({
       title="Ubah Paket Soal"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -140,6 +142,7 @@ export default function UbahBankSoalModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>

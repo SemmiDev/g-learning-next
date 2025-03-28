@@ -110,20 +110,20 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
         Daftar Hadir Peserta Kelas
       </Text>
       <CardSeparator />
-      <div className="flex justify-between gap-x-2 p-2">
+      <div className="flex flex-col justify-between gap-2 p-2 sm:flex-row">
         <Input
           size="sm"
           type="search"
           placeholder="Cari Nama"
-          clearable
-          className="w-80"
+          className="max-w-80 flex-1"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={search}
           onChange={(e) => onSearch(e.target.value)}
+          clearable
           onClear={() => onSearch('')}
         />
         {ubahData && (
-          <div className="flex gap-2">
+          <div className="flex gap-2 place-self-end">
             <Button
               size="sm"
               color="gray"
@@ -146,7 +146,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
             <Fragment key={item.id_peserta}>
               <CardSeparator />
               <div className="flex justify-between items-center gap-x-2 px-3 py-2">
-                <div className="flex gap-x-3">
+                <div className="flex gap-x-3 min-w-0">
                   <Thumbnail
                     src={item.foto || undefined}
                     alt="profil"
@@ -154,16 +154,30 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
                     rounded="md"
                     avatar={item.nama}
                   />
-                  <div className="flex flex-col">
-                    <Text size="sm" weight="semibold" variant="dark">
+                  <div className="flex flex-col min-w-0">
+                    <Text
+                      size="sm"
+                      weight="semibold"
+                      variant="dark"
+                      className="truncate"
+                    >
                       {item.nama}
                     </Text>
-                    <Text size="2xs" weight="medium" variant="lighter">
+                    <Text
+                      size="2xs"
+                      weight="medium"
+                      variant="lighter"
+                      className="truncate"
+                    >
                       {item.email || '-'}
                     </Text>
                   </div>
                 </div>
-                <div className="flex gap-x-2">
+                <div
+                  className={cn({
+                    'grid grid-cols-2 gap-2 shrink-0 xs:grid-cols-4': ubahData,
+                  })}
+                >
                   {ubahData ? (
                     absensiStatus.map((status) => (
                       <ActionIconTooltip

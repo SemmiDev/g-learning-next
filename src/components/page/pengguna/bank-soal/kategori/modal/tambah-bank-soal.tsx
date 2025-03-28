@@ -9,6 +9,7 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -55,6 +56,7 @@ export default function TambahBankSoalModal({
   setShow,
 }: TambahBankSoalModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -81,7 +83,7 @@ export default function TambahBankSoalModal({
   return (
     <Modal
       title="Buat Paket Soal Baru"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -89,6 +91,7 @@ export default function TambahBankSoalModal({
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}
+        flexing
       >
         {({ control, formState: { errors, isSubmitting } }) => (
           <>

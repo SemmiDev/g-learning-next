@@ -97,7 +97,7 @@ export default function PengajarRekapPresensiCard({
       </Title>
       <div className="flex flex-wrap gap-4 mt-4 lg:flex-nowrap">
         <div className="w-full lg:w-5/12">
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-2 flex-wrap">
             <Input
               size="sm"
               type="search"

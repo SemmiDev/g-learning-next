@@ -32,7 +32,6 @@ const formSchema = z.discriminatedUnion('penjadwalan', [
     .merge(baseFormSchema),
 ])
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   judul?: string
   catatan?: string

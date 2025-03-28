@@ -31,7 +31,6 @@ const formSchema = z.object({
   ),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   program?: string
   kelas?: string

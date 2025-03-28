@@ -240,7 +240,7 @@ export default function TambahUjianSesiModal({
                 errors={errors}
                 label={
                   <div className="flex items-center">
-                    Acak Soal
+                    Acak Soal Pilihan Ganda
                     <BsInfoCircle size={12} className="ml-1" />
                   </div>
                 }

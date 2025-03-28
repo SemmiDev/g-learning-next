@@ -20,7 +20,6 @@ const formSchema = z
     path: ['ulangiPassword'],
   })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   passwordLama?: string
   passwordBaru?: string

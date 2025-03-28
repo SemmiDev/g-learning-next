@@ -12,7 +12,6 @@ const formSchema = z.object({
   nama: z.string().pipe(required),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   nama?: string
 }

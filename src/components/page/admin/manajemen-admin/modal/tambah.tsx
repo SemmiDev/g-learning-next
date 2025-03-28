@@ -7,6 +7,7 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -45,6 +46,7 @@ export default function TambahModal({
   setShow,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahAdminFormSchema> = async (data) => {
@@ -67,7 +69,7 @@ export default function TambahModal({
   }
 
   return (
-    <Modal title="Tambah Admin" isOpen={show} onClose={handleClose}>
+    <Modal title="Tambah Admin" size={size} isOpen={show} onClose={handleClose}>
       <Form<TambahAdminFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -75,6 +77,7 @@ export default function TambahModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, formState: { errors, isSubmitting } }) => (
           <>

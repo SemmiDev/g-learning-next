@@ -18,6 +18,7 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { NAMA_BULAN } from '@/config/const'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { processData } from '@/utils/process-data'
@@ -60,6 +61,7 @@ type UbahModalProps = {
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['admin.tagihan-pengguna.table.ubah', id]
@@ -146,6 +148,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       title="Ubah Tagihan Pengguna"
       isLoading={!isLoading && isFetching}
       color="warning"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -161,6 +164,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({
             control,

@@ -71,62 +71,60 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card>
-        <div className="flex justify-between">
-          <div>
-            <Text weight="semibold" variant="dark">
-              {data?.aktifitas.judul}
-            </Text>
-            <Text
-              size="sm"
-              weight="medium"
-              variant="lighter"
-              className="line-clamp-2"
-            >
-              {stripHtmlAndEllipsis(data?.aktifitas.deskripsi ?? '', 150)}
-            </Text>
-          </div>
-          <div className="flex flex-wrap justify-end">
-            <Link href={linkDetail}>
-              <Button as="span" size="sm" color="primary" variant="text">
-                <BsDoorOpen className="mr-2" /> Lihat Detail
-              </Button>
-            </Link>
+      <Card className="flex justify-between gap-2 flex-wrap">
+        <div>
+          <Text weight="semibold" variant="dark">
+            {data?.aktifitas.judul}
+          </Text>
+          <Text
+            size="sm"
+            weight="medium"
+            variant="lighter"
+            className="line-clamp-2"
+          >
+            {stripHtmlAndEllipsis(data?.aktifitas.deskripsi ?? '', 150)}
+          </Text>
+          <div className="flex flex-wrap gap-x-8 mt-2">
+            <div>
+              <Text size="sm" weight="medium" variant="lighter">
+                Durasi Ujian
+              </Text>
+              <Text size="sm" weight="medium" variant="dark">
+                {data.aktifitas.durasi_ujian} Menit
+              </Text>
+            </div>
+            <div>
+              <Text size="sm" weight="medium" variant="lighter">
+                Waktu Mulai
+              </Text>
+              <Text size="sm" weight="medium" variant="dark">
+                <TimeIndo
+                  date={data.aktifitas.waktu_mulai_ujian}
+                  format="datetime"
+                  empty="-"
+                />
+              </Text>
+            </div>
+            <div>
+              <Text size="sm" weight="medium" variant="lighter">
+                Waktu Selesai
+              </Text>
+              <Text size="sm" weight="medium" variant="dark">
+                <TimeIndo
+                  date={data.aktifitas.waktu_selesai_ujian}
+                  format="datetime"
+                  empty="-"
+                />
+              </Text>
+            </div>
           </div>
         </div>
-        <div className="flex flex-wrap gap-x-8 mt-2">
-          <div>
-            <Text size="sm" weight="medium" variant="lighter">
-              Durasi Ujian
-            </Text>
-            <Text size="sm" weight="medium" variant="dark">
-              {data.aktifitas.durasi_ujian} Menit
-            </Text>
-          </div>
-          <div>
-            <Text size="sm" weight="medium" variant="lighter">
-              Waktu Mulai
-            </Text>
-            <Text size="sm" weight="medium" variant="dark">
-              <TimeIndo
-                date={data.aktifitas.waktu_mulai_ujian}
-                format="datetime"
-                empty="-"
-              />
-            </Text>
-          </div>
-          <div>
-            <Text size="sm" weight="medium" variant="lighter">
-              Waktu Selesai
-            </Text>
-            <Text size="sm" weight="medium" variant="dark">
-              <TimeIndo
-                date={data.aktifitas.waktu_selesai_ujian}
-                format="datetime"
-                empty="-"
-              />
-            </Text>
-          </div>
+        <div className="flex flex-wrap shrink-0">
+          <Link href={linkDetail}>
+            <Button as="span" size="sm" color="primary" variant="text">
+              <BsDoorOpen className="mr-2" /> Lihat Detail
+            </Button>
+          </Link>
         </div>
       </Card>
 

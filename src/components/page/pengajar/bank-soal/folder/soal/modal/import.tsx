@@ -15,7 +15,6 @@ const formSchema = z.object({
   berkas: z.any().superRefine(objectRequired),
 })
 
-// type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
   berkas?: UploadFileType
 }

@@ -2,11 +2,13 @@ import {
   Button,
   Card,
   Modal,
+  ModalFooterButtons,
   Select,
   SelectOptionType,
   Text,
   TextSpan,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { deskripsiSemester } from '@/utils/semester'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
@@ -48,6 +50,7 @@ export default function SyncOptionModal({
   onSyncPush,
   onSyncPull,
 }: SyncOptionModalProps) {
+  const size = useAutoSizeMediumModal()
   const [semester, setSemester] = useState<string>()
 
   const handleClose = () => {
@@ -58,68 +61,77 @@ export default function SyncOptionModal({
   return (
     <Modal
       title="Pilih Jenis Sinkronisasi Data"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       rounded="sm"
-      bodyClassName="flex flex-col gap-y-4 px-3 py-3"
+      bodyClassName="justify-between"
       overflow
     >
-      <Select
-        label="Semester"
-        placeholder="Pilih Semester"
-        options={semesterOptions}
-        onChange={(item) => {
-          if (item?.value) setSemester(item?.value)
-        }}
-        className="flex-1"
-        required
+      <div className="flex flex-col gap-y-8 px-3 py-3 sm:gap-y-6">
+        <Select
+          label="Semester"
+          placeholder="Pilih Semester"
+          options={semesterOptions}
+          onChange={(item) => {
+            if (item?.value) setSemester(item?.value)
+          }}
+          required
+        />
+        <Card className="flex flex-col gap-y-2">
+          <div className="flex justify-between items-center gap-x-2">
+            <MainBanner />
+            <BsArrowRight className="size-16 text-black" />
+            <OptionBanner
+              logo={logo}
+              labelTop={labelTop}
+              labelBottom={labelBottom}
+              bgColor={bgColor}
+            />
+          </div>
+          <Button
+            variant="outline"
+            className="text-primary"
+            disabled={!semester}
+            onClick={() => {
+              onSyncPush(semester || '')
+              // handleClose()
+            }}
+          >
+            Sinkron Data ke {labelTop} {labelBottom}
+          </Button>
+        </Card>
+        <Card className="flex flex-col gap-y-2">
+          <div className="flex justify-between items-center gap-x-2">
+            <MainBanner />
+            <BsArrowLeft className="size-16 text-black" />
+            <OptionBanner
+              logo={logo}
+              labelTop={labelTop}
+              labelBottom={labelBottom}
+              bgColor={bgColor}
+            />
+          </div>
+          <Button
+            variant="outline"
+            className="text-primary"
+            disabled={!semester}
+            onClick={() => {
+              onSyncPull(semester || '')
+              handleClose()
+            }}
+          >
+            Sinkron Data dari {labelTop} {labelBottom}
+          </Button>
+        </Card>
+      </div>
+
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={handleClose}
+        className="sm:hidden"
+        borderTop
       />
-      <Card className="flex flex-col gap-y-2">
-        <div className="flex justify-between items-center gap-x-2">
-          <MainBanner />
-          <BsArrowRight className="size-16 text-black" />
-          <OptionBanner
-            logo={logo}
-            labelTop={labelTop}
-            labelBottom={labelBottom}
-            bgColor={bgColor}
-          />
-        </div>
-        <Button
-          variant="outline"
-          className="text-primary"
-          disabled={!semester}
-          onClick={() => {
-            onSyncPush(semester || '')
-            // handleClose()
-          }}
-        >
-          Sinkron Data ke {labelTop} {labelBottom}
-        </Button>
-      </Card>
-      <Card className="flex flex-col gap-y-2">
-        <div className="flex justify-between items-center gap-x-2">
-          <MainBanner />
-          <BsArrowLeft className="size-16 text-black" />
-          <OptionBanner
-            logo={logo}
-            labelTop={labelTop}
-            labelBottom={labelBottom}
-            bgColor={bgColor}
-          />
-        </div>
-        <Button
-          variant="outline"
-          className="text-primary"
-          disabled={!semester}
-          onClick={() => {
-            onSyncPull(semester || '')
-            handleClose()
-          }}
-        >
-          Sinkron Data dari {labelTop} {labelBottom}
-        </Button>
-      </Card>
     </Modal>
   )
 }
@@ -147,15 +159,21 @@ function OptionBanner({
 }) {
   return (
     <div
-      className="flex justify-center items-center gap-x-1 w-44 h-16 rounded-md"
+      className="flex justify-center items-center gap-x-2 w-44 h-16 rounded-md"
       style={{ backgroundColor: bgColor }}
     >
       <Image src={logo} alt="sinkron" className="h-12 w-auto" />
-      <div className="flex flex-col text-xl leading-5">
-        <TextSpan weight="extrabold" className="text-white">
+      <div className="flex flex-col text-base sm:text-xl">
+        <TextSpan
+          weight="extrabold"
+          className="text-white leading-5 sm:leading-6"
+        >
           {labelTop}
         </TextSpan>
-        <TextSpan weight="extrabold" className="text-white">
+        <TextSpan
+          weight="extrabold"
+          className="text-white leading-5 sm:leading-6"
+        >
           {labelBottom}
         </TextSpan>
       </div>

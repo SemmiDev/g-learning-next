@@ -16,6 +16,7 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { NAMA_BULAN } from '@/config/const'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -63,6 +64,7 @@ export default function TambahModal({
   setShow,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahTagihanPenggunaFormSchema> = async (
@@ -95,6 +97,7 @@ export default function TambahModal({
   return (
     <Modal
       title="Tambah Tagihan Pengguna"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -106,6 +109,7 @@ export default function TambahModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({
           control,

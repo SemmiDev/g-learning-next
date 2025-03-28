@@ -139,7 +139,7 @@ export default function PengajarPresensiCard({
   return (
     <>
       <Card className={cn('flex flex-col p-0', className)}>
-        <div className="flex justify-between items-center gap-x-2 px-2 py-2">
+        <div className="flex justify-between items-center flex-wrap gap-2 px-2 py-2">
           <Title as="h6" weight="semibold" className="leading-4">
             Presensi
           </Title>
@@ -235,7 +235,12 @@ export default function PengajarPresensiCard({
                   </div>
                 </div>
                 <div className="flex gap-x-4">
-                  <div className="flex gap-x-2">
+                  <div
+                    className={cn({
+                      'grid grid-cols-2 gap-2 shrink-0 xs:grid-cols-4':
+                        ubahData,
+                    })}
+                  >
                     {dataSesi?.jenis_absensi_peserta === 'Manual' ||
                     ubahData ? (
                       absensiStatus.map((status) => (

@@ -14,6 +14,7 @@ import {
   SelectOptionType,
   TextSpan,
 } from '@/components/ui'
+import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { processData } from '@/utils/process-data'
@@ -63,6 +64,7 @@ type UbahModalProps = {
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['admin.instansi.table.ubah', id]
@@ -146,6 +148,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       title="Ubah Instansi"
       isLoading={!isLoading && isFetching}
       color="warning"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -161,6 +164,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
