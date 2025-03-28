@@ -2,7 +2,6 @@ import { lihatHasilUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
-  CardSeparator,
   Loader,
   Modal,
   ModalFooterButtons,
@@ -176,10 +175,11 @@ export default function HasilUjianModal({
               </div>
             </Tooltip>
           </div>
-          <CardSeparator />
+
           <ModalFooterButtons
             cancel={selesai || !dalamJadwal ? 'Tutup' : 'Batal'}
             onCancel={handleClose}
+            borderTop
           >
             {selesai ? (
               <div className="flex-1">

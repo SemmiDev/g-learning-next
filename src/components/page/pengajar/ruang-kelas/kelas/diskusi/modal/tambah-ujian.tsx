@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
@@ -218,12 +217,11 @@ export default function TambahUjianModal({
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

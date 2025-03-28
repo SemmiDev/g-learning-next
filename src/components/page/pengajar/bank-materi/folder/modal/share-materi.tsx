@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledKelas,
   ControlledRadioGroup,
@@ -203,12 +202,11 @@ export default function ShareMateriModal({
               </div>
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

@@ -1,7 +1,6 @@
 import { lihatKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/lihat'
 import { ubahKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/ubah'
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   FormError,
@@ -120,13 +119,12 @@ export default function UbahKategoriModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

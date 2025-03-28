@@ -1,6 +1,5 @@
 import { tambahAktifitasTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/akademik/tambah-tugas'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledMateri,
@@ -187,12 +186,11 @@ export default function TambahTugasModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

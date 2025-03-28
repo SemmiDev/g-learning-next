@@ -254,12 +254,11 @@ export default function TambahMateriModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

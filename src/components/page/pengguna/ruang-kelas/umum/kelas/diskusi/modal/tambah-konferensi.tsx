@@ -191,12 +191,11 @@ export default function TambahKonferensiModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

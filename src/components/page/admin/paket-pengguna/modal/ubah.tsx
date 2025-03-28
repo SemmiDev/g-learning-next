@@ -1,7 +1,6 @@
 import { lihatPaketPenggunaAction } from '@/actions/admin/paket-pengguna/lihat'
 import { ubahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/ubah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledInputNumber,
   ControlledInputRupiah,
@@ -225,12 +224,11 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

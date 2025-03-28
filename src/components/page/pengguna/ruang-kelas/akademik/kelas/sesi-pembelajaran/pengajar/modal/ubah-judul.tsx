@@ -1,7 +1,6 @@
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import { ubahJudulSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-judul'
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   FormError,
@@ -145,13 +144,12 @@ export default function UbahJudulSesiModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

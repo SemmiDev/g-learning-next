@@ -1,10 +1,7 @@
 import { tambahAktifitasKonferensiSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/tambah-konferensi'
 import {
-  CardSeparator,
-  ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
-  ControlledRadioGroup,
   Form,
   FormError,
   Modal,
@@ -18,8 +15,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
-import { Switch } from 'rizzui'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -153,12 +148,11 @@ export default function TambahKonferensiSesiModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

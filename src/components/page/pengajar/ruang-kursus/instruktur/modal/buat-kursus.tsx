@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledInput,
   ControlledInputRupiah,
   ControlledPustakaMedia,
@@ -147,12 +146,11 @@ export default function BuatKursusModal({
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Buat Kursus"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

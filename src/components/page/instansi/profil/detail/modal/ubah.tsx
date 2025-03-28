@@ -1,7 +1,6 @@
 import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import { ubahProfilAction } from '@/actions/instansi/profil/detail/ubah-data'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
   Form,
@@ -163,13 +162,12 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

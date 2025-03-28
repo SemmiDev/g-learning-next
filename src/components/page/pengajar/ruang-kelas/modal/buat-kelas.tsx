@@ -1,6 +1,5 @@
 import {
   Button,
-  CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
@@ -212,12 +211,11 @@ export default function BuatKelasModal({
                 />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 isSubmitting={isSubmitting}
                 onCancel={() => setShowModal(false)}
+                borderTop
               />
             </>
           )

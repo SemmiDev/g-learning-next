@@ -1,6 +1,5 @@
 import { shareMateriBankMateriAction } from '@/actions/pengguna/bank-materi/share-materi'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledKelas,
   ControlledRadioGroup,
@@ -226,12 +225,11 @@ export default function ShareMateriModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

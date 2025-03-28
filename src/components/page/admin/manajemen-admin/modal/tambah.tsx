@@ -1,6 +1,5 @@
 import { tambahAdminAction } from '@/actions/admin/admin/tambah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledPassword,
   Form,
@@ -119,12 +118,11 @@ export default function TambahModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

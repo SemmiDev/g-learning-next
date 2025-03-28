@@ -1,6 +1,5 @@
 import { ubahFotoAction } from '@/actions/pengguna/profil/ubah-foto'
 import {
-  CardSeparator,
   ControlledUploadFile,
   Form,
   FormError,
@@ -81,12 +80,11 @@ export default function UbahFotoModal({ show, setShow }: UbahFotoModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Upload"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )

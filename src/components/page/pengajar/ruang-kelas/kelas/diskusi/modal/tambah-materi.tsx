@@ -213,12 +213,11 @@ export default function TambahMateriModal({
               )}
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

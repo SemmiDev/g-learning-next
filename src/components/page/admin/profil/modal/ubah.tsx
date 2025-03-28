@@ -1,7 +1,6 @@
 import { dataProfilAction } from '@/actions/admin/profil/data'
 import { ubahProfilAction } from '@/actions/admin/profil/ubah-data'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledRadioGroup,
   Form,
@@ -130,13 +129,12 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

@@ -1,7 +1,6 @@
 import { ubahAktifitasTugasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/akademik/ubah-tugas'
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -206,13 +205,12 @@ export default function UbahTugasModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

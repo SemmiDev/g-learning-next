@@ -1,7 +1,6 @@
 import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
 import { ubahSemesterAktifAction } from '@/actions/instansi/profil/detail/ubah-semester-aktif'
 import {
-  CardSeparator,
   ControlledSelect,
   Form,
   FormError,
@@ -123,13 +122,12 @@ export default function UbahSemesterAktifModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

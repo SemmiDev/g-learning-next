@@ -1,6 +1,5 @@
 import { ubahPassowrdAction } from '@/actions/pengguna/profil/ubah-password'
 import {
-  CardSeparator,
   ControlledPassword,
   Form,
   FormError,
@@ -103,14 +102,13 @@ export default function UbahPasswordModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan Sandi Baru"
               submitColor="warning"
               submitClassName="text-nowrap"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

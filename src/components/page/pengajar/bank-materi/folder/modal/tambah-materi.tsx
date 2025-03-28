@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
@@ -83,12 +82,11 @@ export default function TambahMateriModal({
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Tambah Materi"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

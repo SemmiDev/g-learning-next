@@ -89,9 +89,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
         </>
       )}
 
-      <CardSeparator />
-
-      <ModalFooterButtons cancel="Tutup" onCancel={onHide}>
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide} borderTop>
         <div className="flex-1">
           <Button
             variant="flat-colorful"

@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledMateri,
@@ -152,12 +151,11 @@ export default function TambahTugasModal({
               </div>
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

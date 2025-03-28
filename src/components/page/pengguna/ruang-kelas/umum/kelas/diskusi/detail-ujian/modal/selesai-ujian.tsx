@@ -1,10 +1,4 @@
-import {
-  Button,
-  CardSeparator,
-  Modal,
-  ModalFooterButtons,
-  Text,
-} from '@/components/ui'
+import { Button, Modal, ModalFooterButtons, Text } from '@/components/ui'
 
 type SelesaiUjianModalProps = {
   show?: boolean
@@ -62,8 +56,12 @@ export default function SelesaiUjianModal({
           Apakah Anda yakin ingin menyelesaikan ujian ini?
         </Text>
       </div>
-      <CardSeparator />
-      <ModalFooterButtons cancel="Tidak" onCancel={() => setShow(false)}>
+
+      <ModalFooterButtons
+        cancel="Tidak"
+        onCancel={() => setShow(false)}
+        borderTop
+      >
         <div className="flex-1">
           <Button className="w-full" onClick={onSelesaiUjian}>
             Ya

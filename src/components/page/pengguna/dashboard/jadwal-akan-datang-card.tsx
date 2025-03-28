@@ -49,6 +49,7 @@ export default function JadwalAkanDatangCard({
             src={row.thumbnail}
             alt="kelas"
             size={40}
+            className="shrink-0"
             defaultImage={
               <RandomCoverImage
                 persistentKey={row.id_kelas}

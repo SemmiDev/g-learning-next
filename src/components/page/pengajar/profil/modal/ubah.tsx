@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
@@ -132,13 +131,12 @@ export default function UbahModal({ showModal, setShowModal }: UbahModalProps) {
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               submitColor="warning"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

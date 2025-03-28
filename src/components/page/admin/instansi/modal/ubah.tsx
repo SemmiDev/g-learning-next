@@ -2,7 +2,6 @@ import { paketInstansiSelectDataAction } from '@/actions/admin/async-select/pake
 import { lihatInstansiAction } from '@/actions/admin/instansi/lihat'
 import { ubahInstansiAction } from '@/actions/admin/instansi/ubah'
 import {
-  CardSeparator,
   ControlledAsyncPaginateSelect,
   ControlledInput,
   ControlledPassword,
@@ -260,13 +259,12 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

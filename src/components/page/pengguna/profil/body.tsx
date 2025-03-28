@@ -151,7 +151,7 @@ export default function ProfilBody() {
                 <Button
                   as="span"
                   variant="text-colorful"
-                  className="h-auto p-0"
+                  className="min-h-0 p-0"
                 >
                   {data?.situs_web}
                 </Button>

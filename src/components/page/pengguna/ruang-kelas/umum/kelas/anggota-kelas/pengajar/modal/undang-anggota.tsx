@@ -1,10 +1,5 @@
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
-import {
-  ActionIconTooltip,
-  CardSeparator,
-  Modal,
-  ModalFooterButtons,
-} from '@/components/ui'
+import { ActionIconTooltip, Modal, ModalFooterButtons } from '@/components/ui'
 import { useWindowLocation } from '@/hooks/use-window-location'
 import { makeSimpleQueryDataWithId } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
@@ -89,9 +84,11 @@ export default function PengajarUndangAnggotaModal({
         />
       </div>
 
-      <CardSeparator />
-
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(false)} />
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={() => setShowModal(false)}
+        borderTop
+      />
     </Modal>
   )
 }

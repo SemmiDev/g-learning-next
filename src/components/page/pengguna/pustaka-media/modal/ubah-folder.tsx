@@ -1,7 +1,6 @@
 import { lihatBerkasAction } from '@/actions/shared/pustaka-media/lihat-berkas'
 import { ubahFolderAction } from '@/actions/shared/pustaka-media/ubah-folder'
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   FormError,
@@ -130,13 +129,12 @@ export default function UbahFolderModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

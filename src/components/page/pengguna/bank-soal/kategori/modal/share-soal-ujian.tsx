@@ -1,6 +1,5 @@
 import { shareSoalUjianAction } from '@/actions/pengguna/bank-soal/share-soal'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledKelas,
@@ -357,12 +356,11 @@ export default function ShareSoalUjianModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

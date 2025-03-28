@@ -1,6 +1,5 @@
 import { gabungAnggotaKelasAction } from '@/actions/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   FormError,
@@ -109,13 +108,12 @@ export default function GabungKelasModal({
                 )}
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit={!successAlert ? 'Gabung' : undefined}
                 isSubmitting={isSubmitting}
                 cancel={successAlert ? 'Tutup' : 'Batal'}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )

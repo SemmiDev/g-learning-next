@@ -3,7 +3,6 @@ import { penggunaAktifSelectDataAction } from '@/actions/admin/async-select/peng
 import { lihatDetailPaketPenggunaAction } from '@/actions/admin/paket-pengguna/lihat-detail-pengguna'
 import { tambahTagihanPenggunaAction } from '@/actions/admin/tagihan-pengguna/tambah'
 import {
-  CardSeparator,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -233,12 +232,11 @@ export default function TambahModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

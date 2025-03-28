@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledPassword,
   Form,
   Modal,
@@ -86,13 +85,12 @@ export default function UbahSandiModal({
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan Sandi Baru"
               submitColor="warning"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

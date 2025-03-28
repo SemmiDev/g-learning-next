@@ -1,7 +1,6 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { ubahAktifitasKonferensiSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-konferensi'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
   Form,
@@ -170,13 +169,12 @@ export default function UbahKonferensiSesiModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

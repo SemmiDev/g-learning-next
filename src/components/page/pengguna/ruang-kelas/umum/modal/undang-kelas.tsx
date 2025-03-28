@@ -1,7 +1,6 @@
 import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIconTooltip,
-  CardSeparator,
   Loader,
   Modal,
   ModalFooterButtons,
@@ -49,59 +48,56 @@ export default function UndangKelasModal({
       {isLoading ? (
         <Loader height={250} />
       ) : (
-        <>
-          <div className="flex flex-col gap-4 p-3">
-            <Input
-              label="Kode Unik"
-              value={kodeUndang}
-              className="font-semibold text-gray-dark"
-              suffix={
-                <ActionIconTooltip
-                  tooltip="Salin"
-                  size="sm"
-                  variant="text"
-                  className="-me-2"
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(kodeUndang)
-                    toast.success('Kode berhasil disalin.', {
-                      position: 'bottom-center',
-                    })
-                  }}
-                >
-                  <MdOutlineContentCopy />
-                </ActionIconTooltip>
-              }
-              readOnly
-            />
-            <Input
-              label="Bagikan melalui link"
-              value={linkUndangan}
-              className="font-semibold text-gray-dark"
-              suffix={
-                <ActionIconTooltip
-                  tooltip="Salin"
-                  size="sm"
-                  variant="text"
-                  className="-me-2"
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(linkUndangan)
-                    toast.success('Link berhasil disalin.', {
-                      position: 'bottom-center',
-                    })
-                  }}
-                >
-                  <MdOutlineContentCopy />
-                </ActionIconTooltip>
-              }
-              readOnly
-            />
-          </div>
+        <div className="flex flex-col gap-4 p-3">
+          <Input
+            label="Kode Unik"
+            value={kodeUndang}
+            className="font-semibold text-gray-dark"
+            suffix={
+              <ActionIconTooltip
+                tooltip="Salin"
+                size="sm"
+                variant="text"
+                className="-me-2"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(kodeUndang)
+                  toast.success('Kode berhasil disalin.', {
+                    position: 'bottom-center',
+                  })
+                }}
+              >
+                <MdOutlineContentCopy />
+              </ActionIconTooltip>
+            }
+            readOnly
+          />
 
-          <CardSeparator />
-        </>
+          <Input
+            label="Bagikan melalui link"
+            value={linkUndangan}
+            className="font-semibold text-gray-dark"
+            suffix={
+              <ActionIconTooltip
+                tooltip="Salin"
+                size="sm"
+                variant="text"
+                className="-me-2"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(linkUndangan)
+                  toast.success('Link berhasil disalin.', {
+                    position: 'bottom-center',
+                  })
+                }}
+              >
+                <MdOutlineContentCopy />
+              </ActionIconTooltip>
+            }
+            readOnly
+          />
+        </div>
       )}
 
-      <ModalFooterButtons cancel="Tutup" onCancel={handleClose} />
+      <ModalFooterButtons cancel="Tutup" onCancel={handleClose} borderTop />
     </Modal>
   )
 }

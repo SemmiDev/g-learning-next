@@ -4,7 +4,6 @@ import { lihatDetailPaketPenggunaAction } from '@/actions/admin/paket-pengguna/l
 import { lihatTagihanPenggunaAction } from '@/actions/admin/tagihan-pengguna/lihat'
 import { ubahTagihanPenggunaAction } from '@/actions/admin/tagihan-pengguna/ubah'
 import {
-  CardSeparator,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -284,13 +283,12 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

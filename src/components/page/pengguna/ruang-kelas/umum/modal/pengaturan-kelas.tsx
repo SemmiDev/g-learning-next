@@ -2,7 +2,6 @@ import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
 import { ubahKelasAction } from '@/actions/pengguna/ruang-kelas/ubah'
 import {
   Button,
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -353,12 +352,11 @@ export default function PengaturanKelasModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

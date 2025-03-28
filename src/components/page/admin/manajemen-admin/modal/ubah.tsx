@@ -1,7 +1,6 @@
 import { lihatAdminAction } from '@/actions/admin/admin/lihat'
 import { ubahAdminAction } from '@/actions/admin/admin/ubah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledPassword,
   Form,
@@ -171,13 +170,12 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

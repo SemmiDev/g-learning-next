@@ -1,6 +1,5 @@
 import { tambahPaketPenggunaAction } from '@/actions/admin/paket-pengguna/tambah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledInputNumber,
   ControlledInputRupiah,
@@ -161,12 +160,11 @@ export default function TambahModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

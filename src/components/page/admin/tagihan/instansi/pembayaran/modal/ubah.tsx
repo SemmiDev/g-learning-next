@@ -1,7 +1,6 @@
 import { lihatPembayaranTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/pembayaran/lihat'
 import { ubahPembayaranTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/pembayaran/ubah'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputRupiah,
@@ -161,13 +160,12 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

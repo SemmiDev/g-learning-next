@@ -12,6 +12,7 @@ import {
   PustakaMediaFileType,
   RadioGroupOptionType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -55,6 +56,7 @@ export default function TambahMateriModal({
   setShow,
 }: TambahMateriModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -82,7 +84,7 @@ export default function TambahMateriModal({
     <Modal
       title="Tambah Materi Baru"
       desc="Buat materi ajar terkait kelas yang kamu kelola"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -93,6 +95,7 @@ export default function TambahMateriModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, formState: { errors, isSubmitting } }) => (
           <>
@@ -135,12 +138,11 @@ export default function TambahMateriModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Tambah Materi"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

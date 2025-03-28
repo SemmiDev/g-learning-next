@@ -1,7 +1,6 @@
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import { ubahJenisAbsenSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-jenis-absen'
 import {
-  CardSeparator,
   ControlledRadioGroup,
   Form,
   FormError,
@@ -161,13 +160,12 @@ export default function UbahJenisAbsenSesiModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

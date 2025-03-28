@@ -1,6 +1,5 @@
 import { tambahAktifitasUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/umum/tambah-ujian'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
@@ -302,12 +301,11 @@ export default function TambahUjianModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

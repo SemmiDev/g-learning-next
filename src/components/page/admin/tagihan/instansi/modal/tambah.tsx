@@ -3,7 +3,6 @@ import { paketInstansiSelectDataAction } from '@/actions/admin/async-select/pake
 import { lihatInstansiAction } from '@/actions/admin/instansi/lihat'
 import { tambahTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/tambah'
 import {
-  CardSeparator,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -233,12 +232,11 @@ export default function TambahModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

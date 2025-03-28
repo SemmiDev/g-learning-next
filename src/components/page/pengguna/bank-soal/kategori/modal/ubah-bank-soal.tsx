@@ -1,7 +1,6 @@
 import { lihatBankSoalAction } from '@/actions/pengguna/bank-soal/lihat'
 import { ubahBankSoalAction } from '@/actions/pengguna/bank-soal/ubah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledInputNumber,
   ControlledQuillEditor,
@@ -287,13 +286,12 @@ export default function UbahBankSoalModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

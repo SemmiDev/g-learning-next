@@ -1,6 +1,5 @@
 import { DataType as DataPresensiType } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
 import {
-  CardSeparator,
   FilePreviewType,
   Modal,
   ModalFilePreview,
@@ -10,9 +9,9 @@ import {
   Thumbnail,
 } from '@/components/ui'
 import { thumbnailFileUrl } from '@/utils/file-url'
+import 'leaflet/dist/leaflet.css'
 import dynamic from 'next/dynamic'
 import { ReactNode, useState } from 'react'
-import 'leaflet/dist/leaflet.css'
 
 const Map = dynamic(() => import('@/components/ui/map'), { ssr: false })
 
@@ -68,9 +67,7 @@ export default function DetailPresensiModal({
           )}
         </div>
 
-        <CardSeparator />
-
-        <ModalFooterButtons cancel="Tutup" onCancel={onHide} />
+        <ModalFooterButtons cancel="Tutup" onCancel={onHide} borderTop />
       </Modal>
 
       <ModalFilePreview

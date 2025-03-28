@@ -1,10 +1,4 @@
-import {
-  Button,
-  CardSeparator,
-  Modal,
-  ModalFooterButtons,
-  Text,
-} from '@/components/ui'
+import { Button, Modal, ModalFooterButtons, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import Link from 'next/link'
 
@@ -46,8 +40,12 @@ export default function MulaiUjianModal({
           </div>
         </div>
       </div>
-      <CardSeparator />
-      <ModalFooterButtons cancel="Tidak" onCancel={() => setShowModal(false)}>
+
+      <ModalFooterButtons
+        cancel="Tidak"
+        onCancel={() => setShowModal(false)}
+        borderTop
+      >
         <Link
           href={`${routes.peserta.kelas}/diskusi/detail/ujian/kerjakan`}
           className="flex-1"

@@ -1,6 +1,5 @@
 import { tambahAktifitasDiskusiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/umum/tambah-diskusi'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledQuillEditor,
   Form,
@@ -108,12 +107,11 @@ export default function TambahDiskusiModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

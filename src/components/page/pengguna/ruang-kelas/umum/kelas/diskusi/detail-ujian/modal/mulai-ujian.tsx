@@ -1,10 +1,4 @@
-import {
-  Button,
-  CardSeparator,
-  Modal,
-  ModalFooterButtons,
-  Text,
-} from '@/components/ui'
+import { Button, Modal, ModalFooterButtons, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useRouter } from 'next-nprogress-bar'
 import { useParams } from 'next/navigation'
@@ -60,8 +54,12 @@ export default function MulaiUjianModal({
           </div>
         </div>
       </div>
-      <CardSeparator />
-      <ModalFooterButtons cancel="Tidak" onCancel={() => setShow(false)}>
+
+      <ModalFooterButtons
+        cancel="Tidak"
+        onCancel={() => setShow(false)}
+        borderTop
+      >
         <div className="flex-1">
           <Button
             className="w-full"

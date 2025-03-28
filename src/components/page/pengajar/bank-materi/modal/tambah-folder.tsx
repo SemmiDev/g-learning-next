@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   Modal,
@@ -58,12 +57,11 @@ export default function TambahFolderModal({
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Buat Folder Baru"
               isSubmitting={isSubmitting}
               onCancel={() => setShowModal(false)}
+              borderTop
             />
           </>
         )}

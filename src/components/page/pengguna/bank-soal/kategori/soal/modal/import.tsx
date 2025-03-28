@@ -1,6 +1,5 @@
 import { importSoalAction } from '@/actions/pengguna/bank-soal/soal/import'
 import {
-  CardSeparator,
   ControlledUploadFile,
   Form,
   FormError,
@@ -130,12 +129,11 @@ export default function ImportSoalModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Upload"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

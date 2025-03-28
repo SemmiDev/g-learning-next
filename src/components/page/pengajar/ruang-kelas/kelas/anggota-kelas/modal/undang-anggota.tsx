@@ -1,9 +1,4 @@
-import {
-  ActionIcon,
-  CardSeparator,
-  Modal,
-  ModalFooterButtons,
-} from '@/components/ui'
+import { ActionIcon, Modal, ModalFooterButtons } from '@/components/ui'
 import toast from 'react-hot-toast'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { Input } from 'rizzui'
@@ -55,9 +50,11 @@ export default function UndangAnggotaModal({
         />
       </div>
 
-      <CardSeparator />
-
-      <ModalFooterButtons cancel="Tutup" onCancel={() => setShowModal(false)} />
+      <ModalFooterButtons
+        cancel="Tutup"
+        onCancel={() => setShowModal(false)}
+        borderTop
+      />
     </Modal>
   )
 }

@@ -1,6 +1,5 @@
 import { tambahAktifitasMateriSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/tambah-materi'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledMateri,
   ControlledPustakaMedia,
@@ -172,12 +171,11 @@ export default function TambahMateriSesiModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

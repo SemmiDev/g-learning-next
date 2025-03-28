@@ -1,6 +1,5 @@
 import { ubahLogoAction } from '@/actions/admin/instansi/ubah-logo'
 import {
-  CardSeparator,
   ControlledUploadFile,
   Form,
   FormError,
@@ -86,12 +85,11 @@ export default function UbahLogoModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Upload"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )

@@ -1,7 +1,6 @@
 import { lihatBankMateriAction } from '@/actions/pengguna/bank-materi/lihat'
 import { ubahBankMateriAction } from '@/actions/pengguna/bank-materi/ubah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
@@ -13,6 +12,7 @@ import {
   PustakaMediaFileType,
   TextBordered,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { required } from '@/utils/validations/pipe'
@@ -47,6 +47,7 @@ export default function UbahMateriModal({
   onHide,
 }: UbahMateriModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -115,7 +116,7 @@ export default function UbahMateriModal({
       title="Ubah Bank Materi"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -130,6 +131,7 @@ export default function UbahMateriModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
@@ -171,13 +173,12 @@ export default function UbahMateriModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan Materi"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

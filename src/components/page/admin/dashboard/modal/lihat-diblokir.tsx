@@ -105,9 +105,7 @@ export default function LihatDiblokirModal({
         </>
       )}
 
-      <CardSeparator />
-
-      <ModalFooterButtons cancel="Tutup" onCancel={onHide}>
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide} borderTop>
         <div className="flex-1">
           <Button
             className="w-full"

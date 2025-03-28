@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledUploadFile,
   Form,
   Modal,
@@ -57,12 +56,11 @@ export default function UbahFotoModal({
                 />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Upload"
                 isSubmitting={isSubmitting}
                 onCancel={() => setShowModal(false)}
+                borderTop
               />
             </>
           )

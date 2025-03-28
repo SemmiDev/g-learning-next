@@ -1,5 +1,4 @@
 import {
-  CardSeparator,
   ControlledInput,
   ControlledInputNumber,
   ControlledQuillEditor,
@@ -176,12 +175,11 @@ export default function TambahBankSoalModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Mulai Buat Soal"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

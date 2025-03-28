@@ -1,11 +1,5 @@
 import { UjianItemType } from '@/app/(hydrogen)/peserta/ruang-kelas/kelas/ujian/page'
-import {
-  Button,
-  CardSeparator,
-  Modal,
-  ModalFooterButtons,
-  Text,
-} from '@/components/ui'
+import { Button, Modal, ModalFooterButtons, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
 import cn from '@/utils/class-names'
 import Link from 'next/link'
@@ -94,8 +88,12 @@ export default function HasilUjianModal({
           </Text>
         </div>
       </div>
-      <CardSeparator />
-      <ModalFooterButtons cancel="Batal" onCancel={() => setShowModal(false)}>
+
+      <ModalFooterButtons
+        cancel="Batal"
+        onCancel={() => setShowModal(false)}
+        borderTop
+      >
         {ujian?.status === 'Sudah' ? (
           <div className="flex-1">
             <Button className="w-full" disabled>

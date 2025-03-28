@@ -1,6 +1,5 @@
 import { blokirPenggunaAction } from '@/actions/admin/pengguna/blokir'
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   Modal,
@@ -89,8 +88,6 @@ export default function BlokirModal({
               />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Blokir Pengguna"
               submitColor="danger"
@@ -99,6 +96,7 @@ export default function BlokirModal({
               onCancel={() => {
                 setId(undefined)
               }}
+              borderTop
             />
           </>
         )}

@@ -3,7 +3,6 @@ import { ubahSoalAction } from '@/actions/pengguna/bank-soal/soal/ubah'
 import {
   ActionIcon,
   Button,
-  CardSeparator,
   ControlledInputNumber,
   ControlledQuillEditor,
   ControlledRadio,
@@ -14,7 +13,6 @@ import {
   Modal,
   ModalFooterButtons,
   SelectOptionType,
-  TextBordered,
   TextLabel,
 } from '@/components/ui'
 import { PILIHAN_JAWABAN } from '@/config/const'
@@ -292,13 +290,12 @@ export default function UbahSoalModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan Soal"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

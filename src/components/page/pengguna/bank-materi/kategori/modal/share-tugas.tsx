@@ -1,6 +1,5 @@
 import { shareTugasBankMateriAction } from '@/actions/pengguna/bank-materi/share-tugas'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledKelas,
   ControlledSwitch,
@@ -171,12 +170,11 @@ export default function ShareTugasModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Bagikan Sekarang"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

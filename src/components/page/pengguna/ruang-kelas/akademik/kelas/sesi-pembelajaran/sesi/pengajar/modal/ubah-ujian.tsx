@@ -1,7 +1,6 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { ubahAktifitasUjianSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-ujian'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
@@ -353,13 +352,12 @@ export default function UbahUjianSesiModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

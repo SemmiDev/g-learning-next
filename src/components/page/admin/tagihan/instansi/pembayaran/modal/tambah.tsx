@@ -1,6 +1,5 @@
 import { tambahPembayaranTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/pembayaran/tambah'
 import {
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputRupiah,
@@ -127,12 +126,11 @@ export default function TambahModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

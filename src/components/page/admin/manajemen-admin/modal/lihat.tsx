@@ -1,6 +1,5 @@
 import { lihatAdminAction } from '@/actions/admin/admin/lihat'
 import {
-  CardSeparator,
   Loader,
   Modal,
   ModalFooterButtons,
@@ -48,9 +47,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
         </div>
       )}
 
-      <CardSeparator />
-
-      <ModalFooterButtons cancel="Tutup" onCancel={onHide} />
+      <ModalFooterButtons cancel="Tutup" onCancel={onHide} borderTop />
     </Modal>
   )
 }

@@ -1,7 +1,6 @@
 import { tambahBerkasAction } from '@/actions/shared/pustaka-media/tambah-berkas'
 import {
   Button,
-  CardSeparator,
   ControlledUploadFile,
   Form,
   FormError,
@@ -192,12 +191,11 @@ export default function TambahBerkasModal({
               <FormError error={formError} />
             </div>
 
-            <CardSeparator />
-
             <ModalFooterButtons
               submit="Simpan"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              borderTop
             />
           </>
         )}

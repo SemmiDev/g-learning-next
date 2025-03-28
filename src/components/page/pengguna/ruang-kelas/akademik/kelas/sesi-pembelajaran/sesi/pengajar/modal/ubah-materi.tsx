@@ -1,7 +1,6 @@
 import { lihatAktifitasAction } from '@/actions/pengguna/ruang-kelas/aktifitas/lihat'
 import { ubahAktifitasMateriSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/ubah-materi'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
@@ -178,13 +177,12 @@ export default function UbahMateriSesiModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}
