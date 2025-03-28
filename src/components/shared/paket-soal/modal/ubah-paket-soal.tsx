@@ -1,7 +1,6 @@
 import { lihatPaketSoalAction } from '@/actions/shared/paket-soal/lihat'
 import { ubahPaketSoalAction } from '@/actions/shared/paket-soal/ubah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledInputNumber,
   ControlledQuillEditor,
@@ -13,6 +12,7 @@ import {
   Text,
   TextBordered,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -58,6 +58,7 @@ export default function UbahSoalModal({
   onHide,
 }: UbahPaketSoalModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['shared.paket-soal.ubah', idKategori, id]
@@ -122,7 +123,7 @@ export default function UbahSoalModal({
       title="Ubah Paket Soal"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
     >
@@ -137,6 +138,7 @@ export default function UbahSoalModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
@@ -283,13 +285,12 @@ export default function UbahSoalModal({
                 <FormError error={formError} />
               </div>
 
-              <CardSeparator />
-
               <ModalFooterButtons
                 submit="Simpan Soal"
                 submitColor="warning"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                borderTop
               />
             </>
           )}

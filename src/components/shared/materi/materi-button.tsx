@@ -64,11 +64,11 @@ export default function MateriButton({
       ) : (
         <div className="w-[3.25rem]"></div>
       )}
-      <div className="flex flex-1 justify-between items-center gap-x-2">
-        <div className="flex gap-x-2">
+      <div className="flex flex-1 justify-between items-center gap-x-2 min-w-0">
+        <div className="flex gap-x-2 items-center min-w-0">
           <div
             className={cn(
-              'flex size-11 items-center justify-center rounded-md mr-2',
+              'flex size-9 items-center justify-center rounded-md shrink-0 mr-2 xs:size-11',
               {
                 'btn-item-green': materi.type === 'materi',
                 'btn-item-violet': materi.type === 'tugas',
@@ -76,22 +76,22 @@ export default function MateriButton({
             )}
           >
             {materi.type === 'tugas' ? (
-              <BsClipboardPlus size={22} />
+              <BsClipboardPlus className="size-4 xs:size-5" />
             ) : (
-              <BsFileEarmarkRichtext size={22} />
+              <BsFileEarmarkRichtext className="size-4 xs:size-5" />
             )}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0">
             <Text
               weight="semibold"
               variant="dark"
               title={materi.name}
-              className="truncate"
+              className="line-clamp-2"
             >
               {materi.name}
             </Text>
             <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-              <li>
+              <li className="truncate">
                 <Time date={materi.time} format="datetime" />
               </li>
               <li>
@@ -101,7 +101,7 @@ export default function MateriButton({
             </ul>
           </div>
         </div>
-        <div className="flex gap-x-1 pr-4">
+        <div className="grid grid-cols-2 gap-1 shrink-0 pr-4 xs:grid-cols-3">
           <ActionIconTooltip
             tooltip="Lihat"
             size="sm"

@@ -4,11 +4,11 @@ import { listPaketSoalAction } from '@/actions/shared/paket-soal/list'
 import { listKategoriSoalAction } from '@/actions/shared/paket-soal/list-kategori'
 import {
   Button,
-  CardSeparator,
   Input,
   Label,
   Loader,
   Modal,
+  ModalFooterButtons,
   Text,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
@@ -244,7 +244,7 @@ export default function PaketSoal({
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingSoal}
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-between flex-1">
           <div className="flex flex-col min-h-[400px]">
             <div className="flex p-3">
               {activeKategori ? (
@@ -370,12 +370,16 @@ export default function PaketSoal({
               )}
             </div>
           </div>
-          <div>
-            <CardSeparator />
-            <div className="flex justify-end gap-x-2 p-3">
+
+          <ModalFooterButtons
+            size="sm"
+            onCancel={() => setShow(false)}
+            borderTop
+          >
+            <div className="flex-1">
               <Button
                 size="sm"
-                className="w-36"
+                className="w-full"
                 onClick={() => {
                   doChange(checkedSoal)
                   setShow(false)
@@ -384,16 +388,8 @@ export default function PaketSoal({
               >
                 Pilih Paket Soal
               </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="w-36"
-                onClick={() => setShow(false)}
-              >
-                Batal
-              </Button>
             </div>
-          </div>
+          </ModalFooterButtons>
         </div>
       </Modal>
 

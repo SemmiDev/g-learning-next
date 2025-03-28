@@ -49,22 +49,22 @@ export default function SoalButton({
       ) : (
         <div className="w-[3.25rem]"></div>
       )}
-      <div className="flex flex-1 justify-between items-center gap-x-2">
-        <div className="flex gap-x-2">
-          <div className="flex size-11 items-center justify-center rounded-md btn-item-blue mr-2">
-            <BsCardChecklist size={22} />
+      <div className="flex flex-1 justify-between items-center gap-x-2 min-w-0">
+        <div className="flex items-center gap-x-2 min-w-0">
+          <div className="flex size-9 items-center justify-center rounded-md btn-item-blue shrink-0 mr-1 xs:size-11">
+            <BsCardChecklist className="size-4 xs:size-5" />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0">
             <Text
               weight="semibold"
               variant="dark"
               title={soal.name}
-              className="truncate"
+              className="line-clamp-2"
             >
               {soal.name}
             </Text>
             <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-              <li>
+              <li className="truncate">
                 <Time date={soal.time} format="datetime" />
               </li>
               <li>
@@ -90,11 +90,11 @@ export default function SoalButton({
               <li>
                 <GoDotFill size={10} />
               </li>
-              <li>{soal.totalEsai} esai</li>
+              <li className="truncate">{soal.totalEsai} esai</li>
             </ul>
           </div>
         </div>
-        <div className="flex gap-x-1 pr-4">
+        <div className="grid grid-cols-1 gap-1 shrink-0 pr-4 xs:grid-cols-2">
           <ActionIconTooltip
             tooltip="Lihat"
             size="sm"

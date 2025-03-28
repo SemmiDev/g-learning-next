@@ -21,7 +21,7 @@ export default function FolderButton({
     <>
       <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
         <div
-          className="flex gap-x-2 flex-1 min-w-0 cursor-pointer"
+          className="flex gap-x-2 items-center flex-1 min-w-0 cursor-pointer"
           onClick={() => onOpen && onOpen(file)}
         >
           <div className="flex size-11 items-center justify-center shrink-0 rounded-md bg-gray-50 ms-8">
@@ -41,7 +41,7 @@ export default function FolderButton({
             </Text>
           </div>
         </div>
-        <div className="flex gap-x-1">
+        <div className="grid grid-cols-2 gap-1 shrink-0 xs:grid-cols-3 sm:grid-cols-4">
           <ActionIconTooltip
             tooltip="Buka Folder"
             size="sm"

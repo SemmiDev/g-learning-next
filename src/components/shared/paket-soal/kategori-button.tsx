@@ -24,11 +24,14 @@ export default function KategoriButton({
   return (
     <>
       <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-4 py-3 hover:bg-gray-50/50">
-        <div className="flex gap-x-2 cursor-pointer pe-2" onClick={handleOpen}>
-          <div className="flex size-11 items-center justify-center rounded-md bg-gray-50">
-            <BsFolderFill size={20} className="text-primary" />
+        <div
+          className="flex gap-x-2 min-w-0 cursor-pointer pe-2"
+          onClick={handleOpen}
+        >
+          <div className="flex size-9 items-center justify-center rounded-md bg-gray-50 shrink-0 xs:size-11">
+            <BsFolderFill className="text-primary size-4 xs:size-5" />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0">
             <Text
               weight="semibold"
               variant="dark"
@@ -37,12 +40,12 @@ export default function KategoriButton({
             >
               {kategori.name}
             </Text>
-            <Text size="sm" variant="lighter">
+            <Text size="sm" variant="lighter" className="truncate">
               {kategori.count} Paket Soal
             </Text>
           </div>
         </div>
-        <div className="flex gap-x-1">
+        <div className="grid grid-cols-2 gap-1 shrink-0">
           <ActionIconTooltip
             tooltip="Buka Kategori"
             size="sm"

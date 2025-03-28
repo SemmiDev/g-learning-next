@@ -6,7 +6,6 @@ import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
 import {
   ActionIconTooltip,
   Button,
-  CardSeparator,
   FilePreviewType,
   Input,
   Label,
@@ -14,6 +13,7 @@ import {
   Modal,
   ModalConfirm,
   ModalFilePreview,
+  ModalFooterButtons,
   Text,
   TextSpan,
 } from '@/components/ui'
@@ -385,7 +385,7 @@ export default function PustakaMedia({
         onClose={() => setShow(false)}
         isLoading={isFetchingDrives || isFetchingFiles}
       >
-        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] xl:min-h-full">
+        <div className="flex flex-col justify-between flex-1 min-h-[calc(100vh-57px)] xl:min-h-full">
           <div className="grid grid-cols-3 min-h-[400px]">
             <div className="flex flex-col col-span-3 lg:col-span-1 lg:border-r lg:border-r-gray-100">
               {drives.map((drive) => (
@@ -555,12 +555,16 @@ export default function PustakaMedia({
               )}
             </div>
           </div>
-          <div>
-            <CardSeparator />
-            <div className="flex justify-end gap-x-2 p-3">
+
+          <ModalFooterButtons
+            size="sm"
+            onCancel={() => setShow(false)}
+            borderTop
+          >
+            <div className="flex-1">
               <Button
                 size="sm"
-                className="w-36"
+                className="w-full"
                 onClick={() => {
                   const selected = [...checkedFiles]
                   doChange(selected)
@@ -570,16 +574,8 @@ export default function PustakaMedia({
               >
                 Pilih Berkas
               </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="w-36"
-                onClick={() => setShow(false)}
-              >
-                Batal
-              </Button>
             </div>
-          </div>
+          </ModalFooterButtons>
         </div>
       </Modal>
 

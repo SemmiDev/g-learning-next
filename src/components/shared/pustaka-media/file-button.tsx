@@ -70,7 +70,7 @@ export default function FileButton({
                 {file.name}
               </Text>
               <ul className="flex flex-wrap items-center gap-x-1 text-sm text-gray-lighter">
-                <li>
+                <li className="truncate">
                   {file.size ? (
                     formatBytes(file.size, 2)
                   ) : (
@@ -82,7 +82,7 @@ export default function FileButton({
                     <li>
                       <GoDotFill size={10} />
                     </li>
-                    <li>
+                    <li className="truncate">
                       <Time date={file.time} />
                     </li>
                   </>
@@ -90,7 +90,7 @@ export default function FileButton({
               </ul>
             </div>
           </div>
-          <div className="flex flex-wrap justify-end gap-x-1 pr-4">
+          <div className="grid grid-cols-2 gap-1 shrink-0 pr-4 xs:grid-cols-3 sm:grid-cols-4">
             {!!file.link &&
               (file.type === 'link' ||
                 isPreviewableFile(file.link, file.extension)) && (

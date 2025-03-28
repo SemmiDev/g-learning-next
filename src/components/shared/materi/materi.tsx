@@ -12,6 +12,7 @@ import {
   Loader,
   Modal,
   ModalConfirm,
+  ModalFooterButtons,
   Text,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
@@ -285,180 +286,156 @@ export default function Materi({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingMateri}
+        bodyClassName="justify-between"
       >
-        <div className="flex flex-col">
-          <div className="flex flex-col min-h-[400px]">
-            <div className="flex justify-between flex-wrap gap-2 p-3">
-              {activeKategori ? (
-                <Input
-                  size="sm"
-                  type="search"
-                  placeholder="Cari Materi"
-                  clearable
-                  className="w-72 sm:w-96"
-                  prefix={
-                    <PiMagnifyingGlass
-                      size={20}
-                      className="text-gray-lighter"
-                    />
-                  }
-                  value={searchMateri}
-                  onChange={(e) => setSearchMateri(e.target.value)}
-                  onClear={() => setSearchMateri('')}
-                />
-              ) : (
-                <Input
-                  size="sm"
-                  type="search"
-                  placeholder="Cari Kategori"
-                  clearable
-                  className="w-72 sm:w-96"
-                  prefix={
-                    <PiMagnifyingGlass
-                      size={20}
-                      className="text-gray-lighter"
-                    />
-                  }
-                  value={searchKategori}
-                  onChange={(e) => setSearchKategori(e.target.value)}
-                  onClear={() => setSearchKategori('')}
-                />
-              )}
-              <Button
+        <div className="flex flex-col min-h-[400px]">
+          <div className="flex justify-between flex-wrap gap-2 p-3">
+            {activeKategori ? (
+              <Input
                 size="sm"
-                onClick={() => {
-                  if (activeKategori) {
-                    setShowTambahMateri(true)
-                  } else {
-                    setShowTambahKategori(true)
-                  }
-                }}
-              >
-                {activeKategori ? 'Tambah Materi' : 'Tambah Kategori'}
-              </Button>
-            </div>
-            <div className="flex items-center border-b border-b-gray-100 px-3 pb-3">
-              <Text
-                weight="medium"
-                variant="dark"
-                className={cn({ 'select-none cursor-pointer': activeKategori })}
-                onClick={() => {
-                  activeKategori && setActiveKategori(undefined)
-                  searchMateri && setSearchMateri('')
-                  refetchKategori()
-                }}
-              >
-                Bank Materi dan Tugas
-              </Text>
-              {activeKategori && (
-                <>
-                  <BiChevronRight size={24} />
-                  <Text weight="medium" variant="dark">
-                    {activeKategori.name}
-                  </Text>
-                </>
-              )}
-            </div>
-            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
-              {activeKategori && (
-                <>
-                  {isLoadingMateri ||
-                  (!listMateri.length && isFetchingMateri) ? (
-                    <Loader height={320} />
-                  ) : listMateri.length > 0 ? (
-                    listMateri.map((materi) => (
-                      <MateriButton
-                        key={materi.id}
-                        materi={materi}
-                        type={type}
-                        onDetail={(materi) => doShowLihatMateri(materi.id)}
-                        onEdit={(materi) => doShowUbahMateri(materi.id)}
-                        onDelete={(materi) => setIdHapusMateri(materi.id)}
-                        checked={checkedMateri?.id === materi.id}
-                        onChange={() => {
-                          setCheckedMateri(materi)
-                        }}
-                      />
-                    ))
-                  ) : (
-                    <div className="flex items-center justify-center h-80">
-                      <Text size="sm" weight="medium">
-                        {searchMateri
-                          ? 'Materi tidak ditemukan'
-                          : 'Belum ada materi'}
-                      </Text>
-                    </div>
-                  )}
-                  {!isLoadingMateri && hasNextPageMateri && (
-                    <Loader ref={refSentryMateri} size="sm" className="py-4" />
-                  )}
-                </>
-              )}
-              {!activeKategori && (
-                <>
-                  {isLoadingKategori ||
-                  (!listKategori.length && isFetchingKategori) ? (
-                    <Loader height={288} />
-                  ) : listKategori.length > 0 ? (
-                    listKategori.map((kategori) => (
-                      <KategoriButton
-                        key={kategori.id}
-                        kategori={kategori}
-                        onOpen={(kategori) => setActiveKategori(kategori)}
-                        onEdit={(kategori) => doShowUbahKategori(kategori.id)}
-                        onDelete={(kategori) => setIdHapusKategori(kategori.id)}
-                      />
-                    ))
-                  ) : (
-                    <div className="flex items-center justify-center h-72">
-                      <Text size="sm" weight="medium">
-                        {searchKategori
-                          ? 'Kategori tidak ditemukan'
-                          : 'Belum ada kategori'}
-                      </Text>
-                    </div>
-                  )}
-                  {!isLoadingKategori && hasNextPageKategori && (
-                    <Loader
-                      ref={refSentryKategori}
-                      size="sm"
-                      className="py-4"
-                    />
-                  )}
-                </>
-              )}
-            </div>
+                type="search"
+                placeholder="Cari Materi"
+                clearable
+                className="w-72 sm:w-96"
+                prefix={
+                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+                }
+                value={searchMateri}
+                onChange={(e) => setSearchMateri(e.target.value)}
+                onClear={() => setSearchMateri('')}
+              />
+            ) : (
+              <Input
+                size="sm"
+                type="search"
+                placeholder="Cari Kategori"
+                clearable
+                className="w-72 sm:w-96"
+                prefix={
+                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+                }
+                value={searchKategori}
+                onChange={(e) => setSearchKategori(e.target.value)}
+                onClear={() => setSearchKategori('')}
+              />
+            )}
+            <Button
+              size="sm"
+              onClick={() => {
+                if (activeKategori) {
+                  setShowTambahMateri(true)
+                } else {
+                  setShowTambahKategori(true)
+                }
+              }}
+            >
+              {activeKategori ? 'Tambah Materi' : 'Tambah Kategori'}
+            </Button>
           </div>
-          <div>
-            <CardSeparator />
-            <div className="flex justify-end gap-x-2 p-3">
-              <Button
-                size="sm"
-                className="w-36"
-                onClick={() => {
-                  doChange(checkedMateri)
-                  setShow(false)
-                }}
-                disabled={!checkedMateri}
-              >
-                Pilih{' '}
-                {!type
-                  ? 'Materi/Tugas'
-                  : type === 'materi'
-                  ? 'Materi'
-                  : 'Tugas'}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="w-36"
-                onClick={() => setShow(false)}
-              >
-                Batal
-              </Button>
-            </div>
+          <div className="flex items-center border-b border-b-gray-100 px-3 pb-3">
+            <Text
+              weight="medium"
+              variant="dark"
+              className={cn({ 'select-none cursor-pointer': activeKategori })}
+              onClick={() => {
+                activeKategori && setActiveKategori(undefined)
+                searchMateri && setSearchMateri('')
+                refetchKategori()
+              }}
+            >
+              Bank Materi dan Tugas
+            </Text>
+            {activeKategori && (
+              <>
+                <BiChevronRight size={24} />
+                <Text weight="medium" variant="dark">
+                  {activeKategori.name}
+                </Text>
+              </>
+            )}
+          </div>
+          <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
+            {activeKategori && (
+              <>
+                {isLoadingMateri || (!listMateri.length && isFetchingMateri) ? (
+                  <Loader height={320} />
+                ) : listMateri.length > 0 ? (
+                  listMateri.map((materi) => (
+                    <MateriButton
+                      key={materi.id}
+                      materi={materi}
+                      type={type}
+                      onDetail={(materi) => doShowLihatMateri(materi.id)}
+                      onEdit={(materi) => doShowUbahMateri(materi.id)}
+                      onDelete={(materi) => setIdHapusMateri(materi.id)}
+                      checked={checkedMateri?.id === materi.id}
+                      onChange={() => {
+                        setCheckedMateri(materi)
+                      }}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center h-80">
+                    <Text size="sm" weight="medium">
+                      {searchMateri
+                        ? 'Materi tidak ditemukan'
+                        : 'Belum ada materi'}
+                    </Text>
+                  </div>
+                )}
+                {!isLoadingMateri && hasNextPageMateri && (
+                  <Loader ref={refSentryMateri} size="sm" className="py-4" />
+                )}
+              </>
+            )}
+            {!activeKategori && (
+              <>
+                {isLoadingKategori ||
+                (!listKategori.length && isFetchingKategori) ? (
+                  <Loader height={288} />
+                ) : listKategori.length > 0 ? (
+                  listKategori.map((kategori) => (
+                    <KategoriButton
+                      key={kategori.id}
+                      kategori={kategori}
+                      onOpen={(kategori) => setActiveKategori(kategori)}
+                      onEdit={(kategori) => doShowUbahKategori(kategori.id)}
+                      onDelete={(kategori) => setIdHapusKategori(kategori.id)}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center h-72">
+                    <Text size="sm" weight="medium">
+                      {searchKategori
+                        ? 'Kategori tidak ditemukan'
+                        : 'Belum ada kategori'}
+                    </Text>
+                  </div>
+                )}
+                {!isLoadingKategori && hasNextPageKategori && (
+                  <Loader ref={refSentryKategori} size="sm" className="py-4" />
+                )}
+              </>
+            )}
           </div>
         </div>
+
+        <ModalFooterButtons size="sm" onCancel={() => setShow(false)} borderTop>
+          <div className="flex-1">
+            <Button
+              size="sm"
+              className="w-full"
+              onClick={() => {
+                doChange(checkedMateri)
+                setShow(false)
+              }}
+              disabled={!checkedMateri}
+            >
+              Pilih{' '}
+              {!type ? 'Materi/Tugas' : type === 'materi' ? 'Materi' : 'Tugas'}
+            </Button>
+          </div>
+        </ModalFooterButtons>
       </Modal>
 
       <TambahKategoriModal
