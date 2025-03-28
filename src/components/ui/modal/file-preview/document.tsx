@@ -1,6 +1,6 @@
 import { Loader } from 'rizzui'
 import Button from '../../button/button'
-import Modal from '../../modal'
+import Modal from '../modal'
 
 type ModalDocumentPreviewProps = {
   openUrl: string | undefined

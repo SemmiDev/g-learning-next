@@ -1,7 +1,7 @@
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import { Modal as RizModal, ModalProps as RizModalProps } from 'rizzui'
-import ModalHeader, { ModalHeaderProps } from './modal/header'
+import ModalHeader, { ModalHeaderProps } from './header'
 
 export type ModalProps = Omit<RizModalProps, 'onClose'> &
   Omit<
@@ -26,7 +26,7 @@ export default function Modal({
   headerCustomIcon,
   desc,
   children,
-  size,
+  size = 'md',
   rounded,
   overlayClassName,
   headerClassName,
@@ -39,7 +39,6 @@ export default function Modal({
 }: ModalProps) {
   return (
     <RizModal
-      overlayClassName={cn('cursor-auto', overlayClassName)}
       onClose={onClose ?? (() => null)}
       size={size}
       rounded={rounded}
@@ -49,6 +48,8 @@ export default function Modal({
         },
         className
       )}
+      overlayClassName={cn('cursor-auto', overlayClassName)}
+      containerClassName="flex flex-col"
       {...props}
     >
       {title && (
@@ -61,7 +62,9 @@ export default function Modal({
           rounded={rounded}
         />
       )}
-      <div className={cn('modal-body', bodyClassName)}>{children}</div>
+      <div className={cn('modal-body flex flex-col flex-1', bodyClassName)}>
+        {children}
+      </div>
     </RizModal>
   )
 }

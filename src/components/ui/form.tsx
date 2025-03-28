@@ -1,5 +1,6 @@
 'use client'
 
+import cn from '@/utils/class-names'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import {
@@ -17,6 +18,7 @@ type FormProps<TFormValues extends FieldValues> = {
   useFormProps?: UseFormProps<TFormValues>
   validationSchema?: Schema<TFormValues>
   resetValues?: any
+  flexing?: boolean
   className?: string
 }
 
@@ -28,6 +30,7 @@ export const Form = <
   useFormProps,
   validationSchema,
   resetValues,
+  flexing,
   className,
 }: FormProps<TFormValues>) => {
   const methods = useForm<TFormValues>({
@@ -50,7 +53,12 @@ export const Form = <
         event.stopPropagation()
         methods.handleSubmit(onSubmit)(event)
       }}
-      className={className}
+      className={cn(
+        {
+          'flex flex-col justify-between flex-1': flexing,
+        },
+        className
+      )}
     >
       {children(methods)}
     </form>

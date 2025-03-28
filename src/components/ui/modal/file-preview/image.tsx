@@ -1,8 +1,8 @@
+import cn from '@/utils/class-names'
 import Image from 'next/image'
 import { useState } from 'react'
 import Loader from '../../loader'
-import Modal from '../../modal'
-import cn from '@/utils/class-names'
+import Modal from '../modal'
 
 type ModalImagePreviewProps = {
   openUrl: string | undefined

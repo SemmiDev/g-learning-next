@@ -1,5 +1,5 @@
 import ReactPlayer from 'react-player'
-import Modal from '../../modal'
+import Modal from '../modal'
 
 type ModalVideoPreviewProps = {
   openUrl: string | undefined

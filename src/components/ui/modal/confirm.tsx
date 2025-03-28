@@ -2,9 +2,9 @@ import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import Button, { ButtonColors } from '../button/button'
 import CardSeparator from '../card-separator'
-import Modal, { ModalProps } from '../modal'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
+import Modal, { ModalProps } from './modal'
 
 export type ModalConfirmProps = Omit<ModalProps, 'children' | 'desc'> & {
   confirm?: string

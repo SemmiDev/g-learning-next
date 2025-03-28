@@ -96,7 +96,6 @@ import Label from './label'
 import LabelOrDiv, { LabelOrDivProps } from './label-or-div'
 import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
 import Loader, { LoaderProps } from './loader'
-import Modal, { ModalProps } from './modal'
 import ModalConfirm from './modal/confirm'
 import ModalFilePreview, {
   FilePreviewType,
@@ -105,6 +104,7 @@ import ModalFilePreview, {
 } from './modal/file-preview/file'
 import ModalFooterButtons from './modal/footer-buttons'
 import ModalHeader from './modal/header'
+import Modal, { ModalProps } from './modal/modal'
 import Pagination, { PaginationProps } from './pagination'
 import Password, { PasswordProps } from './password'
 import ReadMore, { ReadMoreProps } from './readmore'

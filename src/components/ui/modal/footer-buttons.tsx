@@ -16,8 +16,9 @@ type ModalFooterButtonsProps = {
   cancelVariant?: ButtonVariants
   cancelClassName?: string
   onCancel?(): void
-  className?: string
   disabled?: boolean
+  borderTop?: boolean
+  className?: string
 }
 
 export default function ModalFooterButtons({
@@ -33,11 +34,19 @@ export default function ModalFooterButtons({
   cancelVariant = 'outline',
   cancelClassName,
   onCancel,
-  className,
+  borderTop,
   disabled = false,
+
+  className,
 }: ModalFooterButtonsProps) {
   return (
-    <div className={cn('flex gap-2 p-3', className)}>
+    <div
+      className={cn(
+        'flex gap-2 p-3',
+        { 'border-t border-t-muted': borderTop },
+        className
+      )}
+    >
       {submit && (
         <div className="flex-1">
           <ButtonSubmit

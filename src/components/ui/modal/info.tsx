@@ -1,9 +1,9 @@
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
 import CardSeparator from '../card-separator'
-import Modal, { ModalProps } from '../modal'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
+import Modal, { ModalProps } from './modal'
 
 export type ModalInfoProps = Omit<ModalProps, 'children'> & {
   close?: string
