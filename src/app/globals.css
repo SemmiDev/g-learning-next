@@ -857,6 +857,41 @@ select:-webkit-autofill:focus {
   @apply max-sm:my-1 max-sm:!h-[unset] max-sm:!px-1 max-sm:!py-0 max-sm:text-[10px] dark:hover:bg-gray-100;
 }
 
+/* react-datepicker mobile customize */
+@media (max-width: 26rem) {
+  .react-datepicker .react-datepicker__month-container {
+    width: 100%;
+  }
+
+  .react-datepicker .react-datepicker__time-container {
+    width: 100%;
+    padding-top: 0 !important;
+    padding-left: 0.875rem;
+  }
+
+  .react-datepicker
+    .react-datepicker__navigation--next--with-time:not(
+      .react-datepicker__navigation--next--with-today-button
+    ) {
+    right: 0;
+  }
+
+  .react-datepicker-popper
+    .react-datepicker__time-container
+    .react-datepicker__time {
+    width: 100%;
+    max-width: 16rem;
+    margin: 0 auto;
+  }
+
+  .react-datepicker-popper
+    .react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box {
+    width: auto;
+  }
+}
+
 /* ................................................... */
 /* table placeholder / empty style */
 /* ................................................... */
