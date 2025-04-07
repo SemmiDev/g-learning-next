@@ -2,7 +2,7 @@ import { dataPersentaseKehadiranAction } from '@/actions/pengguna/ruang-kelas/pr
 import { Card, Shimmer, Text, Title } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import ChartPresensi, {
+import PengajarChartPersentaseKehadiran, {
   PengajarChartPersentaseKehadiranData,
 } from './chart-persentase-kehadiran'
 
@@ -65,9 +65,9 @@ export default function PengajarChartPersentaseKehadiranCard({
       </Title>
       <div className="flex flex-col items-center">
         <div className="w-[200px] h-[200px]">
-          <ChartPresensi data={data} colors={COLORS} />
+          <PengajarChartPersentaseKehadiran data={data} colors={COLORS} />
         </div>
-        <div className="grid grid-cols-4 gap-2 lg:gap-6">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 xs:grid-cols-4 lg:grid-cols-2 lg:gap-x-6 2xl:grid-cols-4">
           {data.map((val, idx) => {
             return (
               <div key={idx}>

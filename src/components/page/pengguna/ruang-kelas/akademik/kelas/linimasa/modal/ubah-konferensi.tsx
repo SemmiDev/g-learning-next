@@ -11,6 +11,7 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { required } from '@/utils/validations/pipe'
@@ -61,6 +62,7 @@ export default function UbahKonferensiModal({
   onHide,
 }: UbahKonferensiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -124,7 +126,7 @@ export default function UbahKonferensiModal({
       title="Ubah Konferensi Dibagikan"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -140,6 +142,7 @@ export default function UbahKonferensiModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({
             register,
@@ -148,59 +151,61 @@ export default function UbahKonferensiModal({
             formState: { errors, isSubmitting },
           }) => (
             <>
-              <div className="flex flex-col gap-4 p-3">
-                <ControlledInput
-                  name="judul"
-                  control={control}
-                  errors={errors}
-                  label="Judul Konferensi"
-                  placeholder="Tulis judul konferensi di sini"
-                  required
-                />
-
-                <ControlledQuillEditor
-                  name="catatan"
-                  control={control}
-                  errors={errors}
-                  label="Catatan Tambahan"
-                  placeholder="Buat catatan singkat terkait konferensi yang diberikan"
-                  toolbar="minimalist"
-                />
-
-                <ControlledInput
-                  name="link"
-                  control={control}
-                  errors={errors}
-                  label="Link Konferensi"
-                  placeholder="Tulis link konferensi di sini"
-                  required
-                />
-              </div>
-
-              <CardSeparator />
-
-              <div className="flex gap-x-4 px-3 py-3">
-                <Switch
-                  label="Opsi Penjadwalan"
-                  labelClassName="text-gray-dark font-semibold"
-                  {...register('penjadwalan')}
-                />
-                {watch('penjadwalan', false) && (
-                  <ControlledDatePicker
-                    name="jadwal"
+              <div className="flex flex-col">
+                <div className="flex flex-col gap-4 p-3">
+                  <ControlledInput
+                    name="judul"
                     control={control}
                     errors={errors}
-                    placeholder="Atur Tanggal dan Jam Terbit"
-                    showTimeSelect
-                    dateFormat="dd MMMM yyyy HH:mm"
-                    timeFormat="HH:mm"
-                    className="flex-1"
+                    label="Judul Konferensi"
+                    placeholder="Tulis judul konferensi di sini"
+                    required
                   />
-                )}
-              </div>
 
-              <div className="px-3">
-                <FormError error={formError} />
+                  <ControlledQuillEditor
+                    name="catatan"
+                    control={control}
+                    errors={errors}
+                    label="Catatan Tambahan"
+                    placeholder="Buat catatan singkat terkait konferensi yang diberikan"
+                    toolbar="minimalist"
+                  />
+
+                  <ControlledInput
+                    name="link"
+                    control={control}
+                    errors={errors}
+                    label="Link Konferensi"
+                    placeholder="Tulis link konferensi di sini"
+                    required
+                  />
+                </div>
+
+                <CardSeparator />
+
+                <div className="flex gap-x-4 gap-y-1 flex-wrap p-3">
+                  <Switch
+                    label="Opsi Penjadwalan"
+                    labelClassName="text-gray-dark font-semibold"
+                    {...register('penjadwalan')}
+                  />
+                  {watch('penjadwalan', false) && (
+                    <ControlledDatePicker
+                      name="jadwal"
+                      control={control}
+                      errors={errors}
+                      placeholder="Atur Tanggal dan Jam Terbit"
+                      showTimeSelect
+                      dateFormat="dd MMMM yyyy HH:mm"
+                      timeFormat="HH:mm"
+                      className="flex-1 min-w-72"
+                    />
+                  )}
+                </div>
+
+                <div className="px-3">
+                  <FormError error={formError} />
+                </div>
               </div>
 
               <ModalFooterButtons

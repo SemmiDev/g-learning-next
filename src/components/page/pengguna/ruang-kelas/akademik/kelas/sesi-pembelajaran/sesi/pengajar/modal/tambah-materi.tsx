@@ -12,6 +12,7 @@ import {
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -60,6 +61,7 @@ export default function TambahMateriSesiModal({
   onHide,
 }: TambahMateriSesiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -109,7 +111,7 @@ export default function TambahMateriSesiModal({
     <Modal
       title="Bagikan Materi"
       desc="Lampirkan materi yang ingin Kamu bagikan, dapat berupa gambar, video, link video, atau dokumen"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -121,6 +123,7 @@ export default function TambahMateriSesiModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>

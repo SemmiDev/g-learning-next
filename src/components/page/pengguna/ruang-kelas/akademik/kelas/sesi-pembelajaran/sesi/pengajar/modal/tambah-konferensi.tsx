@@ -8,6 +8,7 @@ import {
   ModalFooterButtons,
   RadioGroupOptionType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -47,6 +48,7 @@ export default function TambahKonferensiSesiModal({
   onHide,
 }: TambahKonferensiSesiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -97,7 +99,7 @@ export default function TambahKonferensiSesiModal({
   return (
     <Modal
       title="Bagikan Konferensi"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -109,13 +111,9 @@ export default function TambahKonferensiSesiModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
-        {({
-          register,
-          control,
-          watch,
-          formState: { errors, isSubmitting },
-        }) => (
+        {({ control, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
               <ControlledInput

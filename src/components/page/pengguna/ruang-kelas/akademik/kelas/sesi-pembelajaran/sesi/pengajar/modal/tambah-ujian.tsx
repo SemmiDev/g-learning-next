@@ -15,6 +15,7 @@ import {
   RadioGroupOptionType,
   SelectOptionType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -83,6 +84,7 @@ export default function TambahUjianSesiModal({
   onHide,
 }: TambahUjianSesiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -131,7 +133,7 @@ export default function TambahUjianSesiModal({
   return (
     <Modal
       title="Bagikan Ujian"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -143,129 +145,126 @@ export default function TambahUjianSesiModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
-        {({
-          register,
-          control,
-          watch,
-          setValue,
-          formState: { errors, isSubmitting },
-        }) => (
+        {({ control, setValue, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledPaketSoal
-                name="paket"
-                control={control}
-                errors={errors}
-                label="Pilih Paket Soal"
-                placeholder="Klik di sini untuk memilih paket soal yang ada"
-                onChange={(val) => {
-                  if (!val) return
-
-                  setValue('judul', val.name)
-                  setValue('catatan', val.desc)
-                }}
-                required
-              />
-
-              <ControlledInput
-                name="judul"
-                control={control}
-                errors={errors}
-                label="Judul Ujian"
-                placeholder="Tulis judul ujian di sini"
-                required
-              />
-
-              <ControlledSelect
-                name="jenis"
-                control={control}
-                options={jenisOptions}
-                errors={errors}
-                label="Jenis Ujian"
-                placeholder="Tulis jenis ujian di sini"
-                required
-              />
-
-              <div className="flex gap-x-2">
-                <ControlledInputNumber
-                  name="durasi"
+            <div className="flex flex-col">
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledPaketSoal
+                  name="paket"
                   control={control}
                   errors={errors}
-                  label="Durasi Ujian"
-                  placeholder="Atur lama ujian"
-                  className="w-36"
-                  suffix={<small>Menit</small>}
+                  label="Pilih Paket Soal"
+                  placeholder="Klik di sini untuk memilih paket soal yang ada"
+                  onChange={(val) => {
+                    if (!val) return
+
+                    setValue('judul', val.name)
+                    setValue('catatan', val.desc)
+                  }}
                   required
                 />
-                <ControlledDatePicker
-                  name="mulai"
+
+                <ControlledInput
+                  name="judul"
                   control={control}
                   errors={errors}
-                  label="Waktu Mulai"
-                  placeholder="Atur waktu mulai"
-                  showTimeSelect
-                  dateFormat="dd MMMM yyyy HH:mm"
-                  timeFormat="HH:mm"
-                  className="flex-1"
+                  label="Judul Ujian"
+                  placeholder="Tulis judul ujian di sini"
                   required
                 />
-                <ControlledDatePicker
-                  name="selesai"
+
+                <ControlledSelect
+                  name="jenis"
+                  control={control}
+                  options={jenisOptions}
+                  errors={errors}
+                  label="Jenis Ujian"
+                  placeholder="Tulis jenis ujian di sini"
+                  required
+                />
+
+                <div className="grid grid-cols-12 gap-2">
+                  <ControlledInputNumber
+                    name="durasi"
+                    control={control}
+                    errors={errors}
+                    label="Durasi Ujian"
+                    placeholder="Atur lama ujian"
+                    className="col-span-12 xs:col-span-4"
+                    suffix={<small>Menit</small>}
+                    required
+                  />
+                  <ControlledDatePicker
+                    name="mulai"
+                    control={control}
+                    errors={errors}
+                    label="Waktu Mulai"
+                    placeholder="Atur waktu mulai"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="col-span-12 xs:col-span-4"
+                    required
+                  />
+                  <ControlledDatePicker
+                    name="selesai"
+                    control={control}
+                    errors={errors}
+                    label="Waktu Selesai"
+                    placeholder="Atur waktu selesai"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="col-span-12 xs:col-span-4"
+                    required
+                  />
+                </div>
+
+                <ControlledQuillEditor
+                  name="catatan"
                   control={control}
                   errors={errors}
-                  label="Waktu Selesai"
-                  placeholder="Atur waktu selesai"
-                  showTimeSelect
-                  dateFormat="dd MMMM yyyy HH:mm"
-                  timeFormat="HH:mm"
-                  className="flex-1"
-                  required
+                  label="Catatan Tambahan"
+                  placeholder="Buat catatan singkat terkait ujian yang diberikan"
+                  toolbar="minimalist"
+                />
+
+                <ControlledRadioGroup
+                  name="acakSoal"
+                  control={control}
+                  options={acakOptions}
+                  errors={errors}
+                  label={
+                    <div className="flex items-center">
+                      Acak Soal Pilihan Ganda
+                      <BsInfoCircle size={12} className="ml-1" />
+                    </div>
+                  }
+                  className="mb-1.5"
+                  groupClassName="gap-8"
+                />
+
+                <ControlledRadioGroup
+                  name="acakJawaban"
+                  control={control}
+                  options={acakOptions}
+                  errors={errors}
+                  label={
+                    <div className="flex items-center">
+                      Acak Jawaban
+                      <BsInfoCircle size={12} className="ml-1" />
+                    </div>
+                  }
+                  className="mb-1.5"
+                  groupClassName="gap-8"
                 />
               </div>
 
-              <ControlledQuillEditor
-                name="catatan"
-                control={control}
-                errors={errors}
-                label="Catatan Tambahan"
-                placeholder="Buat catatan singkat terkait ujian yang diberikan"
-                toolbar="minimalist"
-              />
-
-              <ControlledRadioGroup
-                name="acakSoal"
-                control={control}
-                options={acakOptions}
-                errors={errors}
-                label={
-                  <div className="flex items-center">
-                    Acak Soal Pilihan Ganda
-                    <BsInfoCircle size={12} className="ml-1" />
-                  </div>
-                }
-                className="mb-1.5"
-                groupClassName="gap-8"
-              />
-
-              <ControlledRadioGroup
-                name="acakJawaban"
-                control={control}
-                options={acakOptions}
-                errors={errors}
-                label={
-                  <div className="flex items-center">
-                    Acak Jawaban
-                    <BsInfoCircle size={12} className="ml-1" />
-                  </div>
-                }
-                className="mb-1.5"
-                groupClassName="gap-8"
-              />
-            </div>
-
-            <div className="px-3">
-              <FormError error={formError} />
+              <div className="px-3">
+                <FormError error={formError} />
+              </div>
             </div>
 
             <ModalFooterButtons

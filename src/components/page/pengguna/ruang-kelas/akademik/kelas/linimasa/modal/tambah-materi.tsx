@@ -14,6 +14,7 @@ import {
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -77,6 +78,7 @@ export default function TambahMateriModal({
   setShow,
 }: TambahMateriModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -104,7 +106,7 @@ export default function TambahMateriModal({
     <Modal
       title="Bagikan Materi"
       desc="Lampirkan materi yang ingin Kamu bagikan, dapat berupa gambar, video, link video, atau dokumen"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -116,78 +118,81 @@ export default function TambahMateriModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledSwitch
-                name="share"
-                control={control}
-                label="Bagikan dari Bank Materi"
-              />
-
-              {watch('share') ? (
-                <ControlledMateri
-                  name="materi"
+            <div className="flex flex-col">
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledSwitch
+                  name="share"
                   control={control}
-                  errors={errors}
-                  type="materi"
+                  label="Bagikan dari Bank Materi"
                 />
-              ) : (
-                <>
-                  <ControlledInput
-                    name="judul"
+
+                {watch('share') ? (
+                  <ControlledMateri
+                    name="materi"
                     control={control}
                     errors={errors}
-                    label="Judul Materi"
-                    placeholder="Tulis judul materi di sini"
-                    required
+                    type="materi"
                   />
+                ) : (
+                  <>
+                    <ControlledInput
+                      name="judul"
+                      control={control}
+                      errors={errors}
+                      label="Judul Materi"
+                      placeholder="Tulis judul materi di sini"
+                      required
+                    />
 
-                  <ControlledQuillEditor
-                    name="catatan"
-                    control={control}
-                    errors={errors}
-                    label="Catatan Tambahan"
-                    placeholder="Buat catatan singkat terkait materi yang diberikan"
-                    toolbar="minimalist"
-                  />
+                    <ControlledQuillEditor
+                      name="catatan"
+                      control={control}
+                      errors={errors}
+                      label="Catatan Tambahan"
+                      placeholder="Buat catatan singkat terkait materi yang diberikan"
+                      toolbar="minimalist"
+                    />
 
-                  <ControlledPustakaMedia
-                    name="berkas"
-                    control={control}
-                    label="Pilih Berkas"
-                    errors={errors}
-                    multiple
-                  />
-                </>
-              )}
-            </div>
+                    <ControlledPustakaMedia
+                      name="berkas"
+                      control={control}
+                      label="Pilih Berkas"
+                      errors={errors}
+                      multiple
+                    />
+                  </>
+                )}
+              </div>
 
-            <CardSeparator />
+              <CardSeparator />
 
-            <div className="flex gap-x-4 px-3 py-3">
-              <ControlledSwitch
-                name="penjadwalan"
-                control={control}
-                label="Opsi Penjadwalan"
-              />
-              {watch('penjadwalan', false) && (
-                <ControlledDatePicker
-                  name="jadwal"
+              <div className="flex gap-x-4 gap-y-1 flex-wrap p-3">
+                <ControlledSwitch
+                  name="penjadwalan"
                   control={control}
-                  errors={errors}
-                  placeholder="Atur Tanggal dan Jam Terbit"
-                  showTimeSelect
-                  dateFormat="dd MMMM yyyy HH:mm"
-                  timeFormat="HH:mm"
-                  className="flex-1"
+                  label="Opsi Penjadwalan"
                 />
-              )}
-            </div>
+                {watch('penjadwalan', false) && (
+                  <ControlledDatePicker
+                    name="jadwal"
+                    control={control}
+                    errors={errors}
+                    placeholder="Atur Tanggal dan Jam Terbit"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="flex-1 min-w-72"
+                  />
+                )}
+              </div>
 
-            <div className="px-3">
-              <FormError error={formError} />
+              <div className="px-3">
+                <FormError error={formError} />
+              </div>
             </div>
 
             <ModalFooterButtons

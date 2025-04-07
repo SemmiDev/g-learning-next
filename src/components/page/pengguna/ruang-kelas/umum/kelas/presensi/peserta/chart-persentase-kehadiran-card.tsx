@@ -74,7 +74,7 @@ export default function PesertaChartPersentaseKehadiranCard({
         <div className="w-[200px] h-[200px]">
           <PesertaChartPresensi data={data} colors={COLORS} />
         </div>
-        <div className="grid grid-cols-4 gap-2 lg:gap-6">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 xs:grid-cols-4 lg:gap-x-6 2xl:grid-cols-4">
           {data.map((val, idx) => {
             return (
               <div key={idx}>

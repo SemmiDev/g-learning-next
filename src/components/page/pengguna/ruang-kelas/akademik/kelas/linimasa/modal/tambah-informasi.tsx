@@ -11,6 +11,7 @@ import {
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -63,6 +64,7 @@ export default function TambahInformasiModal({
   setShow,
 }: TambahInformasiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -89,7 +91,7 @@ export default function TambahInformasiModal({
   return (
     <Modal
       title="Bagikan Informasi"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -101,6 +103,7 @@ export default function TambahInformasiModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({
           register,
@@ -109,58 +112,60 @@ export default function TambahInformasiModal({
           formState: { errors, isSubmitting },
         }) => (
           <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledInput
-                name="judul"
-                control={control}
-                errors={errors}
-                label="Judul Informasi"
-                placeholder="Tulis judul informasi di sini"
-                required
-              />
-
-              <ControlledQuillEditor
-                name="catatan"
-                control={control}
-                errors={errors}
-                size="md"
-                label="Catatan Tambahan"
-                placeholder="Buat catatan terkait informasi yang diberikan"
-              />
-
-              <ControlledPustakaMedia
-                name="berkas"
-                control={control}
-                label="Pilih Berkas"
-                errors={errors}
-                multiple
-              />
-            </div>
-
-            <CardSeparator />
-
-            <div className="flex gap-x-4 px-3 py-3">
-              <Switch
-                label="Opsi Penjadwalan"
-                labelClassName="text-gray-dark font-semibold"
-                {...register('penjadwalan')}
-              />
-              {watch('penjadwalan', false) && (
-                <ControlledDatePicker
-                  name="jadwal"
+            <div className="flex flex-col">
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledInput
+                  name="judul"
                   control={control}
                   errors={errors}
-                  placeholder="Atur Tanggal dan Jam Terbit"
-                  showTimeSelect
-                  dateFormat="dd MMMM yyyy HH:mm"
-                  timeFormat="HH:mm"
-                  className="flex-1"
+                  label="Judul Informasi"
+                  placeholder="Tulis judul informasi di sini"
+                  required
                 />
-              )}
-            </div>
 
-            <div className="px-3">
-              <FormError error={formError} />
+                <ControlledQuillEditor
+                  name="catatan"
+                  control={control}
+                  errors={errors}
+                  size="md"
+                  label="Catatan Tambahan"
+                  placeholder="Buat catatan terkait informasi yang diberikan"
+                />
+
+                <ControlledPustakaMedia
+                  name="berkas"
+                  control={control}
+                  label="Pilih Berkas"
+                  errors={errors}
+                  multiple
+                />
+              </div>
+
+              <CardSeparator />
+
+              <div className="flex gap-x-4 gap-y-1 flex-wrap p-3">
+                <Switch
+                  label="Opsi Penjadwalan"
+                  labelClassName="text-gray-dark font-semibold"
+                  {...register('penjadwalan')}
+                />
+                {watch('penjadwalan', false) && (
+                  <ControlledDatePicker
+                    name="jadwal"
+                    control={control}
+                    errors={errors}
+                    placeholder="Atur Tanggal dan Jam Terbit"
+                    showTimeSelect
+                    dateFormat="dd MMMM yyyy HH:mm"
+                    timeFormat="HH:mm"
+                    className="flex-1 min-w-72"
+                  />
+                )}
+              </div>
+
+              <div className="px-3">
+                <FormError error={formError} />
+              </div>
             </div>
 
             <ModalFooterButtons

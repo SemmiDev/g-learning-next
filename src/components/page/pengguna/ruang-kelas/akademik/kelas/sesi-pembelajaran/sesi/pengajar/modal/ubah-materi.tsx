@@ -11,6 +11,7 @@ import {
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { required } from '@/utils/validations/pipe'
@@ -46,6 +47,7 @@ export default function UbahMateriSesiModal({
   onHide,
 }: UbahMateriSesiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -128,7 +130,7 @@ export default function UbahMateriSesiModal({
       title="Ubah Materi Dibagikan"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -144,8 +146,9 @@ export default function UbahMateriSesiModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
-          {({ control, watch, formState: { errors, isSubmitting } }) => (
+          {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
                 <ControlledInput

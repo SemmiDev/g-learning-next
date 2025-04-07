@@ -7,6 +7,7 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -37,6 +38,7 @@ export default function TambahDiskusiModal({
   setShow,
 }: TambahDiskusiModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -63,7 +65,7 @@ export default function TambahDiskusiModal({
   return (
     <Modal
       title="Bagikan Diskusi"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -75,36 +77,34 @@ export default function TambahDiskusiModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
-        {({
-          register,
-          control,
-          watch,
-          formState: { errors, isSubmitting },
-        }) => (
+        {({ control, formState: { errors, isSubmitting } }) => (
           <>
-            <div className="flex flex-col gap-4 p-3">
-              <ControlledInput
-                name="judul"
-                control={control}
-                errors={errors}
-                label="Judul Diskusi"
-                placeholder="Tulis judul diskusi di sini"
-                required
-              />
+            <div className="flex flex-col">
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledInput
+                  name="judul"
+                  control={control}
+                  errors={errors}
+                  label="Judul Diskusi"
+                  placeholder="Tulis judul diskusi di sini"
+                  required
+                />
 
-              <ControlledQuillEditor
-                name="catatan"
-                control={control}
-                errors={errors}
-                size="md"
-                label="Catatan Tambahan"
-                placeholder="Buat catatan terkait diskusi yang diberikan"
-              />
-            </div>
+                <ControlledQuillEditor
+                  name="catatan"
+                  control={control}
+                  errors={errors}
+                  size="md"
+                  label="Catatan Tambahan"
+                  placeholder="Buat catatan terkait diskusi yang diberikan"
+                />
+              </div>
 
-            <div className="px-3">
-              <FormError error={formError} />
+              <div className="px-3">
+                <FormError error={formError} />
+              </div>
             </div>
 
             <ModalFooterButtons

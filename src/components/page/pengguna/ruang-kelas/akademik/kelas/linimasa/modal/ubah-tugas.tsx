@@ -13,6 +13,7 @@ import {
   ModalFooterButtons,
   PustakaMediaFileType,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
@@ -63,6 +64,7 @@ export default function UbahTugasModal({
   onHide,
 }: UbahTugasModalProps) {
   const queryClient = useQueryClient()
+  const size = useAutoSizeLargeModal()
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -134,7 +136,7 @@ export default function UbahTugasModal({
       title="Ubah Tugas Dibagikan"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -150,59 +152,62 @@ export default function UbahTugasModal({
             defaultValues: initialValues,
             values: initialValues,
           }}
+          flexing
         >
           {({ control, watch, formState: { errors, isSubmitting } }) => (
             <>
-              <div className="flex flex-col gap-4 p-3">
-                <ControlledInput
-                  name="judul"
-                  control={control}
-                  errors={errors}
-                  label="Judul Tugas"
-                  placeholder="Tulis judul tugas di sini"
-                  required
-                />
-
-                <ControlledQuillEditor
-                  name="catatan"
-                  control={control}
-                  errors={errors}
-                  label="Catatan Tambahan"
-                  placeholder="Buat catatan singkat terkait tugas yang diberikan"
-                  toolbar="minimalist"
-                />
-
-                <ControlledPustakaMedia
-                  name="berkas"
-                  control={control}
-                  label="Pilih Berkas"
-                  errors={errors}
-                  multiple
-                />
-
-                <div className="flex gap-x-4 px-3 py-3">
-                  <ControlledSwitch
-                    name="dibatasiWaktu"
+              <div className="flex flex-col">
+                <div className="flex flex-col gap-4 p-3">
+                  <ControlledInput
+                    name="judul"
                     control={control}
-                    label="Opsi Batas Waktu Penyerahan"
+                    errors={errors}
+                    label="Judul Tugas"
+                    placeholder="Tulis judul tugas di sini"
+                    required
                   />
-                  {watch('dibatasiWaktu', false) && (
-                    <ControlledDatePicker
-                      name="batasWaktu"
-                      control={control}
-                      errors={errors}
-                      placeholder="Atur Tanggal dan Jam Batas Waktu"
-                      showTimeSelect
-                      dateFormat="dd MMMM yyyy HH:mm"
-                      timeFormat="HH:mm"
-                      className="flex-1"
-                    />
-                  )}
-                </div>
-              </div>
 
-              <div className="px-3">
-                <FormError error={formError} />
+                  <ControlledQuillEditor
+                    name="catatan"
+                    control={control}
+                    errors={errors}
+                    label="Catatan Tambahan"
+                    placeholder="Buat catatan singkat terkait tugas yang diberikan"
+                    toolbar="minimalist"
+                  />
+
+                  <ControlledPustakaMedia
+                    name="berkas"
+                    control={control}
+                    label="Pilih Berkas"
+                    errors={errors}
+                    multiple
+                  />
+
+                  <div className="flex gap-x-4 gap-y-1 flex-wrap">
+                    <ControlledSwitch
+                      name="dibatasiWaktu"
+                      control={control}
+                      label="Opsi Batas Waktu Penyerahan"
+                    />
+                    {watch('dibatasiWaktu', false) && (
+                      <ControlledDatePicker
+                        name="batasWaktu"
+                        control={control}
+                        errors={errors}
+                        placeholder="Atur Tanggal dan Jam Batas Waktu"
+                        showTimeSelect
+                        dateFormat="dd MMMM yyyy HH:mm"
+                        timeFormat="HH:mm"
+                        className="flex-1 min-w-72"
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <div className="px-3">
+                  <FormError error={formError} />
+                </div>
               </div>
 
               <ModalFooterButtons
