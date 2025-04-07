@@ -1,4 +1,5 @@
 import { Title } from '@/components/ui'
+import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 
 export default function TesLayout({
@@ -8,6 +9,8 @@ export default function TesLayout({
   children: ReactNode
   modal: ReactNode
 }) {
+  if (process.env.NODE_ENV !== 'development') notFound()
+
   return (
     <>
       <Title>Tes Layout</Title>

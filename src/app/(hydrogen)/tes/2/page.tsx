@@ -39,6 +39,7 @@ import { inputToNumber } from '@/utils/validations/transform'
 import { NumberInput } from 'rizzui'
 import ReactSelect, { GroupBase, Props as ReactSelectProps } from 'react-select'
 import { useId } from 'react'
+import { notFound } from 'next/navigation'
 
 const options: SelectOptionType[] = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -92,6 +93,8 @@ const initialValues: FormSchema = {
 }
 
 export default function Tes2Page() {
+  if (process.env.NODE_ENV !== 'development') notFound()
+
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     console.log('form data', data)
   }

@@ -1,6 +1,9 @@
 import { Button } from '@/components/ui'
+import { notFound } from 'next/navigation'
 
 export default function Tes4Page() {
+  if (process.env.NODE_ENV !== 'development') notFound()
+
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex gap-x-2">
