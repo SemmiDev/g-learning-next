@@ -83,7 +83,7 @@ export default function DiskusiDetailPage() {
           <div className="flex px-2 mb-4">
             <Checkbox
               size="sm"
-              label="Tandai Hadir Semua"
+              label="Tandai Semua Hadir"
               className="text-gray-lighter text-xs"
               iconClassName="h-3 top-1"
             />

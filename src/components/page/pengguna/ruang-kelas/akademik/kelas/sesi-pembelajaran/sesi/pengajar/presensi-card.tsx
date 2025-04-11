@@ -1,3 +1,4 @@
+import { cekPresensiSemuaPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/cek-presensi-semua-peserta'
 import { simpanPresensiPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/aktifitas/sesi/pengajar/simpan-presensi-peserta'
 import {
   DataType as DataPresensiType,
@@ -11,6 +12,7 @@ import {
   Button,
   Card,
   CardSeparator,
+  ModalConfirm,
   Text,
   Thumbnail,
   Title,
@@ -26,7 +28,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import { BsFloppy2, BsPencil, BsThreeDots, BsXSquare } from 'react-icons/bs'
+import {
+  BsCheck2All,
+  BsFloppy2,
+  BsPencil,
+  BsThreeDots,
+  BsXSquare,
+} from 'react-icons/bs'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Dropdown } from 'rizzui'
 import UbahJenisAbsenSesiModal from '../../pengajar/modal/ubah-jenis-absen'
@@ -46,6 +54,7 @@ export default function PengajarPresensiCard({
 }: PengajarPresensiCardProps) {
   const queryClient = useQueryClient()
   const [ubahData, setUbahData] = useState(false)
+  const [hadirSemua, setHadirSemua] = useState(false)
   const [dataPerubahan, setDataPerubahan] = useState<AbsensiType>({})
   const {
     show: showUbahAbsensi,
@@ -129,6 +138,17 @@ export default function PengajarPresensiCard({
     )
   }
 
+  const handleHadirSemua = async () => {
+    const { data } = await cekPresensiSemuaPesertaSesiAction(idKelas, idSesi)
+    const dataHadirSemua = (data?.list ?? []).reduce(
+      (o, item) => ({ ...o, [item.id_peserta]: 'Hadir' }),
+      {}
+    )
+
+    setDataPerubahan(dataHadirSemua)
+    setHadirSemua(false)
+  }
+
   const handleBatal = () => {
     setUbahData(false)
     setDataPerubahan({})
@@ -140,9 +160,23 @@ export default function PengajarPresensiCard({
     <>
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex justify-between items-center flex-wrap gap-2 px-2 py-2">
-          <Title as="h6" weight="semibold" className="leading-4">
-            Presensi
-          </Title>
+          <div className="flex flex-col">
+            <Title as="h6" weight="semibold" className="leading-4">
+              Presensi
+            </Title>
+            {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) && (
+              <Button
+                size="sm"
+                color="primary"
+                variant="text-colorful"
+                className="p-0"
+                onClick={() => setHadirSemua(true)}
+              >
+                <BsCheck2All className="mr-1" />
+                Tandai Semua Hadir
+              </Button>
+            )}
+          </div>
 
           <div className="flex gap-x-2">
             {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) && (
@@ -238,6 +272,7 @@ export default function PengajarPresensiCard({
                   <div
                     className={cn({
                       'grid grid-cols-2 gap-2 shrink-0 xs:grid-cols-4':
+                        dataSesi?.jenis_absensi_peserta === 'Manual' ||
                         ubahData,
                     })}
                   >
@@ -303,7 +338,7 @@ export default function PengajarPresensiCard({
                       size="sm"
                       rounded="lg"
                       variant="outline-colorful"
-                      className="rounded-lg"
+                      className="rounded-lg shrink-0"
                       onClick={() => doShowDetailPresensi(item)}
                     >
                       <PiMagnifyingGlass />
@@ -334,6 +369,17 @@ export default function PengajarPresensiCard({
         data={dataDetailPresensi}
         show={showDetailPresensi}
         onHide={doHideDetailPresensi}
+      />
+
+      <ModalConfirm
+        title="Tandai Semua Hadir"
+        desc="Apakah Anda yakin ingin menandai semua peserta menjadi hadir?"
+        confirmColor="primary"
+        isOpen={hadirSemua}
+        onConfirm={handleHadirSemua}
+        confirmLoading={true}
+        onClose={() => setHadirSemua(false)}
+        closeOnCancel
       />
     </>
   )

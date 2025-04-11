@@ -1,6 +1,9 @@
+'use client'
+
 import cn from '@/utils/class-names'
-import { ReactNode } from 'react'
-import Button, { ButtonColors } from '../button/button'
+import { ReactNode, useState } from 'react'
+import { ButtonSubmit } from '..'
+import { ButtonColors } from '../button/button'
 import CardSeparator from '../card-separator'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
@@ -9,7 +12,8 @@ import Modal, { ModalProps } from './modal'
 export type ModalConfirmProps = Omit<ModalProps, 'children' | 'desc'> & {
   confirm?: string
   confirmColor?: ButtonColors
-  onConfirm?(): void
+  onConfirm?(): Promise<void> | void
+  confirmLoading?: boolean
   cancel?: string
   onCancel?(): void
   closeOnCancel?: boolean
@@ -25,6 +29,7 @@ export default function ModalConfirm({
   confirm = 'Ya',
   confirmColor,
   onConfirm,
+  confirmLoading,
   cancel = 'Tidak',
   onCancel,
   closeOnCancel,
@@ -34,6 +39,8 @@ export default function ModalConfirm({
   footerButtons,
   ...props
 }: ModalConfirmProps) {
+  const [isConfirming, setConfirming] = useState(false)
+
   confirmColor =
     confirmColor ??
     (props.color === 'dark-gray' ||
@@ -69,14 +76,21 @@ export default function ModalConfirm({
         }}
       >
         <div className="flex-1">
-          <Button
+          <ButtonSubmit
             variant="solid"
             className="w-full"
             color={confirmColor}
-            onClick={onConfirm}
+            onClick={async () => {
+              if (confirmLoading) setConfirming(true)
+
+              onConfirm && (await onConfirm())
+
+              if (confirmLoading) setConfirming(false)
+            }}
+            isSubmitting={isConfirming}
           >
             {confirm}
-          </Button>
+          </ButtonSubmit>
         </div>
         {footerButtons}
       </ModalFooterButtons>
