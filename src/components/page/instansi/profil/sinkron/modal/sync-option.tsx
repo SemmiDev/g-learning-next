@@ -140,7 +140,7 @@ function MainBanner() {
   return (
     <div className="flex justify-center items-center w-44 h-16 rounded-md bg-black">
       <Text size="lg" weight="extrabold" className="text-[#D40000]">
-        Smarthink
+        Smartthink
       </Text>
     </div>
   )
