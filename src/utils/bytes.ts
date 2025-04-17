@@ -27,17 +27,19 @@ export const formatBytes = (
   decimals = 2,
   nospace = false
 ) => {
-  if (!+kilobytes) return '0 KB'
+  if (kilobytes === 0) return '0 KB'
+
+  const absKilobytes = Math.abs(kilobytes)
 
   const dm = decimals < 0 ? 0 : decimals
   const units = ['KB', 'MB', 'GB', 'TB'] as const
 
   const unitSize = Math.floor(
-    Math.log(kilobytes) / Math.log(FILE_SIZE_UNIT_SCALE)
+    Math.log(absKilobytes) / Math.log(FILE_SIZE_UNIT_SCALE)
   )
 
-  return `${parseFloat(
-    (kilobytes / Math.pow(FILE_SIZE_UNIT_SCALE, unitSize)).toFixed(dm)
+  return `${kilobytes < 0 ? '-' : ''}${parseFloat(
+    (absKilobytes / Math.pow(FILE_SIZE_UNIT_SCALE, unitSize)).toFixed(dm)
   )}${nospace ? '' : ' '}${units[unitSize]}`
 }
 
