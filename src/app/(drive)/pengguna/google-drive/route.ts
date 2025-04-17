@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
       if (!userInfo.email || !tokens.refresh_token || !tokens.expiry_date)
         throw new Error('User info not found')
 
-      simpanTokenAction({
+      await simpanTokenAction({
         email: userInfo.email,
         accessToken: accessToken,
         refreshToken: tokens.refresh_token,
