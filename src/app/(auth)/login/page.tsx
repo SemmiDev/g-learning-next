@@ -8,7 +8,7 @@ import LoginForm from '../../../components/page/auth/login/form'
 export const metadata = {
   ...metaObject('Masuk'),
   other: {
-    'google-site-verification': '58mqge7btlFV5X9Wu5LxLXDgtrXi1kmvEVaUo6LHA-I',
+    'google-site-verification': 'u2vamwZ_XwoqB34XRg08XetvcpxnfEcDQqapnrMZ3Cs',
   },
 }
 
