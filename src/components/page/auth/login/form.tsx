@@ -183,6 +183,21 @@ export default function LoginForm({ devMode }: LoginFormProps) {
           Klik di sini untuk mendaftar
         </TextLink>
       </Text>
+      <Text as="span" size="sm">
+        Lihat{' '}
+        <TextLink href={publicRoutes.term} weight="semibold" target="_blank">
+          Ketentuan Layanan
+        </TextLink>{' '}
+        &{' '}
+        <TextLink
+          href={publicRoutes.privacyPolicy}
+          weight="semibold"
+          target="_blank"
+        >
+          Kebijakan Privasi
+        </TextLink>{' '}
+        dari Kami
+      </Text>
     </>
   )
 }
