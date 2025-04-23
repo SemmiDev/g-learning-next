@@ -26,18 +26,14 @@ export const authOptions: AuthOptions = {
             username: 'pengajar@glearning.com',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6InBlbmdhamFyQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiUGVuZ2FqYXIiLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.xoVt-Sse4UENfMshdGSCY5m8lsqZSI3p-lsFiVn4xNs',
           }
-        }
-
-        if (username == 'peserta@glearning.com') {
+        } else if (username == 'peserta@glearning.com') {
           return {
             id: '2',
             name: 'Nama Peserta',
             username: 'peserta@glearning.com',
             jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6InBlc2VydGFAZ2xlYXJuaW5nLmNvbSIsInRpcGUiOiJQZXNlcnRhIiwiaXNzdWVkX2F0IjoiMjAyNC0wOC0yMlQwODozNDowNy45ODE4NDAwMzcrMDc6MDAiLCJleHBpcmVkX2F0IjoiMjAyNC0wOC0yMlQxMDozNDowNy45ODE4NDAwOTcrMDc6MDAifQ.bdLA9sFbXnr5JtV4BQNce1c0ocyykzdYQYczjnu4psQ',
           }
-        }
-
-        if (username == 'pengguna@glearning.com') {
+        } else if (username == 'pengguna@glearning.com') {
           return {
             id: '3',
             name: 'Nama Pengguna',

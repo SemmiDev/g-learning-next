@@ -11,6 +11,7 @@ export const publicRoutes = {
   help: '/bantuan',
   term: '/ketentuan-layanan',
   privacyPolicy: '/kebijakan-privasi',
+  autoLogin: '/auto-login',
 }
 
 export const pengajarRoutes = {
