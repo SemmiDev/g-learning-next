@@ -1,20 +1,5 @@
-.PHONY: rebuild build clean stop start boot
+.PHONY: rebuild
 
-rebuild: stop clean build start
-
-stop:
-	@pm2 delete nextjs-glearning || true
-
-clean:
-	@rm -rf node_modules .next .cache package-lock.json pnpm-lock.yaml || true
-
-build:
+rebuild: 
 	@npm install --force
-	@export NODE_OPTIONS="--max-old-space-size=4096"
-	@npm run build
-
-start:
-	@pm2 start npm --name "nextjs-glearning" -- start
-
-boot:
-	@pm2 startup
+	@cd /home/garuda/app && git pull && npm install --force && NODE_OPTIONS="--max-old-space-size=4096" npm run build && pm2 delete nextjs-glearning && pm2 start npm --name "nextjs-glearning" -- start && pm2 list
