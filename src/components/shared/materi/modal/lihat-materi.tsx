@@ -131,7 +131,9 @@ function DataRow({
       <td className="w-0 font-medium text-gray-lighter align-baseline text-right pe-5 py-2">
         {label}
       </td>
-      <td className={cn('font-semibold text-gray-dark py-2', className)}>
+      <td
+        className={cn('font-semibold text-gray-dark max-w-80 py-2', className)}
+      >
         {children}
       </td>
     </tr>
