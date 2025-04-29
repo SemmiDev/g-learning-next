@@ -145,6 +145,12 @@ export default function PustakaMedia({
     doHide: doHideUbahLink,
   } = useShowModal<string>()
   const {
+    show: showUbahNama,
+    key: keyUbahNama,
+    doShow: doShowUbahNama,
+    doHide: doHideUbahNama,
+  } = useShowModal<string>()
+  const {
     show: showUbahFile,
     key: keyUbahFile,
     doShow: doShowUbahFile,
@@ -263,18 +269,22 @@ export default function PustakaMedia({
       })
 
       return {
-        list: (data?.list ?? []).map((item) => ({
-          id: item.id,
-          name: item.nama,
-          time: item.created_at,
-          link: item.url,
-          extension: item.ekstensi,
-          folder: getFileIsFolder(item),
-          fileCount: getFileCount(item),
-          size: getFileSize(item),
-          type: getFileType(item),
-          driveId: item.id_instansi ?? undefined,
-        })) as FileType[],
+        list: (data?.list ?? []).map(
+          (item) =>
+            ({
+              id: item.id,
+              name: item.nama,
+              time: item.created_at,
+              link: item.url,
+              extension: item.ekstensi,
+              folder: getFileIsFolder(item),
+              fileCount: getFileCount(item),
+              size: getFileSize(item),
+              type: getFileType(item),
+              driveId: item.id_instansi ?? undefined,
+              googleDrive: item.google_drive,
+            } as FileType)
+        ),
         pagination: data?.pagination,
       }
     },
@@ -314,7 +324,11 @@ export default function PustakaMedia({
 
   const handleUbah = (file: FileType) => {
     if (file.type === 'link') {
-      doShowUbahLink(file.id)
+      if (file.googleDrive) {
+        doShowUbahNama(file.id)
+      } else {
+        doShowUbahLink(file.id)
+      }
     } else {
       doShowUbahFile(file.id)
     }
@@ -614,6 +628,14 @@ export default function PustakaMedia({
         id={keyUbahLink}
         onHide={doHideUbahLink}
         refetchKey={queryKey}
+      />
+
+      <UbahLinkModal
+        show={showUbahNama}
+        id={keyUbahNama}
+        onHide={doHideUbahNama}
+        refetchKey={queryKey}
+        googleDrive
       />
 
       <UbahBerkasModal

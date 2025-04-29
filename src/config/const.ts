@@ -29,8 +29,19 @@ export const NAMA_HARI = [
 
 export const ZONA_WAKTU = ['WIB', 'WITA', 'WIT'] as const
 
-export const GOOGLE_DRIVE_SCOPES = [
-  'https://www.googleapis.com/auth/userinfo.email',
-  'https://www.googleapis.com/auth/userinfo.profile',
-  'https://www.googleapis.com/auth/drive.file',
-]
+export const GOOGLE_DRIVE_SCOPES = process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER
+  ? [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/drive.file',
+    ]
+  : [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/drive.readonly',
+      'https://www.googleapis.com/auth/drive.file',
+      'https://www.googleapis.com/auth/drive.metadata',
+      'https://www.googleapis.com/auth/drive.metadata.readonly',
+      'https://www.googleapis.com/auth/drive.scripts',
+    ]

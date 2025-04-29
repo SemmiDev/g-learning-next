@@ -82,6 +82,12 @@ export default function PilihMediaGambar({
     doHide: doHideUbahLink,
   } = useShowModal<string>()
   const {
+    show: showUbahNama,
+    key: keyUbahNama,
+    doShow: doShowUbahNama,
+    doHide: doHideUbahNama,
+  } = useShowModal<string>()
+  const {
     show: showUbahFile,
     key: keyUbahFile,
     doShow: doShowUbahFile,
@@ -169,6 +175,7 @@ export default function PilihMediaGambar({
           size: getFileSize(item),
           type: getFileType(item),
           driveId: item.id_instansi ?? undefined,
+          googleDrive: item.google_drive,
         })) ?? []
       )
     },
@@ -195,7 +202,11 @@ export default function PilihMediaGambar({
 
   const handleUbah = (file: FileType) => {
     if (file.type === 'link') {
-      doShowUbahLink(file.id)
+      if (file.googleDrive) {
+        doShowUbahNama(file.id)
+      } else {
+        doShowUbahLink(file.id)
+      }
     } else {
       doShowUbahFile(file.id)
     }
@@ -419,6 +430,14 @@ export default function PilihMediaGambar({
         id={keyUbahLink}
         onHide={doHideUbahLink}
         refetchKey={queryKey}
+      />
+
+      <UbahLinkModal
+        show={showUbahNama}
+        id={keyUbahNama}
+        onHide={doHideUbahNama}
+        refetchKey={queryKey}
+        googleDrive
       />
 
       <UbahBerkasModal
