@@ -84,6 +84,7 @@ export type FileType = {
   type?: FileTypesType
   link?: string
   driveId?: string
+  googleDrive?: boolean
 }
 
 export type FolderType = {

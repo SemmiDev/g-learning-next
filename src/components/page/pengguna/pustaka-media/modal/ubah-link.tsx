@@ -29,6 +29,7 @@ type UbahModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
+  googleDrive?: boolean
   refetchKey: QueryKey
 }
 
@@ -36,6 +37,7 @@ export default function UbahLinkModal({
   id,
   show,
   onHide,
+  googleDrive,
   refetchKey,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
@@ -116,14 +118,16 @@ export default function UbahLinkModal({
                   required
                 />
 
-                <ControlledInput
-                  name="link"
-                  control={control}
-                  errors={errors}
-                  type="url"
-                  label="Link"
-                  placeholder="Masukkan link"
-                />
+                {!googleDrive && (
+                  <ControlledInput
+                    name="link"
+                    control={control}
+                    errors={errors}
+                    type="url"
+                    label="Link"
+                    placeholder="Masukkan link"
+                  />
+                )}
 
                 <FormError error={formError} />
               </div>

@@ -63,26 +63,28 @@ export default function DriveButton({
       {...props}
     >
       {active && <div className="w-1 h-full bg-primary"></div>}
-      <div className="flex flex-col items-stretch flex-1 gap-y-1 p-2">
-        <div className="flex justify-between gap-x-2">
-          {drive.id === 'GOOGLE_DRIVE' ? (
-            <div
-              className="flex flex-wrap items-center gap-x-1"
+      {drive.id === 'GOOGLE_DRIVE' ? (
+        <div className="flex flex-col flex-1 gap-y-1 p-2">
+          <div className="flex flex-col" title={drive.name}>
+            <Text
+              size="lg"
+              weight="semibold"
+              color={active ? 'primary' : 'gray'}
+              variant={active ? 'default' : 'dark'}
               title={drive.name}
+              className="flex flex-wrap items-center gap-x-1"
             >
-              <Text
-                weight="semibold"
-                color={active ? 'primary' : 'gray'}
-                variant={active ? 'default' : 'dark'}
-                title={drive.name}
-                className="flex flex-wrap items-center gap-x-1"
-              >
-                <FaGoogleDrive />
-                Google Drive
-              </Text>
-              <Text size="2xs">{drive.name}</Text>
-            </div>
-          ) : (
+              <FaGoogleDrive className="me-1" />
+              Google Drive
+            </Text>
+            <Text size="sm" weight="medium" variant="lighter" className="ms-7">
+              {drive.name}
+            </Text>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col items-stretch flex-1 gap-y-1 p-2">
+          <div className="flex justify-between gap-x-2">
             <Text
               weight="semibold"
               color={active ? 'primary' : 'gray'}
@@ -92,26 +94,26 @@ export default function DriveButton({
             >
               {drive.name}
             </Text>
-          )}
 
-          <Text
-            weight="semibold"
-            variant="lighter"
-            className="whitespace-nowrap"
-          >
-            {formatBytes(drive.size, 2)}
+            <Text
+              weight="semibold"
+              variant="lighter"
+              className="whitespace-nowrap"
+            >
+              {formatBytes(drive.size, 2)}
+            </Text>
+          </div>
+          <Progressbar
+            variant="solid"
+            color="primary"
+            className="gap-0"
+            value={Math.round((drive.used / drive.size) * 100)}
+          />
+          <Text size="sm" weight="medium" variant="lighter">
+            {formatBytes(drive.used, 2)} digunakan
           </Text>
         </div>
-        <Progressbar
-          variant="solid"
-          color="primary"
-          className="gap-0"
-          value={Math.round((drive.used / drive.size) * 100)}
-        />
-        <Text size="sm" weight="medium" variant="lighter">
-          {formatBytes(drive.used, 2)} digunakan
-        </Text>
-      </div>
+      )}
     </button>
   )
 }

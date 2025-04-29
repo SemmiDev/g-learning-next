@@ -1,13 +1,11 @@
 import { Text } from '@/components/ui'
+import ModalInfo from '@/components/ui/modal/info'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from 'react'
+import { FaGoogleDrive } from 'react-icons/fa'
 import { Progressbar } from 'rizzui'
 import { DriveType } from './pustaka-media'
-import { FaGoogleDrive } from 'react-icons/fa'
-import toast from 'react-hot-toast'
-import ModalInfo from '@/components/ui/modal/info'
-import { set } from 'date-fns'
 
 type DriveButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -62,7 +60,7 @@ export default function DriveButton({
     <button
       className={cn(
         'flex flex-col items-stretch text-left gap-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50',
-        { 'bg-blue-50/50': active }
+        { 'bg-blue-50/50': active, 'py-4': drive.id === 'GOOGLE_DRIVE' }
       )}
       {...props}
     >
@@ -89,23 +87,33 @@ export default function DriveButton({
             {drive.name}
           </Text>
         )}
-        <Text
-          weight="semibold"
-          variant={active ? 'default' : 'lighter'}
-          className="whitespace-nowrap"
-        >
-          {formatBytes(drive.size, 2)}
-        </Text>
+        {drive.id !== 'GOOGLE_DRIVE' && (
+          <Text
+            weight="semibold"
+            variant={active ? 'default' : 'lighter'}
+            className="whitespace-nowrap"
+          >
+            {formatBytes(drive.size, 2)}
+          </Text>
+        )}
       </div>
-      <Progressbar
-        variant="solid"
-        color="primary"
-        className="gap-0"
-        value={Math.round((drive.used / drive.size) * 100)}
-      />
-      <Text size="sm" weight="medium" variant={active ? 'default' : 'lighter'}>
-        {formatBytes(drive.used, 2)} digunakan
-      </Text>
+      {drive.id !== 'GOOGLE_DRIVE' && (
+        <>
+          <Progressbar
+            variant="solid"
+            color="primary"
+            className="gap-0"
+            value={Math.round((drive.used / drive.size) * 100)}
+          />
+          <Text
+            size="sm"
+            weight="medium"
+            variant={active ? 'default' : 'lighter'}
+          >
+            {formatBytes(drive.used, 2)} digunakan
+          </Text>
+        </>
+      )}
     </button>
   )
 }

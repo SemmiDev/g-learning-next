@@ -43,6 +43,7 @@ export type DataType = {
     kuota_terpakai_in_kb: number
     kuota_total_in_kb: number
     kuota_sisa_in_kb: number
+    access_token: string
   } | null
 }
 

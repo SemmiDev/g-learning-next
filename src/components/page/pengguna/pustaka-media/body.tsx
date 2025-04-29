@@ -3,6 +3,7 @@
 import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
 import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
 import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
+import { tambahBerkasAction } from '@/actions/shared/pustaka-media/tambah-berkas'
 import {
   Button,
   Card,
@@ -33,8 +34,11 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import useDrivePicker from 'react-google-drive-picker'
+import toast from 'react-hot-toast'
 import { BiSolidChevronRight } from 'react-icons/bi'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
+import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
@@ -46,7 +50,6 @@ import TambahFolderModal from './modal/tambah-folder'
 import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
-import { CgSpinner } from 'react-icons/cg'
 
 const sortData = {
   terbaru: 'Terbaru',
@@ -60,6 +63,7 @@ type SortDataType = keyof typeof sortData
 const queryKeyDrive = ['pengguna.pustaka-media.drives']
 
 export default function PustakaMediaBody() {
+  const [openPicker] = useDrivePicker()
   const queryClient = useQueryClient()
   const [activeDrive, setActiveDrive] = useState<string>()
   const [activeFolder, setActiveFolder] = useState<string>()
@@ -69,6 +73,7 @@ export default function PustakaMediaBody() {
   const [fileHapus, setFileHapus] = useState<PustakaMediaFileType>()
   const [showTambahFolder, setShowTambahFolder] = useState(false)
   const [showTambahBerkas, setShowTambahBerkas] = useState(false)
+  const [accessTokenPicker, setAccessTokenPicker] = useState<string>()
   const {
     show: showUbahFolder,
     key: keyUbahFolder,
@@ -80,6 +85,12 @@ export default function PustakaMediaBody() {
     key: keyUbahLink,
     doShow: doShowUbahLink,
     doHide: doHideUbahLink,
+  } = useShowModal<string>()
+  const {
+    show: showUbahNama,
+    key: keyUbahNama,
+    doShow: doShowUbahNama,
+    doHide: doHideUbahNama,
   } = useShowModal<string>()
   const {
     show: showUbahFile,
@@ -99,6 +110,8 @@ export default function PustakaMediaBody() {
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
       const googleDrive = data?.media_google_drive_info
+
+      setAccessTokenPicker(googleDrive?.access_token ?? undefined)
 
       return [
         {
@@ -160,20 +173,24 @@ export default function PustakaMediaBody() {
       })
 
       return {
-        list: (data?.list ?? []).map((item) => ({
-          id: item.id,
-          name: item.nama,
-          time: item.created_at,
-          link: item.url,
-          extension: item.ekstensi,
-          folder: getFileIsFolder(item),
-          fileCount: getFileCount(item),
-          size: getFileSize(item),
-          type: getFileType(item),
-          driveId: item.google_drive
-            ? 'GOOGLE_DRIVE'
-            : item.id_instansi ?? 'PERSONAL',
-        })) as PustakaMediaFileType[],
+        list: (data?.list ?? []).map(
+          (item) =>
+            ({
+              id: item.id,
+              name: item.nama,
+              time: item.created_at,
+              link: item.url,
+              extension: item.ekstensi,
+              folder: getFileIsFolder(item),
+              fileCount: getFileCount(item),
+              size: getFileSize(item),
+              type: getFileType(item),
+              driveId: item.google_drive
+                ? 'GOOGLE_DRIVE'
+                : item.id_instansi ?? 'PERSONAL',
+              googleDrive: item.google_drive,
+            } as PustakaMediaFileType)
+        ),
         pagination: data?.pagination,
       }
     },
@@ -219,10 +236,66 @@ export default function PustakaMediaBody() {
     if (file.folder) {
       doShowUbahFolder(file.id)
     } else if (file.type === 'link') {
-      doShowUbahLink(file.id)
+      if (file.googleDrive) {
+        doShowUbahNama(file.id)
+      } else {
+        doShowUbahLink(file.id)
+      }
     } else {
       doShowUbahFile(file.id)
     }
+  }
+
+  const handleOpenPicker = () => {
+    openPicker({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_PICKER_CLIENT_ID ?? '',
+      developerKey: process.env.NEXT_PUBLIC_GOOGLE_PICKER_DEV_KEY ?? '',
+      viewId: 'DOCS',
+      token: accessTokenPicker,
+      showUploadView: true,
+      showUploadFolders: true,
+      supportDrives: true,
+      multiselect: true,
+      customScopes: ['https://www.googleapis.com/auth/drive.file'],
+      callbackFunction: async (data) => {
+        if (data.action === 'picked') {
+          console.log(data.docs)
+          const shared = data.docs.filter((doc) => doc.isShared)
+          const notShared = data.docs.filter((doc) => !doc.isShared)
+
+          if (notShared.length > 0) {
+            toast.error(
+              `Status ${notShared
+                .map((doc) => doc.name)
+                .join(
+                  ', '
+                )} belum terpublikasi (sharing dengan semua orang), silahkan aktifkan publikasi terlebih dahulu di akun Google Drive anda.`
+            )
+          }
+
+          if (shared.length > 0) {
+            const form = new FormData()
+            form.append('google_drive', 'true')
+
+            for (let i = 0; i < shared.length; i++) {
+              const { name, id } = shared[i]
+              form.append(`labels_dan_links[${i}].label`, name ?? '')
+              form.append(
+                `labels_dan_links[${i}].link`,
+                `https://drive.google.com/uc?id=${id}`
+              )
+            }
+
+            await handleActionWithToast(tambahBerkasAction(form), {
+              loading: 'Menggunggah...',
+              onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey })
+              },
+            })
+          }
+        }
+      },
+    })
   }
 
   return (
@@ -318,14 +391,27 @@ export default function PustakaMediaBody() {
         </div>
         {activeDrive !== undefined && (
           <div className="flex gap-x-2">
-            <Button
-              size="sm"
-              variant="outline-colorful"
-              className="bg-white"
-              onClick={() => setShowTambahBerkas(true)}
-            >
-              {activeDrive !== 'GOOGLE_DRIVE' ? 'Tambah Link/' : ''}Unggah Media
-            </Button>
+            {activeDrive === 'GOOGLE_DRIVE' ? (
+              !!accessTokenPicker && (
+                <Button
+                  size="sm"
+                  variant="outline-colorful"
+                  className="bg-white"
+                  onClick={handleOpenPicker}
+                >
+                  Tambah dari Google Drive
+                </Button>
+              )
+            ) : (
+              <Button
+                size="sm"
+                variant="outline-colorful"
+                className="bg-white"
+                onClick={() => setShowTambahBerkas(true)}
+              >
+                Tambah Link/Unggah Media
+              </Button>
+            )}
             <Button
               size="sm"
               variant="outline-colorful"
@@ -432,6 +518,14 @@ export default function PustakaMediaBody() {
         id={keyUbahLink}
         onHide={doHideUbahLink}
         refetchKey={queryKey}
+      />
+
+      <UbahLinkModal
+        show={showUbahNama}
+        id={keyUbahNama}
+        onHide={doHideUbahNama}
+        refetchKey={queryKey}
+        googleDrive
       />
 
       <UbahBerkasModal
