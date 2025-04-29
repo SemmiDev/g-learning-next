@@ -391,7 +391,8 @@ export default function PustakaMediaBody() {
         </div>
         {activeDrive !== undefined && (
           <div className="flex gap-x-2">
-            {activeDrive === 'GOOGLE_DRIVE' ? (
+            {activeDrive === 'GOOGLE_DRIVE' &&
+            process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true' ? (
               !!accessTokenPicker && (
                 <Button
                   size="sm"
@@ -409,7 +410,8 @@ export default function PustakaMediaBody() {
                 className="bg-white"
                 onClick={() => setShowTambahBerkas(true)}
               >
-                Tambah Link/Unggah Media
+                {activeDrive === 'GOOGLE_DRIVE' ? '' : 'Tambah Link/'}Unggah
+                Media
               </Button>
             )}
             <Button

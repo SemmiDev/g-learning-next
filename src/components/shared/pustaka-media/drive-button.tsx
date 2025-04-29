@@ -60,12 +60,18 @@ export default function DriveButton({
     <button
       className={cn(
         'flex flex-col items-stretch text-left gap-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50',
-        { 'bg-blue-50/50': active, 'py-4': drive.id === 'GOOGLE_DRIVE' }
+        {
+          'bg-blue-50/50': active,
+          'py-4':
+            drive.id === 'GOOGLE_DRIVE' &&
+            process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true',
+        }
       )}
       {...props}
     >
       <div className="flex justify-between gap-x-2">
-        {drive.id === 'GOOGLE_DRIVE' ? (
+        {drive.id === 'GOOGLE_DRIVE' &&
+        process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true' ? (
           <Text
             weight="semibold"
             color={active ? 'primary' : 'gray'}
@@ -77,27 +83,41 @@ export default function DriveButton({
             Google Drive
           </Text>
         ) : (
-          <Text
-            weight="semibold"
-            color={active ? 'primary' : 'gray'}
-            variant={active ? 'default' : 'dark'}
-            title={drive.name}
-            className="truncate"
-          >
-            {drive.name}
-          </Text>
-        )}
-        {drive.id !== 'GOOGLE_DRIVE' && (
-          <Text
-            weight="semibold"
-            variant={active ? 'default' : 'lighter'}
-            className="whitespace-nowrap"
-          >
-            {formatBytes(drive.size, 2)}
-          </Text>
+          <>
+            {drive.id === 'GOOGLE_DRIVE' ? (
+              <Text
+                weight="semibold"
+                color={active ? 'primary' : 'gray'}
+                variant={active ? 'default' : 'dark'}
+                title={drive.name}
+                className="flex flex-wrap items-center gap-x-1"
+              >
+                <FaGoogleDrive />
+                Google Drive
+              </Text>
+            ) : (
+              <Text
+                weight="semibold"
+                color={active ? 'primary' : 'gray'}
+                variant={active ? 'default' : 'dark'}
+                title={drive.name}
+                className="truncate"
+              >
+                {drive.name}
+              </Text>
+            )}
+            <Text
+              weight="semibold"
+              variant={active ? 'default' : 'lighter'}
+              className="whitespace-nowrap"
+            >
+              {formatBytes(drive.size, 2)}
+            </Text>
+          </>
         )}
       </div>
-      {drive.id !== 'GOOGLE_DRIVE' && (
+      {(drive.id !== 'GOOGLE_DRIVE' ||
+        process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER !== 'true') && (
         <>
           <Progressbar
             variant="solid"

@@ -36,9 +36,9 @@ export default function PageHeader({
               separatorVariant="circle"
               className="flex-wrap"
             >
-              {breadcrumb?.map((item) => (
+              {breadcrumb?.map((item, idx) => (
                 <Breadcrumb.Item
-                  key={item.name}
+                  key={`${item.name}.${idx}`}
                   {...(item?.href && { href: item?.href })}
                 >
                   {item.name}

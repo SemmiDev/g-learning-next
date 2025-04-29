@@ -3,6 +3,7 @@
 import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
 import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
 import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
+import { tambahBerkasAction } from '@/actions/shared/pustaka-media/tambah-berkas'
 import {
   ActionIconTooltip,
   Button,
@@ -35,8 +36,11 @@ import {
 } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect, useState } from 'react'
+import useDrivePicker from 'react-google-drive-picker'
+import toast from 'react-hot-toast'
 import { BiChevronRight } from 'react-icons/bi'
 import {
+  PiFilePlusBold,
   PiFolderPlusFill,
   PiMagnifyingGlass,
   PiUploadSimpleBold,
@@ -121,6 +125,7 @@ export default function PustakaMedia({
   hideSelected = false,
   children,
 }: PustakaMediaProps) {
+  const [openPicker] = useDrivePicker()
   const { status } = useSession()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
@@ -156,6 +161,7 @@ export default function PustakaMedia({
     doShow: doShowUbahFile,
     doHide: doHideUbahFile,
   } = useShowModal<string>()
+  const [accessTokenPicker, setAccessTokenPicker] = useState<string>()
   const [previewFile, setPreviewFile] = useState<FilePreviewType>()
   const [checkedFiles, setCheckedFiles] = useState<FileType[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
@@ -184,6 +190,8 @@ export default function PustakaMedia({
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
       const googleDrive = data?.media_google_drive_info
+
+      setAccessTokenPicker(googleDrive?.access_token ?? undefined)
 
       return [
         {
@@ -334,6 +342,58 @@ export default function PustakaMedia({
     }
   }
 
+  const handleOpenPicker = () => {
+    openPicker({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_PICKER_CLIENT_ID ?? '',
+      developerKey: process.env.NEXT_PUBLIC_GOOGLE_PICKER_DEV_KEY ?? '',
+      viewId: 'DOCS',
+      token: accessTokenPicker,
+      showUploadView: true,
+      showUploadFolders: true,
+      supportDrives: true,
+      multiselect: true,
+      customScopes: ['https://www.googleapis.com/auth/drive.file'],
+      callbackFunction: async (data) => {
+        if (data.action === 'picked') {
+          console.log(data.docs)
+          const shared = data.docs.filter((doc) => doc.isShared)
+          const notShared = data.docs.filter((doc) => !doc.isShared)
+
+          if (notShared.length > 0) {
+            toast.error(
+              `Status ${notShared
+                .map((doc) => doc.name)
+                .join(
+                  ', '
+                )} belum terpublikasi (sharing dengan semua orang), silahkan aktifkan publikasi terlebih dahulu di akun Google Drive anda.`
+            )
+          }
+
+          if (shared.length > 0) {
+            const form = new FormData()
+            form.append('google_drive', 'true')
+
+            for (let i = 0; i < shared.length; i++) {
+              const { name, id } = shared[i]
+              form.append(`labels_dan_links[${i}].label`, name ?? '')
+              form.append(
+                `labels_dan_links[${i}].link`,
+                `https://drive.google.com/uc?id=${id}`
+              )
+            }
+
+            await handleActionWithToast(tambahBerkasAction(form), {
+              loading: 'Menggunggah...',
+              onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey })
+              },
+            })
+          }
+        }
+      },
+    })
+  }
+
   if (status === 'unauthenticated') {
     return (
       <div className="text-danger text-sm font-semibold border border-danger rounded-md ring-[0.6px] ring-muted min-h-10 uppercase py-2 px-[0.875rem]">
@@ -438,11 +498,36 @@ export default function PustakaMedia({
                     />
                     <div className="flex gap-x-1">
                       <ActionIconTooltip
-                        tooltip="Tambah Link/Unggah Media"
+                        tooltip={
+                          activeDrive === 'GOOGLE_DRIVE' &&
+                          process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true'
+                            ? 'Tambah dari Google Drive'
+                            : `${
+                                activeDrive !== 'GOOGLE_DRIVE'
+                                  ? 'Tambah Link/'
+                                  : ''
+                              }Unggah Media`
+                        }
                         size="sm"
-                        onClick={() => setShowTambahBerkas(true)}
+                        onClick={() => {
+                          if (
+                            activeDrive === 'GOOGLE_DRIVE' &&
+                            process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER ===
+                              'true'
+                          ) {
+                            handleOpenPicker()
+                          } else {
+                            setShowTambahBerkas(true)
+                          }
+                        }}
                       >
-                        <PiUploadSimpleBold />
+                        {activeDrive === 'GOOGLE_DRIVE' &&
+                        process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER ===
+                          'true' ? (
+                          <PiFilePlusBold />
+                        ) : (
+                          <PiUploadSimpleBold />
+                        )}
                       </ActionIconTooltip>
                       <ActionIconTooltip
                         tooltip="Tambah Folder"
@@ -514,7 +599,19 @@ export default function PustakaMedia({
                               ])
                             }}
                             onEdit={(file) => doShowUbahFolder(file.id)}
-                            onDelete={(file) => setFileHapus(file)}
+                            onDelete={(file) => {
+                              if (file.fileCount && file.fileCount > 0) {
+                                toast.error(
+                                  <Text>
+                                    Tidak bisa menghapus folder yang memiliki
+                                    berkas. Silahkan gunakan menu pustaka media.
+                                  </Text>
+                                )
+                                return
+                              }
+
+                              setFileHapus(file)
+                            }}
                           />
                         ) : (
                           <FileButton

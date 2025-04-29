@@ -63,7 +63,8 @@ export default function DriveButton({
       {...props}
     >
       {active && <div className="w-1 h-full bg-primary"></div>}
-      {drive.id === 'GOOGLE_DRIVE' ? (
+      {drive.id === 'GOOGLE_DRIVE' &&
+      process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true' ? (
         <div className="flex flex-col flex-1 gap-y-1 p-2">
           <div className="flex flex-col" title={drive.name}>
             <Text
@@ -85,15 +86,34 @@ export default function DriveButton({
       ) : (
         <div className="flex flex-col items-stretch flex-1 gap-y-1 p-2">
           <div className="flex justify-between gap-x-2">
-            <Text
-              weight="semibold"
-              color={active ? 'primary' : 'gray'}
-              variant={active ? 'default' : 'dark'}
-              title={drive.name}
-              className="truncate"
-            >
-              {drive.name}
-            </Text>
+            {drive.id === 'GOOGLE_DRIVE' ? (
+              <div
+                className="flex flex-wrap items-center gap-x-1"
+                title={drive.name}
+              >
+                <Text
+                  weight="semibold"
+                  color={active ? 'primary' : 'gray'}
+                  variant={active ? 'default' : 'dark'}
+                  title={drive.name}
+                  className="flex flex-wrap items-center gap-x-1"
+                >
+                  <FaGoogleDrive />
+                  Google Drive
+                </Text>
+                <Text size="2xs">{drive.name}</Text>
+              </div>
+            ) : (
+              <Text
+                weight="semibold"
+                color={active ? 'primary' : 'gray'}
+                variant={active ? 'default' : 'dark'}
+                title={drive.name}
+                className="truncate"
+              >
+                {drive.name}
+              </Text>
+            )}
 
             <Text
               weight="semibold"
