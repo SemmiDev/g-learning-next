@@ -7,7 +7,6 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
-import { API_URL } from '@/config/const'
 import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
@@ -96,7 +95,7 @@ export default function ImportSoalModal({
                   <li>
                     Download dan gunakan template yang sudah disediakan{' '}
                     <a
-                      href={`${API_URL}/templates/soal`}
+                      href={`${process.env.NEXT_PUBLIC_API_URL}/templates/soal`}
                       target="_blank"
                       className="text-primary hover:text-primary-dark"
                     >
