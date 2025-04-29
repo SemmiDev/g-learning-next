@@ -11,6 +11,10 @@ import {
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { downloadFileUrl } from '@/utils/file-url'
+import {
+  googleDriveDownloadUrl,
+  isGoogleDriveUrl,
+} from '@/utils/google-drive-url'
 import Link from 'next/link'
 
 export type FileListItemProps = {
@@ -39,8 +43,7 @@ export default function FileListItem({
       if (
         !file.folder &&
         (file.type !== 'link' || isPreviewable) &&
-        file.link &&
-        isPreviewableFile(file.link, file.extension)
+        file.link
       ) {
         onPreview && onPreview(file)
       }
@@ -50,7 +53,10 @@ export default function FileListItem({
   const pointer =
     file.folder ||
     file.type === 'link' ||
-    (!!file.link && isPreviewableFile(file.link, file.extension) && onPreview)
+    (!!file.link && isPreviewable && onPreview)
+
+  const googleDrive = isGoogleDriveUrl(file.link ?? '')
+  const googleDriveDownload = googleDriveDownloadUrl(file.link ?? '')
 
   return (
     <div
@@ -65,6 +71,7 @@ export default function FileListItem({
             file={file}
             fullThumbnail={false}
             thumbnailClassName="-ms-1"
+            googleDrive={googleDrive}
           />
         </figure>
         <div className="flex flex-col min-w-0">
@@ -88,12 +95,24 @@ export default function FileListItem({
           )}
         </div>
       </div>
-      {download && file.type !== 'link' && file.link && (
-        <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
-          <Button as="span" size="sm" variant="text" className="text-sm">
-            Unduh
-          </Button>
-        </Link>
+      {download && file.link && (
+        <>
+          {file.type !== 'link' ? (
+            <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">
+              <Button as="span" size="sm" variant="text" className="text-sm">
+                Unduh
+              </Button>
+            </Link>
+          ) : (
+            googleDriveDownload && (
+              <Link href={googleDriveDownload} target="_blank">
+                <Button as="span" size="sm" variant="text" className="text-sm">
+                  Unduh
+                </Button>
+              </Link>
+            )
+          )}
+        </>
       )}
       {onDelete && (
         <Button

@@ -1,7 +1,9 @@
 'use client'
 
+import { isGoogleDriveUrl } from '@/utils/google-drive-url'
 import { isDocumentExt, isImageExt, isPlayableVideo } from '@/utils/media-check'
 import ModalDocumentPreview from './document'
+import ModalGoogleDrivePreview from './google-drive'
 import ModalImagePreview from './image'
 import ModalVideoPreview from './video'
 
@@ -14,7 +16,8 @@ export const isPreviewableFile = (url: string, extension?: string) => {
   return (
     isDocumentExt(url, extension) ||
     isImageExt(url, extension) ||
-    isPlayableVideo(url)
+    isPlayableVideo(url) ||
+    isGoogleDriveUrl(url)
   )
 }
 
@@ -39,6 +42,10 @@ export default function ModalFilePreview({
 
   if (isPlayableVideo(file.url)) {
     return <ModalVideoPreview openUrl={file.url} onClose={onClose} />
+  }
+
+  if (isGoogleDriveUrl(file.url)) {
+    return <ModalGoogleDrivePreview openUrl={file.url} onClose={onClose} />
   }
 
   return null
