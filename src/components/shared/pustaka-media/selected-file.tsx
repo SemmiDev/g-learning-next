@@ -1,5 +1,6 @@
 import { ActionIcon, FileIcon, Text, Time } from '@/components/ui'
 import { formatBytes } from '@/utils/bytes'
+import { isGoogleDriveUrl } from '@/utils/google-drive-url'
 import { GoDotFill } from 'react-icons/go'
 import { MdClose } from 'react-icons/md'
 import { FileType } from './pustaka-media'
@@ -7,13 +8,15 @@ import { FileType } from './pustaka-media'
 type SelectedFileProps = { file: FileType; onRemove?(): void }
 
 export default function SelectedFile({ file, onRemove }: SelectedFileProps) {
+  const googleDrive = isGoogleDriveUrl(file.link ?? '')
+
   return (
     <div
       className="flex justify-between gap-2 rounded-sm border border-gray-50 w-full cursor-auto p-2 sm:w-auto"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex gap-x-2">
-        <FileIcon file={file} />
+        <FileIcon file={file} googleDrive={googleDrive} />
         <div className="flex flex-col">
           <Text
             weight="semibold"

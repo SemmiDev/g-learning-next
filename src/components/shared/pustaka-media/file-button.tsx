@@ -9,11 +9,13 @@ import {
 import { formatBytes } from '@/utils/bytes'
 import { downloadFileUrl } from '@/utils/file-url'
 import { BiTrashAlt } from 'react-icons/bi'
-import { BsEye, BsPencil } from 'react-icons/bs'
+import { BsBoxArrowInUpRight, BsEye, BsPencil } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Checkbox, Radio } from 'rizzui'
 import { FileType } from './pustaka-media'
+import { googleDriveViewUrl, isGoogleDriveUrl } from '@/utils/google-drive-url'
+import Link from 'next/link'
 
 export type FileButtonProps = {
   file: FileType
@@ -34,6 +36,10 @@ export default function FileButton({
   onDelete,
   onPreview,
 }: FileButtonProps) {
+  const googleDrive = isGoogleDriveUrl(file.link ?? '')
+  const googleDriveUrl = googleDriveViewUrl(file.link ?? '')
+  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+
   return (
     <>
       <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-2.5 hover:bg-gray-50/50">
@@ -59,7 +65,7 @@ export default function FileButton({
         )}
         <div className="flex flex-1 justify-between items-center gap-x-2 min-w-0">
           <div className="flex items-center gap-x-2 min-w-0">
-            <FileIcon file={file} />
+            <FileIcon file={file} googleDrive={googleDrive} />
             <div className="flex flex-col min-w-0">
               <Text
                 weight="semibold"
@@ -91,27 +97,39 @@ export default function FileButton({
             </div>
           </div>
           <div className="grid grid-cols-2 gap-1 shrink-0 pr-4 xs:grid-cols-3 sm:grid-cols-4">
-            {!!file.link &&
-              (file.type === 'link' ||
-                isPreviewableFile(file.link, file.extension)) && (
-                <LinkOrDiv
-                  href={file.type === 'link' ? file.link : undefined}
-                  target="_blank"
-                  tabIndex={-1}
+            {!!file.link && (file.type === 'link' || isPreviewable) && (
+              <LinkOrDiv
+                href={
+                  file.type === 'link' && !isPreviewable ? file.link : undefined
+                }
+                target="_blank"
+                tabIndex={-1}
+              >
+                <ActionIconTooltip
+                  tooltip="Lihat"
+                  size="sm"
+                  variant="outline-hover-colorful"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onPreview && onPreview(file)
+                  }}
                 >
-                  <ActionIconTooltip
-                    tooltip="Lihat"
-                    size="sm"
-                    variant="outline-hover-colorful"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onPreview && onPreview(file)
-                    }}
-                  >
-                    <BsEye />
-                  </ActionIconTooltip>
-                </LinkOrDiv>
-              )}
+                  <BsEye />
+                </ActionIconTooltip>
+              </LinkOrDiv>
+            )}
+            {googleDriveUrl && (
+              <Link href={googleDriveUrl} target="_blank" tabIndex={-1}>
+                <ActionIconTooltip
+                  tooltip="Buka Berkas"
+                  size="sm"
+                  variant="outline-hover-colorful"
+                  color="success"
+                >
+                  <BsBoxArrowInUpRight />
+                </ActionIconTooltip>
+              </Link>
+            )}
             {file.type !== 'link' && (
               <LinkOrDiv
                 href={downloadFileUrl(file.link)}

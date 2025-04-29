@@ -98,6 +98,7 @@ const Icon = ({ file }: { file: FileIconType }) => {
 export type FileIconProps = {
   file: FileIconType
   fullThumbnail?: boolean
+  googleDrive?: boolean
   className?: string
   thumbnailClassName?: string
 }
@@ -105,6 +106,7 @@ export type FileIconProps = {
 export default function FileIcon({
   file,
   fullThumbnail = true,
+  googleDrive = false,
   className,
   thumbnailClassName,
 }: FileIconProps) {
@@ -119,7 +121,7 @@ export default function FileIcon({
         <figure className="size-5">
           <Image src={iconFolder} alt="folder" />
         </figure>
-      ) : file.type === 'image' && file.link ? (
+      ) : (file.type === 'image' || googleDrive) && file.link ? (
         <Thumbnail
           src={thumbnailFileUrl(file.link)}
           alt="thumbnail"

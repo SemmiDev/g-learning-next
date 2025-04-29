@@ -10,8 +10,10 @@ import {
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { downloadFileUrl } from '@/utils/file-url'
+import { googleDriveViewUrl, isGoogleDriveUrl } from '@/utils/google-drive-url'
 import Link from 'next/link'
 import {
+  BsBoxArrowInUpRight,
   BsDownload,
   BsPencil,
   BsThreeDotsVertical,
@@ -54,6 +56,8 @@ export default function FileCard({
       }
     },
   }
+  const googleDrive = isGoogleDriveUrl(file.link ?? '')
+  const googleDriveUrl = googleDriveViewUrl(file.link ?? '')
 
   return (
     <div
@@ -66,7 +70,7 @@ export default function FileCard({
         className={cn({ 'cursor-pointer': pointer })}
         {...linkingProps}
       >
-        <FileIcon file={file} className="mb-4" />
+        <FileIcon file={file} googleDrive={googleDrive} className="mb-4" />
         <Title
           as="h4"
           size="base"
@@ -122,6 +126,14 @@ export default function FileCard({
                 <Dropdown.Item className="text-gray-dark">
                   <BsDownload className="text-primary size-4 mr-2" />
                   Unduh
+                </Dropdown.Item>
+              </Link>
+            )}
+            {!file.folder && file.link && !!googleDriveUrl && (
+              <Link href={googleDriveUrl} target="_blank">
+                <Dropdown.Item className="text-gray-dark">
+                  <BsBoxArrowInUpRight className="text-info size-4 mr-2" />
+                  Buka Berkas
                 </Dropdown.Item>
               </Link>
             )}
