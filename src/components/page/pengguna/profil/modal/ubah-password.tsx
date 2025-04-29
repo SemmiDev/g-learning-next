@@ -14,7 +14,7 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z
   .object({
-    passwordLama: z.string().pipe(requiredPassword),
+    passwordLama: z.string().optional(),
     passwordBaru: z.string().pipe(requiredPassword),
     ulangiPassword: z.string().pipe(requiredPassword),
   })
@@ -89,6 +89,7 @@ export default function UbahPasswordModal({
                 errors={errors}
                 label="Kata Sandi Baru"
                 placeholder="Kata Sandi Baru"
+                required
               />
 
               <ControlledPassword
@@ -97,6 +98,7 @@ export default function UbahPasswordModal({
                 errors={errors}
                 label="Ulangi Kata Sandi Baru"
                 placeholder="Ulangi Kata Sandi Baru"
+                required
               />
 
               <FormError error={formError} />
