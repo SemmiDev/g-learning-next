@@ -8,8 +8,6 @@ const links = {
   Admin: routes.admin.pemberitahuan,
   Instansi: routes.instansi.pemberitahuan,
   Pengguna: routes.pengguna.pemberitahuan,
-  Pengajar: routes.pengajar.pemberitahuan,
-  Peserta: routes.peserta.pemberitahuan,
 }
 
 export default function NotifikasiMenu() {

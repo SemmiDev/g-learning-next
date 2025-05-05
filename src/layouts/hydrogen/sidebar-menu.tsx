@@ -10,11 +10,8 @@ import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
 import { menuItemsAdmin } from './menu-items/admin'
 import { menuItemsInstansi } from './menu-items/instansi'
-import { menuItemsPengajar } from './menu-items/pengajar'
 import { menuItemsPengguna } from './menu-items/pengguna'
-import { menuItemsPeserta } from './menu-items/peserta'
 import StatusBadge from './status-badge'
-import { menuItemsPenggunaAkademik } from './menu-items/pengguna-akademik'
 
 export type MenuDropdownItemType = {
   name: string
@@ -44,9 +41,6 @@ export function SidebarMenu() {
       Admin: menuItemsAdmin,
       Instansi: menuItemsInstansi,
       Pengguna: menuItemsPengguna,
-      Pengajar: menuItemsPengajar,
-      Peserta: menuItemsPeserta,
-      PenggunaAkademik: menuItemsPenggunaAkademik,
     },
     []
   )

@@ -19,29 +19,6 @@ export const authOptions: AuthOptions = {
 
         const { username, password } = credentials ?? {}
 
-        if (username == 'pengajar@glearning.com') {
-          return {
-            id: '1',
-            name: 'Nama Pengajar',
-            username: 'pengajar@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6InBlbmdhamFyQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiUGVuZ2FqYXIiLCJpc3N1ZWRfYXQiOiIyMDI0LTA4LTIyVDA4OjM0OjA3Ljk4MTg0MDAzNyswNzowMCIsImV4cGlyZWRfYXQiOiIyMDI0LTA4LTIyVDEwOjM0OjA3Ljk4MTg0MDA5NyswNzowMCJ9.xoVt-Sse4UENfMshdGSCY5m8lsqZSI3p-lsFiVn4xNs',
-          }
-        } else if (username == 'peserta@glearning.com') {
-          return {
-            id: '2',
-            name: 'Nama Peserta',
-            username: 'peserta@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjEiLCJ1c2VybmFtZSI6InBlc2VydGFAZ2xlYXJuaW5nLmNvbSIsInRpcGUiOiJQZXNlcnRhIiwiaXNzdWVkX2F0IjoiMjAyNC0wOC0yMlQwODozNDowNy45ODE4NDAwMzcrMDc6MDAiLCJleHBpcmVkX2F0IjoiMjAyNC0wOC0yMlQxMDozNDowNy45ODE4NDAwOTcrMDc6MDAifQ.bdLA9sFbXnr5JtV4BQNce1c0ocyykzdYQYczjnu4psQ',
-          }
-        } else if (username == 'pengguna@glearning.com') {
-          return {
-            id: '3',
-            name: 'Nama Pengguna',
-            username: 'pengguna@glearning.com',
-            jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlgiLCJpZF9wZW5nZ3VuYSI6IjMiLCJ1c2VybmFtZSI6InBlbmdndW5hQGdsZWFybmluZy5jb20iLCJ0aXBlIjoiUGVuZ2d1bmFBa2FkZW1payIsImlzc3VlZF9hdCI6IjIwMjQtMTItMjBUMDg6MzQ6MDcuOTgxODQwMDM3KzA3OjAwIiwiZXhwaXJlZF9hdCI6IjIwMjQtMTItMjJUMTA6MzQ6MDcuOTgxODQwMDk3KzA3OjAwIn0.8pseDlliGXzgxv7qSd-oNO_5Zx-G-pTy7pSY71JEWBI',
-          }
-        }
-
         // Req to API
         const { success, message, data } = await makeBasicPostRequestAction(
           `${process.env.API_URL}/auth/masuk`,

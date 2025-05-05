@@ -21,15 +21,6 @@ import { TbSelect } from 'react-icons/tb'
 import { Input, Password } from 'rizzui'
 
 const listUser = [
-  {
-    level: 'Slicing Pengajar',
-    username: 'pengajar@glearning.com',
-  },
-  { level: 'Slicing Peserta', username: 'peserta@glearning.com' },
-  {
-    level: 'Slicing Pengguna Akademik',
-    username: 'pengguna@glearning.com',
-  },
   { level: 'Admin', username: 'admin@gmail.com' },
   { level: 'Instansi', username: 'adminuin' },
   { level: 'Contoh Dosen', username: '1502021102950004' },
@@ -40,9 +31,6 @@ const listUser = [
     level: 'Sammi (Pengguna 2)',
     username: 'sammidev4@gmail.com',
   },
-  { level: 'Peserta 1', username: 'peserta1@gmail.com' },
-  { level: 'Peserta 2', username: 'peserta2@gmail.com' },
-  { level: 'Pengajar 1', username: 'pengajar1@gmail.com' },
 ]
 
 const formSchema = z.object({

@@ -64,8 +64,6 @@ export default function ProfileMenu({
 const linkProfiles = {
   Admin: routes.admin.profile,
   Pengguna: routes.pengguna.profile,
-  Pengajar: routes.pengajar.profile,
-  Peserta: routes.peserta.profile,
 }
 
 function DropdownMenu({ devMode }: { devMode?: boolean }) {

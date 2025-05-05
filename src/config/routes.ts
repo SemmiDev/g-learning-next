@@ -14,33 +14,6 @@ export const publicRoutes = {
   autoLogin: '/auto-login',
 }
 
-export const pengajarRoutes = {
-  profile: '/pengajar/profil',
-  pemberitahuan: '/pengajar/pemberitahuan',
-  ruangKelas: '/pengajar/ruang-kelas',
-  kelas: '/pengajar/ruang-kelas/kelas',
-  bankMateri: '/pengajar/bank-materi',
-  bankSoal: '/pengajar/bank-soal',
-  ruangKursus: {
-    instruktur: '/pengajar/ruang-kursus/instruktur',
-    peserta: '/pengajar/ruang-kursus/peserta',
-  },
-  transaksi: '/pengajar/transaksi',
-  pustakaMedia: '/pengajar/pustaka-media',
-}
-
-export const pesertaRoutes = {
-  profile: '/peserta/profil',
-  pemberitahuan: '/peserta/pemberitahuan',
-  ruangKelas: '/peserta/ruang-kelas',
-  kelas: '/peserta/ruang-kelas/kelas',
-}
-
-export const penggunaAkademikRoutes = {
-  ruangKelasDikelola: '/pengguna-akademik/ruang-kelas-dikelola',
-  ruangKelasDiikuti: '/pengguna-akademik/ruang-kelas-diikuti',
-}
-
 export const penggunaRoutes = {
   profile: '/pengguna/profil',
   lengkapiProfil: '/pengguna/lengkapi-profil',
@@ -92,9 +65,6 @@ export const instansiRoutes = {
 export const routes = {
   dashboard: '/',
   blank: '/blank',
-  pengajar: pengajarRoutes,
-  peserta: pesertaRoutes,
-  penggunaAkademik: penggunaAkademikRoutes,
   pengguna: penggunaRoutes,
   admin: adminRoutes,
   instansi: instansiRoutes,
