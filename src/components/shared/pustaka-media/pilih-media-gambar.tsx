@@ -266,7 +266,6 @@ export default function PilihMediaGambar({
       customScopes: ['https://www.googleapis.com/auth/drive.file'],
       callbackFunction: async (data) => {
         if (data.action === 'picked') {
-          console.log(data.docs)
           const shared = data.docs.filter((doc) => doc.isShared)
           const notShared = data.docs.filter((doc) => !doc.isShared)
 

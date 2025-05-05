@@ -48,7 +48,6 @@ export default function DetailMateriBody() {
     [data]
   )
 
-  /* TODO: handle absensi dengan QRCode */
   const absenDenganInteraksi = useMemo(
     () => ['GPS', 'GPS dan Swafoto'].includes(data?.aktifitas.absen || ''),
     [data]
@@ -92,7 +91,6 @@ export default function DetailMateriBody() {
             setFilePreview={setFilePreview}
           />
 
-          {/* TODO: handle absensi dengan QRCode */}
           {isPeserta && absenDenganInteraksi && !data?.absensi && (
             <PesertaAbsensiCard
               foto={data?.aktifitas.absen === 'GPS dan Swafoto'}

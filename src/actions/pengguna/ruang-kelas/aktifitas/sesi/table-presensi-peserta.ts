@@ -19,6 +19,8 @@ export type DataType = {
   email: string
   swafoto_url: string | null
   foto: string
+  kode_unik_qr: string | null
+  waktu_qr: string | null
 }
 
 export const tablePresensiPesertaSesiAction = async ({

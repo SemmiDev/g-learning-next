@@ -39,7 +39,7 @@ export default async function LihatSesiPage({ params }: LihatSesiPageProps) {
 
       if (
         !dataAbsen?.status &&
-        ['GPS', 'Swafoto', 'GPS dan Swafoto'].includes(
+        ['GPS', 'Swafoto', 'GPS dan Swafoto', 'QR Code'].includes(
           data?.jenis_absensi_peserta || ''
         )
       ) {

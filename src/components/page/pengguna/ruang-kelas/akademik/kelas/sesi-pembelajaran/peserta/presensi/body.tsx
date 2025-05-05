@@ -1,7 +1,10 @@
 'use client'
 
 import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { presensiSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
+import {
+  presensiSesiNonQrAction,
+  presensiSesiQrAction,
+} from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
 import { Camera, Map } from '@/components/shared/absen'
 import {
   Button,
@@ -17,11 +20,12 @@ import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
+import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner'
 import { LatLng } from 'leaflet'
 import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function PresensiSesiBody() {
@@ -29,6 +33,7 @@ export default function PresensiSesiBody() {
   const [position, setPosition] = useState<LatLng>()
   const [photo, setPhoto] = useState<File>()
   const [isSending, setIsSending] = useState(false)
+  const absensiRef = useRef<HTMLDivElement>(null)
 
   const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
     useParams()
@@ -48,14 +53,13 @@ export default function PresensiSesiBody() {
     ),
   })
 
-  /* TODO: handle absensi dengan QRCode */
   const tipe = mustBe(
     data?.jenis_absensi_peserta,
-    ['GPS', 'Swafoto', 'GPS dan Swafoto'] as const,
+    ['GPS', 'Swafoto', 'GPS dan Swafoto', 'QR Code'] as const,
     undefined
   )
 
-  const handleAbsensi = async () => {
+  const handleAbsensiNonQr = async () => {
     const form = new FormData()
 
     if (position) {
@@ -65,7 +69,26 @@ export default function PresensiSesiBody() {
 
     if (photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(presensiSesiAction(idKelas, idSesi, form), {
+    await handleActionWithToast(
+      presensiSesiNonQrAction(idKelas, idSesi, form),
+      {
+        loading: 'Presensi sesi...',
+        onStart: () => setIsSending(true),
+        onSuccess: () => {
+          router.replace(
+            `${routes.pengguna.ruangKelas.diikuti.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}`
+          )
+        },
+        onFinish: () => setIsSending(false),
+      }
+    )
+  }
+
+  const handleAbsensiQr = async (result: IDetectedBarcode[]) => {
+    const data = result[0].rawValue
+    if (!data || isSending) return
+
+    await handleActionWithToast(presensiSesiQrAction(idKelas, idSesi, data), {
       loading: 'Presensi sesi...',
       onStart: () => setIsSending(true),
       onSuccess: () => {
@@ -76,6 +99,12 @@ export default function PresensiSesiBody() {
       onFinish: () => setIsSending(false),
     })
   }
+
+  useEffect(() => {
+    if (!isLoading) {
+      absensiRef.current?.scrollIntoView({ behavior: 'instant' })
+    }
+  }, [isLoading])
 
   if (isLoading) return <Loader height={200} />
 
@@ -94,7 +123,7 @@ export default function PresensiSesiBody() {
           </Button>
         </Link>
       </div>
-      <Card className="flex flex-col flex-1 p-0">
+      <Card ref={absensiRef} className="flex flex-col flex-1 p-0">
         <Title
           as="h6"
           weight="semibold"
@@ -107,6 +136,8 @@ export default function PresensiSesiBody() {
               ? 'Swafoto'
               : tipe === 'GPS'
               ? 'GPS'
+              : tipe === 'QR Code'
+              ? 'QR Code'
               : 'GPS dan Swafoto'}
             )
           </small>
@@ -114,32 +145,40 @@ export default function PresensiSesiBody() {
 
         <CardSeparator />
 
-        {tipe !== 'Swafoto' && (
-          <Map
-            height={tipe !== 'GPS' ? 240 : 450}
-            onChange={(pos) => setPosition(pos)}
-            className="[&_.leaflet-control-attribution]:hidden"
-          />
+        {tipe === 'QR Code' ? (
+          <Scanner onScan={handleAbsensiQr} />
+        ) : (
+          <>
+            {tipe !== 'Swafoto' && (
+              <Map
+                height={tipe !== 'GPS' ? 240 : 450}
+                onChange={(pos) => setPosition(pos)}
+                className="[&_.leaflet-control-attribution]:hidden"
+              />
+            )}
+
+            {tipe !== 'GPS' && <Camera onChange={(image) => setPhoto(image)} />}
+
+            <CardSeparator />
+
+            <div className="p-2">
+              <ButtonSubmit
+                className="w-full"
+                onClick={handleAbsensiNonQr}
+                isSubmitting={isSending}
+                disabled={
+                  (tipe === 'Swafoto' && !photo) ||
+                  (tipe === 'GPS' && !position) ||
+                  (tipe !== 'Swafoto' &&
+                    tipe !== 'GPS' &&
+                    (!photo || !position))
+                }
+              >
+                Presensi dan Masuk Sesi
+              </ButtonSubmit>
+            </div>
+          </>
         )}
-
-        {tipe !== 'GPS' && <Camera onChange={(image) => setPhoto(image)} />}
-
-        <CardSeparator />
-
-        <div className="p-2">
-          <ButtonSubmit
-            className="w-full"
-            onClick={handleAbsensi}
-            isSubmitting={isSending}
-            disabled={
-              (tipe === 'Swafoto' && !photo) ||
-              (tipe === 'GPS' && !position) ||
-              (tipe !== 'Swafoto' && tipe !== 'GPS' && (!photo || !position))
-            }
-          >
-            Presensi dan Masuk Sesi
-          </ButtonSubmit>
-        </div>
       </Card>
     </>
   )

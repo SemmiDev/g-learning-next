@@ -64,7 +64,11 @@ export default function DetailPresensiModal({
                 }
               />
             </DataRow>
-            /* TODO: data absensi dengan QRCode */
+          )}
+          {!!data?.kode_unik_qr && (
+            <DataRow label="Kode Unik QR" outline>
+              {data?.kode_unik_qr}
+            </DataRow>
           )}
         </div>
 
