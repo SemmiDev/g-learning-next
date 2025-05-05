@@ -49,12 +49,14 @@ export default function Camera({ onChange }: CameraProps) {
 
   return (
     <div className="flex flex-col gap-y-2 p-2">
-      <video
-        ref={videoRef}
-        className={cn(['-scale-x-100', !photoData ? 'block' : 'hidden'])}
-        autoPlay
-      />
-      {!!photoData && <img src={photoData} alt="foto" />}
+      <div className="self-center max-w-[640px]">
+        <video
+          ref={videoRef}
+          className={cn(['-scale-x-100', !photoData ? 'block' : 'hidden'])}
+          autoPlay
+        />
+        {!!photoData && <img src={photoData} alt="foto" />}
+      </div>
 
       <div className="flex gap-x-2">
         <Button

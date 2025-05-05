@@ -105,9 +105,11 @@ export default function PresensiSesiBody() {
   }
 
   useEffect(() => {
-    if (!isLoading) {
-      absensiRef.current?.scrollIntoView({ behavior: 'instant' })
-    }
+    setTimeout(() => {
+      if (!isLoading) {
+        absensiRef.current?.scrollIntoView({ behavior: 'instant' })
+      }
+    }, 100)
   }, [isLoading])
 
   if (isLoading) return <Loader height={200} />
@@ -154,7 +156,11 @@ export default function PresensiSesiBody() {
             <BsCheck2 className="text-6xl text-success" />
           </div>
         ) : tipe === 'QR Code' ? (
-          <Scanner onScan={handleAbsensiQr} />
+          <div className="flex justify-center items-center">
+            <div className="max-w-[520px]">
+              <Scanner onScan={handleAbsensiQr} />
+            </div>
+          </div>
         ) : (
           <>
             {tipe !== 'Swafoto' && (
