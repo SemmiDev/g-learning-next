@@ -26,6 +26,7 @@ import { useRouter } from 'next-nprogress-bar'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { BsCheck2 } from 'react-icons/bs'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function PresensiSesiBody() {
@@ -33,6 +34,7 @@ export default function PresensiSesiBody() {
   const [position, setPosition] = useState<LatLng>()
   const [photo, setPhoto] = useState<File>()
   const [isSending, setIsSending] = useState(false)
+  const [success, setSuccess] = useState(false)
   const absensiRef = useRef<HTMLDivElement>(null)
 
   const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
@@ -75,6 +77,7 @@ export default function PresensiSesiBody() {
         loading: 'Presensi sesi...',
         onStart: () => setIsSending(true),
         onSuccess: () => {
+          setSuccess(true)
           router.replace(
             `${routes.pengguna.ruangKelas.diikuti.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}`
           )
@@ -86,12 +89,13 @@ export default function PresensiSesiBody() {
 
   const handleAbsensiQr = async (result: IDetectedBarcode[]) => {
     const data = result[0].rawValue
-    if (!data || isSending) return
+    if (!data || isSending || success) return
 
     await handleActionWithToast(presensiSesiQrAction(idKelas, idSesi, data), {
       loading: 'Presensi sesi...',
       onStart: () => setIsSending(true),
       onSuccess: () => {
+        setSuccess(true)
         router.replace(
           `${routes.pengguna.ruangKelas.diikuti.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}`
         )
@@ -145,7 +149,11 @@ export default function PresensiSesiBody() {
 
         <CardSeparator />
 
-        {tipe === 'QR Code' ? (
+        {success ? (
+          <div className="flex justify-center items-center h-40">
+            <BsCheck2 className="text-6xl text-success" />
+          </div>
+        ) : tipe === 'QR Code' ? (
           <Scanner onScan={handleAbsensiQr} />
         ) : (
           <>
