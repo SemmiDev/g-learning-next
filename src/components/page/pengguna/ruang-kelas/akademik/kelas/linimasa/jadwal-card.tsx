@@ -28,7 +28,6 @@ import {
 } from 'react-icons/bs'
 import { IconBaseProps } from 'react-icons/lib'
 import { LuBook, LuClock, LuMapPin, LuPackage } from 'react-icons/lu'
-import { useWindowSize } from 'react-use'
 import { Popover } from 'rizzui'
 import TambahKonferensiSesiModal from '../sesi-pembelajaran/sesi/pengajar/modal/tambah-konferensi'
 import TambahMateriSesiModal from '../sesi-pembelajaran/sesi/pengajar/modal/tambah-materi'
@@ -93,6 +92,8 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
       return data?.list?.[0] ?? null
     },
   })
+
+  const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
 
   return (
     <>
@@ -218,7 +219,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                   </Button>
                 ) : (
                   <LinkOrDiv
-                    href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${data.id_kelas}/sesi-pembelajaran/${data.id}`}
+                    href={`${routes.pengguna.ruangKelas[jenisKelas].akademik}/${data.id_kelas}/sesi-pembelajaran/${data.id}`}
                     disabled={data.status !== 'Sedang Berlangsung'}
                     className="flex-1"
                   >
