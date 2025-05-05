@@ -21,13 +21,14 @@ export type DataType = {
   waktu_sampai: string
   tanggal_realisasi: string | null
   status: 'Sedang Berlangsung' | 'Belum Dibuka' | 'Telah Berakhir'
-  jenis_absensi_pengajar: 'GPS' | 'Swafoto' | 'GPS dan Swafoto'
+  jenis_absensi_pengajar: 'GPS' | 'Swafoto' | 'GPS dan Swafoto' | 'QR Code'
   jenis_absensi_peserta:
     | 'Manual'
     | 'Otomatis'
     | 'GPS'
     | 'Swafoto'
     | 'GPS dan Swafoto'
+    | 'QR Code'
   status_absensi_pengajar: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | null
   latitude: number | null
   longitude: number | null

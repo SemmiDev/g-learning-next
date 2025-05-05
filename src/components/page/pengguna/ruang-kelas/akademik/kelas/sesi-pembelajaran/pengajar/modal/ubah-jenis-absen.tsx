@@ -31,6 +31,7 @@ const jenisAbsenOptions: RadioGroupOptionType[] = [
   { label: 'Presensi GPS', value: 'GPS' },
   { label: 'Presensi Swafoto', value: 'Swafoto' },
   { label: 'Presensi GPS dan Swafoto', value: 'GPS dan Swafoto' },
+  { label: 'Presensi QR Code', value: 'QR Code' },
 ]
 
 type UbahMateriModalProps = {

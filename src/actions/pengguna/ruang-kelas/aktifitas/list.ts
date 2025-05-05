@@ -17,7 +17,7 @@ export type DataType = {
     kategori_nilai: 'Tugas' | 'UTS' | 'UAS' | null
     judul: string
     deskripsi: string | null
-    absen: 'Manual' | 'Otomatis' | 'GPS' | 'GPS dan Swafoto' | null
+    absen: 'Manual' | 'Otomatis' | 'GPS' | 'GPS dan Swafoto' | 'QR Code' | null
     waktu_tersedia: string | null
     waktu_akhir_absen: string | null
     batas_waktu: string | null
@@ -93,13 +93,14 @@ export type DataType = {
     waktu_sampai: string
     tanggal_realisasi: string | null
     status: 'Sedang Berlangsung' | 'Belum Dibuka' | 'Telah Berakhir'
-    jenis_absensi_pengajar: 'GPS' | 'Swafoto' | 'GPS dan Swafoto'
+    jenis_absensi_pengajar: 'GPS' | 'Swafoto' | 'GPS dan Swafoto' | 'QR Code'
     jenis_absensi_peserta:
       | 'Manual'
       | 'Otomatis'
       | 'GPS'
       | 'Swafoto'
       | 'GPS dan Swafoto'
+      | 'QR Code'
     status_absensi_pengajar: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha'
     latitude: number | null
     longitude: number | null

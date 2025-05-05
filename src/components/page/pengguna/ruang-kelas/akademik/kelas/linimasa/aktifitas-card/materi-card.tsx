@@ -69,7 +69,10 @@ export default function MateriCard({
     [data]
   )
   const absenDenganInteraksi = useMemo(
-    () => ['GPS', 'GPS dan Swafoto'].includes(data?.aktifitas?.absen || ''),
+    () =>
+      ['GPS', 'GPS dan Swafoto', 'QR Code'].includes(
+        data?.aktifitas?.absen || ''
+      ),
     [data]
   )
 

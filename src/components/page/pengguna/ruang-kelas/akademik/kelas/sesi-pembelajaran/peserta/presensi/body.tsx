@@ -48,6 +48,7 @@ export default function PresensiSesiBody() {
     ),
   })
 
+  /* TODO: handle absensi dengan QRCode */
   const tipe = mustBe(
     data?.jenis_absensi_peserta,
     ['GPS', 'Swafoto', 'GPS dan Swafoto'] as const,

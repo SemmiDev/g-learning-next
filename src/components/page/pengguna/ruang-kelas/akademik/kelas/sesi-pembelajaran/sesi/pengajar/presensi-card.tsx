@@ -18,6 +18,7 @@ import {
   Title,
 } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { routes } from '@/config/routes'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { handleActionWithToast } from '@/utils/action'
@@ -32,6 +33,7 @@ import {
   BsCheck2All,
   BsFloppy2,
   BsPencil,
+  BsQrCode,
   BsThreeDots,
   BsXSquare,
 } from 'react-icons/bs'
@@ -154,6 +156,14 @@ export default function PengajarPresensiCard({
     setDataPerubahan({})
   }
 
+  const handleShowQrCode = () => {
+    window.open(
+      `${routes.pengguna.ruangKelas.dikelola.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}/qrcode`,
+      'windowName',
+      'location=no,menubar=no,toolbar=no,status=no'
+    )
+  }
+
   if (isLoading) return <PresensiCardShimmer className={className} />
 
   return (
@@ -161,8 +171,23 @@ export default function PengajarPresensiCard({
       <Card className={cn('flex flex-col p-0', className)}>
         <div className="flex justify-between items-center flex-wrap gap-2 px-2 py-2">
           <div className="flex flex-col">
-            <Title as="h6" weight="semibold" className="leading-4">
+            <Title
+              as="h6"
+              weight="semibold"
+              className="inline-flex items-center leading-4"
+            >
               Presensi
+              {dataSesi?.jenis_absensi_peserta === 'QR Code' && (
+                <ActionIconTooltip
+                  tooltip="Tampilkan QR Code"
+                  size="sm"
+                  variant="text-colorful"
+                  className="w-5 h-auto ml-1"
+                  onClick={handleShowQrCode}
+                >
+                  <BsQrCode />
+                </ActionIconTooltip>
+              )}
             </Title>
             {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) && (
               <Button

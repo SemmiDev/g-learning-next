@@ -21,7 +21,7 @@ export const ubahAktifitasMateriAction = async (
         data.presensi === 'aktif'
           ? mustBe(
               data.tipe_presensi,
-              ['Manual', 'Otomatis', 'GPS', 'GPS dan Swafoto'],
+              ['Manual', 'Otomatis', 'GPS', 'GPS dan Swafoto', 'QR Code'],
               'Manual'
             )
           : '',

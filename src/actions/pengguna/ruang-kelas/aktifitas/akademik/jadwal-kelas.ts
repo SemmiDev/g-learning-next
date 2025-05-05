@@ -18,12 +18,14 @@ export type DataType = {
     | 'GPS'
     | 'Swafoto'
     | 'GPS dan Swafoto'
+    | 'QR Code'
   jenis_absensi_peserta:
     | 'Manual'
     | 'Otomatis'
     | 'GPS'
     | 'Swafoto'
     | 'GPS dan Swafoto'
+    | 'QR Code'
   status_absensi_pengajar: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | null
   latitude: string | null
   longitude: string | null
