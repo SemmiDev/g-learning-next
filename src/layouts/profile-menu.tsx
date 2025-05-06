@@ -4,9 +4,8 @@ import { Button, Text, Thumbnail, Title } from '@/components/ui'
 import { publicRoutes, routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import cn from '@/utils/class-names'
-import { useQueryClient } from '@tanstack/react-query'
-import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from '@bprogress/next/app'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -67,16 +66,13 @@ const linkProfiles = {
 }
 
 function DropdownMenu({ devMode }: { devMode?: boolean }) {
-  const queryClient = useQueryClient()
   const router = useRouter()
   const { data: session } = useSession()
   const user = session?.user
   const level = user?.level
 
   const logout = async () => {
-    await signOut({ redirect: false })
-    router.replace(publicRoutes.login)
-    queryClient.invalidateQueries()
+    router.replace(publicRoutes.logout, { showProgress: false })
   }
 
   const handleCopyToken = devMode
