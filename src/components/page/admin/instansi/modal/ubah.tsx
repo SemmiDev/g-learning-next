@@ -37,6 +37,8 @@ const formSchema = z.object({
   usernameAdmin: z.string().pipe(required),
   passwordAdmin: z.string().pipe(requiredPassword).optional().or(z.literal('')),
   semester: z.any().optional(),
+  urlSmart: z.string().optional(),
+  hostSmart: z.string().optional(),
 })
 
 export type UbahInstansiFormSchema = {
@@ -49,6 +51,8 @@ export type UbahInstansiFormSchema = {
   usernameAdmin?: string
   passwordAdmin?: string
   semester?: SelectOptionType
+  urlSmart?: string
+  hostSmart?: string
 }
 
 const jenisOptions: SelectOptionType[] = [
@@ -105,6 +109,8 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
               label: deskripsiSemester(semesterAktif),
             }
           : undefined,
+        urlSmart: data?.instansi?.url_smart,
+        hostSmart: data?.instansi?.host_smart,
       }
     },
   })
@@ -258,6 +264,22 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
                   label="Semester Aktif"
                   placeholder="Pilih Semester"
                   errors={errors}
+                />
+
+                <ControlledInput
+                  name="urlSmart"
+                  control={control}
+                  errors={errors}
+                  label="Url Smart"
+                  placeholder="Contoh: http://10.0.0.1:8000"
+                />
+
+                <ControlledInput
+                  name="hostSmart"
+                  control={control}
+                  errors={errors}
+                  label="Host Smart"
+                  placeholder="Contoh: smart.contoh-univ.ac.id"
                 />
 
                 <FormError error={formError} />

@@ -13,6 +13,8 @@ export type DataType = {
     tipe_sinkron?: string
     kata_sandi_feeder?: string
     token_smart?: string
+    url_smart?: string
+    host_smart?: string
     jenis?: string
     id_paket?: string
     jatuh_tempo?: string

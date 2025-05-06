@@ -16,4 +16,6 @@ export const tambahInstansiAction = async (data: TambahInstansiFormSchema) =>
       kata_sandi: data.passwordAdmin,
     },
     semester_aktif: data.semester?.value,
+    url_smart: data.urlSmart,
+    host_smart: data.hostSmart,
   })
