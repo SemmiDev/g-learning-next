@@ -74,7 +74,7 @@ function DropdownMenu({ devMode }: { devMode?: boolean }) {
   const level = user?.level
 
   const logout = async () => {
-    await signOut({ redirect: false })
+    signOut({ redirect: false })
     queryClient.invalidateQueries()
     router.replace(publicRoutes.login)
   }
