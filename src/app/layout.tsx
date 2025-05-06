@@ -11,7 +11,7 @@ import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/options'
 
 /* Temporary Fix for react-select issue https://github.com/JedWatson/react-select/issues/5911 */
-import NextProgressProvider from '@/components/next-progress-provider'
+import ProgressbarProvider from '@/components/progressbar-provider'
 import * as React from 'react'
 declare global {
   namespace JSX {
@@ -53,14 +53,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning
         className={cn(inter.variable, lexendDeca.variable, 'font-inter')}
       >
-        <NextProgressProvider>
+        <ProgressbarProvider>
           <ThemeProvider>
             <SessionProvider session={session}>
               <QueryProvider>{children}</QueryProvider>
             </SessionProvider>
             <Toaster />
           </ThemeProvider>
-        </NextProgressProvider>
+        </ProgressbarProvider>
       </body>
     </html>
   )

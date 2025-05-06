@@ -3,13 +3,17 @@
 import { ProgressProvider } from '@bprogress/next/app'
 import { ReactNode } from 'react'
 
-export default function NextProgressProvider({
+export default function ProgressbarProvider({
   children,
 }: {
   children: ReactNode
 }) {
   return (
-    <ProgressProvider options={{ showSpinner: false }} shallowRouting>
+    <ProgressProvider
+      color="#2563eb"
+      options={{ showSpinner: false }}
+      shallowRouting
+    >
       {children}
     </ProgressProvider>
   )
