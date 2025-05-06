@@ -11,6 +11,7 @@ import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { wait } from '@/utils/wait'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
@@ -33,6 +34,7 @@ export default function GabungKelasModal({
   show = false,
   setShow,
 }: GabungKelasModalProps) {
+  const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
   const [successAlert, setSuccessAlert] = useState<string>()
 
@@ -45,6 +47,10 @@ export default function GabungKelasModal({
       onStart: () => setFormError(undefined),
       onSuccess: () => {
         setSuccessAlert('Kamu akan bergabung kedalam kelas sebagai peserta')
+
+        queryClient.invalidateQueries({
+          queryKey: ['pengguna.ruang-kelas.list', 'Diikuti', 'Umum'],
+        })
       },
       onError: ({ message }) => setFormError(message),
     })
