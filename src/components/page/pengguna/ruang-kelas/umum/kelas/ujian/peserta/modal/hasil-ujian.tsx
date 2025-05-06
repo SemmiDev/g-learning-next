@@ -15,7 +15,7 @@ import {
 } from '@/utils/query-data'
 import { betweenTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import { useParams } from 'next/navigation'
 import { Tooltip } from 'rizzui'
 

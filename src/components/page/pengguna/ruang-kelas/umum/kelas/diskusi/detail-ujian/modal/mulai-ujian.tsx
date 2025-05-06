@@ -1,6 +1,6 @@
 import { Button, Modal, ModalFooterButtons, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import { useParams } from 'next/navigation'
 
 type MulaiUjianModalProps = {

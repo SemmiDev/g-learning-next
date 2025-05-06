@@ -2,7 +2,7 @@
 
 import { Button, Text } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import Link from 'next/link'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'

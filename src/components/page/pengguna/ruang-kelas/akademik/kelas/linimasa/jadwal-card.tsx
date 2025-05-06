@@ -17,7 +17,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import cn from '@/utils/class-names'
 import { hourMinute } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import { useParams } from 'next/navigation'
 import { ComponentType, Dispatch, SetStateAction, useState } from 'react'
 import {

@@ -1,7 +1,7 @@
 'use client'
 
 import { ActionIcon, Text, Title } from '@/components/ui'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import { MdOutlineClose } from 'react-icons/md'
 import { Modal } from 'rizzui'
 

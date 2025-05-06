@@ -1,6 +1,5 @@
 import { inter, lexendDeca } from '@/app/fonts'
 import '@/app/globals.css'
-import NextProgress from '@/components/next-progress'
 import QueryProvider from '@/components/query-provider'
 import SessionProvider from '@/components/session-provider'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -12,6 +11,7 @@ import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/options'
 
 /* Temporary Fix for react-select issue https://github.com/JedWatson/react-select/issues/5911 */
+import NextProgressProvider from '@/components/next-progress-provider'
 import * as React from 'react'
 declare global {
   namespace JSX {
@@ -53,13 +53,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning
         className={cn(inter.variable, lexendDeca.variable, 'font-inter')}
       >
-        <ThemeProvider>
-          <NextProgress />
-          <SessionProvider session={session}>
-            <QueryProvider>{children}</QueryProvider>
-          </SessionProvider>
-          <Toaster />
-        </ThemeProvider>
+        <NextProgressProvider>
+          <ThemeProvider>
+            <SessionProvider session={session}>
+              <QueryProvider>{children}</QueryProvider>
+            </SessionProvider>
+            <Toaster />
+          </ThemeProvider>
+        </NextProgressProvider>
       </body>
     </html>
   )

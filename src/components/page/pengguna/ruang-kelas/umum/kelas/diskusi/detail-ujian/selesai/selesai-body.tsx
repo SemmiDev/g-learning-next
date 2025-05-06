@@ -9,7 +9,7 @@ import {
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import { useParams } from 'next/navigation'
 
 export default function SelesaiUjianBody() {

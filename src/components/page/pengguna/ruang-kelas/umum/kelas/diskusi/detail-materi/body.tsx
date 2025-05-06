@@ -14,7 +14,7 @@ import {
   makeSimpleQueryDataWithParams,
 } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next-nprogress-bar'
+import { useRouter } from '@bprogress/next/app'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
