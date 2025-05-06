@@ -157,10 +157,11 @@ export default function PengajarPresensiCard({
   }
 
   const handleShowQrCode = () => {
+    const { width, height } = window.screen
     window.open(
       `${routes.pengguna.ruangKelas.dikelola.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}/qrcode`,
       'windowName',
-      'location=no,menubar=no,toolbar=no,status=no'
+      `width=${width},height=${height},left=0,top=0,location=no,menubar=no,toolbar=no,status=no`
     )
   }
 
