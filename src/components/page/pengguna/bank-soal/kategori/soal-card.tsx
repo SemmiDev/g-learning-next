@@ -53,7 +53,7 @@ export default function SoalCard({
       )}
     >
       <div className="flex justify-between items-start mb-2">
-        <div className="flex items-center">
+        <div className="flex items-center min-w-0">
           <div className="flex size-12 items-center justify-center rounded-md btn-item-blue mr-2">
             <BsCardChecklist size={24} />
           </div>
