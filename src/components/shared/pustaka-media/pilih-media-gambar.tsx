@@ -551,6 +551,7 @@ export default function PilihMediaGambar({
         refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
         idInstansi={idInstansi}
         idFolder={activeFolder}
+        imageOnly
       />
 
       <UbahFolderModal

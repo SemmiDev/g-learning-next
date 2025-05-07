@@ -49,6 +49,7 @@ type TambahModalProps = {
   googleDrive?: boolean
   idInstansi: string | undefined
   idFolder: string | undefined
+  imageOnly?: boolean
 }
 
 export default function TambahBerkasModal({
@@ -59,6 +60,7 @@ export default function TambahBerkasModal({
   googleDrive,
   idInstansi,
   idFolder,
+  imageOnly = false,
 }: TambahModalProps) {
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
@@ -128,7 +130,7 @@ export default function TambahBerkasModal({
                       return (
                         <div
                           key={idx}
-                          className="flex flex-col gap-2 border-b border-b-muted pb-2 last:border-b-0 sm:flex-row sm:items-center sm:border-b-0 sm:pb-0"
+                          className="flex flex-col gap-2 border-b border-b-muted pb-2 last:border-b-0 sm:flex-row sm:border-b-0 sm:pb-0"
                         >
                           <Input
                             placeholder="Label"
@@ -148,6 +150,7 @@ export default function TambahBerkasModal({
                             size="sm"
                             variant="outline-colorful"
                             color="danger"
+                            className="sm:mt-1"
                             onClick={() => {
                               setValue(
                                 'youtube',
@@ -184,7 +187,33 @@ export default function TambahBerkasModal({
                 name="files"
                 control={control}
                 errors={errors}
-                desc="(Tipe file yang bisa diupload adalah: pdf, pptx, xls, xlsx, doc, docx, png, jpeg, jpg, gif, mp4, rar, zip dengan ukuran maksimal 100 MB untuk setiap file yang dipilih )"
+                desc={`(Tipe file yang bisa diupload adalah: ${
+                  imageOnly
+                    ? 'png, jpeg, jpg, gif'
+                    : 'pdf, ppt, pptx, xls, xlsx, doc, docx, png, jpeg, jpg, gif, mp4, rar, zip'
+                } dengan ukuran maksimal 100 MB untuk setiap file yang dipilih )`}
+                accept={
+                  imageOnly
+                    ? { 'image/*': ['.png', '.gif', '.jpeg', '.jpg'] }
+                    : {
+                        '*': [
+                          '.pdf',
+                          '.ppt',
+                          '.pptx',
+                          '.xls',
+                          '.xlsx',
+                          '.doc',
+                          '.docx',
+                          '.png',
+                          '.jpeg',
+                          '.jpg',
+                          '.gif',
+                          '.mp4',
+                          '.rar',
+                          '.zip',
+                        ],
+                      }
+                }
                 multiple
                 maxSize={{ size: 100, unit: 'MB' }}
               />
