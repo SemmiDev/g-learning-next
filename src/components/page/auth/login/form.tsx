@@ -14,6 +14,7 @@ import { z } from '@/utils/zod-id'
 import { useRouter } from '@bprogress/next/app'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -49,8 +50,11 @@ type LoginFormProps = {
 
 export default function LoginForm({ devMode }: LoginFormProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const [showModalUser, setShowModalUser] = useState(false)
+
+  const callbackUrl = searchParams.get('callbackUrl')
 
   const initialValues: LoginFormSchema = {}
 
@@ -63,7 +67,7 @@ export default function LoginForm({ devMode }: LoginFormProps) {
       })) ?? {}
 
     if (ok) {
-      router.replace(routes.dashboard)
+      router.replace(callbackUrl ?? routes.dashboard)
     } else {
       throw error
     }
