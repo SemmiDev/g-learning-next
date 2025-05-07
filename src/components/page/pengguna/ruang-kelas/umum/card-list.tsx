@@ -1,17 +1,18 @@
 import { hapusKelasAction } from '@/actions/pengguna/ruang-kelas/hapus'
+import { keluarKelasAction } from '@/actions/pengguna/ruang-kelas/keluar'
 import { listKelasAction } from '@/actions/pengguna/ruang-kelas/list'
 import { Loader, ModalConfirm, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
+import { switchCaseObject } from '@/utils/switch-case'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import KelasCard from './kelas-card'
 import PengaturanKelasModal from './modal/pengaturan-kelas'
 import UndangKelasModal from './modal/undang-kelas'
-import { useParams } from 'next/navigation'
-import { switchCaseObject } from '@/utils/switch-case'
 
 export default function ListKelasCardList() {
   const queryClient = useQueryClient()
@@ -27,6 +28,7 @@ export default function ListKelasCardList() {
     doShow: doShowUndang,
     doHide: doHideUndang,
   } = useShowModal<string>()
+  const [idKeluar, setIdKeluar] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { jenis: jenisKelas }: { jenis: string } = useParams()
@@ -83,6 +85,19 @@ export default function ListKelasCardList() {
     })
   }
 
+  const handleKeluar = () => {
+    if (!idKeluar) return
+
+    handleActionWithToast(keluarKelasAction(idKeluar), {
+      loading: 'Keluar kelas...',
+      onSuccess: () => {
+        setIdKeluar(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
+
   if (isLoading) return <CardListShimmer />
 
   return (
@@ -95,6 +110,7 @@ export default function ListKelasCardList() {
               data={item}
               onPengaturan={(id) => doShowPengaturan(id)}
               onUndang={(id) => doShowUndang(id)}
+              onKeluar={(id) => setIdKeluar(id)}
               onDelete={(id) => setIdHapus(id)}
             />
           ))}
@@ -108,6 +124,17 @@ export default function ListKelasCardList() {
       )}
 
       {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
+
+      <ModalConfirm
+        title="Keluar Kelas"
+        desc="Apakah Anda yakin ingin keluar dari kelas ini?"
+        color="danger"
+        isOpen={!!idKeluar}
+        onClose={() => setIdKeluar(undefined)}
+        onConfirm={handleKeluar}
+        headerIcon="help"
+        closeOnCancel
+      />
 
       <ModalConfirm
         title="Hapus Kelas"
