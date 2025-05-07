@@ -1,17 +1,25 @@
 import { DataType as DataListKelasType } from '@/actions/pengguna/ruang-kelas/list'
-import { ActionIcon, Badge, Button, Card, Text } from '@/components/ui'
+import {
+  ActionIcon,
+  ActionIconTooltip,
+  Badge,
+  Button,
+  Card,
+  Text,
+} from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
 import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
 import Link from 'next/link'
 import { GrShareOption } from 'react-icons/gr'
-import { PiGear, PiTrash } from 'react-icons/pi'
+import { PiGear, PiSignOut, PiTrash } from 'react-icons/pi'
 
 type KelasCardProps = {
   data: DataListKelasType
   onPengaturan?(id: string): void
   onUndang?(id: string): void
+  onKeluar?(id: string): void
   onDelete?(id: string): void
 }
 
@@ -19,6 +27,7 @@ export default function KelasCard({
   data,
   onPengaturan,
   onUndang,
+  onKeluar,
   onDelete,
 }: KelasCardProps) {
   const jenisKelas = data.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
@@ -96,25 +105,43 @@ export default function KelasCard({
       </div>
       {data.kelas.tipe !== 'Akademik' && (
         <div className="flex gap-x-1">
-          <ActionIcon
-            variant="outline"
-            onClick={() => {
-              onUndang && onUndang(data.kelas.id)
-            }}
-          >
-            <GrShareOption size={18} />
-          </ActionIcon>
+          {(data.peran === 'Pengajar' ||
+            (data.peran === 'Peserta' && data.status === 'Diterima')) && (
+            <ActionIconTooltip
+              tooltip="Undangan"
+              variant="outline"
+              onClick={() => {
+                onUndang && onUndang(data.kelas.id)
+              }}
+            >
+              <GrShareOption size={18} />
+            </ActionIconTooltip>
+          )}
+          {data.peran === 'Peserta' && (
+            <ActionIconTooltip
+              tooltip="Keluar"
+              variant="outline"
+              color="danger"
+              onClick={() => {
+                onKeluar && onKeluar(data.kelas.id)
+              }}
+            >
+              <PiSignOut size={18} />
+            </ActionIconTooltip>
+          )}
           {data.peran === 'Pengajar' && (
             <>
-              <ActionIcon
+              <ActionIconTooltip
+                tooltip="Pengaturan"
                 variant="outline"
                 onClick={() => {
                   onPengaturan && onPengaturan(data.kelas.id)
                 }}
               >
                 <PiGear size={18} />
-              </ActionIcon>
-              <ActionIcon
+              </ActionIconTooltip>
+              <ActionIconTooltip
+                tooltip="Hapus"
                 variant="outline"
                 color="danger"
                 onClick={() => {
@@ -122,7 +149,7 @@ export default function KelasCard({
                 }}
               >
                 <PiTrash size={18} />
-              </ActionIcon>
+              </ActionIconTooltip>
             </>
           )}
         </div>
