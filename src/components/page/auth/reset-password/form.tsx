@@ -74,7 +74,7 @@ export default function ResetPasswordForm() {
         success: 'Berhasil menyimpan kata sandi baru',
         onStart: () => setFormError(undefined),
         onSuccess: ({ data }) => doLogin(JSON.stringify(data)),
-        onError: ({ error }) => setFormError(error),
+        onError: ({ message }) => setFormError(message),
       }
     )
   }

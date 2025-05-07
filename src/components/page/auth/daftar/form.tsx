@@ -51,7 +51,7 @@ export default function DaftarForm() {
       loading: 'Mendaftar...',
       onStart: () => setFormError(undefined),
       onSuccess: () => router.push(authRoutes.login),
-      onError: ({ error }) => setFormError(error),
+      onError: ({ message }) => setFormError(message),
     })
   }
 
