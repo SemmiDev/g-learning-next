@@ -42,6 +42,7 @@ import {
   PiMagnifyingGlass,
   PiUploadSimpleBold,
 } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import DriveButton from './drive-button'
 import FileButton from './file-button'
@@ -52,7 +53,6 @@ import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
 import { DriveType, FileType, FolderType } from './pustaka-media'
-import useInfiniteScroll from 'react-infinite-scroll-hook'
 
 const queryKeyDrive = ['shared.pustaka-media.drives']
 
@@ -541,7 +541,7 @@ export default function PilihMediaGambar({
         show={showTambahFolder}
         setShow={setShowTambahFolder}
         refetchKey={queryKey}
-        idInstansi={activeDrive ?? undefined}
+        idInstansi={idInstansi}
         idFolder={activeFolder}
       />
 
@@ -549,7 +549,7 @@ export default function PilihMediaGambar({
         show={showTambahBerkas}
         setShow={setShowTambahBerkas}
         refetchKeys={[queryKey, ['shared.pustaka-media.drives']]}
-        idInstansi={activeDrive ?? undefined}
+        idInstansi={idInstansi}
         idFolder={activeFolder}
       />
 
