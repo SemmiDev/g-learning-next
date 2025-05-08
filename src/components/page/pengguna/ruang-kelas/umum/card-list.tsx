@@ -170,9 +170,8 @@ function CardListShimmer() {
           <Shimmer className="h-32" />
           <div className="flex justify-between items-start mt-2">
             <div className="flex flex-col flex-1 gap-y-2.5 py-1">
-              <Shimmer className="h-4 w-6/12 mb-3" />
+              <Shimmer className="h-4 w-6/12" />
               <Shimmer className="h-2.5 w-4/12" />
-              <Shimmer className="h-2.5 w-7/12" />
               <Shimmer className="h-2.5 w-7/12" />
             </div>
             <Shimmer className="h-[1.125rem] w-10 rounded-full" />
@@ -181,13 +180,17 @@ function CardListShimmer() {
             <table className="border-collapse border border-gray-100 w-full">
               <tbody>
                 <tr>
-                  <td className="flex flex-col border border-gray-100 gap-y-2 px-1 py-2.5">
-                    <Shimmer className="h-2 w-1/2" />
-                    <Shimmer className="h-2 w-10/12" />
+                  <td className="border border-gray-100">
+                    <div className="flex flex-col gap-y-2 px-1 py-2.5">
+                      <Shimmer className="h-2 w-1/2" />
+                      <Shimmer className="h-2 w-10/12" />
+                    </div>
                   </td>
-                  <td className="flex flex-col border border-gray-100 gap-y-2 px-1 py-2.5">
-                    <Shimmer className="h-2 w-1/2" />
-                    <Shimmer className="h-2 w-10/12" />
+                  <td className="border border-gray-100">
+                    <div className="flex flex-col gap-y-2 px-1 py-2.5">
+                      <Shimmer className="h-2 w-1/2" />
+                      <Shimmer className="h-2 w-10/12" />
+                    </div>
                   </td>
                 </tr>
               </tbody>
