@@ -1,8 +1,10 @@
 'use client'
 
 import { Button, Text, Title } from '@/components/ui'
+import { routes } from '@/config/routes'
 import { switchCaseObject } from '@/utils/switch-case'
 import _ from 'lodash'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import ListKelasCardList from './card-list'
@@ -40,14 +42,21 @@ export default function RuangKelasUmumBody() {
         </div>
         <div className="flex justify-end flex-wrap gap-2">
           {(!jenisKelas || jenisKelas === 'diikuti') && (
-            <Button
-              size="sm"
-              color="info"
-              className="text-nowrap"
-              onClick={() => setShowGabungKelas(true)}
-            >
-              Gabung Kelas
-            </Button>
+            <>
+              <Link href={routes.pengguna.temukanKelas}>
+                <Button size="sm" color="primary" className="text-nowrap">
+                  Temukan Kelas
+                </Button>
+              </Link>
+              <Button
+                size="sm"
+                color="info"
+                className="text-nowrap"
+                onClick={() => setShowGabungKelas(true)}
+              >
+                Gabung Kelas
+              </Button>
+            </>
           )}
           {(!jenisKelas || jenisKelas === 'dikelola') && (
             <Button

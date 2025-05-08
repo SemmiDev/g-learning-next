@@ -19,6 +19,7 @@ export const penggunaRoutes = {
   profile: '/pengguna/profil',
   lengkapiProfil: '/pengguna/lengkapi-profil',
   pemberitahuan: '/pengguna/pemberitahuan',
+  temukanKelas: '/pengguna/temukan-kelas',
   ruangKelas: {
     default: '/pengguna/ruang-kelas',
     dikelola: {
