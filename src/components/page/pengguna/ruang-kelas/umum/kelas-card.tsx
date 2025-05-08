@@ -1,17 +1,11 @@
 import { DataType as DataListKelasType } from '@/actions/pengguna/ruang-kelas/list'
-import {
-  ActionIcon,
-  ActionIconTooltip,
-  Badge,
-  Button,
-  Card,
-  Text,
-} from '@/components/ui'
+import { ActionIconTooltip, Badge, Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
 import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Fragment } from 'react'
 import { GrShareOption } from 'react-icons/gr'
 import { PiGear, PiSignOut, PiTrash } from 'react-icons/pi'
 
@@ -74,19 +68,23 @@ export default function KelasCard({
         <table className="border-collapse border border-gray-100 w-full">
           <tbody>
             <tr>
-              <td className="border border-gray-100 p-1">
+              <td valign="top" className="border border-gray-100 p-1">
                 <Text size="sm" weight="medium" variant="lighter">
                   Jadwal
                 </Text>
                 <Text size="sm" weight="medium">
                   {data.jadwal && data.jadwal.length > 0
-                    ? `${data.jadwal[0].hari}, ${hourMinute(
-                        data.jadwal[0].waktu_mulai
-                      )} - ${hourMinute(data.jadwal[0].waktu_sampai)}`
+                    ? data.jadwal.map((jadwal, idx) => (
+                        <Fragment key={idx}>
+                          {jadwal.hari}, {hourMinute(jadwal.waktu_mulai)} -{' '}
+                          {hourMinute(jadwal.waktu_sampai)}
+                          <br />
+                        </Fragment>
+                      ))
                     : '-'}
                 </Text>
               </td>
-              <td className="border border-gray-100 p-1">
+              <td valign="top" className="border border-gray-100 p-1">
                 <Text size="sm" weight="medium" variant="lighter">
                   Jumlah Peserta
                 </Text>

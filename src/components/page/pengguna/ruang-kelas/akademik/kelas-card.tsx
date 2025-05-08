@@ -6,6 +6,7 @@ import { deskripsiSemester } from '@/utils/semester'
 import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Fragment } from 'react'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { Progressbar } from 'rizzui'
 
@@ -67,19 +68,23 @@ export default function KelasCard({ data }: KelasCardProps) {
         <table className="border-collapse border border-gray-100 w-full">
           <tbody>
             <tr>
-              <td className="border border-gray-100 p-1">
+              <td valign="top" className="border border-gray-100 p-1">
                 <Text size="sm" weight="medium" variant="lighter">
                   Jadwal
                 </Text>
                 <Text size="sm" weight="medium">
                   {data.jadwal && data.jadwal.length > 0
-                    ? `${data.jadwal[0].hari}, ${hourMinute(
-                        data.jadwal[0].waktu_mulai
-                      )} - ${hourMinute(data.jadwal[0].waktu_sampai)}`
+                    ? data.jadwal.map((jadwal, idx) => (
+                        <Fragment key={idx}>
+                          {jadwal.hari}, {hourMinute(jadwal.waktu_mulai)} -{' '}
+                          {hourMinute(jadwal.waktu_sampai)}
+                          <br />
+                        </Fragment>
+                      ))
                     : '-'}
                 </Text>
               </td>
-              <td className="border border-gray-100 p-1">
+              <td valign="top" className="border border-gray-100 p-1">
                 <Text size="sm" weight="medium" variant="lighter">
                   Jumlah Peserta
                 </Text>
