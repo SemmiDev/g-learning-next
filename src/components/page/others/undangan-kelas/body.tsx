@@ -8,9 +8,9 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -20,7 +20,7 @@ export default function UndanganKelasBody() {
   const router = useRouter()
   const { id: idPengguna } = useSessionPengguna()
 
-  const [gabung, setGabung] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { kelas: kodeKelas }: { kelas: string } = useParams()
 
@@ -63,7 +63,7 @@ export default function UndanganKelasBody() {
     handleActionWithToast(gabungAnggotaKelasAction(kodeKelas), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
-      onStart: () => setGabung(true),
+      onStart: () => setIsSubmitting(true),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['pengguna.ruang-kelas.list', 'Diikuti', 'Umum'],
@@ -78,14 +78,24 @@ export default function UndanganKelasBody() {
 
   return (
     <Card className="flex flex-col items-center w-[600px] max-w-full py-8 px-2 mx-2 sm:px-8 sm:mx-4">
-      <div className="rounded overflow-clip mb-6">
-        <RandomCoverImage
-          persistentKey={'aasdqwe123123'}
-          alt="kelas"
-          width={128}
-          height={128}
-          className="size-20 object-cover"
-        />
+      <div className="size-20 rounded overflow-clip mb-6">
+        {!!data.thumbnail ? (
+          <Image
+            src={data.thumbnail}
+            alt="kelas"
+            width={128}
+            height={128}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <RandomCoverImage
+            persistentKey={data.id}
+            alt="kelas"
+            width={128}
+            height={128}
+            className="h-full w-full object-cover"
+          />
+        )}
       </div>
       <Text size="xs" weight="medium" align="center" className="mb-1">
         Anda diundang untuk bergabung di kelas
@@ -128,7 +138,7 @@ export default function UndanganKelasBody() {
       ) : (
         <ButtonSubmit
           onClick={handleGabungKelas}
-          isSubmitting={gabung}
+          isSubmitting={isSubmitting}
           disabled={!!data?.status_gabung}
           className="w-full mt-6"
         >
