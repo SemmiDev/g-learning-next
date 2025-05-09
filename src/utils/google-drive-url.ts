@@ -39,5 +39,5 @@ export const googleDriveThumbnailUrl = (
 
   if (!id) return defaultBack
 
-  return `https://drive.google.com/thumbnail?id=${id}&sz=${size}${type}`
+  return `https://drive.google.com/thumbnail?id=${id}&sz=${type}${size}`
 }

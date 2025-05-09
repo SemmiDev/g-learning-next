@@ -89,6 +89,7 @@ export type FileType = {
   link?: string
   driveId?: string
   googleDrive?: boolean
+  external?: boolean
 }
 
 export type FolderType = {
@@ -291,6 +292,7 @@ export default function PustakaMedia({
               type: getFileType(item),
               driveId: item.id_instansi ?? undefined,
               googleDrive: item.google_drive,
+              external: item.penyimpanan === 'External',
             } as FileType)
         ),
         pagination: data?.pagination,
@@ -331,7 +333,7 @@ export default function PustakaMedia({
   }
 
   const handleUbah = (file: FileType) => {
-    if (file.type === 'link') {
+    if (file.external) {
       if (file.googleDrive) {
         doShowUbahNama(file.id)
       } else {
@@ -373,11 +375,15 @@ export default function PustakaMedia({
             form.append('google_drive', 'true')
 
             for (let i = 0; i < shared.length; i++) {
-              const { name, id } = shared[i]
+              const { name, id, type } = shared[i]
               form.append(`labels_dan_links[${i}].label`, name ?? '')
               form.append(
                 `labels_dan_links[${i}].link`,
                 `https://drive.google.com/uc?id=${id}`
+              )
+              form.append(
+                `labels_dan_links[${i}].tipe`,
+                type === 'photo' ? 'Gambar' : 'Teks'
               )
             }
 

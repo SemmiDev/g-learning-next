@@ -1,12 +1,18 @@
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
+import { TextSpan } from '..'
 
 type TextLabelProps = {
   children?: ReactNode
+  required?: boolean
   className?: string
 }
 
-export default function TextLabel({ children, className }: TextLabelProps) {
+export default function TextLabel({
+  children,
+  required,
+  className,
+}: TextLabelProps) {
   return (
     <label
       className={cn(
@@ -15,6 +21,12 @@ export default function TextLabel({ children, className }: TextLabelProps) {
       )}
     >
       {children}
+      {required && (
+        <>
+          {' '}
+          <TextSpan color="danger">*</TextSpan>
+        </>
+      )}
     </label>
   )
 }

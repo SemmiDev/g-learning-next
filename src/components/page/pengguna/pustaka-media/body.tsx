@@ -8,7 +8,6 @@ import {
   Button,
   Card,
   FilePreviewType,
-  isPreviewableFile,
   Loader,
   ModalConfirm,
   ModalFilePreview,
@@ -189,6 +188,7 @@ export default function PustakaMediaBody() {
                 ? 'GOOGLE_DRIVE'
                 : item.id_instansi ?? 'PERSONAL',
               googleDrive: item.google_drive,
+              external: item.penyimpanan === 'External',
             } as PustakaMediaFileType)
         ),
         pagination: data?.pagination,
@@ -235,7 +235,7 @@ export default function PustakaMediaBody() {
   const handleUbah = (file: PustakaMediaFileType) => {
     if (file.folder) {
       doShowUbahFolder(file.id)
-    } else if (file.type === 'link') {
+    } else if (file.external) {
       if (file.googleDrive) {
         doShowUbahNama(file.id)
       } else {
@@ -277,11 +277,15 @@ export default function PustakaMediaBody() {
             form.append('google_drive', 'true')
 
             for (let i = 0; i < shared.length; i++) {
-              const { name, id } = shared[i]
+              const { name, id, type } = shared[i]
               form.append(`labels_dan_links[${i}].label`, name ?? '')
               form.append(
                 `labels_dan_links[${i}].link`,
                 `https://drive.google.com/uc?id=${id}`
+              )
+              form.append(
+                `labels_dan_links[${i}].tipe`,
+                type === 'photo' ? 'Gambar' : 'Teks'
               )
             }
 
@@ -450,6 +454,7 @@ export default function PustakaMediaBody() {
                     setFilePreview({
                       url: file.link,
                       extension: file.extension,
+                      image: file.type === 'image',
                     })
                   }}
                   onFolderClick={(file) => {
@@ -467,12 +472,6 @@ export default function PustakaMediaBody() {
                     )[0]
                     setActiveDrive(drive.id)
                   }}
-                  pointer={
-                    file.folder ||
-                    file.type === 'link' ||
-                    (!!file.link &&
-                      isPreviewableFile(file.link, file.extension))
-                  }
                 />
               ))}
             </div>

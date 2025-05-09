@@ -7,6 +7,7 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { isPreviewableType } from '@/components/ui/modal/file-preview/file'
 import { formatBytes } from '@/utils/bytes'
 import { BsEye } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
@@ -18,7 +19,9 @@ type FileButtonProps = {
 }
 
 export default function RecentFileItem({ file, onPreview }: FileButtonProps) {
-  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+  const isPreviewable =
+    isPreviewableFile(file.link ?? '', file.extension) ||
+    isPreviewableType(file.type)
 
   return (
     <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 py-3 px-4 hover:bg-gray-50/50">

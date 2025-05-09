@@ -29,6 +29,29 @@ export const NAMA_HARI = [
 
 export const ZONA_WAKTU = ['WIB', 'WITA', 'WIT'] as const
 
+export const ACCEPT_IMAGE_EXTENSIONS = [
+  '.png',
+  '.jpeg',
+  '.jpg',
+  '.gif',
+] as const
+export const ACCEPT_FILE_EXTENSIONS = [
+  '.pdf',
+  '.ppt',
+  '.pptx',
+  '.xls',
+  '.xlsx',
+  '.doc',
+  '.docx',
+  '.png',
+  '.jpeg',
+  '.jpg',
+  '.gif',
+  '.mp4',
+  '.rar',
+  '.zip',
+] as const
+
 export const GOOGLE_DRIVE_SCOPES =
   process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true'
     ? [

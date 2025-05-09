@@ -92,6 +92,7 @@ export default function LihatMateriModal({
                             setFilePreview({
                               url: file.link,
                               extension: file.extension,
+                              image: file.type === 'image',
                             })
                           }}
                           download

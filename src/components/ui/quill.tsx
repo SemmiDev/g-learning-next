@@ -1,6 +1,7 @@
 'use client'
 
 import cn from '@/utils/class-names'
+import { googleDriveThumbnailUrl } from '@/utils/google-drive-url'
 import QuillResizeImage from 'quill-resize-image'
 import { useCallback, useRef, useState } from 'react'
 import ReactQuill, { Quill } from 'react-quill-new'
@@ -12,6 +13,21 @@ import Label from './label'
 import TextLabel from './text/label'
 
 Quill.register('modules/resize', QuillResizeImage)
+
+const Image = Quill.import('formats/image') as any
+
+class ImageBlot extends Image {
+  static create(value: any) {
+    let node = super.create(value)
+
+    node.setAttribute('src', value)
+    node.setAttribute('referrerpolicy', 'no-referrer')
+
+    return node
+  }
+}
+
+Quill.register(ImageBlot)
 
 export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   error?: string
@@ -58,7 +74,13 @@ export default function QuillEditor({
     const quill: any = quillRef.current
 
     if (quill) {
-      quill.getEditor().insertEmbed(editorIdx, 'image', file.link)
+      const imageUrl = googleDriveThumbnailUrl(
+        file.link ?? '',
+        file.link,
+        1024,
+        's'
+      )
+      quill.getEditor().insertEmbed(editorIdx, 'image', imageUrl)
     }
   }
 

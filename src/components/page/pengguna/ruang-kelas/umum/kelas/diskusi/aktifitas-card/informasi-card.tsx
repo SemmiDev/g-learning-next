@@ -152,6 +152,7 @@ export default function InformasiCard({
                     setFilePreview({
                       url: file.link,
                       extension: file.extension,
+                      image: file.type === 'image',
                     })
                   }}
                   download

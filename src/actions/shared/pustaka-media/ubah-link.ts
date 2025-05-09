@@ -6,5 +6,6 @@ import { makeJwtPutRequestAction } from '@/utils/action'
 export const ubahLinkAction = async (id: string, data: UbahLinkFormSchema) =>
   makeJwtPutRequestAction(`${process.env.API_URL}/pustaka-media/berkas/${id}`, {
     nama: data.nama,
-    link: data.link,
+    link: !data.googleDrive ? data.link : undefined,
+    tipe: !data.googleDrive ? data.tipe?.value ?? undefined : undefined,
   })

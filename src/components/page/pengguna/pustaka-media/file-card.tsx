@@ -7,6 +7,7 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import { isPreviewableType } from '@/components/ui/modal/file-preview/file'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { downloadFileUrl } from '@/utils/file-url'
@@ -28,7 +29,6 @@ type FileCardProps = {
   onFolderClick?: (file: PustakaMediaFileType) => void
   onEdit?: (file: PustakaMediaFileType) => void
   onDelete?: (file: PustakaMediaFileType) => void
-  pointer?: boolean
   className?: string
 }
 
@@ -38,10 +38,11 @@ export default function FileCard({
   onFolderClick,
   onEdit,
   onDelete,
-  pointer = true,
   className,
 }: FileCardProps) {
-  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+  const isPreviewable =
+    isPreviewableFile(file.link ?? '', file.extension) ||
+    isPreviewableType(file.type)
   const linkingProps = {
     href:
       !file.folder && file.type === 'link' && !isPreviewable
@@ -56,6 +57,10 @@ export default function FileCard({
       }
     },
   }
+
+  const pointer =
+    file.folder || file.type === 'link' || (!!file.link && isPreviewable)
+
   const googleDrive = isGoogleDriveUrl(file.link ?? '')
   const googleDriveUrl = googleDriveViewUrl(file.link ?? '')
 

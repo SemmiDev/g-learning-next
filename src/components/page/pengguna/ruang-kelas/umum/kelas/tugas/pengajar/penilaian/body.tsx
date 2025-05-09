@@ -197,6 +197,7 @@ export default function PenilaianTugasBody() {
                                 setFilePreview({
                                   url: file.link,
                                   extension: file.extension,
+                                  image: file.type === 'image',
                                 })
                               }}
                               download

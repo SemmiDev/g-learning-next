@@ -178,6 +178,7 @@ export default function KumpulkanTugasCard({
                         setFilePreview({
                           url: file.link,
                           extension: file.extension,
+                          image: file.type === 'image',
                         })
                       }}
                       onDelete={() => {

@@ -9,6 +9,7 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import { isPreviewableType } from '@/components/ui/modal/file-preview/file'
 import { routes } from '@/config/routes'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
@@ -42,7 +43,9 @@ export default function BerkasCard({
 }: BerkasCardProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+  const isPreviewable =
+    isPreviewableFile(file.link ?? '', file.extension) ||
+    isPreviewableType(file.type)
   const linkingProps = {
     href:
       !file.folder && file.type === 'link' && !isPreviewable
@@ -56,9 +59,7 @@ export default function BerkasCard({
     },
   }
 
-  const pointer =
-    file.type === 'link' ||
-    (!!file.link && isPreviewableFile(file.link, file.extension))
+  const pointer = file.type === 'link' || (!!file.link && isPreviewable)
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'

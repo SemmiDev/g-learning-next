@@ -16,6 +16,7 @@ import {
   isGoogleDriveUrl,
 } from '@/utils/google-drive-url'
 import Link from 'next/link'
+import { isPreviewableType } from '../modal/file-preview/file'
 
 export type FileListItemProps = {
   file: PustakaMediaFileType
@@ -32,7 +33,9 @@ export default function FileListItem({
   className,
   onDelete,
 }: FileListItemProps) {
-  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+  const isPreviewable =
+    isPreviewableFile(file.link ?? '', file.extension) ||
+    isPreviewableType(file.type)
   const linkingProps = {
     href:
       !file.folder && file.type === 'link' && !isPreviewable

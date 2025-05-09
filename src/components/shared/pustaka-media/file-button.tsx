@@ -6,16 +6,17 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { isPreviewableType } from '@/components/ui/modal/file-preview/file'
 import { formatBytes } from '@/utils/bytes'
 import { downloadFileUrl } from '@/utils/file-url'
+import { googleDriveViewUrl, isGoogleDriveUrl } from '@/utils/google-drive-url'
+import Link from 'next/link'
 import { BiTrashAlt } from 'react-icons/bi'
 import { BsBoxArrowInUpRight, BsEye, BsPencil } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Checkbox, Radio } from 'rizzui'
 import { FileType } from './pustaka-media'
-import { googleDriveViewUrl, isGoogleDriveUrl } from '@/utils/google-drive-url'
-import Link from 'next/link'
 
 export type FileButtonProps = {
   file: FileType
@@ -38,7 +39,9 @@ export default function FileButton({
 }: FileButtonProps) {
   const googleDrive = isGoogleDriveUrl(file.link ?? '')
   const googleDriveUrl = googleDriveViewUrl(file.link ?? '')
-  const isPreviewable = isPreviewableFile(file.link ?? '', file.extension)
+  const isPreviewable =
+    isPreviewableFile(file.link ?? '', file.extension) ||
+    isPreviewableType(file.type)
 
   return (
     <>

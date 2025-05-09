@@ -2,28 +2,58 @@ import { lihatBerkasAction } from '@/actions/shared/pustaka-media/lihat-berkas'
 import { ubahLinkAction } from '@/actions/shared/pustaka-media/ubah-link'
 import {
   ControlledInput,
+  ControlledSelect,
   Form,
   FormError,
   Loader,
   Modal,
   ModalFooterButtons,
+  SelectOptionType,
+  TextLabel,
 } from '@/components/ui'
 import { handleActionWithToast } from '@/utils/action'
+import {
+  checkSupportedLinkImage,
+  SUPPORTED_LINK_IMAGE_ERROR_MESSAGE,
+} from '@/utils/check-link-image'
+import { mustBe } from '@/utils/must-be'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { QueryKey, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
-const formSchema = z.object({
-  nama: z.string().pipe(required),
-  link: z.string().pipe(required),
-})
+const formSchema = z
+  .object({
+    nama: z.string().pipe(required),
+    link: z.string().pipe(required),
+    tipe: z.any().optional(),
+    googleDrive: z.boolean().optional(),
+  })
+  .refine(
+    ({ tipe, link }) => {
+      return (
+        tipe.value === 'Teks' ||
+        (tipe.value === 'Gambar' && checkSupportedLinkImage(link))
+      )
+    },
+    {
+      message: SUPPORTED_LINK_IMAGE_ERROR_MESSAGE,
+      path: ['link'],
+    }
+  )
 
 export type UbahLinkFormSchema = {
   nama?: string
   link?: string
+  tipe?: SelectOptionType
+  googleDrive?: boolean
 }
+
+const tipeOptions: SelectOptionType[] = [
+  { label: 'Link', value: 'Teks' },
+  { label: 'Gambar', value: 'Gambar' },
+]
 
 type UbahModalProps = {
   id: string | undefined
@@ -37,7 +67,7 @@ export default function UbahLinkModal({
   id,
   show,
   onHide,
-  googleDrive,
+  googleDrive = false,
   refetchKey,
 }: UbahModalProps) {
   const queryClient = useQueryClient()
@@ -59,6 +89,11 @@ export default function UbahLinkModal({
       return {
         nama: data?.nama,
         link: data?.url,
+        tipe: tipeOptions.find(
+          (tipe) =>
+            tipe.value === mustBe(data?.tipe, ['Teks', 'Gambar'], 'Teks')
+        ),
+        googleDrive,
       }
     },
   })
@@ -93,6 +128,7 @@ export default function UbahLinkModal({
       color="warning"
       isOpen={show}
       onClose={handleClose}
+      overflow
     >
       {isLoading ? (
         <Loader height={236} />
@@ -119,14 +155,26 @@ export default function UbahLinkModal({
                 />
 
                 {!googleDrive && (
-                  <ControlledInput
-                    name="link"
-                    control={control}
-                    errors={errors}
-                    type="url"
-                    label="Link"
-                    placeholder="Masukkan link"
-                  />
+                  <div className="flex flex-col">
+                    <TextLabel required>Link</TextLabel>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <ControlledSelect
+                        name="tipe"
+                        control={control}
+                        placeholder="Tipe"
+                        options={tipeOptions}
+                        menuPlacement="top"
+                      />
+                      <ControlledInput
+                        name="link"
+                        control={control}
+                        errors={errors}
+                        type="url"
+                        placeholder="Masukkan link"
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
                 )}
 
                 <FormError error={formError} />

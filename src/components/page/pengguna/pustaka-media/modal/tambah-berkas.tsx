@@ -1,16 +1,24 @@
 import { tambahBerkasAction } from '@/actions/shared/pustaka-media/tambah-berkas'
 import {
   Button,
+  ControlledSelect,
   ControlledUploadFile,
   Form,
   FormError,
   Input,
   Modal,
   ModalFooterButtons,
+  SelectOptionType,
   TextLabel,
 } from '@/components/ui'
+import { ACCEPT_FILE_EXTENSIONS } from '@/config/const'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { handleActionWithToast } from '@/utils/action'
+import {
+  checkSupportedLinkImage,
+  SUPPORTED_LINK_IMAGE_ERROR_MESSAGE,
+} from '@/utils/check-link-image'
+import { mustBe } from '@/utils/must-be'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
@@ -19,25 +27,45 @@ import { SubmitHandler } from 'react-hook-form'
 import { BsPlusSquare, BsTrash } from 'react-icons/bs'
 
 const formSchema = z.object({
-  youtube: z.array(
-    z.object({
-      label: z.string().pipe(required),
-      link: z.string().pipe(required.url()),
-    })
+  link: z.array(
+    z
+      .object({
+        label: z.string().pipe(required),
+        link: z.string().pipe(required.url()),
+        tipe: z.any().optional(),
+      })
+      .refine(
+        ({ tipe, link }) => {
+          return (
+            tipe.value === 'Teks' ||
+            (tipe.value === 'Gambar' && checkSupportedLinkImage(link))
+          )
+        },
+        {
+          message: SUPPORTED_LINK_IMAGE_ERROR_MESSAGE,
+          path: ['link'],
+        }
+      )
   ),
   files: z.any().optional(),
 })
 
 export type TambahBerkasFormSchema = {
-  youtube: {
+  link: {
     label?: string
     link?: string
+    tipe?: SelectOptionType
   }[]
   files?: File[]
 }
 
+const tipeOptions: SelectOptionType[] = [
+  { label: 'Link', value: 'Teks' },
+  { label: 'Gambar', value: 'Gambar' },
+]
+
 const initialValues: TambahBerkasFormSchema = {
-  youtube: [],
+  link: [],
 }
 
 type TambahModalProps = {
@@ -69,10 +97,14 @@ export default function TambahBerkasModal({
     else if (idInstansi) form.append('id_instansi', idInstansi)
     else if (googleDrive) form.append('google_drive', 'true')
 
-    for (let i = 0; i < data.youtube.length; i++) {
-      const { label, link } = data.youtube[i]
+    for (let i = 0; i < data.link.length; i++) {
+      const { label, link, tipe } = data.link[i]
       form.append(`labels_dan_links[${i}].label`, label ?? '')
       form.append(`labels_dan_links[${i}].link`, link ?? '')
+      form.append(
+        `labels_dan_links[${i}].tipe`,
+        mustBe(tipe?.value, ['Teks', 'Gambar'], 'Teks')
+      )
     }
 
     if (data.files) {
@@ -126,27 +158,35 @@ export default function TambahBerkasModal({
             <div className="flex flex-col gap-4 p-3">
               {uploadLink && (
                 <div>
-                  <TextLabel>Link YouTube atau Media Lainnya</TextLabel>
+                  <TextLabel className="mb-2">
+                    Link YouTube atau Media Lainnya
+                  </TextLabel>
                   <div className="flex flex-col gap-y-2">
-                    {watch('youtube')?.map((_, idx) => {
+                    {watch('link')?.map((_, idx) => {
                       return (
                         <div
                           key={idx}
                           className="flex flex-col gap-2 border-b border-b-muted pb-2 last:border-b-0 sm:flex-row sm:border-b-0 sm:pb-0"
                         >
+                          <ControlledSelect
+                            name={`link.${idx}.tipe`}
+                            control={control}
+                            placeholder="Tipe"
+                            options={tipeOptions}
+                          />
                           <Input
                             placeholder="Label"
                             labelClassName="text-gray-dark font-semibold"
                             className="flex-1"
-                            {...register(`youtube.${idx}.label`)}
-                            error={errors.youtube?.[idx]?.label?.message}
+                            {...register(`link.${idx}.label`)}
+                            error={errors.link?.[idx]?.label?.message}
                           />
                           <Input
                             placeholder="Masukkan link"
                             labelClassName="text-gray-dark font-semibold"
                             className="flex-1"
-                            {...register(`youtube.${idx}.link`)}
-                            error={errors.youtube?.[idx]?.link?.message}
+                            {...register(`link.${idx}.link`)}
+                            error={errors.link?.[idx]?.link?.message}
                           />
                           <Button
                             size="sm"
@@ -155,10 +195,8 @@ export default function TambahBerkasModal({
                             className="sm:mt-1"
                             onClick={() => {
                               setValue(
-                                'youtube',
-                                watch('youtube').filter(
-                                  (__, cIdx) => cIdx !== idx
-                                )
+                                'link',
+                                watch('link').filter((__, cIdx) => cIdx !== idx)
                               )
                             }}
                           >
@@ -171,11 +209,12 @@ export default function TambahBerkasModal({
                   <Button
                     variant="text-colorful"
                     onClick={() =>
-                      setValue('youtube', [
-                        ...watch('youtube'),
+                      setValue('link', [
+                        ...watch('link'),
                         {
                           label: '',
                           link: '',
+                          tipe: tipeOptions[0],
                         },
                       ])
                     }
@@ -189,25 +228,12 @@ export default function TambahBerkasModal({
                 name="files"
                 control={control}
                 errors={errors}
-                desc="(Tipe file yang bisa diupload adalah: pdf, ppt, pptx, xls, xlsx, doc, docx, png, jpeg, jpg, gif, mp4, rar, zip dengan ukuran maksimal 100 MB untuk setiap file yang dipilih )"
-                accept={{
-                  '*': [
-                    '.pdf',
-                    '.ppt',
-                    '.pptx',
-                    '.xls',
-                    '.xlsx',
-                    '.doc',
-                    '.docx',
-                    '.png',
-                    '.jpeg',
-                    '.jpg',
-                    '.gif',
-                    '.mp4',
-                    '.rar',
-                    '.zip',
-                  ],
-                }}
+                desc={`(Ekstensi file yang bisa diupload adalah: ${ACCEPT_FILE_EXTENSIONS.map(
+                  (ext) => ext.slice(1)
+                ).join(
+                  ', '
+                )} dengan ukuran maksimal 100 MB untuk setiap file yang dipilih )`}
+                accept={{ '*': ACCEPT_FILE_EXTENSIONS }}
                 multiple
                 maxSize={{ size: 100, unit: 'MB' }}
               />

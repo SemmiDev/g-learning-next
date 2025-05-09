@@ -169,6 +169,7 @@ export default function MateriCard({
                         setFilePreview({
                           url: file.link,
                           extension: file.extension,
+                          image: file.type === 'image',
                         })
                       }}
                       download

@@ -14,6 +14,8 @@ export type DataType = {
   ukuran: number
   id_pengguna: string
   id_instansi: string | null
+  google_drive: boolean
+  penyimpanan: 'Internal' | 'External'
   created_at: string
   updated_at: string
 }
