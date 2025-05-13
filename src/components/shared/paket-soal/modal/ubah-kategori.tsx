@@ -1,5 +1,5 @@
-import { lihatKategoriSoalAction } from '@/actions/shared/paket-soal/lihat-kategori'
-import { ubahKategoriSoalAction } from '@/actions/shared/paket-soal/ubah-kategori'
+import { lihatKategoriSoalAction } from '@/services/api/shared/paket-soal/lihat-kategori'
+import { ubahKategoriSoalAction } from '@/services/api/shared/paket-soal/ubah-kategori'
 import {
   CardSeparator,
   ControlledInput,

@@ -1,4 +1,4 @@
-import TermukanKelasBody from '@/components/page/pengguna/temukan-kelas/body'
+import TermukanKelasBody from '@/components/pages/pengguna/temukan-kelas/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

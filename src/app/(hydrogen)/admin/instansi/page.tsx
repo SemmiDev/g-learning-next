@@ -1,8 +1,8 @@
-import { tableInstansiAction } from '@/actions/admin/instansi/table'
-import ListInstansiBody from '@/components/page/admin/instansi/body'
+import ListInstansiBody from '@/components/pages/admin/instansi/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { tableInstansiAction } from '@/services/actions/admin/instansi/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

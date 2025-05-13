@@ -1,4 +1,4 @@
-import PustakaMediaBody from '@/components/page/pengguna/pustaka-media/body'
+import PustakaMediaBody from '@/components/pages/pengguna/pustaka-media/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

@@ -1,5 +1,5 @@
-import { tableRiwayatPembayaranAction } from '@/actions/instansi/profil/riwayat-pembayaran/table'
-import ProfilRiwayatPembayaranBody from '@/components/page/instansi/profil/riwayat-pembayaran/body'
+import ProfilRiwayatPembayaranBody from '@/components/pages/instansi/profil/riwayat-pembayaran/body'
+import { tableRiwayatPembayaranAction } from '@/services/actions/instansi/profil/riwayat-pembayaran/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

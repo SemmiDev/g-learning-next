@@ -1,0 +1,28 @@
+import { makeJwtGetRequestAction } from '@/utils/action'
+
+type DataType = {
+  id: string
+  username: string
+  tipe: string
+  nik: string
+  nama: string
+  jenis_kelamin: string
+  bio: string
+  hp: string
+  situs_web: string
+  kuota_upload: number
+  foto: string
+  terakhir_login: string
+  diblokir: number
+  keterangan_blokir: string
+  tanggal_blokir: string
+  email: string
+  instansi: string[]
+  paket: string[]
+  jenis_akun: string[]
+}
+
+export const lihatPenggunaAction = async (id: string) =>
+  makeJwtGetRequestAction<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/pengguna/${id}`
+  )

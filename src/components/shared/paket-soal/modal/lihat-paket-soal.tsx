@@ -1,4 +1,4 @@
-import { lihatPaketSoalAction } from '@/actions/shared/paket-soal/lihat'
+import { lihatPaketSoalAction } from '@/services/api/shared/paket-soal/lihat'
 import {
   CardSeparator,
   Loader,

@@ -1,8 +1,8 @@
 'use client'
 
-import { listKomentarChildAction } from '@/actions/shared/komentar/list-child'
-import { listKomentarParentAction } from '@/actions/shared/komentar/list-parent'
-import { tambahKomentarAction } from '@/actions/shared/komentar/tambah'
+import { listKomentarChildAction } from '@/services/api/shared/komentar/list-child'
+import { listKomentarParentAction } from '@/services/api/shared/komentar/list-parent'
+import { tambahKomentarAction } from '@/services/api/shared/komentar/tambah'
 import { Button, Text, TextSpan, Thumbnail, Time } from '@/components/ui'
 import Loader from '@/components/ui/loader'
 import { handleActionWithToast } from '@/utils/action'

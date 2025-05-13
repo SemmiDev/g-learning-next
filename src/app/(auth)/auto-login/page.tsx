@@ -1,4 +1,4 @@
-import AutoLoginBody from '@/components/page/auth/auto-login/body'
+import AutoLoginBody from '@/components/pages/auth/auto-login/body'
 import { authRoutes } from '@/config/routes'
 import { redirect, RedirectType } from 'next/navigation'
 

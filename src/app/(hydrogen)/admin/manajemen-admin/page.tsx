@@ -1,8 +1,8 @@
-import { tableAdminAction } from '@/actions/admin/admin/table'
-import ManajemenAdminBody from '@/components/page/admin/manajemen-admin/body'
+import ManajemenAdminBody from '@/components/pages/admin/manajemen-admin/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { tableAdminAction } from '@/services/actions/admin/admin/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

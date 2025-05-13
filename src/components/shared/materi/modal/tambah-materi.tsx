@@ -1,4 +1,4 @@
-import { tambahMateriAction } from '@/actions/shared/materi/tambah'
+import { tambahMateriAction } from '@/services/api/shared/materi/tambah'
 import {
   CardSeparator,
   ControlledInput,

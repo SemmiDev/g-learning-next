@@ -1,8 +1,11 @@
 import { DeleteActionType, handleActionWithToast } from '@/utils/action'
+import { DeleteApiType } from '@/utils/api'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useSessionJwt } from '../use-session-jwt'
 
-export function useHandleDelete({
+// using server action
+export function useHandleActionDelete({
   action,
   refetchKey,
   loading = 'Menghapus...',
@@ -18,6 +21,40 @@ export function useHandleDelete({
     if (!id) return
 
     handleActionWithToast(action(id), {
+      loading,
+      onSuccess: () => {
+        setId(undefined)
+
+        if (!refetchKey) return
+
+        queryClient.invalidateQueries({
+          queryKey: refetchKey,
+        })
+      },
+    })
+  }
+
+  return { handle, id, setId }
+}
+
+// using API directly
+export function useHandleApiDelete({
+  action,
+  refetchKey,
+  loading = 'Menghapus...',
+}: {
+  action: DeleteApiType
+  refetchKey?: QueryKey
+  loading?: string
+}) {
+  const jwt = useSessionJwt()
+  const queryClient = useQueryClient()
+  const [id, setId] = useState<string>()
+
+  const handle = () => {
+    if (!id) return
+
+    handleActionWithToast(action(jwt, id), {
       loading,
       onSuccess: () => {
         setId(undefined)

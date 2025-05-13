@@ -1,6 +1,6 @@
+import DaftarForm from '@/components/pages/auth/daftar/form'
 import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
 import { metaObject } from '@/config/site.config'
-import DaftarForm from '../../../components/page/auth/daftar/form'
 
 export const metadata = {
   ...metaObject('Daftar'),

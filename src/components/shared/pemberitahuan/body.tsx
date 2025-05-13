@@ -3,7 +3,7 @@
 import {
   DataItemType,
   loadMoreAction,
-} from '@/actions/shared/pemberitahuan/data'
+} from '@/services/api/shared/pemberitahuan/data'
 import { Button, Card, CardSeparator, Title } from '@/components/ui'
 import { useEffect, useState } from 'react'
 import PemberitahuanItem from './item'

@@ -1,6 +1,6 @@
 import {
-  ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
+  ControlledAsyncTableApiProps,
 } from '@/components/ui/controlled-async-table'
 import { DEFAULT_DATA_PER_PAGE } from '@/config/const'
 import { AnyObject } from '@/utils/type-interface'
@@ -9,6 +9,7 @@ import _ from 'lodash'
 import isString from 'lodash/isString'
 import { useEffect, useState } from 'react'
 import { useDebounce } from 'react-use'
+import { useSessionJwt } from './use-session-jwt'
 
 export type SortType = {
   name?: string
@@ -29,7 +30,7 @@ export function useInfiniteListAsync<
 }: {
   queryKey: QueryKey
   action: (
-    actionProps: ControlledAsyncTableActionProps
+    actionProps: ControlledAsyncTableApiProps
   ) => Promise<ControlledAsyncTableActionType<T>>
   actionParams?: AnyObject
   initialFilter?: TFilters
@@ -37,6 +38,7 @@ export function useInfiniteListAsync<
   initialPerPage?: number
   enabled?: boolean
 }) {
+  const jwt = useSessionJwt()
   const [perPage, setPerPage] = useState(initialPerPage)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
@@ -57,6 +59,7 @@ export function useInfiniteListAsync<
     queryKey,
     queryFn: async ({ pageParam: page }) => {
       const { data, success, message } = await action({
+        jwt,
         page,
         search,
         sort,

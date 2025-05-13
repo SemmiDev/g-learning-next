@@ -1,8 +1,8 @@
-import { tableTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/table'
-import TagihanInstansiBody from '@/components/page/admin/tagihan/instansi/body'
+import TagihanInstansiBody from '@/components/pages/admin/tagihan/instansi/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { tableTagihanInstansiAction } from '@/services/actions/admin/tagihan-instansi/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

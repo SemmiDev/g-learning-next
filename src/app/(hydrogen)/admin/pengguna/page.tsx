@@ -1,4 +1,4 @@
-import ListPenggunaBody from '@/components/page/admin/pengguna/body'
+import ListPenggunaBody from '@/components/pages/admin/pengguna/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

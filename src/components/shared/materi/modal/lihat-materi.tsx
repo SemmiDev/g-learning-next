@@ -1,4 +1,4 @@
-import { lihatMateriAction } from '@/actions/shared/materi/lihat'
+import { lihatMateriAction } from '@/services/api/shared/materi/lihat'
 import {
   CardSeparator,
   FileListItem,

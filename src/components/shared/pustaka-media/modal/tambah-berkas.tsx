@@ -1,4 +1,4 @@
-import { tambahBerkasAction } from '@/actions/shared/pustaka-media/tambah-berkas'
+import { tambahBerkasAction } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import {
   Button,
   CardSeparator,

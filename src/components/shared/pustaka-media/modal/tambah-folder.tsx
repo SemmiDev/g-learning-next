@@ -1,4 +1,4 @@
-import { tambahFolderAction } from '@/actions/shared/pustaka-media/tambah-folder'
+import { tambahFolderAction } from '@/services/api/shared/pustaka-media/tambah-folder'
 import {
   CardSeparator,
   ControlledInput,

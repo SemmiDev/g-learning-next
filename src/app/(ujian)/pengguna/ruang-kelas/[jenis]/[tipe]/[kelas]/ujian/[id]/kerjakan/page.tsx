@@ -1,6 +1,6 @@
-import { lihatHasilUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
-import KerjakanUjianBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-ujian/kerjakan/ujian-body'
+import KerjakanUjianBody from '@/components/pages/pengguna/ruang-kelas/umum/kelas/diskusi/detail-ujian/kerjakan/ujian-body'
 import { metaObject } from '@/config/site.config'
+import { lihatHasilUjianAction } from '@/services/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import { betweenTime } from '@/utils/time'
 import { notFound } from 'next/navigation'
 

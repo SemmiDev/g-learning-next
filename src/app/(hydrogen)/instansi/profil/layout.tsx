@@ -1,5 +1,5 @@
-import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
-import HeaderCard from '@/components/page/instansi/profil/header-card'
+import { dataProfilAction } from '@/services/actions/instansi/profil/detail/data'
+import HeaderCard from '@/components/pages/instansi/profil/header-card'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

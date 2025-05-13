@@ -1,9 +1,9 @@
-import { lihatKelasAction } from '@/actions/pengguna/ruang-kelas/lihat'
-import KelasHeader from '@/components/page/pengguna/ruang-kelas/umum/kelas/header'
+import KelasHeader from '@/components/pages/pengguna/ruang-kelas/umum/kelas/header'
 import PageHeader from '@/components/shared/page-header'
 import { Card, TabGroup } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   dehydrate,
   HydrationBoundary,

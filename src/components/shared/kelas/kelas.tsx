@@ -1,6 +1,6 @@
 'use client'
 
-import { listKelasAction } from '@/actions/shared/kelas/list'
+import { listKelasAction } from '@/services/api/shared/kelas/list'
 import {
   Button,
   CardSeparator,

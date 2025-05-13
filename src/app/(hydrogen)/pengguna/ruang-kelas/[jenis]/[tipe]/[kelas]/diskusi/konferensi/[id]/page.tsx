@@ -1,4 +1,4 @@
-import DetailKonferensiBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-konferensi/body'
+import DetailKonferensiBody from '@/components/pages/pengguna/ruang-kelas/umum/kelas/diskusi/detail-konferensi/body'
 
 export default function DiskusiKonferensiPage() {
   return <DetailKonferensiBody />

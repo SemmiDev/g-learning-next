@@ -1,4 +1,4 @@
-import VerifikasiEmailBody from '@/components/page/auth/verifikasi-email/body'
+import VerifikasiEmailBody from '@/components/pages/auth/verifikasi-email/body'
 import { authRoutes } from '@/config/routes'
 import { redirect, RedirectType } from 'next/navigation'
 

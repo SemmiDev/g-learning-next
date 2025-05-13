@@ -1,9 +1,9 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import LoginForm from '@/components/pages/auth/login/form'
 import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
 import { metaObject } from '@/config/site.config'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import LoginForm from '../../../components/page/auth/login/form'
 
 export const metadata = {
   ...metaObject('Masuk'),

@@ -1,9 +1,9 @@
-import { dataProfilAction } from '@/actions/instansi/profil/detail/data'
-import { cekKelengkapanProfilAction } from '@/actions/pengguna/dashboard/cek-kelengkapan-profil'
-import DashboardBody from '@/components/page/dashboard'
+import DashboardBody from '@/components/pages/dashboard'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { dataProfilAction } from '@/services/actions/instansi/profil/detail/data'
+import { cekKelengkapanProfilAction } from '@/services/actions/pengguna/dashboard/cek-kelengkapan-profil'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   dehydrate,

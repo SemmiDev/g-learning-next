@@ -1,5 +1,5 @@
-import { dataSinkronAction } from '@/actions/instansi/profil/sinkron/data'
-import SinkronBody from '@/components/page/instansi/profil/sinkron/body'
+import SinkronBody from '@/components/pages/instansi/profil/sinkron/body'
+import { dataSinkronAction } from '@/services/actions/instansi/profil/sinkron/data'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   dehydrate,

@@ -1,4 +1,4 @@
-import ListKategoriMateriBody from '@/components/page/pengguna/bank-materi/list-kategori-body'
+import ListKategoriMateriBody from '@/components/pages/pengguna/bank-materi/list-kategori-body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

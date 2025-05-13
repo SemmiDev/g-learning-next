@@ -1,4 +1,4 @@
-import { tambahKategoriMateriAction } from '@/actions/shared/materi/tambah-kategori'
+import { tambahKategoriMateriAction } from '@/services/api/shared/materi/tambah-kategori'
 import {
   CardSeparator,
   ControlledInput,

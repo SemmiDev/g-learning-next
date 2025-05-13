@@ -1,8 +1,8 @@
-import { tableTagihanPenggunaAction } from '@/actions/admin/tagihan-pengguna/table'
-import TagihanPenggunaBody from '@/components/page/admin/tagihan/pengguna/body'
+import TagihanPenggunaBody from '@/components/pages/admin/tagihan/pengguna/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { tableTagihanPenggunaAction } from '@/services/actions/admin/tagihan-pengguna/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

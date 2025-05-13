@@ -1,4 +1,4 @@
-import ResetPasswordForm from '@/components/page/auth/reset-password/form'
+import ResetPasswordForm from '@/components/pages/auth/reset-password/form'
 import AuthWrapper from '@/components/shared/auth-layout/auth-wrapper'
 import { authRoutes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

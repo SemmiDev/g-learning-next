@@ -1,5 +1,6 @@
 'use client'
 
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { AnyObject } from '@/utils/type-interface'
 import { ReactNode, useId } from 'react'
 import { GroupBase, OptionsOrGroups } from 'react-select'
@@ -13,6 +14,7 @@ import { makeClassNames } from './style'
 export type AsyncPaginateSelectActionProps<
   TOption extends SelectOptionType = SelectOptionType
 > = {
+  jwt: string
   search: string
   loadedOptions: OptionsOrGroups<TOption, GroupBase<TOption>>
   page: number
@@ -61,6 +63,8 @@ export default function AsyncPaginateSelect<
   errorClassName,
   ...props
 }: AsyncPaginateSelectProps<TOption, IsMulti, Group, TData, Additional>) {
+  const jwt = useSessionJwt()
+
   return (
     <div className="react-select">
       {label && (
@@ -78,6 +82,7 @@ export default function AsyncPaginateSelect<
         loadOptions={async (search, loadedOptions, additional) => {
           const { page } = additional ?? { page: 1 }
           const { list, hasMore } = await action({
+            jwt,
             search,
             loadedOptions,
             page,

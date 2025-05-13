@@ -1,8 +1,8 @@
-import { lihatKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/lihat'
-import ListSoalBody from '@/components/page/pengguna/bank-soal/kategori/list-soal-body'
+import ListSoalBody from '@/components/pages/pengguna/bank-soal/kategori/list-soal-body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { lihatKategoriBankSoalAction } from '@/services/actions/pengguna/bank-soal/kategori/lihat'
 import {
   dehydrate,
   HydrationBoundary,

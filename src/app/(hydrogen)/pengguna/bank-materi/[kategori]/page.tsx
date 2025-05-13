@@ -1,8 +1,8 @@
-import { lihatKategoriBankMateriAction } from '@/actions/pengguna/bank-materi/kategori/lihat'
-import ListMateriBody from '@/components/page/pengguna/bank-materi/kategori/list-materi-body'
+import ListMateriBody from '@/components/pages/pengguna/bank-materi/kategori/list-materi-body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { lihatKategoriBankMateriAction } from '@/services/actions/pengguna/bank-materi/kategori/lihat'
 import {
   dehydrate,
   HydrationBoundary,

@@ -22,6 +22,10 @@ export type ControlledAsyncTableActionProps = {
   params?: AnyObject
 }
 
+export type ControlledAsyncTableApiProps = ControlledAsyncTableActionProps & {
+  jwt?: string
+}
+
 export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {
   success: boolean
   message?: string

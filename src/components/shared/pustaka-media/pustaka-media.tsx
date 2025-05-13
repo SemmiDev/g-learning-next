@@ -1,9 +1,9 @@
 'use client'
 
-import { driveInfoAction } from '@/actions/shared/pustaka-media/drive-info'
-import { hapusBerkasAction } from '@/actions/shared/pustaka-media/hapus'
-import { listFileAction } from '@/actions/shared/pustaka-media/list-file'
-import { tambahBerkasAction } from '@/actions/shared/pustaka-media/tambah-berkas'
+import { driveInfoAction } from '@/services/api/shared/pustaka-media/drive-info'
+import { hapusBerkasAction } from '@/services/api/shared/pustaka-media/hapus'
+import { listFileAction } from '@/services/api/shared/pustaka-media/list-file'
+import { tambahBerkasAction } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import {
   ActionIconTooltip,
   Button,

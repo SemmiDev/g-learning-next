@@ -1,5 +1,5 @@
-import { lihatMateriAction } from '@/actions/shared/materi/lihat'
-import { ubahMateriAction } from '@/actions/shared/materi/ubah'
+import { lihatMateriAction } from '@/services/api/shared/materi/lihat'
+import { ubahMateriAction } from '@/services/api/shared/materi/ubah'
 import {
   ControlledInput,
   ControlledPustakaMedia,

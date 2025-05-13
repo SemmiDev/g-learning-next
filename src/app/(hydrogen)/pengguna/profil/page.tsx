@@ -1,8 +1,8 @@
-import { dataProfilAction } from '@/actions/pengguna/profil/data'
-import ProfilBody from '@/components/page/pengguna/profil/body'
+import ProfilBody from '@/components/pages/pengguna/profil/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { dataProfilAction } from '@/services/actions/pengguna/profil/data'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   dehydrate,

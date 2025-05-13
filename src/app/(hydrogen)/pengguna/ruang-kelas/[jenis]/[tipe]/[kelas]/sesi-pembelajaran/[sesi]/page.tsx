@@ -1,8 +1,8 @@
-import { lihatSesiPembelajaranAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { lihatPresensiPesertaSesiAction } from '@/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat-presensi-peserta'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
-import LihatSesiBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/sesi-pembelajaran/sesi/body'
+import LihatSesiBody from '@/components/pages/pengguna/ruang-kelas/akademik/kelas/sesi-pembelajaran/sesi/body'
 import { routes } from '@/config/routes'
+import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
+import { lihatPresensiPesertaSesiAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat-presensi-peserta'
 import {
   dehydrate,
   HydrationBoundary,

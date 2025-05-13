@@ -1,0 +1,145 @@
+import { lihatBerkasAction } from '@/services/api/shared/pustaka-media/lihat-berkas'
+import { ubahFolderAction } from '@/services/api/shared/pustaka-media/ubah-folder'
+import {
+  ControlledInput,
+  Form,
+  FormError,
+  Loader,
+  Modal,
+  ModalFooterButtons,
+} from '@/components/ui'
+import { handleActionWithToast } from '@/utils/action'
+import { required } from '@/utils/validations/pipe'
+import { z } from '@/utils/zod-id'
+import { QueryKey, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { SubmitHandler } from 'react-hook-form'
+
+const formSchema = z.object({
+  nama: z.string().pipe(required),
+  deskripsi: z.string().optional(),
+})
+
+export type UbahFolderFormSchema = {
+  nama?: string
+  deskripsi?: string
+}
+
+type UbahModalProps = {
+  id: string | undefined
+  show: boolean
+  onHide: () => void
+  refetchKeys: QueryKey[]
+}
+
+export default function UbahFolderModal({
+  id,
+  show,
+  onHide,
+  refetchKeys,
+}: UbahModalProps) {
+  const queryClient = useQueryClient()
+  const [formError, setFormError] = useState<string>()
+
+  const queryKey = ['pengguna.pustaka-media.files.ubah-folder', id]
+
+  const {
+    data: initialValues,
+    isLoading,
+    isFetching,
+  } = useQuery<UbahFolderFormSchema>({
+    queryKey,
+    queryFn: async () => {
+      if (!id) return {}
+
+      const { data } = await lihatBerkasAction(id)
+
+      return {
+        nama: data?.nama,
+        deskripsi: data?.deskripsi,
+      }
+    },
+  })
+
+  const onSubmit: SubmitHandler<UbahFolderFormSchema> = async (data) => {
+    if (!id) return
+
+    await handleActionWithToast(ubahFolderAction(id, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        for (const refetchKey of refetchKeys) {
+          queryClient.invalidateQueries({ queryKey: refetchKey })
+        }
+        queryClient.setQueryData(queryKey, (oldData: UbahFolderFormSchema) => ({
+          ...oldData,
+          ...data,
+        }))
+        onHide()
+      },
+      onError: ({ message }) => setFormError(message),
+    })
+  }
+
+  const handleClose = () => {
+    onHide()
+    setFormError(undefined)
+  }
+
+  return (
+    <Modal
+      title="Ubah Folder"
+      isLoading={!isLoading && isFetching}
+      color="warning"
+      isOpen={show}
+      onClose={handleClose}
+    >
+      {isLoading ? (
+        <Loader height={236} />
+      ) : (
+        <Form<UbahFolderFormSchema>
+          onSubmit={onSubmit}
+          validationSchema={formSchema}
+          useFormProps={{
+            mode: 'onSubmit',
+            defaultValues: initialValues,
+            values: initialValues,
+          }}
+        >
+          {({ control, formState: { errors, isSubmitting } }) => (
+            <>
+              <div className="flex flex-col gap-4 p-3">
+                <ControlledInput
+                  name="nama"
+                  control={control}
+                  errors={errors}
+                  label="Nama Folder"
+                  placeholder="Nama Folder"
+                  required
+                />
+
+                <ControlledInput
+                  name="deskripsi"
+                  control={control}
+                  errors={errors}
+                  label="Tulis deskripsi folder jika ada"
+                  placeholder="Deskripsi"
+                />
+
+                <FormError error={formError} />
+              </div>
+
+              <ModalFooterButtons
+                submit="Simpan"
+                submitColor="warning"
+                isSubmitting={isSubmitting}
+                onCancel={handleClose}
+                borderTop
+              />
+            </>
+          )}
+        </Form>
+      )}
+    </Modal>
+  )
+}

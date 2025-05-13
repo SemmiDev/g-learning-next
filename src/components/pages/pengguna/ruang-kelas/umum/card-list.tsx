@@ -1,0 +1,209 @@
+import { hapusKelasAction } from '@/services/api/pengguna/ruang-kelas/hapus'
+import { keluarKelasAction } from '@/services/api/pengguna/ruang-kelas/keluar'
+import { listKelasAction } from '@/services/api/pengguna/ruang-kelas/list'
+import { Loader, ModalConfirm, Shimmer, Text } from '@/components/ui'
+import Card from '@/components/ui/card'
+import { useShowModal } from '@/hooks/use-show-modal'
+import { handleActionWithToast } from '@/utils/action'
+import { switchCaseObject } from '@/utils/switch-case'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
+import KelasCard from './kelas-card'
+import PengaturanKelasModal from './modal/pengaturan-kelas'
+import UndangKelasModal from './modal/undang-kelas'
+
+export default function ListKelasCardList() {
+  const queryClient = useQueryClient()
+  const {
+    show: showPengaturan,
+    key: keyPengaturan,
+    doShow: doShowPengaturan,
+    doHide: doHidePengaturan,
+  } = useShowModal<string>()
+  const {
+    show: showUndang,
+    key: keyUndang,
+    doShow: doShowUndang,
+    doHide: doHideUndang,
+  } = useShowModal<string>()
+  const [idKeluar, setIdKeluar] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
+
+  const { jenis: jenisKelas }: { jenis: string } = useParams()
+  const kategori = switchCaseObject(
+    jenisKelas,
+    {
+      dikelola: 'Dikelola',
+      diikuti: 'Diikuti',
+    },
+    undefined
+  ) as 'Dikelola' | 'Diikuti' | undefined
+
+  const queryKey = ['pengguna.ruang-kelas.list', kategori, 'Umum']
+
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam: page }) => {
+      const { data } = await listKelasAction({
+        page,
+        kategori,
+        tipe: 'Umum',
+      })
+
+      return {
+        list: data?.list ?? [],
+        pagination: data?.pagination,
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination?.hasNextPage
+        ? (lastPage.pagination?.page ?? 1) + 1
+        : undefined,
+  })
+
+  const list = data?.pages.flatMap((page) => page.list) ?? []
+
+  const [refSentry] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage: hasNextPage,
+    onLoadMore: fetchNextPage,
+  })
+
+  const handleHapus = () => {
+    if (!idHapus) return
+
+    handleActionWithToast(hapusKelasAction(idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
+
+  const handleKeluar = () => {
+    if (!idKeluar) return
+
+    handleActionWithToast(keluarKelasAction(idKeluar), {
+      loading: 'Keluar kelas...',
+      onSuccess: () => {
+        setIdKeluar(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
+
+  if (isLoading) return <CardListShimmer />
+
+  return (
+    <>
+      {list.length > 0 ? (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {list.map((item) => (
+            <KelasCard
+              key={item.kelas.id}
+              data={item}
+              onPengaturan={(id) => doShowPengaturan(id)}
+              onUndang={(id) => doShowUndang(id)}
+              onKeluar={(id) => setIdKeluar(id)}
+              onDelete={(id) => setIdHapus(id)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-72">
+          <Text size="sm" weight="medium">
+            Belum ada kelas
+          </Text>
+        </div>
+      )}
+
+      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
+
+      <ModalConfirm
+        title="Keluar Kelas"
+        desc="Apakah Anda yakin ingin keluar dari kelas ini?"
+        color="danger"
+        isOpen={!!idKeluar}
+        onClose={() => setIdKeluar(undefined)}
+        onConfirm={handleKeluar}
+        headerIcon="help"
+        closeOnCancel
+      />
+
+      <ModalConfirm
+        title="Hapus Kelas"
+        desc="Apakah Anda yakin ingin menghapus kelas ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="help"
+        closeOnCancel
+      />
+
+      <PengaturanKelasModal
+        show={showPengaturan}
+        id={keyPengaturan}
+        onHide={doHidePengaturan}
+      />
+
+      <UndangKelasModal
+        show={showUndang}
+        id={keyUndang}
+        onHide={doHideUndang}
+      />
+    </>
+  )
+}
+
+function CardListShimmer() {
+  return (
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {[...Array(4)].map((_, idx) => (
+        <Card key={idx} className="h-fit">
+          <Shimmer className="h-32" />
+          <div className="flex justify-between items-start mt-2">
+            <div className="flex flex-col flex-1 gap-y-2.5 py-1">
+              <Shimmer className="h-4 w-6/12" />
+              <Shimmer className="h-2.5 w-4/12" />
+              <Shimmer className="h-2.5 w-7/12" />
+            </div>
+            <Shimmer className="h-[1.125rem] w-10 rounded-full" />
+          </div>
+          <div className="flex mt-2">
+            <table className="border-collapse border border-gray-100 w-full">
+              <tbody>
+                <tr>
+                  <td className="border border-gray-100">
+                    <div className="flex flex-col gap-y-2 px-1 py-2.5">
+                      <Shimmer className="h-2 w-1/2" />
+                      <Shimmer className="h-2 w-10/12" />
+                    </div>
+                  </td>
+                  <td className="border border-gray-100">
+                    <div className="flex flex-col gap-y-2 px-1 py-2.5">
+                      <Shimmer className="h-2 w-1/2" />
+                      <Shimmer className="h-2 w-10/12" />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="flex gap-x-1 mt-2">
+            {[...Array(3)].map((_, idx) => (
+              <Shimmer key={idx} className="size-9" />
+            ))}
+          </div>
+          <Shimmer className="h-8 w-full mt-2" />
+        </Card>
+      ))}
+    </div>
+  )
+}

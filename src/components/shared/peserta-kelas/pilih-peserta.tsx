@@ -1,6 +1,6 @@
 'use client'
 
-import { listPesertaKelasAction } from '@/actions/shared/peserta-kelas/list'
+import { listPesertaKelasAction } from '@/services/api/shared/peserta-kelas/list'
 import {
   Button,
   CardSeparator,

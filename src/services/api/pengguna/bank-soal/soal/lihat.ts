@@ -1,0 +1,41 @@
+import { PILIHAN_JAWABAN } from '@/config/const'
+import { makeJwtGetRequestAction } from '@/utils/action'
+
+type DataType = {
+  id: string
+  pertanyaan: string
+  tipe: 'PILIHAN_GANDA' | 'ESSAY'
+  gambar_soal: string[]
+  jawaban_a: {
+    teks: string
+    id_foto: string | null
+    url_foto: string | null
+  }
+  jawaban_b: {
+    teks: string
+    id_foto: string | null
+    url_foto: string | null
+  }
+  jawaban_c: {
+    teks: string
+    id_foto: string | null
+    url_foto: string | null
+  }
+  jawaban_d: {
+    teks: string
+    id_foto: string | null
+    url_foto: string | null
+  }
+  jawaban_e: {
+    teks: string
+    id_foto: string | null
+    url_foto: string | null
+  }
+  jawaban_benar: (typeof PILIHAN_JAWABAN)[number]
+  bobot_essay: number | null
+}
+
+export const lihatSoalAction = async (idKategori: string, id: string) =>
+  makeJwtGetRequestAction<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${idKategori}/soal/${id}`
+  )

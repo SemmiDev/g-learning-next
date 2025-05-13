@@ -1,7 +1,7 @@
-import { simpanTokenAction } from '@/actions/pengguna/google-drive/simpan-token'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { GOOGLE_DRIVE_SCOPES } from '@/config/const'
 import { routes } from '@/config/routes'
+import { simpanTokenAction } from '@/services/actions/pengguna/google-drive/simpan-token'
 import { google } from 'googleapis'
 import { getServerSession } from 'next-auth'
 import { notFound, redirect } from 'next/navigation'

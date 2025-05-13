@@ -1,9 +1,9 @@
-import { lihatTagihanPenggunaAction } from '@/actions/admin/tagihan-pengguna/lihat'
-import { tablePembayaranTagihanPenggunaAction } from '@/actions/admin/tagihan-pengguna/pembayaran/table'
-import PembayaranTagihanPenggunaBody from '@/components/page/admin/tagihan/pengguna/pembayaran/body'
+import PembayaranTagihanPenggunaBody from '@/components/pages/admin/tagihan/pengguna/pembayaran/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { lihatTagihanPenggunaAction } from '@/services/actions/admin/tagihan-pengguna/lihat'
+import { tablePembayaranTagihanPenggunaAction } from '@/services/actions/admin/tagihan-pengguna/pembayaran/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

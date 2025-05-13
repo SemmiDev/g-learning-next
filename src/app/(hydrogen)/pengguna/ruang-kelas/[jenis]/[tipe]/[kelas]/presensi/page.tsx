@@ -1,5 +1,5 @@
-import PresensiAkademikBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/presensi/body'
-import PresensiUmumBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/presensi/body'
+import PresensiAkademikBody from '@/components/pages/pengguna/ruang-kelas/akademik/kelas/presensi/body'
+import PresensiUmumBody from '@/components/pages/pengguna/ruang-kelas/umum/kelas/presensi/body'
 
 type PresensiPageProps = {
   params: Promise<{ tipe: string }>

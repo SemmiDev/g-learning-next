@@ -8,12 +8,12 @@ import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
 
-const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
-const CONSOLE_LOG_REQUEST =
+export const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
+export const CONSOLE_LOG_REQUEST =
   process.env.CONSOLE_LOG_REQUEST?.toLowerCase() === 'true'
-const CONSOLE_LOG_RESPONSE =
+export const CONSOLE_LOG_RESPONSE =
   process.env.CONSOLE_LOG_RESPONSE?.toLowerCase() === 'true'
-const CONSOLE_LOG_ON_ERROR =
+export const CONSOLE_LOG_ON_ERROR =
   process.env.CONSOLE_LOG_ON_ERROR?.toLowerCase() === 'true'
 
 export type ActionResponseType<T = AnyObject> = {
@@ -148,7 +148,7 @@ export const makeSelectDataActionResponse = <T extends AnyObject>(
   }
 }
 
-type PayloadType = Record<string, any> | FormData
+export type PayloadType = Record<string, any> | FormData
 
 export const makeBasicPostRequestAction = async <T extends AnyObject>(
   url: string,

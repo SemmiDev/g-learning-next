@@ -1,8 +1,8 @@
-import { listPaketPenggunaAction } from '@/actions/admin/paket-pengguna/list'
-import PaketPenggunaBody from '@/components/page/admin/paket-pengguna/body'
+import PaketPenggunaBody from '@/components/pages/admin/paket-pengguna/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { listPaketPenggunaAction } from '@/services/actions/admin/paket-pengguna/list'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

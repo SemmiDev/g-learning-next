@@ -1,9 +1,9 @@
 'use client'
 
-import { hapusMateriAction } from '@/actions/shared/materi/hapus'
-import { hapusKategoriMateriAction } from '@/actions/shared/materi/hapus-kategori'
-import { listMateriAction } from '@/actions/shared/materi/list'
-import { listKategoriMateriAction } from '@/actions/shared/materi/list-kategori'
+import { hapusMateriAction } from '@/services/api/shared/materi/hapus'
+import { hapusKategoriMateriAction } from '@/services/api/shared/materi/hapus-kategori'
+import { listMateriAction } from '@/services/api/shared/materi/list'
+import { listKategoriMateriAction } from '@/services/api/shared/materi/list-kategori'
 import {
   Button,
   CardSeparator,
@@ -16,7 +16,7 @@ import {
   Text,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
-import { useHandleDelete } from '@/hooks/handle/use-handle-delete'
+import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
@@ -212,7 +212,7 @@ export default function Materi({
     handle: handleHapusKategori,
     id: idHapusKategori,
     setId: setIdHapusKategori,
-  } = useHandleDelete({
+  } = useHandleApiDelete({
     action: hapusKategoriMateriAction,
     refetchKey: queryKeyKategori,
   })

@@ -1,4 +1,4 @@
-import RuangKelasAkademikBody from '@/components/page/pengguna/ruang-kelas/akademik/body'
+import RuangKelasAkademikBody from '@/components/pages/pengguna/ruang-kelas/akademik/body'
 
 export default function RuangKelasAkademikPage() {
   return <RuangKelasAkademikBody />

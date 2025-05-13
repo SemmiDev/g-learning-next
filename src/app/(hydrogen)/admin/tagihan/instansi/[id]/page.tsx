@@ -1,9 +1,9 @@
-import { lihatTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/lihat'
-import { tablePembayaranTagihanInstansiAction } from '@/actions/admin/tagihan-instansi/pembayaran/table'
-import PembayaranTagihanInstansiBody from '@/components/page/admin/tagihan/instansi/pembayaran/body'
+import PembayaranTagihanInstansiBody from '@/components/pages/admin/tagihan/instansi/pembayaran/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { lihatTagihanInstansiAction } from '@/services/actions/admin/tagihan-instansi/lihat'
+import { tablePembayaranTagihanInstansiAction } from '@/services/actions/admin/tagihan-instansi/pembayaran/table'
 import { makeAsyncTableQueryData } from '@/utils/query-data'
 import {
   dehydrate,

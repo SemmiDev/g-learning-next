@@ -1,5 +1,5 @@
-import { lihatHasilUjianAction } from '@/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
-import SelesaiUjianBody from '@/components/page/pengguna/ruang-kelas/umum/kelas/diskusi/detail-ujian/selesai/selesai-body'
+import { lihatHasilUjianAction } from '@/services/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
+import SelesaiUjianBody from '@/components/pages/pengguna/ruang-kelas/umum/kelas/diskusi/detail-ujian/selesai/selesai-body'
 import { metaObject } from '@/config/site.config'
 import {
   dehydrate,

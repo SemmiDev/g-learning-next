@@ -1,4 +1,4 @@
-import UndanganKelasBody from '@/components/page/others/undangan-kelas/body'
+import UndanganKelasBody from '@/components/pages/others/undangan-kelas/body'
 import { metaObject } from '@/config/site.config'
 
 export const metadata = {

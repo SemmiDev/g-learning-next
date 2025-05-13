@@ -1,9 +1,9 @@
-import { lihatKategoriBankSoalAction } from '@/actions/pengguna/bank-soal/kategori/lihat'
-import { lihatBankSoalAction } from '@/actions/pengguna/bank-soal/lihat'
-import KelolaSoalBody from '@/components/page/pengguna/bank-soal/kategori/soal/body'
+import KelolaSoalBody from '@/components/pages/pengguna/bank-soal/kategori/soal/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { lihatKategoriBankSoalAction } from '@/services/actions/pengguna/bank-soal/kategori/lihat'
+import { lihatBankSoalAction } from '@/services/actions/pengguna/bank-soal/lihat'
 import {
   dehydrate,
   HydrationBoundary,

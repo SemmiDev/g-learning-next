@@ -1,5 +1,5 @@
-import { lihatBerkasAction } from '@/actions/shared/pustaka-media/lihat-berkas'
-import { ubahFolderAction } from '@/actions/shared/pustaka-media/ubah-folder'
+import { lihatBerkasAction } from '@/services/api/shared/pustaka-media/lihat-berkas'
+import { ubahFolderAction } from '@/services/api/shared/pustaka-media/ubah-folder'
 import {
   CardSeparator,
   ControlledInput,

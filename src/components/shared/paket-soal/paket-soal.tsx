@@ -1,7 +1,7 @@
 'use client'
 
-import { listPaketSoalAction } from '@/actions/shared/paket-soal/list'
-import { listKategoriSoalAction } from '@/actions/shared/paket-soal/list-kategori'
+import { listPaketSoalAction } from '@/services/api/shared/paket-soal/list'
+import { listKategoriSoalAction } from '@/services/api/shared/paket-soal/list-kategori'
 import {
   Button,
   Input,

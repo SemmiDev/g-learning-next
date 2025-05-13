@@ -1,0 +1,39 @@
+import { ControlledAsyncTableApiProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
+
+export type DataType = {
+  id: string
+  id_instansi: null
+  id_pengguna: string
+  id_paket_instansi: null
+  id_paket_pengguna: string
+  nomor_invoice: string
+  total_tagihan: number
+  tanggal_tagihan: string
+  bulan_tagihan: number
+  tahun_tagihan: number
+  status_tagihan: 'Lunas'
+  jatuh_tempo: string
+  created_at: string
+  updated_at: string
+  nama_pengguna: string
+  nama_paket: string
+  jenis_paket: 'Default' | 'Custom'
+}
+
+export const tableTagihanPenggunaApi = async ({
+  jwt = '',
+  page = 1,
+  search = '',
+  sort,
+}: ControlledAsyncTableApiProps = {}) =>
+  makeJwtGetRequestTableApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/tagihan-pengguna`,
+    jwt,
+    {
+      current_page: page,
+      keyword: search,
+      sort_by: sort?.name,
+      order: sort?.order,
+    }
+  )

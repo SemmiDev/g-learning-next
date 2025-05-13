@@ -1,4 +1,4 @@
-import ListKategoriSoalBody from '@/components/page/pengguna/bank-soal/list-kategori-body'
+import ListKategoriSoalBody from '@/components/pages/pengguna/bank-soal/list-kategori-body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'

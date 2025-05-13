@@ -1,5 +1,5 @@
-import { lihatKategoriMateriAction } from '@/actions/shared/materi/lihat-kategori'
-import { ubahKategoriMateriAction } from '@/actions/shared/materi/ubah-kategori'
+import { lihatKategoriMateriAction } from '@/services/api/shared/materi/lihat-kategori'
+import { ubahKategoriMateriAction } from '@/services/api/shared/materi/ubah-kategori'
 import {
   CardSeparator,
   ControlledInput,

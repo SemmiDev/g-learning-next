@@ -1,8 +1,9 @@
 import { inter, lexendDeca } from '@/app/fonts'
 import '@/app/globals.css'
-import QueryProvider from '@/components/query-provider'
-import SessionProvider from '@/components/session-provider'
-import { ThemeProvider } from '@/components/theme-provider'
+import ProgressbarProvider from '@/components/providers/progressbar'
+import QueryProvider from '@/components/providers/query'
+import SessionProvider from '@/components/providers/session'
+import { ThemeProvider } from '@/components/providers/theme'
 import { siteConfig } from '@/config/site.config'
 import { cn } from '@/utils/class-names'
 import { getServerSession } from 'next-auth'
@@ -11,7 +12,6 @@ import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/options'
 
 /* Temporary Fix for react-select issue https://github.com/JedWatson/react-select/issues/5911 */
-import ProgressbarProvider from '@/components/progressbar-provider'
 import * as React from 'react'
 declare global {
   namespace JSX {

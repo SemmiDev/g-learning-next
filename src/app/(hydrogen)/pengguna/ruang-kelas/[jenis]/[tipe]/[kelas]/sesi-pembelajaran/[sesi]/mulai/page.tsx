@@ -1,4 +1,4 @@
-import MulaiSesiBody from '@/components/page/pengguna/ruang-kelas/akademik/kelas/sesi-pembelajaran/pengajar/mulai-sesi/body'
+import MulaiSesiBody from '@/components/pages/pengguna/ruang-kelas/akademik/kelas/sesi-pembelajaran/pengajar/mulai-sesi/body'
 import { notFound } from 'next/navigation'
 
 type MulaiSesiPageProps = {

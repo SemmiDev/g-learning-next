@@ -1,5 +1,5 @@
-import { lihatPaketSoalAction } from '@/actions/shared/paket-soal/lihat'
-import { ubahPaketSoalAction } from '@/actions/shared/paket-soal/ubah'
+import { lihatPaketSoalAction } from '@/services/api/shared/paket-soal/lihat'
+import { ubahPaketSoalAction } from '@/services/api/shared/paket-soal/ubah'
 import {
   ControlledInput,
   ControlledInputNumber,
