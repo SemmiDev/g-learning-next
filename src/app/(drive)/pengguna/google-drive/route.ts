@@ -85,7 +85,9 @@ export async function GET(req: NextRequest) {
       // }
     }
 
-    return NextResponse.redirect(new URL(routes.pengguna.pustakaMedia, req.url))
+    return NextResponse.redirect(
+      new URL(routes.pengguna.pustakaMedia, process.env.NEXT_URL)
+    )
   } else {
     authenticateGoogle()
   }
