@@ -1,6 +1,7 @@
-import { totalKelasAction } from '@/services/api/instansi/dashboard/total-kelas'
 import { Card, CardSeparator, Text, Title } from '@/components/ui'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { totalKelasApi } from '@/services/api/instansi/dashboard/total-kelas'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { angka } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
@@ -8,9 +9,11 @@ import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 const COLORS = ['#F1416C', '#DCDCDC']
 
 export default function DashboardTotalKelasCard() {
+  const jwt = useSessionJwt()
+
   const { data } = useQuery({
     queryKey: ['instansi.dashboard.total-kelas'],
-    queryFn: makeSimpleQueryData(totalKelasAction),
+    queryFn: makeSimpleQueryDataWithParams(totalKelasApi, jwt),
   })
 
   const chartData = [

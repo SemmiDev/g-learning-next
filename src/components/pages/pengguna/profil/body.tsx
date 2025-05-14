@@ -1,7 +1,5 @@
 'use client'
 
-import { dataProfilAction } from '@/services/actions/pengguna/profil/data'
-import { kirimEmailVerifikasiAction } from '@/services/api/pengguna/profil/kirim-email-verifikasi'
 import {
   ActionIconTooltip,
   Badge,
@@ -16,8 +14,11 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataProfilApi } from '@/services/api/pengguna/profil/data'
+import { kirimEmailVerifikasiApi } from '@/services/api/pengguna/profil/kirim-email-verifikasi'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
@@ -33,6 +34,8 @@ type EmailType = {
 }
 
 export default function ProfilBody() {
+  const jwt = useSessionJwt()
+
   const [showUbah, setShowUbah] = useState(false)
   const [showFoto, setShowFoto] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -40,13 +43,13 @@ export default function ProfilBody() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryData(dataProfilAction),
+    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
   })
 
   const handleKirimEmailVerifikasi = async () => {
     if (!emailVerifikasi) return
 
-    handleActionWithToast(kirimEmailVerifikasiAction(emailVerifikasi?.id), {
+    handleActionWithToast(kirimEmailVerifikasiApi(jwt, emailVerifikasi?.id), {
       loading: 'Mengirim email...',
       onStart: () => setEmailVerifikasi(undefined),
     })

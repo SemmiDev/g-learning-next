@@ -1,6 +1,5 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/options'
-import { makeActionResponse, makeJwtGetRequestAction } from '@/utils/action'
-import { getServerSession } from 'next-auth'
+import { makeActionResponse } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 export type DataType = {
   media_personal_info: {
@@ -45,11 +44,11 @@ export type DataType = {
   } | null
 }
 
-export const driveInfoAction = async () => {
-  const { user } = (await getServerSession(authOptions)) ?? {}
-  if (!user) return makeActionResponse<DataType>(false)
+export const driveInfoApi = async (jwt: string) => {
+  if (!jwt) return makeActionResponse<DataType>(false)
 
-  return await makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/pustaka-media/info`
+  return await makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/pustaka-media/info`,
+    jwt
   )
 }

@@ -1,5 +1,3 @@
-import { lihatPaketSoalAction } from '@/services/api/shared/paket-soal/lihat'
-import { ubahPaketSoalAction } from '@/services/api/shared/paket-soal/ubah'
 import {
   ControlledInput,
   ControlledInputNumber,
@@ -13,6 +11,9 @@ import {
   TextBordered,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatPaketSoalApi } from '@/services/api/shared/paket-soal/lihat'
+import { ubahPaketSoalApi } from '@/services/api/shared/paket-soal/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -57,8 +58,10 @@ export default function UbahSoalModal({
   show,
   onHide,
 }: UbahPaketSoalModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['shared.paket-soal.ubah', idKategori, id]
@@ -72,7 +75,7 @@ export default function UbahSoalModal({
     queryFn: async () => {
       if (!idKategori || !id) return {}
 
-      const { data } = await lihatPaketSoalAction(idKategori, id)
+      const { data } = await lihatPaketSoalApi(jwt, idKategori, id)
 
       return {
         judul: data?.judul,
@@ -91,7 +94,7 @@ export default function UbahSoalModal({
   const onSubmit: SubmitHandler<UbahPaketSoalFormSchema> = async (data) => {
     if (!idKategori || !id) return
 
-    await handleActionWithToast(ubahPaketSoalAction(idKategori, id, data), {
+    await handleActionWithToast(ubahPaketSoalApi(jwt, idKategori, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

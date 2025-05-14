@@ -1,4 +1,3 @@
-import { lihatPenggunaAction } from '@/services/api/instansi/profil/pengguna/lihat'
 import {
   Button,
   CardSeparator,
@@ -10,7 +9,9 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatPenggunaApi } from '@/services/api/instansi/profil/pengguna/lihat'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
@@ -23,11 +24,13 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
+  const jwt = useSessionJwt()
+
   const [idBlokir, setIdBlokir] = useState<string>()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['instansi.profil.pengguna.table.lihat', id],
-    queryFn: makeSimpleQueryDataWithId(lihatPenggunaAction, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatPenggunaApi, jwt, id ?? null),
   })
 
   return (

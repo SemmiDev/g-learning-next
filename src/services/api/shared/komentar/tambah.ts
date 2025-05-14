@@ -1,13 +1,15 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const tambahKomentarAction = async (
+export const tambahKomentarApi = async (
+  jwt: string,
   idKelas: string,
   idAktifitas: string,
   komentar: string,
   idParent?: string
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${idAktifitas}/diskusi`,
+    jwt,
     {
       diskusi: komentar,
       id_induk: idParent,

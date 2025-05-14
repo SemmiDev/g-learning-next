@@ -1,9 +1,5 @@
 'use client'
 
-import { duplikatBankSoalAction } from '@/services/api/pengguna/bank-soal/duplikat'
-import { hapusBankSoalAction } from '@/services/api/pengguna/bank-soal/hapus'
-import { lihatKategoriBankSoalAction } from '@/services/actions/pengguna/bank-soal/kategori/lihat'
-import { listBankSoalAction } from '@/services/api/pengguna/bank-soal/list'
 import {
   Button,
   Card,
@@ -13,9 +9,14 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { duplikatBankSoalApi } from '@/services/api/pengguna/bank-soal/duplikat'
+import { hapusBankSoalApi } from '@/services/api/pengguna/bank-soal/hapus'
+import { lihatKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/lihat'
+import { listBankSoalApi } from '@/services/api/pengguna/bank-soal/list'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -34,7 +35,9 @@ import UbahBankSoalModal from './modal/ubah-bank-soal'
 import SoalCard, { SoalType } from './soal-card'
 
 export default function ListSoalBody() {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [search, setSearch] = useState('')
   const {
     show: showShareSoalUjian,
@@ -56,7 +59,11 @@ export default function ListSoalBody() {
 
   const { data: kategori } = useQuery({
     queryKey: ['pengguna.bank-soal.kategori.lihat', idKategori],
-    queryFn: makeSimpleQueryDataWithId(lihatKategoriBankSoalAction, idKategori),
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatKategoriBankSoalApi,
+      jwt || null,
+      idKategori
+    ),
   })
 
   const queryKey = ['pengguna.bank-soal.list', idKategori]
@@ -65,7 +72,8 @@ export default function ListSoalBody() {
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listBankSoalAction({
+        const { data } = await listBankSoalApi({
+          jwt,
           page,
           search,
           params: {
@@ -110,7 +118,7 @@ export default function ListSoalBody() {
   const handleDuplikat = () => {
     if (!idDuplikat) return
 
-    handleActionWithToast(duplikatBankSoalAction(idKategori, idDuplikat), {
+    handleActionWithToast(duplikatBankSoalApi(jwt, idKategori, idDuplikat), {
       loading: 'Menduplikat...',
       onStart: () => setIdDuplikat(undefined),
       onSuccess: () => queryClient.invalidateQueries({ queryKey }),
@@ -120,7 +128,7 @@ export default function ListSoalBody() {
   const handleHapus = () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusBankSoalAction(idKategori, idHapus), {
+    handleActionWithToast(hapusBankSoalApi(jwt, idKategori, idHapus), {
       loading: 'Menghapus...',
       onStart: () => setIdHapus(undefined),
       onSuccess: () => queryClient.invalidateQueries({ queryKey }),

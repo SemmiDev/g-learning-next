@@ -1,14 +1,16 @@
 import { TambahSoalFormSchema } from '@/components/pages/pengguna/bank-soal/kategori/soal/body'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 import { switchCaseObject } from '@/utils/switch-case'
 
-export const tambahSoalAction = async (
+export const tambahSoalApi = async (
+  jwt: string,
   idBankSoal: string,
   data: TambahSoalFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${idBankSoal}/soal`,
+    jwt,
     {
       pertanyaan: cleanQuill(data.soal),
       tipe: switchCaseObject(

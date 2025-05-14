@@ -1,4 +1,4 @@
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 export type DataType = {
   sync_log_mahasiswa: {
@@ -64,7 +64,8 @@ export type DataType = {
   persentase_keseluruhan: number
 }
 
-export const statusSinkronSmartAction = async () =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/instansi/singkronisasi/terbaru`
+export const statusSinkronSmartApi = async (jwt: string) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/singkronisasi/terbaru`,
+    jwt
   )

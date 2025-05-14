@@ -1,12 +1,14 @@
 import { UbahKategoriFormSchema } from '@/components/pages/pengguna/bank-materi/modal/ubah-kategori'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 
-export const ubahKategoriBankMateriAction = async (
+export const ubahKategoriBankMateriApi = async (
+  jwt: string,
   id: string,
   data: UbahKategoriFormSchema
 ) =>
-  makeJwtPutRequestAction(
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${id}`,
+    jwt,
     {
       nama_kategori: data.nama,
     }

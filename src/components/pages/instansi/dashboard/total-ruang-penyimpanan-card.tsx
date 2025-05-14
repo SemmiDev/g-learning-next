@@ -1,16 +1,19 @@
-import { totalRuangPenyimpananAction } from '@/services/api/instansi/dashboard/total-ruang-penyimpanan'
 import { Card, CardSeparator, Text, Title } from '@/components/ui'
-import { fileSizeToKB, formatBytes } from '@/utils/bytes'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { totalRuangPenyimpananApi } from '@/services/api/instansi/dashboard/total-ruang-penyimpanan'
+import { formatBytes } from '@/utils/bytes'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 
 const COLORS = ['#2563EB', '#DCDCDC']
 
 export default function DashboardTotalRuangPenyimpananCard() {
+  const jwt = useSessionJwt()
+
   const { data } = useQuery({
     queryKey: ['instansi.dashboard.total-ruang-penyimpanan'],
-    queryFn: makeSimpleQueryData(totalRuangPenyimpananAction),
+    queryFn: makeSimpleQueryDataWithParams(totalRuangPenyimpananApi, jwt),
   })
 
   const chartData = [

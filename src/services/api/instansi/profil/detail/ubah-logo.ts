@@ -1,11 +1,12 @@
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 
 type DataType = {
   logo: string
 }
 
-export const ubahLogoAction = async (formData: FormData) =>
-  makeJwtPutRequestAction<DataType>(
+export const ubahLogoApi = async (jwt: string, formData: FormData) =>
+  makeJwtPutRequestApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/instansi/profil-instansi/logo`,
+    jwt,
     formData
   )

@@ -1,4 +1,3 @@
-import { blokirPenggunaAction } from '@/services/api/instansi/profil/pengguna/blokir'
 import {
   ControlledInput,
   Form,
@@ -6,6 +5,8 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { blokirPenggunaApi } from '@/services/api/instansi/profil/pengguna/blokir'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -33,12 +34,13 @@ export default function BlokirModal({
   setId,
   onHideLihat,
 }: BlokirModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
 
   const onSubmit: SubmitHandler<BlokirPenggunaFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(blokirPenggunaAction(id, data), {
+    await handleActionWithToast(blokirPenggunaApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onSuccess: () => {
         setId(undefined)

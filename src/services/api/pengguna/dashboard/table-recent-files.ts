@@ -1,4 +1,4 @@
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id: string
@@ -16,21 +16,24 @@ export type DataType = {
   updated_at: string
 }
 
-export const listRecentFilesAction = async ({
+export const listRecentFilesApi = async ({
+  jwt,
   page = 1,
   perPage,
   personal,
   googleDrive,
   idInstansi,
 }: {
+  jwt: string
   page?: number
   perPage?: number
   personal?: boolean
   googleDrive?: boolean
   idInstansi?: string
 }) =>
-  makeJwtGetRequestTableAction<DataType>(
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/dashboard/recent-files`,
+    jwt,
     {
       current_page: page,
       per_page: perPage,

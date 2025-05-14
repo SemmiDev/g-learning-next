@@ -1,6 +1,4 @@
-import { tableRiwayatPembayaranAction } from '@/services/api/instansi/dashboard/table-riwayat-pembayaran'
 import {
-  ActionIconTooltip,
   Card,
   CardSeparator,
   getSortOrder,
@@ -12,10 +10,10 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tableRiwayatPembayaranApi } from '@/services/api/instansi/dashboard/table-riwayat-pembayaran'
 import cn from '@/utils/class-names'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { LuDownload } from 'react-icons/lu'
 
 export default function DashboardRiwayatPembayaranCard({
   className,
@@ -36,7 +34,7 @@ export default function DashboardRiwayatPembayaranCard({
     onSearch,
   } = useTableAsync({
     queryKey: ['instansi.dashboard.table-riwayat-pembayaran'],
-    action: tableRiwayatPembayaranAction,
+    action: tableRiwayatPembayaranApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

@@ -1,8 +1,9 @@
-import { dataProfilAction } from '@/services/actions/instansi/profil/detail/data'
 import { ActionIcon, Card, Text, Thumbnail, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
 import { processData } from '@/utils/process-data'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { angka, rupiah } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -12,9 +13,11 @@ import BackgroundProfil from './background-pattern'
 import ProfilItem from './profil-item'
 
 export default function DashboardProfilCard() {
+  const jwt = useSessionJwt()
+
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryData(dataProfilAction),
+    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
   })
 
   return (

@@ -1,12 +1,7 @@
 'use client'
 
-import { hapusMateriAction } from '@/services/api/shared/materi/hapus'
-import { hapusKategoriMateriAction } from '@/services/api/shared/materi/hapus-kategori'
-import { listMateriAction } from '@/services/api/shared/materi/list'
-import { listKategoriMateriAction } from '@/services/api/shared/materi/list-kategori'
 import {
   Button,
-  CardSeparator,
   Input,
   Label,
   Loader,
@@ -17,7 +12,12 @@ import {
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { hapusMateriApi } from '@/services/api/shared/materi/hapus'
+import { hapusKategoriMateriApi } from '@/services/api/shared/materi/hapus-kategori'
+import { listMateriApi } from '@/services/api/shared/materi/list'
+import { listKategoriMateriApi } from '@/services/api/shared/materi/list-kategori'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
@@ -61,11 +61,12 @@ export default function Materi({
   error,
   errorClassName,
 }: MateriProps) {
+  const jwt = useSessionJwt()
   const { status } = useSession()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
-  const [show, setShow] = useState(false)
 
+  const [show, setShow] = useState(false)
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
   const [showTambahKategori, setShowTambahKategori] = useState(false)
@@ -115,7 +116,8 @@ export default function Materi({
   } = useInfiniteQuery({
     queryKey: queryKeyKategori,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKategoriMateriAction({
+      const { data } = await listKategoriMateriApi({
+        jwt,
         page,
         search: searchKategori,
         tipe,
@@ -163,7 +165,8 @@ export default function Materi({
     queryFn: async ({ pageParam: page }) => {
       if (!activeKategori?.id) return { list: [] }
 
-      const { data } = await listMateriAction({
+      const { data } = await listMateriApi({
+        jwt,
         page,
         search: searchMateri,
         idKategori: activeKategori.id,
@@ -213,21 +216,24 @@ export default function Materi({
     id: idHapusKategori,
     setId: setIdHapusKategori,
   } = useHandleApiDelete({
-    action: hapusKategoriMateriAction,
+    action: hapusKategoriMateriApi,
     refetchKey: queryKeyKategori,
   })
 
   const handleHapusMateri = () => {
     if (!activeKategori?.id || !idHapusMateri) return
 
-    handleActionWithToast(hapusMateriAction(activeKategori.id, idHapusMateri), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapusMateri(undefined)
+    handleActionWithToast(
+      hapusMateriApi(jwt, activeKategori.id, idHapusMateri),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapusMateri(undefined)
 
-        queryClient.invalidateQueries({ queryKey: queryKeyMateri })
-      },
-    })
+          queryClient.invalidateQueries({ queryKey: queryKeyMateri })
+        },
+      }
+    )
   }
 
   if (status === 'unauthenticated') {

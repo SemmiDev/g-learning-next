@@ -1,10 +1,11 @@
 'use client'
 
-import { listKomentarChildAction } from '@/services/api/shared/komentar/list-child'
-import { listKomentarParentAction } from '@/services/api/shared/komentar/list-parent'
-import { tambahKomentarAction } from '@/services/api/shared/komentar/tambah'
 import { Button, Text, TextSpan, Thumbnail, Time } from '@/components/ui'
 import Loader from '@/components/ui/loader'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listKomentarChildApi } from '@/services/api/shared/komentar/list-child'
+import { listKomentarParentApi } from '@/services/api/shared/komentar/list-parent'
+import { tambahKomentarApi } from '@/services/api/shared/komentar/tambah'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import {
@@ -49,7 +50,9 @@ export default function Komentar({
   invalidateQueries,
   className,
 }: KomentarProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [isLoadMore, setIsLoadMore] = useState(firstShow >= showPer)
   const [hasMoreThanFirst, setHasMoreThanFirst] = useState(firstShow >= showPer)
   const [komentarLv1, setKomentarLv1] = useState('')
@@ -67,7 +70,8 @@ export default function Komentar({
   >({
     queryKey: queryKeyFirstLv1,
     queryFn: async () => {
-      const { data } = await listKomentarParentAction({
+      const { data } = await listKomentarParentApi({
+        jwt,
         perPage: firstShow,
         idKelas,
         idAktifitas,
@@ -104,7 +108,8 @@ export default function Komentar({
   } = useInfiniteQuery({
     queryKey: queryKeyLv1,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKomentarParentAction({
+      const { data } = await listKomentarParentApi({
+        jwt,
         page,
         perPage: showPer,
         idKelas,
@@ -146,7 +151,8 @@ export default function Komentar({
     queries: listLv1.map((item) => ({
       queryKey: ['shared.komentar.lv2', item.id],
       queryFn: async () => {
-        const { data } = await listKomentarChildAction({
+        const { data } = await listKomentarChildApi({
+          jwt,
           idKelas,
           idAktifitas,
           idParent: item.id,
@@ -175,7 +181,7 @@ export default function Komentar({
     if (!komentarLv1) return
 
     await handleActionWithToast(
-      tambahKomentarAction(idKelas, idAktifitas, komentarLv1),
+      tambahKomentarApi(jwt, idKelas, idAktifitas, komentarLv1),
       {
         loading: 'Memberi komentar...',
         onStart: () => setIsSendingLv1(true),
@@ -199,7 +205,7 @@ export default function Komentar({
     if (!komentarLv2 || !parentLv2?.id) return
 
     await handleActionWithToast(
-      tambahKomentarAction(idKelas, idAktifitas, komentarLv2, parentLv2.id),
+      tambahKomentarApi(jwt, idKelas, idAktifitas, komentarLv2, parentLv2.id),
       {
         loading: 'Memberi komentar...',
         success: 'Komentar ditambahkan',

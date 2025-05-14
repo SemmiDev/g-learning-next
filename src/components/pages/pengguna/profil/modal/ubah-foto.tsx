@@ -1,4 +1,3 @@
-import { ubahFotoAction } from '@/services/api/pengguna/profil/ubah-foto'
 import {
   ControlledUploadFile,
   Form,
@@ -6,6 +5,8 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { ubahFotoApi } from '@/services/api/pengguna/profil/ubah-foto'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -30,15 +31,17 @@ type UbahFotoModalProps = {
 }
 
 export default function UbahFotoModal({ show, setShow }: UbahFotoModalProps) {
-  const [formError, setFormError] = useState<string>()
-  const { update: updateSession } = useSession()
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+  const { update: updateSession } = useSession()
+
+  const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     const form = new FormData()
     form.append('foto', data.foto)
 
-    await handleActionWithToast(ubahFotoAction(form), {
+    await handleActionWithToast(ubahFotoApi(jwt, form), {
       loading: 'Mengunggah...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

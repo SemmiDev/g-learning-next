@@ -35,7 +35,7 @@ export const tableSesiTugasAction = async ({
   search = '',
   sort,
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${params?.idKelas}/tugas/aktifitas-penugasan`,
     {

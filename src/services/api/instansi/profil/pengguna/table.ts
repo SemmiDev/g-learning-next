@@ -1,5 +1,5 @@
-import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { ControlledAsyncTableApiProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 type DataType = {
   id: string
@@ -11,13 +11,15 @@ type DataType = {
   batas_penyimpanan: number
 }
 
-export const tablePenggunaAction = async ({
+export const tablePenggunaApi = async ({
+  jwt,
   page = 1,
   search = '',
   sort,
-}: ControlledAsyncTableActionProps) =>
-  makeJwtGetRequestTableAction<DataType>(
+}: ControlledAsyncTableApiProps) =>
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/instansi/pengguna`,
+    jwt,
     {
       current_page: page,
       keyword: search,

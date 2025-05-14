@@ -1,4 +1,3 @@
-import { shareTugasBankMateriAction } from '@/services/api/pengguna/bank-materi/share-tugas'
 import {
   ControlledDatePicker,
   ControlledKelas,
@@ -12,6 +11,8 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { shareTugasBankMateriApi } from '@/services/api/pengguna/bank-materi/share-tugas'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { objectRequired } from '@/utils/validations/refine'
@@ -60,6 +61,8 @@ export default function ShareTugasModal({
   show,
   onHide,
 }: ShareTugasModalProps) {
+  const jwt = useSessionJwt()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<ShareTugasFormSchema> = async (data) => {
@@ -67,7 +70,7 @@ export default function ShareTugasModal({
     if (!idKelas || !materi) return
 
     await handleActionWithToast(
-      shareTugasBankMateriAction(idKelas, materi, data),
+      shareTugasBankMateriApi(jwt, idKelas, materi, data),
       {
         loading: 'Membagikan tugas...',
         onStart: () => setFormError(undefined),

@@ -1,5 +1,3 @@
-import { lihatKategoriMateriAction } from '@/services/api/shared/materi/lihat-kategori'
-import { ubahKategoriMateriAction } from '@/services/api/shared/materi/ubah-kategori'
 import {
   CardSeparator,
   ControlledInput,
@@ -9,6 +7,9 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKategoriMateriApi } from '@/services/api/shared/materi/lihat-kategori'
+import { ubahKategoriMateriApi } from '@/services/api/shared/materi/ubah-kategori'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -35,7 +36,9 @@ export default function UbahKategoriModal({
   show,
   onHide,
 }: UbahKategoriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['shared.materi.kategori.ubah', id]
@@ -49,7 +52,7 @@ export default function UbahKategoriModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatKategoriMateriAction(id)
+      const { data } = await lihatKategoriMateriApi(jwt, id)
 
       return {
         nama: data?.nama_kategori,
@@ -60,7 +63,7 @@ export default function UbahKategoriModal({
   const onSubmit: SubmitHandler<UbahKategoriFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKategoriMateriAction(id, data), {
+    await handleActionWithToast(ubahKategoriMateriApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

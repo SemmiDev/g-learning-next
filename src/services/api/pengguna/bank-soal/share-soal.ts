@@ -1,16 +1,18 @@
 import { ShareSoalUjianFormSchema } from '@/components/pages/pengguna/bank-soal/kategori/modal/share-soal-ujian'
 import { SoalType } from '@/components/pages/pengguna/bank-soal/kategori/soal-card'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const shareSoalUjianAction = async (
+export const shareSoalUjianApi = async (
+  jwt: string,
   idKelas: string,
   soal: SoalType,
   data: ShareSoalUjianFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas`,
+    jwt,
     {
       judul: data.judul,
       jenis: mustBe(data.jenis?.value, ['Tugas', 'UTS', 'UAS'], 'Tugas'),

@@ -1,14 +1,16 @@
 import { TambahFolderFormSchema } from '@/components/pages/pengguna/pustaka-media/modal/tambah-folder'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const tambahFolderAction = async (
+export const tambahFolderApi = async (
+  jwt: string,
   data: TambahFolderFormSchema,
   googleDrive?: boolean,
   idInstansi?: string,
   idFolder?: string
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/pustaka-media/folder`,
+    jwt,
     {
       nama: data.nama,
       deskripsi: data.deskripsi,

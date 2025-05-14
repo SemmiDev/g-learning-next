@@ -1,6 +1,6 @@
 import { TipeSoalType } from '@/components/pages/pengguna/bank-soal/kategori/soal/body'
 import { PILIHAN_JAWABAN } from '@/config/const'
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 import { switchCaseObject } from '@/utils/switch-case'
 
 export type DataType = {
@@ -41,9 +41,14 @@ type ListDataType = {
   list: DataType[]
 }
 
-export const listSoalAction = async (idBankSoal: string, tipe?: TipeSoalType) =>
-  makeJwtGetRequestAction<ListDataType>(
+export const listSoalApi = async (
+  jwt: string,
+  idBankSoal: string,
+  tipe?: TipeSoalType
+) =>
+  makeJwtGetRequestApi<ListDataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${idBankSoal}/soal`,
+    jwt,
     {
       tipe: switchCaseObject(
         tipe,

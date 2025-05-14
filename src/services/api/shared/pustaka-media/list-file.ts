@@ -1,11 +1,6 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { SortType } from '@/hooks/use-table-async'
-import {
-  makeActionResponse,
-  makeJwtGetRequestTableAction,
-  makeTableActionResponse,
-} from '@/utils/action'
-import { getServerSession } from 'next-auth'
+import { makeActionResponse, makeTableActionResponse } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id: string
@@ -26,7 +21,8 @@ export type DataType = {
   total_files: number
 }
 
-export const listFileAction = async ({
+export const listFileApi = async ({
+  jwt,
   page = 1,
   search = '',
   personal,
@@ -36,6 +32,7 @@ export const listFileAction = async ({
   sort,
   jenis,
 }: {
+  jwt: string
   page?: number
   search?: string
   personal?: boolean
@@ -45,11 +42,11 @@ export const listFileAction = async ({
   sort?: SortType
   jenis?: string
 }) => {
-  const { user } = (await getServerSession(authOptions)) ?? {}
-  if (!user) return makeTableActionResponse<DataType>(makeActionResponse(false))
+  if (!jwt) return makeTableActionResponse<DataType>(makeActionResponse(false))
 
-  return await makeJwtGetRequestTableAction<DataType>(
+  return await makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/pustaka-media`,
+    jwt,
     {
       current_page: page,
       keyword: search,

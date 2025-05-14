@@ -1,6 +1,4 @@
-import { tambahBankMateriAction } from '@/services/api/pengguna/bank-materi/tambah'
 import {
-  CardSeparator,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
@@ -13,6 +11,8 @@ import {
   RadioGroupOptionType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahBankMateriApi } from '@/services/api/pengguna/bank-materi/tambah'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -55,14 +55,16 @@ export default function TambahMateriModal({
   show = false,
   setShow,
 }: TambahMateriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahMateriFormSchema> = async (data) => {
-    await handleActionWithToast(tambahBankMateriAction(idKategori, data), {
+    await handleActionWithToast(tambahBankMateriApi(jwt, idKategori, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

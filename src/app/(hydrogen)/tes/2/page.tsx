@@ -48,48 +48,48 @@ const options: SelectOptionType[] = [
 ]
 
 const formSchema = z.object({
-  // tesInput: z.string().optional(),
-  // tesTextarea: z.string().pipe(required),
-  // tesInputNumber: z.number().nullish(),
-  // tesInputPhone: z.string().optional(),
-  // tesNumber: z.number().nullish(),
-  // tesRupiah: z.number(),
+  tesInput: z.string().optional(),
+  tesTextarea: z.string().pipe(required),
+  tesInputNumber: z.number().nullish(),
+  tesInputPhone: z.string().optional(),
+  tesNumber: z.number().nullish(),
+  tesRupiah: z.number(),
   tesSelect: z.any().superRefine(objectRequired),
   tesAsyncSelect: z.any().superRefine(objectRequired),
-  // tesMedia: z.array(z.any()).superRefine(arrayRequired),
-  // tesMateri: z.any().superRefine(objectRequired),
-  // tesSoal: z.any().superRefine(objectRequired),
-  // tesKelas: z.any().superRefine(objectRequired),
-  // tesPesertaKelas: z.any().superRefine(objectRequired),
-  // tesDate: z.date(),
-  // tesFiles: z.array(z.any()).superRefine(arrayRequired),
-  // tesSwitch: z.boolean(),
+  tesMedia: z.array(z.any()).superRefine(arrayRequired),
+  tesMateri: z.any().superRefine(objectRequired),
+  tesSoal: z.any().superRefine(objectRequired),
+  tesKelas: z.any().superRefine(objectRequired),
+  tesPesertaKelas: z.any().superRefine(objectRequired),
+  tesDate: z.date(),
+  tesFiles: z.array(z.any()).superRefine(arrayRequired),
+  tesSwitch: z.boolean(),
 })
 
 // type FormSchema = z.infer<typeof formSchema>
 type FormSchema = {
-  // tesInput?: string
-  // tesTextarea?: string
-  // tesInputNumber?: number | null
-  // tesInputPhone?: string
-  // tesNumber?: number | null
-  // tesRupiah?: number | string
+  tesInput?: string
+  tesTextarea?: string
+  tesInputNumber?: number | null
+  tesInputPhone?: string
+  tesNumber?: number | null
+  tesRupiah?: number | string
   tesSelect?: SelectOptionType
   tesAsyncSelect?: SelectOptionType
-  // tesMedia?: PustakaMediaFileType[]
-  // tesMateri?: MateriItemType
-  // tesSoal?: PaketSoalItemType
-  // tesKelas?: KelasItemType
-  // tesPesertaKelas?: PesertaKelasItemType
-  // tesDate?: Date
-  // tesFiles?: UploadFileType[]
-  // tesSwitch: boolean
+  tesMedia?: PustakaMediaFileType[]
+  tesMateri?: MateriItemType
+  tesSoal?: PaketSoalItemType
+  tesKelas?: KelasItemType
+  tesPesertaKelas?: PesertaKelasItemType
+  tesDate?: Date
+  tesFiles?: UploadFileType[]
+  tesSwitch: boolean
 }
 
 const initialValues: FormSchema = {
-  // tesInputNumber: 900,
-  // tesNumber: 900,
-  // tesSwitch: false,
+  tesInputNumber: 900,
+  tesNumber: 900,
+  tesSwitch: false,
 }
 
 export default function Tes2Page() {
@@ -111,29 +111,29 @@ export default function Tes2Page() {
       {({ control, formState: { errors, isSubmitting } }) => (
         <div className="flex flex-col gap-y-4">
           <div>{JSON.stringify(errors)}</div>
-          {/* <ControlledInput
+          <ControlledInput
             name="tesInput"
             control={control}
             label="Input"
             placeholder="Input disini"
             errors={errors}
-          /> */}
-          {/* <ControlledTextarea
+          />
+          <ControlledTextarea
             name="tesTextarea"
             control={control}
             label="Textarea"
             placeholder="Textarea disini"
             errors={errors}
             required
-          /> */}
-          {/* <ControlledInputNumber
+          />
+          <ControlledInputNumber
             name="tesInputNumber"
             control={control}
             label="Input Number"
             placeholder="Input disini"
             errors={errors}
-          /> */}
-          {/* <ControlledInput
+          />
+          <ControlledInput
             name="tesInputPhone"
             control={control}
             type="number"
@@ -141,20 +141,20 @@ export default function Tes2Page() {
             placeholder="Input disini"
             errors={errors}
             phoneNumber
-          /> */}
-          {/* <ControlledInputNumberSeparator
+          />
+          <ControlledInputNumberSeparator
             name="tesNumber"
             control={control}
             errors={errors}
             label="Tes Number"
             placeholder="Input disini"
-          /> */}
-          {/* <ControlledInputRupiah
+          />
+          <ControlledInputRupiah
             name="tesRupiah"
             control={control}
             errors={errors}
             label="Tes Rupiah"
-          /> */}
+          />
           <ControlledSelect
             name="tesSelect"
             control={control}
@@ -177,47 +177,48 @@ export default function Tes2Page() {
             errors={errors}
             isClearable
           />
-          {/* <ControlledPustakaMedia
+          <ControlledPustakaMedia
             name="tesMedia"
             control={control}
             label="Pilih Berkas"
             errors={errors}
             multiple
-          /> */}
-          {/* <ControlledMateri
+          />
+          <ControlledMateri
             name="tesMateri"
             control={control}
             label="Pilih Materi"
             errors={errors}
-          /> */}
-          {/* <ControlledPaketSoal
+          />
+          <ControlledPaketSoal
             name="tesSoal"
             control={control}
             label="Pilih Paket Soal"
             errors={errors}
-          /> */}
-          {/* <ControlledKelas
+          />
+          <ControlledKelas
             name="tesKelas"
             control={control}
             label="Pilih Kelas"
             errors={errors}
             clearable
-          /> */}
-          {/* <ControlledPesertaKelas
-            idKelas="01J8KHTCDEHV9MVGXS8DWQGWD5"
+          />
+          <ControlledPesertaKelas
+            idKelas="01J9JYJ0PP6VPZR7SMERKDWCN1"
             name="tesPesertaKelas"
             control={control}
             label="Pilih Peserta Kelas"
             errors={errors}
             clearable
-          /> */}
-          {/* <ControlledDatePicker
+          />
+          <ControlledDatePicker
             name="tesDate"
             control={control}
             label="Datepicker"
+            placeholder="Pilih Tanggal"
             errors={errors}
-          /> */}
-          {/* <ControlledUploadFile
+          />
+          <ControlledUploadFile
             name="tesFiles"
             control={control}
             desc="(Tipe berkas yang bisa di-upload adalah: xls, xlsx dengan ukuran
@@ -225,13 +226,13 @@ export default function Tes2Page() {
             maxSize={{ size: 100, unit: 'MB' }}
             errors={errors}
             multiple
-          /> */}
-          {/* <ControlledSwitch
+          />
+          <ControlledSwitch
             name="tesSwitch"
             control={control}
             label="Tes Switch"
             errors={errors}
-          /> */}
+          />
           <ButtonSubmit className="flex-1" isSubmitting={isSubmitting}>
             Submit
           </ButtonSubmit>

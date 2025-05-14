@@ -1,4 +1,3 @@
-import { tambahKategoriMateriAction } from '@/services/api/shared/materi/tambah-kategori'
 import {
   CardSeparator,
   ControlledInput,
@@ -7,6 +6,8 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahKategoriMateriApi } from '@/services/api/shared/materi/tambah-kategori'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -33,11 +34,13 @@ export default function TambahKategoriModal({
   show = false,
   setShow,
 }: TambahKategoriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahKategoriFormSchema> = async (data) => {
-    await handleActionWithToast(tambahKategoriMateriAction(data), {
+    await handleActionWithToast(tambahKategoriMateriApi(jwt, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

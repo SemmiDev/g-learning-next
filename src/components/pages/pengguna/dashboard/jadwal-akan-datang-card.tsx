@@ -1,4 +1,3 @@
-import { tableJadwalAkanDatangAction } from '@/services/api/pengguna/dashboard/table-jadwal-akan-datang'
 import {
   Button,
   Card,
@@ -12,6 +11,8 @@ import {
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tableJadwalAkanDatangApi } from '@/services/api/pengguna/dashboard/table-jadwal-akan-datang'
 import cn from '@/utils/class-names'
 import { getWaktuIndonesia } from '@/utils/client-timezone'
 import { useQuery } from '@tanstack/react-query'
@@ -24,6 +25,8 @@ type JadwalAkanDatangCardProps = {
 export default function JadwalAkanDatangCard({
   className,
 }: JadwalAkanDatangCardProps) {
+  const jwt = useSessionJwt()
+
   const {
     data = [],
     isLoading,
@@ -31,7 +34,7 @@ export default function JadwalAkanDatangCard({
   } = useQuery({
     queryKey: ['pengguna.dashboard.table-kelas-akan-datang'],
     queryFn: async () => {
-      const { data } = await tableJadwalAkanDatangAction()
+      const { data } = await tableJadwalAkanDatangApi(jwt)
 
       return data?.sort(
         (a, b) => Date.parse(a.tanggal_mulai) - Date.parse(b.tanggal_mulai)

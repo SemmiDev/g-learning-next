@@ -1,12 +1,12 @@
-import { tambahFolderAction } from '@/services/api/shared/pustaka-media/tambah-folder'
 import {
-  CardSeparator,
   ControlledInput,
   Form,
   FormError,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahFolderApi } from '@/services/api/shared/pustaka-media/tambah-folder'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -43,12 +43,14 @@ export default function TambahFolderModal({
   idInstansi,
   idFolder,
 }: TambahModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahFolderFormSchema> = async (data) => {
     await handleActionWithToast(
-      tambahFolderAction(data, googleDrive, idInstansi, idFolder),
+      tambahFolderApi(jwt, data, googleDrive, idInstansi, idFolder),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

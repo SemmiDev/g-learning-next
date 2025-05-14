@@ -1,13 +1,15 @@
 import { TambahMateriFormSchema } from '@/components/shared/materi/modal/tambah-materi'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahMateriAction = async (
+export const tambahMateriApi = async (
+  jwt: string,
   idKategori: string,
   data: TambahMateriFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${idKategori}/bank-ajar`,
+    jwt,
     {
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),

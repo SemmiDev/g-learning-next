@@ -1,4 +1,3 @@
-import { tambahBankSoalAction } from '@/services/api/pengguna/bank-soal/tambah'
 import {
   ControlledInput,
   ControlledInputNumber,
@@ -10,6 +9,8 @@ import {
   Text,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahBankSoalApi } from '@/services/api/pengguna/bank-soal/tambah'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -55,14 +56,16 @@ export default function TambahBankSoalModal({
   show = false,
   setShow,
 }: TambahBankSoalModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahBankSoalFormSchema> = async (data) => {
-    await handleActionWithToast(tambahBankSoalAction(idKategori, data), {
+    await handleActionWithToast(tambahBankSoalApi(jwt, idKategori, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

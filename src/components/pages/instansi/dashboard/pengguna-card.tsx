@@ -1,4 +1,3 @@
-import { tablePenggunaAction } from '@/services/api/instansi/dashboard/table-pengguna'
 import {
   ActionIconTooltip,
   Card,
@@ -12,6 +11,7 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tablePenggunaApi } from '@/services/api/instansi/dashboard/table-pengguna'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { angka } from '@/utils/text'
@@ -47,7 +47,7 @@ export default function DashboardPenggunaCard({
     onSearch,
   } = useTableAsync({
     queryKey: ['instansi.dashboard.table-pengguna'],
-    action: tablePenggunaAction,
+    action: tablePenggunaApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

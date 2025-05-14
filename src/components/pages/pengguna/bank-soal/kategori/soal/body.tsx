@@ -1,9 +1,5 @@
 'use client'
 
-import { lihatBankSoalAction } from '@/services/actions/pengguna/bank-soal/lihat'
-import { hapusSoalAction } from '@/services/api/pengguna/bank-soal/soal/hapus'
-import { listSoalAction } from '@/services/api/pengguna/bank-soal/soal/list'
-import { tambahSoalAction } from '@/services/api/pengguna/bank-soal/soal/tambah'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -27,7 +23,12 @@ import {
 import ButtonSubmit from '@/components/ui/button/submit'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { PILIHAN_JAWABAN } from '@/config/const'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { lihatBankSoalApi } from '@/services/api/pengguna/bank-soal/lihat'
+import { hapusSoalApi } from '@/services/api/pengguna/bank-soal/soal/hapus'
+import { listSoalApi } from '@/services/api/pengguna/bank-soal/soal/list'
+import { tambahSoalApi } from '@/services/api/pengguna/bank-soal/soal/tambah'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { removeIndexFromList } from '@/utils/list'
@@ -110,7 +111,9 @@ const initialValues: TambahSoalFormSchema = {
 }
 
 export default function KelolaSoalBody() {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [tipeSoal, setTipeSoal] = useState<TipeSoalType>(
     initialValues.tipe.value as TipeSoalType
   )
@@ -141,7 +144,8 @@ export default function KelolaSoalBody() {
   const { data: dataBankSoal } = useQuery({
     queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatBankSoalAction,
+      lihatBankSoalApi,
+      jwt || null,
       idKategori,
       idBankSoal
     ),
@@ -158,7 +162,7 @@ export default function KelolaSoalBody() {
   const { data: listSoalPilihan = [], isLoading: isLoadingPilihan } = useQuery({
     queryKey: queryKeyPilihan,
     queryFn: async () => {
-      const { data } = await listSoalAction(idBankSoal, 'single-choice')
+      const { data } = await listSoalApi(jwt, idBankSoal, 'single-choice')
 
       return data?.list ?? []
     },
@@ -168,7 +172,7 @@ export default function KelolaSoalBody() {
   const { data: listSoalEsai = [], isLoading: isLoadingEsai } = useQuery({
     queryKey: queryKeyEsai,
     queryFn: async () => {
-      const { data } = await listSoalAction(idBankSoal, 'essay')
+      const { data } = await listSoalApi(jwt, idBankSoal, 'essay')
 
       return data?.list ?? []
     },
@@ -192,7 +196,7 @@ export default function KelolaSoalBody() {
   )
 
   const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
-    await handleActionWithToast(tambahSoalAction(idBankSoal, data), {
+    await handleActionWithToast(tambahSoalApi(jwt, idBankSoal, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
@@ -211,7 +215,7 @@ export default function KelolaSoalBody() {
   const handleHapus = () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusSoalAction(idBankSoal, idHapus), {
+    handleActionWithToast(hapusSoalApi(jwt, idBankSoal, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)

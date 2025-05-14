@@ -1,11 +1,13 @@
 import { TambahKategoriFormSchema } from '@/components/shared/materi/modal/tambah-kategori'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const tambahKategoriMateriAction = async (
+export const tambahKategoriMateriApi = async (
+  jwt: string,
   data: TambahKategoriFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar`,
+    jwt,
     {
       nama_kategori: data.nama,
     }

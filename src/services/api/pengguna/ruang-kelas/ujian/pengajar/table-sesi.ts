@@ -34,7 +34,7 @@ export const tableSesiUjianAction = async ({
   search = '',
   sort,
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${params?.idKelas}/ujian/aktifitas-ujian`,
     {

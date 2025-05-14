@@ -1,6 +1,7 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const kirimEmailVerifikasiAction = async (id: string) =>
-  makeJwtPostRequestAction(
-    `${process.env.NEXT_PUBLIC_API_URL}/email/${id}/kirim-ulang-verifikasi-email`
+export const kirimEmailVerifikasiApi = async (jwt: string, id: string) =>
+  makeJwtPostRequestApi(
+    `${process.env.NEXT_PUBLIC_API_URL}/email/${id}/kirim-ulang-verifikasi-email`,
+    jwt
   )

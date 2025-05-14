@@ -1,4 +1,4 @@
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   bank_ajar: {
@@ -30,19 +30,22 @@ export type DataType = {
   total_file_bank_ajar: number
 }
 
-export const listMateriAction = async ({
+export const listMateriApi = async ({
+  jwt,
   page = 1,
   search = '',
   idKategori,
   tipe,
 }: {
+  jwt: string
   page?: number
   search?: string
   idKategori: string
   tipe?: 'Materi' | 'Penugasan'
 }) =>
-  makeJwtGetRequestTableAction<DataType>(
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${idKategori}/bank-ajar`,
+    jwt,
     {
       current_page: page,
       keyword: search,

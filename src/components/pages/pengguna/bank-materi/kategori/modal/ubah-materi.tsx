@@ -1,5 +1,3 @@
-import { lihatBankMateriAction } from '@/services/api/pengguna/bank-materi/lihat'
-import { ubahBankMateriAction } from '@/services/api/pengguna/bank-materi/ubah'
 import {
   ControlledInput,
   ControlledPustakaMedia,
@@ -13,6 +11,9 @@ import {
   TextBordered,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatBankMateriApi } from '@/services/api/pengguna/bank-materi/lihat'
+import { ubahBankMateriApi } from '@/services/api/pengguna/bank-materi/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { required } from '@/utils/validations/pipe'
@@ -46,8 +47,10 @@ export default function UbahMateriModal({
   show,
   onHide,
 }: UbahMateriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -63,7 +66,7 @@ export default function UbahMateriModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBankMateriAction(idKategori, id)
+      const { data } = await lihatBankMateriApi(jwt, idKategori, id)
 
       return {
         tipe: data?.bank_ajar.tipe ?? 'Materi',
@@ -89,7 +92,7 @@ export default function UbahMateriModal({
   const onSubmit: SubmitHandler<UbahMateriFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBankMateriAction(idKategori, id, data), {
+    await handleActionWithToast(ubahBankMateriApi(jwt, idKategori, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

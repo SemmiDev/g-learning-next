@@ -8,7 +8,7 @@ export const listPaketPenggunaAction = async ({
   page = 1,
   search = '',
   sort,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.API_URL}/paket-pengguna`,
     {

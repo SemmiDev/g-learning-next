@@ -1,5 +1,5 @@
 import { PILIHAN_JAWABAN } from '@/config/const'
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 type DataType = {
   id: string
@@ -35,7 +35,12 @@ type DataType = {
   bobot_essay: number | null
 }
 
-export const lihatSoalAction = async (idKategori: string, id: string) =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${idKategori}/soal/${id}`
+export const lihatSoalApi = async (
+  jwt: string,
+  idKategori: string,
+  id: string
+) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${idKategori}/soal/${id}`,
+    jwt
   )

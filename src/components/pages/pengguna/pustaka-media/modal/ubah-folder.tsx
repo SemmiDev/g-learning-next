@@ -1,5 +1,3 @@
-import { lihatBerkasAction } from '@/services/api/shared/pustaka-media/lihat-berkas'
-import { ubahFolderAction } from '@/services/api/shared/pustaka-media/ubah-folder'
 import {
   ControlledInput,
   Form,
@@ -8,6 +6,9 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatBerkasApi } from '@/services/api/shared/pustaka-media/lihat-berkas'
+import { ubahFolderApi } from '@/services/api/shared/pustaka-media/ubah-folder'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -38,7 +39,9 @@ export default function UbahFolderModal({
   onHide,
   refetchKeys,
 }: UbahModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['pengguna.pustaka-media.files.ubah-folder', id]
@@ -52,7 +55,7 @@ export default function UbahFolderModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBerkasAction(id)
+      const { data } = await lihatBerkasApi(jwt, id)
 
       return {
         nama: data?.nama,
@@ -64,7 +67,7 @@ export default function UbahFolderModal({
   const onSubmit: SubmitHandler<UbahFolderFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahFolderAction(id, data), {
+    await handleActionWithToast(ubahFolderApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

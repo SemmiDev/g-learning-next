@@ -1,12 +1,13 @@
 'use client'
 
-import { gabungAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
-import { lihatUndanganKelasAction } from '@/services/api/pengguna/undangan-kelas/lihat'
 import { Button, ButtonSubmit, Card, Loader, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { gabungAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
+import { lihatUndanganKelasApi } from '@/services/api/pengguna/undangan-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -16,6 +17,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function UndanganKelasBody() {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { id: idPengguna } = useSessionPengguna()
@@ -27,7 +29,10 @@ export default function UndanganKelasBody() {
   const { data, isLoading } = useQuery({
     queryKey: ['undangan-kelas.detail', kodeKelas],
     queryFn: async () => {
-      const { data, success, error } = await lihatUndanganKelasAction(kodeKelas)
+      const { data, success, error } = await lihatUndanganKelasApi(
+        jwt,
+        kodeKelas
+      )
 
       if (!success) {
         toast.error('Link undangan kelas tidak valid')
@@ -60,7 +65,7 @@ export default function UndanganKelasBody() {
   })
 
   const handleGabungKelas = () => {
-    handleActionWithToast(gabungAnggotaKelasAction(kodeKelas), {
+    handleActionWithToast(gabungAnggotaKelasApi(jwt, kodeKelas), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
       onStart: () => setIsSubmitting(true),

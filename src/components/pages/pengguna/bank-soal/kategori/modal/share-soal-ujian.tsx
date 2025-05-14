@@ -1,4 +1,3 @@
-import { shareSoalUjianAction } from '@/services/api/pengguna/bank-soal/share-soal'
 import {
   ControlledDatePicker,
   ControlledInput,
@@ -18,6 +17,8 @@ import {
   Time,
 } from '@/components/ui'
 import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { shareSoalUjianApi } from '@/services/api/pengguna/bank-soal/share-soal'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { selectOption } from '@/utils/object'
@@ -103,7 +104,9 @@ export default function ShareSoalUjianModal({
   show,
   onHide,
 }: ShareSoalUjianModalProps) {
+  const jwt = useSessionJwt()
   const size = useAutoSizeExtraLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const initialValues: ShareSoalUjianFormSchema = {
@@ -119,7 +122,7 @@ export default function ShareSoalUjianModal({
     const idKelas = data.kelas?.id
     if (!idKelas || !soal) return
 
-    await handleActionWithToast(shareSoalUjianAction(idKelas, soal, data), {
+    await handleActionWithToast(shareSoalUjianApi(jwt, idKelas, soal, data), {
       loading: 'Membagikan ujian...',
       onStart: () => setFormError(undefined),
       onSuccess: () => onHide(),

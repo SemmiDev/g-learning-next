@@ -1,6 +1,5 @@
 'use client'
 
-import { listPesertaKelasAction } from '@/services/api/shared/peserta-kelas/list'
 import {
   Button,
   CardSeparator,
@@ -10,6 +9,8 @@ import {
   Text,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listPesertaKelasApi } from '@/services/api/shared/peserta-kelas/list'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
@@ -33,6 +34,7 @@ export default function PilihPesertaKelas({
   setShow,
   onSelect,
 }: PilihPesertaKelasProps) {
+  const jwt = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
 
@@ -51,7 +53,8 @@ export default function PilihPesertaKelas({
   } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listPesertaKelasAction({
+      const { data } = await listPesertaKelasApi({
+        jwt,
         page,
         search,
         idKelas,

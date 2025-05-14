@@ -1,5 +1,3 @@
-import { dataProfilAction } from '@/services/actions/instansi/profil/detail/data'
-import { ubahSemesterAktifAction } from '@/services/api/instansi/profil/detail/ubah-semester-aktif'
 import {
   ControlledSelect,
   Form,
@@ -9,8 +7,11 @@ import {
   ModalFooterButtons,
   SelectOptionType,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
+import { ubahSemesterAktifApi } from '@/services/api/instansi/profil/detail/ubah-semester-aktif'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -48,12 +49,14 @@ export default function UbahSemesterAktifModal({
   show,
   setShow,
 }: UbahSemesterAktifModalProps) {
-  const [formError, setFormError] = useState<string>()
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
+  const [formError, setFormError] = useState<string>()
 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryData(dataProfilAction),
+    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
   })
 
   const semesterAktif = data?.instansi.semester_aktif
@@ -65,7 +68,7 @@ export default function UbahSemesterAktifModal({
   }
 
   const onSubmit: SubmitHandler<UbahSemesterAktifFormSchema> = async (data) => {
-    await handleActionWithToast(ubahSemesterAktifAction(data), {
+    await handleActionWithToast(ubahSemesterAktifApi(jwt, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

@@ -1,9 +1,11 @@
-import { aktifSinkronAction } from '@/services/api/instansi/profil/sinkron/aktif'
-import { dataSinkronAction } from '@/services/actions/instansi/profil/sinkron/data'
-import { ubahSinkronSmartAction } from '@/services/api/instansi/profil/sinkron/tipe-smart'
 import { ControlledInput, Form, ModalFooterButtons } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { aktifSinkronApi } from '@/services/api/instansi/profil/sinkron/aktif'
+import { dataSinkronApi } from '@/services/api/instansi/profil/sinkron/data'
+import { ubahSinkronSmartApi } from '@/services/api/instansi/profil/sinkron/tipe-smart'
+import { useSyncStore } from '@/stores/sync'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoGci from '@public/images/logo/gci.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -11,7 +13,6 @@ import { SubmitHandler } from 'react-hook-form'
 import AktifGroupButton from './aktif-group-button'
 import SinkronCardContainer from './card-container'
 import SinkronSmartButton from './smart-sync-button'
-import { useSyncStore } from '@/stores/sync'
 
 const TIPE = 'Smart'
 
@@ -30,12 +31,13 @@ type SinkronSmartCardProps = {
 }
 
 export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing } = useSyncStore()
 
   const { data } = useQuery({
     queryKey: queryKey,
-    queryFn: makeSimpleQueryData(dataSinkronAction),
+    queryFn: makeSimpleQueryDataWithParams(dataSinkronApi, jwt),
   })
 
   type DataType = NonNullable<typeof data>
@@ -47,7 +49,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
   const active = data?.tipe_sinkron === TIPE
 
   const onSubmit: SubmitHandler<SinkronSmartFormSchema> = async (data) => {
-    await handleActionWithToast(ubahSinkronSmartAction(data), {
+    await handleActionWithToast(ubahSinkronSmartApi(jwt, data), {
       loading: 'Menyimpan...',
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey })
@@ -63,7 +65,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
       return
     }
 
-    await handleActionWithToast(aktifSinkronAction(val ? TIPE : ''), {
+    await handleActionWithToast(aktifSinkronApi(jwt, val ? TIPE : ''), {
       success: `${
         val ? 'Mengaktifkan' : 'Menonaktifkan'
       } sinkronasi Smart Campus.`,

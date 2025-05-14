@@ -1,14 +1,7 @@
 'use server'
 
+import { DataType } from '@/services/api/instansi/profil/sinkron/data'
 import { makeJwtGetRequestAction } from '@/utils/action'
-
-export type DataType = {
-  tipe_sinkron: string
-  url_ws_feeder: string
-  username_feeder: string
-  kata_sandi_feeder: string
-  token_smart: string
-}
 
 export const dataSinkronAction = async () =>
   makeJwtGetRequestAction<DataType>(

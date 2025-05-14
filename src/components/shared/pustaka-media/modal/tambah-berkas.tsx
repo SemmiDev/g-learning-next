@@ -1,4 +1,3 @@
-import { tambahBerkasAction } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import {
   Button,
   CardSeparator,
@@ -14,6 +13,8 @@ import {
 } from '@/components/ui'
 import { ACCEPT_FILE_EXTENSIONS, ACCEPT_IMAGE_EXTENSIONS } from '@/config/const'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahBerkasApi } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import { handleActionWithToast } from '@/utils/action'
 import {
   checkSupportedLinkImage,
@@ -85,8 +86,10 @@ export default function TambahBerkasModal({
   idFolder,
   imageOnly = false,
 }: TambahModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const tipeOptions: SelectOptionType[] = imageOnly
@@ -118,7 +121,7 @@ export default function TambahBerkasModal({
       }
     }
 
-    await handleActionWithToast(tambahBerkasAction(form), {
+    await handleActionWithToast(tambahBerkasApi(jwt, form), {
       loading: 'Menggunggah...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

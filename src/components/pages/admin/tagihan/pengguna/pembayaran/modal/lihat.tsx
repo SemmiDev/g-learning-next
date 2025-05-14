@@ -27,7 +27,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
     queryKey: ['admin.tagihan-pengguna.pembayaran.table.ubah', idTagihan, id],
     queryFn: makeSimpleQueryDataWithParams(
       lihatPembayaranTagihanPenggunaApi,
-      jwt ?? null,
+      jwt || null,
       idTagihan,
       id ?? null
     ),

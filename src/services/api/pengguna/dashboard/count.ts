@@ -1,4 +1,4 @@
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 export type DataType = {
   jumlah_kelas: number
@@ -7,7 +7,8 @@ export type DataType = {
   jumlah_bank_soal: number
 }
 
-export const dashboardCountAction = async () =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/dashboard/statistik`
+export const dashboardCountApi = async (jwt: string) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/dashboard/statistik`,
+    jwt
   )

@@ -1,5 +1,3 @@
-import { dataProfilAction } from '@/services/actions/pengguna/profil/data'
-import { ubahProfilAction } from '@/services/api/pengguna/profil/ubah-data'
 import {
   ControlledInput,
   ControlledQuillEditor,
@@ -12,9 +10,12 @@ import {
   RadioGroupOptionType,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataProfilApi } from '@/services/api/pengguna/profil/data'
+import { ubahProfilApi } from '@/services/api/pengguna/profil/ubah-data'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -51,14 +52,16 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ show, setShow }: UbahModalProps) {
-  const size = useAutoSizeMediumModal()
-  const [formError, setFormError] = useState<string>()
-  const { update: updateSession } = useSession()
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+  const { update: updateSession } = useSession()
+  const size = useAutoSizeMediumModal()
+
+  const [formError, setFormError] = useState<string>()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryData(dataProfilAction),
+    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
   })
 
   const initialValues: UbahProfilFormSchema = {
@@ -71,7 +74,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
   }
 
   const onSubmit: SubmitHandler<UbahProfilFormSchema> = async (data) => {
-    await handleActionWithToast(ubahProfilAction(data), {
+    await handleActionWithToast(ubahProfilApi(jwt, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

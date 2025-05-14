@@ -1,6 +1,5 @@
 'use client'
 
-import { simpanDataProfilAction } from '@/services/api/pengguna/lengkapi-profil/simpan'
 import {
   ButtonSubmit,
   Card,
@@ -15,6 +14,8 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { simpanDataProfilApi } from '@/services/api/pengguna/lengkapi-profil/simpan'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -51,10 +52,11 @@ const jenisKelaminOptions: RadioGroupOptionType[] = [
 const initialValues: LengkapiProfilFormSchema = {}
 
 export default function LengkapiProfilBody() {
+  const jwt = useSessionJwt()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<LengkapiProfilFormSchema> = async (data) => {
-    handleActionWithToast(simpanDataProfilAction(data), {
+    handleActionWithToast(simpanDataProfilApi(jwt, data), {
       loading: 'Menyimpan...',
       success: 'Data profil berhasil disimpan',
       onSuccess: () => {

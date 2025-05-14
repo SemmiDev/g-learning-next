@@ -1,4 +1,3 @@
-import { lihatBankMateriAction } from '@/services/api/pengguna/bank-materi/lihat'
 import {
   FileListItem,
   FilePreviewType,
@@ -9,6 +8,8 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatBankMateriApi } from '@/services/api/pengguna/bank-materi/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
@@ -27,6 +28,8 @@ export default function LihatMateriModal({
   show,
   onHide,
 }: LihatMateriModalProps) {
+  const jwt = useSessionJwt()
+
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { id: idKategori }: { id: string } = useParams()
@@ -34,7 +37,8 @@ export default function LihatMateriModal({
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['pengguna.bank-materi.lihat', idKategori, id],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatBankMateriAction,
+      lihatBankMateriApi,
+      jwt || null,
       idKategori,
       id ?? null
     ),

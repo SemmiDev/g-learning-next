@@ -27,7 +27,7 @@ export const tablePresensiPesertaSesiAction = async ({
   sort,
   perPage,
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas-akademik/${params?.idKelas}/pertemuan/${params?.idSesi}/absensi-peserta`,
     {

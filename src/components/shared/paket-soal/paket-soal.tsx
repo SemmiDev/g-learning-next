@@ -1,7 +1,5 @@
 'use client'
 
-import { listPaketSoalAction } from '@/services/api/shared/paket-soal/list'
-import { listKategoriSoalAction } from '@/services/api/shared/paket-soal/list-kategori'
 import {
   Button,
   Input,
@@ -12,7 +10,10 @@ import {
   Text,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { listPaketSoalApi } from '@/services/api/shared/paket-soal/list'
+import { listKategoriSoalApi } from '@/services/api/shared/paket-soal/list-kategori'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
@@ -51,10 +52,11 @@ export default function PaketSoal({
   error,
   errorClassName,
 }: PaketSoalProps) {
+  const jwt = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
-  const [show, setShow] = useState(false)
 
+  const [show, setShow] = useState(false)
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
   const [searchKategori, setSearchKategori] = useState('')
   const {
@@ -100,7 +102,8 @@ export default function PaketSoal({
   } = useInfiniteQuery({
     queryKey: queryKeyKategori,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKategoriSoalAction({
+      const { data } = await listKategoriSoalApi({
+        jwt,
         page,
         search: searchKategori,
       })
@@ -141,7 +144,8 @@ export default function PaketSoal({
     queryFn: async ({ pageParam: page }) => {
       if (!activeKategori?.id) return { list: [] }
 
-      const { data } = await listPaketSoalAction({
+      const { data } = await listPaketSoalApi({
+        jwt,
         page,
         search: searchSoal,
         params: {

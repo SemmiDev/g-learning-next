@@ -1,4 +1,3 @@
-import { tablePenggunaDiblokirAction } from '@/services/api/instansi/dashboard/table-pengguna-diblokir'
 import {
   ActionIconTooltip,
   Card,
@@ -14,6 +13,7 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter } from '@/components/ui/table'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tablePenggunaDiblokirApi } from '@/services/api/instansi/dashboard/table-pengguna-diblokir'
 import cn from '@/utils/class-names'
 import { ColumnsType } from 'rc-table'
 import { LuEye } from 'react-icons/lu'
@@ -45,7 +45,7 @@ export default function DashboardPenggunaDiblokirCard({
     onSearch,
   } = useTableAsync({
     queryKey: ['instansi.dashboard.table-pengguna-diblokir'],
-    action: tablePenggunaDiblokirAction,
+    action: tablePenggunaDiblokirApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

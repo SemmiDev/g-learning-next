@@ -1,7 +1,6 @@
 'use client'
 
-import { tableRiwayatPembayaranAction } from '@/services/actions/instansi/profil/riwayat-pembayaran/table'
-import { ActionIconTooltip, Card, TableHeaderCell, Time } from '@/components/ui'
+import { Card, TableHeaderCell, Time } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
   getSortOrder,
@@ -9,9 +8,9 @@ import {
   TableCellText,
 } from '@/components/ui/table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tableRiwayatPembayaranApi } from '@/services/api/instansi/profil/riwayat-pembayaran/table'
 import { rupiah } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
-import { LuDownload } from 'react-icons/lu'
 
 const queryKey = ['instansi.profil.riwayat-pembayaran.table'] as const
 
@@ -30,7 +29,7 @@ export default function ProfilRiwayatPembayaranBody() {
     onSearch,
   } = useTableAsync({
     queryKey: queryKey,
-    action: tableRiwayatPembayaranAction,
+    action: tableRiwayatPembayaranApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

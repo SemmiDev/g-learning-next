@@ -1,15 +1,16 @@
-import { aktifSinkronAction } from '@/services/api/instansi/profil/sinkron/aktif'
-import { dataSinkronAction } from '@/services/actions/instansi/profil/sinkron/data'
-import { ubahSinkronDiktiAction } from '@/services/api/instansi/profil/sinkron/tipe-dikti'
 import {
   ControlledInput,
   ControlledPassword,
   Form,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { aktifSinkronApi } from '@/services/api/instansi/profil/sinkron/aktif'
+import { dataSinkronApi } from '@/services/api/instansi/profil/sinkron/data'
+import { ubahSinkronDiktiApi } from '@/services/api/instansi/profil/sinkron/tipe-dikti'
 import { useSyncStore } from '@/stores/sync'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoDikti from '@public/images/logo/dikti.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -38,12 +39,13 @@ type SinkronDiktiCardProps = {
 }
 
 export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing } = useSyncStore()
 
   const { data } = useQuery({
     queryKey: queryKey,
-    queryFn: makeSimpleQueryData(dataSinkronAction),
+    queryFn: makeSimpleQueryDataWithParams(dataSinkronApi, jwt),
   })
 
   type DataType = NonNullable<typeof data>
@@ -57,7 +59,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
   const active = data?.tipe_sinkron === TIPE
 
   const onSubmit: SubmitHandler<SinkronDiktiFormSchema> = async (data) => {
-    await handleActionWithToast(ubahSinkronDiktiAction(data), {
+    await handleActionWithToast(ubahSinkronDiktiApi(jwt, data), {
       loading: 'Menyimpan...',
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey })
@@ -73,7 +75,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
       return
     }
 
-    await handleActionWithToast(aktifSinkronAction(val ? TIPE : ''), {
+    await handleActionWithToast(aktifSinkronApi(jwt, val ? TIPE : ''), {
       success: `${
         val ? 'Mengaktifkan' : 'Menonaktifkan'
       } sinkronasi Feeder PDDIKTI.`,

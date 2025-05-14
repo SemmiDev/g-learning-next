@@ -13,12 +13,12 @@ export type DataType = {
 }
 
 export const tablePenggunaInstansiApi = async ({
-  jwt = '',
+  jwt,
   page = 1,
   search = '',
   sort,
   params,
-}: ControlledAsyncTableApiProps = {}) =>
+}: ControlledAsyncTableApiProps) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/instansi/${params?.id}/anggota`,
     jwt,

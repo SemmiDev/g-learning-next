@@ -1,4 +1,4 @@
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 export type DataType = {
   total: number
@@ -6,7 +6,8 @@ export type DataType = {
   tersedia: number
 }
 
-export const totalRuangPenyimpananAction = async () =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/instansi/total-ruang-penyimpanan`
+export const totalRuangPenyimpananApi = async (jwt: string) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/total-ruang-penyimpanan`,
+    jwt
   )

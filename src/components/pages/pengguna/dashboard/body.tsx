@@ -1,7 +1,8 @@
 'use client'
 
-import { dashboardCountAction } from '@/services/api/pengguna/dashboard/count'
-import { makeSimpleQueryData } from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dashboardCountApi } from '@/services/api/pengguna/dashboard/count'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { LuFileText, LuFolder, LuHouse, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
@@ -11,9 +12,11 @@ import DashboardRecentFileCard from './recent-file-card'
 import DashboardRuangPenyimpananCard from './ruang-penyimpanan-card'
 
 export default function DashboardBody() {
+  const jwt = useSessionJwt()
+
   const { data } = useQuery({
     queryKey: ['pengguna.dashboard.count'],
-    queryFn: makeSimpleQueryData(dashboardCountAction),
+    queryFn: makeSimpleQueryDataWithParams(dashboardCountApi, jwt),
   })
 
   return (

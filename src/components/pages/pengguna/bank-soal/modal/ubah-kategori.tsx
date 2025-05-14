@@ -1,5 +1,3 @@
-import { lihatKategoriBankSoalAction } from '@/services/actions/pengguna/bank-soal/kategori/lihat'
-import { ubahKategoriBankSoalAction } from '@/services/api/pengguna/bank-soal/kategori/ubah'
 import {
   ControlledInput,
   Form,
@@ -8,6 +6,9 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/lihat'
+import { ubahKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -34,7 +35,9 @@ export default function UbahKategoriModal({
   show,
   onHide,
 }: UbahKategoriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['pengguna.bank-soal.kategori.ubah', id]
@@ -48,7 +51,7 @@ export default function UbahKategoriModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatKategoriBankSoalAction(id)
+      const { data } = await lihatKategoriBankSoalApi(jwt, id)
 
       return {
         nama: data?.nama_kategori,
@@ -59,7 +62,7 @@ export default function UbahKategoriModal({
   const onSubmit: SubmitHandler<UbahKategoriFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKategoriBankSoalAction(id, data), {
+    await handleActionWithToast(ubahKategoriBankSoalApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

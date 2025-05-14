@@ -1,4 +1,3 @@
-import { shareMateriBankMateriAction } from '@/services/api/pengguna/bank-materi/share-materi'
 import {
   ControlledDatePicker,
   ControlledKelas,
@@ -14,6 +13,8 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { shareMateriBankMateriApi } from '@/services/api/pengguna/bank-materi/share-materi'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { objectRequired } from '@/utils/validations/refine'
@@ -82,6 +83,8 @@ export default function ShareMateriModal({
   show,
   onHide,
 }: ShareMateriModalProps) {
+  const jwt = useSessionJwt()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<ShareMateriFormSchema> = async (data) => {
@@ -89,7 +92,7 @@ export default function ShareMateriModal({
     if (!idKelas || !materi) return
 
     await handleActionWithToast(
-      shareMateriBankMateriAction(idKelas, materi, data),
+      shareMateriBankMateriApi(jwt, idKelas, materi, data),
       {
         loading: `Membagikan ${materi?.type}...`,
         onStart: () => setFormError(undefined),

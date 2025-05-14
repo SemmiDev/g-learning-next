@@ -1,13 +1,15 @@
 import { TambahBankSoalFormSchema } from '@/components/pages/pengguna/bank-soal/kategori/modal/tambah-bank-soal'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahBankSoalAction = async (
+export const tambahBankSoalApi = async (
+  jwt: string,
   idKategori: string,
   data: TambahBankSoalFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-soal/${idKategori}/bank-soal`,
+    jwt,
     {
       judul: data.judul,
       jumlah_soal_yang_digunakan: data.gunakan,

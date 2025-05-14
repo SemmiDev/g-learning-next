@@ -1,7 +1,5 @@
 'use client'
 
-import { hapusKategoriBankSoalAction } from '@/services/api/pengguna/bank-soal/kategori/hapus'
-import { listKategoriBankSoalAction } from '@/services/api/pengguna/bank-soal/kategori/list'
 import {
   Button,
   Card,
@@ -12,7 +10,10 @@ import {
   Title,
 } from '@/components/ui'
 import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { hapusKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/hapus'
+import { listKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/list'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { CgSpinner } from 'react-icons/cg'
@@ -27,6 +28,8 @@ import UbahKategoriModal from './modal/ubah-kategori'
 const queryKey = ['pengguna.bank-soal.kategori']
 
 export default function ListKategoriSoalBody() {
+  const jwt = useSessionJwt()
+
   const [search, setSearch] = useState('')
   const [showTambah, setShowTambah] = useState(false)
   const {
@@ -40,7 +43,8 @@ export default function ListKategoriSoalBody() {
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listKategoriBankSoalAction({
+        const { data } = await listKategoriBankSoalApi({
+          jwt,
           page,
           search,
         })
@@ -76,7 +80,7 @@ export default function ListKategoriSoalBody() {
     id: idHapus,
     setId: setIdHapus,
   } = useHandleApiDelete({
-    action: hapusKategoriBankSoalAction,
+    action: hapusKategoriBankSoalApi,
     refetchKey: queryKey,
   })
 

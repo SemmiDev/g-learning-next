@@ -1,9 +1,5 @@
 'use client'
 
-import { driveInfoAction } from '@/services/api/shared/pustaka-media/drive-info'
-import { hapusBerkasAction } from '@/services/api/shared/pustaka-media/hapus'
-import { listFileAction } from '@/services/api/shared/pustaka-media/list-file'
-import { tambahBerkasAction } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import {
   ActionIconTooltip,
   Button,
@@ -18,7 +14,12 @@ import {
   TextSpan,
 } from '@/components/ui'
 import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { driveInfoApi } from '@/services/api/shared/pustaka-media/drive-info'
+import { hapusBerkasApi } from '@/services/api/shared/pustaka-media/hapus'
+import { listFileApi } from '@/services/api/shared/pustaka-media/list-file'
+import { tambahBerkasApi } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import { handleActionWithToast } from '@/utils/action'
 import {
   getFileCount,
@@ -67,10 +68,12 @@ export default function PilihMediaGambar({
   setShow,
   onSelect,
 }: PilihMediaProps) {
+  const jwt = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const { status } = useSession()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
+
   const [activeDrive, setActiveDrive] = useState<string>()
   const [activeFolder, setActiveFolder] = useState<string>()
   const [search, setSearch] = useState('')
@@ -111,7 +114,7 @@ export default function PilihMediaGambar({
   >({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoAction()
+      const { data } = await driveInfoApi(jwt)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
@@ -173,7 +176,8 @@ export default function PilihMediaGambar({
         return { list: [] }
       }
 
-      const { data } = await listFileAction({
+      const { data } = await listFileApi({
+        jwt,
         personal: activeDrive === 'PERSONAL',
         googleDrive: activeDrive === 'GOOGLE_DRIVE',
         idInstansi,
@@ -230,7 +234,7 @@ export default function PilihMediaGambar({
   const handleHapus = () => {
     if (!fileHapus) return
 
-    handleActionWithToast(hapusBerkasAction(fileHapus.id), {
+    handleActionWithToast(hapusBerkasApi(jwt, fileHapus.id), {
       loading: 'Menghapus berkas...',
       success: `Berhasil menghapus ${fileHapus.folder ? 'folder' : 'berkas'}`,
       onSuccess: () => {
@@ -297,7 +301,7 @@ export default function PilihMediaGambar({
               )
             }
 
-            await handleActionWithToast(tambahBerkasAction(form), {
+            await handleActionWithToast(tambahBerkasApi(jwt, form), {
               loading: 'Menggunggah...',
               onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })
@@ -487,6 +491,7 @@ export default function PilihMediaGambar({
                               setPreviewFile({
                                 url: file.link,
                                 extension: file.extension,
+                                image: file.type === 'image',
                               })
                             }}
                             checked={checkedFile?.id === file.id}

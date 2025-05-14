@@ -1,9 +1,10 @@
 import { UbahProfilFormSchema } from '@/components/pages/instansi/profil/detail/modal/ubah'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 
-export const ubahProfilAction = async (data: UbahProfilFormSchema) =>
-  makeJwtPutRequestAction(
+export const ubahProfilApi = async (jwt: string, data: UbahProfilFormSchema) =>
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/instansi/profil-instansi`,
+    jwt,
     {
       nama_instansi: data.nama,
       telepon_instansi: data.kontak,

@@ -1,4 +1,3 @@
-import { ubahLogoAction } from '@/services/api/instansi/profil/detail/ubah-logo'
 import {
   ControlledUploadFile,
   Form,
@@ -6,6 +5,8 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { ubahLogoApi } from '@/services/api/instansi/profil/detail/ubah-logo'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -33,15 +34,17 @@ export default function UbahLogoModal({
   show = false,
   setShow,
 }: UbahLogoModalProps) {
-  const [formError, setFormError] = useState<string>()
-  const { update: updateSession } = useSession()
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+  const { update: updateSession } = useSession()
+
+  const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     const form = new FormData()
     form.append('logo', data.logo)
 
-    await handleActionWithToast(ubahLogoAction(form), {
+    await handleActionWithToast(ubahLogoApi(jwt, form), {
       loading: 'Mengunggah...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

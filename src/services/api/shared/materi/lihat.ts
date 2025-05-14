@@ -1,4 +1,4 @@
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 type DataType = {
   bank_ajar: {
@@ -30,7 +30,12 @@ type DataType = {
   total_file_bank_ajar: number
 }
 
-export const lihatMateriAction = async (idKategori: string, id: string) =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${idKategori}/bank-ajar/${id}`
+export const lihatMateriApi = async (
+  jwt: string,
+  idKategori: string,
+  id: string
+) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${idKategori}/bank-ajar/${id}`,
+    jwt
   )

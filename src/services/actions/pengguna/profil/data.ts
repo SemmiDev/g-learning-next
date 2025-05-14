@@ -1,25 +1,7 @@
 'use server'
 
+import { DataType } from '@/services/api/pengguna/profil/data'
 import { makeJwtGetRequestAction } from '@/utils/action'
-
-export type DataType = {
-  id: string
-  username: string
-  tipe: string
-  nik: string
-  nama: string
-  jenis_kelamin: string
-  bio: string
-  hp: string
-  situs_web: string
-  kuota_upload: string
-  foto: string
-  terakhir_login: string
-  created_at: string
-  updated_at: string
-  instansi: string[]
-  email: { id: string; email: string; status_aktif: 0 | 1 }[]
-}
 
 export const dataProfilAction = async () =>
   makeJwtGetRequestAction<DataType>(`${process.env.API_URL}/pengguna`)

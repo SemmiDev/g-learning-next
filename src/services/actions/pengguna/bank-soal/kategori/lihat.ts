@@ -1,12 +1,7 @@
 'use server'
 
+import { DataType } from '@/services/api/pengguna/bank-soal/kategori/lihat'
 import { makeJwtGetRequestAction } from '@/utils/action'
-
-type DataType = {
-  id: string
-  nama_kategori: string
-  id_pengajar: string
-}
 
 export const lihatKategoriBankSoalAction = async (id: string) =>
   makeJwtGetRequestAction<DataType>(

@@ -1,5 +1,3 @@
-import { lihatKategoriSoalAction } from '@/services/api/shared/paket-soal/lihat-kategori'
-import { ubahKategoriSoalAction } from '@/services/api/shared/paket-soal/ubah-kategori'
 import {
   CardSeparator,
   ControlledInput,
@@ -9,6 +7,9 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKategoriSoalApi } from '@/services/api/shared/paket-soal/lihat-kategori'
+import { ubahKategoriSoalApi } from '@/services/api/shared/paket-soal/ubah-kategori'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -35,7 +36,9 @@ export default function UbahKategoriModal({
   show,
   onHide,
 }: UbahKategoriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['shared.paket-soal.kategori.ubah', id]
@@ -49,7 +52,7 @@ export default function UbahKategoriModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatKategoriSoalAction(id)
+      const { data } = await lihatKategoriSoalApi(jwt, id)
 
       return {
         nama: data?.nama_kategori,
@@ -60,7 +63,7 @@ export default function UbahKategoriModal({
   const onSubmit: SubmitHandler<UbahKategoriFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKategoriSoalAction(id, data), {
+    await handleActionWithToast(ubahKategoriSoalApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

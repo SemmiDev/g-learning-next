@@ -1,18 +1,21 @@
 'use client'
 
+import { Button, Card, CardSeparator, Title } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import {
   DataItemType,
-  loadMoreAction,
+  loadMoreApi,
 } from '@/services/api/shared/pemberitahuan/data'
-import { Button, Card, CardSeparator, Title } from '@/components/ui'
 import { useEffect, useState } from 'react'
 import PemberitahuanItem from './item'
 
 export default function PemberitahuanBody() {
+  const jwt = useSessionJwt()
+
   const [data, setData] = useState<DataItemType[]>([])
 
   const loadData = async (loadPage: number) => {
-    const moreData = await loadMoreAction(loadPage)
+    const moreData = await loadMoreApi(jwt, loadPage)
     setData((prev) => [...prev, ...moreData.data])
   }
 

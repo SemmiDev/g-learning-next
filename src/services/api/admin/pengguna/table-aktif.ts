@@ -9,7 +9,7 @@ export type DataType = {
 }
 
 export const tablePenggunaAktifApi = async ({
-  jwt = '',
+  jwt,
   page = 1,
   search = '',
   sort,

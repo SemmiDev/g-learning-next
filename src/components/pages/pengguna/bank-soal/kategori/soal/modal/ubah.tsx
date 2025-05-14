@@ -1,5 +1,3 @@
-import { lihatSoalAction } from '@/services/api/pengguna/bank-soal/soal/lihat'
-import { ubahSoalAction } from '@/services/api/pengguna/bank-soal/soal/ubah'
 import {
   ActionIcon,
   Button,
@@ -17,6 +15,9 @@ import {
 } from '@/components/ui'
 import { PILIHAN_JAWABAN } from '@/config/const'
 import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatSoalApi } from '@/services/api/pengguna/bank-soal/soal/lihat'
+import { ubahSoalApi } from '@/services/api/pengguna/bank-soal/soal/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { removeIndexFromList } from '@/utils/list'
 import { cleanQuill } from '@/utils/string'
@@ -96,8 +97,10 @@ export default function UbahSoalModal({
   show,
   onHide,
 }: UbahSoalModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const {
@@ -120,7 +123,7 @@ export default function UbahSoalModal({
           jawaban: [],
         }
 
-      const { data } = await lihatSoalAction(idBankSoal, id)
+      const { data } = await lihatSoalApi(jwt, idBankSoal, id)
 
       const pilihanJawaban = pilihanLower.map(
         (pilihan) => data?.[`jawaban_${pilihan}`]?.teks ?? ''
@@ -144,7 +147,7 @@ export default function UbahSoalModal({
   const onSubmit: SubmitHandler<UbahSoalFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahSoalAction(idBankSoal, id, data), {
+    await handleActionWithToast(ubahSoalApi(jwt, idBankSoal, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

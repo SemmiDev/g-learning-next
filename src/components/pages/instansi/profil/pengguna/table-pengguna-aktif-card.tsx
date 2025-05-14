@@ -1,6 +1,5 @@
 'use client'
 
-import { tablePenggunaAction } from '@/services/api/instansi/profil/pengguna/table'
 import { ActionIconTooltip, Card, CardSeparator, Title } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import {
@@ -12,6 +11,7 @@ import {
 } from '@/components/ui/table'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tablePenggunaApi } from '@/services/api/instansi/profil/pengguna/table'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import { angka } from '@/utils/text'
 import { ColumnsType } from 'rc-table'
@@ -40,7 +40,7 @@ export default function TablePenggunaAktifCard() {
     onSearch,
   } = useTableAsync({
     queryKey: ['instansi.profil.pengguna.table'],
-    action: tablePenggunaAction,
+    action: tablePenggunaApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

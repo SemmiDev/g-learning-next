@@ -1,5 +1,5 @@
-import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { ControlledAsyncTableApiProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   bank_ajar: {
@@ -31,13 +31,15 @@ export type DataType = {
   total_file_bank_ajar: number
 }
 
-export const listBankMateriAction = async ({
+export const listBankMateriApi = async ({
+  jwt,
   page = 1,
   search = '',
   params,
-}: ControlledAsyncTableActionProps = {}) =>
-  makeJwtGetRequestTableAction<DataType>(
+}: ControlledAsyncTableApiProps) =>
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${params?.idKategori}/bank-ajar`,
+    jwt,
     {
       current_page: page,
       keyword: search,

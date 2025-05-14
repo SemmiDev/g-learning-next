@@ -1,6 +1,5 @@
 'use client'
 
-import { tablePenggunaDiblokirAction } from '@/services/api/instansi/profil/pengguna/table-diblokir'
 import {
   ActionIconTooltip,
   Card,
@@ -15,6 +14,7 @@ import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { renderTableCellTextCenter, TableCellText } from '@/components/ui/table'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tablePenggunaDiblokirApi } from '@/services/api/instansi/profil/pengguna/table-diblokir'
 import { ColumnsType } from 'rc-table'
 import { LuEye } from 'react-icons/lu'
 import LihatDiblokirModal from './modal/lihat-diblokir'
@@ -41,7 +41,7 @@ export default function TablePenggunaDiblokirCard() {
     onSearch,
   } = useTableAsync({
     queryKey: ['instansi.profil.pengguna.table-diblokir'],
-    action: tablePenggunaDiblokirAction,
+    action: tablePenggunaDiblokirApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

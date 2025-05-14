@@ -1,5 +1,3 @@
-import { bukaBlokirPenggunaAction } from '@/services/api/instansi/profil/pengguna/buka-blokir'
-import { lihatPenggunaAction } from '@/services/api/instansi/profil/pengguna/lihat'
 import {
   Button,
   CardSeparator,
@@ -11,8 +9,11 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { bukaBlokirPenggunaApi } from '@/services/api/instansi/profil/pengguna/buka-blokir'
+import { lihatPenggunaApi } from '@/services/api/instansi/profil/pengguna/lihat'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import imagePhoto from '@public/images/photo.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
@@ -30,18 +31,20 @@ export default function LihatDiblokirModal({
   show,
   onHide,
 }: LihatModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [idBukaBlokir, setIdBukaBlokir] = useState<string>()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.pengguna.table.lihat', id],
-    queryFn: makeSimpleQueryDataWithId(lihatPenggunaAction, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatPenggunaApi, jwt, id ?? null),
   })
 
   const handleBukaBlokir = () => {
     if (!id) return
 
-    handleActionWithToast(bukaBlokirPenggunaAction(id), {
+    handleActionWithToast(bukaBlokirPenggunaApi(jwt, id), {
       loading: 'Memproses...',
       onSuccess: () => {
         onHide()

@@ -1,6 +1,7 @@
 import {
   ControlledAsyncTableActionProps,
   ControlledAsyncTableActionType,
+  ControlledAsyncTableApiProps,
 } from '@/components/ui/controlled-async-table'
 import imageKelas from '@public/images/list-kelas.png'
 
@@ -13,11 +14,12 @@ type DataType = {
   image: string
 }
 
-export const tableKursusDiikutiAction = async ({
+export const tableKursusDiikutiApi = async ({
+  jwt = '',
   page = 1,
   search = '',
   sort,
-}: ControlledAsyncTableActionProps): Promise<
+}: ControlledAsyncTableApiProps): Promise<
   ControlledAsyncTableActionType<DataType>
 > => {
   const list: DataType[] = [

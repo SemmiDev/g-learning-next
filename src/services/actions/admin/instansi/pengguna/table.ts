@@ -9,7 +9,7 @@ export const tablePenggunaInstansiAction = async ({
   search = '',
   sort,
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.API_URL}/admin/instansi/${params?.id}/anggota`,
     {

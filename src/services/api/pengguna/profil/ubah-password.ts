@@ -1,9 +1,13 @@
 import { UbahPasswordFormSchema } from '@/components/pages/pengguna/profil/modal/ubah-password'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const ubahPassowrdAction = async (data: UbahPasswordFormSchema) =>
-  makeJwtPostRequestAction(
+export const ubahPassowrdApi = async (
+  jwt: string,
+  data: UbahPasswordFormSchema
+) =>
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/pengguna/ubah-password`,
+    jwt,
     {
       kata_sandi_lama: data.passwordLama,
       kata_sandi_baru: data.passwordBaru,

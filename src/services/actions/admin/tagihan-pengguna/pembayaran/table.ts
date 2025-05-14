@@ -9,7 +9,7 @@ export const tablePembayaranTagihanPenggunaAction = async ({
   search = '',
   sort,
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.API_URL}/admin/tagihan-pengguna/${params?.idTagihan}/pembayaran`,
     {

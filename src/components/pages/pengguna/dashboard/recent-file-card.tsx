@@ -1,5 +1,3 @@
-import { listRecentFilesAction } from '@/services/api/pengguna/dashboard/table-recent-files'
-import { driveInfoAction } from '@/services/api/shared/pustaka-media/drive-info'
 import {
   Button,
   Card,
@@ -13,6 +11,9 @@ import {
   Title,
 } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listRecentFilesApi } from '@/services/api/pengguna/dashboard/table-recent-files'
+import { driveInfoApi } from '@/services/api/shared/pustaka-media/drive-info'
 import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { useQuery } from '@tanstack/react-query'
@@ -31,6 +32,8 @@ type DashboardRecentFileCardProps = {
 export default function DashboardRecentFileCard({
   className,
 }: DashboardRecentFileCardProps) {
+  const jwt = useSessionJwt()
+
   const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
   const [page, setPage] = useState(1)
   const [totalData, setTotalData] = useState(0)
@@ -39,7 +42,7 @@ export default function DashboardRecentFileCard({
   const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoAction()
+      const { data } = await driveInfoApi(jwt)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
@@ -92,7 +95,8 @@ export default function DashboardRecentFileCard({
   } = useQuery<PustakaMediaFileType[]>({
     queryKey,
     queryFn: async () => {
-      const { data } = await listRecentFilesAction({
+      const { data } = await listRecentFilesApi({
+        jwt,
         page,
         perPage,
         personal: activeDrive === 'PERSONAL',
@@ -165,6 +169,7 @@ export default function DashboardRecentFileCard({
                   setPreviewFile({
                     url: file.link,
                     extension: file.extension,
+                    image: file.type === 'image',
                   })
                 }}
               />

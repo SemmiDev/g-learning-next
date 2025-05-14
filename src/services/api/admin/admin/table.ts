@@ -9,11 +9,11 @@ export type DataType = {
 }
 
 export const tableAdminApi = async ({
-  jwt = '',
+  jwt,
   page = 1,
   search = '',
   sort,
-}: ControlledAsyncTableApiProps = {}) =>
+}: ControlledAsyncTableApiProps) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/akun`,
     jwt,

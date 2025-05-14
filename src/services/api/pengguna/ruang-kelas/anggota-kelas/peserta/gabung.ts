@@ -1,6 +1,7 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const gabungAnggotaKelasAction = async (kode: string) =>
-  makeJwtPostRequestAction(
-    `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/bergabung?kode_kelas=${kode}`
+export const gabungAnggotaKelasApi = async (jwt: string, kode: string) =>
+  makeJwtPostRequestApi(
+    `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/bergabung?kode_kelas=${kode}`,
+    jwt
   )

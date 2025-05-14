@@ -1,4 +1,4 @@
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 type DataType = {
   id: string
@@ -6,7 +6,8 @@ type DataType = {
   id_pengajar: string
 }
 
-export const lihatKategoriSoalAction = async (id: string) =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-soal/${id}`
+export const lihatKategoriSoalApi = async (jwt: string, id: string) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-soal/${id}`,
+    jwt
   )

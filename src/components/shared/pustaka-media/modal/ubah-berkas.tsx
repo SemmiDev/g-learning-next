@@ -1,5 +1,3 @@
-import { lihatBerkasAction } from '@/services/api/shared/pustaka-media/lihat-berkas'
-import { ubahBerkasAction } from '@/services/api/shared/pustaka-media/ubah-berkas'
 import {
   CardSeparator,
   ControlledInput,
@@ -10,6 +8,9 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatBerkasApi } from '@/services/api/shared/pustaka-media/lihat-berkas'
+import { ubahBerkasApi } from '@/services/api/shared/pustaka-media/ubah-berkas'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -41,7 +42,9 @@ export default function UbahBerkasModal({
   refetchKey,
   alert = true,
 }: UbahModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['shared.pustaka-media.berkass.ubah-berkas', id]
@@ -55,7 +58,7 @@ export default function UbahBerkasModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBerkasAction(id)
+      const { data } = await lihatBerkasApi(jwt, id)
 
       return {
         nama: data?.nama,
@@ -67,7 +70,7 @@ export default function UbahBerkasModal({
   const onSubmit: SubmitHandler<UbahBerkasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBerkasAction(id, data), {
+    await handleActionWithToast(ubahBerkasApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

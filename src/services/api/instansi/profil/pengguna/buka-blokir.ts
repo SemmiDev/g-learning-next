@@ -1,6 +1,7 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const bukaBlokirPenggunaAction = async (id: string) =>
-  makeJwtPostRequestAction(
-    `${process.env.NEXT_PUBLIC_API_URL}/instansi/buka-blokir-pengguna/${id}`
+export const bukaBlokirPenggunaApi = async (jwt: string, id: string) =>
+  makeJwtPostRequestApi(
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/buka-blokir-pengguna/${id}`,
+    jwt
   )

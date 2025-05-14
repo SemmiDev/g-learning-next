@@ -1,11 +1,13 @@
 import { UbahSemesterAktifFormSchema } from '@/components/pages/instansi/profil/modal/ubah-semester-aktif'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 
-export const ubahSemesterAktifAction = async (
+export const ubahSemesterAktifApi = async (
+  jwt: string,
   data: UbahSemesterAktifFormSchema
 ) =>
-  makeJwtPutRequestAction(
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/instansi/profil-instansi`,
+    jwt,
     {
       semester_aktif: data.semester?.value,
     }

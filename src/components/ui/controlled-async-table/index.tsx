@@ -23,7 +23,7 @@ export type ControlledAsyncTableActionProps = {
 }
 
 export type ControlledAsyncTableApiProps = ControlledAsyncTableActionProps & {
-  jwt?: string
+  jwt: string
 }
 
 export type ControlledAsyncTableActionType<T extends AnyObject = AnyObject> = {

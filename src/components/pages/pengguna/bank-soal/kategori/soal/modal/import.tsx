@@ -1,4 +1,3 @@
-import { importSoalAction } from '@/services/api/pengguna/bank-soal/soal/import'
 import {
   ControlledUploadFile,
   Form,
@@ -8,6 +7,8 @@ import {
   Text,
 } from '@/components/ui'
 import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { importSoalApi } from '@/services/api/pengguna/bank-soal/soal/import'
 import { handleActionWithToast } from '@/utils/action'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -38,8 +39,10 @@ export default function ImportSoalModal({
   setShowModal,
   refetchKey,
 }: ImportSoalModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { soal: idBankSoal }: { soal: string } = useParams()
@@ -48,7 +51,7 @@ export default function ImportSoalModal({
     const form = new FormData()
     form.append('file', data.berkas)
 
-    await handleActionWithToast(importSoalAction(idBankSoal, form), {
+    await handleActionWithToast(importSoalApi(jwt, idBankSoal, form), {
       loading: 'Mengunggah...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

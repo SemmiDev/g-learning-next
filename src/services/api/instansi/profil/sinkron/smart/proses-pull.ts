@@ -1,6 +1,7 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const prosesPullSmartAction = async (semester: string) =>
-  makeJwtPostRequestAction(
-    `${process.env.NEXT_PUBLIC_API_URL}/instansi/singkronisasi?semester=${semester}`
+export const prosesPullSmartApi = async (jwt: string, semester: string) =>
+  makeJwtPostRequestApi(
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/singkronisasi?semester=${semester}`,
+    jwt
   )

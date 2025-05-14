@@ -1,4 +1,3 @@
-import { ubahPassowrdAction } from '@/services/api/pengguna/profil/ubah-password'
 import {
   ControlledPassword,
   Form,
@@ -6,6 +5,8 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { ubahPassowrdApi } from '@/services/api/pengguna/profil/ubah-password'
 import { handleActionWithToast } from '@/utils/action'
 import { requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -40,10 +41,12 @@ export default function UbahPasswordModal({
   show,
   setShow,
 }: UbahPasswordModalProps) {
+  const jwt = useSessionJwt()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<UbahPasswordFormSchema> = async (data) => {
-    await handleActionWithToast(ubahPassowrdAction(data), {
+    await handleActionWithToast(ubahPassowrdApi(jwt, data), {
       loading: 'Menyimpan...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

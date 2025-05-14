@@ -1,9 +1,5 @@
 'use client'
 
-import { driveInfoAction } from '@/services/api/shared/pustaka-media/drive-info'
-import { hapusBerkasAction } from '@/services/api/shared/pustaka-media/hapus'
-import { listFileAction } from '@/services/api/shared/pustaka-media/list-file'
-import { tambahBerkasAction } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import {
   Button,
   Card,
@@ -19,7 +15,12 @@ import {
   TextSpan,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { driveInfoApi } from '@/services/api/shared/pustaka-media/drive-info'
+import { hapusBerkasApi } from '@/services/api/shared/pustaka-media/hapus'
+import { listFileApi } from '@/services/api/shared/pustaka-media/list-file'
+import { tambahBerkasApi } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import { handleActionWithToast } from '@/utils/action'
 import {
   getFileCount,
@@ -62,8 +63,10 @@ type SortDataType = keyof typeof sortData
 const queryKeyDrive = ['pengguna.pustaka-media.drives']
 
 export default function PustakaMediaBody() {
+  const jwt = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const queryClient = useQueryClient()
+
   const [activeDrive, setActiveDrive] = useState<string>()
   const [activeFolder, setActiveFolder] = useState<string>()
   const [sort, setSort] = useState<SortDataType>('terbaru')
@@ -104,7 +107,7 @@ export default function PustakaMediaBody() {
   >({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoAction()
+      const { data } = await driveInfoApi(jwt)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
@@ -158,7 +161,8 @@ export default function PustakaMediaBody() {
   } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listFileAction({
+      const { data } = await listFileApi({
+        jwt,
         personal: activeDrive === 'PERSONAL',
         googleDrive: activeDrive === 'GOOGLE_DRIVE',
         idInstansi,
@@ -220,7 +224,7 @@ export default function PustakaMediaBody() {
   const handleHapus = () => {
     if (!fileHapus) return
 
-    handleActionWithToast(hapusBerkasAction(fileHapus.id), {
+    handleActionWithToast(hapusBerkasApi(jwt, fileHapus.id), {
       loading: 'Menghapus berkas...',
       success: `Berhasil menghapus ${fileHapus.folder ? 'folder' : 'berkas'}`,
       onSuccess: () => {
@@ -289,7 +293,7 @@ export default function PustakaMediaBody() {
               )
             }
 
-            await handleActionWithToast(tambahBerkasAction(form), {
+            await handleActionWithToast(tambahBerkasApi(jwt, form), {
               loading: 'Menggunggah...',
               onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })

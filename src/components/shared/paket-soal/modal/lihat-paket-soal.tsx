@@ -1,4 +1,3 @@
-import { lihatPaketSoalAction } from '@/services/api/shared/paket-soal/lihat'
 import {
   CardSeparator,
   Loader,
@@ -6,6 +5,8 @@ import {
   ModalFooterButtons,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatPaketSoalApi } from '@/services/api/shared/paket-soal/lihat'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
@@ -23,12 +24,15 @@ export default function LihatSoalModal({
   show,
   onHide,
 }: LihatSoalModalProps) {
+  const jwt = useSessionJwt()
+
   const { id: idKategori }: { id: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['shared.paket-soal.lihat', idKategori, id],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatPaketSoalAction,
+      lihatPaketSoalApi,
+      jwt || null,
       idKategori,
       id ?? null
     ),

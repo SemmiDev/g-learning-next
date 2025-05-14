@@ -1,10 +1,12 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const importSoalAction = async (
+export const importSoalApi = async (
+  jwt: string,
   idBankSoal: string,
   formData: FormData
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${idBankSoal}/import`,
+    jwt,
     formData
   )

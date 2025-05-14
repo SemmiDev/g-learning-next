@@ -1,7 +1,8 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const tambahBerkasAction = async (formData: FormData) =>
-  makeJwtPostRequestAction(
+export const tambahBerkasApi = async (jwt: string, formData: FormData) =>
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/pustaka-media/berkas`,
+    jwt,
     formData
   )

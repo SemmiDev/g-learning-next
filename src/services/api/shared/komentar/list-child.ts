@@ -1,4 +1,4 @@
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id: string
@@ -11,19 +11,22 @@ export type DataType = {
   created_at: string
 }
 
-export const listKomentarChildAction = async ({
+export const listKomentarChildApi = async ({
+  jwt,
   page = 1,
   idKelas,
   idAktifitas,
   idParent,
 }: {
+  jwt: string
   page?: number
   idKelas: string
   idAktifitas: string
   idParent: string
 }) =>
-  makeJwtGetRequestTableAction<DataType>(
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${idAktifitas}/diskusi`,
+    jwt,
     {
       current_page: page,
       per_page: 100,

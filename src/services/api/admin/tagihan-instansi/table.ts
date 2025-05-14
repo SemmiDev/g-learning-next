@@ -21,11 +21,11 @@ export type DataType = {
 }
 
 export const tableTagihanInstansiApi = async ({
-  jwt = '',
+  jwt,
   page = 1,
   search = '',
   sort,
-}: ControlledAsyncTableApiProps = {}) =>
+}: ControlledAsyncTableApiProps) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/tagihan-instansi`,
     jwt,

@@ -1,6 +1,5 @@
 'use client'
 
-import { listKelasAction } from '@/services/api/shared/kelas/list'
 import {
   Button,
   CardSeparator,
@@ -11,6 +10,8 @@ import {
   Text,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listKelasApi } from '@/services/api/shared/kelas/list'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
@@ -47,10 +48,11 @@ export default function Kelas({
   errorClassName,
   clearable,
 }: KelasProps) {
+  const jwt = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
-  const [show, setShow] = useState(false)
 
+  const [show, setShow] = useState(false)
   const [search, setSearch] = useState('')
   const [checkedKelas, setCheckedKelas] = useState<KelasItemType | undefined>()
   const [selectedKelas, setSelectedKelas] = useState<KelasItemType | undefined>(
@@ -73,7 +75,8 @@ export default function Kelas({
   } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKelasAction({
+      const { data } = await listKelasApi({
+        jwt,
         page,
         search,
         kategori:

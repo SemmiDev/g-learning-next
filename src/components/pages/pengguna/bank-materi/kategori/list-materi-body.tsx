@@ -1,8 +1,5 @@
 'use client'
 
-import { hapusBankMateriAction } from '@/services/api/pengguna/bank-materi/hapus'
-import { lihatKategoriBankMateriAction } from '@/services/actions/pengguna/bank-materi/kategori/lihat'
-import { listBankMateriAction } from '@/services/api/pengguna/bank-materi/list'
 import {
   Button,
   Card,
@@ -13,9 +10,13 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { hapusBankMateriApi } from '@/services/api/pengguna/bank-materi/hapus'
+import { lihatKategoriBankMateriApi } from '@/services/api/pengguna/bank-materi/kategori/lihat'
+import { listBankMateriApi } from '@/services/api/pengguna/bank-materi/list'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -36,7 +37,9 @@ import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
 
 export default function ListMateriBody() {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [search, setSearch] = useState('')
   const [showTambah, setShowTambah] = useState(false)
   const {
@@ -69,8 +72,9 @@ export default function ListMateriBody() {
 
   const { data: kategori } = useQuery({
     queryKey: ['pengguna.bank-materi.kategori.lihat', idKategori],
-    queryFn: makeSimpleQueryDataWithId(
-      lihatKategoriBankMateriAction,
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatKategoriBankMateriApi,
+      jwt || null,
       idKategori
     ),
   })
@@ -81,7 +85,8 @@ export default function ListMateriBody() {
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listBankMateriAction({
+        const { data } = await listBankMateriApi({
+          jwt,
           page,
           search,
           params: {
@@ -122,7 +127,7 @@ export default function ListMateriBody() {
   const handleHapus = () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusBankMateriAction(idKategori, idHapus), {
+    handleActionWithToast(hapusBankMateriApi(jwt, idKategori, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)

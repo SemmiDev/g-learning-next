@@ -1,7 +1,5 @@
 'use client'
 
-import { gabungAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
-import { listTemukanKelasAction } from '@/services/api/pengguna/temukan-kelas/list'
 import {
   Card,
   Input,
@@ -10,6 +8,9 @@ import {
   Shimmer,
   Text,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { gabungAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
+import { listTemukanKelasApi } from '@/services/api/pengguna/temukan-kelas/list'
 import { handleActionWithToast } from '@/utils/action'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -19,6 +20,7 @@ import { useDebounce } from 'react-use'
 import KelasCard from './kelas-card'
 
 export default function TermukanKelasBody() {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')
@@ -30,7 +32,7 @@ export default function TermukanKelasBody() {
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listTemukanKelasAction({ page, search })
+        const { data } = await listTemukanKelasApi({ jwt, page, search })
 
         return {
           list: data?.list ?? [],
@@ -57,7 +59,7 @@ export default function TermukanKelasBody() {
   const handleGabung = async () => {
     if (!kodeKelas) return
 
-    await handleActionWithToast(gabungAnggotaKelasAction(kodeKelas), {
+    await handleActionWithToast(gabungAnggotaKelasApi(jwt, kodeKelas), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
       onSuccess: () => {

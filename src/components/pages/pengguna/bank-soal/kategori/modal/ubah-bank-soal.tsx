@@ -1,5 +1,3 @@
-import { lihatBankSoalAction } from '@/services/actions/pengguna/bank-soal/lihat'
-import { ubahBankSoalAction } from '@/services/api/pengguna/bank-soal/ubah'
 import {
   ControlledInput,
   ControlledInputNumber,
@@ -13,6 +11,9 @@ import {
   TextBordered,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatBankSoalApi } from '@/services/api/pengguna/bank-soal/lihat'
+import { ubahBankSoalApi } from '@/services/api/pengguna/bank-soal/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -56,8 +57,10 @@ export default function UbahBankSoalModal({
   show,
   onHide,
 }: UbahBankSoalModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kategori: idKategori }: { kategori: string } = useParams()
@@ -73,7 +76,7 @@ export default function UbahBankSoalModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBankSoalAction(idKategori, id)
+      const { data } = await lihatBankSoalApi(jwt, idKategori, id)
 
       return {
         judul: data?.judul,
@@ -92,7 +95,7 @@ export default function UbahBankSoalModal({
   const onSubmit: SubmitHandler<UbahBankSoalFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBankSoalAction(idKategori, id, data), {
+    await handleActionWithToast(ubahBankSoalApi(jwt, idKategori, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

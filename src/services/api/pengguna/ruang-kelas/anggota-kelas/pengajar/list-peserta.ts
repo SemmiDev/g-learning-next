@@ -18,7 +18,7 @@ export const listPesertaKelasAction = async ({
   page = 1,
   search = '',
   params,
-}: ControlledAsyncTableActionProps = {}) =>
+}: ControlledAsyncTableActionProps) =>
   makeJwtGetRequestTableAction<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${params?.idKelas}/peserta-kelas`,
     {

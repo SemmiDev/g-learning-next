@@ -11,7 +11,7 @@ type DataType = {
 }
 
 export const tablePenggunaDiblokirApi = async ({
-  jwt = '',
+  jwt,
   page = 1,
   search = '',
   sort,

@@ -1,7 +1,8 @@
-import { prosesPullSmartAction } from '@/services/api/instansi/profil/sinkron/smart/proses-pull'
-import { statusSinkronSmartAction } from '@/services/api/instansi/profil/sinkron/smart/status'
 import { Button, Text, TextSpan, Time } from '@/components/ui'
 import Loader from '@/components/ui/loader'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { prosesPullSmartApi } from '@/services/api/instansi/profil/sinkron/smart/proses-pull'
+import { statusSinkronSmartApi } from '@/services/api/instansi/profil/sinkron/smart/status'
 import { useSyncStore } from '@/stores/sync'
 import cn from '@/utils/class-names'
 import { parseDate } from '@/utils/date'
@@ -22,14 +23,16 @@ type SinkronSmartButtonProps = {
 export default function SinkronSmartButton({
   className,
 }: SinkronSmartButtonProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing, setIsSyncing } = useSyncStore()
+
   const [showSync, setShowSync] = useState(false)
 
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data } = await statusSinkronSmartAction()
+      const { data } = await statusSinkronSmartApi(jwt)
 
       const startTimes = [
         data?.sync_log_dosen.start_time !== '0001-01-01T00:00:00Z'
@@ -83,7 +86,7 @@ export default function SinkronSmartButton({
   })
 
   const handlePullSync = async (semester: string) => {
-    const { success, message } = await prosesPullSmartAction(semester)
+    const { success, message } = await prosesPullSmartApi(jwt, semester)
 
     if (success) {
       setIsSyncing(true)

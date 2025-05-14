@@ -1,4 +1,3 @@
-import { tableKursusDiikutiAction } from '@/services/api/pengguna/dashboard/table-kursus-diikuti'
 import {
   Button,
   Card,
@@ -9,6 +8,7 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tableKursusDiikutiApi } from '@/services/api/pengguna/dashboard/table-kursus-diikuti'
 import cn from '@/utils/class-names'
 import Image from 'next/image'
 import { ColumnsType } from 'rc-table'
@@ -20,7 +20,7 @@ export default function KursusDiikutiCard({
 }) {
   const { data, isLoading, isFetching } = useTableAsync({
     queryKey: ['pengguna.dashboard.table-kursus-diikuti'],
-    action: tableKursusDiikutiAction,
+    action: tableKursusDiikutiApi,
   })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [

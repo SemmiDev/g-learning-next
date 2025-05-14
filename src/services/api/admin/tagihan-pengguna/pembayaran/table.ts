@@ -1,5 +1,3 @@
-'use server'
-
 import { ControlledAsyncTableApiProps } from '@/components/ui/controlled-async-table'
 import { makeJwtGetRequestTableApi } from '@/utils/api'
 
@@ -15,12 +13,12 @@ export type DataType = {
 }
 
 export const tablePembayaranTagihanPenggunaApi = async ({
-  jwt = '',
+  jwt,
   page = 1,
   search = '',
   sort,
   params,
-}: ControlledAsyncTableApiProps = {}) =>
+}: ControlledAsyncTableApiProps) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/tagihan-pengguna/${params?.idTagihan}/pembayaran`,
     jwt,

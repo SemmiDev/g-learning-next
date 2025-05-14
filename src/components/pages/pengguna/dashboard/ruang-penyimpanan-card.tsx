@@ -1,4 +1,3 @@
-import { driveInfoAction } from '@/services/api/shared/pustaka-media/drive-info'
 import {
   Button,
   Card,
@@ -7,6 +6,8 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { driveInfoApi } from '@/services/api/shared/pustaka-media/drive-info'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
@@ -25,12 +26,14 @@ type DashboardRuangPenyimpananCardProps = {
 export default function DashboardRuangPenyimpananCard({
   className,
 }: DashboardRuangPenyimpananCardProps) {
+  const jwt = useSessionJwt()
+
   const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
 
   const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoAction()
+      const { data } = await driveInfoApi(jwt)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []

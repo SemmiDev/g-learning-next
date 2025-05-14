@@ -1,4 +1,3 @@
-import { tambahKategoriBankMateriAction } from '@/services/api/pengguna/bank-materi/kategori/tambah'
 import {
   ControlledInput,
   Form,
@@ -6,6 +5,8 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahKategoriBankMateriApi } from '@/services/api/pengguna/bank-materi/kategori/tambah'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -32,11 +33,13 @@ export default function TambahKategoriModal({
   show = false,
   setShow,
 }: TambahKategoriModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahKategoriFormSchema> = async (data) => {
-    await handleActionWithToast(tambahKategoriBankMateriAction(data), {
+    await handleActionWithToast(tambahKategoriBankMateriApi(jwt, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

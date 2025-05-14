@@ -1,5 +1,3 @@
-import { lihatBerkasAction } from '@/services/api/shared/pustaka-media/lihat-berkas'
-import { ubahLinkAction } from '@/services/api/shared/pustaka-media/ubah-link'
 import {
   CardSeparator,
   ControlledInput,
@@ -12,6 +10,9 @@ import {
   SelectOptionType,
   TextLabel,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatBerkasApi } from '@/services/api/shared/pustaka-media/lihat-berkas'
+import { ubahLinkApi } from '@/services/api/shared/pustaka-media/ubah-link'
 import { handleActionWithToast } from '@/utils/action'
 import {
   checkSupportedLinkImage,
@@ -71,7 +72,9 @@ export default function UbahLinkModal({
   googleDrive,
   refetchKey,
 }: UbahModalProps) {
+  const jwt = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['shared.pustaka-media.files.ubah-link', id]
@@ -85,7 +88,7 @@ export default function UbahLinkModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBerkasAction(id)
+      const { data } = await lihatBerkasApi(jwt, id)
 
       return {
         nama: data?.nama,
@@ -102,7 +105,7 @@ export default function UbahLinkModal({
   const onSubmit: SubmitHandler<UbahLinkFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahLinkAction(id, data), {
+    await handleActionWithToast(ubahLinkApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

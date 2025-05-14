@@ -1,15 +1,17 @@
 import { ShareTugasFormSchema } from '@/components/pages/pengguna/bank-materi/kategori/modal/share-tugas'
 import { MateriItemType } from '@/components/ui'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const shareTugasBankMateriAction = async (
+export const shareTugasBankMateriApi = async (
+  jwt: string,
   idKelas: string,
   materi: MateriItemType,
   data: ShareTugasFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas`,
+    jwt,
     {
       judul: materi.name,
       deskripsi: cleanQuill(materi.desc),

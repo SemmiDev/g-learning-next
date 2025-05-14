@@ -12,7 +12,10 @@ type DataType = {
   nextPage: number | null
 }
 
-export async function loadMoreAction(page: number = 1): Promise<DataType> {
+export async function loadMoreApi(
+  jwt: string,
+  page: number = 1
+): Promise<DataType> {
   return {
     data: [
       {
