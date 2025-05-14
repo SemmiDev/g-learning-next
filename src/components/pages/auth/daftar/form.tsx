@@ -1,6 +1,5 @@
 'use client'
 
-import { daftarAction } from '@/services/api/auth/daftar'
 import {
   ButtonSubmit,
   ControlledInput,
@@ -11,6 +10,7 @@ import {
   TextLink,
 } from '@/components/ui'
 import { authRoutes, publicRoutes } from '@/config/routes'
+import { daftarApi } from '@/services/api/auth/daftar'
 import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -47,7 +47,7 @@ export default function DaftarForm() {
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<DaftarFormSchema> = async (data) => {
-    await handleActionWithToast(daftarAction(data), {
+    await handleActionWithToast(daftarApi(data), {
       loading: 'Mendaftar...',
       onStart: () => setFormError(undefined),
       onSuccess: () => router.push(authRoutes.login),

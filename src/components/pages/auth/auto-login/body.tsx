@@ -1,10 +1,10 @@
 'use client'
 
-import { autoLoginAction } from '@/services/api/auth/auto-login'
 import { Text } from '@/components/ui'
 import { authRoutes, routes } from '@/config/routes'
-import { signIn } from 'next-auth/react'
+import { autoLoginApi } from '@/services/api/auth/auto-login'
 import { useRouter } from '@bprogress/next/app'
+import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 import toast from 'react-hot-toast'
@@ -17,7 +17,7 @@ export default function AutoLoginBody() {
   const checkToken = useCallback(async () => {
     const token = searchParams.get('token') ?? ''
     const from = searchParams.get('from') ?? ''
-    const { success, data, message } = await autoLoginAction(token, from)
+    const { success, data, message } = await autoLoginApi(token, from)
 
     if (success) {
       const { ok } =

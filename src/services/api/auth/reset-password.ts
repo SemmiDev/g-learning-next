@@ -2,7 +2,7 @@ import { LupaPassowrdFormSchema } from '@/components/pages/auth/lupa-password/fo
 import { ResetPasswordFormSchema } from '@/components/pages/auth/reset-password/form'
 import { makeBasicPostRequestAction } from '@/utils/action'
 
-export const resetPasswordAction = async (data: LupaPassowrdFormSchema) =>
+export const resetPasswordApi = async (data: LupaPassowrdFormSchema) =>
   makeBasicPostRequestAction(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`,
     {
@@ -10,7 +10,7 @@ export const resetPasswordAction = async (data: LupaPassowrdFormSchema) =>
     }
   )
 
-export const verifikasiTokenResetPasswordAction = async (token: string) =>
+export const verifikasiTokenResetPasswordApi = async (token: string) =>
   makeBasicPostRequestAction<{ valid: boolean }>(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/verifikasi-token-reset-password`,
     {
@@ -18,7 +18,7 @@ export const verifikasiTokenResetPasswordAction = async (token: string) =>
     }
   )
 
-export const verifikasiResetPasswordAction = async (
+export const verifikasiResetPasswordApi = async (
   data: ResetPasswordFormSchema & { token: string }
 ) =>
   makeBasicPostRequestAction(

@@ -17,7 +17,7 @@ type DataType = {
   }
 }
 
-export const autoLoginAction = async (token: string, from: string) =>
+export const autoLoginApi = async (token: string, from: string) =>
   makeBasicPostRequestAction<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/masuk-otomatis`,
     {

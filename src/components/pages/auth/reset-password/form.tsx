@@ -11,8 +11,8 @@ import {
 import { authRoutes, routes } from '@/config/routes'
 import { useMedia } from '@/hooks/use-media'
 import {
-  verifikasiResetPasswordAction,
-  verifikasiTokenResetPasswordAction,
+  verifikasiResetPasswordApi,
+  verifikasiTokenResetPasswordApi,
 } from '@/services/api/auth/reset-password'
 import { handleActionWithToast } from '@/utils/action'
 import { requiredPassword } from '@/utils/validations/pipe'
@@ -68,7 +68,7 @@ export default function ResetPasswordForm() {
 
   const onSubmit: SubmitHandler<ResetPasswordFormSchema> = async (data) => {
     await handleActionWithToast(
-      verifikasiResetPasswordAction({ ...data, token }),
+      verifikasiResetPasswordApi({ ...data, token }),
       {
         loading: 'Menyimpan kata sandi baru...',
         success: 'Berhasil menyimpan kata sandi baru',
@@ -80,7 +80,7 @@ export default function ResetPasswordForm() {
   }
 
   const checkToken = useCallback(async () => {
-    const { success, data } = await verifikasiTokenResetPasswordAction(token)
+    const { success, data } = await verifikasiTokenResetPasswordApi(token)
 
     if (!success || !data?.valid) {
       toast.error(

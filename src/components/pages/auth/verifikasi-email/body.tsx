@@ -1,10 +1,10 @@
 'use client'
 
-import { verifikasiEmailAction } from '@/services/api/auth/verifikasi-email'
 import { Text } from '@/components/ui'
 import { authRoutes, routes } from '@/config/routes'
-import { signIn } from 'next-auth/react'
+import { verifikasiEmailApi } from '@/services/api/auth/verifikasi-email'
 import { useRouter } from '@bprogress/next/app'
+import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 import toast from 'react-hot-toast'
@@ -16,7 +16,7 @@ export default function VerifikasiEmailBody() {
 
   const checkToken = useCallback(async () => {
     const token = searchParams.get('token') ?? ''
-    const { success, data, message } = await verifikasiEmailAction(token)
+    const { success, data, message } = await verifikasiEmailApi(token)
 
     if (success) {
       const { ok } =

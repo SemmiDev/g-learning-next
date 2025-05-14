@@ -1,6 +1,5 @@
 'use client'
 
-import { resetPasswordAction } from '@/services/api/auth/reset-password'
 import {
   Button,
   ControlledInput,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui'
 import { authRoutes, publicRoutes } from '@/config/routes'
 import { useMedia } from '@/hooks/use-media'
+import { resetPasswordApi } from '@/services/api/auth/reset-password'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -35,7 +35,7 @@ export default function LupaPasswordForm() {
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<LupaPassowrdFormSchema> = async (data) => {
-    await handleActionWithToast(resetPasswordAction(data), {
+    await handleActionWithToast(resetPasswordApi(data), {
       loading: 'Mengirim email...',
       onStart: () => setFormError(undefined),
       onSuccess: () => router.push(authRoutes.login),
