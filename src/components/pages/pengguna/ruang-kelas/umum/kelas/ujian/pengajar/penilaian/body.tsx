@@ -16,7 +16,7 @@ import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pe
 import { listJawabanUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/list-jawaban'
 import { simpanNilaiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/simpan-nilai-tugas'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -53,7 +53,7 @@ export default function PenilaianUjianBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -67,7 +67,7 @@ export default function PenilaianUjianBody() {
 
   const { data: dataUjian } = useQuery({
     queryKey: queryKeyUjian,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatHasilUjianApi,
       jwt,
       idKelas,

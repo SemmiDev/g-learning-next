@@ -5,7 +5,7 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -23,7 +23,7 @@ export default function DetailUjianBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

@@ -5,7 +5,7 @@ import RandomCoverImage from '@/components/ui/random/cover-image'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { hourMinute } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -20,7 +20,7 @@ export default function KelasHeader() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const jadwal = data?.jadwal ?? []

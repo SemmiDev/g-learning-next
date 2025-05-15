@@ -2,7 +2,7 @@
 
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import PengajarPresensiBody from './pengajar-body'
@@ -15,7 +15,7 @@ export default function PresensiAkademikBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   if (dataKelas?.peran === 'Pengajar') {

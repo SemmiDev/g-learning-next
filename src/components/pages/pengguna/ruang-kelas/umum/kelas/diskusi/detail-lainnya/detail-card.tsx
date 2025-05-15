@@ -11,7 +11,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
@@ -29,7 +29,7 @@ export default function DetailCard({ className }: DetailCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

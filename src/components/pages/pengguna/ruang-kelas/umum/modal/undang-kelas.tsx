@@ -7,7 +7,7 @@ import {
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useWindowLocation } from '@/hooks/use-window-location'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { MdOutlineContentCopy } from 'react-icons/md'
@@ -29,7 +29,7 @@ export default function UndangKelasModal({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', id],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, id ?? null),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, id ?? null),
   })
 
   const kodeUndang = data?.kelas.kode_unik || ''

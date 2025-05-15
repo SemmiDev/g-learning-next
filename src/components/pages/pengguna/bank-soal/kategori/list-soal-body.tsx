@@ -16,7 +16,7 @@ import { hapusBankSoalApi } from '@/services/api/pengguna/bank-soal/hapus'
 import { lihatKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/lihat'
 import { listBankSoalApi } from '@/services/api/pengguna/bank-soal/list'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -59,11 +59,7 @@ export default function ListSoalBody() {
 
   const { data: kategori } = useQuery({
     queryKey: ['pengguna.bank-soal.kategori.lihat', idKategori],
-    queryFn: makeSimpleQueryDataWithParams(
-      lihatKategoriBankSoalApi,
-      jwt,
-      idKategori
-    ),
+    queryFn: makeSimpleQueryData(lihatKategoriBankSoalApi, jwt, idKategori),
   })
 
   const queryKey = ['pengguna.bank-soal.list', idKategori]

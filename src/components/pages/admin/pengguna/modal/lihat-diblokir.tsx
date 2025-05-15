@@ -14,7 +14,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { bukaBlokirPenggunaApi } from '@/services/api/admin/pengguna/buka-blokir'
 import { lihatPenggunaApi } from '@/services/api/admin/pengguna/lihat'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 
@@ -36,7 +36,7 @@ export default function LihatDiblokirModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.pengguna.table.lihat', id],
-    queryFn: makeSimpleQueryDataWithParams(lihatPenggunaApi, jwt, id ?? null),
+    queryFn: makeSimpleQueryData(lihatPenggunaApi, jwt, id ?? null),
   })
 
   const handleBukaBlokir = () => {

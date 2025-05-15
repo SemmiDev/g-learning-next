@@ -10,7 +10,7 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { betweenTime } from '@/utils/time'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
@@ -35,7 +35,7 @@ export default function HasilUjianModal({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -47,12 +47,7 @@ export default function HasilUjianModal({
       idKelas,
       id,
     ],
-    queryFn: makeSimpleQueryDataWithParams(
-      lihatHasilUjianApi,
-      jwt,
-      idKelas,
-      id || null
-    ),
+    queryFn: makeSimpleQueryData(lihatHasilUjianApi, jwt, idKelas, id || null),
     enabled: !!id,
   })
 

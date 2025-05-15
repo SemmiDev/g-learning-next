@@ -12,7 +12,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
 import { ubahProfilApi } from '@/services/api/instansi/profil/detail/ubah-data'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -53,7 +53,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   const initialValues: UbahProfilFormSchema = {

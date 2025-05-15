@@ -17,7 +17,7 @@ import { listPesertaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment, useState } from 'react'
@@ -41,7 +41,7 @@ export default function PengajarPesertaCard({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const queryKey = [

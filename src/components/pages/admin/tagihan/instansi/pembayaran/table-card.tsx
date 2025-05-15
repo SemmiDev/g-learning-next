@@ -17,7 +17,7 @@ import { lihatTagihanInstansiApi } from '@/services/api/admin/tagihan-instansi/l
 import { hapusPembayaranTagihanInstansiApi } from '@/services/api/admin/tagihan-instansi/pembayaran/hapus'
 import { tablePembayaranTagihanInstansiApi } from '@/services/api/admin/tagihan-instansi/pembayaran/table'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { rupiah } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -56,11 +56,7 @@ export default function TablePembayaranTagihanInstansiCard() {
 
   const { data: dataTagihan } = useQuery({
     queryKey: queryKeyTagihan,
-    queryFn: makeSimpleQueryDataWithParams(
-      lihatTagihanInstansiApi,
-      jwt,
-      idTagihan
-    ),
+    queryFn: makeSimpleQueryData(lihatTagihanInstansiApi, jwt, idTagihan),
   })
 
   const queryKey = ['admin.tagihan-instansi.pembayaran.table', idTagihan]

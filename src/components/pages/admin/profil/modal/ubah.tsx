@@ -13,7 +13,7 @@ import { dataProfilApi } from '@/services/api/admin/profil/data'
 import { ubahProfilApi } from '@/services/api/admin/profil/ubah-data'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -52,7 +52,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   const initialValues: UbahProfilFormSchema = {

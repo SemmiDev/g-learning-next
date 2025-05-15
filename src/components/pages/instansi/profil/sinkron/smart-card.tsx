@@ -5,7 +5,7 @@ import { dataSinkronApi } from '@/services/api/instansi/profil/sinkron/data'
 import { ubahSinkronSmartApi } from '@/services/api/instansi/profil/sinkron/tipe-smart'
 import { useSyncStore } from '@/stores/sync'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoGci from '@public/images/logo/gci.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -37,7 +37,7 @@ export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
 
   const { data } = useQuery({
     queryKey: queryKey,
-    queryFn: makeSimpleQueryDataWithParams(dataSinkronApi, jwt),
+    queryFn: makeSimpleQueryData(dataSinkronApi, jwt),
   })
 
   type DataType = NonNullable<typeof data>

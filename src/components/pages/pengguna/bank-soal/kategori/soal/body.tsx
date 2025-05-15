@@ -33,7 +33,7 @@ import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { removeIndexFromList } from '@/utils/list'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { cleanQuill } from '@/utils/string'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -143,12 +143,7 @@ export default function KelolaSoalBody() {
 
   const { data: dataBankSoal } = useQuery({
     queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
-    queryFn: makeSimpleQueryDataWithParams(
-      lihatBankSoalApi,
-      jwt,
-      idKategori,
-      idBankSoal
-    ),
+    queryFn: makeSimpleQueryData(lihatBankSoalApi, jwt, idKategori, idBankSoal),
   })
 
   const queryKey = [

@@ -10,7 +10,7 @@ import { dataSinkronApi } from '@/services/api/instansi/profil/sinkron/data'
 import { ubahSinkronDiktiApi } from '@/services/api/instansi/profil/sinkron/tipe-dikti'
 import { useSyncStore } from '@/stores/sync'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import logoDikti from '@public/images/logo/dikti.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -45,7 +45,7 @@ export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
 
   const { data } = useQuery({
     queryKey: queryKey,
-    queryFn: makeSimpleQueryDataWithParams(dataSinkronApi, jwt),
+    queryFn: makeSimpleQueryData(dataSinkronApi, jwt),
   })
 
   type DataType = NonNullable<typeof data>

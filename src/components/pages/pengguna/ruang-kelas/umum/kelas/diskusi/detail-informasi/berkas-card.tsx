@@ -13,7 +13,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
@@ -32,7 +32,7 @@ export default function BerkasCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.informasi', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   if (isLoading) return <BerkasCardShimmer className={className} />

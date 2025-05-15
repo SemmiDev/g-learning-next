@@ -11,7 +11,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
 import { ubahSemesterAktifApi } from '@/services/api/instansi/profil/detail/ubah-semester-aktif'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -56,7 +56,7 @@ export default function UbahSemesterAktifModal({
 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   const semesterAktif = data?.instansi.semester_aktif

@@ -16,7 +16,7 @@ import { hapusBankMateriApi } from '@/services/api/pengguna/bank-materi/hapus'
 import { lihatKategoriBankMateriApi } from '@/services/api/pengguna/bank-materi/kategori/lihat'
 import { listBankMateriApi } from '@/services/api/pengguna/bank-materi/list'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -72,11 +72,7 @@ export default function ListMateriBody() {
 
   const { data: kategori } = useQuery({
     queryKey: ['pengguna.bank-materi.kategori.lihat', idKategori],
-    queryFn: makeSimpleQueryDataWithParams(
-      lihatKategoriBankMateriApi,
-      jwt,
-      idKategori
-    ),
+    queryFn: makeSimpleQueryData(lihatKategoriBankMateriApi, jwt, idKategori),
   })
 
   const queryKey = ['pengguna.bank-materi.list', idKategori]

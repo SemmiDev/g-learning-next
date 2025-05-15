@@ -13,7 +13,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatMateriApi } from '@/services/api/shared/materi/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ReactNode, useState } from 'react'
@@ -37,12 +37,7 @@ export default function LihatMateriModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['shared.materi.lihat', idKategori, id],
-    queryFn: makeSimpleQueryDataWithParams(
-      lihatMateriApi,
-      jwt,
-      idKategori,
-      id ?? null
-    ),
+    queryFn: makeSimpleQueryData(lihatMateriApi, jwt, idKategori, id ?? null),
   })
 
   const files: PustakaMediaFileType[] = (data?.daftar_file_bank_ajar ?? []).map(

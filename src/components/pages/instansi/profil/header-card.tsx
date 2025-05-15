@@ -6,7 +6,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { angka } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -30,7 +30,7 @@ export default function HeaderCard({ className }: { className?: string }) {
 
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   return (

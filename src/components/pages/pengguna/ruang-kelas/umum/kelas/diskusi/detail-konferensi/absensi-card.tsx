@@ -17,7 +17,7 @@ import { simpanAbsensiAktifitasApi } from '@/services/api/pengguna/ruang-kelas/a
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -43,7 +43,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.konferensi', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   const tipe = mustBe(

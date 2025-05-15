@@ -19,7 +19,7 @@ import {
 } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner'
@@ -51,7 +51,7 @@ export default function PresensiSesiBody() {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatSesiPembelajaranApi,
       jwt,
       idKelas,

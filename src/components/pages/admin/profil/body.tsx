@@ -12,7 +12,7 @@ import {
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/admin/profil/data'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
@@ -29,7 +29,7 @@ export default function ProfilBody() {
 
   const { data } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   return (

@@ -8,7 +8,7 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatPaketSoalApi } from '@/services/api/shared/paket-soal/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ReactNode } from 'react'
@@ -30,7 +30,7 @@ export default function LihatSoalModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['shared.paket-soal.lihat', idKategori, id],
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatPaketSoalApi,
       jwt,
       idKategori,

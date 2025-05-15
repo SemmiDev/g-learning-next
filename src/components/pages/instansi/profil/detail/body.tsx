@@ -13,7 +13,7 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
@@ -28,7 +28,7 @@ export default function ProfilDetailBody() {
 
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   return (

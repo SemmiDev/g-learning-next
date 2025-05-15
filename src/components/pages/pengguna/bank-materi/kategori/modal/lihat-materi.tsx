@@ -12,7 +12,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatBankMateriApi } from '@/services/api/pengguna/bank-materi/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ReactNode, useState } from 'react'
@@ -36,7 +36,7 @@ export default function LihatMateriModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['pengguna.bank-materi.lihat', idKategori, id],
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatBankMateriApi,
       jwt,
       idKategori,

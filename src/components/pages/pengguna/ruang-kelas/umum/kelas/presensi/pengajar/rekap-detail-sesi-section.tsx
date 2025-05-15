@@ -4,7 +4,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { tableAbsensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -33,7 +33,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const { data, isLoading } = useQuery({
@@ -43,7 +43,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
       idKelas,
       idAktifitas,
     ],
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatAktifitasApi,
       jwt,
       idKelas,

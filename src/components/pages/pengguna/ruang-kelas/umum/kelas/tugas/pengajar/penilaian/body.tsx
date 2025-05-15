@@ -24,7 +24,7 @@ import { simpanNilaiTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifit
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -62,7 +62,7 @@ export default function PenilaianTugasBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -76,7 +76,7 @@ export default function PenilaianTugasBody() {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatNilaiTugasApi,
       jwt,
       idKelas,

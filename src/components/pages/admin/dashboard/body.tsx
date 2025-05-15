@@ -2,7 +2,6 @@
 
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dashboardCountApi } from '@/services/api/admin/dashboard/count'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { LuHouse, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
@@ -13,11 +12,11 @@ import DashboardPenggunaanPaketPenggunaCard from './penggunaan-paket-pengguna-ca
 import DashboardPenggunaanPenyimpananCard from './penggunaan-penyimpanan-card'
 
 export default function DashboardBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const { data } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dashboardCountApi, jwt),
+    queryFn: makeSimpleApiQueryData(dashboardCountApi),
   })
 
   return (

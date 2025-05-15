@@ -12,7 +12,7 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
 import { hourMinute } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -54,7 +54,7 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatSesiPembelajaranApi,
       jwt,
       idKelas,

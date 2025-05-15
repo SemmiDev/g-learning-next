@@ -13,7 +13,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { bukaBlokirPenggunaApi } from '@/services/api/instansi/profil/pengguna/buka-blokir'
 import { lihatPenggunaApi } from '@/services/api/instansi/profil/pengguna/lihat'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import imagePhoto from '@public/images/photo.png'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
@@ -38,7 +38,7 @@ export default function LihatDiblokirModal({
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.pengguna.table.lihat', id],
-    queryFn: makeSimpleQueryDataWithParams(lihatPenggunaApi, jwt, id ?? null),
+    queryFn: makeSimpleQueryData(lihatPenggunaApi, jwt, id ?? null),
   })
 
   const handleBukaBlokir = () => {

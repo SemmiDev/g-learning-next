@@ -18,7 +18,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/pengguna/profil/data'
 import { kirimEmailVerifikasiApi } from '@/services/api/pengguna/profil/kirim-email-verifikasi'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
@@ -43,7 +43,7 @@ export default function ProfilBody() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryDataWithParams(dataProfilApi, jwt),
+    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
   })
 
   const handleKirimEmailVerifikasi = async () => {

@@ -13,7 +13,7 @@ import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas
 import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import DetailCardShimmer from '../shimmer/detail-card'
@@ -37,7 +37,7 @@ export default function DetailCard({
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

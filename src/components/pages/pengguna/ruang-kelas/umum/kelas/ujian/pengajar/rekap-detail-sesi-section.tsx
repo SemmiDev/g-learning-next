@@ -10,7 +10,7 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -33,7 +33,7 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -47,7 +47,7 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatAktifitasApi,
       jwt,
       idKelas,

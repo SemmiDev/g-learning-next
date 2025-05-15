@@ -16,7 +16,7 @@ import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/se
 import { mulaiSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/mulai-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { LatLng } from 'leaflet'
@@ -44,7 +44,7 @@ export default function MulaiSesiBody() {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatSesiPembelajaranApi,
       jwt,
       idKelas,

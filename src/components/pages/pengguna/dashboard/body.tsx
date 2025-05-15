@@ -2,7 +2,7 @@
 
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dashboardCountApi } from '@/services/api/pengguna/dashboard/count'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { LuFileText, LuFolder, LuHouse, LuUsers } from 'react-icons/lu'
 import DashboardCountCard from './count-card'
@@ -16,7 +16,7 @@ export default function DashboardBody() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.dashboard.count'],
-    queryFn: makeSimpleQueryDataWithParams(dashboardCountApi, jwt),
+    queryFn: makeSimpleQueryData(dashboardCountApi, jwt),
   })
 
   return (

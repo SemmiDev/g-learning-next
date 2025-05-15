@@ -11,7 +11,7 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { listTugasApi } from '@/services/api/pengguna/ruang-kelas/tugas/peserta/list'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
@@ -59,7 +59,7 @@ export default function PesertaDaftarTugasSection() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
   })
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =

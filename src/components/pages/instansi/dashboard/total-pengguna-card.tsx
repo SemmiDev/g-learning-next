@@ -1,10 +1,7 @@
 import { Card, CardSeparator, Text, Title } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { totalPenggunaApi } from '@/services/api/instansi/dashboard/total-pengguna'
-import {
-  makeSimpleQueryData,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { angka } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
@@ -16,7 +13,7 @@ export default function DashboardTotalPenggunaCard() {
 
   const { data } = useQuery({
     queryKey: ['instansi.dashboard.total-pengguna'],
-    queryFn: makeSimpleQueryDataWithParams(totalPenggunaApi, jwt),
+    queryFn: makeSimpleQueryData(totalPenggunaApi, jwt),
   })
 
   const chartData = [

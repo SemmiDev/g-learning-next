@@ -25,7 +25,7 @@ import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/se
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useParams } from 'next/navigation'
@@ -84,7 +84,7 @@ export default function PengajarPresensiCard({
       idKelas,
       idSesi,
     ],
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatSesiPembelajaranApi,
       jwt,
       idKelas,

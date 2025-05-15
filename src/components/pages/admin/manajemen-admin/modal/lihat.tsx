@@ -16,11 +16,11 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const { makeSimpleApiQueryDataWithParams } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.manajemen-admin.table.lihat', id],
-    queryFn: makeSimpleApiQueryDataWithParams(lihatAdminApi, id ?? null),
+    queryFn: makeSimpleApiQueryData(lihatAdminApi, id ?? null),
   })
 
   return (

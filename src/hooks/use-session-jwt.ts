@@ -7,7 +7,7 @@ export function useSessionJwt() {
 
   const jwt = session?.jwt || ''
 
-  const makeSimpleApiQueryDataWithParams =
+  const makeSimpleApiQueryData =
     <TData extends AnyObject, TParams extends Array<string | number>>(
       action: (
         jwt: string,
@@ -16,7 +16,8 @@ export function useSessionJwt() {
       ...params: Nullish<RemainingParams<typeof action>>
     ) =>
     async () => {
-      if (!jwt || params.some((param) => param === null)) return null
+      if (!jwt || params.some((param) => param === null || param === ''))
+        return null
 
       const { data, success, message } = await action(
         jwt,
@@ -32,6 +33,6 @@ export function useSessionJwt() {
 
   return {
     jwt,
-    makeSimpleApiQueryDataWithParams,
+    makeSimpleApiQueryData,
   }
 }

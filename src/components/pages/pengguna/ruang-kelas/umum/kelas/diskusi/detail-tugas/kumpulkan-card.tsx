@@ -22,7 +22,7 @@ import { simpanPengumpulanTugasApi } from '@/services/api/pengguna/ruang-kelas/a
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { passedTime } from '@/utils/time'
 import { arrayRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -68,7 +68,7 @@ export default function KumpulkanTugasCard({
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(
+    queryFn: makeSimpleQueryData(
       lihatPengumpulanTugasApi,
       jwt,
       idKelas,

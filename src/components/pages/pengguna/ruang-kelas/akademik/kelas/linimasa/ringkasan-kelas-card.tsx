@@ -2,7 +2,7 @@ import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { ringkasanKelasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ringkasan-kelas'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Progressbar } from 'rizzui'
@@ -20,7 +20,7 @@ export default function RingkasanKelasCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.linimasa.ringkasan-kelas', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(ringkasanKelasApi, jwt, idKelas),
+    queryFn: makeSimpleQueryData(ringkasanKelasApi, jwt, idKelas),
   })
 
   if (isLoading || !data) return <CardShimmer className={className} />
