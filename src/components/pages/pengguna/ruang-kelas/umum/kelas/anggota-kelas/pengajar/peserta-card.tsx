@@ -1,6 +1,3 @@
-import { keluarkanAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
-import { listPesertaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/list-peserta'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
@@ -13,10 +10,14 @@ import {
   Title,
 } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { keluarkanAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
+import { listPesertaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/list-peserta'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment, useState } from 'react'
@@ -30,7 +31,9 @@ type PengajarAnggotaCardProps = {
 export default function PengajarPesertaCard({
   className,
 }: PengajarAnggotaCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [showUndang, setShowUndang] = useState(false)
   const [idKeluarkan, setIdKeluarkan] = useState<string>()
 
@@ -38,7 +41,7 @@ export default function PengajarPesertaCard({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const queryKey = [
@@ -59,14 +62,14 @@ export default function PengajarPesertaCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: listPesertaKelasAction,
+    action: listPesertaKelasApi,
     actionParams: { idKelas },
   })
 
   const handleKeluarkan = () => {
     if (!idKeluarkan) return
 
-    handleActionWithToast(keluarkanAnggotaKelasAction(idKelas, idKeluarkan), {
+    handleActionWithToast(keluarkanAnggotaKelasApi(jwt, idKelas, idKeluarkan), {
       loading: 'Mengeluarkan anggota...',
       onSuccess: () => {
         setIdKeluarkan(undefined)

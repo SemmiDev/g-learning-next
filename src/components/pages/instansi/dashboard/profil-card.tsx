@@ -13,7 +13,7 @@ import BackgroundProfil from './background-pattern'
 import ProfilItem from './profil-item'
 
 export default function DashboardProfilCard() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { data } = useQuery({
     queryKey: ['instansi.profil'],

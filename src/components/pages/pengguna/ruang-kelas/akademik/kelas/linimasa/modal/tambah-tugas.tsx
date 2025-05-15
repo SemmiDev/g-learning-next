@@ -1,4 +1,3 @@
-import { tambahAktifitasTugasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/tambah-tugas'
 import {
   ControlledDatePicker,
   ControlledInput,
@@ -14,6 +13,8 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/tambah-tugas'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -76,14 +77,16 @@ export default function TambahTugasModal({
   show = false,
   setShow,
 }: TambahTugasModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahTugasFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasTugasAction(idKelas, data), {
+    await handleActionWithToast(tambahAktifitasTugasApi(jwt, idKelas, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

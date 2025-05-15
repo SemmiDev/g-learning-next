@@ -1,6 +1,3 @@
-import { hapusAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/hapus'
-import { DataType } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
@@ -13,8 +10,12 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { hapusAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/hapus'
+import { DataType } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtmlAndEllipsis } from '@/utils/text'
@@ -44,6 +45,7 @@ export default function KonferensiCard({
     doShow: doShowUbah,
     doHide: doHideUbah,
   } = useShowModal<string>()
+  const { jwt } = useSessionJwt()
   const [idHapus, setIdHapus] = useState<string>()
 
   const { id: idPengguna } = useSessionPengguna()
@@ -52,7 +54,7 @@ export default function KonferensiCard({
   const handleHapus = () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasAction(idKelas, idHapus), {
+    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)

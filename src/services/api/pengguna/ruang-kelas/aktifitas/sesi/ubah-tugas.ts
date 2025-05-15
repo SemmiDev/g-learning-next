@@ -1,14 +1,16 @@
 import { UbahTugasSesiFormSchema } from '@/components/pages/pengguna/ruang-kelas/akademik/kelas/sesi-pembelajaran/sesi/pengajar/modal/ubah-tugas'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasTugasSesiAction = async (
+export const ubahAktifitasTugasSesiApi = async (
+  jwt: string,
   idKelas: string,
   id: string,
   data: UbahTugasSesiFormSchema
 ) =>
-  makeJwtPutRequestAction(
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${id}`,
+    jwt,
     {
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),

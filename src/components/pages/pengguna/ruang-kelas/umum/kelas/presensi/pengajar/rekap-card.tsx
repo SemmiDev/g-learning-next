@@ -1,4 +1,3 @@
-import { tableSesiAbsensiAction } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-sesi-absensi'
 import {
   Button,
   Card,
@@ -10,6 +9,7 @@ import {
 } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
+import { tableSesiAbsensiApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-sesi-absensi'
 import cn from '@/utils/class-names'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
@@ -70,7 +70,7 @@ export default function PengajarRekapPresensiCard({
     fetchNextPage,
   } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.presensi.list-sesi', 'pengajar', idKelas],
-    action: tableSesiAbsensiAction,
+    action: tableSesiAbsensiApi,
     initialSort: {
       name: 'created_at',
       order: 'desc',

@@ -34,7 +34,7 @@ export default function UbahLogoModal({
   show = false,
   setShow,
 }: UbahLogoModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const { update: updateSession } = useSession()
 

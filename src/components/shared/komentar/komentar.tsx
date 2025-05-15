@@ -50,7 +50,7 @@ export default function Komentar({
   invalidateQueries,
   className,
 }: KomentarProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [isLoadMore, setIsLoadMore] = useState(firstShow >= showPer)

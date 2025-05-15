@@ -1,7 +1,8 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import { Button, Card, CardSeparator, Komentar, Title } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
@@ -15,13 +16,15 @@ type DetailCardProps = {
 }
 
 export default function DetailCard({ kelas, className }: DetailCardProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const queryKey = ['pengguna.ruang-kelas.detail.konferensi', idKelas, id]
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

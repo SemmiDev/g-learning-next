@@ -42,7 +42,7 @@ export default function UbahBerkasModal({
   refetchKey,
   alert = true,
 }: UbahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()

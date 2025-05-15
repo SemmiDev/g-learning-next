@@ -39,7 +39,7 @@ export default function ImportSoalModal({
   setShowModal,
   refetchKey,
 }: ImportSoalModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
 

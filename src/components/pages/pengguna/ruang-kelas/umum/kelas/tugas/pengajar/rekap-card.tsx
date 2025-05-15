@@ -1,7 +1,7 @@
-import { tableSesiTugasAction } from '@/services/api/pengguna/ruang-kelas/tugas/pengajar/table-sesi-tugas'
 import { Button, Card, Loader, Shimmer, Text, Title } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
+import { tableSesiTugasApi } from '@/services/api/pengguna/ruang-kelas/tugas/pengajar/table-sesi-tugas'
 import cn from '@/utils/class-names'
 import { passedTime } from '@/utils/time'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -63,7 +63,7 @@ export default function PengajarRekapTugasCard({
     fetchNextPage,
   } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.tugas.list-sesi', 'pengajar', idKelas],
-    action: tableSesiTugasAction,
+    action: tableSesiTugasApi,
     initialSort: sortData[0].sort,
     actionParams: { idKelas },
   })

@@ -1,4 +1,3 @@
-import { tableSesiAbsensiAction } from '@/services/api/pengguna/ruang-kelas/presensi/akademik/pengajar/table-sesi-absensi'
 import {
   Button,
   Card,
@@ -10,15 +9,16 @@ import {
 } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
+import { tableSesiAbsensiApi } from '@/services/api/pengguna/ruang-kelas/presensi/akademik/pengajar/table-sesi-absensi'
 import cn from '@/utils/class-names'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { Dropdown } from 'rizzui'
 import PengajarRekapPresensiDetailSesiSection from './rekap-detail-sesi-section'
 import PengajarRekapPresensiItem from './rekap-item'
-import useInfiniteScroll from 'react-infinite-scroll-hook'
 
 type SortDataType = {
   title: string
@@ -70,7 +70,7 @@ export default function PengajarRekapPresensiCard({
     fetchNextPage,
   } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.presensi.list-sesi', 'pengajar', idKelas],
-    action: tableSesiAbsensiAction,
+    action: tableSesiAbsensiApi,
     initialSort: {
       name: 'pertemuan',
       order: 'desc',

@@ -1,5 +1,3 @@
-import { ubahAktifitasKonferensiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ubah-konferensi'
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -12,6 +10,9 @@ import {
   ModalFooterButtons,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { ubahAktifitasKonferensiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ubah-konferensi'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { required } from '@/utils/validations/pipe'
@@ -61,8 +62,10 @@ export default function UbahKonferensiModal({
   show,
   onHide,
 }: UbahKonferensiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -78,7 +81,7 @@ export default function UbahKonferensiModal({
     queryFn: async (): Promise<UbahKonferensiFormSchema> => {
       if (!id) return { penjadwalan: false }
 
-      const { data } = await lihatAktifitasAction(idKelas, id)
+      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -94,7 +97,7 @@ export default function UbahKonferensiModal({
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasKonferensiAction(idKelas, id, data),
+      ubahAktifitasKonferensiApi(jwt, idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

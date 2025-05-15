@@ -1,4 +1,3 @@
-import { listUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/list'
 import {
   Button,
   Card,
@@ -8,7 +7,9 @@ import {
   Text,
   TimeIndo,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { listUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/list'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { betweenTime, futureTime, passedTime } from '@/utils/time'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -47,6 +48,8 @@ const sortData: SortDataType[] = [
 ]
 
 export default function PesertaDaftarUjianSection() {
+  const { jwt } = useSessionJwt()
+
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
   const {
@@ -62,7 +65,8 @@ export default function PesertaDaftarUjianSection() {
     useInfiniteQuery({
       queryKey: ['pengguna.ruang-kelas.ujian.daftar-ujian', 'peserta', idKelas],
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listUjianAction({
+        const { data } = await listUjianApi({
+          jwt,
           page,
           search,
           sort,

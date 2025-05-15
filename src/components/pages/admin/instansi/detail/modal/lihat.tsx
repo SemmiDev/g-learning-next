@@ -24,7 +24,7 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const { id: idInstansi }: { id: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({

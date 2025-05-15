@@ -1,10 +1,3 @@
-import { cekPresensiSemuaPesertaSesiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/pengajar/cek-presensi-semua-peserta'
-import { simpanPresensiPesertaSesiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/pengajar/simpan-presensi-peserta'
-import {
-  DataType as DataPresensiType,
-  tablePresensiPesertaSesiAction,
-} from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
-import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -19,8 +12,16 @@ import {
 } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { cekPresensiSemuaPesertaSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/pengajar/cek-presensi-semua-peserta'
+import { simpanPresensiPesertaSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/pengajar/simpan-presensi-peserta'
+import {
+  DataType as DataPresensiType,
+  tablePresensiPesertaSesiApi,
+} from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
@@ -54,7 +55,9 @@ type PengajarPresensiCardProps = {
 export default function PengajarPresensiCard({
   className,
 }: PengajarPresensiCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [ubahData, setUbahData] = useState(false)
   const [hadirSemua, setHadirSemua] = useState(false)
   const [dataPerubahan, setDataPerubahan] = useState<AbsensiType>({})
@@ -82,7 +85,8 @@ export default function PengajarPresensiCard({
       idSesi,
     ],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatSesiPembelajaranAction,
+      lihatSesiPembelajaranApi,
+      jwt,
       idKelas,
       idSesi
     ),
@@ -105,13 +109,13 @@ export default function PengajarPresensiCard({
     totalData,
   } = useTableAsync({
     queryKey,
-    action: tablePresensiPesertaSesiAction,
+    action: tablePresensiPesertaSesiApi,
     actionParams: { idKelas, idSesi },
     enabled: !!idKelas && !!idSesi,
   })
 
   type TableDataType = Awaited<
-    ReturnType<typeof tablePresensiPesertaSesiAction>
+    ReturnType<typeof tablePresensiPesertaSesiApi>
   >['data']
 
   const handleSimpan = async () => {
@@ -121,7 +125,7 @@ export default function PengajarPresensiCard({
     }))
 
     await handleActionWithToast(
-      simpanPresensiPesertaSesiAction(idKelas, idSesi, dataAbsen),
+      simpanPresensiPesertaSesiApi(jwt, idKelas, idSesi, dataAbsen),
       {
         loading: 'Menyimpan presensi...',
         onSuccess: () => {
@@ -141,7 +145,7 @@ export default function PengajarPresensiCard({
   }
 
   const handleHadirSemua = async () => {
-    const { data } = await cekPresensiSemuaPesertaSesiAction(idKelas, idSesi)
+    const { data } = await cekPresensiSemuaPesertaSesiApi(jwt, idKelas, idSesi)
     const dataHadirSemua = (data?.list ?? []).reduce(
       (o, item) => ({ ...o, [item.id_peserta]: 'Hadir' }),
       {}

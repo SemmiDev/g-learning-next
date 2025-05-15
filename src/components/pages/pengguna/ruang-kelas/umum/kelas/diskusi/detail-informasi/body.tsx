@@ -1,6 +1,5 @@
 'use client'
 
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   FilePreviewType,
@@ -8,9 +7,11 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
-import { useQuery } from '@tanstack/react-query'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -19,14 +20,16 @@ import BerkasCard from './berkas-card'
 import DetailCard from './detail-card'
 
 export default function DetailInformasiBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
+
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

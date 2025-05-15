@@ -31,7 +31,7 @@ type DashboardPenggunaanPaketInstansiCardProps = {
 export default function DashboardPenggunaanPaketInstansiCard({
   className,
 }: DashboardPenggunaanPaketInstansiCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { data = { list: [], max: 0 } } = useQuery<ChartType>({
     queryKey: ['admin.dashboard.penggunaan-paket-instansi'],

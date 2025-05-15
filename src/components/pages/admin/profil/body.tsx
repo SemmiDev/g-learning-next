@@ -21,7 +21,7 @@ import UbahFotoModal from './modal/ubah-foto'
 import UbahPasswordModal from './modal/ubah-password'
 
 export default function ProfilBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [showUbah, setShowUbah] = useState(false)
   const [showFoto, setShowFoto] = useState(false)

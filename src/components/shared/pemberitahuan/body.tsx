@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import PemberitahuanItem from './item'
 
 export default function PemberitahuanBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [data, setData] = useState<DataItemType[]>([])
 

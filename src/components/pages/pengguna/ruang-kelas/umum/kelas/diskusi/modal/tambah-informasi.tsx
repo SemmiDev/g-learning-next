@@ -1,4 +1,3 @@
-import { tambahAktifitasInformasiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-informasi'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -12,6 +11,8 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasInformasiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-informasi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -63,24 +64,29 @@ export default function TambahInformasiModal({
   show = false,
   setShow,
 }: TambahInformasiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahInformasiFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasInformasiAction(idKelas, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        setShow(false)
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      tambahAktifitasInformasiApi(jwt, idKelas, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          setShow(false)
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

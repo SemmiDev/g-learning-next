@@ -26,7 +26,7 @@ type DashboardRuangPenyimpananCardProps = {
 export default function DashboardRuangPenyimpananCard({
   className,
 }: DashboardRuangPenyimpananCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
 

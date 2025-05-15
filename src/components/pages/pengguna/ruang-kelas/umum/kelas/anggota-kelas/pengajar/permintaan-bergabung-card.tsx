@@ -1,6 +1,3 @@
-import { keluarkanAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
-import { listPermintaanBergabungKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/list-permintaan-bergabung'
-import { terimaAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/terima'
 import {
   Button,
   Card,
@@ -12,6 +9,10 @@ import {
   Thumbnail,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { keluarkanAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
+import { listPermintaanBergabungKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/list-permintaan-bergabung'
+import { terimaAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/terima'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
@@ -28,7 +29,9 @@ type PengajarPermintaanBergabungCardProps = {
 export default function PengajarPermintaanBergabungCard({
   className,
 }: PengajarPermintaanBergabungCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [checkedIds, setCheckedIds] = useState<Record<string, boolean>>({})
   const [terimaDitandai, setTerimaDitandai] = useState(false)
   const [idTerima, setIdTerima] = useState<string>()
@@ -51,7 +54,8 @@ export default function PengajarPermintaanBergabungCard({
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listPermintaanBergabungKelasAction({
+      const { data } = await listPermintaanBergabungKelasApi({
+        jwt,
         page,
         idKelas,
       })
@@ -101,7 +105,7 @@ export default function PengajarPermintaanBergabungCard({
   }
 
   const processTerima = (ids: string[]) => {
-    handleActionWithToast(terimaAnggotaKelasAction(idKelas, ids), {
+    handleActionWithToast(terimaAnggotaKelasApi(jwt, idKelas, ids), {
       loading: 'Menerima anggota...',
       onStart: () => {
         setTerimaDitandai(false)
@@ -117,7 +121,7 @@ export default function PengajarPermintaanBergabungCard({
   const handleTolak = () => {
     if (!idTolak) return
 
-    handleActionWithToast(keluarkanAnggotaKelasAction(idKelas, idTolak), {
+    handleActionWithToast(keluarkanAnggotaKelasApi(jwt, idKelas, idTolak), {
       loading: 'Mengeluarkan anggota...',
       onStart: () => setIdTolak(undefined),
       onSuccess: () => {

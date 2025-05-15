@@ -1,7 +1,5 @@
 'use client'
 
-import { listBerkasKelasAction } from '@/services/api/pengguna/ruang-kelas/berkas/list'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
@@ -12,8 +10,11 @@ import {
   Shimmer,
   Text,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listBerkasKelasApi } from '@/services/api/pengguna/ruang-kelas/berkas/list'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -51,6 +52,8 @@ const sortData: SortDataType[] = [
 ]
 
 export default function BerkasBody() {
+  const { jwt } = useSessionJwt()
+
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
   const [search, setSearch] = useState('')
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
@@ -59,7 +62,7 @@ export default function BerkasBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const queryKey = ['pengguna.ruang-kelas.berkas', idKelas]
@@ -68,7 +71,8 @@ export default function BerkasBody() {
     useInfiniteQuery({
       queryKey,
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listBerkasKelasAction({
+        const { data } = await listBerkasKelasApi({
+          jwt,
           page,
           search,
           sort,

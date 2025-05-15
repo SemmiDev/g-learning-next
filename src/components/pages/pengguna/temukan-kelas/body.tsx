@@ -20,7 +20,7 @@ import { useDebounce } from 'react-use'
 import KelasCard from './kelas-card'
 
 export default function TermukanKelasBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')

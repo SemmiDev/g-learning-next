@@ -12,7 +12,7 @@ import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 const COLORS = ['#00B929', '#DCDCDC']
 
 export default function DashboardTotalPenggunaCard() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { data } = useQuery({
     queryKey: ['instansi.dashboard.total-pengguna'],

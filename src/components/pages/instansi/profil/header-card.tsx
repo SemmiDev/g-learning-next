@@ -24,7 +24,7 @@ import HeaderItem from './header-item'
 import UbahSemesterAktifModal from './modal/ubah-semester-aktif'
 
 export default function HeaderCard({ className }: { className?: string }) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [showUbahSemesterAktif, setShowUbahSemesterAktif] = useState(false)
 

@@ -1,11 +1,13 @@
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 
-export const terimaAnggotaKelasAction = async (
+export const terimaAnggotaKelasApi = async (
+  jwt: string,
   idKelas: string,
   idsPeserta: string[]
 ) =>
-  makeJwtPutRequestAction(
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${idKelas}/peserta-kelas`,
+    jwt,
     {
       id_peserta: idsPeserta,
       status: 'Diterima',

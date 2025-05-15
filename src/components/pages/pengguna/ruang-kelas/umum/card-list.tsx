@@ -1,9 +1,10 @@
-import { hapusKelasAction } from '@/services/api/pengguna/ruang-kelas/hapus'
-import { keluarKelasAction } from '@/services/api/pengguna/ruang-kelas/keluar'
-import { listKelasAction } from '@/services/api/pengguna/ruang-kelas/list'
 import { Loader, ModalConfirm, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { hapusKelasApi } from '@/services/api/pengguna/ruang-kelas/hapus'
+import { keluarKelasApi } from '@/services/api/pengguna/ruang-kelas/keluar'
+import { listKelasApi } from '@/services/api/pengguna/ruang-kelas/list'
 import { handleActionWithToast } from '@/utils/action'
 import { switchCaseObject } from '@/utils/switch-case'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
@@ -15,7 +16,9 @@ import PengaturanKelasModal from './modal/pengaturan-kelas'
 import UndangKelasModal from './modal/undang-kelas'
 
 export default function ListKelasCardList() {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const {
     show: showPengaturan,
     key: keyPengaturan,
@@ -46,7 +49,8 @@ export default function ListKelasCardList() {
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKelasAction({
+      const { data } = await listKelasApi({
+        jwt,
         page,
         kategori,
         tipe: 'Umum',
@@ -75,7 +79,7 @@ export default function ListKelasCardList() {
   const handleHapus = () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusKelasAction(idHapus), {
+    handleActionWithToast(hapusKelasApi(jwt, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)
@@ -88,7 +92,7 @@ export default function ListKelasCardList() {
   const handleKeluar = () => {
     if (!idKeluar) return
 
-    handleActionWithToast(keluarKelasAction(idKeluar), {
+    handleActionWithToast(keluarKelasApi(jwt, idKeluar), {
       loading: 'Keluar kelas...',
       onSuccess: () => {
         setIdKeluar(undefined)

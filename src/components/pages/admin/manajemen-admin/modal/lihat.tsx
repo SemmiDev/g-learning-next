@@ -7,7 +7,6 @@ import {
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAdminApi } from '@/services/api/admin/admin/lihat'
-import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 
 type LihatModalProps = {
@@ -17,11 +16,11 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const jwt = useSessionJwt()
+  const { makeSimpleApiQueryDataWithParams } = useSessionJwt()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.manajemen-admin.table.lihat', id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAdminApi, jwt, id ?? null),
+    queryFn: makeSimpleApiQueryDataWithParams(lihatAdminApi, id ?? null),
   })
 
   return (

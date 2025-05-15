@@ -1,5 +1,3 @@
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
-import { listTugasAction } from '@/services/api/pengguna/ruang-kelas/tugas/peserta/list'
 import {
   Button,
   Card,
@@ -10,7 +8,10 @@ import {
   TimeIndo,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { listTugasApi } from '@/services/api/pengguna/ruang-kelas/tugas/peserta/list'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
@@ -49,6 +50,8 @@ const sortData: SortDataType[] = [
 ]
 
 export default function PesertaDaftarTugasSection() {
+  const { jwt } = useSessionJwt()
+
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
 
@@ -56,14 +59,15 @@ export default function PesertaDaftarTugasSection() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
       queryKey: ['pengguna.ruang-kelas.tugas.daftar-tugas', 'peserta', idKelas],
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listTugasAction({
+        const { data } = await listTugasApi({
+          jwt,
           page,
           search,
           sort,

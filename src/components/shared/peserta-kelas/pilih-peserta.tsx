@@ -34,7 +34,7 @@ export default function PilihPesertaKelas({
   setShow,
   onSelect,
 }: PilihPesertaKelasProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
 

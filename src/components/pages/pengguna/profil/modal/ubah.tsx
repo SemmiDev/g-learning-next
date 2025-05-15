@@ -52,7 +52,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ show, setShow }: UbahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const { update: updateSession } = useSession()
   const size = useAutoSizeMediumModal()

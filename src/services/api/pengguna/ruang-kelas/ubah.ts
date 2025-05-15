@@ -1,14 +1,15 @@
 import { PengaturanKelasFormSchema } from '@/components/pages/pengguna/ruang-kelas/umum/modal/pengaturan-kelas'
 import { NAMA_HARI, ZONA_WAKTU } from '@/config/const'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahKelasAction = async (
+export const ubahKelasApi = async (
+  jwt: string,
   id: string,
   data: PengaturanKelasFormSchema
 ) =>
-  makeJwtPutRequestAction(`${process.env.NEXT_PUBLIC_API_URL}/kelas/${id}`, {
+  makeJwtPutRequestApi(`${process.env.NEXT_PUBLIC_API_URL}/kelas/${id}`, jwt, {
     nama_kelas: data.program,
     sub_judul: data.kelas,
     deskripsi: cleanQuill(data.catatan),

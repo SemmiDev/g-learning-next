@@ -32,7 +32,7 @@ type DashboardRecentFileCardProps = {
 export default function DashboardRecentFileCard({
   className,
 }: DashboardRecentFileCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
   const [page, setPage] = useState(1)

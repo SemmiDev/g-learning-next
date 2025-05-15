@@ -1,13 +1,15 @@
 import { TambahMateriFormSchema } from '@/components/pages/pengguna/ruang-kelas/akademik/kelas/linimasa/modal/tambah-materi'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasMateriAction = async (
+export const tambahAktifitasMateriApi = async (
+  jwt: string,
   idKelas: string,
   data: TambahMateriFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas`,
+    jwt,
     {
       ...(data.share && data.materi
         ? {

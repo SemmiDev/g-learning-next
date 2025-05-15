@@ -1,5 +1,3 @@
-import { ubahAktifitasTugasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ubah-tugas'
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import {
   ControlledDatePicker,
   ControlledInput,
@@ -14,6 +12,9 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { ubahAktifitasTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ubah-tugas'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
@@ -63,8 +64,10 @@ export default function UbahTugasModal({
   show,
   onHide,
 }: UbahTugasModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -84,7 +87,7 @@ export default function UbahTugasModal({
           berkas: [],
         }
 
-      const { data } = await lihatAktifitasAction(idKelas, id)
+      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -109,7 +112,7 @@ export default function UbahTugasModal({
   const onSubmit: SubmitHandler<UbahTugasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasTugasAction(idKelas, id, data), {
+    await handleActionWithToast(ubahAktifitasTugasApi(jwt, idKelas, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

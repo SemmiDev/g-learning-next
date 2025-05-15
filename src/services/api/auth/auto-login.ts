@@ -1,4 +1,4 @@
-import { makeBasicPostRequestAction } from '@/utils/action'
+import { makeBasicPostRequestApi } from '@/utils/api'
 
 type DataType = {
   pengguna: {
@@ -18,7 +18,7 @@ type DataType = {
 }
 
 export const autoLoginApi = async (token: string, from: string) =>
-  makeBasicPostRequestAction<DataType>(
+  makeBasicPostRequestApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/masuk-otomatis`,
     {
       token,

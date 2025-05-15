@@ -56,7 +56,7 @@ export default function TambahMateriModal({
   show = false,
   setShow,
 }: TambahMateriModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 

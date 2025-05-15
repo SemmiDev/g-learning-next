@@ -1,4 +1,4 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
 type DataType = {
   jawaban: {
@@ -8,12 +8,14 @@ type DataType = {
   durasi: number
 }
 
-export const simpanJawabanAction = async (
+export const simpanJawabanApi = async (
+  jwt: string,
   idKelas: string,
   id: string,
   data: DataType
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/${idKelas}/aktifitas/${id}/sesi-ujian/jawab`,
+    jwt,
     data
   )

@@ -1,6 +1,7 @@
-import { absensiPesertaAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/absensi'
 import { Camera, Map } from '@/components/shared/absen'
 import { ButtonSubmit, Card, CardSeparator, Title } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { absensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/absensi'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useQueryClient } from '@tanstack/react-query'
@@ -17,7 +18,9 @@ export default function PesertaAbsensiCard({
   foto,
   className,
 }: PesertaAbsensiCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [position, setPosition] = useState<LatLng>()
   const [photo, setPhoto] = useState<File>()
   const [isSending, setIsSending] = useState(false)
@@ -33,7 +36,7 @@ export default function PesertaAbsensiCard({
 
     if (foto && photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(absensiPesertaAction(idKelas, id, form), {
+    await handleActionWithToast(absensiPesertaApi(jwt, idKelas, id, form), {
       loading: 'Menyimpan...',
       onStart: () => setIsSending(true),
       onSuccess: () => {

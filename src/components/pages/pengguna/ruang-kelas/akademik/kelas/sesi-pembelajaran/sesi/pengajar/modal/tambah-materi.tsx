@@ -1,4 +1,3 @@
-import { tambahAktifitasMateriSesiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-materi'
 import {
   ControlledInput,
   ControlledMateri,
@@ -13,6 +12,8 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasMateriSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-materi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -60,8 +61,10 @@ export default function TambahMateriSesiModal({
   show = false,
   onHide,
 }: TambahMateriSesiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -70,7 +73,7 @@ export default function TambahMateriSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasMateriSesiAction(idKelas, idSesi, data),
+      tambahAktifitasMateriSesiApi(jwt, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

@@ -52,7 +52,7 @@ export default function PaketSoal({
   error,
   errorClassName,
 }: PaketSoalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
 

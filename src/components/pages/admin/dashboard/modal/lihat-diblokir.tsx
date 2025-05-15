@@ -29,7 +29,7 @@ export default function LihatDiblokirModal({
   show,
   onHide,
 }: LihatModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [idBukaBlokir, setIdBukaBlokir] = useState<string>()

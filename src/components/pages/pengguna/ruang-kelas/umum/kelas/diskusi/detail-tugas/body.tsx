@@ -1,7 +1,5 @@
 'use client'
 
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   FilePreviewType,
@@ -9,13 +7,13 @@ import {
   Text,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
-import {
-  makeSimpleQueryDataWithId,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
-import { useQuery } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -25,19 +23,21 @@ import KumpulkanTugasCard from './kumpulkan-card'
 import TableTugasPesertaCard from './table-peserta-card'
 
 export default function DetailTugasBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
+
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const { data: dataTugas, isLoading: isLoadingTugas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.tugas', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

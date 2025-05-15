@@ -57,7 +57,7 @@ export default function UbahBankSoalModal({
   show,
   onHide,
 }: UbahBankSoalModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 

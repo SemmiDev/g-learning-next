@@ -1,7 +1,3 @@
-import { DataType as DataSesiType } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { hapusNilaiUjianAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
-import { tableUjianPesertaAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -20,10 +16,15 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { DataType as DataSesiType } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { hapusNilaiUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-ujian'
+import { tableUjianPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/table-ujian-peserta'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -90,7 +91,9 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
   sesi,
   className,
 }: PengajarRekapUjianDaftarMengikutiCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -99,7 +102,7 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -127,7 +130,7 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tableUjianPesertaAction,
+    action: tableUjianPesertaApi,
     actionParams: {
       idKelas,
       idAktifitas,
@@ -276,7 +279,7 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
     if (!idHapusNilai) return
 
     handleActionWithToast(
-      hapusNilaiUjianAction(idKelas, idAktifitas, idHapusNilai),
+      hapusNilaiUjianApi(jwt, idKelas, idAktifitas, idHapusNilai),
       {
         loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',

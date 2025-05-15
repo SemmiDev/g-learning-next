@@ -1,5 +1,3 @@
-import { DataType } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   Button,
@@ -12,6 +10,8 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { DataType } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import { hourMinute } from '@/utils/text'

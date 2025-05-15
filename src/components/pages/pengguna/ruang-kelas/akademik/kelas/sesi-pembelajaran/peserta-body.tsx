@@ -1,11 +1,14 @@
-import { listSesiPembelajaranAction } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { Loader } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PesertaSesiItemCard from './peserta/sesi-item-card'
 
 export default function PesertaSesiPembelajaranBody() {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const queryKey = [
@@ -17,7 +20,7 @@ export default function PesertaSesiPembelajaranBody() {
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listSesiPembelajaranAction({ page, idKelas })
+      const { data } = await listSesiPembelajaranApi({ jwt, page, idKelas })
 
       return {
         list: data?.list ?? [],

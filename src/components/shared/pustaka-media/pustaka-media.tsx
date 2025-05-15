@@ -127,7 +127,7 @@ export default function PustakaMedia({
   hideSelected = false,
   children,
 }: PustakaMediaProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const { status } = useSession()
   const queryClient = useQueryClient()

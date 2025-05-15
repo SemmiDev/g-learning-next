@@ -97,7 +97,7 @@ export default function UbahSoalModal({
   show,
   onHide,
 }: UbahSoalModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
 

@@ -1,6 +1,3 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { hapusNilaiTugasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-tugas'
-import { tableTugasPesertaAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
 import {
   ActionIcon,
   ActionIconTooltip,
@@ -20,7 +17,11 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { hapusNilaiTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/hapus-nilai-tugas'
+import { tableTugasPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
@@ -89,7 +90,9 @@ export default function TableTugasPesertaCard({
   tipeKelas,
   className,
 }: TableTugasPesertaCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
 
   const { kelas: idKelas, id: idAktifitas }: { kelas: string; id: string } =
@@ -98,7 +101,8 @@ export default function TableTugasPesertaCard({
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.tugas', idKelas, idAktifitas],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatAktifitasAction,
+      lihatAktifitasApi,
+      jwt,
       idKelas,
       idAktifitas
     ),
@@ -127,7 +131,7 @@ export default function TableTugasPesertaCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tableTugasPesertaAction,
+    action: tableTugasPesertaApi,
     actionParams: {
       idKelas,
       idAktifitas,
@@ -262,7 +266,7 @@ export default function TableTugasPesertaCard({
     if (!idHapusNilai) return
 
     handleActionWithToast(
-      hapusNilaiTugasAction(idKelas, idAktifitas, idHapusNilai),
+      hapusNilaiTugasApi(jwt, idKelas, idAktifitas, idHapusNilai),
       {
         loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',

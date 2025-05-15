@@ -52,7 +52,7 @@ const jenisKelaminOptions: RadioGroupOptionType[] = [
 const initialValues: LengkapiProfilFormSchema = {}
 
 export default function LengkapiProfilBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<LengkapiProfilFormSchema> = async (data) => {

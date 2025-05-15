@@ -23,7 +23,7 @@ type SinkronSmartButtonProps = {
 export default function SinkronSmartButton({
   className,
 }: SinkronSmartButtonProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing, setIsSyncing } = useSyncStore()
 

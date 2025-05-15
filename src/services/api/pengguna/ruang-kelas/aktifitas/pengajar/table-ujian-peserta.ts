@@ -1,5 +1,5 @@
-import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { ControlledAsyncTableApiProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
 
 export type DataType = {
@@ -32,16 +32,18 @@ export type DataType = {
   updated_at: string | null
 }
 
-export const tableUjianPesertaAction = async ({
+export const tableUjianPesertaApi = async ({
+  jwt,
   page = 1,
   search = '',
   sort,
   perPage,
   params,
   filters,
-}: ControlledAsyncTableActionProps) =>
-  makeJwtGetRequestTableAction<DataType>(
+}: ControlledAsyncTableApiProps) =>
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${params?.idKelas}/aktifitas/${params?.idAktifitas}/penilaian-ujian`,
+    jwt,
     {
       current_page: page,
       keyword: search,

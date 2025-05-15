@@ -4,19 +4,15 @@ import { ActionIcon, Button } from '@/components/ui'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useParams } from 'next/navigation'
 import { GrShareOption } from 'react-icons/gr'
+import { PiGear } from 'react-icons/pi'
 import PengaturanKelasModal from '../modal/pengaturan-kelas'
 import UndangKelasModal from '../modal/undang-kelas'
-import { PiGear } from 'react-icons/pi'
 
 type KelasHeaderActionProps = {
-  tipe: 'Akademik' | 'Publik' | 'Privat' | undefined
   pemilik: boolean
 }
 
-export default function KelasHeaderAction({
-  tipe,
-  pemilik,
-}: KelasHeaderActionProps) {
+export default function KelasHeaderAction({ pemilik }: KelasHeaderActionProps) {
   const {
     show: showPengaturan,
     key: keyPengaturan,

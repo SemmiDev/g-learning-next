@@ -1,5 +1,6 @@
-import { presensiPesertaAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/presensi'
 import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { presensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/presensi'
 import cn from '@/utils/class-names'
 import { roundedNumber } from '@/utils/number'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
@@ -9,11 +10,13 @@ import { useParams } from 'next/navigation'
 type PresensiCardProps = { className?: string }
 
 export default function PresensiCard({ className }: PresensiCardProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.presensi', idKelas],
-    queryFn: makeSimpleQueryDataWithParams(presensiPesertaAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(presensiPesertaApi, jwt, idKelas),
   })
 
   if (isLoading) return <CardShimmer className={className} />

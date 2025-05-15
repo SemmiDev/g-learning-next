@@ -1,4 +1,4 @@
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   aktifitas: {
@@ -111,7 +111,8 @@ export type DataType = {
   } | null
 }
 
-export const listAktifitasAction = async ({
+export const listAktifitasApi = async ({
+  jwt,
   page = 1,
   idKelas,
   idSesi,
@@ -119,6 +120,7 @@ export const listAktifitasAction = async ({
   tanpaSesi,
   order,
 }: {
+  jwt: string
   page?: number
   idKelas: string
   idSesi?: string
@@ -126,8 +128,9 @@ export const listAktifitasAction = async ({
   tanpaSesi?: boolean
   order?: 'ASC' | 'DESC'
 }) =>
-  makeJwtGetRequestTableAction<DataType>(
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas`,
+    jwt,
     {
       id_pertemuan_kelas: idSesi,
       tipe,

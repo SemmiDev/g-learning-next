@@ -1,6 +1,7 @@
-import { listAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import { Loader, Text } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -25,6 +26,8 @@ export default function DiskusiCardList({
   kelas,
   className,
 }: DiskusiCardListProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const queryKey = ['pengguna.ruang-kelas.diskusi.list', idKelas]
@@ -32,7 +35,8 @@ export default function DiskusiCardList({
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listAktifitasAction({
+      const { data } = await listAktifitasApi({
+        jwt,
         page,
         idKelas,
         tipe: kelas?.kelas.tipe !== 'Akademik' ? 'aktifitas' : undefined,

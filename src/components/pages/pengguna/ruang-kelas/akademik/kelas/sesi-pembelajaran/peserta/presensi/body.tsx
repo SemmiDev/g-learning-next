@@ -1,10 +1,5 @@
 'use client'
 
-import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import {
-  presensiSesiNonQrAction,
-  presensiSesiQrAction,
-} from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
 import { Camera, Map } from '@/components/shared/absen'
 import {
   Button,
@@ -16,13 +11,19 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
+import {
+  presensiSesiNonQrApi,
+  presensiSesiQrApi,
+} from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner'
 import { LatLng } from 'leaflet'
-import { useRouter } from '@bprogress/next/app'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -30,7 +31,9 @@ import { BsCheck2 } from 'react-icons/bs'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function PresensiSesiBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
+
   const [position, setPosition] = useState<LatLng>()
   const [photo, setPhoto] = useState<File>()
   const [isSending, setIsSending] = useState(false)
@@ -49,7 +52,8 @@ export default function PresensiSesiBody() {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: makeSimpleQueryDataWithParams(
-      lihatSesiPembelajaranAction,
+      lihatSesiPembelajaranApi,
+      jwt,
       idKelas,
       idSesi
     ),
@@ -72,7 +76,7 @@ export default function PresensiSesiBody() {
     if (photo) form.append('swafoto', photo)
 
     await handleActionWithToast(
-      presensiSesiNonQrAction(idKelas, idSesi, form),
+      presensiSesiNonQrApi(jwt, idKelas, idSesi, form),
       {
         loading: 'Presensi sesi...',
         onStart: () => setIsSending(true),
@@ -91,7 +95,7 @@ export default function PresensiSesiBody() {
     const data = result[0].rawValue
     if (!data || isSending || success) return
 
-    await handleActionWithToast(presensiSesiQrAction(idKelas, idSesi, data), {
+    await handleActionWithToast(presensiSesiQrApi(jwt, idKelas, idSesi, data), {
       loading: 'Presensi sesi...',
       onStart: () => setIsSending(true),
       onSuccess: () => {

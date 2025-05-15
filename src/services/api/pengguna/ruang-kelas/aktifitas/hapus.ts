@@ -1,6 +1,11 @@
-import { makeJwtDeleteRequestAction } from '@/utils/action'
+import { makeJwtDeleteRequestApi } from '@/utils/api'
 
-export const hapusAktifitasAction = async (idKelas: string, id: string) =>
-  makeJwtDeleteRequestAction(
-    `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${id}`
+export const hapusAktifitasApi = async (
+  jwt: string,
+  idKelas: string,
+  id: string
+) =>
+  makeJwtDeleteRequestApi(
+    `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${id}`,
+    jwt
   )

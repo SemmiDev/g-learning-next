@@ -1,6 +1,7 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const simpanAbsensiAktifitasAction = async (
+export const simpanAbsensiAktifitasApi = async (
+  jwt: string,
   idKelas: string,
   id: string,
   data: {
@@ -8,8 +9,9 @@ export const simpanAbsensiAktifitasAction = async (
     status: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha'
   }[]
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${idKelas}/aktifitas/${id}/absensi`,
+    jwt,
     {
       peserta_kelas: data,
     }

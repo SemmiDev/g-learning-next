@@ -1,7 +1,7 @@
-import { makeBasicPostRequestAction } from '@/utils/action'
+import { makeBasicPostRequestApi } from '@/utils/api'
 
 export const verifikasiEmailApi = async (token: string) =>
-  makeBasicPostRequestAction(
+  makeBasicPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/verifikasi-email`,
     {
       token: token,

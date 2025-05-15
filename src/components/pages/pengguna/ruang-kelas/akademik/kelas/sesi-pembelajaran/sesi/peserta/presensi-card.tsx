@@ -1,8 +1,4 @@
 import {
-  DataType as DataPresensiType,
-  tablePresensiPesertaSesiAction,
-} from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
-import {
   ActionIcon,
   Badge,
   Card,
@@ -14,6 +10,10 @@ import {
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { useTableAsync } from '@/hooks/use-table-async'
+import {
+  DataType as DataPresensiType,
+  tablePresensiPesertaSesiApi,
+} from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/table-presensi-peserta'
 import cn from '@/utils/class-names'
 import { useParams } from 'next/navigation'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -54,7 +54,7 @@ export default function PesertaPresensiCard({
     totalData,
   } = useTableAsync({
     queryKey,
-    action: tablePresensiPesertaSesiAction,
+    action: tablePresensiPesertaSesiApi,
     actionParams: { idKelas, idSesi },
     enabled: !!idKelas && !!idSesi,
   })

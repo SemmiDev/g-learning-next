@@ -61,7 +61,7 @@ export default function Materi({
   error,
   errorClassName,
 }: MateriProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const { status } = useSession()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()

@@ -1,5 +1,5 @@
-import { ControlledAsyncTableActionProps } from '@/components/ui/controlled-async-table'
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { ControlledAsyncTableApiProps } from '@/components/ui/controlled-async-table'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id: string
@@ -39,14 +39,16 @@ export type DataType = {
   status_absensi_siswa: 'Hadir' | 'Izin' | 'Sakit' | 'Alpha' | null
 }
 
-export const tableSesiAbsensiAction = async ({
+export const tableSesiAbsensiApi = async ({
+  jwt,
   page = 1,
   search = '',
   sort,
   params,
-}: ControlledAsyncTableActionProps) =>
-  makeJwtGetRequestTableAction<DataType>(
+}: ControlledAsyncTableApiProps) =>
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas-akademik/${params?.idKelas}/pertemuan`,
+    jwt,
     {
       current_page: page,
       keyword: search,

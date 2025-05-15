@@ -1,4 +1,3 @@
-import { tableKehadiranTerendahAction } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-kehadiran-terendah'
 import {
   Card,
   CardSeparator,
@@ -10,6 +9,7 @@ import {
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { tableKehadiranTerendahApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-kehadiran-terendah'
 import cn from '@/utils/class-names'
 import { useParams } from 'next/navigation'
 import { ColumnsType } from 'rc-table'
@@ -37,7 +37,7 @@ export default function PengajarKehadiranTerendahCard({
       'pengajar',
       idKelas,
     ],
-    action: tableKehadiranTerendahAction,
+    action: tableKehadiranTerendahApi,
     actionParams: { idKelas },
   })
 

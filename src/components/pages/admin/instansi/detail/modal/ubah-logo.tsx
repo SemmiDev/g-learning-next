@@ -34,7 +34,7 @@ export default function UbahLogoModal({
   show = false,
   setShow,
 }: UbahLogoModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const [formError, setFormError] = useState<string>()
   const params = useParams()
   const id = params.id as string

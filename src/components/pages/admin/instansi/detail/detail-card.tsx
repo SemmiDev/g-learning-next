@@ -31,7 +31,7 @@ import DetailItem from './detail-item'
 import UbahLogoModal from './modal/ubah-logo'
 
 export default function DetailCard({ className }: { className?: string }) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const [ubahLogo, setUbahLogo] = useState(false)
   const {
     show: showUbah,

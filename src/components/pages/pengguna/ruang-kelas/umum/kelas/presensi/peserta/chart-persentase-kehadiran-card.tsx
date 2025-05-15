@@ -1,5 +1,6 @@
-import { dataPersentaseKehadiranAction } from '@/services/api/pengguna/ruang-kelas/presensi/umum/peserta/persentase-kehadiran'
 import { Card, Shimmer, Text, Title } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataPersentaseKehadiranApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/peserta/persentase-kehadiran'
 import cn from '@/utils/class-names'
 import { useQuery } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
@@ -29,6 +30,8 @@ type PesertaChartPresensiCardProps = {
 export default function PesertaChartPersentaseKehadiranCard({
   className,
 }: PesertaChartPresensiCardProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data = defaultData, isLoading } = useQuery<
@@ -40,7 +43,7 @@ export default function PesertaChartPersentaseKehadiranCard({
       idKelas,
     ],
     queryFn: async () => {
-      const { data } = await dataPersentaseKehadiranAction(idKelas)
+      const { data } = await dataPersentaseKehadiranApi(jwt, idKelas)
 
       return [
         {

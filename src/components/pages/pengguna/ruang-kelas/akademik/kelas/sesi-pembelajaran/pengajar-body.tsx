@@ -1,12 +1,13 @@
-import { listSesiPembelajaranAction } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
-import { akhiriSesiAction } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
 import { ModalConfirm } from '@/components/ui'
 import Loader from '@/components/ui/loader'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { listSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
+import { akhiriSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
 import { handleActionWithToast } from '@/utils/action'
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@bprogress/next/app'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -15,8 +16,10 @@ import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
 
 export default function PengajarSesiPembelajaranBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
   const queryClient = useQueryClient()
+
   const [idSesiMulai, setIdSesiMulai] = useState<string>()
   const [idSesiAkhiri, setIdSesiAkhiri] = useState<string>()
   const {
@@ -43,7 +46,7 @@ export default function PengajarSesiPembelajaranBody() {
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listSesiPembelajaranAction({ page, idKelas })
+      const { data } = await listSesiPembelajaranApi({ jwt, page, idKelas })
 
       return {
         list: data?.list ?? [],
@@ -73,7 +76,7 @@ export default function PengajarSesiPembelajaranBody() {
   const handleAkhiriSesi = async () => {
     if (!idSesiAkhiri) return
 
-    await handleActionWithToast(akhiriSesiAction(idKelas, idSesiAkhiri), {
+    await handleActionWithToast(akhiriSesiApi(jwt, idKelas, idSesiAkhiri), {
       loading: 'Mengakhiri sesi...',
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey })

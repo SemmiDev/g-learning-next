@@ -6,7 +6,9 @@ import {
   CONSOLE_LOG_ON_ERROR,
   CONSOLE_LOG_REQUEST,
   CONSOLE_LOG_RESPONSE,
+  GetRequestParamsType,
   makeActionResponse,
+  makeBasicPostRequestAction,
   makeSelectDataActionResponse,
   makeTableActionResponse,
   PayloadType,
@@ -14,13 +16,7 @@ import {
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
 
-type GetRequestParamsType = {
-  current_page?: number
-  per_page?: number
-  keyword?: string
-  sort_by?: string
-  order?: string
-} & Record<string, string | number | undefined>
+export const makeBasicPostRequestApi = makeBasicPostRequestAction
 
 export const makeJwtGetRequestApi = async <T extends AnyObject>(
   url: string,

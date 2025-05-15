@@ -1,14 +1,16 @@
 import { UbahInformasiFormSchema } from '@/components/pages/pengguna/ruang-kelas/akademik/kelas/linimasa/modal/ubah-informasi'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasInformasiAction = async (
+export const ubahAktifitasInformasiApi = async (
+  jwt: string,
   idKelas: string,
   id: string,
   data: UbahInformasiFormSchema
 ) =>
-  makeJwtPutRequestAction(
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${id}`,
+    jwt,
     {
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),

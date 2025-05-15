@@ -33,7 +33,7 @@ import UbahModal from './modal/ubah'
 import RincianItem from './rincian-item'
 
 export default function TablePembayaranTagihanInstansiCard() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {

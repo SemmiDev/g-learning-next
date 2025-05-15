@@ -1,7 +1,8 @@
-import { ringkasanKelasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ringkasan-kelas'
 import { Card, CardSeparator, Shimmer, Text, Title } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { ringkasanKelasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/ringkasan-kelas'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Progressbar } from 'rizzui'
@@ -13,11 +14,13 @@ type RingkasanKelasCardProps = {
 export default function RingkasanKelasCard({
   className,
 }: RingkasanKelasCardProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.linimasa.ringkasan-kelas', idKelas],
-    queryFn: makeSimpleQueryDataWithId(ringkasanKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(ringkasanKelasApi, jwt, idKelas),
   })
 
   if (isLoading || !data) return <CardShimmer className={className} />

@@ -1,5 +1,5 @@
 import { SortType } from '@/hooks/use-table-async'
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id_aktifitas: string
@@ -11,19 +11,22 @@ export type DataType = {
   waktu_absen: string | null
 }
 
-export const listSesiAbsensiAction = async ({
+export const listSesiAbsensiApi = async ({
+  jwt,
   page = 1,
   search = '',
   sort,
   idKelas,
 }: {
+  jwt: string
   page?: number
   search?: string
   sort?: SortType
   idKelas: string
 }) =>
-  makeJwtGetRequestTableAction<DataType>(
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/${idKelas}/absensi/sesi-kehadiran`,
+    jwt,
     {
       current_page: page,
       keyword: search,

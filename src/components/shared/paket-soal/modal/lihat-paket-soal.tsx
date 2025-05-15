@@ -24,7 +24,7 @@ export default function LihatSoalModal({
   show,
   onHide,
 }: LihatSoalModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { id: idKategori }: { id: string } = useParams()
 
@@ -32,7 +32,7 @@ export default function LihatSoalModal({
     queryKey: ['shared.paket-soal.lihat', idKategori, id],
     queryFn: makeSimpleQueryDataWithParams(
       lihatPaketSoalApi,
-      jwt || null,
+      jwt,
       idKategori,
       id ?? null
     ),

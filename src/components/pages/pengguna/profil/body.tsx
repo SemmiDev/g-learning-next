@@ -34,7 +34,7 @@ type EmailType = {
 }
 
 export default function ProfilBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [showUbah, setShowUbah] = useState(false)
   const [showFoto, setShowFoto] = useState(false)

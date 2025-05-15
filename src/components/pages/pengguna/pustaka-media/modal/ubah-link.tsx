@@ -71,7 +71,7 @@ export default function UbahLinkModal({
   googleDrive = false,
   refetchKey,
 }: UbahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()

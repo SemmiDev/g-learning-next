@@ -1,17 +1,21 @@
-import { makeActionResponse, makeJwtPostRequestAction } from '@/utils/action'
+import { makeActionResponse } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import NodeRSA from 'encrypt-rsa'
 
-export const presensiSesiNonQrAction = async (
+export const presensiSesiNonQrApi = async (
+  jwt: string,
   idKelas: string,
   idSesi: string,
   formData: FormData
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas-akademik/${idKelas}/pertemuan/${idSesi}/absensi`,
+    jwt,
     formData
   )
 
-export const presensiSesiQrAction = async (
+export const presensiSesiQrApi = async (
+  jwt: string,
   idKelas: string,
   idSesi: string,
   qrData: string
@@ -49,8 +53,9 @@ export const presensiSesiQrAction = async (
       new Date(decryptedData.time * 1000).toISOString()
     )
 
-    return await makeJwtPostRequestAction(
+    return await makeJwtPostRequestApi(
       `${process.env.NEXT_PUBLIC_API_URL}/kelas-akademik/${idKelas}/pertemuan/${idSesi}/absensi`,
+      jwt,
       formData
     )
   } catch (e) {

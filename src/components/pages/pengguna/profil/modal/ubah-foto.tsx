@@ -31,7 +31,7 @@ type UbahFotoModalProps = {
 }
 
 export default function UbahFotoModal({ show, setShow }: UbahFotoModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const { update: updateSession } = useSession()
 

@@ -104,7 +104,7 @@ export default function ShareSoalUjianModal({
   show,
   onHide,
 }: ShareSoalUjianModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const size = useAutoSizeExtraLargeModal()
 
   const [formError, setFormError] = useState<string>()

@@ -1,4 +1,3 @@
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   ActionIcon,
   FileIcon,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui'
 import { isPreviewableType } from '@/components/ui/modal/file-preview/file'
 import { routes } from '@/config/routes'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { downloadFileUrl } from '@/utils/file-url'

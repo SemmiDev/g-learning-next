@@ -1,4 +1,3 @@
-import { gabungAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
 import {
   ControlledInput,
   Form,
@@ -7,6 +6,8 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { gabungAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/gabung'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { wait } from '@/utils/wait'
@@ -34,14 +35,16 @@ export default function GabungKelasModal({
   show = false,
   setShow,
 }: GabungKelasModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
   const [successAlert, setSuccessAlert] = useState<string>()
 
   const onSubmit: SubmitHandler<GabungKelasFormSchema> = async (data) => {
     if (!data.kode) return
 
-    await handleActionWithToast(gabungAnggotaKelasAction(data.kode), {
+    await handleActionWithToast(gabungAnggotaKelasApi(jwt, data.kode), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
       onStart: () => setFormError(undefined),

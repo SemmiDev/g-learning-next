@@ -17,7 +17,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function UndanganKelasBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { id: idPengguna } = useSessionPengguna()

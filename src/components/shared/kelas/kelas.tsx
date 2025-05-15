@@ -48,7 +48,7 @@ export default function Kelas({
   errorClassName,
   clearable,
 }: KelasProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
 

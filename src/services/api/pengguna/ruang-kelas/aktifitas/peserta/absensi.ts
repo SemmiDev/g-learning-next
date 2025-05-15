@@ -1,11 +1,13 @@
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const absensiPesertaAction = async (
+export const absensiPesertaApi = async (
+  jwt: string,
   idKelas: string,
   idAktifitas: string,
   formData: FormData
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/${idKelas}/aktifitas/${idAktifitas}/absensi`,
+    jwt,
     formData
   )

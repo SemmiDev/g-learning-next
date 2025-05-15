@@ -37,7 +37,7 @@ import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
 
 export default function ListMateriBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')
@@ -74,7 +74,7 @@ export default function ListMateriBody() {
     queryKey: ['pengguna.bank-materi.kategori.lihat', idKategori],
     queryFn: makeSimpleQueryDataWithParams(
       lihatKategoriBankMateriApi,
-      jwt || null,
+      jwt,
       idKategori
     ),
   })

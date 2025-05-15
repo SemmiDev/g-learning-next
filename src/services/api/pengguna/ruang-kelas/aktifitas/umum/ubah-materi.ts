@@ -1,15 +1,17 @@
 import { UbahMateriFormSchema } from '@/components/pages/pengguna/ruang-kelas/umum/kelas/diskusi/modal/ubah-materi'
-import { makeJwtPutRequestAction } from '@/utils/action'
+import { makeJwtPutRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
 import { cleanQuill } from '@/utils/string'
 
-export const ubahAktifitasMateriAction = async (
+export const ubahAktifitasMateriApi = async (
+  jwt: string,
   idKelas: string,
   id: string,
   data: UbahMateriFormSchema
 ) =>
-  makeJwtPutRequestAction(
+  makeJwtPutRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas/${id}`,
+    jwt,
     {
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),

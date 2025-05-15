@@ -1,6 +1,3 @@
-import { DataType as DataTugasType } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { lihatPengumpulanTugasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-pengumpulan-tugas'
-import { simpanPengumpulanTugasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/simpan-pengumpulan-tugas'
 import {
   ButtonSubmit,
   Card,
@@ -18,6 +15,10 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { DataType as DataTugasType } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { lihatPengumpulanTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-pengumpulan-tugas'
+import { simpanPengumpulanTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/simpan-pengumpulan-tugas'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
@@ -50,7 +51,9 @@ export default function KumpulkanTugasCard({
   tugas,
   className,
 }: KumpulkanTugasCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
   const [formError, setFormError] = useState<string>()
 
@@ -66,7 +69,8 @@ export default function KumpulkanTugasCard({
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: makeSimpleQueryDataWithParams(
-      lihatPengumpulanTugasAction,
+      lihatPengumpulanTugasApi,
+      jwt,
       idKelas,
       idAktifitas
     ),
@@ -91,7 +95,7 @@ export default function KumpulkanTugasCard({
 
   const onSubmit: SubmitHandler<PengumpulanTugasFormSchema> = async (data) => {
     await handleActionWithToast(
-      simpanPengumpulanTugasAction(idKelas, idAktifitas, data),
+      simpanPengumpulanTugasApi(jwt, idKelas, idAktifitas, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

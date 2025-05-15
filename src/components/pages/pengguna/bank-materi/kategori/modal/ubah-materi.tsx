@@ -47,7 +47,7 @@ export default function UbahMateriModal({
   show,
   onHide,
 }: UbahMateriModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 

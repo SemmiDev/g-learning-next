@@ -10,7 +10,7 @@ import {
   TextLink,
 } from '@/components/ui'
 import { authRoutes, publicRoutes } from '@/config/routes'
-import { daftarApi } from '@/services/api/auth/daftar'
+import { daftarAction } from '@/services/actions/auth/daftar'
 import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -47,7 +47,7 @@ export default function DaftarForm() {
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<DaftarFormSchema> = async (data) => {
-    await handleActionWithToast(daftarApi(data), {
+    await handleActionWithToast(daftarAction(data), {
       loading: 'Mendaftar...',
       onStart: () => setFormError(undefined),
       onSuccess: () => router.push(authRoutes.login),

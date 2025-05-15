@@ -61,7 +61,7 @@ export default function ShareTugasModal({
   show,
   onHide,
 }: ShareTugasModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [formError, setFormError] = useState<string>()
 

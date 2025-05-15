@@ -1,7 +1,5 @@
-import { tambahKelasAction } from '@/services/api/pengguna/ruang-kelas/tambah'
 import {
   Button,
-  CardSeparator,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -19,6 +17,8 @@ import {
 } from '@/components/ui'
 import { NAMA_HARI } from '@/config/const'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahKelasApi } from '@/services/api/pengguna/ruang-kelas/tambah'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption, selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -94,12 +94,14 @@ export default function BuatKelasModal({
   showModal = false,
   setShowModal,
 }: BuatKelasModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<BuatKelasFormSchema> = async (data) => {
-    await handleActionWithToast(tambahKelasAction(data), {
+    await handleActionWithToast(tambahKelasApi(jwt, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

@@ -1,4 +1,3 @@
-import { tambahAktifitasUjianAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-ujian'
 import {
   ControlledDatePicker,
   ControlledInput,
@@ -16,6 +15,8 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-ujian'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -102,14 +103,16 @@ export default function TambahUjianModal({
   show = false,
   setShow,
 }: TambahUjianModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahUjianFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasUjianAction(idKelas, data), {
+    await handleActionWithToast(tambahAktifitasUjianApi(jwt, idKelas, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

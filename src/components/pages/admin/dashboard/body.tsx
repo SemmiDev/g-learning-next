@@ -13,7 +13,7 @@ import DashboardPenggunaanPaketPenggunaCard from './penggunaan-paket-pengguna-ca
 import DashboardPenggunaanPenyimpananCard from './penggunaan-penyimpanan-card'
 
 export default function DashboardBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { data } = useQuery({
     queryKey: ['admin.profil'],

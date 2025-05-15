@@ -40,7 +40,7 @@ export default function UbahFolderModal({
   onHide,
   refetchKeys,
 }: UbahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()

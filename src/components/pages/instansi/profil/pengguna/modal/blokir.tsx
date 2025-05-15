@@ -34,7 +34,7 @@ export default function BlokirModal({
   setId,
   onHideLihat,
 }: BlokirModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const onSubmit: SubmitHandler<BlokirPenggunaFormSchema> = async (data) => {

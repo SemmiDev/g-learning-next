@@ -68,7 +68,7 @@ export default function PilihMediaGambar({
   setShow,
   onSelect,
 }: PilihMediaProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const { status } = useSession()
   const queryClient = useQueryClient()

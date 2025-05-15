@@ -28,7 +28,7 @@ import UbahKategoriModal from './modal/ubah-kategori'
 const queryKey = ['pengguna.bank-soal.kategori']
 
 export default function ListKategoriSoalBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [search, setSearch] = useState('')
   const [showTambah, setShowTambah] = useState(false)

@@ -39,7 +39,7 @@ type SinkronDiktiCardProps = {
 }
 
 export default function SinkronDiktiCard({ className }: SinkronDiktiCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing } = useSyncStore()
 

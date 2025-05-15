@@ -47,7 +47,7 @@ export function useHandleApiDelete({
   refetchKey?: QueryKey
   loading?: string
 }) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const [id, setId] = useState<string>()
 

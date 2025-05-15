@@ -38,7 +38,7 @@ export function useInfiniteListAsync<
   initialPerPage?: number
   enabled?: boolean
 }) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const [perPage, setPerPage] = useState(initialPerPage)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')

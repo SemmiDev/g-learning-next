@@ -1,7 +1,7 @@
-import { tableSesiUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/table-sesi'
 import { Button, Card, Loader, Shimmer, Text } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { useSetSearchParams } from '@/hooks/use-set-search-params'
+import { tableSesiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/table-sesi'
 import cn from '@/utils/class-names'
 import { betweenTime } from '@/utils/time'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -57,7 +57,7 @@ export default function PengajarUjianBody() {
     fetchNextPage,
   } = useInfiniteListAsync({
     queryKey: ['pengguna.ruang-kelas.ujian.list-sesi', 'pengajar', idKelas],
-    action: tableSesiUjianAction,
+    action: tableSesiUjianApi,
     initialSort: sortData[0].sort,
     actionParams: { idKelas },
   })

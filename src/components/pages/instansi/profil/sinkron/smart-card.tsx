@@ -31,7 +31,7 @@ type SinkronSmartCardProps = {
 }
 
 export default function SinkronSmartCard({ className }: SinkronSmartCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing } = useSyncStore()
 

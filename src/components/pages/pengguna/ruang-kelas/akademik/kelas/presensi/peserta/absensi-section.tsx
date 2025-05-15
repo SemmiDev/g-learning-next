@@ -1,4 +1,3 @@
-import { listSesiAbsensiAction } from '@/services/api/pengguna/ruang-kelas/presensi/akademik/peserta/list-sesi-absensi'
 import {
   Badge,
   Button,
@@ -9,6 +8,8 @@ import {
   Text,
   TimeIndo,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listSesiAbsensiApi } from '@/services/api/pengguna/ruang-kelas/presensi/akademik/peserta/list-sesi-absensi'
 import { mustBe } from '@/utils/must-be'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -52,6 +53,8 @@ type AbsenItemType = {
 }
 
 export default function PesertaAbsensiSection() {
+  const { jwt } = useSessionJwt()
+
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
 
@@ -72,7 +75,8 @@ export default function PesertaAbsensiSection() {
       idKelas,
     ],
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listSesiAbsensiAction({
+      const { data } = await listSesiAbsensiApi({
+        jwt,
         page,
         search,
         sort,

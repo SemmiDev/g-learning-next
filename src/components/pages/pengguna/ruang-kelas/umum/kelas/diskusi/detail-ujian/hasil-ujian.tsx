@@ -1,4 +1,3 @@
-import { lihatHasilUjianAction } from '@/services/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import {
   Button,
   Card,
@@ -8,6 +7,8 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { betweenTime } from '@/utils/time'
@@ -26,6 +27,8 @@ export default function HasilUjianCard({
   tipeKelas,
   className,
 }: HasilUjianCardProps) {
+  const { jwt } = useSessionJwt()
+
   const [showModalMulai, setShowModalMulai] = useState(false)
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
@@ -37,7 +40,12 @@ export default function HasilUjianCard({
       idKelas,
       id,
     ],
-    queryFn: makeSimpleQueryDataWithParams(lihatHasilUjianAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatHasilUjianApi,
+      jwt,
+      idKelas,
+      id
+    ),
   })
 
   if (isLoading) return <CardShimmer className={className} />

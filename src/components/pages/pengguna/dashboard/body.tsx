@@ -12,7 +12,7 @@ import DashboardRecentFileCard from './recent-file-card'
 import DashboardRuangPenyimpananCard from './ruang-penyimpanan-card'
 
 export default function DashboardBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { data } = useQuery({
     queryKey: ['pengguna.dashboard.count'],

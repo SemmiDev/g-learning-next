@@ -46,7 +46,7 @@ export default function TablePembayaranTagihanPenggunaCard() {
     doShow: doShowUbah,
     doHide: doHideUbah,
   } = useShowModal<string>()
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [idHapus, setIdHapus] = useState<string>()
 

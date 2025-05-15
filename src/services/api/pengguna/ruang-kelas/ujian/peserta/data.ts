@@ -1,4 +1,4 @@
-import { makeJwtGetRequestAction } from '@/utils/action'
+import { makeJwtGetRequestApi } from '@/utils/api'
 
 export type DataType = {
   soal: {
@@ -66,7 +66,8 @@ export type DataType = {
   }
 }
 
-export const dataUjianAction = async (idKelas: string, id: string) =>
-  makeJwtGetRequestAction<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/${idKelas}/aktifitas/${id}/sesi-ujian`
+export const dataUjianApi = async (jwt: string, idKelas: string, id: string) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/${idKelas}/aktifitas/${id}/sesi-ujian`,
+    jwt
   )

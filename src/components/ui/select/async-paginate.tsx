@@ -63,7 +63,7 @@ export default function AsyncPaginateSelect<
   errorClassName,
   ...props
 }: AsyncPaginateSelectProps<TOption, IsMulti, Group, TData, Additional>) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   return (
     <div className="react-select">

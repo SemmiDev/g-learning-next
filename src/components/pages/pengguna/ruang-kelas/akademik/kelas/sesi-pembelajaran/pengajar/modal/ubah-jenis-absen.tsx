@@ -1,5 +1,3 @@
-import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { ubahJenisAbsenSesiAction } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-jenis-absen'
 import {
   ControlledRadioGroup,
   Form,
@@ -9,6 +7,9 @@ import {
   ModalFooterButtons,
   RadioGroupOptionType,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
+import { ubahJenisAbsenSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-jenis-absen'
 import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -45,7 +46,9 @@ export default function UbahJenisAbsenSesiModal({
   show,
   onHide,
 }: UbahMateriModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -66,7 +69,7 @@ export default function UbahJenisAbsenSesiModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatSesiPembelajaranAction(idKelas, id)
+      const { data } = await lihatSesiPembelajaranApi(jwt, idKelas, id)
 
       return {
         jenis: data?.jenis_absensi_peserta,
@@ -79,7 +82,7 @@ export default function UbahJenisAbsenSesiModal({
   ) => {
     if (!id) return
 
-    await handleActionWithToast(ubahJenisAbsenSesiAction(idKelas, id, data), {
+    await handleActionWithToast(ubahJenisAbsenSesiApi(jwt, idKelas, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

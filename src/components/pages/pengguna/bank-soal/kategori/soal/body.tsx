@@ -111,7 +111,7 @@ const initialValues: TambahSoalFormSchema = {
 }
 
 export default function KelolaSoalBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [tipeSoal, setTipeSoal] = useState<TipeSoalType>(
@@ -145,7 +145,7 @@ export default function KelolaSoalBody() {
     queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
     queryFn: makeSimpleQueryDataWithParams(
       lihatBankSoalApi,
-      jwt || null,
+      jwt,
       idKategori,
       idBankSoal
     ),

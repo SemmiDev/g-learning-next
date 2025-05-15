@@ -1,14 +1,16 @@
 import { PenilaianUjianFormSchema } from '@/components/pages/pengguna/ruang-kelas/umum/kelas/ujian/pengajar/penilaian/body'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 
-export const simpanNilaiUjianAction = async (
+export const simpanNilaiUjianApi = async (
+  jwt: string,
   idKelas: string,
   idAktifitas: string,
   idPeserta: string,
   data: PenilaianUjianFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${idKelas}/aktifitas/${idAktifitas}/jawaban/${idPeserta}`,
+    jwt,
     {
       soal: data.nilai.map((item) => ({
         id: item.id,

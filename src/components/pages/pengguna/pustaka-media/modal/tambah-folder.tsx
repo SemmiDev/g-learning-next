@@ -43,7 +43,7 @@ export default function TambahFolderModal({
   idInstansi,
   idFolder,
 }: TambahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()

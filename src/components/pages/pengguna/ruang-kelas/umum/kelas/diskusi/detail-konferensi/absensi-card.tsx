@@ -1,6 +1,3 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { listAbsensiAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/list-absen'
-import { simpanAbsensiAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
 import {
   ActionIconTooltip,
   Badge,
@@ -13,6 +10,10 @@ import {
   Thumbnail,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { listAbsensiAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/list-absen'
+import { simpanAbsensiAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
@@ -33,6 +34,8 @@ type AbsensiCardProps = {
 }
 
 export default function AbsensiCard({ className }: AbsensiCardProps) {
+  const { jwt } = useSessionJwt()
+
   const [absensi, setAbsensi] = useState<AbsensiType>({})
   const [hadirSemua, setHadirSemua] = useState(false)
 
@@ -40,7 +43,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.konferensi', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   const tipe = mustBe(
@@ -54,7 +57,8 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listAbsensiAktifitasAction({
+      const { data } = await listAbsensiAktifitasApi({
+        jwt,
         page,
         idKelas,
         id,
@@ -123,7 +127,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
     }))
 
     await handleActionWithToast(
-      simpanAbsensiAktifitasAction(idKelas, id, dataAbsen),
+      simpanAbsensiAktifitasApi(jwt, idKelas, id, dataAbsen),
       {
         loading: 'Menyimpan presensi...',
       }

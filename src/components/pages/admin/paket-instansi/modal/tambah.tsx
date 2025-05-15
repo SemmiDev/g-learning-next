@@ -70,7 +70,7 @@ export default function TambahModal({
   show = false,
   setShow,
 }: TambahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
 

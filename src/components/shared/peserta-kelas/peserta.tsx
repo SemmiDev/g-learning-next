@@ -48,7 +48,7 @@ export default function PesertaKelas({
   errorClassName,
   clearable,
 }: PesertaKelasProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
 

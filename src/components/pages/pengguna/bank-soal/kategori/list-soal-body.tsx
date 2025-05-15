@@ -35,7 +35,7 @@ import UbahBankSoalModal from './modal/ubah-bank-soal'
 import SoalCard, { SoalType } from './soal-card'
 
 export default function ListSoalBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')
@@ -61,7 +61,7 @@ export default function ListSoalBody() {
     queryKey: ['pengguna.bank-soal.kategori.lihat', idKategori],
     queryFn: makeSimpleQueryDataWithParams(
       lihatKategoriBankSoalApi,
-      jwt || null,
+      jwt,
       idKategori
     ),
   })

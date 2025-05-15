@@ -1,6 +1,6 @@
 'use client'
-import { DataType as DataSesiType } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import { Title } from '@/components/ui'
+import { DataType as DataSesiType } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import NodeRSA from 'encrypt-rsa'
 import { useParams } from 'next/navigation'
 import { QRCodeSVG } from 'qrcode.react'

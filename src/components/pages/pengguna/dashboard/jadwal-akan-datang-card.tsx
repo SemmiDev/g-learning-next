@@ -25,7 +25,7 @@ type JadwalAkanDatangCardProps = {
 export default function JadwalAkanDatangCard({
   className,
 }: JadwalAkanDatangCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const {
     data = [],

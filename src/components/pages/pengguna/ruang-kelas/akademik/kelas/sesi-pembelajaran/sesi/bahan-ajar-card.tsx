@@ -1,7 +1,8 @@
-import { listAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import { Button, Card, Loader, Shimmer, Title } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { listAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -33,6 +34,8 @@ export default function BahanAjarCard({
   kelas,
   className,
 }: BahanAjarCardProps) {
+  const { jwt } = useSessionJwt()
+
   const {
     show: showTambahMateri,
     key: keyTambahMateri,
@@ -70,7 +73,8 @@ export default function BahanAjarCard({
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listAktifitasAction({
+      const { data } = await listAktifitasApi({
+        jwt,
         page,
         idKelas,
         idSesi,

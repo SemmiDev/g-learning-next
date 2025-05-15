@@ -1,4 +1,3 @@
-import { tambahAktifitasDiskusiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-diskusi'
 import {
   ControlledInput,
   ControlledQuillEditor,
@@ -8,6 +7,8 @@ import {
   ModalFooterButtons,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasDiskusiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-diskusi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -37,14 +38,16 @@ export default function TambahDiskusiModal({
   show = false,
   setShow,
 }: TambahDiskusiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahDiskusiFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasDiskusiAction(idKelas, data), {
+    await handleActionWithToast(tambahAktifitasDiskusiApi(jwt, idKelas, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

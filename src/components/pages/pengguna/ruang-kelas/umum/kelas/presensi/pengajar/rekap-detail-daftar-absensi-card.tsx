@@ -1,5 +1,3 @@
-import { simpanAbsensiAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
-import { tableAbsensiPesertaAction } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
 import {
   ActionIconTooltip,
   Badge,
@@ -12,7 +10,10 @@ import {
   Thumbnail,
 } from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useTableAsync } from '@/hooks/use-table-async'
+import { simpanAbsensiAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/simpan-absen'
+import { tableAbsensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
@@ -35,7 +36,9 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
   hideUbahData: () => void
   className?: string
 }) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [dataPerubahan, setDataPerubahan] = useState<Record<string, string>>({})
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -58,13 +61,13 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: tableAbsensiPesertaAction,
+    action: tableAbsensiPesertaApi,
     actionParams: { idKelas, idAktifitas },
     enabled: !!idKelas && !!idAktifitas,
   })
 
   type TableDataType = Awaited<
-    ReturnType<typeof tableAbsensiPesertaAction>
+    ReturnType<typeof tableAbsensiPesertaApi>
   >['data']
 
   useEffect(() => {
@@ -83,7 +86,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     }))
 
     await handleActionWithToast(
-      simpanAbsensiAktifitasAction(idKelas, idAktifitas, dataAbsen),
+      simpanAbsensiAktifitasApi(jwt, idKelas, idAktifitas, dataAbsen),
       {
         loading: 'Menyimpan presensi...',
         onSuccess: () => {

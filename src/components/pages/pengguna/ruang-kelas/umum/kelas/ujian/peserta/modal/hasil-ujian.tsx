@@ -1,5 +1,3 @@
-import { lihatHasilUjianAction } from '@/services/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Loader,
@@ -9,13 +7,13 @@ import {
   Time,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
-import {
-  makeSimpleQueryDataWithId,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { betweenTime } from '@/utils/time'
-import { useQuery } from '@tanstack/react-query'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Tooltip } from 'rizzui'
 
@@ -30,13 +28,14 @@ export default function HasilUjianModal({
   show,
   onHide,
 }: MulaiUjianModalProps) {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas?.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -49,7 +48,8 @@ export default function HasilUjianModal({
       id,
     ],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatHasilUjianAction,
+      lihatHasilUjianApi,
+      jwt,
       idKelas,
       id || null
     ),

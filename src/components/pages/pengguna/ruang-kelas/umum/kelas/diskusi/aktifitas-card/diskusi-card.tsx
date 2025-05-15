@@ -1,6 +1,3 @@
-import { hapusAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/hapus'
-import { DataType } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Button,
   Card,
@@ -15,7 +12,11 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { hapusAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/hapus'
+import { DataType } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { stripHtmlAndEllipsis } from '@/utils/text'
@@ -36,7 +37,9 @@ export default function DiskusiCard({
   data,
   className,
 }: DiskusiCardProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [idHapus, setIdHapus] = useState<string>()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -46,7 +49,7 @@ export default function DiskusiCard({
   const handleHapus = () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasAction(idKelas, idHapus), {
+    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)

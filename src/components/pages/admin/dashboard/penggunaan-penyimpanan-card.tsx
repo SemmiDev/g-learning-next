@@ -58,7 +58,7 @@ type DashboardPenggunaanPenyimpananCardProps = {
 export default function DashboardPenggunaanPenyimpananCard({
   className,
 }: DashboardPenggunaanPenyimpananCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [tahun, setTahun] = useState(new Date().getFullYear())
 

@@ -1,5 +1,3 @@
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
-import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import {
   Badge,
   Button,
@@ -9,7 +7,10 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
@@ -32,6 +33,8 @@ type SesiCardProps = {
 }
 
 export default function SesiCard({ kelas, className }: SesiCardProps) {
+  const { jwt } = useSessionJwt()
+
   const {
     show: showUbahJudul,
     key: keyUbahJudul,
@@ -52,7 +55,8 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: makeSimpleQueryDataWithParams(
-      lihatSesiPembelajaranAction,
+      lihatSesiPembelajaranApi,
+      jwt,
       idKelas,
       idSesi
     ),

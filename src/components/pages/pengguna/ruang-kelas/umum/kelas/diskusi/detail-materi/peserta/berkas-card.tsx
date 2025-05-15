@@ -1,4 +1,3 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import {
   Card,
   CardSeparator,
@@ -10,6 +9,8 @@ import {
   Text,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
@@ -25,11 +26,13 @@ export default function PesertaBerkasCard({
   className,
   setFilePreview,
 }: PesertaBerkasCardProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   if (isLoading) return <BerkasCardShimmer className={className} />

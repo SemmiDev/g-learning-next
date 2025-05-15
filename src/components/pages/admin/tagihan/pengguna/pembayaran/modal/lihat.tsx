@@ -19,7 +19,7 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { id: idTagihan }: { id: string } = useParams()
 
@@ -27,7 +27,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
     queryKey: ['admin.tagihan-pengguna.pembayaran.table.ubah', idTagihan, id],
     queryFn: makeSimpleQueryDataWithParams(
       lihatPembayaranTagihanPenggunaApi,
-      jwt || null,
+      jwt,
       idTagihan,
       id ?? null
     ),

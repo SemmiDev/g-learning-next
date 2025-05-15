@@ -1,4 +1,3 @@
-import { listAnggotaKelasAction } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/list'
 import {
   Card,
   CardSeparator,
@@ -9,6 +8,8 @@ import {
   Thumbnail,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/peserta/list'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -24,6 +25,8 @@ type PesertaDaftarAnggotaSectionProps = {
 export default function PesertaDaftarAnggotaSection({
   className,
 }: PesertaDaftarAnggotaSectionProps) {
+  const { jwt } = useSessionJwt()
+
   const [search, setSearch] = useState('')
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -36,7 +39,8 @@ export default function PesertaDaftarAnggotaSection({
         idKelas,
       ],
       queryFn: async ({ pageParam: page }) => {
-        const { data } = await listAnggotaKelasAction({
+        const { data } = await listAnggotaKelasApi({
+          jwt,
           page,
           search,
           idKelas,

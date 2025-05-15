@@ -63,7 +63,7 @@ type SortDataType = keyof typeof sortData
 const queryKeyDrive = ['pengguna.pustaka-media.drives']
 
 export default function PustakaMediaBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const queryClient = useQueryClient()
 

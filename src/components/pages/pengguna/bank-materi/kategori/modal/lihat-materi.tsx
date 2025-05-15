@@ -28,7 +28,7 @@ export default function LihatMateriModal({
   show,
   onHide,
 }: LihatMateriModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -38,7 +38,7 @@ export default function LihatMateriModal({
     queryKey: ['pengguna.bank-materi.lihat', idKategori, id],
     queryFn: makeSimpleQueryDataWithParams(
       lihatBankMateriApi,
-      jwt || null,
+      jwt,
       idKategori,
       id ?? null
     ),

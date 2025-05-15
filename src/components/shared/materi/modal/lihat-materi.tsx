@@ -29,7 +29,7 @@ export default function LihatMateriModal({
   show,
   onHide,
 }: LihatMateriModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -39,7 +39,7 @@ export default function LihatMateriModal({
     queryKey: ['shared.materi.lihat', idKategori, id],
     queryFn: makeSimpleQueryDataWithParams(
       lihatMateriApi,
-      jwt || null,
+      jwt,
       idKategori,
       id ?? null
     ),

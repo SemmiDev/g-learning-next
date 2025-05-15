@@ -1,5 +1,3 @@
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
-import { ubahKelasAction } from '@/services/api/pengguna/ruang-kelas/ubah'
 import {
   Button,
   ControlledDatePicker,
@@ -21,6 +19,9 @@ import {
 } from '@/components/ui'
 import { NAMA_HARI, ZONA_WAKTU } from '@/config/const'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { ubahKelasApi } from '@/services/api/pengguna/ruang-kelas/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDateFromTime } from '@/utils/date'
 import { mustBe } from '@/utils/must-be'
@@ -95,8 +96,10 @@ export default function PengaturanKelasModal({
   show,
   onHide,
 }: PengaturanKelasModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const queryKey = ['pengguna.ruang-kelas.ubah', id]
@@ -113,7 +116,7 @@ export default function PengaturanKelasModal({
           hariWaktu: [],
         }
 
-      const { data } = await lihatKelasAction(id)
+      const { data } = await lihatKelasApi(jwt, id)
 
       return {
         program: data?.kelas?.nama_kelas,
@@ -135,7 +138,7 @@ export default function PengaturanKelasModal({
   const onSubmit: SubmitHandler<PengaturanKelasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKelasAction(id, data), {
+    await handleActionWithToast(ubahKelasApi(jwt, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

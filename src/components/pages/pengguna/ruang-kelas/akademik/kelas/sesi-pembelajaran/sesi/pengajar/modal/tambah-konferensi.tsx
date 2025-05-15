@@ -1,4 +1,3 @@
-import { tambahAktifitasKonferensiSesiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-konferensi'
 import {
   ControlledInput,
   ControlledQuillEditor,
@@ -9,6 +8,8 @@ import {
   RadioGroupOptionType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasKonferensiSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-konferensi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -47,8 +48,10 @@ export default function TambahKonferensiSesiModal({
   show = false,
   onHide,
 }: TambahKonferensiSesiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -59,7 +62,7 @@ export default function TambahKonferensiSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasKonferensiSesiAction(idKelas, idSesi, data),
+      tambahAktifitasKonferensiSesiApi(jwt, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

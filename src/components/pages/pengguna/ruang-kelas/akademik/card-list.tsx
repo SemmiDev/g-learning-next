@@ -1,6 +1,7 @@
-import { listKelasAction } from '@/services/api/pengguna/ruang-kelas/list'
 import { Loader, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listKelasApi } from '@/services/api/pengguna/ruang-kelas/list'
 import { switchCaseObject } from '@/utils/switch-case'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -9,13 +10,13 @@ import KelasCard from './kelas-card'
 
 type ListKelasCardListProps = {
   semester: string | null
-  className?: string
 }
 
 export default function ListKelasCardList({
   semester,
-  className,
 }: ListKelasCardListProps) {
+  const { jwt } = useSessionJwt()
+
   const { jenis: jenisKelas }: { jenis: string } = useParams()
   const kategori = switchCaseObject(
     jenisKelas,
@@ -31,7 +32,8 @@ export default function ListKelasCardList({
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listKelasAction({
+      const { data } = await listKelasApi({
+        jwt,
         page,
         kategori,
         tipe: 'Akademik',

@@ -1,4 +1,4 @@
-import { makeJwtGetRequestTableAction } from '@/utils/action'
+import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id: string
@@ -18,12 +18,14 @@ export type DataType = {
   foto: string
 }
 
-export const cekPresensiSemuaPesertaSesiAction = async (
+export const cekPresensiSemuaPesertaSesiApi = async (
+  jwt: string,
   idKelas: string,
   idSesi: string
 ) =>
-  makeJwtGetRequestTableAction<DataType>(
+  makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas-akademik/${idKelas}/pertemuan/${idSesi}/absensi-peserta`,
+    jwt,
     {
       per_page: 10000,
     }

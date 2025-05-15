@@ -1,5 +1,6 @@
-import { dataNilaiAction } from '@/services/api/pengguna/ruang-kelas/tugas/pengajar/data-nilai'
 import { Card, Shimmer } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataNilaiApi } from '@/services/api/pengguna/ruang-kelas/tugas/pengajar/data-nilai'
 import cn from '@/utils/class-names'
 import { roundedNumber } from '@/utils/number'
 import { useQuery } from '@tanstack/react-query'
@@ -14,12 +15,14 @@ export type ChartData = {
 }
 
 export default function PengajarChartSection() {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.tugas.chart-data', 'pengajar', idKelas],
     queryFn: async () => {
-      const { data } = await dataNilaiAction(idKelas)
+      const { data } = await dataNilaiApi(jwt, idKelas)
 
       return {
         tertinggi: (data?.grafik_nilai_tugas_tertinggi ?? []).map(

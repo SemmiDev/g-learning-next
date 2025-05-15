@@ -83,7 +83,7 @@ export default function ShareMateriModal({
   show,
   onHide,
 }: ShareMateriModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [formError, setFormError] = useState<string>()
 

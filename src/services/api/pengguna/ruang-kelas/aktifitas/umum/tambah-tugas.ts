@@ -1,13 +1,15 @@
 import { TambahTugasFormSchema } from '@/components/pages/pengguna/ruang-kelas/umum/kelas/diskusi/modal/tambah-tugas'
-import { makeJwtPostRequestAction } from '@/utils/action'
+import { makeJwtPostRequestApi } from '@/utils/api'
 import { cleanQuill } from '@/utils/string'
 
-export const tambahAktifitasTugasAction = async (
+export const tambahAktifitasTugasApi = async (
+  jwt: string,
   idKelas: string,
   data: TambahTugasFormSchema
 ) =>
-  makeJwtPostRequestAction(
+  makeJwtPostRequestApi(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas/${idKelas}/aktifitas`,
+    jwt,
     {
       ...(data.share && data.materi
         ? {

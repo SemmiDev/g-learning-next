@@ -1,7 +1,8 @@
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import { ActionIconTooltip, Modal, ModalFooterButtons } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useWindowLocation } from '@/hooks/use-window-location'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -17,13 +18,14 @@ export default function PengajarUndangAnggotaModal({
   showModal = false,
   setShowModal,
 }: PengajarUndangAnggotaModalProps) {
+  const { jwt } = useSessionJwt()
   const location = useWindowLocation()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const kodeUndang = dataKelas?.kelas.kode_unik || ''

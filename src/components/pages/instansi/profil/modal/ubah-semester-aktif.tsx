@@ -49,7 +49,7 @@ export default function UbahSemesterAktifModal({
   show,
   setShow,
 }: UbahSemesterAktifModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()

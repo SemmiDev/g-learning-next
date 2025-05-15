@@ -1,5 +1,3 @@
-import { jadwalKelasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/jadwal-kelas'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Badge,
   Button,
@@ -13,11 +11,14 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { jadwalKelasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/jadwal-kelas'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { hourMinute } from '@/utils/text'
-import { useQuery } from '@tanstack/react-query'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { ComponentType, Dispatch, SetStateAction, useState } from 'react'
 import {
@@ -42,7 +43,9 @@ type JadwalCardProps = {
 }
 
 export default function JadwalCard({ kelas, className }: JadwalCardProps) {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
+
   const [idSesiMulai, setIdSesiMulai] = useState<string>()
   const {
     show: showTambahMateri,
@@ -84,7 +87,8 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data } = await jadwalKelasAction({
+      const { data } = await jadwalKelasApi({
+        jwt,
         idKelas,
         hari: HARI[currentDay],
       })

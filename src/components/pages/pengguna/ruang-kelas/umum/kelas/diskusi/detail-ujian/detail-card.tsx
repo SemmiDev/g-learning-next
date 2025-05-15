@@ -1,7 +1,8 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { Card, CardSeparator, Komentar, Time, Title } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
@@ -17,6 +18,8 @@ type DetailCardProps = {
 }
 
 export default function DetailCard({ peran, className }: DetailCardProps) {
+  const { jwt } = useSessionJwt()
+
   const {
     show: showUbah,
     key: keyUbah,
@@ -30,7 +33,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(lihatAktifitasApi, jwt, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

@@ -1,4 +1,3 @@
-import { listJadwalAction } from '@/services/api/pengguna/ruang-kelas/list-jadwal'
 import {
   Badge,
   Button,
@@ -10,6 +9,8 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { listJadwalApi } from '@/services/api/pengguna/ruang-kelas/list-jadwal'
 import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import { hourMinute } from '@/utils/text'
@@ -19,7 +20,6 @@ import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { LuClock, LuMapPin, LuPackage } from 'react-icons/lu'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import { useWindowSize } from 'react-use'
 
 const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
 
@@ -32,6 +32,8 @@ export default function JadwalAkademik({
   semester,
   className,
 }: JadwalAkademikProps) {
+  const { jwt } = useSessionJwt()
+
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -58,7 +60,8 @@ export default function JadwalAkademik({
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listJadwalAction({
+      const { data } = await listJadwalApi({
+        jwt,
         page,
         kategori,
         hari: HARI[currentDay],

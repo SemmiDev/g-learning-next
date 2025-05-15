@@ -41,7 +41,7 @@ export default function UbahPasswordModal({
   show,
   setShow,
 }: UbahPasswordModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [formError, setFormError] = useState<string>()
 

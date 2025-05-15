@@ -1,5 +1,3 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasUjianAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/ubah-ujian'
 import {
   ControlledDatePicker,
   ControlledInput,
@@ -20,6 +18,9 @@ import {
 } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { ubahAktifitasUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/ubah-ujian'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDate } from '@/utils/date'
 import { mustBe } from '@/utils/must-be'
@@ -104,8 +105,10 @@ export default function UbahUjianModal({
   show,
   onHide,
 }: UbahUjianModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -127,7 +130,7 @@ export default function UbahUjianModal({
           presensi: 'aktif',
         }
 
-      const { data } = await lihatAktifitasAction(idKelas, id)
+      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
       const bankSoal = data?.bank_soal
 
       return {
@@ -167,7 +170,7 @@ export default function UbahUjianModal({
   const onSubmit: SubmitHandler<UbahUjianFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasUjianAction(idKelas, id, data), {
+    await handleActionWithToast(ubahAktifitasUjianApi(jwt, idKelas, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

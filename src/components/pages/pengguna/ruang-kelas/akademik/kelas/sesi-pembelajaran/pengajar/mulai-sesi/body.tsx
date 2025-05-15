@@ -1,7 +1,5 @@
 'use client'
 
-import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { mulaiSesiAction } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/mulai-sesi'
 import { Camera, Map } from '@/components/shared/absen'
 import {
   Button,
@@ -13,19 +11,24 @@ import {
   Title,
 } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
+import { mulaiSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/mulai-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
+import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { LatLng } from 'leaflet'
-import { useRouter } from '@bprogress/next/app'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function MulaiSesiBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
+
   const [position, setPosition] = useState<LatLng>()
   const [photo, setPhoto] = useState<File>()
   const [isSending, setIsSending] = useState(false)
@@ -42,7 +45,8 @@ export default function MulaiSesiBody() {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: makeSimpleQueryDataWithParams(
-      lihatSesiPembelajaranAction,
+      lihatSesiPembelajaranApi,
+      jwt,
       idKelas,
       idSesi
     ),
@@ -64,7 +68,7 @@ export default function MulaiSesiBody() {
 
     if (photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(mulaiSesiAction(idKelas, idSesi, form), {
+    await handleActionWithToast(mulaiSesiApi(jwt, idKelas, idSesi, form), {
       loading: 'Memulai sesi...',
       onStart: () => setIsSending(true),
       onSuccess: () => {

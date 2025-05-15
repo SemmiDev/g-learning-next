@@ -1,4 +1,3 @@
-import { daftarTugasPesertaAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/daftar-tugas'
 import {
   Card,
   CardSeparator,
@@ -7,6 +6,8 @@ import {
   Time,
   Title,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { daftarTugasPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/daftar-tugas'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -23,12 +24,15 @@ type DaftarTugasCardProps = {
 }
 
 export default function DaftarTugasCard({ className }: DaftarTugasCardProps) {
+  const { jwt } = useSessionJwt()
+
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading } = useInfiniteQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.daftar-tugas', idKelas],
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await daftarTugasPesertaAction({
+      const { data } = await daftarTugasPesertaApi({
+        jwt,
         page,
         idKelas,
       })

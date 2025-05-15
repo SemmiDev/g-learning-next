@@ -21,7 +21,7 @@ import UbahModal from './modal/ubah'
 import UbahLogoModal from './modal/ubah-logo'
 
 export default function ProfilDetailBody() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const [showUbah, setShowUbah] = useState(false)
   const [ubahLogo, setUbahLogo] = useState(false)

@@ -56,7 +56,7 @@ export default function TambahBankSoalModal({
   show = false,
   setShow,
 }: TambahBankSoalModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 

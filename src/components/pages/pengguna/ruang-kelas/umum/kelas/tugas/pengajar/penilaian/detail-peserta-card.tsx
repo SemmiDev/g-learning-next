@@ -25,7 +25,7 @@ export default function DetailPesertaCard({
   isSubmitting,
   className,
 }: DetailPesertaCardProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const router = useRouter()
 
   const [showPilihPeserta, setShowPilihPeserta] = useState(false)
@@ -40,7 +40,7 @@ export default function DetailPesertaCard({
     queryKey: ['pengguna.ruang-kelas.peserta.detail', idPeserta],
     queryFn: makeSimpleQueryDataWithParams(
       lihatPesertaKelasApi,
-      jwt || null,
+      jwt,
       idKelas,
       idPeserta
     ),

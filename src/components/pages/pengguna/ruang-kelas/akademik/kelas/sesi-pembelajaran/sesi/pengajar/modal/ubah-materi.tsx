@@ -1,5 +1,3 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { ubahAktifitasMateriSesiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/ubah-materi'
 import {
   ControlledInput,
   ControlledPustakaMedia,
@@ -12,6 +10,9 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { ubahAktifitasMateriSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/ubah-materi'
 import { handleActionWithToast } from '@/utils/action'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
 import { required } from '@/utils/validations/pipe'
@@ -46,8 +47,10 @@ export default function UbahMateriSesiModal({
   show,
   onHide,
 }: UbahMateriSesiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -70,7 +73,7 @@ export default function UbahMateriSesiModal({
           berkas: [],
         }
 
-      const { data } = await lihatAktifitasAction(idKelas, id)
+      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -94,7 +97,7 @@ export default function UbahMateriSesiModal({
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasMateriSesiAction(idKelas, id, data),
+      ubahAktifitasMateriSesiApi(jwt, idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

@@ -33,7 +33,7 @@ export default function TambahKategoriModal({
   show = false,
   setShow,
 }: TambahKategoriModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()

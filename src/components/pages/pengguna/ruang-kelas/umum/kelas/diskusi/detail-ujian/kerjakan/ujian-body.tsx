@@ -1,16 +1,17 @@
 'use client'
 
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
-import { dataUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/data'
-import { selesaiUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/selesai-ujian'
-import { simpanJawabanAction } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/simpan-jawaban'
 import { Card, CardSeparator, Shimmer } from '@/components/ui'
 import { PILIHAN_JAWABAN } from '@/config/const'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { dataUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/data'
+import { selesaiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/selesai-ujian'
+import { simpanJawabanApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/simpan-jawaban'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryDataWithId } from '@/utils/query-data'
-import { useQuery } from '@tanstack/react-query'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { useDebounce, useWindowScroll } from 'react-use'
@@ -40,9 +41,11 @@ export type SoalType = {
 }
 
 export default function KerjakanUjianBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
   const { y: scrollY } = useWindowScroll()
   const isMediumScreen = useMedia('(min-width: 768px)', true)
+
   const [ujian, setUjian] = useState<{
     judul?: string
     durasi?: number
@@ -63,13 +66,13 @@ export default function KerjakanUjianBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
   const fetchData = async () => {
-    const { data } = await dataUjianAction(idKelas, id)
+    const { data } = await dataUjianApi(jwt, idKelas, id)
 
     setUjian({
       judul: data?.aktifitas.judul,
@@ -117,7 +120,7 @@ export default function KerjakanUjianBody() {
     if (sisaWaktu === undefined) return
 
     try {
-      await simpanJawabanAction(idKelas, id, {
+      await simpanJawabanApi(jwt, idKelas, id, {
         jawaban: dataSoal.map((item) => ({
           id: item.id,
           jw: item.jawab || '',
@@ -155,7 +158,7 @@ export default function KerjakanUjianBody() {
     clearInterval(timer)
 
     await handleActionWithToast(
-      selesaiUjianAction(idKelas, id, {
+      selesaiUjianApi(jwt, idKelas, id, {
         jawaban: listSemuaSoal.map((item) => ({
           id: item.id,
           jw: item.jawab || '',

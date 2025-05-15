@@ -1,4 +1,3 @@
-import { tambahAktifitasUjianSesiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-ujian'
 import {
   ControlledDatePicker,
   ControlledInput,
@@ -16,6 +15,8 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasUjianSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-ujian'
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
@@ -83,8 +84,10 @@ export default function TambahUjianSesiModal({
   show = false,
   onHide,
 }: TambahUjianSesiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -93,7 +96,7 @@ export default function TambahUjianSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasUjianSesiAction(idKelas, idSesi, data),
+      tambahAktifitasUjianSesiApi(jwt, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

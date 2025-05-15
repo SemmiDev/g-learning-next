@@ -1,0 +1,87 @@
+import { makeJwtGetRequestApi } from '@/utils/api'
+
+export type DataType = {
+  aktifitas: {
+    id: string
+    id_kelas: string
+    id_pembuat: string
+    tipe:
+      | 'Diskusi'
+      | 'Materi'
+      | 'Konferensi'
+      | 'Penugasan'
+      | 'Ujian'
+      | 'Pengumuman'
+    kategori_nilai: 'Tugas' | 'UTS' | 'UAS' | null
+    judul: string
+    deskripsi: string | null
+    absen: 'Manual' | 'Otomatis' | 'GPS' | 'GPS dan Swafoto' | 'QR Code' | null
+    waktu_tersedia: string | null
+    waktu_akhir_absen: string | null
+    batas_waktu: string | null
+    id_bank_soal: string | null
+    acak_soal: 0 | 1 | null
+    acak_jawaban: 0 | 1 | null
+    waktu_mulai_ujian: string | null
+    waktu_selesai_ujian: string | null
+    durasi_ujian: number | null
+    id_pertemuan_kelas: string | null
+    created_at: string
+    updated_at: string
+  }
+  bank_soal: {
+    id: string
+    id_kategori: string
+    id_pengajar: string
+    judul: string
+    deskripsi: string
+    bobot_benar: number
+    bobot_salah: number
+    bobot_kosong: number
+    jumlah_soal_yang_digunakan: number
+    total_soal: number
+    total_soal_essay: number
+    total_soal_pilihan_ganda: number
+    created_at: string
+    updated_at: string
+  }
+  jawaban: {
+    nama: string
+    foto: string
+    email: string
+    waktu_pengumpulan: string | null
+    id: string | null
+    id_kelas: string
+    id_aktifitas: string
+    id_peserta: string
+    id_bank_soal: string | null
+    jawaban: string | null
+    sisa_waktu: number | null
+    status_pengumpulan: 'SUDAH_MENGUMPULKAN' | 'BELUM_MENGUMPULKAN' | null
+    status_penilaian_essay: 0 | 1 | null
+    selesai: number | null
+    skor_benar: number | null
+    skor_salah: number | null
+    skor_kosong: number | null
+    skor_akhir: number | null
+    skor_akhir_essay: number | null
+    skor_akhir_pilihan_ganda: number | null
+    jawaban_benar: number | null
+    jawaban_salah: number | null
+    jawaban_kosong: number | null
+    waktu_mulai: string | null
+    waktu_selesai: string | null
+    created_at: string | null
+    updated_at: string | null
+  }
+}
+
+export const lihatHasilUjianApi = async (
+  jwt: string,
+  idKelas: string,
+  idAktifitas: string
+) =>
+  makeJwtGetRequestApi<DataType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/peserta/kelas/${idKelas}/aktifitas/${idAktifitas}/penilaian-ujian`,
+    jwt
+  )

@@ -1,4 +1,3 @@
-import { tambahAktifitasMateriAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/tambah-materi'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -15,6 +14,8 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasMateriApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/akademik/tambah-materi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
@@ -77,14 +78,16 @@ export default function TambahMateriModal({
   show = false,
   setShow,
 }: TambahMateriModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahMateriFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasMateriAction(idKelas, data), {
+    await handleActionWithToast(tambahAktifitasMateriApi(jwt, idKelas, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

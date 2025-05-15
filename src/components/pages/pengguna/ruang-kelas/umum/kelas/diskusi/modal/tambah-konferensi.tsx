@@ -1,4 +1,3 @@
-import { tambahAktifitasKonferensiAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-konferensi'
 import {
   CardSeparator,
   ControlledDatePicker,
@@ -12,6 +11,8 @@ import {
   RadioGroupOptionType,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tambahAktifitasKonferensiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/umum/tambah-konferensi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -71,15 +72,17 @@ export default function TambahKonferensiModal({
   show = false,
   setShow,
 }: TambahKonferensiModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahKonferensiFormSchema> = async (data) => {
     await handleActionWithToast(
-      tambahAktifitasKonferensiAction(idKelas, data),
+      tambahAktifitasKonferensiApi(jwt, idKelas, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

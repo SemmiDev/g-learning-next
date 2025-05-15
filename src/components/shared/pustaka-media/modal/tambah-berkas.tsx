@@ -86,7 +86,7 @@ export default function TambahBerkasModal({
   idFolder,
   imageOnly = false,
 }: TambahModalProps) {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 

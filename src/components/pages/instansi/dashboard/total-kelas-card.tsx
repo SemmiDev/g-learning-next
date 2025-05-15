@@ -9,7 +9,7 @@ import { Cell, Label, Pie, PieChart, ResponsiveContainer } from 'recharts'
 const COLORS = ['#F1416C', '#DCDCDC']
 
 export default function DashboardTotalKelasCard() {
-  const jwt = useSessionJwt()
+  const { jwt } = useSessionJwt()
 
   const { data } = useQuery({
     queryKey: ['instansi.dashboard.total-kelas'],

@@ -1,12 +1,10 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
-import { tableAbsensiPesertaAction } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
 import { Button, Card, Shimmer, Text, TimeIndo } from '@/components/ui'
 import { routes } from '@/config/routes'
-import {
-  makeSimpleQueryDataWithId,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { tableAbsensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -25,15 +23,17 @@ type PengajarRekapDetailSesiSectionProps = {
 export default function PengajarRekapPresensiDetailSesiSection({
   className,
 }: PengajarRekapDetailSesiSectionProps) {
+  const { jwt } = useSessionJwt()
   const searchParams = useSearchParams()
   const idAktifitas = searchParams.get('sesi') || undefined
+
   const [ubahData, setUbahData] = useState(false)
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const { data, isLoading } = useQuery({
@@ -44,7 +44,8 @@ export default function PengajarRekapPresensiDetailSesiSection({
       idAktifitas,
     ],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatAktifitasAction,
+      lihatAktifitasApi,
+      jwt,
       idKelas,
       idAktifitas ?? null
     ),
@@ -74,7 +75,8 @@ export default function PengajarRekapPresensiDetailSesiSection({
     }[] = []
 
     const run = async (page: number) => {
-      const { data } = await tableAbsensiPesertaAction({
+      const { data } = await tableAbsensiPesertaApi({
+        jwt,
         page,
         perPage: 100,
         params: { idKelas, idAktifitas },

@@ -1,5 +1,3 @@
-import { lihatSesiPembelajaranAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { ubahJudulSesiAction } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-judul'
 import {
   ControlledInput,
   Form,
@@ -8,6 +6,9 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
+import { ubahJudulSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-judul'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -35,7 +36,9 @@ export default function UbahJudulSesiModal({
   show,
   onHide,
 }: UbahMateriModalProps) {
+  const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
+
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
@@ -56,7 +59,7 @@ export default function UbahJudulSesiModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatSesiPembelajaranAction(idKelas, id)
+      const { data } = await lihatSesiPembelajaranApi(jwt, idKelas, id)
 
       return {
         judul: data?.judul,
@@ -67,7 +70,7 @@ export default function UbahJudulSesiModal({
   const onSubmit: SubmitHandler<UbahJudulSesiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahJudulSesiAction(idKelas, id, data), {
+    await handleActionWithToast(ubahJudulSesiApi(jwt, idKelas, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

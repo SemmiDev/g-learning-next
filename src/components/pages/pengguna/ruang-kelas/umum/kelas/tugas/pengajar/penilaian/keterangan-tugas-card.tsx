@@ -1,6 +1,7 @@
-import { lihatAktifitasAction } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { Card, Shimmer, Title } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
 import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
@@ -13,6 +14,8 @@ type KeteranganTugasCardProps = {
 export default function KeteranganTugasCard({
   className,
 }: KeteranganTugasCardProps) {
+  const { jwt } = useSessionJwt()
+
   const {
     kelas: idKelas,
     id: idAktifitas,
@@ -21,7 +24,8 @@ export default function KeteranganTugasCard({
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
     queryFn: makeSimpleQueryDataWithParams(
-      lihatAktifitasAction,
+      lihatAktifitasApi,
+      jwt,
       idKelas,
       idAktifitas
     ),

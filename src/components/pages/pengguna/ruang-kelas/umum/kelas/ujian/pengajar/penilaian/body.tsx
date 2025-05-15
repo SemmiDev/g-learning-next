@@ -1,9 +1,5 @@
 'use client'
 
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
-import { lihatHasilUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/lihat-hasil'
-import { listJawabanUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/list-jawaban'
-import { simpanNilaiUjianAction } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/simpan-nilai-tugas'
 import {
   Button,
   ButtonSubmit,
@@ -14,14 +10,16 @@ import {
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/lihat-hasil'
+import { listJawabanUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/list-jawaban'
+import { simpanNilaiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/simpan-nilai-tugas'
 import { handleActionWithToast } from '@/utils/action'
-import {
-  makeSimpleQueryDataWithId,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
@@ -43,6 +41,7 @@ export type PenilaianUjianFormSchema = {
 }
 
 export default function PenilaianUjianBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -54,7 +53,7 @@ export default function PenilaianUjianBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -69,7 +68,8 @@ export default function PenilaianUjianBody() {
   const { data: dataUjian } = useQuery({
     queryKey: queryKeyUjian,
     queryFn: makeSimpleQueryDataWithParams(
-      lihatHasilUjianAction,
+      lihatHasilUjianApi,
+      jwt,
       idKelas,
       idAktifitas,
       idPeserta
@@ -92,7 +92,8 @@ export default function PenilaianUjianBody() {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data, success } = await listJawabanUjianAction(
+      const { data, success } = await listJawabanUjianApi(
+        jwt,
         idKelas,
         idAktifitas,
         idPeserta
@@ -116,7 +117,7 @@ export default function PenilaianUjianBody() {
 
   const onSubmit: SubmitHandler<PenilaianUjianFormSchema> = async (data) => {
     await handleActionWithToast(
-      simpanNilaiUjianAction(idKelas, idAktifitas, idPeserta, data),
+      simpanNilaiUjianApi(jwt, idKelas, idAktifitas, idPeserta, data),
       {
         loading: 'Menyimpan...',
         onSuccess: () => {

@@ -1,5 +1,3 @@
-import { DataType as DataAktifitasType } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
-import { DataType as DataKelasType } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import {
   Card,
   CardSeparator,
@@ -10,10 +8,12 @@ import {
   Title,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { DataType as DataAktifitasType } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
+import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
 import { getFileType } from '@/utils/file-properties-from-api'
-import DetailCardShimmer from '../shimmer/detail-card'
 import { useParams } from 'next/navigation'
+import DetailCardShimmer from '../shimmer/detail-card'
 
 type DetailCardProps = {
   kelas: DataKelasType | undefined

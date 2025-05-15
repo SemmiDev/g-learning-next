@@ -1,25 +1,24 @@
 'use client'
 
-import { lihatHasilUjianAction } from '@/services/actions/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
-import { lihatKelasAction } from '@/services/actions/pengguna/ruang-kelas/lihat'
 import { Button, Card, CardSeparator, Text, Time, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
-import {
-  makeSimpleQueryDataWithId,
-  makeSimpleQueryDataWithParams,
-} from '@/utils/query-data'
-import { useQuery } from '@tanstack/react-query'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import { makeSimpleQueryDataWithParams } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
 export default function SelesaiUjianBody() {
+  const { jwt } = useSessionJwt()
   const router = useRouter()
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryDataWithId(lihatKelasAction, idKelas),
+    queryFn: makeSimpleQueryDataWithParams(lihatKelasApi, jwt, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -31,7 +30,12 @@ export default function SelesaiUjianBody() {
       idKelas,
       id,
     ],
-    queryFn: makeSimpleQueryDataWithParams(lihatHasilUjianAction, idKelas, id),
+    queryFn: makeSimpleQueryDataWithParams(
+      lihatHasilUjianApi,
+      jwt,
+      idKelas,
+      id
+    ),
   })
 
   const handleKembali = () => {
