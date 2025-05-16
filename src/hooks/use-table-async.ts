@@ -2,7 +2,7 @@ import {
   ControlledAsyncTableActionType,
   ControlledAsyncTableApiProps,
 } from '@/components/ui/controlled-async-table'
-import { DEFAULT_DATA_PER_PAGE } from '@/config/const'
+import { CONSOLE_LOG_ON_ERROR, DEFAULT_DATA_PER_PAGE } from '@/config/const'
 import { AnyObject } from '@/utils/type-interface'
 import { QueryKey, useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
@@ -66,7 +66,7 @@ export function useTableAsync<
         perPage,
       })
 
-      if (!success) {
+      if (!success && CONSOLE_LOG_ON_ERROR) {
         console.error(message)
 
         throw new Error(message)
