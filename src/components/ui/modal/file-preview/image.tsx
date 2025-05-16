@@ -42,7 +42,7 @@ export default function ModalImagePreview({
           alt="Preview"
           width={1280}
           height={720}
-          className={cn({ 'w-fit': loading })}
+          className={cn('w-auto', { 'w-fit': loading })}
           onLoad={() => setLoading(false)}
         />
       )}
