@@ -72,7 +72,7 @@ export default function UbahKonferensiModal({
   show,
   onHide,
 }: UbahKonferensiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -91,7 +91,7 @@ export default function UbahKonferensiModal({
     queryFn: async () => {
       if (!id) return { presensi: 'non-aktif', penjadwalan: false }
 
-      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatAktifitasApi, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -108,7 +108,7 @@ export default function UbahKonferensiModal({
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasKonferensiApi(jwt, idKelas, id, data),
+      processApi(ubahAktifitasKonferensiApi, idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

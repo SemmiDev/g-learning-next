@@ -84,7 +84,7 @@ export default function TambahUjianSesiModal({
   show = false,
   onHide,
 }: TambahUjianSesiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -96,7 +96,7 @@ export default function TambahUjianSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasUjianSesiApi(jwt, idKelas, idSesi, data),
+      processApi(tambahAktifitasUjianSesiApi, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

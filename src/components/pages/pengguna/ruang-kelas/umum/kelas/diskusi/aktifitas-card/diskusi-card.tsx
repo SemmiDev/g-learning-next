@@ -37,7 +37,7 @@ export default function DiskusiCard({
   data,
   className,
 }: DiskusiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [idHapus, setIdHapus] = useState<string>()
@@ -46,19 +46,22 @@ export default function DiskusiCard({
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
+    await handleActionWithToast(
+      processApi(hapusAktifitasApi, idKelas, idHapus),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapus(undefined)
 
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-    })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+      }
+    )
   }
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

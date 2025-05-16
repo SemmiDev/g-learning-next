@@ -17,7 +17,6 @@ import { listPesertaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { Fragment, useState } from 'react'
@@ -31,7 +30,7 @@ type PengajarAnggotaCardProps = {
 export default function PengajarPesertaCard({
   className,
 }: PengajarAnggotaCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [showUndang, setShowUndang] = useState(false)
@@ -41,7 +40,7 @@ export default function PengajarPesertaCard({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const queryKey = [
@@ -66,17 +65,20 @@ export default function PengajarPesertaCard({
     actionParams: { idKelas },
   })
 
-  const handleKeluarkan = () => {
+  const handleKeluarkan = async () => {
     if (!idKeluarkan) return
 
-    handleActionWithToast(keluarkanAnggotaKelasApi(jwt, idKelas, idKeluarkan), {
-      loading: 'Mengeluarkan anggota...',
-      onSuccess: () => {
-        setIdKeluarkan(undefined)
+    await handleActionWithToast(
+      processApi(keluarkanAnggotaKelasApi, idKelas, idKeluarkan),
+      {
+        loading: 'Mengeluarkan anggota...',
+        onSuccess: () => {
+          setIdKeluarkan(undefined)
 
-        queryClient.invalidateQueries({ queryKey })
-      },
-    })
+          queryClient.invalidateQueries({ queryKey })
+        },
+      }
+    )
   }
 
   if (isLoading) return <CardShimmer className={className} />

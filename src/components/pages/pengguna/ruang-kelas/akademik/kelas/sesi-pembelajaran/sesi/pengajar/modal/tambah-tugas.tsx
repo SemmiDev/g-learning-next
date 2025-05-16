@@ -79,7 +79,7 @@ export default function TambahTugasSesiModal({
   show = false,
   onHide,
 }: TambahTugasSesiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -91,7 +91,7 @@ export default function TambahTugasSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasTugasSesiApi(jwt, idKelas, idSesi, data),
+      processApi(tambahAktifitasTugasSesiApi, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

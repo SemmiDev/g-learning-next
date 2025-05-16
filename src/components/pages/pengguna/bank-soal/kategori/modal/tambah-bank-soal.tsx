@@ -56,7 +56,7 @@ export default function TambahBankSoalModal({
   show = false,
   setShow,
 }: TambahBankSoalModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -65,17 +65,20 @@ export default function TambahBankSoalModal({
   const { kategori: idKategori }: { kategori: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahBankSoalFormSchema> = async (data) => {
-    await handleActionWithToast(tambahBankSoalApi(jwt, idKategori, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        setShow(false)
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-soal.list', idKategori],
-        })
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(tambahBankSoalApi, idKategori, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          setShow(false)
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.bank-soal.list', idKategori],
+          })
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

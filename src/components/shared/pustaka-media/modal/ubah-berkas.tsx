@@ -42,7 +42,7 @@ export default function UbahBerkasModal({
   refetchKey,
   alert = true,
 }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -58,7 +58,7 @@ export default function UbahBerkasModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBerkasApi(jwt, id)
+      const { data } = await processApi(lihatBerkasApi, id)
 
       return {
         nama: data?.nama,
@@ -70,7 +70,7 @@ export default function UbahBerkasModal({
   const onSubmit: SubmitHandler<UbahBerkasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBerkasApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahBerkasApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

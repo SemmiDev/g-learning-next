@@ -89,7 +89,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
 
@@ -106,7 +106,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatPaketInstansiApi(jwt, id)
+      const { data } = await processApi(lihatPaketInstansiApi, id)
 
       const { size: totalSize, unit: totalUnit } = getSize(
         data?.batas_penyimpanan ?? 0
@@ -137,7 +137,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const onSubmit: SubmitHandler<UbahPaketInstansiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahPaketInstansiApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahPaketInstansiApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

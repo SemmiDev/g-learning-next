@@ -2,19 +2,17 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { Text } from '@/components/ui'
 import { ControlledAsyncTableActionType } from '@/components/ui/controlled-async-table'
 import { AsyncPaginateSelectActionType } from '@/components/ui/select/async-paginate'
-import { DEFAULT_DATA_PER_PAGE } from '@/config/const'
+import {
+  API_UNREACHABLE_MESSAGE,
+  CONSOLE_LOG_ON_ERROR,
+  CONSOLE_LOG_REQUEST,
+  CONSOLE_LOG_RESPONSE,
+  DEFAULT_DATA_PER_PAGE,
+} from '@/config/const'
 import { getServerSession } from 'next-auth'
 import toast from 'react-hot-toast'
 import { makeUrl } from './string'
 import { AnyObject } from './type-interface'
-
-export const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
-export const CONSOLE_LOG_REQUEST =
-  process.env.CONSOLE_LOG_REQUEST?.toLowerCase() === 'true'
-export const CONSOLE_LOG_RESPONSE =
-  process.env.CONSOLE_LOG_RESPONSE?.toLowerCase() === 'true'
-export const CONSOLE_LOG_ON_ERROR =
-  process.env.CONSOLE_LOG_ON_ERROR?.toLowerCase() === 'true'
 
 export type ActionResponseType<T = AnyObject> = {
   success: boolean

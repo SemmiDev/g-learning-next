@@ -9,7 +9,6 @@ import { dataUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/
 import { selesaiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/selesai-ujian'
 import { simpanJawabanApi } from '@/services/api/pengguna/ruang-kelas/ujian/peserta/simpan-jawaban'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -41,7 +40,7 @@ export type SoalType = {
 }
 
 export default function KerjakanUjianBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const router = useRouter()
   const { y: scrollY } = useWindowScroll()
   const isMediumScreen = useMedia('(min-width: 768px)', true)
@@ -66,13 +65,13 @@ export default function KerjakanUjianBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
   const fetchData = async () => {
-    const { data } = await dataUjianApi(jwt, idKelas, id)
+    const { data } = await processApi(dataUjianApi, idKelas, id)
 
     setUjian({
       judul: data?.aktifitas.judul,
@@ -120,7 +119,7 @@ export default function KerjakanUjianBody() {
     if (sisaWaktu === undefined) return
 
     try {
-      await simpanJawabanApi(jwt, idKelas, id, {
+      await processApi(simpanJawabanApi, idKelas, id, {
         jawaban: dataSoal.map((item) => ({
           id: item.id,
           jw: item.jawab || '',
@@ -158,7 +157,7 @@ export default function KerjakanUjianBody() {
     clearInterval(timer)
 
     await handleActionWithToast(
-      selesaiUjianApi(jwt, idKelas, id, {
+      processApi(selesaiUjianApi, idKelas, id, {
         jawaban: listSemuaSoal.map((item) => ({
           id: item.id,
           jw: item.jawab || '',

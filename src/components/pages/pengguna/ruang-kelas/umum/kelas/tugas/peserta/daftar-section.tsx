@@ -11,7 +11,6 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { listTugasApi } from '@/services/api/pengguna/ruang-kelas/tugas/peserta/list'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
@@ -50,7 +49,7 @@ const sortData: SortDataType[] = [
 ]
 
 export default function PesertaDaftarTugasSection() {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData } = useSessionJwt()
 
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
@@ -59,7 +58,7 @@ export default function PesertaDaftarTugasSection() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const { data, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } =

@@ -52,11 +52,11 @@ const jenisKelaminOptions: RadioGroupOptionType[] = [
 const initialValues: LengkapiProfilFormSchema = {}
 
 export default function LengkapiProfilBody() {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<LengkapiProfilFormSchema> = async (data) => {
-    handleActionWithToast(simpanDataProfilApi(jwt, data), {
+    await handleActionWithToast(processApi(simpanDataProfilApi, data), {
       loading: 'Menyimpan...',
       success: 'Data profil berhasil disimpan',
       onSuccess: () => {

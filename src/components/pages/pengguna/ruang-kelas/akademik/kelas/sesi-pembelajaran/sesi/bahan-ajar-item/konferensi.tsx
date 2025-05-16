@@ -27,7 +27,7 @@ export default function KonferensiItem({
   data,
   className,
 }: KonferensiItemProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {
@@ -41,31 +41,34 @@ export default function KonferensiItem({
   const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
     useParams()
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
+    await handleActionWithToast(
+      processApi(hapusAktifitasApi, idKelas, idHapus),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapus(undefined)
 
-        queryClient.invalidateQueries({
-          queryKey: [
-            'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.list',
-            idKelas,
-            idSesi,
-          ],
-        })
-        queryClient.invalidateQueries({
-          queryKey: [
-            'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
-            'pengajar',
-            idKelas,
-            idSesi,
-          ],
-        })
-      },
-    })
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.bahan-ajar.list',
+              idKelas,
+              idSesi,
+            ],
+          })
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
+              'pengajar',
+              idKelas,
+              idSesi,
+            ],
+          })
+        },
+      }
+    )
   }
 
   const jenisKelas = kelas.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

@@ -61,7 +61,7 @@ export default function TambahMateriSesiModal({
   show = false,
   onHide,
 }: TambahMateriSesiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -73,7 +73,7 @@ export default function TambahMateriSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasMateriSesiApi(jwt, idKelas, idSesi, data),
+      processApi(tambahAktifitasMateriSesiApi, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

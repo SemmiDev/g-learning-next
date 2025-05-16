@@ -13,7 +13,6 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
@@ -21,14 +20,14 @@ import UbahModal from './modal/ubah'
 import UbahLogoModal from './modal/ubah-logo'
 
 export default function ProfilDetailBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const [showUbah, setShowUbah] = useState(false)
   const [ubahLogo, setUbahLogo] = useState(false)
 
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
+    queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   return (

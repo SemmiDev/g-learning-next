@@ -39,7 +39,7 @@ export default function TambahModal({
   show = false,
   setShow,
 }: TambahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const [formError, setFormError] = useState<string>()
 
@@ -49,7 +49,7 @@ export default function TambahModal({
     TambahPembayaranTagihanInstansiFormSchema
   > = async (data) => {
     await handleActionWithToast(
-      tambahPembayaranTagihanInstansiApi(jwt, idTagihan, data),
+      processApi(tambahPembayaranTagihanInstansiApi, idTagihan, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

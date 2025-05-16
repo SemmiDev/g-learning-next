@@ -5,20 +5,19 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
 export default function SelesaiUjianBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const router = useRouter()
 
   const { kelas: idKelas, id }: { kelas: string; id: string } = useParams()
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -30,7 +29,7 @@ export default function SelesaiUjianBody() {
       idKelas,
       id,
     ],
-    queryFn: makeSimpleQueryData(lihatHasilUjianApi, jwt, idKelas, id),
+    queryFn: makeSimpleApiQueryData(lihatHasilUjianApi, idKelas, id),
   })
 
   const handleKembali = () => {

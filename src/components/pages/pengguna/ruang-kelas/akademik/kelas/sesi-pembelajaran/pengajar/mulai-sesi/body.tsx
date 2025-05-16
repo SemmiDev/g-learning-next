@@ -16,7 +16,6 @@ import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/se
 import { mulaiSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/mulai-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { LatLng } from 'leaflet'
@@ -26,7 +25,7 @@ import { useState } from 'react'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function MulaiSesiBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const router = useRouter()
 
   const [position, setPosition] = useState<LatLng>()
@@ -44,12 +43,7 @@ export default function MulaiSesiBody() {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryData(
-      lihatSesiPembelajaranApi,
-      jwt,
-      idKelas,
-      idSesi
-    ),
+    queryFn: makeSimpleApiQueryData(lihatSesiPembelajaranApi, idKelas, idSesi),
   })
 
   const tipe = mustBe(
@@ -68,16 +62,19 @@ export default function MulaiSesiBody() {
 
     if (photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(mulaiSesiApi(jwt, idKelas, idSesi, form), {
-      loading: 'Memulai sesi...',
-      onStart: () => setIsSending(true),
-      onSuccess: () => {
-        router.replace(
-          `${routes.pengguna.ruangKelas.dikelola.akademik}/${idKelas}/sesi-pembelajaran`
-        )
-      },
-      onFinish: () => setIsSending(false),
-    })
+    await handleActionWithToast(
+      processApi(mulaiSesiApi, idKelas, idSesi, form),
+      {
+        loading: 'Memulai sesi...',
+        onStart: () => setIsSending(true),
+        onSuccess: () => {
+          router.replace(
+            `${routes.pengguna.ruangKelas.dikelola.akademik}/${idKelas}/sesi-pembelajaran`
+          )
+        },
+        onFinish: () => setIsSending(false),
+      }
+    )
   }
 
   if (isLoading) return <Loader height={200} />

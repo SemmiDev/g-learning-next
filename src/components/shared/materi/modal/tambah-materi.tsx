@@ -56,7 +56,7 @@ export default function TambahMateriModal({
   show = false,
   setShow,
 }: TambahMateriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -65,7 +65,7 @@ export default function TambahMateriModal({
   const onSubmit: SubmitHandler<TambahMateriFormSchema> = async (data) => {
     if (!idKategori) return
 
-    await handleActionWithToast(tambahMateriApi(jwt, idKategori, data), {
+    await handleActionWithToast(processApi(tambahMateriApi, idKategori, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

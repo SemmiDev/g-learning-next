@@ -11,7 +11,6 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatPenggunaInstansiApi } from '@/services/api/admin/instansi/pengguna/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -24,14 +23,13 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const { id: idInstansi }: { id: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.instansi.detail.table-pengguna.lihat', id],
-    queryFn: makeSimpleQueryData(
+    queryFn: makeSimpleApiQueryData(
       lihatPenggunaInstansiApi,
-      jwt,
       idInstansi,
       id ?? null
     ),

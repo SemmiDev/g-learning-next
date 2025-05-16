@@ -1,6 +1,10 @@
 import cn from '@/utils/class-names'
+import {
+  googleDriveThumbnailUrl,
+  isGoogleDriveUrl,
+} from '@/utils/google-drive-url'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Loader from '../../loader'
 import Modal from '../modal'
 
@@ -15,20 +19,28 @@ export default function ModalImagePreview({
 }: ModalImagePreviewProps) {
   const [loading, setLoading] = useState(true)
 
+  const imageUrl = useMemo(
+    () =>
+      isGoogleDriveUrl(openUrl ?? '')
+        ? googleDriveThumbnailUrl(openUrl ?? '', openUrl, 1280)
+        : openUrl,
+    [openUrl]
+  )
+
   return (
     <Modal
       size="lg"
       rounded="none"
-      isOpen={!!openUrl}
+      isOpen={!!imageUrl}
       containerClassName="relative w-fit bg-transparent shadow-none"
       onClose={onClose}
     >
       {loading && <Loader className="bg-white/50 rounded-md p-4" />}
-      {!!openUrl && (
+      {!!imageUrl && (
         <Image
-          src={openUrl}
+          src={imageUrl}
           alt="Preview"
-          width={1080}
+          width={1280}
           height={720}
           className={cn({ 'w-fit': loading })}
           onLoad={() => setLoading(false)}

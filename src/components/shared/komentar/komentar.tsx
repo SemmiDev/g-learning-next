@@ -50,7 +50,7 @@ export default function Komentar({
   invalidateQueries,
   className,
 }: KomentarProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [isLoadMore, setIsLoadMore] = useState(firstShow >= showPer)
@@ -181,7 +181,7 @@ export default function Komentar({
     if (!komentarLv1) return
 
     await handleActionWithToast(
-      tambahKomentarApi(jwt, idKelas, idAktifitas, komentarLv1),
+      processApi(tambahKomentarApi, idKelas, idAktifitas, komentarLv1),
       {
         loading: 'Memberi komentar...',
         onStart: () => setIsSendingLv1(true),
@@ -205,7 +205,13 @@ export default function Komentar({
     if (!komentarLv2 || !parentLv2?.id) return
 
     await handleActionWithToast(
-      tambahKomentarApi(jwt, idKelas, idAktifitas, komentarLv2, parentLv2.id),
+      processApi(
+        tambahKomentarApi,
+        idKelas,
+        idAktifitas,
+        komentarLv2,
+        parentLv2.id
+      ),
       {
         loading: 'Memberi komentar...',
         success: 'Komentar ditambahkan',

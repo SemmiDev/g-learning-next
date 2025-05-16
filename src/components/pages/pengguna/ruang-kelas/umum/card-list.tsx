@@ -16,7 +16,7 @@ import PengaturanKelasModal from './modal/pengaturan-kelas'
 import UndangKelasModal from './modal/undang-kelas'
 
 export default function ListKelasCardList() {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {
@@ -76,10 +76,10 @@ export default function ListKelasCardList() {
     onLoadMore: fetchNextPage,
   })
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusKelasApi(jwt, idHapus), {
+    await handleActionWithToast(processApi(hapusKelasApi, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)
@@ -89,10 +89,10 @@ export default function ListKelasCardList() {
     })
   }
 
-  const handleKeluar = () => {
+  const handleKeluar = async () => {
     if (!idKeluar) return
 
-    handleActionWithToast(keluarKelasApi(jwt, idKeluar), {
+    await handleActionWithToast(processApi(keluarKelasApi, idKeluar), {
       loading: 'Keluar kelas...',
       onSuccess: () => {
         setIdKeluar(undefined)

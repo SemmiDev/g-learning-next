@@ -98,7 +98,7 @@ export default function UbahUjianModal({
   show,
   onHide,
 }: UbahUjianModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -122,7 +122,7 @@ export default function UbahUjianModal({
           acakJawaban: 'non-aktif',
         }
 
-      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatAktifitasApi, idKelas, id)
       const bankSoal = data?.bank_soal
 
       return {
@@ -161,24 +161,30 @@ export default function UbahUjianModal({
   const onSubmit: SubmitHandler<UbahUjianFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasUjianApi(jwt, idKelas, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
-        })
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.linimasa.ujian', idKelas, id],
-        })
-        queryClient.setQueryData(queryKey, (oldData: UbahUjianFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(ubahAktifitasUjianApi, idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.linimasa.ujian', idKelas, id],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahUjianFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const paket = initialValues?.paket

@@ -4,7 +4,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { BsCardChecklist } from 'react-icons/bs'
@@ -18,7 +17,7 @@ type DetailCardProps = {
 }
 
 export default function DetailCard({ peran, className }: DetailCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const {
     show: showUbah,
@@ -33,7 +32,7 @@ export default function DetailCard({ peran, className }: DetailCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleApiQueryData(lihatAktifitasApi, idKelas, id),
   })
 
   if (isLoading) return <DetailCardShimmer className={className} />

@@ -33,7 +33,6 @@ import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { removeIndexFromList } from '@/utils/list'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { cleanQuill } from '@/utils/string'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
@@ -111,7 +110,7 @@ const initialValues: TambahSoalFormSchema = {
 }
 
 export default function KelolaSoalBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [tipeSoal, setTipeSoal] = useState<TipeSoalType>(
@@ -143,7 +142,7 @@ export default function KelolaSoalBody() {
 
   const { data: dataBankSoal } = useQuery({
     queryKey: ['pengguna.bank-soal.lihat', idKategori, idBankSoal],
-    queryFn: makeSimpleQueryData(lihatBankSoalApi, jwt, idKategori, idBankSoal),
+    queryFn: makeSimpleApiQueryData(lihatBankSoalApi, idKategori, idBankSoal),
   })
 
   const queryKey = [
@@ -191,7 +190,7 @@ export default function KelolaSoalBody() {
   )
 
   const onSubmit: SubmitHandler<TambahSoalFormSchema> = async (data) => {
-    await handleActionWithToast(tambahSoalApi(jwt, idBankSoal, data), {
+    await handleActionWithToast(processApi(tambahSoalApi, idBankSoal, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
@@ -207,10 +206,10 @@ export default function KelolaSoalBody() {
     })
   }
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusSoalApi(jwt, idBankSoal, idHapus), {
+    await handleActionWithToast(processApi(hapusSoalApi, idBankSoal, idHapus), {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)

@@ -96,7 +96,7 @@ export default function PengaturanKelasModal({
   show,
   onHide,
 }: PengaturanKelasModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -116,7 +116,7 @@ export default function PengaturanKelasModal({
           hariWaktu: [],
         }
 
-      const { data } = await lihatKelasApi(jwt, id)
+      const { data } = await processApi(lihatKelasApi, id)
 
       return {
         program: data?.kelas?.nama_kelas,
@@ -138,7 +138,7 @@ export default function PengaturanKelasModal({
   const onSubmit: SubmitHandler<PengaturanKelasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKelasApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahKelasApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

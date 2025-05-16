@@ -17,7 +17,6 @@ import { simpanAbsensiAktifitasApi } from '@/services/api/pengguna/ruang-kelas/a
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -36,7 +35,7 @@ type PengajarAbsensiCardProps = {
 export default function PengajarAbsensiCard({
   className,
 }: PengajarAbsensiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData, processApi } = useSessionJwt()
 
   const [absensi, setAbsensi] = useState<AbsensiType>({})
   const [hadirSemua, setHadirSemua] = useState(false)
@@ -45,7 +44,7 @@ export default function PengajarAbsensiCard({
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
-    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleApiQueryData(lihatAktifitasApi, idKelas, id),
   })
 
   const tipe = dataAktifitas?.aktifitas.absen ?? null
@@ -125,7 +124,7 @@ export default function PengajarAbsensiCard({
     }))
 
     await handleActionWithToast(
-      simpanAbsensiAktifitasApi(jwt, idKelas, id, dataAbsen),
+      processApi(simpanAbsensiAktifitasApi, idKelas, id, dataAbsen),
       {
         loading: 'Menyimpan presensi...',
       }

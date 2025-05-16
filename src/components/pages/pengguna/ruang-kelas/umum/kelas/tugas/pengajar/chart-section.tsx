@@ -15,14 +15,14 @@ export type ChartData = {
 }
 
 export default function PengajarChartSection() {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.tugas.chart-data', 'pengajar', idKelas],
     queryFn: async () => {
-      const { data } = await dataNilaiApi(jwt, idKelas)
+      const { data } = await processApi(dataNilaiApi, idKelas)
 
       return {
         tertinggi: (data?.grafik_nilai_tugas_tertinggi ?? []).map(

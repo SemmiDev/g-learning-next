@@ -68,7 +68,7 @@ export default function PilihMediaGambar({
   setShow,
   onSelect,
 }: PilihMediaProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const { status } = useSession()
   const queryClient = useQueryClient()
@@ -114,7 +114,7 @@ export default function PilihMediaGambar({
   >({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoApi(jwt)
+      const { data } = await processApi(driveInfoApi)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
@@ -231,10 +231,10 @@ export default function PilihMediaGambar({
 
   useDebounce(() => refetchFiles(), search ? 250 : 0, [refetchFiles, search])
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!fileHapus) return
 
-    handleActionWithToast(hapusBerkasApi(jwt, fileHapus.id), {
+    await handleActionWithToast(processApi(hapusBerkasApi, fileHapus.id), {
       loading: 'Menghapus berkas...',
       success: `Berhasil menghapus ${fileHapus.folder ? 'folder' : 'berkas'}`,
       onSuccess: () => {
@@ -301,7 +301,7 @@ export default function PilihMediaGambar({
               )
             }
 
-            await handleActionWithToast(tambahBerkasApi(jwt, form), {
+            await handleActionWithToast(processApi(tambahBerkasApi, form), {
               loading: 'Menggunggah...',
               onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })

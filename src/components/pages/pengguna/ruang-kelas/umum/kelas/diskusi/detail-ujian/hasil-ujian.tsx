@@ -10,7 +10,6 @@ import {
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/lihat-hasil-ujian'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { betweenTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -27,7 +26,7 @@ export default function HasilUjianCard({
   tipeKelas,
   className,
 }: HasilUjianCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const [showModalMulai, setShowModalMulai] = useState(false)
 
@@ -40,7 +39,7 @@ export default function HasilUjianCard({
       idKelas,
       id,
     ],
-    queryFn: makeSimpleQueryData(lihatHasilUjianApi, jwt, idKelas, id),
+    queryFn: makeSimpleApiQueryData(lihatHasilUjianApi, idKelas, id),
   })
 
   if (isLoading) return <CardShimmer className={className} />

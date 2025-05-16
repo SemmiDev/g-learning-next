@@ -25,7 +25,7 @@ type JadwalAkanDatangCardProps = {
 export default function JadwalAkanDatangCard({
   className,
 }: JadwalAkanDatangCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const {
     data = [],
@@ -34,7 +34,7 @@ export default function JadwalAkanDatangCard({
   } = useQuery({
     queryKey: ['pengguna.dashboard.table-kelas-akan-datang'],
     queryFn: async () => {
-      const { data } = await tableJadwalAkanDatangApi(jwt)
+      const { data } = await processApi(tableJadwalAkanDatangApi)
 
       return data?.sort(
         (a, b) => Date.parse(a.tanggal_mulai) - Date.parse(b.tanggal_mulai)

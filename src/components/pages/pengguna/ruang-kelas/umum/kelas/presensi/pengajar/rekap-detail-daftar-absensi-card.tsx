@@ -36,7 +36,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
   hideUbahData: () => void
   className?: string
 }) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [dataPerubahan, setDataPerubahan] = useState<Record<string, string>>({})
@@ -86,7 +86,7 @@ export default function PengajarRekapPresensiDaftarAbsensiCard({
     }))
 
     await handleActionWithToast(
-      simpanAbsensiAktifitasApi(jwt, idKelas, idAktifitas, dataAbsen),
+      processApi(simpanAbsensiAktifitasApi, idKelas, idAktifitas, dataAbsen),
       {
         loading: 'Menyimpan presensi...',
         onSuccess: () => {

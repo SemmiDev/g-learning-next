@@ -71,7 +71,7 @@ export default function UbahLinkModal({
   googleDrive = false,
   refetchKey,
 }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -87,7 +87,7 @@ export default function UbahLinkModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBerkasApi(jwt, id)
+      const { data } = await processApi(lihatBerkasApi, id)
 
       return {
         nama: data?.nama,
@@ -104,7 +104,7 @@ export default function UbahLinkModal({
   const onSubmit: SubmitHandler<UbahLinkFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahLinkApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahLinkApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

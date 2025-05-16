@@ -32,7 +32,7 @@ type DashboardRecentFileCardProps = {
 export default function DashboardRecentFileCard({
   className,
 }: DashboardRecentFileCardProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
 
   const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
   const [page, setPage] = useState(1)
@@ -42,7 +42,7 @@ export default function DashboardRecentFileCard({
   const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoApi(jwt)
+      const { data } = await processApi(driveInfoApi)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []

@@ -17,7 +17,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function UndanganKelasBody() {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { id: idPengguna } = useSessionPengguna()
@@ -29,8 +29,8 @@ export default function UndanganKelasBody() {
   const { data, isLoading } = useQuery({
     queryKey: ['undangan-kelas.detail', kodeKelas],
     queryFn: async () => {
-      const { data, success, error } = await lihatUndanganKelasApi(
-        jwt,
+      const { data, success, error } = await processApi(
+        lihatUndanganKelasApi,
         kodeKelas
       )
 
@@ -64,8 +64,8 @@ export default function UndanganKelasBody() {
     },
   })
 
-  const handleGabungKelas = () => {
-    handleActionWithToast(gabungAnggotaKelasApi(jwt, kodeKelas), {
+  const handleGabungKelas = async () => {
+    await handleActionWithToast(processApi(gabungAnggotaKelasApi, kodeKelas), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
       onStart: () => setIsSubmitting(true),

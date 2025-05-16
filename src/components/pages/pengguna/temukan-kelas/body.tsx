@@ -20,7 +20,7 @@ import { useDebounce } from 'react-use'
 import KelasCard from './kelas-card'
 
 export default function TermukanKelasBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')
@@ -59,7 +59,7 @@ export default function TermukanKelasBody() {
   const handleGabung = async () => {
     if (!kodeKelas) return
 
-    await handleActionWithToast(gabungAnggotaKelasApi(jwt, kodeKelas), {
+    await handleActionWithToast(processApi(gabungAnggotaKelasApi, kodeKelas), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
       onSuccess: () => {

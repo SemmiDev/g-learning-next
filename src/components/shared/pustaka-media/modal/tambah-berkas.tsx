@@ -86,7 +86,7 @@ export default function TambahBerkasModal({
   idFolder,
   imageOnly = false,
 }: TambahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -121,7 +121,7 @@ export default function TambahBerkasModal({
       }
     }
 
-    await handleActionWithToast(tambahBerkasApi(jwt, form), {
+    await handleActionWithToast(processApi(tambahBerkasApi, form), {
       loading: 'Menggunggah...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

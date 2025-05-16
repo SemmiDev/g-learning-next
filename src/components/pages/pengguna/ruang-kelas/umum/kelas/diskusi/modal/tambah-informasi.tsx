@@ -64,7 +64,7 @@ export default function TambahInformasiModal({
   show = false,
   setShow,
 }: TambahInformasiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -74,7 +74,7 @@ export default function TambahInformasiModal({
 
   const onSubmit: SubmitHandler<TambahInformasiFormSchema> = async (data) => {
     await handleActionWithToast(
-      tambahAktifitasInformasiApi(jwt, idKelas, data),
+      processApi(tambahAktifitasInformasiApi, idKelas, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

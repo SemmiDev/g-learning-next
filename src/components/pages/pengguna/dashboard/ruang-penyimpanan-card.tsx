@@ -26,14 +26,14 @@ type DashboardRuangPenyimpananCardProps = {
 export default function DashboardRuangPenyimpananCard({
   className,
 }: DashboardRuangPenyimpananCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const [activeDrive, setActiveDrive] = useState<string>('PERSONAL')
 
   const { data: drives = [] } = useQuery<PustakaMediaDriveType[]>({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoApi(jwt)
+      const { data } = await processApi(driveInfoApi)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []

@@ -13,7 +13,6 @@ import { dataProfilApi } from '@/services/api/admin/profil/data'
 import { ubahProfilApi } from '@/services/api/admin/profil/ubah-data'
 import { handleActionWithToast } from '@/utils/action'
 import { radioGroupOption } from '@/utils/object'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -44,7 +43,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ show, setShow }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const { update: updateSession } = useSession()
 
@@ -52,7 +51,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
+    queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   const initialValues: UbahProfilFormSchema = {
@@ -62,7 +61,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
   }
 
   const onSubmit: SubmitHandler<UbahProfilFormSchema> = async (data) => {
-    await handleActionWithToast(ubahProfilApi(jwt, data), {
+    await handleActionWithToast(processApi(ubahProfilApi, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: async () => {

@@ -10,7 +10,6 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
@@ -26,7 +25,7 @@ type PengajarRekapTugasDetailSesiSectionProps = {
 export default function PengajarRekapTugasDetailSesiSection({
   className,
 }: PengajarRekapTugasDetailSesiSectionProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const searchParams = useSearchParams()
   const idAktifitas = searchParams.get('sesi') || undefined
 
@@ -34,7 +33,7 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const queryKey = [
@@ -46,9 +45,8 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryData(
+    queryFn: makeSimpleApiQueryData(
       lihatAktifitasApi,
-      jwt,
       idKelas,
       idAktifitas ?? null
     ),

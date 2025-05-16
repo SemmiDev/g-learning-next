@@ -12,7 +12,6 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { switchCaseObject } from '@/utils/switch-case'
 import { hourMinute } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -33,7 +32,7 @@ type SesiCardProps = {
 }
 
 export default function SesiCard({ kelas, className }: SesiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const {
     show: showUbahJudul,
@@ -54,12 +53,7 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryData(
-      lihatSesiPembelajaranApi,
-      jwt,
-      idKelas,
-      idSesi
-    ),
+    queryFn: makeSimpleApiQueryData(lihatSesiPembelajaranApi, idKelas, idSesi),
   })
 
   if (isLoading) return <CardShimmer className={className} />

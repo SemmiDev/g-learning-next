@@ -22,7 +22,6 @@ import { simpanPengumpulanTugasApi } from '@/services/api/pengguna/ruang-kelas/a
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { passedTime } from '@/utils/time'
 import { arrayRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
@@ -51,7 +50,7 @@ export default function KumpulkanTugasCard({
   tugas,
   className,
 }: KumpulkanTugasCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
@@ -68,9 +67,8 @@ export default function KumpulkanTugasCard({
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryData(
+    queryFn: makeSimpleApiQueryData(
       lihatPengumpulanTugasApi,
-      jwt,
       idKelas,
       idAktifitas
     ),
@@ -95,7 +93,7 @@ export default function KumpulkanTugasCard({
 
   const onSubmit: SubmitHandler<PengumpulanTugasFormSchema> = async (data) => {
     await handleActionWithToast(
-      simpanPengumpulanTugasApi(jwt, idKelas, idAktifitas, data),
+      processApi(simpanPengumpulanTugasApi, idKelas, idAktifitas, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

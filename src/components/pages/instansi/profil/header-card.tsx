@@ -6,7 +6,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { angka } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -24,13 +23,13 @@ import HeaderItem from './header-item'
 import UbahSemesterAktifModal from './modal/ubah-semester-aktif'
 
 export default function HeaderCard({ className }: { className?: string }) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const [showUbahSemesterAktif, setShowUbahSemesterAktif] = useState(false)
 
   const { data } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
+    queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   return (

@@ -64,7 +64,7 @@ export default function TambahModal({
   show = false,
   setShow,
 }: TambahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
 
@@ -73,7 +73,7 @@ export default function TambahModal({
   const onSubmit: SubmitHandler<TambahTagihanPenggunaFormSchema> = async (
     data
   ) => {
-    await handleActionWithToast(tambahTagihanPenggunaApi(jwt, data), {
+    await handleActionWithToast(processApi(tambahTagihanPenggunaApi, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
@@ -87,7 +87,7 @@ export default function TambahModal({
   }
 
   const findPaket = async (idPengguna: string) => {
-    const { data } = await lihatDetailPaketPenggunaApi(jwt, idPengguna)
+    const { data } = await processApi(lihatDetailPaketPenggunaApi, idPengguna)
 
     return data
   }

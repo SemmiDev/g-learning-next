@@ -7,7 +7,6 @@ import {
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useWindowLocation } from '@/hooks/use-window-location'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { MdOutlineContentCopy } from 'react-icons/md'
@@ -24,12 +23,12 @@ export default function UndangKelasModal({
   show,
   onHide,
 }: UndangKelasModalProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const location = useWindowLocation()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', id],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, id ?? null),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, id ?? null),
   })
 
   const kodeUndang = data?.kelas.kode_unik || ''

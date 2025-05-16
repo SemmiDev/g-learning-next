@@ -16,7 +16,6 @@ import { lihatHasilUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pe
 import { listJawabanUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/list-jawaban'
 import { simpanNilaiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/simpan-nilai-tugas'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { z } from '@/utils/zod-id'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -41,7 +40,7 @@ export type PenilaianUjianFormSchema = {
 }
 
 export default function PenilaianUjianBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -53,7 +52,7 @@ export default function PenilaianUjianBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -67,9 +66,8 @@ export default function PenilaianUjianBody() {
 
   const { data: dataUjian } = useQuery({
     queryKey: queryKeyUjian,
-    queryFn: makeSimpleQueryData(
+    queryFn: makeSimpleApiQueryData(
       lihatHasilUjianApi,
-      jwt,
       idKelas,
       idAktifitas,
       idPeserta
@@ -92,8 +90,8 @@ export default function PenilaianUjianBody() {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data, success } = await listJawabanUjianApi(
-        jwt,
+      const { data, success } = await processApi(
+        listJawabanUjianApi,
         idKelas,
         idAktifitas,
         idPeserta
@@ -117,7 +115,7 @@ export default function PenilaianUjianBody() {
 
   const onSubmit: SubmitHandler<PenilaianUjianFormSchema> = async (data) => {
     await handleActionWithToast(
-      simpanNilaiUjianApi(jwt, idKelas, idAktifitas, idPeserta, data),
+      processApi(simpanNilaiUjianApi, idKelas, idAktifitas, idPeserta, data),
       {
         loading: 'Menyimpan...',
         onSuccess: () => {

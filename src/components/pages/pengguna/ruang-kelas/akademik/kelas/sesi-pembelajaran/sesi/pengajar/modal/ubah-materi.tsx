@@ -47,7 +47,7 @@ export default function UbahMateriSesiModal({
   show,
   onHide,
 }: UbahMateriSesiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -73,7 +73,7 @@ export default function UbahMateriSesiModal({
           berkas: [],
         }
 
-      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatAktifitasApi, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -97,7 +97,7 @@ export default function UbahMateriSesiModal({
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasMateriSesiApi(jwt, idKelas, id, data),
+      processApi(ubahAktifitasMateriSesiApi, idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

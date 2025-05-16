@@ -34,13 +34,13 @@ export default function BlokirModal({
   setId,
   onHideLihat,
 }: BlokirModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const onSubmit: SubmitHandler<BlokirPenggunaFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(blokirPenggunaApi(jwt, id, data), {
+    await handleActionWithToast(processApi(blokirPenggunaApi, id, data), {
       loading: 'Menyimpan...',
       onSuccess: () => {
         setId(undefined)

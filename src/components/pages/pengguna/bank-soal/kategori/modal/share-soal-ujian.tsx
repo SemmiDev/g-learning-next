@@ -104,7 +104,7 @@ export default function ShareSoalUjianModal({
   show,
   onHide,
 }: ShareSoalUjianModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const size = useAutoSizeExtraLargeModal()
 
   const [formError, setFormError] = useState<string>()
@@ -122,12 +122,15 @@ export default function ShareSoalUjianModal({
     const idKelas = data.kelas?.id
     if (!idKelas || !soal) return
 
-    await handleActionWithToast(shareSoalUjianApi(jwt, idKelas, soal, data), {
-      loading: 'Membagikan ujian...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => onHide(),
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(shareSoalUjianApi, idKelas, soal, data),
+      {
+        loading: 'Membagikan ujian...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => onHide(),
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

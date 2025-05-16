@@ -54,7 +54,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
@@ -82,7 +82,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const onSubmit: SubmitHandler<UbahAdminFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAdminApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahAdminApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

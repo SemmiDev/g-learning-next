@@ -106,7 +106,7 @@ export default function TambahMateriModal({
   show = false,
   setShow,
 }: TambahMateriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -115,17 +115,20 @@ export default function TambahMateriModal({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahMateriFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasMateriApi(jwt, idKelas, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        setShow(false)
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(tambahAktifitasMateriApi, idKelas, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          setShow(false)
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

@@ -16,7 +16,6 @@ import { hapusBankSoalApi } from '@/services/api/pengguna/bank-soal/hapus'
 import { lihatKategoriBankSoalApi } from '@/services/api/pengguna/bank-soal/kategori/lihat'
 import { listBankSoalApi } from '@/services/api/pengguna/bank-soal/list'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -35,7 +34,7 @@ import UbahBankSoalModal from './modal/ubah-bank-soal'
 import SoalCard, { SoalType } from './soal-card'
 
 export default function ListSoalBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')
@@ -59,7 +58,7 @@ export default function ListSoalBody() {
 
   const { data: kategori } = useQuery({
     queryKey: ['pengguna.bank-soal.kategori.lihat', idKategori],
-    queryFn: makeSimpleQueryData(lihatKategoriBankSoalApi, jwt, idKategori),
+    queryFn: makeSimpleApiQueryData(lihatKategoriBankSoalApi, idKategori),
   })
 
   const queryKey = ['pengguna.bank-soal.list', idKategori]
@@ -111,24 +110,30 @@ export default function ListSoalBody() {
 
   useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
-  const handleDuplikat = () => {
+  const handleDuplikat = async () => {
     if (!idDuplikat) return
 
-    handleActionWithToast(duplikatBankSoalApi(jwt, idKategori, idDuplikat), {
-      loading: 'Menduplikat...',
-      onStart: () => setIdDuplikat(undefined),
-      onSuccess: () => queryClient.invalidateQueries({ queryKey }),
-    })
+    await handleActionWithToast(
+      processApi(duplikatBankSoalApi, idKategori, idDuplikat),
+      {
+        loading: 'Menduplikat...',
+        onStart: () => setIdDuplikat(undefined),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+      }
+    )
   }
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusBankSoalApi(jwt, idKategori, idHapus), {
-      loading: 'Menghapus...',
-      onStart: () => setIdHapus(undefined),
-      onSuccess: () => queryClient.invalidateQueries({ queryKey }),
-    })
+    await handleActionWithToast(
+      processApi(hapusBankSoalApi, idKategori, idHapus),
+      {
+        loading: 'Menghapus...',
+        onStart: () => setIdHapus(undefined),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+      }
+    )
   }
 
   return (

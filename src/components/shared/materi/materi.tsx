@@ -61,7 +61,7 @@ export default function Materi({
   error,
   errorClassName,
 }: MateriProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const { status } = useSession()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
@@ -220,11 +220,11 @@ export default function Materi({
     refetchKey: queryKeyKategori,
   })
 
-  const handleHapusMateri = () => {
+  const handleHapusMateri = async () => {
     if (!activeKategori?.id || !idHapusMateri) return
 
-    handleActionWithToast(
-      hapusMateriApi(jwt, activeKategori.id, idHapusMateri),
+    await handleActionWithToast(
+      processApi(hapusMateriApi, activeKategori.id, idHapusMateri),
       {
         loading: 'Menghapus...',
         onSuccess: () => {

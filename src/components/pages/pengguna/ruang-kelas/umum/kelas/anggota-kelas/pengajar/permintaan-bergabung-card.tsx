@@ -29,7 +29,7 @@ type PengajarPermintaanBergabungCardProps = {
 export default function PengajarPermintaanBergabungCard({
   className,
 }: PengajarPermintaanBergabungCardProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [checkedIds, setCheckedIds] = useState<Record<string, boolean>>({})
@@ -104,31 +104,37 @@ export default function PengajarPermintaanBergabungCard({
     processTerima([idTerima])
   }
 
-  const processTerima = (ids: string[]) => {
-    handleActionWithToast(terimaAnggotaKelasApi(jwt, idKelas, ids), {
-      loading: 'Menerima anggota...',
-      onStart: () => {
-        setTerimaDitandai(false)
-        setIdTerima(undefined)
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey })
-        queryClient.invalidateQueries({ queryKey: queryKeyDaftarPeserta })
-      },
-    })
+  const processTerima = async (ids: string[]) => {
+    await handleActionWithToast(
+      processApi(terimaAnggotaKelasApi, idKelas, ids),
+      {
+        loading: 'Menerima anggota...',
+        onStart: () => {
+          setTerimaDitandai(false)
+          setIdTerima(undefined)
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey })
+          queryClient.invalidateQueries({ queryKey: queryKeyDaftarPeserta })
+        },
+      }
+    )
   }
 
-  const handleTolak = () => {
+  const handleTolak = async () => {
     if (!idTolak) return
 
-    handleActionWithToast(keluarkanAnggotaKelasApi(jwt, idKelas, idTolak), {
-      loading: 'Mengeluarkan anggota...',
-      onStart: () => setIdTolak(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey })
-        queryClient.invalidateQueries({ queryKey: queryKeyDaftarPeserta })
-      },
-    })
+    await handleActionWithToast(
+      processApi(keluarkanAnggotaKelasApi, idKelas, idTolak),
+      {
+        loading: 'Mengeluarkan anggota...',
+        onStart: () => setIdTolak(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey })
+          queryClient.invalidateQueries({ queryKey: queryKeyDaftarPeserta })
+        },
+      }
+    )
   }
 
   if (isLoading) return <CardShimmer className={className} />

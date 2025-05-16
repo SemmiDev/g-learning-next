@@ -10,7 +10,6 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { lihatInstansiApi } from '@/services/api/admin/instansi/lihat'
 import { fileSizeToKB, formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { angka } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -31,7 +30,7 @@ import DetailItem from './detail-item'
 import UbahLogoModal from './modal/ubah-logo'
 
 export default function DetailCard({ className }: { className?: string }) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const [ubahLogo, setUbahLogo] = useState(false)
   const {
     show: showUbah,
@@ -44,7 +43,7 @@ export default function DetailCard({ className }: { className?: string }) {
 
   const { data } = useQuery({
     queryKey: ['admin.instansi.detail', id],
-    queryFn: makeSimpleQueryData(lihatInstansiApi, jwt, id),
+    queryFn: makeSimpleApiQueryData(lihatInstansiApi, id),
   })
 
   return (

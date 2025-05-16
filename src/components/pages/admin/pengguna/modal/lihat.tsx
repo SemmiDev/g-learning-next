@@ -11,7 +11,6 @@ import {
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatPenggunaApi } from '@/services/api/admin/pengguna/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import BlokirModal from './blokir'
@@ -23,13 +22,13 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const [idBlokir, setIdBlokir] = useState<string>()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.pengguna.table.lihat', id],
-    queryFn: makeSimpleQueryData(lihatPenggunaApi, jwt, id ?? null),
+    queryFn: makeSimpleApiQueryData(lihatPenggunaApi, id ?? null),
   })
 
   return (

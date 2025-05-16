@@ -18,7 +18,7 @@ export default function PesertaAbsensiCard({
   foto,
   className,
 }: PesertaAbsensiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [position, setPosition] = useState<LatLng>()
@@ -36,16 +36,19 @@ export default function PesertaAbsensiCard({
 
     if (foto && photo) form.append('swafoto', photo)
 
-    await handleActionWithToast(absensiPesertaApi(jwt, idKelas, id, form), {
-      loading: 'Menyimpan...',
-      onStart: () => setIsSending(true),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
-        })
-      },
-      onFinish: () => setIsSending(false),
-    })
+    await handleActionWithToast(
+      processApi(absensiPesertaApi, idKelas, id, form),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setIsSending(true),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.detail.materi', idKelas, id],
+          })
+        },
+        onFinish: () => setIsSending(false),
+      }
+    )
   }
 
   return (

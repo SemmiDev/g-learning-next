@@ -69,3 +69,11 @@ export const GOOGLE_DRIVE_SCOPES =
         'https://www.googleapis.com/auth/drive.metadata.readonly',
         'https://www.googleapis.com/auth/drive.scripts',
       ]
+
+export const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
+export const CONSOLE_LOG_REQUEST =
+  process.env.CONSOLE_LOG_REQUEST?.toLowerCase() === 'true'
+export const CONSOLE_LOG_RESPONSE =
+  process.env.CONSOLE_LOG_RESPONSE?.toLowerCase() === 'true'
+export const CONSOLE_LOG_ON_ERROR =
+  process.env.CONSOLE_LOG_ON_ERROR?.toLowerCase() === 'true'

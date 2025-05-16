@@ -18,7 +18,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/pengguna/profil/data'
 import { kirimEmailVerifikasiApi } from '@/services/api/pengguna/profil/kirim-email-verifikasi'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
@@ -34,7 +33,7 @@ type EmailType = {
 }
 
 export default function ProfilBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
 
   const [showUbah, setShowUbah] = useState(false)
   const [showFoto, setShowFoto] = useState(false)
@@ -43,16 +42,19 @@ export default function ProfilBody() {
 
   const { data } = useQuery({
     queryKey: ['pengguna.profil'],
-    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
+    queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   const handleKirimEmailVerifikasi = async () => {
     if (!emailVerifikasi) return
 
-    handleActionWithToast(kirimEmailVerifikasiApi(jwt, emailVerifikasi?.id), {
-      loading: 'Mengirim email...',
-      onStart: () => setEmailVerifikasi(undefined),
-    })
+    await handleActionWithToast(
+      processApi(kirimEmailVerifikasiApi, emailVerifikasi?.id),
+      {
+        loading: 'Mengirim email...',
+        onStart: () => setEmailVerifikasi(undefined),
+      }
+    )
   }
 
   return (

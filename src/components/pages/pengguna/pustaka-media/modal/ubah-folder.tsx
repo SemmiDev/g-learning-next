@@ -39,7 +39,7 @@ export default function UbahFolderModal({
   onHide,
   refetchKeys,
 }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -55,7 +55,7 @@ export default function UbahFolderModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBerkasApi(jwt, id)
+      const { data } = await processApi(lihatBerkasApi, id)
 
       return {
         nama: data?.nama,
@@ -67,7 +67,7 @@ export default function UbahFolderModal({
   const onSubmit: SubmitHandler<UbahFolderFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahFolderApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahFolderApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

@@ -84,7 +84,7 @@ export default function UbahUjianSesiModal({
   show,
   onHide,
 }: UbahUjianSesiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -111,7 +111,7 @@ export default function UbahUjianSesiModal({
           acakJawaban: 'non-aktif',
         }
 
-      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatAktifitasApi, idKelas, id)
       const bankSoal = data?.bank_soal
 
       return {
@@ -149,7 +149,7 @@ export default function UbahUjianSesiModal({
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasUjianSesiApi(jwt, idKelas, id, data),
+      processApi(ubahAktifitasUjianSesiApi, idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

@@ -11,7 +11,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -23,7 +22,7 @@ import KumpulkanTugasCard from './kumpulkan-card'
 import TableTugasPesertaCard from './table-peserta-card'
 
 export default function DetailTugasBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const router = useRouter()
 
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
@@ -32,12 +31,12 @@ export default function DetailTugasBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const { data: dataTugas, isLoading: isLoadingTugas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.tugas', idKelas, id],
-    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, id),
+    queryFn: makeSimpleApiQueryData(lihatAktifitasApi, idKelas, id),
   })
 
   const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

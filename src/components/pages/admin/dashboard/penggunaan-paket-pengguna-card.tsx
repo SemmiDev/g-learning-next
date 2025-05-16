@@ -31,12 +31,12 @@ type DashboardPenggunaanPaketPenggunaCardProps = {
 export default function DashboardPenggunaanPaketPenggunaCard({
   className,
 }: DashboardPenggunaanPaketPenggunaCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const { data = { list: [], max: 0 } } = useQuery<ChartType>({
     queryKey: ['admin.dashboard.penggunaan-paket-pengguna'],
     queryFn: async () => {
-      const { data } = await chartPenggunaanPaketPenggunaApi(jwt)
+      const { data } = await processApi(chartPenggunaanPaketPenggunaApi)
 
       const list: ChartDataType[] =
         data?.list.map((item, idx) => ({

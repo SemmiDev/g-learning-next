@@ -103,7 +103,7 @@ export default function TambahUjianModal({
   show = false,
   setShow,
 }: TambahUjianModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -112,17 +112,20 @@ export default function TambahUjianModal({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahUjianFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasUjianApi(jwt, idKelas, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        setShow(false)
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(tambahAktifitasUjianApi, idKelas, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          setShow(false)
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

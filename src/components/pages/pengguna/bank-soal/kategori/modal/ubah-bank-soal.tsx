@@ -57,7 +57,7 @@ export default function UbahBankSoalModal({
   show,
   onHide,
 }: UbahBankSoalModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -76,7 +76,7 @@ export default function UbahBankSoalModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatBankSoalApi(jwt, idKategori, id)
+      const { data } = await processApi(lihatBankSoalApi, idKategori, id)
 
       return {
         judul: data?.judul,
@@ -95,27 +95,30 @@ export default function UbahBankSoalModal({
   const onSubmit: SubmitHandler<UbahBankSoalFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahBankSoalApi(jwt, idKategori, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-soal.list', idKategori],
-        })
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-soal.lihat', idKategori, id],
-        })
-        queryClient.setQueryData(
-          queryKey,
-          (oldData: UbahBankSoalFormSchema) => ({
-            ...oldData,
-            ...data,
+    await handleActionWithToast(
+      processApi(ubahBankSoalApi, idKategori, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.bank-soal.list', idKategori],
           })
-        )
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.bank-soal.lihat', idKategori, id],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahBankSoalFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

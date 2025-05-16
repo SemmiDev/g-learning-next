@@ -38,7 +38,7 @@ export default function KonferensiCard({
   data,
   className,
 }: KonferensiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {
@@ -52,19 +52,22 @@ export default function KonferensiCard({
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
+    await handleActionWithToast(
+      processApi(hapusAktifitasApi, idKelas, idHapus),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapus(undefined)
 
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
-        })
-      },
-    })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
+          })
+        },
+      }
+    )
   }
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

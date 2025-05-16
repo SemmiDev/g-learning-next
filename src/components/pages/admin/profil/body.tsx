@@ -12,7 +12,6 @@ import {
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/admin/profil/data'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react'
 import { LuCamera } from 'react-icons/lu'
@@ -21,7 +20,7 @@ import UbahFotoModal from './modal/ubah-foto'
 import UbahPasswordModal from './modal/ubah-password'
 
 export default function ProfilBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const [showUbah, setShowUbah] = useState(false)
   const [showFoto, setShowFoto] = useState(false)
@@ -29,7 +28,7 @@ export default function ProfilBody() {
 
   const { data } = useQuery({
     queryKey: ['admin.profil'],
-    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
+    queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   return (

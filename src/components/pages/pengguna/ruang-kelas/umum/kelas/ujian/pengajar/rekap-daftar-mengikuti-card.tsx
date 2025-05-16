@@ -24,7 +24,6 @@ import { tableUjianPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifi
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -91,7 +90,7 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
   sesi,
   className,
 }: PengajarRekapUjianDaftarMengikutiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
@@ -102,7 +101,7 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
@@ -278,8 +277,8 @@ export default function PengajarRekapUjianDaftarMengikutiCard({
   const handleHapusNilai = async () => {
     if (!idHapusNilai) return
 
-    handleActionWithToast(
-      hapusNilaiUjianApi(jwt, idKelas, idAktifitas, idHapusNilai),
+    await handleActionWithToast(
+      processApi(hapusNilaiUjianApi, idKelas, idAktifitas, idHapusNilai),
       {
         loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',

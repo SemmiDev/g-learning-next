@@ -68,7 +68,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
   const [formError, setFormError] = useState<string>()
@@ -84,7 +84,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatInstansiApi(jwt, id)
+      const { data } = await processApi(lihatInstansiApi, id)
 
       const semesterAktif = data?.instansi?.semester_aktif
 
@@ -120,7 +120,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   const onSubmit: SubmitHandler<UbahInstansiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahInstansiApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahInstansiApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

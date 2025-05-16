@@ -31,7 +31,7 @@ type UbahFotoModalProps = {
 }
 
 export default function UbahFotoModal({ show, setShow }: UbahFotoModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const { update: updateSession } = useSession()
 
@@ -41,7 +41,7 @@ export default function UbahFotoModal({ show, setShow }: UbahFotoModalProps) {
     const form = new FormData()
     form.append('foto', data.foto)
 
-    await handleActionWithToast(ubahFotoApi(jwt, form), {
+    await handleActionWithToast(processApi(ubahFotoApi, form), {
       loading: 'Mengunggah...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

@@ -23,7 +23,7 @@ type PengajarChartPersentaseKehadiranCardProps = {
 export default function PengajarChartPersentaseKehadiranCard({
   className,
 }: PengajarChartPersentaseKehadiranCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -36,7 +36,7 @@ export default function PengajarChartPersentaseKehadiranCard({
       idKelas,
     ],
     queryFn: async () => {
-      const { data } = await dataPersentaseKehadiranApi(jwt, idKelas)
+      const { data } = await processApi(dataPersentaseKehadiranApi, idKelas)
 
       return [
         {

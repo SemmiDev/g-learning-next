@@ -65,7 +65,7 @@ export default function UbahInformasiModal({
   show,
   onHide,
 }: UbahInformasiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -88,7 +88,7 @@ export default function UbahInformasiModal({
           berkas: [],
         }
 
-      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatAktifitasApi, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -114,7 +114,7 @@ export default function UbahInformasiModal({
     if (!id) return
 
     await handleActionWithToast(
-      ubahAktifitasInformasiApi(jwt, idKelas, id, data),
+      processApi(ubahAktifitasInformasiApi, idKelas, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

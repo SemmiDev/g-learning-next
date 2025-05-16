@@ -34,7 +34,7 @@ export default function UbahLogoModal({
   show = false,
   setShow,
 }: UbahLogoModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const [formError, setFormError] = useState<string>()
   const params = useParams()
   const id = params.id as string
@@ -44,7 +44,7 @@ export default function UbahLogoModal({
     const form = new FormData()
     form.append('logo', data.logo)
 
-    await handleActionWithToast(ubahLogoApi(jwt, id, form), {
+    await handleActionWithToast(processApi(ubahLogoApi, id, form), {
       loading: 'Mengunggah...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

@@ -24,7 +24,6 @@ import { hapusNilaiTugasApi } from '@/services/api/pengguna/ruang-kelas/aktifita
 import { tableTugasPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/pengajar/table-tugas-peserta'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -90,7 +89,7 @@ export default function TableTugasPesertaCard({
   tipeKelas,
   className,
 }: TableTugasPesertaCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [idHapusNilai, setIdHapusNilai] = useState<string>()
@@ -100,7 +99,7 @@ export default function TableTugasPesertaCard({
 
   const { data: dataAktifitas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.detail.tugas', idKelas, idAktifitas],
-    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, idAktifitas),
+    queryFn: makeSimpleApiQueryData(lihatAktifitasApi, idKelas, idAktifitas),
   })
 
   const queryKey = [
@@ -260,8 +259,8 @@ export default function TableTugasPesertaCard({
   const handleHapusNilai = async () => {
     if (!idHapusNilai) return
 
-    handleActionWithToast(
-      hapusNilaiTugasApi(jwt, idKelas, idAktifitas, idHapusNilai),
+    await handleActionWithToast(
+      processApi(hapusNilaiTugasApi, idKelas, idAktifitas, idHapusNilai),
       {
         loading: 'Menghapus nilai...',
         success: 'Berhasil menghapus nilai peserta',

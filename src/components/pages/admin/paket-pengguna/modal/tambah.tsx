@@ -58,7 +58,7 @@ export default function TambahModal({
   show = false,
   setShow,
 }: TambahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
 
@@ -67,7 +67,7 @@ export default function TambahModal({
   const onSubmit: SubmitHandler<TambahPaketPenggunaFormSchema> = async (
     data
   ) => {
-    await handleActionWithToast(tambahPaketPenggunaApi(jwt, data), {
+    await handleActionWithToast(processApi(tambahPaketPenggunaApi, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

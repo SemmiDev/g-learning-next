@@ -33,13 +33,13 @@ export default function TambahKategoriModal({
   show = false,
   setShow,
 }: TambahKategoriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahKategoriFormSchema> = async (data) => {
-    await handleActionWithToast(tambahKategoriBankMateriApi(jwt, data), {
+    await handleActionWithToast(processApi(tambahKategoriBankMateriApi, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

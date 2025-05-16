@@ -41,12 +41,12 @@ export default function UbahPasswordModal({
   show,
   setShow,
 }: UbahPasswordModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<UbahPasswordFormSchema> = async (data) => {
-    await handleActionWithToast(ubahPassowrdApi(jwt, data), {
+    await handleActionWithToast(processApi(ubahPassowrdApi, data), {
       loading: 'Menyimpan...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

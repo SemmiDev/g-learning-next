@@ -34,7 +34,7 @@ type UjianCardProps = {
 }
 
 export default function UjianCard({ kelas, data, className }: UjianCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {
@@ -48,19 +48,22 @@ export default function UjianCard({ kelas, data, className }: UjianCardProps) {
   const { id: idPengguna } = useSessionPengguna()
   const { kelas: idKelas }: { kelas: string } = useParams()
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
+    await handleActionWithToast(
+      processApi(hapusAktifitasApi, idKelas, idHapus),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapus(undefined)
 
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-    })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+      }
+    )
   }
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

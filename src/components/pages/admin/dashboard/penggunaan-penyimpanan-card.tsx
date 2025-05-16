@@ -58,14 +58,14 @@ type DashboardPenggunaanPenyimpananCardProps = {
 export default function DashboardPenggunaanPenyimpananCard({
   className,
 }: DashboardPenggunaanPenyimpananCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const [tahun, setTahun] = useState(new Date().getFullYear())
 
   const { data = { list: [], total: 0 } } = useQuery({
     queryKey: ['admin.dashboard.penggunaan-penyimpanan', tahun],
     queryFn: async () => {
-      const { data } = await chartPenggunaanPenyimpananApi(jwt, tahun)
+      const { data } = await processApi(chartPenggunaanPenyimpananApi, tahun)
 
       const list: ChartDataType[] =
         data?.list.map((item) => ({

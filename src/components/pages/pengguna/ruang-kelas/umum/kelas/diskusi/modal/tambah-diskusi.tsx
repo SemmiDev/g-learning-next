@@ -38,7 +38,7 @@ export default function TambahDiskusiModal({
   show = false,
   setShow,
 }: TambahDiskusiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -47,17 +47,20 @@ export default function TambahDiskusiModal({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const onSubmit: SubmitHandler<TambahDiskusiFormSchema> = async (data) => {
-    await handleActionWithToast(tambahAktifitasDiskusiApi(jwt, idKelas, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        setShow(false)
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(tambahAktifitasDiskusiApi, idKelas, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          setShow(false)
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

@@ -3,20 +3,19 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { presensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/peserta/presensi'
 import cn from '@/utils/class-names'
 import { roundedNumber } from '@/utils/number'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
 type PresensiCardProps = { className?: string }
 
 export default function PresensiCard({ className }: PresensiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.presensi', idKelas],
-    queryFn: makeSimpleQueryData(presensiPesertaApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(presensiPesertaApi, idKelas),
   })
 
   if (isLoading) return <CardShimmer className={className} />

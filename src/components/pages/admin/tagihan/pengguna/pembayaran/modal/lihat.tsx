@@ -7,7 +7,6 @@ import {
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatPembayaranTagihanPenggunaApi } from '@/services/api/admin/tagihan-pengguna/pembayaran/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { rupiah } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -19,15 +18,14 @@ type LihatModalProps = {
 }
 
 export default function LihatModal({ id, show, onHide }: LihatModalProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const { id: idTagihan }: { id: string } = useParams()
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['admin.tagihan-pengguna.pembayaran.table.ubah', idTagihan, id],
-    queryFn: makeSimpleQueryData(
+    queryFn: makeSimpleApiQueryData(
       lihatPembayaranTagihanPenggunaApi,
-      jwt,
       idTagihan,
       id ?? null
     ),

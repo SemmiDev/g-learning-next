@@ -42,7 +42,7 @@ export default function MateriCard({
   data,
   className,
 }: MateriCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {
@@ -77,19 +77,22 @@ export default function MateriCard({
 
   const showFull = isPengajar || (isPeserta && absenTanpaInteraksi)
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusAktifitasApi(jwt, idKelas, idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
+    await handleActionWithToast(
+      processApi(hapusAktifitasApi, idKelas, idHapus),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapus(undefined)
 
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-      },
-    })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+        },
+      }
+    )
   }
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'

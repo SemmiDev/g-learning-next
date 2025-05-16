@@ -35,7 +35,7 @@ export default function UbahKategoriModal({
   show,
   onHide,
 }: UbahKategoriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -51,7 +51,7 @@ export default function UbahKategoriModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatKategoriBankMateriApi(jwt, id)
+      const { data } = await processApi(lihatKategoriBankMateriApi, id)
 
       return {
         nama: data?.nama_kategori,
@@ -62,24 +62,27 @@ export default function UbahKategoriModal({
   const onSubmit: SubmitHandler<UbahKategoriFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKategoriBankMateriApi(jwt, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.bank-materi.kategori'],
-        })
-        queryClient.setQueryData(
-          queryKey,
-          (oldData: UbahKategoriFormSchema) => ({
-            ...oldData,
-            ...data,
+    await handleActionWithToast(
+      processApi(ubahKategoriBankMateriApi, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.bank-materi.kategori'],
           })
-        )
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahKategoriFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

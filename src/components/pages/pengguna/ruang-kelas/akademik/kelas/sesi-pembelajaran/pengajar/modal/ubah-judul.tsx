@@ -36,7 +36,7 @@ export default function UbahJudulSesiModal({
   show,
   onHide,
 }: UbahMateriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -59,7 +59,7 @@ export default function UbahJudulSesiModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatSesiPembelajaranApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatSesiPembelajaranApi, idKelas, id)
 
       return {
         judul: data?.judul,
@@ -70,39 +70,42 @@ export default function UbahJudulSesiModal({
   const onSubmit: SubmitHandler<UbahJudulSesiFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahJudulSesiApi(jwt, idKelas, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [
-            'pengguna.ruang-kelas.sesi-pembelajaran.list',
-            'pengajar',
-            idKelas,
-          ],
-        })
-        queryClient.invalidateQueries({
-          queryKey: [
-            'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
-            'pengajar',
-            idKelas,
-            id,
-          ],
-        })
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
-        })
-        queryClient.setQueryData(
-          queryKey,
-          (oldData: UbahJudulSesiFormSchema) => ({
-            ...oldData,
-            ...data,
+    await handleActionWithToast(
+      processApi(ubahJudulSesiApi, idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.list',
+              'pengajar',
+              idKelas,
+            ],
           })
-        )
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
+              'pengajar',
+              idKelas,
+              id,
+            ],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.linimasa.list', idKelas],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahJudulSesiFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

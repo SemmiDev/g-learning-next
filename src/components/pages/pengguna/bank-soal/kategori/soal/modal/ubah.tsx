@@ -97,7 +97,7 @@ export default function UbahSoalModal({
   show,
   onHide,
 }: UbahSoalModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
 
@@ -123,7 +123,7 @@ export default function UbahSoalModal({
           jawaban: [],
         }
 
-      const { data } = await lihatSoalApi(jwt, idBankSoal, id)
+      const { data } = await processApi(lihatSoalApi, idBankSoal, id)
 
       const pilihanJawaban = pilihanLower.map(
         (pilihan) => data?.[`jawaban_${pilihan}`]?.teks ?? ''
@@ -147,7 +147,7 @@ export default function UbahSoalModal({
   const onSubmit: SubmitHandler<UbahSoalFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahSoalApi(jwt, idBankSoal, id, data), {
+    await handleActionWithToast(processApi(ubahSoalApi, idBankSoal, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

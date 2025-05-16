@@ -23,7 +23,7 @@ type SinkronSmartButtonProps = {
 export default function SinkronSmartButton({
   className,
 }: SinkronSmartButtonProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const { isSyncing, setIsSyncing } = useSyncStore()
 
@@ -32,7 +32,7 @@ export default function SinkronSmartButton({
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data } = await statusSinkronSmartApi(jwt)
+      const { data } = await processApi(statusSinkronSmartApi)
 
       const startTimes = [
         data?.sync_log_dosen.start_time !== '0001-01-01T00:00:00Z'
@@ -86,7 +86,7 @@ export default function SinkronSmartButton({
   })
 
   const handlePullSync = async (semester: string) => {
-    const { success, message } = await prosesPullSmartApi(jwt, semester)
+    const { success, message } = await processApi(prosesPullSmartApi, semester)
 
     if (success) {
       setIsSyncing(true)

@@ -48,7 +48,7 @@ export default function UbahMateriModal({
   show,
   onHide,
 }: UbahMateriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -65,7 +65,7 @@ export default function UbahMateriModal({
     queryFn: async () => {
       if (!idKategori || !id) return {}
 
-      const { data } = await lihatMateriApi(jwt, idKategori, id)
+      const { data } = await processApi(lihatMateriApi, idKategori, id)
 
       return {
         tipe: data?.bank_ajar.tipe ?? 'Materi',
@@ -89,21 +89,27 @@ export default function UbahMateriModal({
   const onSubmit: SubmitHandler<UbahMateriFormSchema> = async (data) => {
     if (!idKategori || !id) return
 
-    await handleActionWithToast(ubahMateriApi(jwt, idKategori, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['shared.materi.list', idKategori],
-        })
-        queryClient.setQueryData(queryKey, (oldData: UbahMateriFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(ubahMateriApi, idKategori, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['shared.materi.list', idKategori],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahMateriFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

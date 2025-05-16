@@ -16,7 +16,6 @@ import { hapusBankMateriApi } from '@/services/api/pengguna/bank-materi/hapus'
 import { lihatKategoriBankMateriApi } from '@/services/api/pengguna/bank-materi/kategori/lihat'
 import { listBankMateriApi } from '@/services/api/pengguna/bank-materi/list'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   useInfiniteQuery,
   useQuery,
@@ -37,7 +36,7 @@ import TambahMateriModal from './modal/tambah-materi'
 import UbahMateriModal from './modal/ubah-materi'
 
 export default function ListMateriBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [search, setSearch] = useState('')
@@ -72,7 +71,7 @@ export default function ListMateriBody() {
 
   const { data: kategori } = useQuery({
     queryKey: ['pengguna.bank-materi.kategori.lihat', idKategori],
-    queryFn: makeSimpleQueryData(lihatKategoriBankMateriApi, jwt, idKategori),
+    queryFn: makeSimpleApiQueryData(lihatKategoriBankMateriApi, idKategori),
   })
 
   const queryKey = ['pengguna.bank-materi.list', idKategori]
@@ -120,17 +119,20 @@ export default function ListMateriBody() {
 
   useDebounce(() => refetch(), search ? 250 : 0, [refetch, search])
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(hapusBankMateriApi(jwt, idKategori, idHapus), {
-      loading: 'Menghapus...',
-      onSuccess: () => {
-        setIdHapus(undefined)
+    await handleActionWithToast(
+      processApi(hapusBankMateriApi, idKategori, idHapus),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => {
+          setIdHapus(undefined)
 
-        queryClient.invalidateQueries({ queryKey })
-      },
-    })
+          queryClient.invalidateQueries({ queryKey })
+        },
+      }
+    )
   }
 
   return (

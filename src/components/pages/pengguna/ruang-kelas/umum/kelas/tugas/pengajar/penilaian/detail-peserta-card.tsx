@@ -4,7 +4,6 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatPesertaKelasApi } from '@/services/api/shared/peserta-kelas/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { wait } from '@/utils/wait'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
@@ -25,7 +24,7 @@ export default function DetailPesertaCard({
   isSubmitting,
   className,
 }: DetailPesertaCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
   const router = useRouter()
 
   const [showPilihPeserta, setShowPilihPeserta] = useState(false)
@@ -38,7 +37,7 @@ export default function DetailPesertaCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.peserta.detail', idPeserta],
-    queryFn: makeSimpleQueryData(lihatPesertaKelasApi, jwt, idKelas, idPeserta),
+    queryFn: makeSimpleApiQueryData(lihatPesertaKelasApi, idKelas, idPeserta),
   })
 
   const handlePilihPeserta = async (idPeserta: string) => {

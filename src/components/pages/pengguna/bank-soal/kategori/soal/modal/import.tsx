@@ -39,7 +39,7 @@ export default function ImportSoalModal({
   setShowModal,
   refetchKey,
 }: ImportSoalModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeExtraLargeModal()
 
@@ -51,7 +51,7 @@ export default function ImportSoalModal({
     const form = new FormData()
     form.append('file', data.berkas)
 
-    await handleActionWithToast(importSoalApi(jwt, idBankSoal, form), {
+    await handleActionWithToast(processApi(importSoalApi, idBankSoal, form), {
       loading: 'Mengunggah...',
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),

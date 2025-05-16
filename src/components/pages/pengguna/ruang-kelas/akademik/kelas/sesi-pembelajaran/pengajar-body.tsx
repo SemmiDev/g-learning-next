@@ -16,7 +16,7 @@ import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
 
 export default function PengajarSesiPembelajaranBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -76,13 +76,16 @@ export default function PengajarSesiPembelajaranBody() {
   const handleAkhiriSesi = async () => {
     if (!idSesiAkhiri) return
 
-    await handleActionWithToast(akhiriSesiApi(jwt, idKelas, idSesiAkhiri), {
-      loading: 'Mengakhiri sesi...',
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey })
-      },
-      onFinish: () => setIdSesiAkhiri(undefined),
-    })
+    await handleActionWithToast(
+      processApi(akhiriSesiApi, idKelas, idSesiAkhiri),
+      {
+        loading: 'Mengakhiri sesi...',
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey })
+        },
+        onFinish: () => setIdSesiAkhiri(undefined),
+      }
+    )
   }
 
   return (

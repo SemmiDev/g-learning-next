@@ -61,7 +61,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
 
@@ -78,7 +78,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatTagihanPenggunaApi(jwt, id)
+      const { data } = await processApi(lihatTagihanPenggunaApi, id)
 
       return {
         pengguna: processData(
@@ -115,7 +115,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   ) => {
     if (!id) return
 
-    await handleActionWithToast(ubahTagihanPenggunaApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahTagihanPenggunaApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
@@ -136,7 +136,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   }
 
   const findPaket = async (idPengguna: string) => {
-    const { data } = await lihatDetailPaketPenggunaApi(jwt, idPengguna)
+    const { data } = await processApi(lihatDetailPaketPenggunaApi, idPengguna)
 
     return data
   }

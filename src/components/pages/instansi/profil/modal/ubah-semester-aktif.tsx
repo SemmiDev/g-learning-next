@@ -11,7 +11,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/instansi/profil/detail/data'
 import { ubahSemesterAktifApi } from '@/services/api/instansi/profil/detail/ubah-semester-aktif'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { deskripsiSemester } from '@/utils/semester'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -49,14 +48,14 @@ export default function UbahSemesterAktifModal({
   show,
   setShow,
 }: UbahSemesterAktifModalProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['instansi.profil'],
-    queryFn: makeSimpleQueryData(dataProfilApi, jwt),
+    queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   const semesterAktif = data?.instansi.semester_aktif
@@ -68,7 +67,7 @@ export default function UbahSemesterAktifModal({
   }
 
   const onSubmit: SubmitHandler<UbahSemesterAktifFormSchema> = async (data) => {
-    await handleActionWithToast(ubahSemesterAktifApi(jwt, data), {
+    await handleActionWithToast(processApi(ubahSemesterAktifApi, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

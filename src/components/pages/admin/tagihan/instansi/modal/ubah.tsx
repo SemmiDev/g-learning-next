@@ -61,7 +61,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
 
@@ -78,7 +78,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatTagihanInstansiApi(jwt, id)
+      const { data } = await processApi(lihatTagihanInstansiApi, id)
 
       return {
         instansi: processData(
@@ -115,7 +115,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   ) => {
     if (!id) return
 
-    await handleActionWithToast(ubahTagihanInstansiApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahTagihanInstansiApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
@@ -136,7 +136,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
   }
 
   const findPaket = async (idInstansi: string) => {
-    const { data } = await lihatInstansiApi(jwt, idInstansi)
+    const { data } = await processApi(lihatInstansiApi, idInstansi)
 
     return data?.paket_instansi
   }

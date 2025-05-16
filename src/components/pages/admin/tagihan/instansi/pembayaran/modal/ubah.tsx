@@ -38,7 +38,7 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -60,8 +60,8 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatPembayaranTagihanInstansiApi(
-        jwt,
+      const { data } = await processApi(
+        lihatPembayaranTagihanInstansiApi,
         idTagihan,
         id
       )
@@ -80,7 +80,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
     if (!id) return
 
     await handleActionWithToast(
-      ubahPembayaranTagihanInstansiApi(jwt, idTagihan, id, data),
+      processApi(ubahPembayaranTagihanInstansiApi, idTagihan, id, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

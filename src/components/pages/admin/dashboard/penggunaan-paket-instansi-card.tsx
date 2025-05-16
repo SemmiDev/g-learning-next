@@ -31,12 +31,12 @@ type DashboardPenggunaanPaketInstansiCardProps = {
 export default function DashboardPenggunaanPaketInstansiCard({
   className,
 }: DashboardPenggunaanPaketInstansiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const { data = { list: [], max: 0 } } = useQuery<ChartType>({
     queryKey: ['admin.dashboard.penggunaan-paket-instansi'],
     queryFn: async () => {
-      const { data } = await chartPenggunaanPaketInstansiApi(jwt)
+      const { data } = await processApi(chartPenggunaanPaketInstansiApi)
 
       const list: ChartDataType[] =
         data?.list.map((item, idx) => ({

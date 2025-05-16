@@ -4,6 +4,7 @@ import {
 } from '@/components/ui/controlled-async-table'
 import { ActionResponseType } from './action'
 import { AnyObject, Nullish } from './type-interface'
+import { CONSOLE_LOG_ON_ERROR } from '@/config/const'
 
 export const makeSimpleQueryData =
   <TData extends AnyObject, TParams extends Array<string | number>>(
@@ -17,7 +18,7 @@ export const makeSimpleQueryData =
       ...(params as Parameters<typeof action>)
     )
 
-    if (!success) {
+    if (!success && CONSOLE_LOG_ON_ERROR) {
       console.error(message)
     }
 
@@ -35,7 +36,7 @@ export const makeAsyncTableQueryData =
     const { data, success, message } = await action(actionProps)
 
     if (!success) {
-      console.error(message)
+      if (CONSOLE_LOG_ON_ERROR) console.error(message)
       throw new Error(message)
     }
 

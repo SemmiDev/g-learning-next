@@ -44,14 +44,14 @@ export default function TambahFolderModal({
   idInstansi,
   idFolder,
 }: TambahModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<TambahFolderFormSchema> = async (data) => {
     await handleActionWithToast(
-      tambahFolderApi(jwt, data, googleDrive, idInstansi, idFolder),
+      processApi(tambahFolderApi, data, googleDrive, idInstansi, idFolder),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

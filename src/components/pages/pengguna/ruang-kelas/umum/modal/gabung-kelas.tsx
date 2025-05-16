@@ -35,7 +35,7 @@ export default function GabungKelasModal({
   show = false,
   setShow,
 }: GabungKelasModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -44,7 +44,7 @@ export default function GabungKelasModal({
   const onSubmit: SubmitHandler<GabungKelasFormSchema> = async (data) => {
     if (!data.kode) return
 
-    await handleActionWithToast(gabungAnggotaKelasApi(jwt, data.kode), {
+    await handleActionWithToast(processApi(gabungAnggotaKelasApi, data.kode), {
       loading: 'Mengajukan bergabung...',
       success: 'Berhasil mengajukan bergabung',
       onStart: () => setFormError(undefined),

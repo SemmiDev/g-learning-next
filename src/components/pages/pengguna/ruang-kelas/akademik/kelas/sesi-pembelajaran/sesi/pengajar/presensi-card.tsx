@@ -25,7 +25,6 @@ import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/se
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useParams } from 'next/navigation'
@@ -55,7 +54,7 @@ type PengajarPresensiCardProps = {
 export default function PengajarPresensiCard({
   className,
 }: PengajarPresensiCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [ubahData, setUbahData] = useState(false)
@@ -84,12 +83,7 @@ export default function PengajarPresensiCard({
       idKelas,
       idSesi,
     ],
-    queryFn: makeSimpleQueryData(
-      lihatSesiPembelajaranApi,
-      jwt,
-      idKelas,
-      idSesi
-    ),
+    queryFn: makeSimpleApiQueryData(lihatSesiPembelajaranApi, idKelas, idSesi),
   })
 
   const queryKey = [
@@ -125,7 +119,7 @@ export default function PengajarPresensiCard({
     }))
 
     await handleActionWithToast(
-      simpanPresensiPesertaSesiApi(jwt, idKelas, idSesi, dataAbsen),
+      processApi(simpanPresensiPesertaSesiApi, idKelas, idSesi, dataAbsen),
       {
         loading: 'Menyimpan presensi...',
         onSuccess: () => {
@@ -145,7 +139,11 @@ export default function PengajarPresensiCard({
   }
 
   const handleHadirSemua = async () => {
-    const { data } = await cekPresensiSemuaPesertaSesiApi(jwt, idKelas, idSesi)
+    const { data } = await processApi(
+      cekPresensiSemuaPesertaSesiApi,
+      idKelas,
+      idSesi
+    )
     const dataHadirSemua = (data?.list ?? []).reduce(
       (o, item) => ({ ...o, [item.id_peserta]: 'Hadir' }),
       {}

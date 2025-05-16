@@ -4,7 +4,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { tableAbsensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/presensi/akademik/pengajar/table-absensi-peserta'
 import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -21,7 +20,7 @@ type PengajarRekapDetailSesiSectionProps = {
 export default function PengajarRekapPresensiDetailSesiSection({
   className,
 }: PengajarRekapDetailSesiSectionProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData } = useSessionJwt()
   const searchParams = useSearchParams()
   const idSesi = searchParams.get('sesi') || undefined
 
@@ -31,7 +30,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const { data, isLoading } = useQuery({
@@ -41,9 +40,8 @@ export default function PengajarRekapPresensiDetailSesiSection({
       idKelas,
       idSesi,
     ],
-    queryFn: makeSimpleQueryData(
+    queryFn: makeSimpleApiQueryData(
       lihatSesiPembelajaranApi,
-      jwt,
       idKelas,
       idSesi ?? null
     ),

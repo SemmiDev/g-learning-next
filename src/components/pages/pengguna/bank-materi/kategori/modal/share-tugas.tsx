@@ -61,7 +61,7 @@ export default function ShareTugasModal({
   show,
   onHide,
 }: ShareTugasModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const [formError, setFormError] = useState<string>()
 
@@ -70,7 +70,7 @@ export default function ShareTugasModal({
     if (!idKelas || !materi) return
 
     await handleActionWithToast(
-      shareTugasBankMateriApi(jwt, idKelas, materi, data),
+      processApi(shareTugasBankMateriApi, idKelas, materi, data),
       {
         loading: 'Membagikan tugas...',
         onStart: () => setFormError(undefined),

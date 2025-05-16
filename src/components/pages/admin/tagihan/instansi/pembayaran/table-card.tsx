@@ -17,7 +17,6 @@ import { lihatTagihanInstansiApi } from '@/services/api/admin/tagihan-instansi/l
 import { hapusPembayaranTagihanInstansiApi } from '@/services/api/admin/tagihan-instansi/pembayaran/hapus'
 import { tablePembayaranTagihanInstansiApi } from '@/services/api/admin/tagihan-instansi/pembayaran/table'
 import { handleActionWithToast } from '@/utils/action'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { rupiah } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -33,7 +32,7 @@ import UbahModal from './modal/ubah'
 import RincianItem from './rincian-item'
 
 export default function TablePembayaranTagihanInstansiCard() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const {
@@ -56,7 +55,7 @@ export default function TablePembayaranTagihanInstansiCard() {
 
   const { data: dataTagihan } = useQuery({
     queryKey: queryKeyTagihan,
-    queryFn: makeSimpleQueryData(lihatTagihanInstansiApi, jwt, idTagihan),
+    queryFn: makeSimpleApiQueryData(lihatTagihanInstansiApi, idTagihan),
   })
 
   const queryKey = ['admin.tagihan-instansi.pembayaran.table', idTagihan]
@@ -190,11 +189,11 @@ export default function TablePembayaranTagihanInstansiCard() {
     },
   ]
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!idHapus) return
 
-    handleActionWithToast(
-      hapusPembayaranTagihanInstansiApi(jwt, idTagihan, idHapus),
+    await handleActionWithToast(
+      processApi(hapusPembayaranTagihanInstansiApi, idTagihan, idHapus),
       {
         loading: 'Menghapus...',
         onSuccess: () => {

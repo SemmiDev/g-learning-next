@@ -64,7 +64,7 @@ export default function UbahTugasModal({
   show,
   onHide,
 }: UbahTugasModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -88,7 +88,7 @@ export default function UbahTugasModal({
           berkas: [],
         }
 
-      const { data } = await lihatAktifitasApi(jwt, idKelas, id)
+      const { data } = await processApi(lihatAktifitasApi, idKelas, id)
 
       return {
         judul: data?.aktifitas.judul,
@@ -113,21 +113,27 @@ export default function UbahTugasModal({
   const onSubmit: SubmitHandler<UbahTugasFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahAktifitasTugasApi(jwt, idKelas, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
-        })
-        queryClient.setQueryData(queryKey, (oldData: UbahTugasFormSchema) => ({
-          ...oldData,
-          ...data,
-        }))
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+    await handleActionWithToast(
+      processApi(ubahAktifitasTugasApi, idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['pengguna.ruang-kelas.diskusi.list', idKelas],
+          })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahTugasFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

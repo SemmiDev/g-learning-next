@@ -48,7 +48,7 @@ export default function TambahKonferensiSesiModal({
   show = false,
   onHide,
 }: TambahKonferensiSesiModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -62,7 +62,7 @@ export default function TambahKonferensiSesiModal({
     if (!idSesi) return
 
     await handleActionWithToast(
-      tambahAktifitasKonferensiSesiApi(jwt, idKelas, idSesi, data),
+      processApi(tambahAktifitasKonferensiSesiApi, idKelas, idSesi, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),

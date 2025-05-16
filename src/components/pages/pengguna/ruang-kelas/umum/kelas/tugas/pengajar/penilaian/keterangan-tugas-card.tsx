@@ -3,7 +3,6 @@ import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import cn from '@/utils/class-names'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 
@@ -14,7 +13,7 @@ type KeteranganTugasCardProps = {
 export default function KeteranganTugasCard({
   className,
 }: KeteranganTugasCardProps) {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData } = useSessionJwt()
 
   const {
     kelas: idKelas,
@@ -23,7 +22,7 @@ export default function KeteranganTugasCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.diskusi.tugas', idKelas, idAktifitas],
-    queryFn: makeSimpleQueryData(lihatAktifitasApi, jwt, idKelas, idAktifitas),
+    queryFn: makeSimpleApiQueryData(lihatAktifitasApi, idKelas, idAktifitas),
   })
 
   if (isLoading) return <CardShimmer className={className} />

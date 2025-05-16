@@ -58,7 +58,7 @@ export default function UbahSoalModal({
   show,
   onHide,
 }: UbahPaketSoalModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
@@ -75,7 +75,7 @@ export default function UbahSoalModal({
     queryFn: async () => {
       if (!idKategori || !id) return {}
 
-      const { data } = await lihatPaketSoalApi(jwt, idKategori, id)
+      const { data } = await processApi(lihatPaketSoalApi, idKategori, id)
 
       return {
         judul: data?.judul,
@@ -94,24 +94,27 @@ export default function UbahSoalModal({
   const onSubmit: SubmitHandler<UbahPaketSoalFormSchema> = async (data) => {
     if (!idKategori || !id) return
 
-    await handleActionWithToast(ubahPaketSoalApi(jwt, idKategori, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['shared.paket-soal.list', idKategori],
-        })
-        queryClient.setQueryData(
-          queryKey,
-          (oldData: UbahPaketSoalFormSchema) => ({
-            ...oldData,
-            ...data,
+    await handleActionWithToast(
+      processApi(ubahPaketSoalApi, idKategori, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['shared.paket-soal.list', idKategori],
           })
-        )
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahPaketSoalFormSchema) => ({
+              ...oldData,
+              ...data,
+            })
+          )
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {

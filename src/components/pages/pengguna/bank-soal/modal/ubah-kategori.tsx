@@ -35,7 +35,7 @@ export default function UbahKategoriModal({
   show,
   onHide,
 }: UbahKategoriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -51,7 +51,7 @@ export default function UbahKategoriModal({
     queryFn: async () => {
       if (!id) return {}
 
-      const { data } = await lihatKategoriBankSoalApi(jwt, id)
+      const { data } = await processApi(lihatKategoriBankSoalApi, id)
 
       return {
         nama: data?.nama_kategori,
@@ -62,7 +62,7 @@ export default function UbahKategoriModal({
   const onSubmit: SubmitHandler<UbahKategoriFormSchema> = async (data) => {
     if (!id) return
 
-    await handleActionWithToast(ubahKategoriBankSoalApi(jwt, id, data), {
+    await handleActionWithToast(processApi(ubahKategoriBankSoalApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

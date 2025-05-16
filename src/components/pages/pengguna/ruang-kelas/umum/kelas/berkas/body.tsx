@@ -14,7 +14,6 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listBerkasKelasApi } from '@/services/api/pengguna/ruang-kelas/berkas/list'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { getFileSize, getFileType } from '@/utils/file-properties-from-api'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -52,7 +51,7 @@ const sortData: SortDataType[] = [
 ]
 
 export default function BerkasBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData } = useSessionJwt()
 
   const [sort, setSort] = useState<SortDataType['sort']>(sortData[0].sort)
   const [search, setSearch] = useState('')
@@ -62,7 +61,7 @@ export default function BerkasBody() {
 
   const { data: dataKelas } = useQuery({
     queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
-    queryFn: makeSimpleQueryData(lihatKelasApi, jwt, idKelas),
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
   const queryKey = ['pengguna.ruang-kelas.berkas', idKelas]

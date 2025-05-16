@@ -19,7 +19,6 @@ import {
 } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/peserta/presensi-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { mustBe } from '@/utils/must-be'
-import { makeSimpleQueryData } from '@/utils/query-data'
 import { useRouter } from '@bprogress/next/app'
 import { useQuery } from '@tanstack/react-query'
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner'
@@ -31,7 +30,7 @@ import { BsCheck2 } from 'react-icons/bs'
 import { RiArrowLeftLine } from 'react-icons/ri'
 
 export default function PresensiSesiBody() {
-  const { jwt } = useSessionJwt()
+  const { makeSimpleApiQueryData, processApi } = useSessionJwt()
   const router = useRouter()
 
   const [position, setPosition] = useState<LatLng>()
@@ -51,12 +50,7 @@ export default function PresensiSesiBody() {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: makeSimpleQueryData(
-      lihatSesiPembelajaranApi,
-      jwt,
-      idKelas,
-      idSesi
-    ),
+    queryFn: makeSimpleApiQueryData(lihatSesiPembelajaranApi, idKelas, idSesi),
   })
 
   const tipe = mustBe(
@@ -76,7 +70,7 @@ export default function PresensiSesiBody() {
     if (photo) form.append('swafoto', photo)
 
     await handleActionWithToast(
-      presensiSesiNonQrApi(jwt, idKelas, idSesi, form),
+      processApi(presensiSesiNonQrApi, idKelas, idSesi, form),
       {
         loading: 'Presensi sesi...',
         onStart: () => setIsSending(true),
@@ -95,17 +89,20 @@ export default function PresensiSesiBody() {
     const data = result[0].rawValue
     if (!data || isSending || success) return
 
-    await handleActionWithToast(presensiSesiQrApi(jwt, idKelas, idSesi, data), {
-      loading: 'Presensi sesi...',
-      onStart: () => setIsSending(true),
-      onSuccess: () => {
-        setSuccess(true)
-        router.replace(
-          `${routes.pengguna.ruangKelas.diikuti.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}`
-        )
-      },
-      onFinish: () => setIsSending(false),
-    })
+    await handleActionWithToast(
+      processApi(presensiSesiQrApi, idKelas, idSesi, data),
+      {
+        loading: 'Presensi sesi...',
+        onStart: () => setIsSending(true),
+        onSuccess: () => {
+          setSuccess(true)
+          router.replace(
+            `${routes.pengguna.ruangKelas.diikuti.akademik}/${idKelas}/sesi-pembelajaran/${idSesi}`
+          )
+        },
+        onFinish: () => setIsSending(false),
+      }
+    )
   }
 
   useEffect(() => {

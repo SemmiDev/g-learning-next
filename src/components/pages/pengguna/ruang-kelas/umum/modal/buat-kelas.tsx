@@ -94,14 +94,14 @@ export default function BuatKelasModal({
   showModal = false,
   setShowModal,
 }: BuatKelasModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
   const [formError, setFormError] = useState<string>()
 
   const onSubmit: SubmitHandler<BuatKelasFormSchema> = async (data) => {
-    await handleActionWithToast(tambahKelasApi(jwt, data), {
+    await handleActionWithToast(processApi(tambahKelasApi, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {

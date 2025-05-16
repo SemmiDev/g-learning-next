@@ -83,7 +83,7 @@ export default function ShareMateriModal({
   show,
   onHide,
 }: ShareMateriModalProps) {
-  const { jwt } = useSessionJwt()
+  const { processApi } = useSessionJwt()
 
   const [formError, setFormError] = useState<string>()
 
@@ -92,7 +92,7 @@ export default function ShareMateriModal({
     if (!idKelas || !materi) return
 
     await handleActionWithToast(
-      shareMateriBankMateriApi(jwt, idKelas, materi, data),
+      processApi(shareMateriBankMateriApi, idKelas, materi, data),
       {
         loading: `Membagikan ${materi?.type}...`,
         onStart: () => setFormError(undefined),

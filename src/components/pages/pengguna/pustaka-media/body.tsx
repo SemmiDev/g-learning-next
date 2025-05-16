@@ -63,7 +63,7 @@ type SortDataType = keyof typeof sortData
 const queryKeyDrive = ['pengguna.pustaka-media.drives']
 
 export default function PustakaMediaBody() {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
   const [openPicker] = useDrivePicker()
   const queryClient = useQueryClient()
 
@@ -107,7 +107,7 @@ export default function PustakaMediaBody() {
   >({
     queryKey: queryKeyDrive,
     queryFn: async () => {
-      const { data } = await driveInfoApi(jwt)
+      const { data } = await processApi(driveInfoApi)
 
       const personal = data?.media_personal_info
       const instansi = data?.daftar_media_instansi_info ?? []
@@ -221,10 +221,10 @@ export default function PustakaMediaBody() {
 
   useDebounce(() => refetchFiles(), search ? 250 : 0, [refetchFiles, search])
 
-  const handleHapus = () => {
+  const handleHapus = async () => {
     if (!fileHapus) return
 
-    handleActionWithToast(hapusBerkasApi(jwt, fileHapus.id), {
+    await handleActionWithToast(processApi(hapusBerkasApi, fileHapus.id), {
       loading: 'Menghapus berkas...',
       success: `Berhasil menghapus ${fileHapus.folder ? 'folder' : 'berkas'}`,
       onSuccess: () => {
@@ -293,7 +293,7 @@ export default function PustakaMediaBody() {
               )
             }
 
-            await handleActionWithToast(tambahBerkasApi(jwt, form), {
+            await handleActionWithToast(processApi(tambahBerkasApi, form), {
               loading: 'Menggunggah...',
               onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey })
