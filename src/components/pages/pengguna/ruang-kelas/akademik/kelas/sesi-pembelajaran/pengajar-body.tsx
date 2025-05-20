@@ -1,16 +1,18 @@
-import { ModalConfirm } from '@/components/ui'
+import { Button, ModalConfirm } from '@/components/ui'
 import Loader from '@/components/ui/loader'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { listSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { akhiriSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
+import { hapusSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/hapus-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { useRouter } from '@bprogress/next/app'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import TambahSesiModal from './pengajar/modal/tambah-sesi'
 import UbahJenisAbsenSesiModal from './pengajar/modal/ubah-jenis-absen'
 import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
@@ -20,8 +22,10 @@ export default function PengajarSesiPembelajaranBody() {
   const router = useRouter()
   const queryClient = useQueryClient()
 
+  const [showTambah, setShowTambah] = useState(false)
   const [idSesiMulai, setIdSesiMulai] = useState<string>()
   const [idSesiAkhiri, setIdSesiAkhiri] = useState<string>()
+  const [idHapus, setIdHapus] = useState<string>()
   const {
     show: showUbahJudul,
     key: keyUbahJudul,
@@ -43,22 +47,23 @@ export default function PengajarSesiPembelajaranBody() {
     idKelas,
   ]
 
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey,
-    queryFn: async ({ pageParam: page }) => {
-      const { data } = await listSesiPembelajaranApi({ jwt, page, idKelas })
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey,
+      queryFn: async ({ pageParam: page }) => {
+        const { data } = await listSesiPembelajaranApi({ jwt, page, idKelas })
 
-      return {
-        list: data?.list ?? [],
-        pagination: data?.pagination,
-      }
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.pagination?.hasNextPage
-        ? (lastPage.pagination?.page ?? 1) + 1
-        : undefined,
-  })
+        return {
+          list: data?.list ?? [],
+          pagination: data?.pagination,
+        }
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) =>
+        lastPage.pagination?.hasNextPage
+          ? (lastPage.pagination?.page ?? 1) + 1
+          : undefined,
+    })
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
@@ -72,6 +77,19 @@ export default function PengajarSesiPembelajaranBody() {
     hasNextPage: hasNextPage,
     onLoadMore: fetchNextPage,
   })
+
+  const handleHapus = async () => {
+    if (!idHapus) return
+
+    await handleActionWithToast(processApi(hapusSesiApi, idKelas, idHapus), {
+      loading: 'Menghapus...',
+      onSuccess: () => {
+        setIdHapus(undefined)
+
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
+  }
 
   const handleAkhiriSesi = async () => {
     if (!idSesiAkhiri) return
@@ -96,16 +114,25 @@ export default function PengajarSesiPembelajaranBody() {
             key={idx}
             sesi={sesi}
             bisaMulai={sesi.id === firstBelumMulai?.id && !adaBerlangsung}
+            lastSesi={
+              !isFetchingNextPage && sesi.id === list[list.length - 1].id
+            }
             onUbahJudul={() => doShowUbahJudul(sesi.id)}
             onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
+            onHapus={() => setIdHapus(sesi.id)}
             onMulai={() => setIdSesiMulai(sesi.id)}
             onAkhiri={() => setIdSesiAkhiri(sesi.id)}
           />
         ))}
-        {!isLoading && hasNextPage && (
-          <Loader ref={refSentry} size="sm" className="py-4" />
-        )}
+        {!isLoading &&
+          (hasNextPage ? (
+            <Loader ref={refSentry} size="sm" className="py-4" />
+          ) : (
+            <Button onClick={() => setShowTambah(true)}>Tambah Sesi</Button>
+          ))}
       </div>
+
+      <TambahSesiModal show={showTambah} onHide={() => setShowTambah(false)} />
 
       <UbahJudulSesiModal
         id={keyUbahJudul}
@@ -117,6 +144,17 @@ export default function PengajarSesiPembelajaranBody() {
         id={keyUbahAbsensi}
         show={showUbahAbsensi}
         onHide={doHideUbahAbsensi}
+      />
+
+      <ModalConfirm
+        title="Hapus Sesi"
+        desc="Apakah Anda yakin ingin menghapus sesi ini?"
+        color="danger"
+        isOpen={!!idHapus}
+        onClose={() => setIdHapus(undefined)}
+        onConfirm={handleHapus}
+        headerIcon="warning"
+        closeOnCancel
       />
 
       <ModalConfirm

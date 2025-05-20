@@ -25,7 +25,7 @@ export type UbahJudulSesiFormSchema = {
   judul?: string
 }
 
-type UbahMateriModalProps = {
+type UbahJudulSesiModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
@@ -35,7 +35,7 @@ export default function UbahJudulSesiModal({
   id,
   show,
   onHide,
-}: UbahMateriModalProps) {
+}: UbahJudulSesiModalProps) {
   const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
@@ -142,8 +142,8 @@ export default function UbahJudulSesiModal({
                   name="judul"
                   control={control}
                   errors={errors}
-                  label="Judul Materi"
-                  placeholder="Tulis judul materi di sini"
+                  label="Judul Sesi"
+                  placeholder="Tulis judul sesi di sini"
                   required
                 />
 

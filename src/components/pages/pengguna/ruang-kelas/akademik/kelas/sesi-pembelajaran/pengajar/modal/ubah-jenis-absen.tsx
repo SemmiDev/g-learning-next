@@ -35,7 +35,7 @@ const jenisAbsenOptions: RadioGroupOptionType[] = [
   { label: 'Presensi QR Code', value: 'QR Code' },
 ]
 
-type UbahMateriModalProps = {
+type UbahJenisAbsenSesiModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
@@ -45,7 +45,7 @@ export default function UbahJenisAbsenSesiModal({
   id,
   show,
   onHide,
-}: UbahMateriModalProps) {
+}: UbahJenisAbsenSesiModalProps) {
   const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 

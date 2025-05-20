@@ -40,14 +40,20 @@ export type DataType = {
 
 export const listSesiPembelajaranApi = async ({
   jwt,
+  idKelas,
   page = 1,
   search = '',
-  idKelas,
+  perPage = 20,
+  sortBy,
+  order,
 }: {
   jwt: string
+  idKelas: string
   page?: number
   search?: string
-  idKelas: string
+  perPage?: number
+  sortBy?: string
+  order?: 'asc' | 'desc'
 }) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas-akademik/${idKelas}/pertemuan`,
@@ -55,6 +61,8 @@ export const listSesiPembelajaranApi = async ({
     {
       current_page: page,
       keyword: search,
-      per_page: 20,
+      per_page: perPage,
+      sort_by: sortBy,
+      order: order,
     }
   )

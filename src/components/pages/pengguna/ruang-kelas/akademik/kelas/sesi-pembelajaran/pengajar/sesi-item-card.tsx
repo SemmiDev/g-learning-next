@@ -14,6 +14,7 @@ import {
   BsFileRichtext,
   BsPencil,
   BsThreeDots,
+  BsTrash3,
   BsWebcam,
 } from 'react-icons/bs'
 import {
@@ -33,8 +34,10 @@ import TambahBahanPopoverItem from './popover-item'
 type PengajarSesiItemCardProps = {
   sesi: DataSesiType
   bisaMulai?: boolean
+  lastSesi?: boolean
   onUbahJudul?: () => void
   onUbahAbsensi?: () => void
+  onHapus?: () => void
   onMulai?: () => void
   onAkhiri?: () => void
   className?: string
@@ -43,8 +46,10 @@ type PengajarSesiItemCardProps = {
 export default function PengajarSesiItemCard({
   sesi,
   bisaMulai,
+  lastSesi,
   onUbahJudul,
   onUbahAbsensi,
+  onHapus,
   onMulai,
   onAkhiri,
   className,
@@ -133,6 +138,14 @@ export default function PengajarSesiItemCard({
                   Ubah Jenis Presensi Peserta
                 </Dropdown.Item>
               </div>
+              {lastSesi && (
+                <div className="py-2">
+                  <Dropdown.Item className="text-gray-dark" onClick={onHapus}>
+                    <BsTrash3 className="text-danger size-4 mr-2" />
+                    Hapus Sesi
+                  </Dropdown.Item>
+                </div>
+              )}
             </Dropdown.Menu>
           </Dropdown>
         </div>
