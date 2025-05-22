@@ -6,16 +6,22 @@ import { hapusKelasApi } from '@/services/api/pengguna/ruang-kelas/hapus'
 import { keluarKelasApi } from '@/services/api/pengguna/ruang-kelas/keluar'
 import { listKelasApi } from '@/services/api/pengguna/ruang-kelas/list'
 import { handleActionWithToast } from '@/utils/action'
-import { switchCaseObject } from '@/utils/switch-case'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import KelasCard from './kelas-card'
 import PengaturanKelasModal from './modal/pengaturan-kelas'
 import UndangKelasModal from './modal/undang-kelas'
 
-export default function ListKelasCardList() {
+type ListKelasCardListProps = {
+  kategori: 'Dikelola' | 'Diikuti' | undefined
+  search: string
+}
+
+export default function ListKelasCardList({
+  kategori,
+  search,
+}: ListKelasCardListProps) {
   const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
@@ -34,17 +40,7 @@ export default function ListKelasCardList() {
   const [idKeluar, setIdKeluar] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
 
-  const { jenis: jenisKelas }: { jenis: string } = useParams()
-  const kategori = switchCaseObject(
-    jenisKelas,
-    {
-      dikelola: 'Dikelola',
-      diikuti: 'Diikuti',
-    },
-    undefined
-  ) as 'Dikelola' | 'Diikuti' | undefined
-
-  const queryKey = ['pengguna.ruang-kelas.list', kategori, 'Umum']
+  const queryKey = ['pengguna.ruang-kelas.list', kategori, 'Umum', search]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
@@ -54,6 +50,7 @@ export default function ListKelasCardList() {
         page,
         kategori,
         tipe: 'Umum',
+        search,
       })
 
       return {

@@ -1,11 +1,12 @@
 'use client'
 
-import { Select, SelectOptionType, Text, Title } from '@/components/ui'
+import { Input, Select, SelectOptionType, Text, Title } from '@/components/ui'
+import { useDebounceSearch } from '@/hooks/use-debounce-search'
 import { deskripsiSemester } from '@/utils/semester'
 import { switchCaseObject } from '@/utils/switch-case'
-import _ from 'lodash'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { PiMagnifyingGlass } from 'react-icons/pi'
 import ListKelasCardList from './card-list'
 import JadwalAkademik from './jadwal'
 
@@ -29,11 +30,22 @@ const semesterOptions: SelectOptionType<string | null>[] = [
 ]
 
 export default function RuangKelasAkademikBody() {
+  const { inputSearch, setInputSearch, search } = useDebounceSearch('')
+
   const [semester, setSemester] = useState<SelectOptionType<string | null>>(
     semesterOptions[0]
   )
 
   const { jenis: jenisKelas }: { jenis: string } = useParams()
+
+  const kategori = switchCaseObject(
+    jenisKelas,
+    {
+      dikelola: 'Dikelola',
+      diikuti: 'Diikuti',
+    },
+    undefined
+  ) as 'Dikelola' | 'Diikuti' | undefined
 
   return (
     <>
@@ -45,7 +57,7 @@ export default function RuangKelasAkademikBody() {
             weight="semibold"
             className="leading-tight mb-1"
           >
-            Semua Kelas {!!jenisKelas ? `yang ${_.startCase(jenisKelas)}` : ''}
+            Semua Kelas {!!kategori ? `yang ${kategori}` : ''}
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">
             {switchCaseObject(
@@ -58,7 +70,19 @@ export default function RuangKelasAkademikBody() {
             )}
           </Text>
         </div>
-        <div>
+        <div className="flex gap-2 flex-wrap">
+          <Input
+            placeholder="Cari Kelas"
+            className="min-w-56 flex-1"
+            inputClassName="bg-white"
+            prefix={
+              <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+            }
+            value={inputSearch}
+            onChange={(e) => setInputSearch(e.target.value)}
+            clearable
+            onClear={() => setInputSearch('')}
+          />
           <Select
             placeholder="Semester Aktif"
             options={semesterOptions}
@@ -66,7 +90,7 @@ export default function RuangKelasAkademikBody() {
               if (item) setSemester(item)
             }}
             value={semester}
-            className="min-w-48"
+            className="min-w-48 flex-1"
           />
         </div>
       </div>
@@ -75,7 +99,11 @@ export default function RuangKelasAkademikBody() {
           semester={semester.value}
           className="w-full md:w-8/12 lg:w-5/12"
         />
-        <ListKelasCardList semester={semester.value} />
+        <ListKelasCardList
+          semester={semester.value}
+          kategori={kategori}
+          search={search}
+        />
       </div>
     </>
   )

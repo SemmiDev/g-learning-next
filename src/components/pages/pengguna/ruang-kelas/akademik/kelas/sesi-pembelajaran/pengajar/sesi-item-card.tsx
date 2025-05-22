@@ -189,83 +189,89 @@ export default function PengajarSesiItemCard({
             </Text>
           </div>
         </div>
-        <div className="flex items-center gap-x-2 mt-4">
-          <Popover>
-            <Popover.Trigger>
-              <Button size="sm" variant="outline-colorful" className="flex-1">
-                Tambah Bahan Ajar
-              </Button>
-            </Popover.Trigger>
-            <Popover.Content className="flex flex-col px-0 py-1">
-              {({ setOpen }) => (
-                <>
-                  <TambahBahanPopoverItem
-                    title="Materi"
-                    color="green"
-                    Icon={BsFileRichtext}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahMateri(sesi.id)}
-                  />
-                  <TambahBahanPopoverItem
-                    title="Tugas"
-                    color="violet"
-                    Icon={BsClipboardPlus}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahTugas(sesi.id)}
-                  />
-                  <TambahBahanPopoverItem
-                    title="Ujian"
-                    color="blue"
-                    Icon={BsCardChecklist}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahUjian(sesi.id)}
-                  />
-                  <TambahBahanPopoverItem
-                    title="Konferensi"
-                    color="red"
-                    Icon={BsWebcam}
-                    setOpen={setOpen}
-                    onClick={() => doShowTambahKonferensi(sesi.id)}
-                  />
-                </>
-              )}
-            </Popover.Content>
-          </Popover>
-          {sesi.status !== 'Belum Dibuka' && (
-            <Link
-              href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${sesi.id_kelas}/sesi-pembelajaran/${sesi.id}`}
-              className="flex-1"
-            >
-              <Button
-                as="span"
-                size="sm"
-                color={
-                  sesi.status === 'Sedang Berlangsung' ? 'success' : 'primary'
-                }
-                className="w-full text-center"
-              >
-                {sesi.status === 'Sedang Berlangsung'
-                  ? 'Lihat Sesi Berlangsung'
-                  : 'Lihat Detail'}
-              </Button>
-            </Link>
-          )}
-          {sesi.status === 'Sedang Berlangsung' ? (
-            <Button size="sm" className="flex-1" onClick={onAkhiri}>
-              Akhiri Sesi
-            </Button>
-          ) : (
-            sesi.status === 'Belum Dibuka' && (
-              <Button
-                size="sm"
-                disabled={!bisaMulai}
+        <div className="flex gap-x-2 mt-4">
+          <div className="flex-1">
+            <Popover>
+              <Popover.Trigger>
+                <Button size="sm" variant="outline-colorful" className="w-full">
+                  Tambah Bahan Ajar
+                </Button>
+              </Popover.Trigger>
+              <Popover.Content className="flex flex-col px-0 py-1">
+                {({ setOpen }) => (
+                  <>
+                    <TambahBahanPopoverItem
+                      title="Materi"
+                      color="green"
+                      Icon={BsFileRichtext}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahMateri(sesi.id)}
+                    />
+                    <TambahBahanPopoverItem
+                      title="Tugas"
+                      color="violet"
+                      Icon={BsClipboardPlus}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahTugas(sesi.id)}
+                    />
+                    <TambahBahanPopoverItem
+                      title="Ujian"
+                      color="blue"
+                      Icon={BsCardChecklist}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahUjian(sesi.id)}
+                    />
+                    <TambahBahanPopoverItem
+                      title="Konferensi"
+                      color="red"
+                      Icon={BsWebcam}
+                      setOpen={setOpen}
+                      onClick={() => doShowTambahKonferensi(sesi.id)}
+                    />
+                  </>
+                )}
+              </Popover.Content>
+            </Popover>
+          </div>
+          <div
+            className={cn('flex flex-col gap-x-2 gap-y-1 flex-1', {
+              'sm:flex-row sm:flex-2': sesi.status === 'Sedang Berlangsung',
+            })}
+          >
+            {sesi.status !== 'Belum Dibuka' && (
+              <Link
+                href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${sesi.id_kelas}/sesi-pembelajaran/${sesi.id}`}
                 className="flex-1"
-                onClick={onMulai}
               >
-                Mulai Sesi
+                <Button
+                  as="span"
+                  size="sm"
+                  color={
+                    sesi.status === 'Sedang Berlangsung' ? 'success' : 'primary'
+                  }
+                  className="w-full text-center"
+                >
+                  Lihat Detail
+                </Button>
+              </Link>
+            )}
+            {sesi.status === 'Sedang Berlangsung' ? (
+              <Button size="sm" className="flex-1" onClick={onAkhiri}>
+                Akhiri Sesi
               </Button>
-            )
-          )}
+            ) : (
+              sesi.status === 'Belum Dibuka' && (
+                <Button
+                  size="sm"
+                  disabled={!bisaMulai}
+                  className="flex-1"
+                  onClick={onMulai}
+                >
+                  Mulai Sesi
+                </Button>
+              )
+            )}
+          </div>
         </div>
       </Card>
 

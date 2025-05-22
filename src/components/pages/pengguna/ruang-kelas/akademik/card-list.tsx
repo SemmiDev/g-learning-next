@@ -2,32 +2,30 @@ import { Loader, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKelasApi } from '@/services/api/pengguna/ruang-kelas/list'
-import { switchCaseObject } from '@/utils/switch-case'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import KelasCard from './kelas-card'
 
 type ListKelasCardListProps = {
   semester: string | null
+  kategori: 'Dikelola' | 'Diikuti' | undefined
+  search: string
 }
 
 export default function ListKelasCardList({
   semester,
+  kategori,
+  search,
 }: ListKelasCardListProps) {
   const { jwt } = useSessionJwt()
 
-  const { jenis: jenisKelas }: { jenis: string } = useParams()
-  const kategori = switchCaseObject(
-    jenisKelas,
-    {
-      dikelola: 'Dikelola',
-      diikuti: 'Diikuti',
-    },
-    undefined
-  ) as 'Dikelola' | 'Diikuti' | undefined
-
-  const queryKey = ['pengguna.ruang-kelas.list', kategori, 'Akademik', semester]
+  const queryKey = [
+    'pengguna.ruang-kelas.list',
+    kategori,
+    'Akademik',
+    semester,
+    search,
+  ]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
@@ -38,6 +36,7 @@ export default function ListKelasCardList({
         kategori,
         tipe: 'Akademik',
         semester: semester ?? undefined,
+        search,
       })
 
       return {

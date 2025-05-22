@@ -1,21 +1,32 @@
 'use client'
 
-import { Button, Text, Title } from '@/components/ui'
+import { Button, Input, Text, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
+import { useDebounceSearch } from '@/hooks/use-debounce-search'
 import { switchCaseObject } from '@/utils/switch-case'
-import _ from 'lodash'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { PiMagnifyingGlass } from 'react-icons/pi'
 import ListKelasCardList from './card-list'
 import BuatKelasModal from './modal/buat-kelas'
 import GabungKelasModal from './modal/gabung-kelas'
 
 export default function RuangKelasUmumBody() {
+  const { inputSearch, setInputSearch, search } = useDebounceSearch('')
+
   const [showBuatKelas, setShowBuatKelas] = useState(false)
   const [showGabungKelas, setShowGabungKelas] = useState(false)
 
   const { jenis: jenisKelas }: { jenis: string } = useParams()
+  const kategori = switchCaseObject(
+    jenisKelas,
+    {
+      dikelola: 'Dikelola',
+      diikuti: 'Diikuti',
+    },
+    undefined
+  ) as 'Dikelola' | 'Diikuti' | undefined
 
   return (
     <>
@@ -27,7 +38,7 @@ export default function RuangKelasUmumBody() {
             weight="semibold"
             className="leading-tight mb-1"
           >
-            Semua Kelas {!!jenisKelas ? `yang ${_.startCase(jenisKelas)}` : ''}
+            Semua Kelas {!!kategori ? `yang ${kategori}` : ''}
           </Title>
           <Text size="sm" weight="semibold" variant="lighter">
             {switchCaseObject(
@@ -70,7 +81,21 @@ export default function RuangKelasUmumBody() {
         </div>
       </div>
 
-      <ListKelasCardList />
+      <div className="flex flex-col gap-4">
+        <Input
+          placeholder="Cari Kelas"
+          className="md:w-72"
+          size="sm"
+          inputClassName="bg-white"
+          prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
+          value={inputSearch}
+          onChange={(e) => setInputSearch(e.target.value)}
+          clearable
+          onClear={() => setInputSearch('')}
+        />
+
+        <ListKelasCardList kategori={kategori} search={search} />
+      </div>
 
       {(!jenisKelas || jenisKelas === 'diikuti') && (
         <GabungKelasModal show={showGabungKelas} setShow={setShowGabungKelas} />
