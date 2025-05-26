@@ -1,11 +1,10 @@
-import { Button, Card, Text } from '@/components/ui'
+import { Button, Card, Circle, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { DataType as DataKelasType } from '@/services/api/pengguna/temukan-kelas/list'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Fragment } from 'react'
 
 type KelasCardProps = {
   data: DataKelasType
@@ -43,15 +42,21 @@ export default function KelasCard({ data, onGabung }: KelasCardProps) {
         <Text size="sm" weight="medium" variant="lighter">
           {data.kelas.sub_judul}
         </Text>
-        <Text size="sm" weight="medium" variant="lighter">
-          {data.pengajar.map((pengajar, idx) => (
-            <Fragment key={idx}>
-              {pengajar.nama}
-              {idx < data.pengajar.length - 1 && ', '}
-              <br />
-            </Fragment>
-          ))}
-        </Text>
+
+        {data.pengajar.length === 1 ? (
+          <Text size="sm" weight="medium" variant="lighter">
+            {data.pengajar[0].nama}
+          </Text>
+        ) : (
+          <ul className="text-sm font-medium text-gray-lighter">
+            {data.pengajar.map((pengajar) => (
+              <li key={pengajar.id} className="flex items-center gap-x-1">
+                <Circle className="size-1" />
+                {pengajar.nama}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="flex">
         <table className="border-collapse border border-gray-100 w-full">

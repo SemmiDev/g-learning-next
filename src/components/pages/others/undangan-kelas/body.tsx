@@ -13,7 +13,7 @@ import { useRouter } from '@bprogress/next/app'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function UndanganKelasBody() {
@@ -116,13 +116,7 @@ export default function UndanganKelasBody() {
         <div className="inline-flex items-center gap-x-1">
           <div className="size-2.5 bg-gray-lighter rounded-full shrink-0"></div>
           <Text size="xs" weight="semibold">
-            {data.pengajar.map((pengajar, idx) => (
-              <Fragment key={idx}>
-                {pengajar.nama}
-                {idx < data.pengajar.length - 1 && ', '}
-                <br />
-              </Fragment>
-            ))}
+            {data?.pengajar[0].nama || '-'}
           </Text>
         </div>
         <div className="inline-flex items-center gap-x-1">
