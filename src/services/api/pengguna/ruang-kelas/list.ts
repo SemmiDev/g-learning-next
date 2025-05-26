@@ -32,7 +32,12 @@ export type DataType = {
     updated_at: string
   }[]
   total_peserta: number
-  nama_pemilik: string
+  pengajar: {
+    id: string
+    username: string
+    nama: string
+    foto: string
+  }[]
   total_pertemuan_terlaksana: number
   status: 'Diterima' | 'Pengajuan'
   peran: 'Pengajar' | 'Peserta'

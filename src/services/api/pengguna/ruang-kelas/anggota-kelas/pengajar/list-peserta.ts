@@ -12,6 +12,7 @@ export type DataType = {
   email: string
   username: string
   foto: string
+  peran: 'Pengajar' | 'Peserta'
 }
 
 export const listPesertaKelasApi = async ({

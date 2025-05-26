@@ -25,7 +25,12 @@ export type DataType = {
     zona_waktu: string
   }[]
   total_peserta: number
-  nama_pemilik: string
+  pengajar: {
+    id: string
+    username: string
+    nama: string
+    foto: string
+  }[]
   peran: 'Pengajar' | 'Peserta'
 }
 

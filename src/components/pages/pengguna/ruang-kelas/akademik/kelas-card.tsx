@@ -1,7 +1,7 @@
-import { DataType as DataListKelasType } from '@/services/api/pengguna/ruang-kelas/list'
-import { Button, Card, Text } from '@/components/ui'
+import { Button, Card, Circle, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
+import { DataType as DataListKelasType } from '@/services/api/pengguna/ruang-kelas/list'
 import { deskripsiSemester } from '@/utils/semester'
 import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
@@ -60,9 +60,21 @@ export default function KelasCard({ data }: KelasCardProps) {
         <Text size="sm" weight="medium" variant="lighter">
           {deskripsiSemester(data.kelas.id_kelas_semester)}
         </Text>
-        <Text size="sm" weight="medium" variant="lighter">
-          {data.nama_pemilik}
-        </Text>
+
+        {data.pengajar.length === 1 ? (
+          <Text size="sm" weight="medium" variant="lighter">
+            {data.pengajar[0].nama}
+          </Text>
+        ) : (
+          <ul className="text-sm font-medium text-gray-lighter">
+            {data.pengajar.map((pengajar) => (
+              <li key={pengajar.id} className="flex items-center gap-x-1">
+                <Circle className="size-1" />
+                {pengajar.nama}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="flex">
         <table className="border-collapse border border-gray-100 w-full">

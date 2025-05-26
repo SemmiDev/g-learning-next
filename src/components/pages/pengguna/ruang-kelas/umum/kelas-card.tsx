@@ -1,7 +1,7 @@
-import { DataType as DataListKelasType } from '@/services/api/pengguna/ruang-kelas/list'
 import { ActionIconTooltip, Badge, Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
+import { DataType as DataListKelasType } from '@/services/api/pengguna/ruang-kelas/list'
 import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -57,7 +57,13 @@ export default function KelasCard({
             {data.kelas.sub_judul}
           </Text>
           <Text size="sm" weight="medium" variant="lighter">
-            {data.nama_pemilik}
+            {data.pengajar.map((pengajar, idx) => (
+              <Fragment key={idx}>
+                {pengajar.nama}
+                {idx < data.pengajar.length - 1 && ', '}
+                <br />
+              </Fragment>
+            ))}
           </Text>
         </div>
         <Badge size="sm" color="success" variant="flat">

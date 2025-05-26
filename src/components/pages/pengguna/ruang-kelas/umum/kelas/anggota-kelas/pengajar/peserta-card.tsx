@@ -120,8 +120,8 @@ export default function PengajarPesertaCard({
           {data.map((item) => {
             return (
               <Fragment key={item.id}>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-x-3 p-2">
+                <div className="flex justify-between items-center gap-x-2 p-2">
+                  <div className="flex gap-x-3">
                     <Thumbnail
                       src={item.foto || undefined}
                       alt="profil"
@@ -143,17 +143,22 @@ export default function PengajarPesertaCard({
                       </Text>
                     </div>
                   </div>
-                  {dataKelas?.kelas.tipe !== 'Akademik' && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      color="danger"
-                      className="m-2"
-                      onClick={() => setIdKeluarkan(item.id_peserta)}
-                    >
-                      Keluarkan
-                    </Button>
-                  )}
+                  <div className="flex flex-col items-end gap-2">
+                    <Text size="2xs" weight="semibold" variant="lighter">
+                      {item.peran || '-'}
+                    </Text>
+                    {dataKelas?.kelas.tipe !== 'Akademik' &&
+                      item.peran === 'Peserta' && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          color="danger"
+                          onClick={() => setIdKeluarkan(item.id_peserta)}
+                        >
+                          Keluarkan
+                        </Button>
+                      )}
+                  </div>
                 </div>
                 <CardSeparator />
               </Fragment>

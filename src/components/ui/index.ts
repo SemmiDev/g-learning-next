@@ -29,6 +29,7 @@ import Button, {
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
 import CardSeparator from './card-separator'
+import Circle, { CircleProps } from './circle'
 import ControlledAsyncPaginateSelect, {
   ControlledAsyncPaginateSelectProps,
 } from './controlled/async-paginate-select'
@@ -150,6 +151,7 @@ export {
   ButtonSubmit,
   Card,
   CardSeparator,
+  Circle,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -234,6 +236,7 @@ export {
   type ButtonProps,
   type ButtonSubmitProps,
   type ButtonVariants,
+  type CircleProps,
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,
   type ControlledInputNumberProps,

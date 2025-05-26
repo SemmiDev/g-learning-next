@@ -1,10 +1,11 @@
-import { DataType as DataKelasType } from '@/services/api/pengguna/temukan-kelas/list'
-import { Badge, Button, Card, Text } from '@/components/ui'
+import { Button, Card, Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { routes } from '@/config/routes'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
+import { DataType as DataKelasType } from '@/services/api/pengguna/temukan-kelas/list'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Fragment } from 'react'
 
 type KelasCardProps = {
   data: DataKelasType
@@ -43,7 +44,13 @@ export default function KelasCard({ data, onGabung }: KelasCardProps) {
           {data.kelas.sub_judul}
         </Text>
         <Text size="sm" weight="medium" variant="lighter">
-          {data.nama_pemilik}
+          {data.pengajar.map((pengajar, idx) => (
+            <Fragment key={idx}>
+              {pengajar.nama}
+              {idx < data.pengajar.length - 1 && ', '}
+              <br />
+            </Fragment>
+          ))}
         </Text>
       </div>
       <div className="flex">

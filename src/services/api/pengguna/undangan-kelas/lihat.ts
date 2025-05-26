@@ -13,7 +13,12 @@ export type DataType = {
   thumbnail: string
   total_pertemuan: number | null
   total_peserta: number
-  nama_pemilik: string
+  pengajar: {
+    id: string
+    username: string
+    nama: string
+    foto: string
+  }[]
   status_gabung: 'Pengajuan' | 'Diterima' | null
   created_at: string
   updated_at: string
