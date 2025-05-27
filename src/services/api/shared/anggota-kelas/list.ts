@@ -1,9 +1,11 @@
 import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
+  id: string
   id_kelas: string
   id_peserta: string
-  status: string
+  status: 'Pengajuan' | 'Dikeluarkan' | 'Diterima'
+  peran: 'Pengajar' | 'Peserta'
   created_at: string
   updated_at: string
   nama: string
@@ -12,16 +14,18 @@ export type DataType = {
   foto: string
 }
 
-export const listPesertaKelasApi = async ({
+export const listAnggotaKelasApi = async ({
   jwt,
   page = 1,
   search = '',
   idKelas,
+  peran,
 }: {
   jwt: string
   page?: number
   search?: string
   idKelas?: string
+  peran?: 'Pengajar' | 'Peserta'
 }) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/pengajar/kelas/${idKelas}/peserta-kelas`,
@@ -32,5 +36,6 @@ export const listPesertaKelasApi = async ({
       per_page: 10,
       sort_by: 'nama',
       order: 'ASC',
+      peran,
     }
   )

@@ -13,7 +13,7 @@ import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useTableAsync } from '@/hooks/use-table-async'
 import { keluarkanAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/keluarkan'
-import { listPesertaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/list-peserta'
+import { listAnggotaKelasApi } from '@/services/api/pengguna/ruang-kelas/anggota-kelas/pengajar/list-peserta'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
@@ -61,7 +61,7 @@ export default function PengajarPesertaCard({
     onSearch,
   } = useTableAsync({
     queryKey,
-    action: listPesertaKelasApi,
+    action: listAnggotaKelasApi,
     actionParams: { idKelas },
   })
 

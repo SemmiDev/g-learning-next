@@ -1,30 +1,31 @@
 import { Text, Thumbnail } from '@/components/ui'
 import { Radio } from 'rizzui'
 
-export type PesertaKelasItemType = {
+export type AnggotaKelasItemType = {
   id: string
   nama: string
   email?: string
   foto?: string
+  peran: 'Pengajar' | 'Peserta'
 }
 
-export type PesertaKelasButtonProps = {
-  peserta: PesertaKelasItemType
+export type AnggotaKelasButtonProps = {
+  anggota: AnggotaKelasItemType
   checked?: boolean
   onChange?(): void
 }
 
-export default function PesertaKelasButton({
-  peserta,
+export default function AnggotaKelasButton({
+  anggota,
   checked = false,
   onChange,
-}: PesertaKelasButtonProps) {
+}: AnggotaKelasButtonProps) {
   return (
     <>
       <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
         <Radio
-          name="peserta_radio"
-          value={peserta.id}
+          name="anggota_radio"
+          value={anggota.id}
           size="sm"
           className="px-4"
           checked={checked}
@@ -32,10 +33,10 @@ export default function PesertaKelasButton({
         />
         <div className="flex flex-1 items-center gap-x-2">
           <Thumbnail
-            src={peserta.foto}
+            src={anggota.foto}
             alt="profil"
             size={40}
-            avatar={peserta.nama}
+            avatar={anggota.nama}
           />
 
           <div className="flex flex-col">
@@ -43,10 +44,10 @@ export default function PesertaKelasButton({
               size="sm"
               weight="semibold"
               variant="dark"
-              title={peserta.nama}
+              title={anggota.nama}
               className="truncate"
             >
-              {peserta.nama}
+              {anggota.nama}
             </Text>
 
             <Text
@@ -55,7 +56,7 @@ export default function PesertaKelasButton({
               variant="lighter"
               className="truncate"
             >
-              {peserta.email || '-'}
+              {anggota.email || '-'}
             </Text>
           </div>
         </div>

@@ -11,7 +11,7 @@ import {
   ControlledKelas,
   ControlledMateri,
   ControlledPaketSoal,
-  ControlledPesertaKelas,
+  ControlledAnggotaKelas,
   ControlledPustakaMedia,
   ControlledSelect,
   ControlledSwitch,
@@ -22,8 +22,8 @@ import {
   Materi,
   MateriItemType,
   PaketSoalItemType,
-  PesertaKelas,
-  PesertaKelasItemType,
+  AnggotaKelas,
+  AnggotaKelasItemType,
   PustakaMediaFileType,
   SelectOptionType,
   UploadFileType,
@@ -60,7 +60,7 @@ const formSchema = z.object({
   tesMateri: z.any().superRefine(objectRequired),
   tesSoal: z.any().superRefine(objectRequired),
   tesKelas: z.any().superRefine(objectRequired),
-  tesPesertaKelas: z.any().superRefine(objectRequired),
+  tesAnggotaKelas: z.any().superRefine(objectRequired),
   tesDate: z.date(),
   tesFiles: z.array(z.any()).superRefine(arrayRequired),
   tesSwitch: z.boolean(),
@@ -80,7 +80,7 @@ type FormSchema = {
   tesMateri?: MateriItemType
   tesSoal?: PaketSoalItemType
   tesKelas?: KelasItemType
-  tesPesertaKelas?: PesertaKelasItemType
+  tesAnggotaKelas?: AnggotaKelasItemType
   tesDate?: Date
   tesFiles?: UploadFileType[]
   tesSwitch: boolean
@@ -203,11 +203,11 @@ export default function Tes2Page() {
             errors={errors}
             clearable
           />
-          <ControlledPesertaKelas
-            idKelas="01J9JYJ0PP6VPZR7SMERKDWCN1"
-            name="tesPesertaKelas"
+          <ControlledAnggotaKelas
+            idKelas="01JEQME1CHTHVMVMRP6PYPTNJS"
+            name="tesAnggotaKelas"
             control={control}
-            label="Pilih Peserta Kelas"
+            label="Pilih Anggota Kelas"
             errors={errors}
             clearable
           />

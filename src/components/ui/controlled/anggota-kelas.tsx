@@ -7,19 +7,19 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import PesertaKelas, { PesertaKelasProps } from '../../shared/peserta-kelas'
+import AnggotaKelas, { AnggotaKelasProps } from '../../shared/anggota-kelas'
 
-export type ControlledPesertaKelasProps<
+export type ControlledAnggotaKelasProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
-> = Omit<PesertaKelasProps, 'value' | 'onChange' | 'onBlur'> & {
+> = Omit<AnggotaKelasProps, 'value' | 'onChange' | 'onBlur'> & {
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
   onChange?(value: any): void
 }
 
-export default function ControlledPesertaKelas<
+export default function ControlledAnggotaKelas<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -28,13 +28,13 @@ export default function ControlledPesertaKelas<
   errors,
   onChange,
   ...props
-}: ControlledPesertaKelasProps<TFieldValues, TName>) {
+}: ControlledAnggotaKelasProps<TFieldValues, TName>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange: setValue } }) => (
-        <PesertaKelas
+        <AnggotaKelas
           onChange={(val) => {
             onChange && onChange(val)
             setValue(val)

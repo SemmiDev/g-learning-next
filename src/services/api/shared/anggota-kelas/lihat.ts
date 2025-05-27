@@ -13,7 +13,7 @@ export type DataType = {
   foto: string
 }
 
-export const lihatPesertaKelasApi = async (
+export const lihatAnggotaKelasApi = async (
   jwt: string,
   idKelas: string,
   idPeserta: string

@@ -1,8 +1,8 @@
-import { DataType as DataSesiType } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { ActionIcon, Badge, Button, Text, Time } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { routes } from '@/config/routes'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { DataType as DataSesiType } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import cn from '@/utils/class-names'
 import { parseDate } from '@/utils/date'
 import { switchCaseObject } from '@/utils/switch-case'
@@ -35,6 +35,7 @@ type PengajarSesiItemCardProps = {
   sesi: DataSesiType
   bisaMulai?: boolean
   lastSesi?: boolean
+  onUbahSesi?: () => void
   onUbahJudul?: () => void
   onUbahAbsensi?: () => void
   onHapus?: () => void
@@ -47,6 +48,7 @@ export default function PengajarSesiItemCard({
   sesi,
   bisaMulai,
   lastSesi,
+  onUbahSesi,
   onUbahJudul,
   onUbahAbsensi,
   onHapus,
@@ -90,33 +92,40 @@ export default function PengajarSesiItemCard({
 
   return (
     <>
-      <Card className={cn('flex flex-col gap-y-1', className)}>
+      <Card className={cn('flex flex-col gap-y-2', className)}>
         <div className="flex justify-between items-start gap-x-2">
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
             <Text weight="semibold">{sesi.judul}</Text>
-            {(sesi.status !== 'Belum Dibuka' || bisaMulai) && (
-              <Badge
-                size="sm"
-                variant="flat"
-                color={
-                  sesi.status === 'Sedang Berlangsung'
-                    ? 'success'
-                    : danger
-                    ? 'danger'
-                    : 'gray'
-                }
-              >
-                {switchCaseObject(
-                  sesi.status,
-                  {
-                    'Sedang Berlangsung': 'Sesi sedang berlangsung',
-                    'Belum Dibuka': 'Sesi belum dimulai',
-                    'Telah Berakhir': 'Sesi telah selesai',
-                  },
-                  '-'
-                )}
-              </Badge>
-            )}
+            <div className="flex gap-x-2 gap-y-1 flex-wrap">
+              {sesi.status !== 'Belum Dibuka' && (
+                <Badge size="sm" variant="outline" color="gray">
+                  {sesi.nama_pengajar}
+                </Badge>
+              )}
+              {(sesi.status !== 'Belum Dibuka' || bisaMulai) && (
+                <Badge
+                  size="sm"
+                  variant="flat"
+                  color={
+                    sesi.status === 'Sedang Berlangsung'
+                      ? 'success'
+                      : danger
+                      ? 'danger'
+                      : 'gray'
+                  }
+                >
+                  {switchCaseObject(
+                    sesi.status,
+                    {
+                      'Sedang Berlangsung': 'Sesi sedang berlangsung',
+                      'Belum Dibuka': 'Sesi belum dimulai',
+                      'Telah Berakhir': 'Sesi telah selesai',
+                    },
+                    '-'
+                  )}
+                </Badge>
+              )}
+            </div>
           </div>
           <Dropdown placement="bottom-end">
             <Dropdown.Trigger>
@@ -126,17 +135,32 @@ export default function PengajarSesiItemCard({
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-64 divide-y !py-0">
               <div className="py-2">
-                <Dropdown.Item className="text-gray-dark" onClick={onUbahJudul}>
-                  <BsPencil className="text-warning size-4 mr-2" />
-                  Ubah Judul Sesi
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="text-gray-dark"
-                  onClick={onUbahAbsensi}
-                >
-                  <BsPencil className="text-warning size-4 mr-2" />
-                  Ubah Jenis Presensi Peserta
-                </Dropdown.Item>
+                {sesi.status === 'Belum Dibuka' ? (
+                  <Dropdown.Item
+                    className="text-gray-dark"
+                    onClick={onUbahSesi}
+                  >
+                    <BsPencil className="text-warning size-4 mr-2" />
+                    Ubah Sesi
+                  </Dropdown.Item>
+                ) : (
+                  <>
+                    <Dropdown.Item
+                      className="text-gray-dark"
+                      onClick={onUbahJudul}
+                    >
+                      <BsPencil className="text-warning size-4 mr-2" />
+                      Ubah Judul Sesi
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className="text-gray-dark"
+                      onClick={onUbahAbsensi}
+                    >
+                      <BsPencil className="text-warning size-4 mr-2" />
+                      Ubah Jenis Presensi Peserta
+                    </Dropdown.Item>
+                  </>
+                )}
               </div>
               {lastSesi && (
                 <div className="py-2">
@@ -189,7 +213,7 @@ export default function PengajarSesiItemCard({
             </Text>
           </div>
         </div>
-        <div className="flex gap-x-2 mt-4">
+        <div className="flex gap-x-2 mt-2">
           <div className="flex-1">
             <Popover>
               <Popover.Trigger>

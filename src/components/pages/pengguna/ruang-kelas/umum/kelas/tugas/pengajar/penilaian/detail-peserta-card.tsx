@@ -1,8 +1,8 @@
-import PilihPesertaKelas from '@/components/shared/peserta-kelas/pilih-peserta'
+import PilihAnggotaKelas from '@/components/shared/anggota-kelas/pilih-anggota'
 import { ButtonSubmit, Card, Shimmer, Text, Thumbnail } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { lihatPesertaKelasApi } from '@/services/api/shared/peserta-kelas/lihat'
+import { lihatAnggotaKelasApi } from '@/services/api/shared/anggota-kelas/lihat'
 import cn from '@/utils/class-names'
 import { wait } from '@/utils/wait'
 import { useRouter } from '@bprogress/next/app'
@@ -37,7 +37,7 @@ export default function DetailPesertaCard({
 
   const { data, isLoading } = useQuery({
     queryKey: ['pengguna.ruang-kelas.peserta.detail', idPeserta],
-    queryFn: makeSimpleApiQueryData(lihatPesertaKelasApi, idKelas, idPeserta),
+    queryFn: makeSimpleApiQueryData(lihatAnggotaKelasApi, idKelas, idPeserta),
   })
 
   const handlePilihPeserta = async (idPeserta: string) => {
@@ -93,11 +93,12 @@ export default function DetailPesertaCard({
         </div>
       </Card>
 
-      <PilihPesertaKelas
+      <PilihAnggotaKelas
         idKelas={idKelas}
         show={showPilihPeserta}
         setShow={setShowPilihPeserta}
         onSelect={(val) => handlePilihPeserta(val.id)}
+        peran="Peserta"
       />
     </>
   )

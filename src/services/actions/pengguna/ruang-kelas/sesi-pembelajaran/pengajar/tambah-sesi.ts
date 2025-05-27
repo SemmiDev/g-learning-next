@@ -16,6 +16,7 @@ export const tambahSesiAction = async (
       waktu_mulai: data.mulaiWaktu,
       waktu_sampai: data.sampaiWaktu,
       jenis_absensi_peserta: data.jenisAbsenPeserta,
+      id_ruangan: data.ruangan?.value,
       jenis_absensi_pengajar: 'GPS dan Swafoto',
     }
   )

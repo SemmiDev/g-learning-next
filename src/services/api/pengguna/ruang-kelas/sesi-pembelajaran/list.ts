@@ -30,8 +30,10 @@ export type DataType = {
   latitude: number | null
   longitude: number | null
   swafoto: string | null
+  id_ruangan: string | null
   created_at: string
   updated_at: string
+  nama_pengajar: string
   swafoto_url: string | null
   lokasi_pertemuan: string
   total_bahan_ajar: number

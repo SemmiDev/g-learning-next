@@ -15,6 +15,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import TambahSesiModal from './pengajar/modal/tambah-sesi'
 import UbahJenisAbsenSesiModal from './pengajar/modal/ubah-jenis-absen'
 import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
+import UbahSesiModal from './pengajar/modal/ubah-sesi'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
 
 export default function PengajarSesiPembelajaranBody() {
@@ -26,6 +27,12 @@ export default function PengajarSesiPembelajaranBody() {
   const [idSesiMulai, setIdSesiMulai] = useState<string>()
   const [idSesiAkhiri, setIdSesiAkhiri] = useState<string>()
   const [idHapus, setIdHapus] = useState<string>()
+  const {
+    show: showUbahSesi,
+    key: keyUbahSesi,
+    doShow: doShowUbahSesi,
+    doHide: doHideUbahSesi,
+  } = useShowModal<string>()
   const {
     show: showUbahJudul,
     key: keyUbahJudul,
@@ -117,6 +124,7 @@ export default function PengajarSesiPembelajaranBody() {
             lastSesi={
               !isFetchingNextPage && sesi.id === list[list.length - 1].id
             }
+            onUbahSesi={() => doShowUbahSesi(sesi.id)}
             onUbahJudul={() => doShowUbahJudul(sesi.id)}
             onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
             onHapus={() => setIdHapus(sesi.id)}
@@ -133,6 +141,12 @@ export default function PengajarSesiPembelajaranBody() {
       </div>
 
       <TambahSesiModal show={showTambah} onHide={() => setShowTambah(false)} />
+
+      <UbahSesiModal
+        id={keyUbahSesi}
+        show={showUbahSesi}
+        onHide={doHideUbahSesi}
+      />
 
       <UbahJudulSesiModal
         id={keyUbahJudul}

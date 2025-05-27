@@ -62,25 +62,34 @@ export default function SesiCard({ kelas, className }: SesiCardProps) {
     <>
       <Card className={cn('flex flex-col gap-y-2', className)}>
         <div className="flex justify-between gap-x-2">
-          <div className="flex flex-wrap items-center gap-x-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <Title as="h6" weight="semibold">
               {data?.judul || '-'}
             </Title>
-            <Badge
-              size="sm"
-              variant="flat"
-              color={data?.status === 'Sedang Berlangsung' ? 'success' : 'gray'}
-            >
-              {switchCaseObject(
-                data?.status,
-                {
-                  'Sedang Berlangsung': 'Sesi sedang berlangsung',
-                  'Belum Dibuka': 'Sesi belum dimulai',
-                  'Telah Berakhir': 'Sesi telah selesai',
-                },
-                '-'
+            <div className="flex gap-x-2 gap-y-1 flex-wrap">
+              {data?.status !== 'Belum Dibuka' && (
+                <Badge size="sm" variant="outline" color="gray">
+                  {data?.nama_pengajar}
+                </Badge>
               )}
-            </Badge>
+              <Badge
+                size="sm"
+                variant="flat"
+                color={
+                  data?.status === 'Sedang Berlangsung' ? 'success' : 'gray'
+                }
+              >
+                {switchCaseObject(
+                  data?.status,
+                  {
+                    'Sedang Berlangsung': 'Sesi sedang berlangsung',
+                    'Belum Dibuka': 'Sesi belum dimulai',
+                    'Telah Berakhir': 'Sesi telah selesai',
+                  },
+                  '-'
+                )}
+              </Badge>
+            </div>
           </div>
           {kelas.peran === 'Pengajar' && (
             <Button

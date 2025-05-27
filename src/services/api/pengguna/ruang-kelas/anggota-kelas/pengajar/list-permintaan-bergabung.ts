@@ -5,6 +5,7 @@ export type DataType = {
   id_kelas: string
   id_peserta: string
   status: 'Pengajuan' | 'Dikeluarkan' | 'Diterima'
+  peran: 'Pengajar' | 'Peserta'
   created_at: string
   updated_at: string
   nama: string

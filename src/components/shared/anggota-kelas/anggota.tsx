@@ -11,7 +11,7 @@ import {
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { listPesertaKelasApi } from '@/services/api/shared/peserta-kelas/list'
+import { listAnggotaKelasApi } from '@/services/api/shared/anggota-kelas/list'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
@@ -20,34 +20,36 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { FieldError } from 'rizzui'
-import PesertaButton, { PesertaKelasItemType } from './peserta-button'
-import SelectedPeserta from './selected-peserta'
+import AnggotaButton, { AnggotaKelasItemType } from './anggota-button'
+import SelectedAnggota from './selected-anggota'
 
-const queryKey = ['shared.peserta.list']
+const queryKey = ['shared.anggota.list']
 
-export type PesertaKelasProps = {
+export type AnggotaKelasProps = {
   idKelas: string
   label?: string
   required?: boolean
   placeholder?: string
-  value?: PesertaKelasItemType
-  onChange?(val?: PesertaKelasItemType): void
+  value?: AnggotaKelasItemType
+  onChange?(val?: AnggotaKelasItemType): void
   error?: string
   errorClassName?: string
   clearable?: boolean
+  peran?: 'Pengajar' | 'Peserta'
 }
 
-export default function PesertaKelas({
+export default function AnggotaKelas({
   idKelas,
   label,
   required,
-  placeholder = 'Klik di sini untuk memilih peserta',
+  placeholder = 'Klik di sini untuk memilih anggota kelas',
   value,
   onChange,
   error,
   errorClassName,
   clearable,
-}: PesertaKelasProps) {
+  peran,
+}: AnggotaKelasProps) {
   const { jwt } = useSessionJwt()
   const { status } = useSession()
   const size = useAutoSizeMediumModal()
@@ -55,15 +57,15 @@ export default function PesertaKelas({
   const [show, setShow] = useState(false)
 
   const [search, setSearch] = useState('')
-  const [checkedPeserta, setCheckedPeserta] = useState<
-    PesertaKelasItemType | undefined
+  const [checkedAnggota, setCheckedAnggota] = useState<
+    AnggotaKelasItemType | undefined
   >()
-  const [selectedPeserta, setSelectedPeserta] = useState<
-    PesertaKelasItemType | undefined
+  const [selectedAnggota, setSelectedAnggota] = useState<
+    AnggotaKelasItemType | undefined
   >(value)
 
-  const doChange = (selected?: PesertaKelasItemType) => {
-    setSelectedPeserta(selected)
+  const doChange = (selected?: AnggotaKelasItemType) => {
+    setSelectedAnggota(selected)
 
     onChange && onChange(selected)
   }
@@ -78,11 +80,12 @@ export default function PesertaKelas({
   } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam: page }) => {
-      const { data } = await listPesertaKelasApi({
+      const { data } = await listAnggotaKelasApi({
         jwt,
         page,
         search,
         idKelas,
+        peran,
       })
 
       return {
@@ -91,7 +94,8 @@ export default function PesertaKelas({
           nama: item.nama,
           email: item.email || undefined,
           foto: item.foto || undefined,
-        })) as PesertaKelasItemType[],
+          peran: item.peran,
+        })) as AnggotaKelasItemType[],
         pagination: data?.pagination,
       }
     },
@@ -115,10 +119,12 @@ export default function PesertaKelas({
   if (status === 'unauthenticated') {
     return (
       <div className="text-danger text-sm font-semibold border border-danger rounded-md ring-[0.6px] ring-muted min-h-10 uppercase py-2 px-[0.875rem]">
-        Penggunaan peserta mengharuskan untuk login!
+        Penggunaan anggota kelas mengharuskan untuk login!
       </div>
     )
   }
+
+  const desc = peran ? peran : 'Anggota Kelas'
 
   return (
     <>
@@ -130,25 +136,25 @@ export default function PesertaKelas({
         )}
         <div
           className={cn(
-            'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-3 hover:border-primary [&_.peserta-label]:hover:text-primary',
+            'flex flex-wrap items-center gap-2 text-gray text-sm border border-muted cursor-pointer rounded-md transition duration-200 ring-[0.6px] ring-muted min-h-10 py-2 px-3 hover:border-primary [&_.anggota-label]:hover:text-primary',
             {
               '!border-danger [&.is-hover]:!border-danger [&.is-focus]:!border-danger !ring-danger !bg-transparent':
                 error,
             }
           )}
           onClick={() => {
-            setCheckedPeserta(selectedPeserta)
+            setCheckedAnggota(selectedAnggota)
             refetch()
             setShow(true)
           }}
         >
-          {selectedPeserta ? (
-            <SelectedPeserta
-              peserta={selectedPeserta}
+          {selectedAnggota ? (
+            <SelectedAnggota
+              anggota={selectedAnggota}
               onRemove={clearable ? () => doChange(undefined) : undefined}
             />
           ) : (
-            <Text size="sm" className="peserta text-gray-lighter">
+            <Text size="sm" className="anggota text-gray-lighter">
               {placeholder}
             </Text>
           )}
@@ -160,7 +166,7 @@ export default function PesertaKelas({
       </div>
 
       <Modal
-        title="Cari dan Pilih Peserta"
+        title={`Cari dan Pilih ${desc}`}
         size={size}
         isOpen={show}
         onClose={() => setShow(false)}
@@ -172,7 +178,7 @@ export default function PesertaKelas({
               <Input
                 size="sm"
                 type="search"
-                placeholder="Cari Peserta"
+                placeholder={`Cari ${desc}`}
                 clearable
                 className="flex-1"
                 prefix={
@@ -187,20 +193,20 @@ export default function PesertaKelas({
               {isLoading || (!list.length && isFetching) ? (
                 <Loader height={320} />
               ) : list.length > 0 ? (
-                list.map((peserta, idx) => (
-                  <PesertaButton
-                    key={peserta.id + idx}
-                    peserta={peserta}
-                    checked={checkedPeserta?.id === peserta.id}
+                list.map((anggota, idx) => (
+                  <AnggotaButton
+                    key={anggota.id + idx}
+                    anggota={anggota}
+                    checked={checkedAnggota?.id === anggota.id}
                     onChange={() => {
-                      setCheckedPeserta(peserta)
+                      setCheckedAnggota(anggota)
                     }}
                   />
                 ))
               ) : (
                 <div className="flex items-center justify-center h-80">
                   <Text size="sm" weight="medium">
-                    {search ? 'Peserta tidak ditemukan' : 'Belum ada Peserta'}
+                    {search ? `${desc} tidak ditemukan` : `Belum ada ${desc}`}
                   </Text>
                 </div>
               )}
@@ -216,12 +222,12 @@ export default function PesertaKelas({
                 size="sm"
                 className="w-36"
                 onClick={() => {
-                  doChange(checkedPeserta)
+                  doChange(checkedAnggota)
                   setShow(false)
                 }}
-                disabled={!checkedPeserta}
+                disabled={!checkedAnggota}
               >
-                Pilih Peserta
+                Pilih {desc}
               </Button>
               <Button
                 size="sm"

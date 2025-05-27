@@ -1,3 +1,7 @@
+import AnggotaKelas, {
+  AnggotaKelasItemType,
+  AnggotaKelasProps,
+} from '../shared/anggota-kelas'
 import Kelas, { KelasItemType, KelasProps } from '../shared/kelas'
 import Komentar, { KomentarType } from '../shared/komentar'
 import Materi, { MateriItemType, MateriProps } from '../shared/materi'
@@ -5,10 +9,6 @@ import PaketSoal, {
   PaketSoalItemType,
   PaketSoalProps,
 } from '../shared/paket-soal'
-import PesertaKelas, {
-  PesertaKelasItemType,
-  PesertaKelasProps,
-} from '../shared/peserta-kelas'
 import PustakaMedia, {
   PustakaMediaDriveType,
   PustakaMediaFileType,
@@ -30,6 +30,9 @@ import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
 import CardSeparator from './card-separator'
 import Circle, { CircleProps } from './circle'
+import ControlledAnggotaKelas, {
+  ControlledAnggotaKelasProps,
+} from './controlled/anggota-kelas'
 import ControlledAsyncPaginateSelect, {
   ControlledAsyncPaginateSelectProps,
 } from './controlled/async-paginate-select'
@@ -54,9 +57,6 @@ import ControlledPaketSoal, {
 import ControlledPassword, {
   ControlledPasswordProps,
 } from './controlled/password'
-import ControlledPesertaKelas, {
-  ControlledPesertaKelasProps,
-} from './controlled/peserta-kelas'
 import ControlledPustakaMedia, {
   ControlledPustakaMediaProps,
 } from './controlled/pustaka-media'
@@ -145,6 +145,7 @@ import {
 export {
   ActionIcon,
   ActionIconTooltip,
+  AnggotaKelas,
   Badge,
   Breadcrumb,
   Button,
@@ -152,6 +153,7 @@ export {
   Card,
   CardSeparator,
   Circle,
+  ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -162,7 +164,6 @@ export {
   ControlledMateri,
   ControlledPaketSoal,
   ControlledPassword,
-  ControlledPesertaKelas,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   ControlledRadio,
@@ -198,7 +199,6 @@ export {
   Pagination,
   PaketSoal,
   Password,
-  PesertaKelas,
   PustakaMedia,
   ReadMore,
   Select,
@@ -229,6 +229,8 @@ export {
   renderTableCellText,
   type ActionIconProps,
   type ActionIconTooltipProps,
+  type AnggotaKelasItemType,
+  type AnggotaKelasProps,
   type BadgeProps,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
@@ -237,6 +239,7 @@ export {
   type ButtonSubmitProps,
   type ButtonVariants,
   type CircleProps,
+  type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,
   type ControlledInputNumberProps,
@@ -247,7 +250,6 @@ export {
   type ControlledMateriProps,
   type ControlledPaketSoalProps,
   type ControlledPasswordProps,
-  type ControlledPesertaKelasProps,
   type ControlledPustakaMediaProps,
   type ControlledQuillEditorProps,
   type ControlledRadioGroupProps,
@@ -281,8 +283,6 @@ export {
   type PaketSoalItemType,
   type PaketSoalProps,
   type PasswordProps,
-  type PesertaKelasItemType,
-  type PesertaKelasProps,
   type PustakaMediaDriveType,
   type PustakaMediaFileType,
   type PustakaMediaFolderType,

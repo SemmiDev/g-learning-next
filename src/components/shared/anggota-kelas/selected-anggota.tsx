@@ -2,25 +2,25 @@ import { Text, Thumbnail } from '@/components/ui'
 import ActionIcon from '@/components/ui/button/action-icon'
 import { LuChevronDown } from 'react-icons/lu'
 import { MdClose } from 'react-icons/md'
-import { PesertaKelasItemType } from './peserta-button'
+import { AnggotaKelasItemType } from './anggota-button'
 
 type SelectedFileProps = {
-  peserta: PesertaKelasItemType
+  anggota: AnggotaKelasItemType
   onRemove?: () => void
 }
 
-export default function SelectedPeserta({
-  peserta,
+export default function SelectedAnggota({
+  anggota,
   onRemove,
 }: SelectedFileProps) {
   return (
     <div className="flex justify-between items-center flex-1 gap-2">
       <div className="flex items-center gap-x-2">
         <Thumbnail
-          src={peserta.foto}
+          src={anggota.foto}
           alt="profil"
           size={40}
-          avatar={peserta.nama}
+          avatar={anggota.nama}
         />
 
         <div className="flex flex-col">
@@ -28,10 +28,10 @@ export default function SelectedPeserta({
             size="sm"
             weight="semibold"
             variant="dark"
-            title={peserta.nama}
+            title={anggota.nama}
             className="truncate"
           >
-            {peserta.nama}
+            {anggota.nama}
           </Text>
 
           <Text
@@ -40,7 +40,7 @@ export default function SelectedPeserta({
             variant="lighter"
             className="truncate"
           >
-            {peserta.email || '-'}
+            {anggota.email || '-'}
           </Text>
         </div>
       </div>

@@ -14,9 +14,9 @@ import {
 } from '@/components/ui'
 import { NAMA_HARI } from '@/config/const'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { tambahSesiAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/tambah-sesi'
 import { ruanganMakeSelectDataApi } from '@/services/api/pengguna/ruang-kelas/async-select/ruangan'
-import { listSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
+import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
+import { ubahSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { parseDateFromTime } from '@/utils/date'
 import { required } from '@/utils/validations/pipe'
@@ -30,7 +30,6 @@ import { SubmitHandler } from 'react-hook-form'
 import { BsInfoCircle } from 'react-icons/bs'
 
 const formSchema = z.object({
-  pertemuan: z.number(),
   judul: z.string().pipe(required),
   hari: z.any().superRefine(objectRequired),
   mulai: z.date(),
@@ -55,8 +54,7 @@ const jenisAbsenOptions: RadioGroupOptionType[] = [
   { label: 'Presensi QR Code', value: 'QR Code' },
 ]
 
-export type TambahSesiFormSchema = {
-  pertemuan?: number
+export type UbahSesiFormSchema = {
   judul?: string
   hari?: SelectOptionType
   mulai?: Date
@@ -67,16 +65,18 @@ export type TambahSesiFormSchema = {
   jenisAbsenPeserta?: string
 }
 
-type TambahSesiModalProps = {
+type UbahSesiModalProps = {
+  id: string | undefined
   show: boolean
   onHide: () => void
 }
 
-export default function TambahSesiModal({
+export default function UbahSesiModal({
+  id,
   show,
   onHide,
-}: TambahSesiModalProps) {
-  const { jwt } = useSessionJwt()
+}: UbahSesiModalProps) {
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -84,68 +84,64 @@ export default function TambahSesiModal({
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const queryKey = [
-    'pengguna.ruang-kelas.sesi-pembelajaran.sesi-terakhir',
+    'pengguna.ruang-kelas.sesi-pembelajaran.ubah',
     'pengajar',
     idKelas,
-    show,
+    id,
   ]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<TambahSesiFormSchema>({
+  } = useQuery<UbahSesiFormSchema>({
     queryKey,
     queryFn: async () => {
-      const { data } = await listSesiPembelajaranApi({
-        jwt,
-        idKelas,
-        perPage: 1,
-        sortBy: 'pertemuan',
-        order: 'desc',
-      })
+      if (!id) return {}
 
-      const sesiTerakhir = data?.list?.[0]
-      const pertemuan = (sesiTerakhir?.pertemuan ?? 0) + 1
+      const { data } = await processApi(lihatSesiPembelajaranApi, idKelas, id)
 
       return {
-        pertemuan,
-        judul: `Pertemuan ${pertemuan}`,
+        judul: data?.judul,
         hari:
-          hariOptions.filter(
-            (hari) => hari.value === data?.list?.[0]?.hari
-          )[0] ?? undefined,
-        mulai: parseDateFromTime(sesiTerakhir?.waktu_mulai),
-        sampai: parseDateFromTime(sesiTerakhir?.waktu_sampai),
-        mulaiWaktu: sesiTerakhir?.waktu_mulai,
-        sampaiWaktu: sesiTerakhir?.waktu_sampai,
-        ruangan: sesiTerakhir?.id_ruangan
+          hariOptions.filter((hari) => hari.value === data?.hari)[0] ??
+          undefined,
+        mulai: parseDateFromTime(data?.waktu_mulai),
+        sampai: parseDateFromTime(data?.waktu_sampai),
+        mulaiWaktu: data?.waktu_mulai,
+        sampaiWaktu: data?.waktu_sampai,
+        ruangan: data?.id_ruangan
           ? {
-              label: sesiTerakhir?.lokasi_pertemuan,
-              value: sesiTerakhir?.id_ruangan,
+              label: data?.lokasi_pertemuan,
+              value: data?.id_ruangan,
             }
           : undefined,
-        jenisAbsenPeserta: jenisAbsenOptions[0].value,
+        jenisAbsenPeserta: data?.jenis_absensi_peserta,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<TambahSesiFormSchema> = async (data) => {
-    await handleActionWithToast(tambahSesiAction(idKelas, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [
-            'pengguna.ruang-kelas.sesi-pembelajaran.list',
-            'pengajar',
-            idKelas,
-          ],
-        })
-        onHide()
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+  const onSubmit: SubmitHandler<UbahSesiFormSchema> = async (data) => {
+    if (!id) return
+
+    await handleActionWithToast(
+      processApi(ubahSesiPembelajaranApi, idKelas, id, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.list',
+              'pengajar',
+              idKelas,
+            ],
+          })
+          onHide()
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   const handleClose = () => {
@@ -160,9 +156,9 @@ export default function TambahSesiModal({
 
   return (
     <Modal
-      title="Tambah Sesi Pembelajaran"
+      title="Ubah Sesi Pembelajaran"
       isLoading={!isLoading && isFetching}
-      color="primary"
+      color="warning"
       size="lg"
       isOpen={show}
       onClose={handleClose}
@@ -171,7 +167,7 @@ export default function TambahSesiModal({
       {isLoading ? (
         <Loader height={154} />
       ) : (
-        <Form<TambahSesiFormSchema>
+        <Form<UbahSesiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -273,6 +269,7 @@ export default function TambahSesiModal({
                 submit="Simpan"
                 isSubmitting={isSubmitting}
                 onCancel={handleClose}
+                submitColor="warning"
                 borderTop
               />
             </>

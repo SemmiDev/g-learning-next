@@ -15,7 +15,7 @@ export type DataType = {
   peran: 'Pengajar' | 'Peserta'
 }
 
-export const listPesertaKelasApi = async ({
+export const listAnggotaKelasApi = async ({
   jwt,
   page = 1,
   search = '',
