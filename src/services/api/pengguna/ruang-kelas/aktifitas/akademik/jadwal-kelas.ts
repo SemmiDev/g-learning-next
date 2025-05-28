@@ -30,6 +30,7 @@ export type DataType = {
   swafoto: string | null
   created_at: string
   updated_at: string
+  nama_pengajar: string
   lokasi_pertemuan: string
   id_kelas_semester: string
   total_bahan_ajar: number

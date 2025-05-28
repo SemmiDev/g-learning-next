@@ -120,22 +120,32 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
           {isLoading ? (
             <Loader className="py-4" />
           ) : data ? (
-            <div className="flex flex-col [&:not(:last-child)]:border-b border-b-muted px-1 py-2">
+            <div className="flex flex-col gap-y-1 [&:not(:last-child)]:border-b border-b-muted px-1 py-2">
               <div className="flex items-center flex-wrap gap-x-2">
                 <Text weight="semibold">{data.judul}</Text>
-                {data.status !== 'Telah Berakhir' && (
-                  <Badge
-                    size="sm"
-                    variant="flat"
-                    color={
-                      data.status === 'Sedang Berlangsung' ? 'success' : 'gray'
-                    }
-                  >
-                    {data.status === 'Sedang Berlangsung'
-                      ? 'Sesi sedang berlangsung'
-                      : 'Sesi belum dimulai'}
-                  </Badge>
-                )}
+
+                <div className="flex gap-x-2 gap-y-1 flex-wrap">
+                  {data.status !== 'Belum Dibuka' && (
+                    <Badge size="sm" variant="outline" color="gray">
+                      {data.nama_pengajar}
+                    </Badge>
+                  )}
+                  {data.status !== 'Telah Berakhir' && (
+                    <Badge
+                      size="sm"
+                      variant="flat"
+                      color={
+                        data.status === 'Sedang Berlangsung'
+                          ? 'success'
+                          : 'gray'
+                      }
+                    >
+                      {data.status === 'Sedang Berlangsung'
+                        ? 'Sesi sedang berlangsung'
+                        : 'Sesi belum dimulai'}
+                    </Badge>
+                  )}
+                </div>
               </div>
               <div className="flex gap-x-4 gap-y-1.5 flex-wrap mt-1">
                 <div className="flex items-center gap-x-1">
@@ -164,7 +174,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                   </Text>
                 </div>
               </div>
-              <div className="flex gap-x-2 mt-4">
+              <div className="flex gap-x-2 mt-2">
                 {kelas?.peran === 'Pengajar' && (
                   <Popover>
                     <Popover.Trigger>

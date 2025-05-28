@@ -112,29 +112,36 @@ export default function JadwalAkademik({
             {list.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col [&:not(:last-child)]:border-b border-b-muted px-1 py-2"
+                className="flex flex-col gap-y-1 [&:not(:last-child)]:border-b border-b-muted px-1 py-3"
               >
                 <div className="flex items-center flex-wrap gap-x-2">
                   <Text weight="semibold">
                     {item.nama_kelas} - {item.sub_judul}
                   </Text>
-                  {item.status !== 'Belum Dibuka' && (
-                    <Badge
-                      size="sm"
-                      variant="flat"
-                      color={
-                        item.status === 'Sedang Berlangsung'
-                          ? 'success'
-                          : 'danger'
-                      }
-                    >
-                      {item.status === 'Sedang Berlangsung'
-                        ? 'Sesi sedang berlangsung'
-                        : 'Sesi telah selesai'}
-                    </Badge>
-                  )}
+                  <div className="flex gap-x-2 gap-y-1 flex-wrap">
+                    {item.status !== 'Belum Dibuka' && (
+                      <Badge size="sm" variant="outline" color="gray">
+                        {item.nama_pengajar}
+                      </Badge>
+                    )}
+                    {item.status !== 'Belum Dibuka' && (
+                      <Badge
+                        size="sm"
+                        variant="flat"
+                        color={
+                          item.status === 'Sedang Berlangsung'
+                            ? 'success'
+                            : 'danger'
+                        }
+                      >
+                        {item.status === 'Sedang Berlangsung'
+                          ? 'Sesi sedang berlangsung'
+                          : 'Sesi telah selesai'}
+                      </Badge>
+                    )}
+                  </div>
                 </div>
-                <div className="flex gap-x-4 mt-1">
+                <div className="flex flex-wrap gap-x-4 gap-y-1.5">
                   <div className="flex items-center gap-x-1">
                     <LuPackage className="size-4 text-gray-lighter" />
                     <Text size="sm" weight="medium">
@@ -162,7 +169,7 @@ export default function JadwalAkademik({
                     as="span"
                     size="sm"
                     variant="outline-colorful"
-                    className="w-full mt-3"
+                    className="w-full mt-2"
                   >
                     Lihat Daftar Sesi
                   </Button>
