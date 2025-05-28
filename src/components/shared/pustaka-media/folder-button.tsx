@@ -17,12 +17,14 @@ export default function FolderButton({
   onEdit,
   onDelete,
 }: FolderButtonProps) {
+  const handleOpen = () => onOpen && onOpen(file)
+
   return (
     <>
       <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-3 py-2.5 hover:bg-gray-50/50">
         <div
-          className="flex gap-x-2 items-center flex-1 min-w-0 cursor-pointer"
-          onClick={() => onOpen && onOpen(file)}
+          className="flex gap-x-2 items-center flex-1 min-w-0"
+          onDoubleClick={handleOpen}
         >
           <div className="flex size-11 items-center justify-center shrink-0 rounded-md bg-gray-50 ms-8">
             <BsFolderFill size={20} className="text-primary" />
@@ -47,7 +49,7 @@ export default function FolderButton({
             size="sm"
             variant="outline-hover-colorful"
             color="primary"
-            onClick={() => onOpen && onOpen(file)}
+            onClick={handleOpen}
           >
             <LuFolderSearch />
           </ActionIconTooltip>

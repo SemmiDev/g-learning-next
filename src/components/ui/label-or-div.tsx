@@ -1,13 +1,41 @@
-import { ReactNode } from 'react'
+import {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  LabelHTMLAttributes,
+  ReactNode,
+} from 'react'
 
-export type LabelOrDivProps = {
-  label?: boolean
+type DefaultProps = {
   children: ReactNode
   className?: string
 }
 
-export default function LabelOrDiv({ label, ...props }: LabelOrDivProps) {
-  if (label) return <label {...props} />
+type LabelProps = DetailedHTMLProps<
+  LabelHTMLAttributes<HTMLLabelElement>,
+  HTMLLabelElement
+> &
+  DefaultProps & {
+    label: true
+  }
 
-  return <div {...props} />
+type DivProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+> &
+  DefaultProps & {
+    label?: false
+  }
+
+export type LabelOrDivProps = LabelProps | DivProps
+
+export default function LabelOrDiv(props: LabelOrDivProps) {
+  if (props.label) {
+    const { label, ...otherProps } = props
+
+    return <label {...otherProps} />
+  }
+
+  const { label, ...otherProps } = props
+
+  return <div {...otherProps} />
 }

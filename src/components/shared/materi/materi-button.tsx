@@ -1,10 +1,4 @@
-import {
-  ActionIconTooltip,
-  LabelOrDiv,
-  PustakaMediaFileType,
-  Text,
-  Time,
-} from '@/components/ui'
+import { ActionIconTooltip, LabelOrDiv, Text, Time } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BiTrashAlt } from 'react-icons/bi'
 import {
@@ -34,6 +28,7 @@ export type MateriButtonProps = {
   onDelete?: (materi: MateriItemType) => void
   checked?: boolean
   onChange?(): void
+  onDoubleClick?(): void
 }
 
 export default function MateriButton({
@@ -44,6 +39,7 @@ export default function MateriButton({
   onDelete,
   checked = false,
   onChange,
+  onDoubleClick,
 }: MateriButtonProps) {
   const selectable = !type || materi.type === type
 
@@ -51,6 +47,7 @@ export default function MateriButton({
     <LabelOrDiv
       label={selectable}
       className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+      onDoubleClick={() => onDoubleClick && onDoubleClick()}
     >
       {selectable ? (
         <Radio

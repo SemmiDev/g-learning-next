@@ -23,7 +23,10 @@ export default function KategoriButton({
 
   return (
     <>
-      <div className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-4 py-3 hover:bg-gray-50/50">
+      <div
+        className="flex justify-between items-center gap-x-2 border-b border-b-gray-100 select-none transition duration-200 px-4 py-3 hover:bg-gray-50/50"
+        onDoubleClick={handleOpen}
+      >
         <div
           className="flex gap-x-2 min-w-0 cursor-pointer pe-2"
           onClick={handleOpen}

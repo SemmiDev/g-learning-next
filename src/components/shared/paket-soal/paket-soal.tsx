@@ -9,7 +9,7 @@ import {
   ModalFooterButtons,
   Text,
 } from '@/components/ui'
-import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { listPaketSoalApi } from '@/services/api/shared/paket-soal/list'
@@ -54,7 +54,7 @@ export default function PaketSoal({
 }: PaketSoalProps) {
   const { jwt } = useSessionJwt()
   const { status } = useSession()
-  const size = useAutoSizeMediumModal()
+  const size = useAutoSizeLargeModal()
 
   const [show, setShow] = useState(false)
   const [activeKategori, setActiveKategori] = useState<KategoriItemType>()
@@ -322,8 +322,10 @@ export default function PaketSoal({
                         onDetail={(soal) => doShowLihatSoal(soal.id)}
                         onEdit={(soal) => doShowUbahSoal(soal.id)}
                         checked={checkedSoal?.id === soal.id}
-                        onChange={() => {
-                          setCheckedSoal(soal)
+                        onChange={() => setCheckedSoal(soal)}
+                        onDoubleClick={() => {
+                          doChange(checkedSoal)
+                          setShow(false)
                         }}
                       />
                     ))

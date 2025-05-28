@@ -1,5 +1,12 @@
 import PilihAnggotaKelas from '@/components/shared/anggota-kelas/pilih-anggota'
-import { ButtonSubmit, Card, Shimmer, Text, Thumbnail } from '@/components/ui'
+import {
+  AnggotaKelasItemType,
+  ButtonSubmit,
+  Card,
+  Shimmer,
+  Text,
+  Thumbnail,
+} from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAnggotaKelasApi } from '@/services/api/shared/anggota-kelas/lihat'
@@ -39,6 +46,16 @@ export default function DetailPesertaCard({
     queryKey: ['pengguna.ruang-kelas.peserta.detail', idPeserta],
     queryFn: makeSimpleApiQueryData(lihatAnggotaKelasApi, idKelas, idPeserta),
   })
+
+  const selectedAnggota = data
+    ? ({
+        id: data?.id_peserta,
+        nama: data?.nama,
+        email: data?.email,
+        foto: data?.foto,
+        peran: 'Peserta',
+      } as AnggotaKelasItemType)
+    : undefined
 
   const handlePilihPeserta = async (idPeserta: string) => {
     // wait for modal to close
@@ -98,6 +115,7 @@ export default function DetailPesertaCard({
         show={showPilihPeserta}
         setShow={setShowPilihPeserta}
         onSelect={(val) => handlePilihPeserta(val.id)}
+        defaultValue={selectedAnggota}
         peran="Peserta"
       />
     </>

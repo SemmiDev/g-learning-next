@@ -195,8 +195,10 @@ export default function Kelas({
                     key={kelas.id}
                     kelas={kelas}
                     checked={checkedKelas?.id === kelas.id}
-                    onChange={() => {
-                      setCheckedKelas(kelas)
+                    onChange={() => setCheckedKelas(kelas)}
+                    onDoubleClick={() => {
+                      doChange(kelas)
+                      setShow(false)
                     }}
                   />
                 ))

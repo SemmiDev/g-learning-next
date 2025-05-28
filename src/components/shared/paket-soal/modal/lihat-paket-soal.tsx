@@ -52,21 +52,23 @@ export default function LihatSoalModal({
               </DataRow>
               <DataRow label="Bobot Soal Pilihan Ganda">
                 <table>
-                  <tr>
-                    <td>Benar</td>
-                    <td> : </td>
-                    <td>{data?.bobot_benar || '0'}</td>
-                  </tr>
-                  <tr>
-                    <td>Salah</td>
-                    <td> : </td>
-                    <td>{data?.bobot_salah || '0'}</td>
-                  </tr>
-                  <tr>
-                    <td>Kosong</td>
-                    <td> : </td>
-                    <td>{data?.bobot_kosong || '0'}</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>Benar</td>
+                      <td> : </td>
+                      <td>{data?.bobot_benar || '0'}</td>
+                    </tr>
+                    <tr>
+                      <td>Salah</td>
+                      <td> : </td>
+                      <td>{data?.bobot_salah || '0'}</td>
+                    </tr>
+                    <tr>
+                      <td>Kosong</td>
+                      <td> : </td>
+                      <td>{data?.bobot_kosong || '0'}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </DataRow>
               <DataRow label="Bobot Total Soal Pilihan Ganda">

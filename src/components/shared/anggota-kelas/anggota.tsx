@@ -20,7 +20,7 @@ import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
 import { FieldError } from 'rizzui'
-import AnggotaButton, { AnggotaKelasItemType } from './anggota-button'
+import AnggotaKelasButton, { AnggotaKelasItemType } from './anggota-button'
 import SelectedAnggota from './selected-anggota'
 
 const queryKey = ['shared.anggota.list']
@@ -35,6 +35,7 @@ export type AnggotaKelasProps = {
   error?: string
   errorClassName?: string
   clearable?: boolean
+  defaultValue?: AnggotaKelasItemType
   peran?: 'Pengajar' | 'Peserta'
 }
 
@@ -48,6 +49,7 @@ export default function AnggotaKelas({
   error,
   errorClassName,
   clearable,
+  defaultValue,
   peran,
 }: AnggotaKelasProps) {
   const { jwt } = useSessionJwt()
@@ -194,12 +196,14 @@ export default function AnggotaKelas({
                 <Loader height={320} />
               ) : list.length > 0 ? (
                 list.map((anggota, idx) => (
-                  <AnggotaButton
+                  <AnggotaKelasButton
                     key={anggota.id + idx}
                     anggota={anggota}
                     checked={checkedAnggota?.id === anggota.id}
-                    onChange={() => {
-                      setCheckedAnggota(anggota)
+                    onChange={() => setCheckedAnggota(anggota)}
+                    onDoubleClick={() => {
+                      doChange(checkedAnggota)
+                      setShow(false)
                     }}
                   />
                 ))

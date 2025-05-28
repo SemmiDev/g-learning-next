@@ -15,16 +15,21 @@ export type KelasButtonProps = {
   kelas: KelasItemType
   checked?: boolean
   onChange?(): void
+  onDoubleClick?(): void
 }
 
 export default function KelasButton({
   kelas,
   checked = false,
   onChange,
+  onDoubleClick,
 }: KelasButtonProps) {
   return (
     <>
-      <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
+      <label
+        className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+        onDoubleClick={() => onDoubleClick && onDoubleClick()}
+      >
         <Radio
           name="kelas_radio"
           value={kelas.id}

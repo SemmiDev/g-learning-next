@@ -21,6 +21,7 @@ export type SoalButtonProps = {
   onEdit?: (soal: PaketSoalItemType) => void
   checked?: boolean
   onChange?(): void
+  onDoubleClick?(): void
 }
 
 export default function SoalButton({
@@ -29,6 +30,7 @@ export default function SoalButton({
   onEdit,
   checked = false,
   onChange,
+  onDoubleClick,
 }: SoalButtonProps) {
   const selectable = soal.totalPilihan >= soal.pilihanDigunakan
 
@@ -36,6 +38,7 @@ export default function SoalButton({
     <LabelOrDiv
       label={selectable}
       className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+      onDoubleClick={() => onDoubleClick && onDoubleClick()}
     >
       {selectable ? (
         <Radio

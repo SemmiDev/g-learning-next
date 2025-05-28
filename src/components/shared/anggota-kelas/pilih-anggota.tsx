@@ -26,6 +26,7 @@ export type PilihAnggotaKelasProps = {
   show: boolean
   setShow: (show: boolean) => void
   onSelect?(val: AnggotaKelasItemType): void
+  defaultValue?: AnggotaKelasItemType
   peran?: 'Pengajar' | 'Peserta'
 }
 
@@ -34,6 +35,7 @@ export default function PilihAnggotaKelas({
   show = false,
   setShow,
   onSelect,
+  defaultValue,
   peran,
 }: PilihAnggotaKelasProps) {
   const { jwt } = useSessionJwt()
@@ -43,7 +45,7 @@ export default function PilihAnggotaKelas({
   const [search, setSearch] = useState('')
   const [checkedAnggota, setCheckedAnggota] = useState<
     AnggotaKelasItemType | undefined
-  >()
+  >(defaultValue)
 
   const {
     data: data,
@@ -135,8 +137,10 @@ export default function PilihAnggotaKelas({
                     key={anggota.id + idx}
                     anggota={anggota}
                     checked={checkedAnggota?.id === anggota.id}
-                    onChange={() => {
-                      setCheckedAnggota(anggota)
+                    onChange={() => setCheckedAnggota(anggota)}
+                    onDoubleClick={() => {
+                      onSelect && onSelect(anggota)
+                      setShow(false)
                     }}
                   />
                 ))

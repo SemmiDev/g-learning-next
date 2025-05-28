@@ -13,16 +13,21 @@ export type AnggotaKelasButtonProps = {
   anggota: AnggotaKelasItemType
   checked?: boolean
   onChange?(): void
+  onDoubleClick?(): void
 }
 
 export default function AnggotaKelasButton({
   anggota,
   checked = false,
   onChange,
+  onDoubleClick,
 }: AnggotaKelasButtonProps) {
   return (
     <>
-      <label className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50">
+      <label
+        className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+        onDoubleClick={() => onDoubleClick && onDoubleClick()}
+      >
         <Radio
           name="anggota_radio"
           value={anggota.id}

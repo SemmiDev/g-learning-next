@@ -375,8 +375,10 @@ export default function Materi({
                       onEdit={(materi) => doShowUbahMateri(materi.id)}
                       onDelete={(materi) => setIdHapusMateri(materi.id)}
                       checked={checkedMateri?.id === materi.id}
-                      onChange={() => {
-                        setCheckedMateri(materi)
+                      onChange={() => setCheckedMateri(materi)}
+                      onDoubleClick={() => {
+                        doChange(checkedMateri)
+                        setShow(false)
                       }}
                     />
                   ))

@@ -548,15 +548,21 @@ export default function PustakaMedia({
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center border-b border-b-gray-100 px-3 pb-3">
-                    <Text
-                      weight="medium"
-                      variant="dark"
+                    <Button
+                      fontWeight="semibold"
+                      variant="text"
+                      className="text-gray-dark h-auto p-0"
                       title={currentDrive.name}
+                      onClick={() => {
+                        setActiveDrive(currentDrive.id)
+                        setActiveFolder(undefined)
+                        setListFolder([])
+                      }}
                     >
                       {activeDrive === 'GOOGLE_DRIVE'
                         ? 'Google Drive'
                         : currentDrive.name}
-                    </Text>
+                    </Button>
                     {listFolder.length > 0 &&
                       listFolder.map((folder, idx) => (
                         <div key={folder.id} className="flex items-center">
