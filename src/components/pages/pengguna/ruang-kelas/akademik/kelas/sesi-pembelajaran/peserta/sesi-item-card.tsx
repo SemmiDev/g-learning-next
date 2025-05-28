@@ -100,7 +100,7 @@ export default function PesertaSesiItemCard({
         <div className="flex items-center gap-x-1">
           <LuMapPin className="size-4 text-gray-lighter" />
           <Text size="sm" weight="medium">
-            {sesi.lokasi_pertemuan}
+            {sesi.lokasi_pertemuan || '-'}
           </Text>
         </div>
       </div>

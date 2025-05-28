@@ -35,7 +35,7 @@ export default function PengajarRekapUjianItem({
       )}
       onClick={onClick}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center flex-wrap gap-1">
         <Text
           weight="semibold"
           color={active ? 'primary' : 'gray'}

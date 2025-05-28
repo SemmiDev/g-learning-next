@@ -36,7 +36,7 @@ export default function PengajarRekapTugasItem({
       )}
       onClick={onClick}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center flex-wrap gap-1">
         <Text
           weight="semibold"
           color={active ? 'primary' : 'gray'}

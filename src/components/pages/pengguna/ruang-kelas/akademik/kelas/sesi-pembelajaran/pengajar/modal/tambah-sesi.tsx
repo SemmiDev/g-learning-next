@@ -253,12 +253,7 @@ export default function TambahSesiModal({
                   name="jenisAbsenPeserta"
                   control={control}
                   errors={errors}
-                  label={
-                    <div className="flex items-center text-nowrap">
-                      Jenis Presensi Peserta
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
+                  label="Jenis Presensi Peserta"
                   className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                   groupClassName="flex-wrap gap-x-8 gap-y-4"
                   optionClassNames="w-full xs:w-auto"

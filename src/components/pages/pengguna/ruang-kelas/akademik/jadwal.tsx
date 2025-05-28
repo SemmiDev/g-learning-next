@@ -158,7 +158,7 @@ export default function JadwalAkademik({
                   <div className="flex items-center gap-x-1">
                     <LuMapPin className="size-4 text-gray-lighter" />
                     <Text size="sm" weight="medium">
-                      {item.lokasi_pertemuan}
+                      {item.lokasi_pertemuan || '-'}
                     </Text>
                   </div>
                 </div>

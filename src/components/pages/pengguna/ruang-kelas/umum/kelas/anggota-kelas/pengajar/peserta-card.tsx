@@ -95,7 +95,7 @@ export default function PengajarPesertaCard({
           </Text>
         </div>
         <CardSeparator />
-        <div className="flex justify-between p-2">
+        <div className="flex justify-between gap-2 flex-wrap p-2">
           <Input
             size="sm"
             type="search"

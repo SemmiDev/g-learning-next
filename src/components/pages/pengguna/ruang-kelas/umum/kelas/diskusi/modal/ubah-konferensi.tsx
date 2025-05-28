@@ -199,12 +199,7 @@ export default function UbahKonferensiModal({
                     control={control}
                     options={presensiOptions}
                     errors={errors}
-                    label={
-                      <div className="flex items-center">
-                        Presensi
-                        <BsInfoCircle size={12} className="ml-1" />
-                      </div>
-                    }
+                    label="Presensi"
                     className="flex gap-8 my-2"
                     groupClassName="gap-8"
                     labelClassName="mb-0"

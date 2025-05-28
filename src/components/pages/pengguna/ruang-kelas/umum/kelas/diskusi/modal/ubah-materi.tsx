@@ -222,12 +222,7 @@ export default function UbahMateriModal({
                     control={control}
                     options={presensiOptions}
                     errors={errors}
-                    label={
-                      <div className="flex items-center">
-                        Presensi
-                        <BsInfoCircle size={12} className="ml-1" />
-                      </div>
-                    }
+                    label="Presensi"
                     className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                     groupClassName="flex-wrap gap-x-8 gap-y-4"
                     optionClassNames="w-full xs:w-auto"
@@ -240,12 +235,7 @@ export default function UbahMateriModal({
                       control={control}
                       options={tipePresensiOptions}
                       errors={errors}
-                      label={
-                        <div className="flex items-center text-nowrap">
-                          Atur Presensi
-                          <BsInfoCircle size={12} className="ml-1" />
-                        </div>
-                      }
+                      label="Atur Presensi"
                       className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                       groupClassName="flex-wrap gap-x-8 gap-y-4"
                       optionClassNames="w-full xs:w-auto"

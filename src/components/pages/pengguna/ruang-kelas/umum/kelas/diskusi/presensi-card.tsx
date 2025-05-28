@@ -27,13 +27,13 @@ export default function PresensiCard({ className }: PresensiCardProps) {
           Presensi
         </Title>
         <CardSeparator />
-        <div className="flex justify-between gap-5 px-2 py-3">
+        <div className="flex justify-between gap-5 overflow-x-auto px-2 pt-3 pb-2">
           <PresensiItem status="Hadir" jumlah={data?.total_hadir || 0} />
           <PresensiItem status="Sakit" jumlah={data?.total_sakit || 0} />
           <PresensiItem status="Izin" jumlah={data?.total_izin || 0} />
           <PresensiItem status="Alpha" jumlah={data?.total_alpha || 0} />
         </div>
-        <div className="flex justify-between px-2 pb-2">
+        <div className="flex justify-between px-2 pt-1 pb-2">
           <Text size="sm" weight="medium" variant="lighter">
             Total keseluruhan presensi: <b>{data?.total_keseluruhan_absensi}</b>
           </Text>

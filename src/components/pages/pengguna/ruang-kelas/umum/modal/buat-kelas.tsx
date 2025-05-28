@@ -169,12 +169,7 @@ export default function BuatKelasModal({
                   options={tipeOptions}
                   errors={errors}
                   groupClassName="gap-x-8"
-                  label={
-                    <div className="flex items-center">
-                      Tipe Kelas
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
+                  label="Tipe Kelas"
                 />
 
                 <div>

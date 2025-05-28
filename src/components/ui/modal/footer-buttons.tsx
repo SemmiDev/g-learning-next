@@ -5,7 +5,7 @@ import ButtonSubmit from '../button/submit'
 
 type ModalFooterButtonsProps = {
   size?: 'sm' | 'md' | 'lg' | 'xl'
-  submit?: string
+  submit?: ReactNode
   submitColor?: ButtonColors
   submitVariant?: ButtonVariants
   submitClassName?: string

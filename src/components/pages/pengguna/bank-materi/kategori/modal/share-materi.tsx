@@ -13,19 +13,15 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { shareMateriBankMateriApi } from '@/services/api/pengguna/bank-materi/share-materi'
 import { handleActionWithToast } from '@/utils/action'
-import cn from '@/utils/class-names'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import {
-  BsClipboardPlus,
-  BsFileEarmarkRichtext,
-  BsInfoCircle,
-} from 'react-icons/bs'
+import { BsFileEarmarkRichtext, BsInfoCircle } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 
 const baseFs = z.object({
@@ -84,6 +80,7 @@ export default function ShareMateriModal({
   onHide,
 }: ShareMateriModalProps) {
   const { processApi } = useSessionJwt()
+  const size = useAutoSizeLargeModal()
 
   const [formError, setFormError] = useState<string>()
 
@@ -109,8 +106,8 @@ export default function ShareMateriModal({
 
   return (
     <Modal
-      title={`Bagikan ${materi?.type} ke kelas`}
-      size="lg"
+      title={`Bagikan materi ke kelas`}
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -122,25 +119,14 @@ export default function ShareMateriModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
               <div className="flex gap-x-2 border border-dashed border-muted rounded-md p-2">
-                <div
-                  className={cn(
-                    'flex size-11 items-center justify-center rounded-md',
-                    {
-                      'btn-item-green': materi?.type === 'materi',
-                      'btn-item-violet': materi?.type === 'tugas',
-                    }
-                  )}
-                >
-                  {materi?.type === 'tugas' ? (
-                    <BsClipboardPlus size={22} />
-                  ) : (
-                    <BsFileEarmarkRichtext size={22} />
-                  )}
+                <div className="flex size-11 items-center justify-center rounded-md btn-item-green">
+                  <BsFileEarmarkRichtext size={22} />
                 </div>
                 <div className="flex flex-col">
                   <Text
@@ -176,12 +162,7 @@ export default function ShareMateriModal({
                 name="presensi"
                 control={control}
                 errors={errors}
-                label={
-                  <div className="flex items-center">
-                    Presensi
-                    <BsInfoCircle size={12} className="ml-1" />
-                  </div>
-                }
+                label="Presensi"
                 className="flex gap-x-8 my-2"
                 groupClassName="gap-x-4 lg:gap-x-8"
                 labelClassName="mb-0"
@@ -192,12 +173,7 @@ export default function ShareMateriModal({
                 <ControlledRadioGroup
                   name="tipe_presensi"
                   control={control}
-                  label={
-                    <div className="flex items-center text-nowrap">
-                      Atur Presensi
-                      <BsInfoCircle size={12} className="shrink-0 ml-1" />
-                    </div>
-                  }
+                  label="Atur Presensi"
                   className="flex gap-x-8 my-2"
                   groupClassName="flex-wrap gap-x-4 lg:gap-x-8"
                   labelClassName="mb-0"

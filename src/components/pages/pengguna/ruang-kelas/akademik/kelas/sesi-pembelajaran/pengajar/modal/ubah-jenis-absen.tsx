@@ -151,12 +151,7 @@ export default function UbahJenisAbsenSesiModal({
                   name="jenis"
                   control={control}
                   errors={errors}
-                  label={
-                    <div className="flex items-center text-nowrap">
-                      Jenis Presensi
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
+                  label="Jenis Presensi"
                   className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                   groupClassName="flex-wrap gap-x-8 gap-y-4"
                   optionClassNames="w-full xs:w-auto"

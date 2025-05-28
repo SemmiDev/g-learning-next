@@ -11,15 +11,15 @@ import {
   Text,
   Time,
 } from '@/components/ui'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { shareTugasBankMateriApi } from '@/services/api/pengguna/bank-materi/share-tugas'
 import { handleActionWithToast } from '@/utils/action'
-import cn from '@/utils/class-names'
 import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsClipboardPlus, BsFileEarmarkRichtext } from 'react-icons/bs'
+import { BsClipboardPlus } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 
 const baseFs = z.object({
@@ -62,6 +62,7 @@ export default function ShareTugasModal({
   onHide,
 }: ShareTugasModalProps) {
   const { processApi } = useSessionJwt()
+  const size = useAutoSizeLargeModal()
 
   const [formError, setFormError] = useState<string>()
 
@@ -87,8 +88,8 @@ export default function ShareTugasModal({
 
   return (
     <Modal
-      title={`Bagikan ${materi?.type} ke kelas`}
-      size="lg"
+      title={`Bagikan tugas ke kelas`}
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow
@@ -100,25 +101,14 @@ export default function ShareTugasModal({
           mode: 'onSubmit',
           defaultValues: initialValues,
         }}
+        flexing
       >
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
               <div className="flex gap-x-2 border border-dashed border-muted rounded-md p-2">
-                <div
-                  className={cn(
-                    'flex size-11 items-center justify-center rounded-md',
-                    {
-                      'btn-item-green': materi?.type === 'materi',
-                      'btn-item-violet': materi?.type === 'tugas',
-                    }
-                  )}
-                >
-                  {materi?.type === 'tugas' ? (
-                    <BsClipboardPlus size={22} />
-                  ) : (
-                    <BsFileEarmarkRichtext size={22} />
-                  )}
+                <div className="flex size-11 items-center justify-center rounded-md btn-item-violet">
+                  <BsClipboardPlus size={22} />
                 </div>
                 <div className="flex flex-col">
                   <Text

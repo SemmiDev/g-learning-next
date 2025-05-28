@@ -8,6 +8,7 @@ import {
   PustakaMediaFileType,
 } from '@/components/ui'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatBankMateriApi } from '@/services/api/pengguna/bank-materi/lihat'
 import cn from '@/utils/class-names'
@@ -28,6 +29,7 @@ export default function LihatMateriModal({
   onHide,
 }: LihatMateriModalProps) {
   const { makeSimpleApiQueryData } = useSessionJwt()
+  const size = useAutoSizeLargeModal()
 
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -58,51 +60,57 @@ export default function LihatMateriModal({
     <>
       <Modal
         title="Detail Bank Materi"
+        size={size}
         isLoading={!isLoading && isFetching}
         isOpen={show}
         onClose={onHide}
+        bodyClassName="justify-between"
       >
         {isLoading ? (
           <Loader height={330} />
         ) : (
           <>
-            <table className="w-[calc(100%-1.5rem)] mx-3 my-1.5">
-              <tbody>
-                <DataRow label="Tipe">
-                  {data?.bank_ajar.tipe
-                    ? data?.bank_ajar.tipe === 'Materi'
-                      ? 'Materi'
-                      : 'Tugas'
-                    : '-'}
-                </DataRow>
-                <DataRow label="Judul">{data?.bank_ajar.judul || '-'}</DataRow>
-                <DataRow label="Catatan" className="font-medium">
-                  <SanitizeHTML html={data?.bank_ajar.deskripsi || '-'} />
-                </DataRow>
-                <DataRow label="Berkas">
-                  <div className="flex flex-col gap-y-2">
-                    {files.length > 0
-                      ? files.map((file) => (
-                          <FileListItem
-                            key={file.id}
-                            file={file}
-                            onPreview={(file) => {
-                              if (!file.link) return
-
-                              setFilePreview({
-                                url: file.link,
-                                extension: file.extension,
-                                image: file.type === 'image',
-                              })
-                            }}
-                            download
-                          />
-                        ))
+            <div className="overflow-auto px-3">
+              <table className="w-full">
+                <tbody>
+                  <DataRow label="Tipe">
+                    {data?.bank_ajar.tipe
+                      ? data?.bank_ajar.tipe === 'Materi'
+                        ? 'Materi'
+                        : 'Tugas'
                       : '-'}
-                  </div>
-                </DataRow>
-              </tbody>
-            </table>
+                  </DataRow>
+                  <DataRow label="Judul">
+                    {data?.bank_ajar.judul || '-'}
+                  </DataRow>
+                  <DataRow label="Catatan" className="font-medium">
+                    <SanitizeHTML html={data?.bank_ajar.deskripsi || '-'} />
+                  </DataRow>
+                  <DataRow label="Berkas">
+                    <div className="flex flex-col gap-y-2">
+                      {files.length > 0
+                        ? files.map((file) => (
+                            <FileListItem
+                              key={file.id}
+                              file={file}
+                              onPreview={(file) => {
+                                if (!file.link) return
+
+                                setFilePreview({
+                                  url: file.link,
+                                  extension: file.extension,
+                                  image: file.type === 'image',
+                                })
+                              }}
+                              download
+                            />
+                          ))
+                        : '-'}
+                    </div>
+                  </DataRow>
+                </tbody>
+              </table>
+            </div>
           </>
         )}
 

@@ -176,7 +176,7 @@ export default function PesertaDaftarTugasSection() {
               return (
                 <div
                   key={item.id}
-                  className="flex justify-between items-center gap-x-2 p-2 [&:not(:last-child)]:border-b border-b-gray-100"
+                  className="flex flex-col gap-2 p-2 [&:not(:last-child)]:border-b border-b-gray-100 sm:flex-row sm:justify-between sm:items-center"
                 >
                   <div className="flex flex-col">
                     <Text weight="semibold" variant="dark">
@@ -208,7 +208,7 @@ export default function PesertaDaftarTugasSection() {
                       color={
                         sudah ? 'success' : !terlambat ? 'primary' : 'danger'
                       }
-                      className="text-center"
+                      className="w-full"
                     >
                       {sudah
                         ? 'Sudah Mengumpulkan'

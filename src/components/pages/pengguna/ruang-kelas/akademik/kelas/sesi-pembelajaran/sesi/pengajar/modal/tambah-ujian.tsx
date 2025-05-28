@@ -239,12 +239,7 @@ export default function TambahUjianSesiModal({
                   control={control}
                   options={acakOptions}
                   errors={errors}
-                  label={
-                    <div className="flex items-center">
-                      Acak Soal Pilihan Ganda
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
+                  label="Acak Soal Pilihan Ganda"
                   className="mb-1.5"
                   groupClassName="gap-8"
                 />
@@ -254,12 +249,7 @@ export default function TambahUjianSesiModal({
                   control={control}
                   options={acakOptions}
                   errors={errors}
-                  label={
-                    <div className="flex items-center">
-                      Acak Jawaban
-                      <BsInfoCircle size={12} className="ml-1" />
-                    </div>
-                  }
+                  label="Acak Jawaban"
                   className="mb-1.5"
                   groupClassName="gap-8"
                 />

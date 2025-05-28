@@ -170,7 +170,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                 <div className="flex items-center gap-x-1">
                   <LuMapPin className="size-4 text-gray-lighter" />
                   <Text size="sm" weight="medium">
-                    {data.lokasi_pertemuan}
+                    {data.lokasi_pertemuan || '-'}
                   </Text>
                 </div>
               </div>
