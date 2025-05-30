@@ -78,7 +78,7 @@ export default function DetailPesertaCard({
         )}
       >
         <div
-          className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer p-2 lg:w-8/12"
+          className="flex justify-between items-center w-full border border-gray-100 rounded-md bg-gray-50 cursor-pointer gap-x-2 p-2 lg:w-8/12"
           onClick={() => setShowPilihPeserta(true)}
         >
           <div className="flex items-center gap-x-2">
@@ -88,15 +88,20 @@ export default function DetailPesertaCard({
               size={48}
               avatar={data?.nama ?? ''}
             />
-            <Text weight="semibold" variant="dark">
+            <Text
+              weight="semibold"
+              variant="dark"
+              className="text-sm sm:text-base"
+            >
               {data?.nama || '-'}
             </Text>
           </div>
-          <div className="flex items-center gap-x-4">
+          <div className="flex items-center gap-x-2 sm:gap-x-4">
             <Text
               weight="semibold"
               color={sudahDinilai ? 'primary' : 'gray'}
               variant={sudahDinilai ? 'default' : 'lighter'}
+              className="text-sm sm:text-base"
             >
               {sudahDinilai ? 'Sudah Dinilai' : 'Belum Dinilai'}
             </Text>

@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  Button,
-  CardSeparator,
-  Input,
-  Label,
-  Loader,
-  Modal,
-  Text,
-} from '@/components/ui'
+import { Button, Input, Label, Loader, Modal, Text } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listAnggotaKelasApi } from '@/services/api/shared/anggota-kelas/list'
@@ -173,76 +165,72 @@ export default function AnggotaKelas({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetching}
+        bodyClassName="justify-between"
       >
-        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
-          <div className="flex flex-col min-h-[400px]">
-            <div className="flex justify-between gap-x-2 border-b border-muted p-3">
-              <Input
-                size="sm"
-                type="search"
-                placeholder={`Cari ${desc}`}
-                clearable
-                className="flex-1"
-                prefix={
-                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
-                }
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onClear={() => setSearch('')}
-              />
-            </div>
-            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
-              {isLoading || (!list.length && isFetching) ? (
-                <Loader height={320} />
-              ) : list.length > 0 ? (
-                list.map((anggota, idx) => (
-                  <AnggotaKelasButton
-                    key={anggota.id + idx}
-                    anggota={anggota}
-                    checked={checkedAnggota?.id === anggota.id}
-                    onChange={() => setCheckedAnggota(anggota)}
-                    onDoubleClick={() => {
-                      doChange(checkedAnggota)
-                      setShow(false)
-                    }}
-                  />
-                ))
-              ) : (
-                <div className="flex items-center justify-center h-80">
-                  <Text size="sm" weight="medium">
-                    {search ? `${desc} tidak ditemukan` : `Belum ada ${desc}`}
-                  </Text>
-                </div>
-              )}
-              {!isLoading && hasNextPage && (
-                <Loader ref={refSentry} size="sm" className="py-4" />
-              )}
-            </div>
+        <div className="flex flex-col min-h-[400px]">
+          <div className="flex justify-between gap-x-2 border-b border-muted p-3">
+            <Input
+              size="sm"
+              type="search"
+              placeholder={`Cari ${desc}`}
+              clearable
+              className="flex-1"
+              prefix={
+                <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+              }
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onClear={() => setSearch('')}
+            />
           </div>
-          <div>
-            <CardSeparator />
-            <div className="flex justify-end gap-x-2 p-3">
-              <Button
-                size="sm"
-                className="w-36"
-                onClick={() => {
-                  doChange(checkedAnggota)
-                  setShow(false)
-                }}
-                disabled={!checkedAnggota}
-              >
-                Pilih {desc}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="w-36"
-                onClick={() => setShow(false)}
-              >
-                Batal
-              </Button>
-            </div>
+          <div className="flex flex-col overflow-y-auto sm:max-h-[400px]">
+            {isLoading || (!list.length && isFetching) ? (
+              <Loader height={320} />
+            ) : list.length > 0 ? (
+              list.map((anggota, idx) => (
+                <AnggotaKelasButton
+                  key={anggota.id + idx}
+                  anggota={anggota}
+                  checked={checkedAnggota?.id === anggota.id}
+                  onChange={() => setCheckedAnggota(anggota)}
+                  onDoubleClick={() => {
+                    doChange(checkedAnggota)
+                    setShow(false)
+                  }}
+                />
+              ))
+            ) : (
+              <div className="flex items-center justify-center h-80">
+                <Text size="sm" weight="medium">
+                  {search ? `${desc} tidak ditemukan` : `Belum ada ${desc}`}
+                </Text>
+              </div>
+            )}
+            {!isLoading && hasNextPage && (
+              <Loader ref={refSentry} size="sm" className="py-4" />
+            )}
           </div>
+        </div>
+        <div className="flex gap-x-2 border-t border-t-muted p-3 sm:justify-end">
+          <Button
+            size="sm"
+            className="w-full sm:w-36"
+            onClick={() => {
+              doChange(checkedAnggota)
+              setShow(false)
+            }}
+            disabled={!checkedAnggota}
+          >
+            Pilih {desc}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            className="w-full sm:w-36"
+            onClick={() => setShow(false)}
+          >
+            Batal
+          </Button>
         </div>
       </Modal>
     </>

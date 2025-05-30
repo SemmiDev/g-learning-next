@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  Button,
-  CardSeparator,
-  Input,
-  Label,
-  Loader,
-  Modal,
-  Text,
-} from '@/components/ui'
+import { Button, Input, Label, Loader, Modal, Text } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKelasApi } from '@/services/api/shared/kelas/list'
@@ -168,76 +160,72 @@ export default function Kelas({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingKelas}
+        bodyClassName="justify-between"
       >
-        <div className="flex flex-col justify-between min-h-[calc(100vh-57px)] lg:min-h-full">
-          <div className="flex flex-col min-h-[400px]">
-            <div className="flex justify-between gap-x-2 border-b border-muted p-3">
-              <Input
-                size="sm"
-                type="search"
-                placeholder="Cari Kelas"
-                clearable
-                className="flex-1"
-                prefix={
-                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
-                }
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onClear={() => setSearch('')}
-              />
-            </div>
-            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
-              {isLoadingKelas || (!listKelas.length && isFetchingKelas) ? (
-                <Loader height={320} />
-              ) : listKelas.length > 0 ? (
-                listKelas.map((kelas) => (
-                  <KelasButton
-                    key={kelas.id}
-                    kelas={kelas}
-                    checked={checkedKelas?.id === kelas.id}
-                    onChange={() => setCheckedKelas(kelas)}
-                    onDoubleClick={() => {
-                      doChange(kelas)
-                      setShow(false)
-                    }}
-                  />
-                ))
-              ) : (
-                <div className="flex items-center justify-center h-80">
-                  <Text size="sm" weight="medium">
-                    {search ? 'Kelas tidak ditemukan' : 'Belum ada Kelas'}
-                  </Text>
-                </div>
-              )}
-              {!isLoadingKelas && hasNextPageKelas && (
-                <Loader ref={refSentry} size="sm" className="py-4" />
-              )}
-            </div>
+        <div className="flex flex-col min-h-[400px]">
+          <div className="flex justify-between gap-x-2 border-b border-muted p-3">
+            <Input
+              size="sm"
+              type="search"
+              placeholder="Cari Kelas"
+              clearable
+              className="flex-1"
+              prefix={
+                <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+              }
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onClear={() => setSearch('')}
+            />
           </div>
-          <div>
-            <CardSeparator />
-            <div className="flex justify-end gap-x-2 p-3">
-              <Button
-                size="sm"
-                className="w-36"
-                onClick={() => {
-                  doChange(checkedKelas)
-                  setShow(false)
-                }}
-                disabled={!checkedKelas}
-              >
-                Pilih Kelas
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="w-36"
-                onClick={() => setShow(false)}
-              >
-                Batal
-              </Button>
-            </div>
+          <div className="flex flex-col overflow-y-auto sm:max-h-[400px]">
+            {isLoadingKelas || (!listKelas.length && isFetchingKelas) ? (
+              <Loader height={320} />
+            ) : listKelas.length > 0 ? (
+              listKelas.map((kelas) => (
+                <KelasButton
+                  key={kelas.id}
+                  kelas={kelas}
+                  checked={checkedKelas?.id === kelas.id}
+                  onChange={() => setCheckedKelas(kelas)}
+                  onDoubleClick={() => {
+                    doChange(kelas)
+                    setShow(false)
+                  }}
+                />
+              ))
+            ) : (
+              <div className="flex items-center justify-center h-80">
+                <Text size="sm" weight="medium">
+                  {search ? 'Kelas tidak ditemukan' : 'Belum ada Kelas'}
+                </Text>
+              </div>
+            )}
+            {!isLoadingKelas && hasNextPageKelas && (
+              <Loader ref={refSentry} size="sm" className="py-4" />
+            )}
           </div>
+        </div>
+        <div className="flex gap-x-2 border-t border-t-muted p-3 sm:justify-end">
+          <Button
+            size="sm"
+            className="w-full sm:w-36"
+            onClick={() => {
+              doChange(checkedKelas)
+              setShow(false)
+            }}
+            disabled={!checkedKelas}
+          >
+            Pilih Kelas
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            className="w-full sm:w-36"
+            onClick={() => setShow(false)}
+          >
+            Batal
+          </Button>
         </div>
       </Modal>
     </>

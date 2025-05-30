@@ -13,6 +13,7 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { NAMA_HARI } from '@/config/const'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { ruanganMakeSelectDataApi } from '@/services/api/pengguna/ruang-kelas/async-select/ruangan'
 import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
@@ -27,7 +28,6 @@ import moment from 'moment'
 import { useParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
@@ -77,6 +77,7 @@ export default function UbahSesiModal({
   onHide,
 }: UbahSesiModalProps) {
   const { processApi } = useSessionJwt()
+  const size = useAutoSizeLargeModal()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -159,7 +160,7 @@ export default function UbahSesiModal({
       title="Ubah Sesi Pembelajaran"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow

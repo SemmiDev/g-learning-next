@@ -39,12 +39,14 @@ export default function QRCodeBody({ sesi }: { sesi: DataSesiType }) {
     <div className="flex justify-center items-center h-screen">
       <div className="w-fit">
         {qrCodeData && (
-          <div className="flex flex-col items-center gap-4">
-            <Title>QR Code Presensi: {sesi.judul}</Title>
+          <div className="flex flex-col items-center gap-6 px-3 sm:gap-4">
+            <Title align="center" className="text-xl xs:text-2xl sm:text-3xl">
+              QR Code Presensi: {sesi.judul}
+            </Title>
             <QRCodeSVG
               size={600}
               value={qrCodeData}
-              className="max-w-full max-h-full"
+              className="h-auto max-w-full max-h-full"
             />
           </div>
         )}

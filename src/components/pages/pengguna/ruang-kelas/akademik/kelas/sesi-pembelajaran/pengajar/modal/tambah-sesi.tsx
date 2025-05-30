@@ -13,6 +13,7 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { NAMA_HARI } from '@/config/const'
+import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { tambahSesiAction } from '@/services/actions/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/tambah-sesi'
 import { ruanganMakeSelectDataApi } from '@/services/api/pengguna/ruang-kelas/async-select/ruangan'
@@ -27,7 +28,6 @@ import moment from 'moment'
 import { useParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
 
 const formSchema = z.object({
   pertemuan: z.number(),
@@ -77,6 +77,7 @@ export default function TambahSesiModal({
   onHide,
 }: TambahSesiModalProps) {
   const { jwt } = useSessionJwt()
+  const size = useAutoSizeLargeModal()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
@@ -163,7 +164,7 @@ export default function TambahSesiModal({
       title="Tambah Sesi Pembelajaran"
       isLoading={!isLoading && isFetching}
       color="primary"
-      size="lg"
+      size={size}
       isOpen={show}
       onClose={handleClose}
       overflow

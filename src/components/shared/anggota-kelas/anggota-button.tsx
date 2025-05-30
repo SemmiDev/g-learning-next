@@ -23,49 +23,47 @@ export default function AnggotaKelasButton({
   onDoubleClick,
 }: AnggotaKelasButtonProps) {
   return (
-    <>
-      <label
-        className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
-        onDoubleClick={() => onDoubleClick && onDoubleClick()}
-      >
-        <Radio
-          name="anggota_radio"
-          value={anggota.id}
-          size="sm"
-          className="px-4"
-          checked={checked}
-          onChange={() => onChange && onChange()}
+    <label
+      className="flex items-center select-none transition duration-200 border-b border-b-muted py-3 hover:bg-gray-50/50"
+      onDoubleClick={() => onDoubleClick && onDoubleClick()}
+    >
+      <Radio
+        name="anggota_radio"
+        value={anggota.id}
+        size="sm"
+        className="px-4"
+        checked={checked}
+        onChange={() => onChange && onChange()}
+      />
+      <div className="flex flex-1 items-center gap-x-2">
+        <Thumbnail
+          src={anggota.foto}
+          alt="profil"
+          size={40}
+          avatar={anggota.nama}
         />
-        <div className="flex flex-1 items-center gap-x-2">
-          <Thumbnail
-            src={anggota.foto}
-            alt="profil"
-            size={40}
-            avatar={anggota.nama}
-          />
 
-          <div className="flex flex-col">
-            <Text
-              size="sm"
-              weight="semibold"
-              variant="dark"
-              title={anggota.nama}
-              className="truncate"
-            >
-              {anggota.nama}
-            </Text>
+        <div className="flex flex-col">
+          <Text
+            size="sm"
+            weight="semibold"
+            variant="dark"
+            title={anggota.nama}
+            className="truncate"
+          >
+            {anggota.nama}
+          </Text>
 
-            <Text
-              size="xs"
-              weight="medium"
-              variant="lighter"
-              className="truncate"
-            >
-              {anggota.email || '-'}
-            </Text>
-          </div>
+          <Text
+            size="xs"
+            weight="medium"
+            variant="lighter"
+            className="truncate"
+          >
+            {anggota.email || '-'}
+          </Text>
         </div>
-      </label>
-    </>
+      </div>
+    </label>
   )
 }

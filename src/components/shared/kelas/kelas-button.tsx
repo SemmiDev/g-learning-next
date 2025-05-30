@@ -27,7 +27,7 @@ export default function KelasButton({
   return (
     <>
       <label
-        className="flex items-center border-b border-b-gray-100 select-none transition duration-200 py-3 hover:bg-gray-50/50"
+        className="flex items-center select-none transition duration-200 border-b border-b-muted py-3 hover:bg-gray-50/50"
         onDoubleClick={() => onDoubleClick && onDoubleClick()}
       >
         <Radio
