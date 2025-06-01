@@ -7,12 +7,12 @@ import { redirect } from 'next/navigation'
 
 export const metadata = {
   ...metaObject('Masuk'),
-  other: {
-    'google-site-verification': [
-      'u2vamwZ_XwoqB34XRg08XetvcpxnfEcDQqapnrMZ3Cs',
-      '9IKeuVPZKi0xAsWzuS4oFbLdLX24R4_3HV47TwxDjV0',
-    ],
-  },
+  // other: {
+  //   'google-site-verification': [
+  //     'u2vamwZ_XwoqB34XRg08XetvcpxnfEcDQqapnrMZ3Cs',
+  //     '9IKeuVPZKi0xAsWzuS4oFbLdLX24R4_3HV47TwxDjV0',
+  //   ],
+  // },
 }
 
 export default async function LoginPage() {
