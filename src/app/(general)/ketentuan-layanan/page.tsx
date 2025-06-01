@@ -27,15 +27,15 @@ export default function KetentuanLayananPage() {
               weight="bold"
               className="text-2xl leading-normal text-gray-dark"
             >
-              Ketentuan Layanan Smartthink
+              Ketentuan Layanan Smart Campus
             </Title>
             <Text weight="medium">Tanggal Berlaku: 15 April 2025</Text>
             <Text>
-              Selamat datang di Smartthink, platform Learning Management System
-              (LMS) berbasis web yang dirancang untuk mendukung proses belajar
-              mengajar secara digital. Dengan menggunakan layanan kami, Anda
-              menyetujui untuk terikat dengan ketentuan berikut ini. Harap baca
-              dengan saksama.
+              Selamat datang di Smart Campus, platform Learning Management
+              System (LMS) berbasis web yang dirancang untuk mendukung proses
+              belajar mengajar secara digital. Dengan menggunakan layanan kami,
+              Anda menyetujui untuk terikat dengan ketentuan berikut ini. Harap
+              baca dengan saksama.
             </Text>
           </div>
           <div className="flex flex-col gap-1">
@@ -43,7 +43,7 @@ export default function KetentuanLayananPage() {
               1. Deskripsi Layanan
             </Title>
             <Text>
-              Smartthink adalah platform LMS yang menyediakan layanan seperti:
+              Smart Campus adalah platform LMS yang menyediakan layanan seperti:
             </Text>
             <ul className="text-base list-disc ml-4">
               <li>Pembuatan dan pengelolaan kursus online.</li>
@@ -65,7 +65,7 @@ export default function KetentuanLayananPage() {
               2. Akun Pengguna
             </Title>
             <Text>
-              Untuk menggunakan Smartthink, Anda harus membuat akun. Dengan
+              Untuk menggunakan Smart Campus, Anda harus membuat akun. Dengan
               mendaftar:
             </Text>
             <ul className="text-base list-disc ml-4">
@@ -87,7 +87,7 @@ export default function KetentuanLayananPage() {
             <Title as="h4" className="mt-1">
               3. Hak dan Kewajiban Pengguna
             </Title>
-            <Text>Sebagai pengguna Smartthink:</Text>
+            <Text>Sebagai pengguna Smart Campus:</Text>
             <ul className="text-base list-disc ml-4">
               <li>
                 Anda berhak mengakses materi pembelajaran sesuai dengan peran
@@ -110,7 +110,7 @@ export default function KetentuanLayananPage() {
             <Text>
               Konten pembelajaran yang diunggah oleh pengguna (pengajar atau
               institusi) tetap menjadi milik pengguna tersebut. Namun, dengan
-              mengunggah ke platform Smartthink, Anda memberikan kami lisensi
+              mengunggah ke platform Smart Campus, Anda memberikan kami lisensi
               non-eksklusif untuk menyimpan dan menampilkan konten tersebut
               dalam konteks layanan.
             </Text>
@@ -121,13 +121,14 @@ export default function KetentuanLayananPage() {
             </Title>
             <Text>Pengguna dilarang:</Text>
             <ul className="text-base list-disc ml-4">
-              <li>Menggunakan Smartthink untuk aktivitas ilegal.</li>
+              <li>Menggunakan Smart Campus untuk aktivitas ilegal.</li>
               <li>
                 Menyalin, menjual, atau mendistribusikan kembali konten atau
                 materi tanpa izin.
               </li>
               <li>
-                Mengganggu atau mencoba merusak sistem atau keamanan Smartthink.
+                Mengganggu atau mencoba merusak sistem atau keamanan Smart
+                Campus.
               </li>
             </ul>
           </div>
@@ -157,7 +158,7 @@ export default function KetentuanLayananPage() {
               8. Penafian dan Batas Tanggung Jawab
             </Title>
             <Text>
-              Smartthink disediakan sebagaimana adanya. Kami tidak menjamin
+              Smart Campus disediakan sebagaimana adanya. Kami tidak menjamin
               bahwa layanan akan selalu tersedia tanpa gangguan. Kami tidak
               bertanggung jawab atas kerugian langsung atau tidak langsung
               akibat penggunaan layanan ini.
@@ -173,7 +174,8 @@ export default function KetentuanLayananPage() {
             </Text>
             <div className="font-medium">
               <TextSpan className="inline-flex items-center gap-1.5">
-                <BsEnvelope className="size-3" /> Email: support@smartthink.com
+                <BsEnvelope className="size-3" /> Email:
+                support@smartcampus.co.id
               </TextSpan>
               <br />
               <TextSpan className="inline-flex items-center gap-1.5">

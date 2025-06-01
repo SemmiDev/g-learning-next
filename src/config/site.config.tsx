@@ -9,7 +9,7 @@ enum MODE {
 }
 
 export const siteConfig = {
-  title: 'Smartthink',
+  title: 'Smart Campus',
   description: `Learning management system (LMS).`,
   logo: logoImg,
   icon: logoIconImg,
@@ -22,13 +22,13 @@ export const metaObject = (
   description: string = siteConfig.description
 ): Metadata => {
   return {
-    title: title ? `${title} - Smartthink` : siteConfig.title,
+    title: title ? `${title} - Smart Campus` : siteConfig.title,
     description,
     // openGraph: openGraph ?? {
-    //   title: title ? `${title} - Smartthink` : title,
+    //   title: title ? `${title} - Smart Campus` : title,
     //   description,
     //   url: 'https://isomorphic-furyroad.vercel.app',
-    //   siteName: 'Smartthink',
+    //   siteName: 'Smart Campus',
     //   images: {
     //     url: 'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/itemdep/isobanner.png',
     //     width: 1200,

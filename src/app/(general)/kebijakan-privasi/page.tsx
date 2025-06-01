@@ -27,12 +27,12 @@ export default function KebijakanPrivasiPage() {
               weight="bold"
               className="text-2xl leading-normal text-gray-dark"
             >
-              Kebijakan Privasi Smartthink
+              Kebijakan Privasi Smart Campus
             </Title>
             <Text weight="medium">Tanggal Berlaku: 15 April 2025</Text>
             <Text>
               Privasi Anda penting bagi kami. Kebijakan Privasi ini menjelaskan
-              bagaimana Smartthink mengumpulkan, menggunakan, menyimpan, dan
+              bagaimana Smart Campus mengumpulkan, menggunakan, menyimpan, dan
               melindungi informasi pribadi Anda saat menggunakan layanan kami.
             </Text>
           </div>
@@ -103,7 +103,7 @@ export default function KebijakanPrivasiPage() {
               </li>
               <li>
                 Penyedia layanan pihak ketiga yang membantu operasional teknis
-                Smartthink, dan telah setuju untuk menjaga kerahasiaan
+                Smart Campus, dan telah setuju untuk menjaga kerahasiaan
                 informasi.
               </li>
               <li>
@@ -145,7 +145,7 @@ export default function KebijakanPrivasiPage() {
             </ul>
             <Text>
               Permintaan dapat diajukan melalui email:{' '}
-              <TextSpan weight="medium">support@smartthink.com</TextSpan>
+              <TextSpan weight="medium">support@smartcampus.co.id</TextSpan>
             </Text>
           </div>
           <div className="flex flex-col gap-1">
@@ -188,7 +188,8 @@ export default function KebijakanPrivasiPage() {
             </Text>
             <div className="font-medium">
               <TextSpan className="inline-flex items-center gap-1.5">
-                <BsEnvelope className="size-3" /> Email: support@smartthink.com
+                <BsEnvelope className="size-3" /> Email:
+                support@smartcampus.co.id
               </TextSpan>
               <br />
               <TextSpan className="inline-flex items-center gap-1.5">

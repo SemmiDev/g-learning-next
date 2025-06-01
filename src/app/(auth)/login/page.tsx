@@ -28,7 +28,7 @@ export default async function LoginPage() {
           dan nikmati <i>resource</i> pembelajaran yang berlimpah
         </>
       }
-      description="Dengan mendaftar di Smartthink, jelajahi sumber belajar yang beragam dan juga dapat terhubung dengan guru, dosen, siswa dan mahasiswa diseluruh indonesia"
+      description="Dengan mendaftar di Smart Campus, jelajahi sumber belajar yang beragam dan juga dapat terhubung dengan guru, dosen, siswa dan mahasiswa diseluruh indonesia"
     >
       <LoginForm
         devMode={
