@@ -153,6 +153,8 @@ export const makeBasicPostRequestAction = async <T extends AnyObject>(
   payload: PayloadType = {}
 ) => {
   try {
+    if (CONSOLE_LOG_REQUEST) console.log('Send POST Request', url, payload)
+
     const res = await fetch(url, {
       method: 'POST',
       headers: {
@@ -162,6 +164,13 @@ export const makeBasicPostRequestAction = async <T extends AnyObject>(
     })
 
     const { success, message, errors, code, data } = await res.json()
+
+    if (CONSOLE_LOG_ON_ERROR && !success) {
+      if (!CONSOLE_LOG_REQUEST) console.log('Send POST Request', url, payload)
+      console.log('Response', { success, message, errors, code, data })
+    } else if (CONSOLE_LOG_RESPONSE) {
+      console.log('Response', { success, message, errors, code, data })
+    }
 
     return makeActionResponse<T>(success, message, errors, code, data)
   } catch (error) {
@@ -182,7 +191,8 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
   params?: GetRequestParamsType
 ) => {
   try {
-    if (CONSOLE_LOG_REQUEST) console.log('Send Request', makeUrl(url, params))
+    if (CONSOLE_LOG_REQUEST)
+      console.log('Send GET Request', makeUrl(url, params))
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -197,7 +207,7 @@ export const makeJwtGetRequestAction = async <T extends AnyObject>(
 
     if (CONSOLE_LOG_ON_ERROR && !success) {
       if (!CONSOLE_LOG_REQUEST)
-        console.log('Send Request', makeUrl(url, params))
+        console.log('Send GET Request', makeUrl(url, params))
       console.log('Response', { success, message, errors, code, data })
     } else if (CONSOLE_LOG_RESPONSE) {
       console.log('Response', { success, message, errors, code, data })
@@ -240,7 +250,7 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
   payload: PayloadType = {}
 ) => {
   try {
-    if (CONSOLE_LOG_REQUEST) console.log('Send Request', url, payload)
+    if (CONSOLE_LOG_REQUEST) console.log(`Send ${method} Request`, url, payload)
 
     const { jwt } = (await getServerSession(authOptions)) ?? {}
 
@@ -260,7 +270,8 @@ const makeJwtDataRequestAction = async <T extends AnyObject>(
     const { success, message, errors, code, data } = await res.json()
 
     if (CONSOLE_LOG_ON_ERROR && !success) {
-      if (!CONSOLE_LOG_REQUEST) console.log('Send Request', url, payload)
+      if (!CONSOLE_LOG_REQUEST)
+        console.log(`Send ${method} Request`, url, payload)
       console.log('Response', { success, message, errors, code, data })
     } else if (CONSOLE_LOG_RESPONSE) {
       console.log('Response', { success, message, errors, code, data })
