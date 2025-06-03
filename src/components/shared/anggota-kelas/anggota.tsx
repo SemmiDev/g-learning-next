@@ -165,6 +165,7 @@ export default function AnggotaKelas({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetching}
+        containerClassName="max-h-screen"
         bodyClassName="justify-between"
       >
         <div className="flex flex-col min-h-[400px]">

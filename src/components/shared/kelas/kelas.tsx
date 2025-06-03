@@ -160,6 +160,7 @@ export default function Kelas({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingKelas}
+        containerClassName="max-h-screen"
         bodyClassName="justify-between"
       >
         <div className="flex flex-col min-h-[400px]">

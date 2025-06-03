@@ -247,6 +247,7 @@ export default function PaketSoal({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingSoal}
+        containerClassName="max-h-screen"
         bodyClassName="justify-between"
       >
         <div className="flex flex-col min-h-[400px]">

@@ -325,6 +325,7 @@ export default function PilihMediaGambar({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingDrives || isFetchingFiles}
+        containerClassName="max-h-screen"
       >
         <div className="flex flex-col justify-between flex-1 min-h-0 xl:min-h-full">
           <div className="grid grid-cols-3 min-h-[400px]">

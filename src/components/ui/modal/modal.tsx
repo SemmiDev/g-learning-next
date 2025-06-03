@@ -11,6 +11,7 @@ export type ModalProps = Omit<RizModalProps, 'onClose'> &
     title?: string
     isLoading?: boolean
     children: ReactNode
+    fixedHeader?: boolean
     headerClassName?: string
     headerIcon?: ModalHeaderProps['icon']
     headerCustomIcon?: ModalHeaderProps['customIcon']
@@ -28,9 +29,11 @@ export default function Modal({
   children,
   size = 'md',
   rounded,
+  fixedHeader,
   overlayClassName,
   headerClassName,
   bodyClassName,
+  containerClassName,
   className,
   overflow,
   closeButton = true,
@@ -49,7 +52,11 @@ export default function Modal({
         className
       )}
       overlayClassName={cn('cursor-auto', overlayClassName)}
-      containerClassName="flex flex-col max-h-screen"
+      containerClassName={cn(
+        'flex flex-col',
+        fixedHeader ? 'max-h-screen' : null,
+        containerClassName
+      )}
       {...props}
     >
       {title && (
@@ -63,7 +70,11 @@ export default function Modal({
         />
       )}
       <div
-        className={cn('modal-body flex flex-col flex-1 min-h-0', bodyClassName)}
+        className={cn(
+          'modal-body flex flex-col flex-1 min-h-0',
+          fixedHeader ? ' overflow-y-auto' : null,
+          bodyClassName
+        )}
       >
         {children}
       </div>
