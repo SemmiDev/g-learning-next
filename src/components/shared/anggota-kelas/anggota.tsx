@@ -53,7 +53,7 @@ export default function AnggotaKelas({
   const [search, setSearch] = useState('')
   const [checkedAnggota, setCheckedAnggota] = useState<
     AnggotaKelasItemType | undefined
-  >()
+  >(defaultValue)
   const [selectedAnggota, setSelectedAnggota] = useState<
     AnggotaKelasItemType | undefined
   >(value)

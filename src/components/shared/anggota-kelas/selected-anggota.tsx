@@ -14,8 +14,8 @@ export default function SelectedAnggota({
   onRemove,
 }: SelectedFileProps) {
   return (
-    <div className="flex justify-between items-center flex-1 gap-2">
-      <div className="flex items-center gap-x-2">
+    <div className="flex justify-between items-center flex-1 gap-2 min-w-0">
+      <div className="flex items-center gap-x-2 min-w-0">
         <Thumbnail
           src={anggota.foto}
           alt="profil"
@@ -23,7 +23,7 @@ export default function SelectedAnggota({
           avatar={anggota.nama}
         />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <Text
             size="sm"
             weight="semibold"

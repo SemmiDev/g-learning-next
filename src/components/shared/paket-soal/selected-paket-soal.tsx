@@ -14,7 +14,7 @@ export default function SelectedSoal({ soal, onRemove }: SelectedFileProps) {
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex gap-x-2">
-        <div className="flex size-11 items-center justify-center rounded-md btn-item-blue mr-2">
+        <div className="flex size-11 items-center justify-center rounded-md btn-item-blue shrink-0 mr-2">
           <BsCardChecklist size={22} />
         </div>
         <div className="flex flex-col">

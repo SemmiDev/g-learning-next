@@ -247,156 +247,141 @@ export default function PaketSoal({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingSoal}
+        bodyClassName="justify-between"
       >
-        <div className="flex flex-col justify-between flex-1">
-          <div className="flex flex-col min-h-[400px]">
-            <div className="flex p-3">
-              {activeKategori ? (
-                <Input
-                  size="sm"
-                  type="search"
-                  placeholder="Cari Paket Soal"
-                  clearable
-                  className="w-72 sm:w-96"
-                  prefix={
-                    <PiMagnifyingGlass
-                      size={20}
-                      className="text-gray-lighter"
-                    />
-                  }
-                  value={searchSoal}
-                  onChange={(e) => setSearchSoal(e.target.value)}
-                  onClear={() => setSearchSoal('')}
-                />
-              ) : (
-                <Input
-                  size="sm"
-                  type="search"
-                  placeholder="Cari Kategori"
-                  clearable
-                  className="w-72 sm:w-96"
-                  prefix={
-                    <PiMagnifyingGlass
-                      size={20}
-                      className="text-gray-lighter"
-                    />
-                  }
-                  value={searchKategori}
-                  onChange={(e) => setSearchKategori(e.target.value)}
-                  onClear={() => setSearchKategori('')}
-                />
-              )}
-            </div>
-            <div className="flex items-center border-b border-b-gray-100 px-3 pb-3">
-              <Text
-                weight="medium"
-                variant="dark"
-                className={cn({ 'select-none cursor-pointer': activeKategori })}
-                onClick={() => {
-                  activeKategori && setActiveKategori(undefined)
-                  searchSoal && setSearchSoal('')
-                  refetchKategori()
-                }}
-              >
-                Bank Soal
-              </Text>
-              {activeKategori && (
-                <>
-                  <BiChevronRight size={24} />
-                  <Text weight="medium" variant="dark">
-                    {activeKategori.name}
-                  </Text>
-                </>
-              )}
-            </div>
-            <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
-              {activeKategori && (
-                <>
-                  {isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
-                    <Loader height={320} />
-                  ) : listSoal.length > 0 ? (
-                    listSoal.map((soal) => (
-                      <SoalButton
-                        key={soal.id}
-                        soal={soal}
-                        onDetail={(soal) => doShowLihatSoal(soal.id)}
-                        onEdit={(soal) => doShowUbahSoal(soal.id)}
-                        checked={checkedSoal?.id === soal.id}
-                        onChange={() => setCheckedSoal(soal)}
-                        onDoubleClick={() => {
-                          doChange(checkedSoal)
-                          setShow(false)
-                        }}
-                      />
-                    ))
-                  ) : (
-                    <div className="flex items-center justify-center h-80">
-                      <Text size="sm" weight="medium">
-                        {searchSoal ? 'Soal tidak ditemukan' : 'Belum ada soal'}
-                      </Text>
-                    </div>
-                  )}
-                  {!isLoadingSoal && hasNextPageSoal && (
-                    <Loader ref={refSentrySoal} size="sm" className="py-4" />
-                  )}
-                </>
-              )}
-
-              {!activeKategori && (
-                <>
-                  {isLoadingKategori ||
-                  (!listKategori.length && isFetchingKategori) ? (
-                    <Loader height={320} />
-                  ) : listKategori.length > 0 ? (
-                    listKategori.map((kategori) => (
-                      <KategoriButton
-                        key={kategori.id}
-                        kategori={kategori}
-                        onOpen={(kategori) => setActiveKategori(kategori)}
-                        onEdit={(kategori) => doShowUbahKategori(kategori.id)}
-                      />
-                    ))
-                  ) : (
-                    <div className="flex items-center justify-center h-80">
-                      <Text size="sm" weight="medium">
-                        {searchKategori
-                          ? 'Kategori tidak ditemukan'
-                          : 'Belum ada kategori'}
-                      </Text>
-                    </div>
-                  )}
-                  {!isLoadingKategori && hasNextPageKategori && (
-                    <Loader
-                      ref={refSentryKategori}
-                      size="sm"
-                      className="py-4"
-                    />
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-
-          <ModalFooterButtons
-            size="sm"
-            onCancel={() => setShow(false)}
-            borderTop
-          >
-            <div className="flex-1">
-              <Button
+        <div className="flex flex-col min-h-[400px]">
+          <div className="flex justify-between flex-wrap gap-2 p-3">
+            {activeKategori ? (
+              <Input
                 size="sm"
-                className="w-full"
-                onClick={() => {
-                  doChange(checkedSoal)
-                  setShow(false)
-                }}
-                disabled={!checkedSoal}
-              >
-                Pilih Paket Soal
-              </Button>
-            </div>
-          </ModalFooterButtons>
+                type="search"
+                placeholder="Cari Paket Soal"
+                clearable
+                className="w-72 sm:w-96"
+                prefix={
+                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+                }
+                value={searchSoal}
+                onChange={(e) => setSearchSoal(e.target.value)}
+                onClear={() => setSearchSoal('')}
+              />
+            ) : (
+              <Input
+                size="sm"
+                type="search"
+                placeholder="Cari Kategori"
+                clearable
+                className="w-72 sm:w-96"
+                prefix={
+                  <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+                }
+                value={searchKategori}
+                onChange={(e) => setSearchKategori(e.target.value)}
+                onClear={() => setSearchKategori('')}
+              />
+            )}
+          </div>
+          <div className="flex items-center border-b border-b-gray-100 px-3 pb-3">
+            <Text
+              weight="medium"
+              variant="dark"
+              className={cn({ 'select-none cursor-pointer': activeKategori })}
+              onClick={() => {
+                activeKategori && setActiveKategori(undefined)
+                searchSoal && setSearchSoal('')
+                refetchKategori()
+              }}
+            >
+              Bank Soal
+            </Text>
+            {activeKategori && (
+              <>
+                <BiChevronRight size={24} />
+                <Text weight="medium" variant="dark">
+                  {activeKategori.name}
+                </Text>
+              </>
+            )}
+          </div>
+          <div className="flex flex-col overflow-y-auto lg:max-h-[400px]">
+            {activeKategori && (
+              <>
+                {isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
+                  <Loader height={320} />
+                ) : listSoal.length > 0 ? (
+                  listSoal.map((soal) => (
+                    <SoalButton
+                      key={soal.id}
+                      soal={soal}
+                      onDetail={(soal) => doShowLihatSoal(soal.id)}
+                      onEdit={(soal) => doShowUbahSoal(soal.id)}
+                      checked={checkedSoal?.id === soal.id}
+                      onChange={() => setCheckedSoal(soal)}
+                      onDoubleClick={() => {
+                        doChange(checkedSoal)
+                        setShow(false)
+                      }}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center h-80">
+                    <Text size="sm" weight="medium">
+                      {searchSoal ? 'Soal tidak ditemukan' : 'Belum ada soal'}
+                    </Text>
+                  </div>
+                )}
+                {!isLoadingSoal && hasNextPageSoal && (
+                  <Loader ref={refSentrySoal} size="sm" className="py-4" />
+                )}
+              </>
+            )}
+
+            {!activeKategori && (
+              <>
+                {isLoadingKategori ||
+                (!listKategori.length && isFetchingKategori) ? (
+                  <Loader height={320} />
+                ) : listKategori.length > 0 ? (
+                  listKategori.map((kategori) => (
+                    <KategoriButton
+                      key={kategori.id}
+                      kategori={kategori}
+                      onOpen={(kategori) => setActiveKategori(kategori)}
+                      onEdit={(kategori) => doShowUbahKategori(kategori.id)}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center h-80">
+                    <Text size="sm" weight="medium">
+                      {searchKategori
+                        ? 'Kategori tidak ditemukan'
+                        : 'Belum ada kategori'}
+                    </Text>
+                  </div>
+                )}
+                {!isLoadingKategori && hasNextPageKategori && (
+                  <Loader ref={refSentryKategori} size="sm" className="py-4" />
+                )}
+              </>
+            )}
+          </div>
         </div>
+
+        <ModalFooterButtons size="sm" onCancel={() => setShow(false)} borderTop>
+          <div className="flex-1">
+            <Button
+              size="sm"
+              className="w-full"
+              onClick={() => {
+                doChange(checkedSoal)
+                setShow(false)
+              }}
+              disabled={!checkedSoal}
+            >
+              Pilih Paket Soal
+            </Button>
+          </div>
+        </ModalFooterButtons>
       </Modal>
 
       <UbahKategoriModal

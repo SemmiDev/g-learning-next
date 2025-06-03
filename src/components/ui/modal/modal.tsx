@@ -49,7 +49,7 @@ export default function Modal({
         className
       )}
       overlayClassName={cn('cursor-auto', overlayClassName)}
-      containerClassName="flex flex-col"
+      containerClassName="flex flex-col max-h-screen"
       {...props}
     >
       {title && (
@@ -62,7 +62,9 @@ export default function Modal({
           rounded={rounded}
         />
       )}
-      <div className={cn('modal-body flex flex-col flex-1', bodyClassName)}>
+      <div
+        className={cn('modal-body flex flex-col flex-1 min-h-0', bodyClassName)}
+      >
         {children}
       </div>
     </RizModal>

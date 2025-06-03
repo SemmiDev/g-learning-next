@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
-import AnggotaButton, { AnggotaKelasItemType } from './anggota-button'
+import AnggotaKelasButton, { AnggotaKelasItemType } from './anggota-button'
 
 const queryKey = ['shared.anggota.list-pilih']
 
@@ -126,7 +126,7 @@ export default function PilihAnggotaKelas({
               <Loader height={320} />
             ) : list.length > 0 ? (
               list.map((anggota, idx) => (
-                <AnggotaButton
+                <AnggotaKelasButton
                   key={anggota.id + idx}
                   anggota={anggota}
                   checked={checkedAnggota?.id === anggota.id}

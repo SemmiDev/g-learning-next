@@ -19,7 +19,7 @@ export default function SelectedMateri({
       <div className="flex gap-x-2">
         <div
           className={cn(
-            'flex size-11 items-center justify-center rounded-md mr-2',
+            'flex size-11 items-center justify-center rounded-md shrink-0 mr-2',
             {
               'btn-item-green': materi.type === 'materi',
               'btn-item-violet': materi.type === 'tugas',

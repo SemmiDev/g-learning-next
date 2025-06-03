@@ -26,7 +26,7 @@ const HeaderIcon = ({
   customIcon,
 }: {
   icon?: IconType
-  customIcon: ReactNode
+  customIcon?: ReactNode
 }) => {
   const size = 20
 
@@ -102,7 +102,7 @@ export default function ModalHeader({
   return (
     <div
       className={cn(
-        'modal-header flex justify-between p-3',
+        'modal-header flex justify-between gap-x-4 relative p-3',
         bgColor,
         color === 'white' ? 'border-b border-muted' : null,
         modalSize !== 'full' ? classRounded : null,
@@ -110,25 +110,16 @@ export default function ModalHeader({
       )}
     >
       <div>
-        <div className="flex gap-x-2">
-          <Title
-            as="h4"
-            weight="semibold"
-            className={cn(
-              'modal-title',
-              color === 'white' ? 'text-gray-dark' : 'text-white'
-            )}
-          >
-            {title}
-          </Title>
-          {isLoading && (
-            <Loader
-              size="sm"
-              variant="pulse"
-              className={color === 'white' ? 'text-gray' : 'text-white'}
-            />
+        <Title
+          as="h4"
+          weight="semibold"
+          className={cn(
+            'modal-title',
+            color === 'white' ? 'text-gray-dark' : 'text-white'
           )}
-        </div>
+        >
+          {title}
+        </Title>
         {desc && (
           <Text
             size="sm"
@@ -141,10 +132,12 @@ export default function ModalHeader({
           </Text>
         )}
       </div>
-      <div className="flex items-center self-start gap-x-2">
-        <div className="p-1">
-          <HeaderIcon icon={icon} customIcon={customIcon} />
-        </div>
+      <div className="flex items-center self-start gap-x-1">
+        {(!!icon || !!customIcon) && (
+          <div className="p-1">
+            <HeaderIcon icon={icon} customIcon={customIcon} />
+          </div>
+        )}
         {closeButton && onClose && (
           <ActionIcon
             size="sm"
@@ -157,6 +150,18 @@ export default function ModalHeader({
           </ActionIcon>
         )}
       </div>
+
+      {isLoading && (
+        <Loader
+          size="sm"
+          variant="pulse"
+          className={cn(
+            'absolute top-4',
+            !!icon || !!customIcon ? 'right-[4.5rem]' : 'right-10',
+            color === 'white' ? 'text-gray' : 'text-white'
+          )}
+        />
+      )}
     </div>
   )
 }

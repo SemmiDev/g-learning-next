@@ -129,6 +129,7 @@ export default function DriveButton({
             size="sm"
             weight="medium"
             variant={active ? 'default' : 'lighter'}
+            className="hidden sm:inline"
           >
             {formatBytes(drive.used, 2)} digunakan
           </Text>

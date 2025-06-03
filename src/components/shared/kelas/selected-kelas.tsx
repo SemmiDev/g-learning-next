@@ -13,9 +13,9 @@ type SelectedFileProps = {
 
 export default function SelectedKelas({ kelas, onRemove }: SelectedFileProps) {
   return (
-    <div className="flex justify-between items-center flex-1 gap-2">
-      <div className="flex items-center gap-x-2">
-        <div className="h-16 max-w-20 rounded overflow-clip">
+    <div className="flex justify-between items-center flex-1 gap-2 min-w-0">
+      <div className="flex items-center gap-x-2 min-w-0">
+        <div className="h-16 max-w-20 rounded overflow-clip shrink-0">
           {!!kelas.cover ? (
             <Image
               src={kelas.cover}
@@ -34,7 +34,7 @@ export default function SelectedKelas({ kelas, onRemove }: SelectedFileProps) {
             />
           )}
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <Text
             size="sm"
             weight="semibold"

@@ -326,7 +326,7 @@ export default function PilihMediaGambar({
         onClose={() => setShow(false)}
         isLoading={isFetchingDrives || isFetchingFiles}
       >
-        <div className="flex flex-col justify-between flex-1 min-h-[calc(100vh-57px)] xl:min-h-full">
+        <div className="flex flex-col justify-between flex-1 min-h-0 xl:min-h-full">
           <div className="grid grid-cols-3 min-h-[400px]">
             <div className="flex flex-col col-span-3 lg:col-span-1 lg:border-r lg:border-r-gray-100">
               {drives.map((drive) => (
@@ -342,10 +342,10 @@ export default function PilihMediaGambar({
                 />
               ))}
             </div>
-            <div className="flex flex-col col-span-3 lg:col-span-2">
+            <div className="flex flex-col overflow-y-auto relative col-span-3 lg:col-span-2">
               {activeDrive !== undefined && (
                 <>
-                  <div className="flex justify-between items-center gap-x-2 p-3">
+                  <div className="flex justify-between items-center gap-x-2 bg-white sticky top-0 p-3 z-10">
                     <Input
                       size="sm"
                       type="search"
@@ -445,7 +445,7 @@ export default function PilihMediaGambar({
                         </div>
                       ))}
                   </div>
-                  <div className="flex flex-col overflow-y-auto lg:h-[calc(100dvh-206px)] xl:max-h-[400px]">
+                  <div className="flex flex-col lg:h-[calc(100dvh-206px)] xl:max-h-[400px]">
                     {isLoadingFiles || (!files.length && isFetchingFiles) ? (
                       <Loader height={320} />
                     ) : files.length > 0 ? (
