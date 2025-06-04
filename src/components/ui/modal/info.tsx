@@ -13,7 +13,7 @@ export type ModalInfoProps = Omit<ModalProps, 'children'> & {
 
 export default function ModalInfo({
   title,
-  desc = 'Sekedar info',
+  desc,
   size = 'sm',
   close = 'Tutup',
   onClose,
@@ -31,9 +31,11 @@ export default function ModalInfo({
       closeButton={false}
       {...props}
     >
-      <Text weight="semibold" variant="dark" className="text-center p-3">
-        {desc}
-      </Text>
+      {!!desc && (
+        <Text weight="semibold" variant="dark" className="text-center p-3">
+          {desc}
+        </Text>
+      )}
 
       {children}
 

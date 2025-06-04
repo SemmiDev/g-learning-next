@@ -1,12 +1,13 @@
 import { Card, PustakaMediaDriveType, Shimmer } from '@/components/ui'
-import DriveButton from './drive-button'
 import cn from '@/utils/class-names'
+import DriveButton from './drive-button'
 
 type ListDriveButtonProps = {
   drives: PustakaMediaDriveType[]
   activeDrive: string | undefined
   isLoading?: boolean
   onClick?: (id: string) => void
+  onUnlinkDrive?: (email: string) => void
   className?: string
 }
 
@@ -15,6 +16,7 @@ export default function ListDriveButton({
   activeDrive,
   isLoading,
   onClick,
+  onUnlinkDrive,
   className,
 }: ListDriveButtonProps) {
   if (isLoading) return <ListShimmer className={className} />
@@ -23,10 +25,11 @@ export default function ListDriveButton({
     <div className={cn('flex flex-wrap gap-4', className)}>
       {drives.map((drive) => (
         <DriveButton
+          key={drive.id}
           drive={drive}
           active={activeDrive === drive.id}
-          onClick={() => onClick && onClick(drive.id)}
-          key={drive.id}
+          onClick={() => onClick?.(drive.id)}
+          onUnlinkDrive={() => onUnlinkDrive?.(drive.name)}
         />
       ))}
     </div>

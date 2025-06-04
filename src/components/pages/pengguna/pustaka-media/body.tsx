@@ -15,13 +15,16 @@ import {
   TextSpan,
   Title,
 } from '@/components/ui'
+import ModalInfo from '@/components/ui/modal/info'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { driveInfoApi } from '@/services/api/shared/pustaka-media/drive-info'
 import { hapusBerkasApi } from '@/services/api/shared/pustaka-media/hapus'
 import { listFileApi } from '@/services/api/shared/pustaka-media/list-file'
 import { tambahBerkasApi } from '@/services/api/shared/pustaka-media/tambah-berkas'
+import { unlinkGoogleDriveApi } from '@/services/api/shared/pustaka-media/unlink-google-drive'
 import { handleActionWithToast } from '@/utils/action'
+import { checkLink } from '@/utils/check-link'
 import {
   getFileCount,
   getFileIsFolder,
@@ -33,6 +36,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import useDrivePicker from 'react-google-drive-picker'
 import toast from 'react-hot-toast'
@@ -76,6 +80,12 @@ export default function PustakaMediaBody() {
   const [showTambahFolder, setShowTambahFolder] = useState(false)
   const [showTambahBerkas, setShowTambahBerkas] = useState(false)
   const [accessTokenPicker, setAccessTokenPicker] = useState<string>()
+  const [newGoogleUpload, setNewGoogleUpload] = useState<
+    {
+      name: string
+      url: string
+    }[]
+  >([])
   const {
     show: showUbahFolder,
     key: keyUbahFolder,
@@ -99,6 +109,12 @@ export default function PustakaMediaBody() {
     key: keyUbahFile,
     doShow: doShowUbahFile,
     doHide: doHideUbahFile,
+  } = useShowModal<string>()
+  const {
+    show: showUnlinkDrive,
+    key: emailUnlinkDrive,
+    doShow: doShowUnlinkDrive,
+    doHide: doHideUnlinkDrive,
   } = useShowModal<string>()
   const [filePreview, setFilePreview] = useState<FilePreviewType>()
 
@@ -263,36 +279,46 @@ export default function PustakaMediaBody() {
       customScopes: ['https://www.googleapis.com/auth/drive.file'],
       callbackFunction: async (data) => {
         if (data.action === 'picked') {
-          const shared = data.docs.filter((doc) => doc.isShared)
-          const notShared = data.docs.filter((doc) => !doc.isShared)
+          const shared = data.docs.filter(
+            (doc) => doc.isShared || !!doc.uploadState
+          )
+          const notShared = data.docs.filter(
+            (doc) => !doc.isShared && !doc.uploadState
+          )
 
-          if (notShared.length > 0) {
-            toast.error(
-              `Status ${notShared
-                .map((doc) => doc.name)
-                .join(
-                  ', '
-                )} belum terpublikasi (sharing dengan semua orang), silahkan aktifkan publikasi terlebih dahulu di akun Google Drive anda.`
-            )
-          }
+          let accessibleLinkCount = 0
+          const form = new FormData()
 
           if (shared.length > 0) {
-            const form = new FormData()
+            const toastId = toast.loading(<Text>Mengecek berkas...</Text>)
+
             form.append('google_drive', 'true')
 
             for (let i = 0; i < shared.length; i++) {
-              const { name, id, type } = shared[i]
-              form.append(`labels_dan_links[${i}].label`, name ?? '')
-              form.append(
-                `labels_dan_links[${i}].link`,
-                `https://drive.google.com/uc?id=${id}`
-              )
-              form.append(
-                `labels_dan_links[${i}].tipe`,
-                type === 'photo' ? 'Gambar' : 'Teks'
-              )
+              const { name, id, type, url } = shared[i]
+              const accessibleLink = await checkLink(url)
+
+              if (accessibleLink) {
+                form.append(`labels_dan_links[${i}].label`, name ?? '')
+                form.append(
+                  `labels_dan_links[${i}].link`,
+                  `https://drive.google.com/uc?id=${id}`
+                )
+                form.append(
+                  `labels_dan_links[${i}].tipe`,
+                  type === 'photo' ? 'Gambar' : 'Teks'
+                )
+
+                accessibleLinkCount++
+              } else {
+                notShared.push(shared[i])
+              }
             }
 
+            toast.dismiss(toastId)
+          }
+
+          if (accessibleLinkCount > 0) {
             await handleActionWithToast(processApi(tambahBerkasApi, form), {
               loading: 'Menggunggah...',
               onSuccess: () => {
@@ -300,8 +326,25 @@ export default function PustakaMediaBody() {
               },
             })
           }
+
+          setNewGoogleUpload(notShared)
         }
       },
+    })
+  }
+
+  const handleUnlinkDrive = async () => {
+    await handleActionWithToast(processApi(unlinkGoogleDriveApi), {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: queryKeyDrive })
+
+        if (activeDrive === 'GOOGLE_DRIVE') {
+          setActiveDrive(undefined)
+          setActiveFolder(undefined)
+          setListFolder([])
+        }
+      },
+      onFinish: () => doHideUnlinkDrive(),
     })
   }
 
@@ -317,6 +360,7 @@ export default function PustakaMediaBody() {
           setActiveFolder(undefined)
           setListFolder([])
         }}
+        onUnlinkDrive={(email) => doShowUnlinkDrive(email)}
       />
       <div className="flex flex-wrap items-center gap-y-1 mb-3">
         <Title as="h4" size="1.5xl" weight="semibold" className="leading-tight">
@@ -557,6 +601,45 @@ export default function PustakaMediaBody() {
         headerIcon="help"
         closeOnCancel
       />
+
+      <ModalConfirm
+        title="Lepaskan Tautan Google Drive"
+        desc={`Apakah Anda yakin ingin melepaskan tautan dengan google drive ${emailUnlinkDrive}?`}
+        color="danger"
+        isOpen={showUnlinkDrive}
+        onClose={() => doHideUnlinkDrive()}
+        cancel="Batal"
+        confirm="Lepaskan"
+        onConfirm={handleUnlinkDrive}
+        headerIcon="warning"
+        closeOnCancel
+        confirmLoading
+      />
+
+      <ModalInfo
+        title="Status Publikasi Berkas"
+        color="warning"
+        size="md"
+        isOpen={newGoogleUpload.length > 0}
+        onClose={() => setNewGoogleUpload([])}
+      >
+        <div className="flex flex-col gap-2 p-3">
+          <Text weight="medium" variant="dark" align="center">
+            Tidak dapat menambahkan berkas dengan status belum terpublikasi
+            (sharing dengan semua orang). Pastikan status sudah terpublikasi
+            terlebih dahulu di akun Google Drive anda.
+          </Text>
+          <ul className="text-base font-semibold list-disc list-inside space-y-0.5">
+            {newGoogleUpload.map((file, idx) => (
+              <li key={idx}>
+                <Link href={file.url} target="_blank" className="text-primary">
+                  {file.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </ModalInfo>
     </>
   )
 }
