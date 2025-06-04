@@ -54,7 +54,7 @@ export default function Modal({
       overlayClassName={cn('cursor-auto', overlayClassName)}
       containerClassName={cn(
         'flex flex-col',
-        fixedHeader ? 'max-h-screen' : null,
+        fixedHeader ? 'max-h-dvh' : null,
         containerClassName
       )}
       {...props}

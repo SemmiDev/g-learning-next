@@ -292,7 +292,7 @@ export default function Materi({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetchingKategori || isFetchingMateri}
-        containerClassName="max-h-screen"
+        containerClassName="max-h-dvh"
         bodyClassName="justify-between"
       >
         <div className="flex flex-col min-h-[400px]">

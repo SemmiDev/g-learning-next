@@ -103,7 +103,7 @@ export default function PilihAnggotaKelas({
         isOpen={show}
         onClose={() => setShow(false)}
         isLoading={isFetching}
-        containerClassName="max-h-screen"
+        containerClassName="max-h-dvh"
         bodyClassName="justify-between"
       >
         <div className="flex flex-col min-h-[400px]">
