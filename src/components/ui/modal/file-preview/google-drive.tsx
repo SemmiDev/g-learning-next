@@ -34,7 +34,7 @@ export default function ModalGoogleDrivePreview({
           />
           <iframe
             src={`https://drive.google.com/file/d/${id}/preview`}
-            className="relative w-full h-screen z-10"
+            className="relative w-full h-dvh z-10"
           ></iframe>
         </>
       ) : (

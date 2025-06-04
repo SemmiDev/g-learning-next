@@ -32,7 +32,7 @@ export default function ModalDocumentPreview({
             src={`https://docs.google.com/viewer?url=${encodeURIComponent(
               openUrl
             )}&embedded=true`}
-            className="relative w-full h-screen z-10"
+            className="relative w-full h-dvh z-10"
           ></iframe>
         </>
       )}

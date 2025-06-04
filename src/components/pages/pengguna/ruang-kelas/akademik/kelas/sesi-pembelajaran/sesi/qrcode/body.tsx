@@ -36,7 +36,7 @@ export default function QRCodeBody({ sesi }: { sesi: DataSesiType }) {
   }, [])
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-dvh">
       <div className="w-fit">
         {qrCodeData && (
           <div className="flex flex-col items-center gap-6 px-3 sm:gap-4">

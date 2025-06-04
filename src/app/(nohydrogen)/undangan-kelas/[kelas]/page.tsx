@@ -7,7 +7,7 @@ export const metadata = {
 
 export default async function UndanganKelasPage() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-dvh">
       <UndanganKelasBody />
     </div>
   )
