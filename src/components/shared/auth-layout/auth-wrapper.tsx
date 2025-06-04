@@ -26,7 +26,7 @@ export default function AuthWrapper({
   }
 
   return (
-    <div className="min-h-screen justify-between gap-x-8 lg:flex [&>div]:min-h-[calc(100vh-80px)]">
+    <div className="min-h-dvh justify-between gap-x-8 lg:flex [&>div]:min-h-[calc(100vh-80px)]">
       <div className="relative flex w-full items-center justify-center px-2 py-8 lg:ps-4 lg:pe-0 lg:w-6/12 2xl:pe-24">
         <div className=" w-full max-w-sm md:max-w-md lg:py-7 lg:ps-3 lg:pt-16 2xl:w-[630px] 2xl:max-w-none 2xl:ps-20 2xl:pt-7">
           {(title || description) && (

@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 
 export default function HydrogenLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="flex min-h-screen flex-grow">
+    <main className="flex min-h-dvh flex-grow">
       <Sidebar className="fixed hidden xl:block dark:bg-gray-50" />
       <div className="flex w-full flex-col xl:ms-[270px] xl:w-[calc(100%-270px)] 2xl:ms-72 2xl:w-[calc(100%-288px)]">
         <Header />

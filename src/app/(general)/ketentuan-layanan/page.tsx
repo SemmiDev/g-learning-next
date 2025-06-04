@@ -6,7 +6,7 @@ import { BsEnvelope, BsPinMap } from 'react-icons/bs'
 
 export default function KetentuanLayananPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-gray-0">
+    <div className="flex min-h-dvh flex-col bg-gray-0">
       <div className="sticky top-0 z-40 flex justify-center bg-gray-0/80 backdrop-blur-lg py-8 lg:py-6">
         <Link href="/">
           <Image
