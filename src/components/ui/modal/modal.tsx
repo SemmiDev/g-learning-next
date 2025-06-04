@@ -49,11 +49,13 @@ export default function Modal({
         {
           '[&_.rizzui-modal-overlay~div]:overflow-visible': overflow,
         },
+        '[&>div.min-h-screen]:min-h-dvh',
         className
       )}
       overlayClassName={cn('cursor-auto', overlayClassName)}
       containerClassName={cn(
         'flex flex-col',
+        size === 'full' ? 'min-h-dvh' : null,
         fixedHeader ? 'max-h-dvh' : null,
         containerClassName
       )}
