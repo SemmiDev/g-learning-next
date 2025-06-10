@@ -55,7 +55,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       >
         <ProgressbarProvider>
           <ThemeProvider>
-            <SessionProvider session={session}>
+            <SessionProvider
+              session={session}
+              refetchInterval={5 * 60}
+              refetchOnWindowFocus={
+                typeof navigator !== 'undefined' && navigator.onLine
+              }
+              refetchWhenOffline={false}
+            >
               <QueryProvider>{children}</QueryProvider>
             </SessionProvider>
             <Toaster />
