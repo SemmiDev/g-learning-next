@@ -52,23 +52,25 @@ export const ACCEPT_FILE_EXTENSIONS = [
   '.zip',
 ] as const
 
-export const GOOGLE_DRIVE_SCOPES =
-  process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true'
-    ? [
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/drive.file',
-      ]
-    : [
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/drive',
-        'https://www.googleapis.com/auth/drive.readonly',
-        'https://www.googleapis.com/auth/drive.file',
-        'https://www.googleapis.com/auth/drive.metadata',
-        'https://www.googleapis.com/auth/drive.metadata.readonly',
-        'https://www.googleapis.com/auth/drive.scripts',
-      ]
+export const GOOGLE_PICKER =
+  process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER?.toLowerCase() === 'true'
+
+export const GOOGLE_DRIVE_SCOPES = GOOGLE_PICKER
+  ? [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/drive.file',
+    ]
+  : [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/drive.readonly',
+      'https://www.googleapis.com/auth/drive.file',
+      'https://www.googleapis.com/auth/drive.metadata',
+      'https://www.googleapis.com/auth/drive.metadata.readonly',
+      'https://www.googleapis.com/auth/drive.scripts',
+    ]
 
 export const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
 

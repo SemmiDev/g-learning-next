@@ -1,4 +1,5 @@
 import { ActionIconTooltip, PustakaMediaDriveType, Text } from '@/components/ui'
+import { GOOGLE_PICKER } from '@/config/const'
 import { routes } from '@/config/routes'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
@@ -66,8 +67,7 @@ export default function DriveButton({
       {...props}
     >
       {active && <div className="w-1 h-full bg-primary"></div>}
-      {drive.id === 'GOOGLE_DRIVE' &&
-      process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true' ? (
+      {drive.id === 'GOOGLE_DRIVE' && GOOGLE_PICKER ? (
         <div className="flex justify-between flex-1 gap-x-2 p-2">
           <div className="flex flex-col" title={drive.name}>
             <Text

@@ -16,6 +16,7 @@ import {
   Title,
 } from '@/components/ui'
 import ModalInfo from '@/components/ui/modal/info'
+import { GOOGLE_PICKER } from '@/config/const'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { driveInfoApi } from '@/services/api/shared/pustaka-media/drive-info'
@@ -55,6 +56,11 @@ import UbahBerkasModal from './modal/ubah-berkas'
 import UbahFolderModal from './modal/ubah-folder'
 import UbahLinkModal from './modal/ubah-link'
 
+type GoogleFileType = {
+  name: string
+  url: string
+}
+
 const sortData = {
   terbaru: 'Terbaru',
   terlawas: 'Terlawas',
@@ -80,12 +86,7 @@ export default function PustakaMediaBody() {
   const [showTambahFolder, setShowTambahFolder] = useState(false)
   const [showTambahBerkas, setShowTambahBerkas] = useState(false)
   const [accessTokenPicker, setAccessTokenPicker] = useState<string>()
-  const [newGoogleUpload, setNewGoogleUpload] = useState<
-    {
-      name: string
-      url: string
-    }[]
-  >([])
+  const [newGoogleUpload, setNewGoogleUpload] = useState<GoogleFileType[]>([])
   const {
     show: showUbahFolder,
     key: keyUbahFolder,
@@ -442,8 +443,7 @@ export default function PustakaMediaBody() {
         </div>
         {activeDrive !== undefined && (
           <div className="flex gap-x-2">
-            {activeDrive === 'GOOGLE_DRIVE' &&
-            process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true' ? (
+            {activeDrive === 'GOOGLE_DRIVE' && GOOGLE_PICKER ? (
               !!accessTokenPicker && (
                 <Button
                   size="sm"

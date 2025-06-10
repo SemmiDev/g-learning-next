@@ -14,6 +14,8 @@ import {
   Text,
   TextSpan,
 } from '@/components/ui'
+import ModalInfo from '@/components/ui/modal/info'
+import { GOOGLE_PICKER } from '@/config/const'
 import { useAutoSizeExtraLargeModal } from '@/hooks/auto-size-modal/use-extra-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
@@ -22,6 +24,7 @@ import { hapusBerkasApi } from '@/services/api/shared/pustaka-media/hapus'
 import { listFileApi } from '@/services/api/shared/pustaka-media/list-file'
 import { tambahBerkasApi } from '@/services/api/shared/pustaka-media/tambah-berkas'
 import { handleActionWithToast } from '@/utils/action'
+import { checkLink } from '@/utils/check-link'
 import cn from '@/utils/class-names'
 import {
   getFileCount,
@@ -36,6 +39,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { ReactNode, useEffect, useState } from 'react'
 import useDrivePicker from 'react-google-drive-picker'
 import toast from 'react-hot-toast'
@@ -96,6 +100,11 @@ export type FileType = {
 export type FolderType = {
   id: string
   name: string
+}
+
+type GoogleFileType = {
+  name: string
+  url: string
 }
 
 const queryKeyDrive = ['shared.pustaka-media.drives']
@@ -166,6 +175,7 @@ export default function PustakaMedia({
     doHide: doHideUbahFile,
   } = useShowModal<string>()
   const [accessTokenPicker, setAccessTokenPicker] = useState<string>()
+  const [newGoogleUpload, setNewGoogleUpload] = useState<GoogleFileType[]>([])
   const [previewFile, setPreviewFile] = useState<FilePreviewType>()
   const [checkedFiles, setCheckedFiles] = useState<FileType[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>(
@@ -361,36 +371,46 @@ export default function PustakaMedia({
       customScopes: ['https://www.googleapis.com/auth/drive.file'],
       callbackFunction: async (data) => {
         if (data.action === 'picked') {
-          const shared = data.docs.filter((doc) => doc.isShared)
-          const notShared = data.docs.filter((doc) => !doc.isShared)
+          const shared = data.docs.filter(
+            (doc) => doc.isShared || !!doc.uploadState
+          )
+          const notShared = data.docs.filter(
+            (doc) => !doc.isShared && !doc.uploadState
+          )
 
-          if (notShared.length > 0) {
-            toast.error(
-              `Status ${notShared
-                .map((doc) => doc.name)
-                .join(
-                  ', '
-                )} belum terpublikasi (sharing dengan semua orang), silahkan aktifkan publikasi terlebih dahulu di akun Google Drive anda.`
-            )
-          }
+          let accessibleLinkCount = 0
+          const form = new FormData()
 
           if (shared.length > 0) {
-            const form = new FormData()
+            const toastId = toast.loading(<Text>Mengecek berkas...</Text>)
+
             form.append('google_drive', 'true')
 
             for (let i = 0; i < shared.length; i++) {
-              const { name, id, type } = shared[i]
-              form.append(`labels_dan_links[${i}].label`, name ?? '')
-              form.append(
-                `labels_dan_links[${i}].link`,
-                `https://drive.google.com/uc?id=${id}`
-              )
-              form.append(
-                `labels_dan_links[${i}].tipe`,
-                type === 'photo' ? 'Gambar' : 'Teks'
-              )
+              const { name, id, type, url } = shared[i]
+              const accessibleLink = await checkLink(url)
+
+              if (accessibleLink) {
+                form.append(`labels_dan_links[${i}].label`, name ?? '')
+                form.append(
+                  `labels_dan_links[${i}].link`,
+                  `https://drive.google.com/uc?id=${id}`
+                )
+                form.append(
+                  `labels_dan_links[${i}].tipe`,
+                  type === 'photo' ? 'Gambar' : 'Teks'
+                )
+
+                accessibleLinkCount++
+              } else {
+                notShared.push(shared[i])
+              }
             }
 
+            toast.dismiss(toastId)
+          }
+
+          if (accessibleLinkCount > 0) {
             await handleActionWithToast(processApi(tambahBerkasApi, form), {
               loading: 'Menggunggah...',
               onSuccess: () => {
@@ -398,6 +418,8 @@ export default function PustakaMedia({
               },
             })
           }
+
+          setNewGoogleUpload(notShared)
         }
       },
     })
@@ -509,8 +531,7 @@ export default function PustakaMedia({
                     <div className="flex gap-x-1">
                       <ActionIconTooltip
                         tooltip={
-                          activeDrive === 'GOOGLE_DRIVE' &&
-                          process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true'
+                          activeDrive === 'GOOGLE_DRIVE' && GOOGLE_PICKER
                             ? 'Tambah dari Google Drive'
                             : `${
                                 activeDrive !== 'GOOGLE_DRIVE'
@@ -520,20 +541,14 @@ export default function PustakaMedia({
                         }
                         size="sm"
                         onClick={() => {
-                          if (
-                            activeDrive === 'GOOGLE_DRIVE' &&
-                            process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER ===
-                              'true'
-                          ) {
+                          if (activeDrive === 'GOOGLE_DRIVE' && GOOGLE_PICKER) {
                             handleOpenPicker()
                           } else {
                             setShowTambahBerkas(true)
                           }
                         }}
                       >
-                        {activeDrive === 'GOOGLE_DRIVE' &&
-                        process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER ===
-                          'true' ? (
+                        {activeDrive === 'GOOGLE_DRIVE' && GOOGLE_PICKER ? (
                           <PiFilePlusBold />
                         ) : (
                           <PiUploadSimpleBold />
@@ -777,6 +792,31 @@ export default function PustakaMedia({
         headerIcon="help"
         closeOnCancel
       />
+
+      <ModalInfo
+        title="Status Publikasi Berkas"
+        color="warning"
+        size="md"
+        isOpen={newGoogleUpload.length > 0}
+        onClose={() => setNewGoogleUpload([])}
+      >
+        <div className="flex flex-col gap-2 p-3">
+          <Text weight="medium" variant="dark" align="center">
+            Tidak dapat menambahkan berkas dengan status belum terpublikasi
+            (sharing dengan semua orang). Pastikan status sudah terpublikasi
+            terlebih dahulu di akun Google Drive anda.
+          </Text>
+          <ul className="text-base font-semibold list-disc list-inside space-y-0.5">
+            {newGoogleUpload.map((file, idx) => (
+              <li key={idx}>
+                <Link href={file.url} target="_blank" className="text-primary">
+                  {file.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </ModalInfo>
     </>
   )
 }

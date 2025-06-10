@@ -1,5 +1,6 @@
 import { Text } from '@/components/ui'
 import ModalInfo from '@/components/ui/modal/info'
+import { GOOGLE_PICKER } from '@/config/const'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from 'react'
@@ -62,16 +63,13 @@ export default function DriveButton({
         'flex flex-col items-stretch text-left gap-y-1 border-b border-b-gray-100 transition duration-200 p-3 hover:bg-gray-50/50',
         {
           'bg-blue-50/50': active,
-          'py-4':
-            drive.id === 'GOOGLE_DRIVE' &&
-            process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true',
+          'py-4': drive.id === 'GOOGLE_DRIVE' && GOOGLE_PICKER,
         }
       )}
       {...props}
     >
       <div className="flex justify-between gap-x-2">
-        {drive.id === 'GOOGLE_DRIVE' &&
-        process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER === 'true' ? (
+        {drive.id === 'GOOGLE_DRIVE' && GOOGLE_PICKER ? (
           <Text
             weight="semibold"
             color={active ? 'primary' : 'gray'}
@@ -116,8 +114,7 @@ export default function DriveButton({
           </>
         )}
       </div>
-      {(drive.id !== 'GOOGLE_DRIVE' ||
-        process.env.NEXT_PUBLIC_GOOGLE_DRIVE_PICKER !== 'true') && (
+      {(drive.id !== 'GOOGLE_DRIVE' || !GOOGLE_PICKER) && (
         <>
           <Progressbar
             variant="solid"
