@@ -6,7 +6,7 @@ deploy_production:
   image: alpine:latest
 
   before_script:
-    - apk update && apk add --no-cache openssh-client sshpass
+    - apk update && apk add --no-cache openssh sshpass
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
     - ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
