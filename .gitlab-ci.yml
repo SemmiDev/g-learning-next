@@ -5,21 +5,21 @@ deploy_production:
   stage: deploy
   image: alpine:latest
   before_script:
-    # Install necessary packages
     - apk update && apk add --no-cache openssh-client sshpass
-
-    # Create .ssh directory and known_hosts
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - touch ~/.ssh/known_hosts
-    - chmod 600 ~/.ssh/known_hosts
-
-    # Add the server's key to known_hosts to avoid interactive prompt
-    - ssh-keyscan -H 45.32.101.68 >> ~/.ssh/known_hosts
-
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+    - ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
   script:
-    # Use sshpass to log in with username and password, run deploy commands
-    - sshpass -p 'b-pDV75e%6egMDF9Jyf72>sUb6kWt;YQ' ssh -o StrictHostKeyChecking=no garuda@45.32.101.68 "cd ~/app && git pull origin main && nohup ./build.sh > /dev/null 2>&1 &"
-
+    - |
+      sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no "$SERVER_USER@$SERVER_HOST" '
+      cd /home/garuda/smartthink &&
+      git pull origin main &&
+      npm install --force &&
+      git restore package-lock.json &&
+      export NODE_OPTIONS=--max-old-space-size=4096 &&
+      npm run build &&
+      pm2 delete nextjs-glearning || true &&
+      pm2 start npm --name "nextjs-glearning" -- start -- -p 3000
+      '
   only:
     - main
