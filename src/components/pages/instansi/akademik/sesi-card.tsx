@@ -17,7 +17,7 @@ type SesiCardProps = {
 export default function SesiCard({ className }: SesiCardProps) {
   return (
     <Card className={cn('flex flex-col p-0', className)}>
-      <div className="flex justify-between gap-x-2 gap-y-1 flex-wrap pt-2 px-2">
+      <div className="flex justify-between items-center gap-x-2 gap-y-1 flex-wrap pt-2 px-2">
         <Title as="h6" weight="semibold">
           Sistem Operasi
         </Title>
