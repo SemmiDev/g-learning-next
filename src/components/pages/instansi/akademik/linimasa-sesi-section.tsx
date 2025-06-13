@@ -20,10 +20,12 @@ const rentangWaktuOptions: SelectOptionType<string | null>[] = [
 ]
 
 type LinimasaSectionProps = {
+  semester?: string
   className?: string
 }
 
 export default function LinimasaSesiSection({
+  semester,
   className,
 }: LinimasaSectionProps) {
   const { inputSearch, setInputSearch, search } = useDebounceSearch('')
@@ -36,18 +38,13 @@ export default function LinimasaSesiSection({
 
   useEffect(() => {
     setIsLoading(true)
-    setTimeout(() => setIsLoading(false), 3000)
+    setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
   if (isLoading) return <ShimmerSection className={className} />
 
   return (
     <div className={cn('flex flex-col', className)}>
-      <div className="h-10 mb-4">
-        <Title as="h4" size="1.5xl" weight="semibold" className="leading-tight">
-          Kelas Akademik
-        </Title>
-      </div>
       <Title as="h5" weight="semibold" className="mb-2">
         Linimasa Sesi
       </Title>
