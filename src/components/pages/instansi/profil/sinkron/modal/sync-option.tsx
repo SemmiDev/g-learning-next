@@ -5,11 +5,11 @@ import {
   ModalFooterButtons,
   Select,
   SelectOptionType,
-  Text,
-  TextSpan,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { deskripsiSemester } from '@/utils/semester'
+import lmsBanner from '@public/images/banner/sinkron/lms.svg'
+import smartBanner from '@public/images/banner/sinkron/smart.svg'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -80,14 +80,13 @@ export default function SyncOptionModal({
         />
         <Card className="flex flex-col gap-y-2">
           <div className="flex justify-between items-center gap-x-2">
-            <MainBanner />
-            <BsArrowRight className="size-16 text-black" />
-            <OptionBanner
-              logo={logo}
-              labelTop={labelTop}
-              labelBottom={labelBottom}
-              bgColor={bgColor}
+            <Image
+              src={lmsBanner}
+              alt="LMS Smart Campus"
+              className="min-w-28"
             />
+            <BsArrowRight className="size-16 text-black" />
+            <Image src={smartBanner} alt="Smart Campus" className="min-w-28" />
           </div>
           <Button
             variant="outline"
@@ -103,14 +102,13 @@ export default function SyncOptionModal({
         </Card>
         <Card className="flex flex-col gap-y-2">
           <div className="flex justify-between items-center gap-x-2">
-            <MainBanner />
-            <BsArrowLeft className="size-16 text-black" />
-            <OptionBanner
-              logo={logo}
-              labelTop={labelTop}
-              labelBottom={labelBottom}
-              bgColor={bgColor}
+            <Image
+              src={lmsBanner}
+              alt="LMS Smart Campus"
+              className="min-w-28"
             />
+            <BsArrowLeft className="size-16 text-black" />
+            <Image src={smartBanner} alt="Smart Campus" className="min-w-28" />
           </div>
           <Button
             variant="outline"
@@ -133,50 +131,5 @@ export default function SyncOptionModal({
         borderTop
       />
     </Modal>
-  )
-}
-
-function MainBanner() {
-  return (
-    <div className="flex justify-center items-center w-44 h-16 rounded-md bg-black">
-      <Text size="lg" weight="extrabold" className="text-[#D40000]">
-        Smart Campus
-      </Text>
-    </div>
-  )
-}
-
-function OptionBanner({
-  logo,
-  labelTop,
-  labelBottom,
-  bgColor,
-}: {
-  logo: string | StaticImport
-  labelTop: string
-  labelBottom: string
-  bgColor: string
-}) {
-  return (
-    <div
-      className="flex justify-center items-center gap-x-2 w-44 h-16 rounded-md"
-      style={{ backgroundColor: bgColor }}
-    >
-      <Image src={logo} alt="sinkron" className="h-12 w-auto" />
-      <div className="flex flex-col text-base sm:text-xl">
-        <TextSpan
-          weight="extrabold"
-          className="text-white leading-5 sm:leading-6"
-        >
-          {labelTop}
-        </TextSpan>
-        <TextSpan
-          weight="extrabold"
-          className="text-white leading-5 sm:leading-6"
-        >
-          {labelBottom}
-        </TextSpan>
-      </div>
-    </div>
   )
 }
