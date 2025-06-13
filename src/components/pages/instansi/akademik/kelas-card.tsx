@@ -30,7 +30,7 @@ export default function KelasCard({ data }: KelasCardProps) {
           />
         ) : (
           <RandomCoverImage
-            persistentKey={'123456'}
+            persistentKey={data.kelas.id}
             alt="kelas"
             width={640}
             height={128}

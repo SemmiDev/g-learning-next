@@ -70,7 +70,7 @@ export const listKelasApi = async ({
     {
       current_page: page,
       keyword: search,
-      per_page: 20,
+      per_page: 10,
       semester,
       id_sms: idSms,
     }
