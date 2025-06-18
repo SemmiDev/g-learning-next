@@ -13,6 +13,7 @@ import {
   BsTrash3,
 } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
+import { RiFileExcel2Line } from 'react-icons/ri'
 import { Dropdown } from 'rizzui'
 
 export type SoalType = {
@@ -31,6 +32,7 @@ type SoalCardProps = {
   onShare?: (soal: SoalType) => void
   onEdit?: (soal: SoalType) => void
   onDuplicate?: (soal: SoalType) => void
+  onExport?: (soal: SoalType) => void
   onDelete?: (soal: SoalType) => void
   className?: string
 }
@@ -40,6 +42,7 @@ export default function SoalCard({
   onShare,
   onEdit,
   onDuplicate,
+  onExport,
   onDelete,
   className,
 }: SoalCardProps) {
@@ -78,7 +81,7 @@ export default function SoalCard({
             <div className="py-2">
               <Dropdown.Item
                 className="text-gray-dark"
-                onClick={() => onEdit && onEdit(soal)}
+                onClick={() => onEdit?.(soal)}
               >
                 <BsPencil className="text-orange size-4 mr-2" />
                 Ubah
@@ -92,6 +95,13 @@ export default function SoalCard({
                   Duplikat
                 </Dropdown.Item>
               )}
+              <Dropdown.Item
+                className="text-gray-dark"
+                onClick={() => onExport?.(soal)}
+              >
+                <RiFileExcel2Line className="text-success size-4 mr-2" />
+                Ekspor
+              </Dropdown.Item>
             </div>
             {onDelete && (
               <div className="py-2">

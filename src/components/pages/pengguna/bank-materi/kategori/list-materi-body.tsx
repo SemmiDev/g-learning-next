@@ -192,6 +192,12 @@ export default function ListMateriBody() {
                     if (materi.type === 'materi') doShowShareMateri(materi)
                     else doShowShareTugas(materi)
                   }}
+                  onExport={(materi) => {
+                    window?.open(
+                      `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${kategori?.id}/bank-ajar/${materi.id}/export?access_token=${jwt}`,
+                      '_blank'
+                    )
+                  }}
                 />
               ))}
             </div>

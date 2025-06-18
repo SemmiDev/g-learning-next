@@ -11,7 +11,8 @@ import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { BsDoorOpen, BsFileEarmarkExcel, BsPencil } from 'react-icons/bs'
+import { BsDoorOpen, BsPencil } from 'react-icons/bs'
+import { RiFileExcel2Line } from 'react-icons/ri'
 import { utils, writeFile } from 'xlsx'
 import PengajarRekapPresensiDaftarAbsensiCard from './rekap-detail-daftar-absensi-card'
 
@@ -153,7 +154,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
             variant="text"
             onClick={handleExport}
           >
-            <BsFileEarmarkExcel className="mr-2" /> Export
+            <RiFileExcel2Line className="mr-2" /> Ekspor
           </Button>
           {!ubahData && (
             <Button

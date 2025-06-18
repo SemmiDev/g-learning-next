@@ -188,6 +188,12 @@ export default function ListSoalBody() {
                   onShare={(soal) => doShowShareSoalUjian(soal)}
                   onEdit={(soal) => doShowUbah(soal.id)}
                   onDuplicate={(soal) => setIdDuplikat(soal.id)}
+                  onExport={(soal) => {
+                    window?.open(
+                      `${process.env.NEXT_PUBLIC_API_URL}/bank-soal/${soal.id}/export?access_token=${jwt}`,
+                      '_blank'
+                    )
+                  }}
                   onDelete={
                     !soal.used ? (soal) => setIdHapus(soal.id) : undefined
                   }

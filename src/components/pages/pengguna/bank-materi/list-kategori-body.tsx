@@ -136,6 +136,12 @@ export default function ListKategoriMateriBody() {
                   kategori={kategori}
                   onEdit={(id) => doShowUbah(id)}
                   onDelete={(id) => setIdHapus(id)}
+                  onExport={(materi) => {
+                    window?.open(
+                      `${process.env.NEXT_PUBLIC_API_URL}/kategori-bank-ajar/${kategori?.id}/export?access_token=${jwt}`,
+                      '_blank'
+                    )
+                  }}
                 />
               ))}
             </div>

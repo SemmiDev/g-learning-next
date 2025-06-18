@@ -10,6 +10,7 @@ import {
   BsTrash3,
 } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
+import { RiFileExcel2Line } from 'react-icons/ri'
 import { Dropdown } from 'rizzui'
 
 export type MateriType = {
@@ -26,6 +27,7 @@ type MateriCardProps = {
   onShare?: (materi: MateriType) => void
   onDetail?: (materi: MateriType) => void
   onEdit?: (materi: MateriType) => void
+  onExport?: (materi: MateriType) => void
   onDelete?: (materi: MateriType) => void
   className?: string
 }
@@ -35,6 +37,7 @@ export default function MateriCard({
   onShare,
   onDetail,
   onEdit,
+  onExport,
   onDelete,
   className,
 }: MateriCardProps) {
@@ -83,11 +86,20 @@ export default function MateriCard({
             <div className="py-2">
               <Dropdown.Item
                 className="text-gray-dark"
-                onClick={() => onEdit && onEdit(materi)}
+                onClick={() => onEdit?.(materi)}
               >
                 <BsPencil className="text-orange size-4 mr-2" />
                 Ubah
               </Dropdown.Item>
+              {materi.type === 'materi' && (
+                <Dropdown.Item
+                  className="text-gray-dark"
+                  onClick={() => onExport?.(materi)}
+                >
+                  <RiFileExcel2Line className="text-success size-4 mr-2" />
+                  Ekspor
+                </Dropdown.Item>
+              )}
             </div>
             <div className="py-2">
               <Dropdown.Item

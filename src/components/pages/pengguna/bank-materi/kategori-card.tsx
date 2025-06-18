@@ -5,6 +5,7 @@ import iconFolder from '@public/icons/folder.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
+import { RiFileExcel2Line } from 'react-icons/ri'
 import { Dropdown } from 'rizzui'
 
 export type KategoriType = {
@@ -16,6 +17,7 @@ export type KategoriType = {
 type KategoriCardProps = {
   kategori: KategoriType
   onEdit?: (id: string) => void
+  onExport?: (id: string) => void
   onDelete?: (id: string) => void
   className?: string
 }
@@ -23,6 +25,7 @@ type KategoriCardProps = {
 export default function KategoriCard({
   kategori,
   onEdit,
+  onExport,
   onDelete,
   className,
 }: KategoriCardProps) {
@@ -66,10 +69,17 @@ export default function KategoriCard({
           <div className="py-2">
             <Dropdown.Item
               className="text-gray-dark"
-              onClick={() => onEdit && onEdit(kategori.id)}
+              onClick={() => onEdit?.(kategori.id)}
             >
               <BsPencil className="text-warning size-4 mr-2" />
               Ubah
+            </Dropdown.Item>
+            <Dropdown.Item
+              className="text-gray-dark"
+              onClick={() => onExport?.(kategori.id)}
+            >
+              <RiFileExcel2Line className="text-success size-4 mr-2" />
+              Ekspor
             </Dropdown.Item>
           </div>
           <div className="py-2">
