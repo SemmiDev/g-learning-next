@@ -74,13 +74,15 @@ export default function KategoriCard({
               <BsPencil className="text-warning size-4 mr-2" />
               Ubah
             </Dropdown.Item>
-            <Dropdown.Item
-              className="text-gray-dark"
-              onClick={() => onExport?.(kategori.id)}
-            >
-              <RiFileExcel2Line className="text-success size-4 mr-2" />
-              Ekspor
-            </Dropdown.Item>
+            {kategori.count > 0 && (
+              <Dropdown.Item
+                className="text-gray-dark"
+                onClick={() => onExport?.(kategori.id)}
+              >
+                <RiFileExcel2Line className="text-success size-4 mr-2" />
+                Ekspor
+              </Dropdown.Item>
+            )}
           </div>
           <div className="py-2">
             <Dropdown.Item
