@@ -41,6 +41,7 @@ export const penggunaRoutes = {
   },
   transaksi: '/pengguna/transaksi',
   pustakaMedia: '/pengguna/pustaka-media',
+  obrolanAI: '/pengguna/obrolan-ai',
   googleDrive: '/pengguna/google-drive',
 }
 

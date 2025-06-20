@@ -127,6 +127,7 @@ const config: Config = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/container-queries'),
+    require('@tailwindcss/typography'),
     plugin(function ({ addVariant }) {
       // required this to prevent any style on readOnly input elements
       addVariant('not-read-only', '&:not(:read-only)')

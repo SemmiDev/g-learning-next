@@ -38,6 +38,7 @@ export default function ProfileMenu({
     >
       <Popover.Trigger>
         <button
+          title="Profil"
           className={cn(
             'w-9 shrink-0 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-10',
             buttonClassName

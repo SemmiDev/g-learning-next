@@ -1,5 +1,12 @@
 import { routes } from '@/config/routes'
-import { LuBook, LuBox, LuFileText, LuHouse, LuSave } from 'react-icons/lu'
+import {
+  LuBook,
+  LuBox,
+  LuCpu,
+  LuFileText,
+  LuHouse,
+  LuSave,
+} from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
 
 // Note: do not add href in the label object, it is rendering as label
@@ -40,21 +47,11 @@ export const menuItemsPengguna: MenuItemType[] = [
   {
     name: 'Lainnya',
   },
-  // {
-  //   name: 'Ruang Kursus',
-  //   href: '#',
-  //   icon: <LuPackage />,
-  //   dropdownItems: [
-  //     {
-  //       name: 'Instruktur',
-  //       href: routes.pengguna.ruangKursus.instruktur,
-  //     },
-  //     {
-  //       name: 'Peserta',
-  //       href: routes.pengguna.ruangKursus.peserta,
-  //     },
-  //   ],
-  // },
+  {
+    name: 'SmartCampus AI',
+    href: routes.pengguna.obrolanAI,
+    icon: <LuCpu />,
+  },
   {
     name: 'Pustaka Media',
     href: routes.pengguna.pustakaMedia,
