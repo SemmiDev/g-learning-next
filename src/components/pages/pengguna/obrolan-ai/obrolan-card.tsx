@@ -33,7 +33,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
     <Card className={cn('flex flex-col gap-2 relative p-0', className)}>
       <div className="px-2 pt-2 md:px-3">
         {showChat ? (
-          <div className="flex flex-col gap-4 max-h-[60dvh] overflow-y-scroll">
+          <div className="flex flex-col gap-12 max-h-[60dvh] overflow-y-scroll">
             <ChatUser>{chatUser}</ChatUser>
             <ChatModel>{chatModel}</ChatModel>
             <ChatUser>{chatUser}</ChatUser>

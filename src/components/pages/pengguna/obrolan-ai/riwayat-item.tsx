@@ -1,11 +1,6 @@
-import { ActionIcon, Button } from '@/components/ui'
+import { ActionIcon } from '@/components/ui'
 import cn from '@/utils/class-names'
-import {
-  BsPencil,
-  BsThreeDots,
-  BsThreeDotsVertical,
-  BsTrash3,
-} from 'react-icons/bs'
+import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 
 type RiwayatItemProps = {
