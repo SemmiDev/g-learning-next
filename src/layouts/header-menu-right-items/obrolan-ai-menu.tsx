@@ -119,7 +119,7 @@ export default function ObrolanAiMenu() {
         </div>
         <div
           ref={chatRef}
-          className="flex flex-col gap-12 flex-grow overflow-y-scroll px-4 py-2"
+          className="flex flex-col gap-12 flex-grow overflow-y-auto px-4 py-2"
         >
           <ChatUser>{chatUser}</ChatUser>
           <ChatModel>{chatModel}</ChatModel>

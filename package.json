@@ -12,6 +12,7 @@
   "dependencies": {
     "@bprogress/next": "^3.2.12",
     "@headlessui/react": "^2.2.0",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@tanstack/react-query": "^5.59.20",
     "@yudiel/react-qr-scanner": "^2.3.0",
     "chance": "^1.1.12",

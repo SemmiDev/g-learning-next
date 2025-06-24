@@ -1,16 +1,23 @@
-import { ActionIcon } from '@/components/ui'
+import { ActionIcon, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { BsPencil, BsThreeDotsVertical, BsTrash3 } from 'react-icons/bs'
 import { Dropdown } from 'rizzui'
 
+export type RiwayatItemType = {
+  id: string
+  judul: string
+}
+
 type RiwayatItemProps = {
+  data: RiwayatItemType
   active?: boolean
-  onClick?: () => void
-  onRename?: () => void
-  onDelete?: () => void
+  onClick?: (id: string) => void
+  onRename?: (id: string) => void
+  onDelete?: (id: string) => void
 }
 
 export default function RiwayatItem({
+  data,
   active,
   onClick,
   onRename,
@@ -18,17 +25,17 @@ export default function RiwayatItem({
 }: RiwayatItemProps) {
   return (
     <div
-      className={cn(
-        'flex justify-between items-start cursor-pointer hover:bg-gray-50/50',
-        {
-          'bg-blue-50/30 text-primary-dark': active,
-        }
-      )}
+      className={cn('flex items-start cursor-pointer hover:bg-gray-50/50', {
+        'bg-blue-50/30 text-primary-dark': active,
+      })}
     >
-      <div className="truncate p-2" onClick={onClick}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
-        aliquam odit incidunt officiis a? Minima expedita, nesciunt enim
-        adipisci quo consequuntur optio, ipsum, et natus sed est rem in esse?
+      <div
+        className="truncate flex-grow p-2"
+        onClick={() => onClick?.(data.id)}
+      >
+        <Text size="sm" weight="medium">
+          {data.judul}
+        </Text>
       </div>
       <Dropdown placement="bottom-start" className="mt-1">
         <Dropdown.Trigger>
@@ -40,7 +47,7 @@ export default function RiwayatItem({
           <div className="py-2">
             <Dropdown.Item
               className="text-gray-dark"
-              onClick={() => onRename?.()}
+              onClick={() => onRename?.(data.id)}
             >
               <BsPencil className="text-orange size-4 mr-2" />
               Ganti Nama
@@ -49,7 +56,7 @@ export default function RiwayatItem({
           <div className="py-2">
             <Dropdown.Item
               className="text-gray-dark"
-              onClick={() => onDelete?.()}
+              onClick={() => onDelete?.(data.id)}
             >
               <BsTrash3 className="text-danger size-4 mr-2" />
               Hapus

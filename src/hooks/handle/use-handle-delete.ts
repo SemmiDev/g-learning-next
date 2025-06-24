@@ -42,10 +42,12 @@ export function useHandleApiDelete({
   action,
   refetchKey,
   loading = 'Menghapus...',
+  onFinish,
 }: {
   action: DeleteApiType
   refetchKey?: QueryKey
   loading?: string
+  onFinish?: (id: string) => void
 }) {
   const { jwt } = useSessionJwt()
   const queryClient = useQueryClient()
@@ -65,6 +67,7 @@ export function useHandleApiDelete({
           queryKey: refetchKey,
         })
       },
+      onFinish: () => onFinish?.(id),
     })
   }
 
