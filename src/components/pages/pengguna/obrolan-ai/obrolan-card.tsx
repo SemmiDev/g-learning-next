@@ -10,12 +10,6 @@ import { BsFillSendFill } from 'react-icons/bs'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import Markdown from 'react-markdown'
 
-const chatUser =
-  'berikan saya opsi untuk kalimat di bawah ini\n\napakah kamu ingin mecetak akun untuk akses internet?\n\nkalimat tersebut digunkanan untuk kebutuhan UI design'
-
-const chatModel =
-  'Tentu, berikut beberapa opsi untuk kalimat "Apakah kamu ingin mencetak akun untuk akses internet?" yang lebih sesuai untuk UI design, dengan mempertimbangkan kejelasan, keringkasan, dan keramahan pengguna:\n\n**Opsi yang lebih ringkas dan langsung:**\n\n*   **Cetak Akun Internet?** (Paling ringkas, cocok jika ruang terbatas)\n*   **Cetak Akun?** (Jika sudah jelas konteksnya adalah akun internet)\n*   **Cetak Detail Akun?** (Menekankan apa yang akan dicetak)\n\n**Opsi yang lebih ramah dan membantu:**\n\n*   **Cetak informasi akun internet?** (Lebih lembut daripada pertanyaan langsung)\n*   **Cetak akun untuk panduan akses internet?**\n*   **Cetak akun (untuk panduan akses)?**\n\n**Opsi yang lebih berorientasi pada tindakan:**\n\n*   **Cetak Akun Sekarang** (Jika tombolnya langsung melakukan pencetakan)\n*   **Cetak Akun untuk Akses** (Menekankan tujuan pencetakan)\n\n**Pertimbangan tambahan saat memilih opsi:**\n\n*   **Ruang yang tersedia:** Jika ruang terbatas, opsi yang lebih ringkas lebih baik.\n*   **Konteks:** Jika konteksnya sudah jelas (misalnya, pengguna sudah berada di halaman pengaturan akun internet), opsi yang lebih ringkas mungkin cukup.\n*   **Target pengguna:** Jika target pengguna kurang familiar dengan teknologi, gunakan opsi yang lebih jelas dan ramah.\n*   **Gunakan Icon:** Tambahkan ikon printer yang umum untuk memperjelas fungsi tombol\n\n**Contoh penggunaan dalam UI:**\n\n*   Sebagai label tombol: "[Tombol] Cetak Akun"\n*   Sebagai teks konfirmasi: "Anda yakin ingin mencetak akun internet Anda?"\n\nSemoga ini membantu!\n'
-
 type newChatResponse = {
   code: number
   status: string
@@ -72,6 +66,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
   const [newChatReply, setNewChatReply] = useState('')
 
   const chatRef = useRef<HTMLDivElement>(null)
+  const newChatRef = useRef<HTMLTextAreaElement>(null)
 
   const newChatRows = useMemo(
     () => Math.min(10, newChat.split('\n').length),
@@ -169,6 +164,8 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
     )
 
     queryClient.invalidateQueries({ queryKey: ['pengguna.obrolan-ai.riwayat'] })
+
+    newChatRef.current?.focus()
   }
 
   const scrollChatToBottom = (delay: number = 0) => {
@@ -187,8 +184,10 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
   useEffect(() => {
     setNewChatList([])
 
+    newChatRef.current?.focus()
+
     if (activeHistoryId && !isFreshHistory && list.length > 0) {
-      scrollChatToBottom(100)
+      scrollChatToBottom()
     }
   }, [data])
 
@@ -225,8 +224,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
                 </Fragment>
               ))}
 
-              {newChatReply && <ChatModel>{newChatReply || ''}</ChatModel>}
-              {isWaitingReply && <>...</>}
+              {newChatReply && <ChatModel>{`${newChatReply}...`}</ChatModel>}
             </div>
           </>
         ) : (
@@ -237,20 +235,22 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
       </div>
       <div className="flex items-end gap-2 w-full bg-white sticky bottom-0 px-3 py-2">
         <Textarea
+          ref={newChatRef}
           className="flex-1"
-          textareaClassName="resize-none"
+          textareaClassName="resize-none [&:disabled]:!bg-muted/20"
           value={newChat}
           onChange={(e) => setNewChat(e.target.value)}
           rows={newChatRows || 1}
           placeholder="Tanyakan apa saja"
           onKeyDown={handleChatKeyDown}
-          autoFocus
+          disabled={isWaitingReply}
         ></Textarea>
         <ActionIcon
           size="sm"
           variant="outline"
           className="mb-1.5"
           onClick={handleKirimPesan}
+          disabled={isWaitingReply}
         >
           <BsFillSendFill className="size-3" />
         </ActionIcon>

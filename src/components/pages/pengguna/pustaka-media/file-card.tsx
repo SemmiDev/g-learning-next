@@ -124,7 +124,7 @@ export default function FileCard({
             <BsThreeDotsVertical size={14} />
           </ActionIcon>
         </Dropdown.Trigger>
-        <Dropdown.Menu className="w-30 divide-y !py-0">
+        <Dropdown.Menu className="w-auto divide-y !py-0">
           <div className="py-2">
             {!file.folder && file.type !== 'link' && file.link && (
               <Link href={downloadFileUrl(file.link) ?? ''} target="_blank">

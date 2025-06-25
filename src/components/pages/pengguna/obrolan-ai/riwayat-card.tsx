@@ -8,13 +8,15 @@ import {
 } from '@/components/ui'
 import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { useShowModal } from '@/hooks/use-show-modal'
 import { hapusRiwayatObrolanAiApi } from '@/services/api/shared/riwayat-obrolan-ai/hapus'
 import { listRiwayatObrolanAiApi } from '@/services/api/shared/riwayat-obrolan-ai/list'
 import { useAiChatStore } from '@/stores/ai-chat'
 import cn from '@/utils/class-names'
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { LuPlus } from 'react-icons/lu'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import UbahRiwayatObrolanModal from './modal/ubah-obrolan'
 import RiwayatItem, { RiwayatItemType } from './riwayat-item'
 
 const queryKey = ['pengguna.obrolan-ai.riwayat']
@@ -25,9 +27,17 @@ type RiwayatCardProps = {
 
 export default function RiwayatCard({ className }: RiwayatCardProps) {
   const { jwt } = useSessionJwt()
-  const queryClient = useQueryClient()
-  const { activeHistoryId, setActiveHistoryId, setActiveHistoryIdFresh } =
-    useAiChatStore()
+  const { activeHistoryId, setActiveHistoryId } = useAiChatStore()
+
+  const {
+    show: showUbah,
+    key: dataUbah,
+    doShow: doShowUbah,
+    doHide: doHideUbah,
+  } = useShowModal<{
+    id: string
+    judul: string
+  }>()
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
@@ -96,6 +106,7 @@ export default function RiwayatCard({ className }: RiwayatCardProps) {
                 active={item.id === activeHistoryId}
                 data={item}
                 onClick={(id) => setActiveHistoryId(id)}
+                onRename={(id) => doShowUbah({ id, judul: item.judul })}
                 onDelete={(id) => setIdHapus(id)}
               />
             ))
@@ -103,6 +114,12 @@ export default function RiwayatCard({ className }: RiwayatCardProps) {
           {hasNextPage && <Loader ref={refSentry} className="py-4" />}
         </div>
       </Card>
+
+      <UbahRiwayatObrolanModal
+        show={showUbah}
+        data={dataUbah}
+        onHide={doHideUbah}
+      />
 
       <ModalConfirm
         title="Hapus Riwayat Obrolan"

@@ -29,11 +29,8 @@ export default function RiwayatItem({
         'bg-blue-50/30 text-primary-dark': active,
       })}
     >
-      <div
-        className="truncate flex-grow p-2"
-        onClick={() => onClick?.(data.id)}
-      >
-        <Text size="sm" weight="medium">
+      <div className="flex-grow min-w-0 p-2" onClick={() => onClick?.(data.id)}>
+        <Text size="sm" weight="medium" className="line-clamp-1">
           {data.judul}
         </Text>
       </div>
@@ -43,14 +40,14 @@ export default function RiwayatItem({
             <BsThreeDotsVertical size={14} />
           </ActionIcon>
         </Dropdown.Trigger>
-        <Dropdown.Menu className="w-30 divide-y !py-0">
+        <Dropdown.Menu className="w-36 divide-y !py-0">
           <div className="py-2">
             <Dropdown.Item
               className="text-gray-dark"
               onClick={() => onRename?.(data.id)}
             >
               <BsPencil className="text-orange size-4 mr-2" />
-              Ganti Nama
+              Ganti Judul
             </Dropdown.Item>
           </div>
           <div className="py-2">

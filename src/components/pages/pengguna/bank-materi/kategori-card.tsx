@@ -65,7 +65,7 @@ export default function KategoriCard({
             <BsThreeDotsVertical size={14} />
           </ActionIcon>
         </Dropdown.Trigger>
-        <Dropdown.Menu className="w-30 divide-y !py-0">
+        <Dropdown.Menu className="w-auto divide-y !py-0">
           <div className="py-2">
             <Dropdown.Item
               className="text-gray-dark"

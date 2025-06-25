@@ -24,6 +24,6 @@ export const listObrolanAiApi = async ({
     jwt,
     {
       current_page: page,
-      per_page: 20,
+      per_page: 100,
     }
   )
