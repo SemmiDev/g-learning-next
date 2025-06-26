@@ -1,9 +1,12 @@
+import UbahRiwayatObrolanModal from '@/components/pages/pengguna/obrolan-ai/modal/ubah-obrolan'
+import RiwayatItem, {
+  RiwayatItemType,
+} from '@/components/pages/pengguna/obrolan-ai/riwayat-item'
 import {
-  Card,
-  CardSeparator,
+  ActionIcon,
+  Drawer,
   Loader,
   ModalConfirm,
-  Text,
   Title,
 } from '@/components/ui'
 import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
@@ -12,22 +15,16 @@ import { useShowModal } from '@/hooks/use-show-modal'
 import { hapusRiwayatObrolanAiApi } from '@/services/api/shared/riwayat-obrolan-ai/hapus'
 import { listRiwayatObrolanAiApi } from '@/services/api/shared/riwayat-obrolan-ai/list'
 import { useAiChatStore } from '@/stores/ai-chat'
-import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { LuPlus } from 'react-icons/lu'
+import { PiXBold } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import UbahRiwayatObrolanModal from './modal/ubah-obrolan'
-import RiwayatItem, { RiwayatItemType } from './riwayat-item'
 
 const queryKey = ['pengguna.obrolan-ai.riwayat']
 
-type RiwayatCardProps = {
-  className?: string
-}
-
-export default function RiwayatCard({ className }: RiwayatCardProps) {
+export default function RiwayatObrolanAiDrawer() {
+  const { openHistory, setOpenHistory, activeHistoryId, setActiveHistoryId } =
+    useAiChatStore()
   const { jwt } = useSessionJwt()
-  const { activeHistoryId, setActiveHistoryId } = useAiChatStore()
 
   const {
     show: showUbah,
@@ -80,48 +77,60 @@ export default function RiwayatCard({ className }: RiwayatCardProps) {
     onFinish: (id) => {
       if (id === activeHistoryId) {
         setActiveHistoryId(undefined)
+        setOpenHistory(false)
       }
     },
   })
 
   return (
-    <>
-      <Card className={cn('flex flex-col p-0', className)}>
-        <Title as="h5" weight="semibold" className="px-2 py-1.5">
-          Riwayat Obrolan
+    <Drawer
+      size="sm"
+      isOpen={openHistory}
+      onClose={() => setOpenHistory(false)}
+      containerClassName="flex flex-col"
+    >
+      <div className="flex items-center justify-between border-b border-muted gap-2 ps-4 pe-2 py-2">
+        <Title as="h5" weight="medium">
+          Riwayat Obrolan AI
         </Title>
-        <CardSeparator />
-        <div className="flex flex-col">
-          <ObrolanBaru
-            active={activeHistoryId === undefined}
-            onClick={() => setActiveHistoryId(undefined)}
-          />
+        <ActionIcon
+          size="sm"
+          rounded="full"
+          variant="text"
+          title={'Tutup'}
+          onClick={() => setOpenHistory(false)}
+        >
+          <PiXBold className="size-4" />
+        </ActionIcon>
+      </div>
+      <div className="flex flex-col overflow-y-auto">
+        {isLoading ? (
+          <Loader className="py-16" />
+        ) : (
+          list.map((item) => (
+            <RiwayatItem
+              key={item.id}
+              active={item.id === activeHistoryId}
+              data={item}
+              onClick={(id) => {
+                setActiveHistoryId(id)
+                setOpenHistory(false)
+              }}
+              onRename={(id) => doShowUbah({ id, judul: item.judul })}
+              onDelete={(id) => setIdHapus(id)}
+              className="px-2"
+            />
+          ))
+        )}
+      </div>
 
-          <CardSeparator />
-
-          {isLoading ? (
-            <Loader className="py-4" />
-          ) : (
-            list.map((item) => (
-              <RiwayatItem
-                key={item.id}
-                active={item.id === activeHistoryId}
-                data={item}
-                onClick={(id) => setActiveHistoryId(id)}
-                onRename={(id) => doShowUbah({ id, judul: item.judul })}
-                onDelete={(id) => setIdHapus(id)}
-              />
-            ))
-          )}
-
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
-        </div>
-      </Card>
+      {hasNextPage && <Loader ref={refSentry} className="py-4" />}
 
       <UbahRiwayatObrolanModal
         show={showUbah}
         data={dataUbah}
         onHide={doHideUbah}
+        className="z-[9999]"
       />
 
       <ModalConfirm
@@ -132,34 +141,10 @@ export default function RiwayatCard({ className }: RiwayatCardProps) {
         onClose={() => setIdHapus(undefined)}
         onConfirm={handleHapus}
         headerIcon="help"
+        className="z-[9999]"
         closeOnCancel
         confirmLoading
       />
-    </>
-  )
-}
-
-function ObrolanBaru({
-  active,
-  onClick,
-}: {
-  active?: boolean
-  onClick?: () => void
-}) {
-  return (
-    <div
-      className={cn(
-        'flex items-center cursor-pointer truncate p-2 hover:bg-gray-50/50',
-        {
-          'bg-blue-50/30 text-primary-dark': active,
-        }
-      )}
-      onClick={onClick}
-    >
-      <LuPlus className="size-3 me-1" />
-      <Text size="sm" weight="semibold">
-        Obrolan Baru
-      </Text>
-    </div>
+    </Drawer>
   )
 }

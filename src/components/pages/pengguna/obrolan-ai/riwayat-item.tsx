@@ -14,6 +14,7 @@ type RiwayatItemProps = {
   onClick?: (id: string) => void
   onRename?: (id: string) => void
   onDelete?: (id: string) => void
+  className?: string
 }
 
 export default function RiwayatItem({
@@ -22,12 +23,17 @@ export default function RiwayatItem({
   onClick,
   onRename,
   onDelete,
+  className,
 }: RiwayatItemProps) {
   return (
     <div
-      className={cn('flex items-start cursor-pointer hover:bg-gray-50/50', {
-        'bg-blue-50/30 text-primary-dark': active,
-      })}
+      className={cn(
+        'flex items-start cursor-pointer hover:bg-gray-50/50',
+        className,
+        {
+          'bg-blue-50/30 text-primary-dark': active,
+        }
+      )}
     >
       <div className="flex-grow min-w-0 p-2" onClick={() => onClick?.(data.id)}>
         <Text size="sm" weight="medium" className="line-clamp-1">

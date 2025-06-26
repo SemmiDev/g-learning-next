@@ -17,7 +17,7 @@ export default function Drawer({
         'cursor-default dark:bg-opacity-40 dark:backdrop-blur-md'
       )}
       containerClassName={cn(containerClassName, 'dark:bg-gray-100')}
-      className={cn(className, 'z-[9999]')}
+      className={cn(className, 'z-[9990]')}
       {...props}
     />
   )

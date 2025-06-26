@@ -29,12 +29,14 @@ type UbahRiwayatObrolanModalProps = {
   }
   show: boolean
   onHide: () => void
+  className?: string
 }
 
 export default function UbahRiwayatObrolanModal({
   data,
   show,
   onHide,
+  className,
 }: UbahRiwayatObrolanModalProps) {
   const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
@@ -77,6 +79,7 @@ export default function UbahRiwayatObrolanModal({
       color="warning"
       isOpen={show}
       onClose={handleClose}
+      className={className}
     >
       <Form<UbahRiwayatObrolanFormSchema>
         onSubmit={onSubmit}
