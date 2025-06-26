@@ -149,7 +149,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
   const scrollWindowToBottom = (delay: number = 0) => {
     setTimeout(() => {
       window.scrollTo({
-        top: 500,
+        top: document.documentElement.scrollHeight,
         behavior: 'instant',
       })
     }, delay)
@@ -224,7 +224,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
           rows={newChatRows || 1}
           placeholder="Tanyakan apa saja"
           onKeyDown={handleChatKeyDown}
-          onFocus={() => scrollWindowToBottom(250)}
+          onFocus={() => scrollWindowToBottom(200)}
           disabled={isWaitingReply}
         ></Textarea>
         <ActionIcon
