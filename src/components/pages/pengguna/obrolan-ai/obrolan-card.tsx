@@ -134,12 +134,22 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
     queryClient.invalidateQueries({ queryKey: ['pengguna.obrolan-ai.riwayat'] })
 
     newChatRef.current?.focus()
+    scrollWindowToBottom()
   }
 
   const scrollChatToBottom = (delay: number = 0) => {
     setTimeout(() => {
       chatRef.current?.scrollTo({
         top: chatRef.current.scrollHeight,
+        behavior: 'instant',
+      })
+    }, delay)
+  }
+
+  const scrollWindowToBottom = (delay: number = 0) => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 500,
         behavior: 'instant',
       })
     }, delay)
@@ -214,6 +224,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
           rows={newChatRows || 1}
           placeholder="Tanyakan apa saja"
           onKeyDown={handleChatKeyDown}
+          onFocus={() => scrollWindowToBottom(250)}
           disabled={isWaitingReply}
         ></Textarea>
         <ActionIcon

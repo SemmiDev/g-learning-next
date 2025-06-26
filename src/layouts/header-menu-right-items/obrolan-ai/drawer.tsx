@@ -179,7 +179,7 @@ export default function ObrolanAiDrawer() {
   }
 
   useEffect(() => {
-    scrollChatToBottom()
+    scrollChatToBottom(150)
   }, [list, newChatList, newChatReply])
 
   useEffect(() => {

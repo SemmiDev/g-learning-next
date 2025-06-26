@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/options'
 
 /* Temporary Fix for react-select issue https://github.com/JedWatson/react-select/issues/5911 */
+import { Viewport } from 'next'
 import * as React from 'react'
 declare global {
   namespace JSX {
@@ -38,6 +39,12 @@ declare global {
 export const metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+}
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
+  interactiveWidget: 'resizes-content',
 }
 
 type RootLayoutProps = {
