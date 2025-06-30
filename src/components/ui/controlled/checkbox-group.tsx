@@ -10,24 +10,25 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { FieldError, Radio, RadioProps } from 'rizzui'
+import { Checkbox, CheckboxProps, FieldError } from 'rizzui'
 import Label from '../label'
 import TextLabel from '../text/label'
 
-export type RadioGroupOptionType = AnyObject & {
+export type CheckboxGroupOptionType = AnyObject & {
   label: string
   value: any
-  variant?: RadioProps['variant']
-  size?: RadioProps['size']
-  labelWeight?: RadioProps['labelWeight']
-  labelPlacement?: RadioProps['labelPlacement']
-  disabled?: RadioProps['disabled']
+  variant?: CheckboxProps['variant']
+  size?: CheckboxProps['size']
+  labelWeight?: CheckboxProps['labelWeight']
+  rounded?: CheckboxProps['rounded']
+  labelPlacement?: CheckboxProps['labelPlacement']
+  disabled?: CheckboxProps['disabled']
 }
 
-export type ControlledRadioGroupProps<
+export type ControlledCheckboxGroupProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
-  TGroupOption extends RadioGroupOptionType
+  TGroupOption extends CheckboxGroupOptionType
 > = {
   name: TName
   control: Control<TFieldValues>
@@ -40,16 +41,17 @@ export type ControlledRadioGroupProps<
   labelClassName?: string
   groupClassName?: string
   optionClassNames?: string
-  variant?: RadioProps['variant']
-  size?: RadioProps['size']
-  labelWeight?: RadioProps['labelWeight']
-  labelPlacement?: RadioProps['labelPlacement']
+  variant?: CheckboxProps['variant']
+  size?: CheckboxProps['size']
+  labelWeight?: CheckboxProps['labelWeight']
+  rounded?: CheckboxProps['rounded']
+  labelPlacement?: CheckboxProps['labelPlacement']
 }
 
-export default function ControlledRadioGroup<
+export default function ControlledCheckboxGroup<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-  TGroupOption extends RadioGroupOptionType = RadioGroupOptionType
+  TGroupOption extends CheckboxGroupOptionType = CheckboxGroupOptionType
 >({
   name,
   control,
@@ -65,8 +67,9 @@ export default function ControlledRadioGroup<
   variant,
   size,
   labelWeight,
+  rounded,
   labelPlacement,
-}: ControlledRadioGroupProps<TFieldValues, TName, TGroupOption>) {
+}: ControlledCheckboxGroupProps<TFieldValues, TName, TGroupOption>) {
   const error = errors ? (errors[name]?.message as string) : undefined
 
   return (
@@ -83,7 +86,7 @@ export default function ControlledRadioGroup<
           render={({ field: { value, onChange: setValue, onBlur } }) => (
             <>
               {options?.map((option) => (
-                <Radio
+                <Checkbox
                   key={option.value}
                   className={cn(
                     '[&_.rizzui-radio-field]:cursor-pointer',
@@ -94,14 +97,21 @@ export default function ControlledRadioGroup<
                   value={option.value}
                   onChange={(_) => {
                     onChange && onChange(option.value)
-                    setValue(option.value)
+
+                    if (value.includes(option.value)) {
+                      setValue(value.filter((val: any) => val !== option.value))
+                    } else {
+                      setValue([...value, option.value])
+                    }
                   }}
                   onBlur={onBlur}
-                  checked={value === option.value}
-                  variant={variant}
-                  size={size}
-                  labelWeight={labelWeight}
-                  labelPlacement={labelPlacement}
+                  checked={value.includes(option.value)}
+                  variant={option.variant ?? variant}
+                  size={option.size ?? size}
+                  labelWeight={option.labelWeight ?? labelWeight}
+                  rounded={option.rounded ?? rounded}
+                  labelPlacement={option.labelPlacement ?? labelPlacement}
+                  disabled={option.disabled}
                 />
               ))}
             </>

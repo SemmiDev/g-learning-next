@@ -1,0 +1,32 @@
+'use client'
+
+import { Button, Title } from '@/components/ui'
+import { useState } from 'react'
+import TambahModal from './modal/tambah'
+import TableProdiCard from './table-prodi-card'
+
+export default function ManajemenProdiBody() {
+  const [showTambah, setShowTambah] = useState(false)
+
+  return (
+    <>
+      <div className="flex flex-col gap-y-4">
+        <div className="flex justify-between gap-x-2">
+          <Title as="h4" size="1.5xl" weight="semibold">
+            List admin prodi yang terdaftar
+          </Title>
+          <Button
+            size="sm"
+            className="text-nowrap"
+            onClick={() => setShowTambah(true)}
+          >
+            Tambah Admin Prodi
+          </Button>
+        </div>
+        <TableProdiCard />
+      </div>
+
+      <TambahModal show={showTambah} setShow={setShowTambah} />
+    </>
+  )
+}
