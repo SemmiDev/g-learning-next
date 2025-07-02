@@ -4,6 +4,7 @@ import Button, { ButtonProps } from './button'
 
 export type ButtonSubmitProps = Omit<ButtonProps, 'isLoading'> & {
   isSubmitting?: boolean
+  showLoader?: boolean
   loaderSize?: LoaderTypes['size']
 }
 
@@ -12,6 +13,7 @@ export default forwardRef<HTMLButtonElement, ButtonSubmitProps>(
     {
       type = 'submit',
       isSubmitting = false,
+      showLoader = true,
       loaderSize = 'sm',
       disabled,
       children,
@@ -26,7 +28,7 @@ export default forwardRef<HTMLButtonElement, ButtonSubmitProps>(
         disabled={isSubmitting || disabled}
         {...props}
       >
-        {isSubmitting && (
+        {showLoader && isSubmitting && (
           <Loader size={loaderSize} variant="spinner" className="mr-2" />
         )}
         {children}

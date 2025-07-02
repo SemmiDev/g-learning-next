@@ -40,10 +40,12 @@ export type ControlledRadioGroupProps<
   labelClassName?: string
   groupClassName?: string
   optionClassNames?: string
+  errorClassNames?: string
   variant?: RadioProps['variant']
   size?: RadioProps['size']
   labelWeight?: RadioProps['labelWeight']
   labelPlacement?: RadioProps['labelPlacement']
+  disabled?: RadioProps['disabled']
 }
 
 export default function ControlledRadioGroup<
@@ -62,10 +64,12 @@ export default function ControlledRadioGroup<
   labelClassName,
   groupClassName,
   optionClassNames,
+  errorClassNames,
   variant,
   size,
   labelWeight,
   labelPlacement,
+  disabled,
 }: ControlledRadioGroupProps<TFieldValues, TName, TGroupOption>) {
   const error = errors ? (errors[name]?.message as string) : undefined
 
@@ -93,22 +97,30 @@ export default function ControlledRadioGroup<
                   name={name}
                   value={option.value}
                   onChange={(_) => {
-                    onChange && onChange(option.value)
+                    onChange && onChange(option)
+
                     setValue(option.value)
                   }}
                   onBlur={onBlur}
                   checked={value === option.value}
-                  variant={variant}
-                  size={size}
-                  labelWeight={labelWeight}
-                  labelPlacement={labelPlacement}
+                  variant={option.variant ?? variant}
+                  size={option.size ?? size}
+                  labelWeight={option.labelWeight ?? labelWeight}
+                  labelPlacement={option.labelPlacement ?? labelPlacement}
+                  disabled={option.disabled ?? disabled}
                 />
               ))}
             </>
           )}
         />
-        {error && <FieldError size="md" error={error} />}
       </div>
+      {error && (
+        <FieldError
+          size="md"
+          error={error}
+          className={cn('mt-2', errorClassNames)}
+        />
+      )}
     </div>
   )
 }

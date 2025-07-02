@@ -36,16 +36,18 @@ export type ControlledCheckboxGroupProps<
   label?: ReactNode
   required?: boolean
   options?: TGroupOption[]
-  onChange?(value: any): void
+  onChange?(value: TGroupOption): void
   className?: string
   labelClassName?: string
   groupClassName?: string
   optionClassNames?: string
+  errorClassNames?: string
   variant?: CheckboxProps['variant']
   size?: CheckboxProps['size']
   labelWeight?: CheckboxProps['labelWeight']
   rounded?: CheckboxProps['rounded']
   labelPlacement?: CheckboxProps['labelPlacement']
+  disabled?: CheckboxProps['disabled']
 }
 
 export default function ControlledCheckboxGroup<
@@ -64,11 +66,13 @@ export default function ControlledCheckboxGroup<
   labelClassName,
   groupClassName,
   optionClassNames,
+  errorClassNames,
   variant,
   size,
   labelWeight,
   rounded,
   labelPlacement,
+  disabled,
 }: ControlledCheckboxGroupProps<TFieldValues, TName, TGroupOption>) {
   const error = errors ? (errors[name]?.message as string) : undefined
 
@@ -83,42 +87,52 @@ export default function ControlledCheckboxGroup<
         <Controller
           control={control}
           name={name}
-          render={({ field: { value, onChange: setValue, onBlur } }) => (
-            <>
-              {options?.map((option) => (
-                <Checkbox
-                  key={option.value}
-                  className={cn(
-                    '[&_.rizzui-radio-field]:cursor-pointer',
-                    optionClassNames
-                  )}
-                  label={option.label}
-                  name={name}
-                  value={option.value}
-                  onChange={(_) => {
-                    onChange && onChange(option.value)
+          render={({ field: { value, onChange: setValue, onBlur } }) => {
+            const list: (typeof value)[] = value ?? []
 
-                    if (value.includes(option.value)) {
-                      setValue(value.filter((val: any) => val !== option.value))
-                    } else {
-                      setValue([...value, option.value])
-                    }
-                  }}
-                  onBlur={onBlur}
-                  checked={value.includes(option.value)}
-                  variant={option.variant ?? variant}
-                  size={option.size ?? size}
-                  labelWeight={option.labelWeight ?? labelWeight}
-                  rounded={option.rounded ?? rounded}
-                  labelPlacement={option.labelPlacement ?? labelPlacement}
-                  disabled={option.disabled}
-                />
-              ))}
-            </>
-          )}
+            return (
+              <>
+                {options?.map((option) => (
+                  <Checkbox
+                    key={option.value}
+                    className={cn(
+                      '[&_.rizzui-radio-field]:cursor-pointer',
+                      optionClassNames
+                    )}
+                    label={option.label}
+                    name={name}
+                    value={option.value}
+                    onChange={(_) => {
+                      onChange && onChange(option)
+
+                      if (list.includes(option.value)) {
+                        setValue(list.filter((val) => val !== option.value))
+                      } else {
+                        setValue([...list, option.value])
+                      }
+                    }}
+                    onBlur={onBlur}
+                    checked={list.includes(option.value)}
+                    variant={option.variant ?? variant}
+                    size={option.size ?? size}
+                    labelWeight={option.labelWeight ?? labelWeight}
+                    rounded={option.rounded ?? rounded}
+                    labelPlacement={option.labelPlacement ?? labelPlacement}
+                    disabled={option.disabled ?? disabled}
+                  />
+                ))}
+              </>
+            )
+          }}
         />
-        {error && <FieldError size="md" error={error} />}
       </div>
+      {error && (
+        <FieldError
+          size="md"
+          error={error}
+          className={cn('mt-2', errorClassNames)}
+        />
+      )}
     </div>
   )
 }

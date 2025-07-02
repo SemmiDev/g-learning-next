@@ -12,16 +12,22 @@ import {
 import ControlledCheckboxGroup, {
   CheckboxGroupOptionType,
 } from '@/components/ui/controlled/checkbox-group'
-import { wait } from '@/utils/wait'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataPengaturanPresensiApi } from '@/services/api/instansi/profil/pengaturan-presensi/data'
+import { ubahPengaturanPresensiApi } from '@/services/api/instansi/profil/pengaturan-presensi/ubah'
+import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
-  absensiPengajar: z.array(z.string()),
-  absensiPeserta: z.array(z.string()),
+  absensiPengajar: z
+    .array(z.string())
+    .min(1, 'Presensi pengajar wajib dipilih'),
+  absensiPeserta: z.array(z.string()).min(1, 'Presensi peserta wajib dipilih'),
 })
 
-type PengaturanPresensiFormSchema = {
+export type PengaturanPresensiFormSchema = {
   absensiPengajar: string[]
   absensiPeserta: string[]
 }
@@ -36,33 +42,41 @@ const AbsensiPesertaOptions: CheckboxGroupOptionType[] = [
   { label: 'Presensi Otomatis', value: 'Otomatis' },
   { label: 'Presensi GPS', value: 'GPS' },
   { label: 'Presensi Swafoto', value: 'Swafoto' },
-  { label: 'Presensi GPS dan Swafoto', value: 'GPS dan Swafoto' },
   { label: 'Presensi QR Code', value: 'QR Code' },
 ]
 
+const queryKey = ['instansi.profil.pengaturan-presensi']
+
 export default function PengaturanPresensiBody() {
+  const { jwt, processApi } = useSessionJwt()
+  const queryClient = useQueryClient()
+
+  const { data: initialValues, isLoading } =
+    useQuery<PengaturanPresensiFormSchema>({
+      queryKey,
+      queryFn: async () => {
+        const { data } = await dataPengaturanPresensiApi(jwt)
+
+        return {
+          absensiPengajar: (data?.absensi_dosen ?? [])
+            .filter((item) => item.aktif)
+            .map((item) => item.tipe),
+          absensiPeserta: (data?.absensi_mahasiswa ?? [])
+            .filter((item) => item.aktif)
+            .map((item) => item.tipe),
+        }
+      },
+    })
+
   const onSubmit: SubmitHandler<PengaturanPresensiFormSchema> = async (
     data
   ) => {
-    console.log(data)
-
-    await wait(3000)
-
-    // await handleActionWithToast(processApi(ubahProfilApi, data), {
-    //   loading: 'Menyimpan...',
-    //   onStart: () => setFormError(undefined),
-    //   onSuccess: () => {
-    //     setShow(false)
-    //     queryClient.invalidateQueries({ queryKey: ['instansi.profil'] })
-    //     updateSession({ name: data.nama })
-    //   },
-    //   onError: ({ message }) => setFormError(message),
-    // })
-  }
-
-  const initialValues: PengaturanPresensiFormSchema = {
-    absensiPengajar: [],
-    absensiPeserta: [],
+    await handleActionWithToast(processApi(ubahPengaturanPresensiApi, data), {
+      loading: 'Menyimpan...',
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
   }
 
   return (
@@ -77,7 +91,7 @@ export default function PengaturanPresensiBody() {
             values: initialValues,
           }}
         >
-          {({ control, formState: { errors, isSubmitting } }) => (
+          {({ control, formState: { errors, isSubmitting, isDirty } }) => (
             <>
               <div className="flex justify-between p-2">
                 <Title as="h4" size="1.5xl" weight="semibold">
@@ -87,6 +101,8 @@ export default function PengaturanPresensiBody() {
                   size="sm"
                   color="warning"
                   isSubmitting={isSubmitting}
+                  disabled={!isDirty}
+                  showLoader={false}
                 >
                   Simpan Perubahan
                 </ButtonSubmit>
@@ -107,13 +123,14 @@ export default function PengaturanPresensiBody() {
                         options={AbsensiPengajarOptions}
                         errors={errors}
                         groupClassName="flex-wrap gap-x-6"
+                        disabled={isLoading}
                       />
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <TextLabel>
-                        <Label label="Pengajar" />
+                        <Label label="Peserta" />
                       </TextLabel>
                     </td>
                     <td>
@@ -123,6 +140,7 @@ export default function PengaturanPresensiBody() {
                         options={AbsensiPesertaOptions}
                         errors={errors}
                         groupClassName="flex-wrap gap-x-6"
+                        disabled={isLoading}
                       />
                     </td>
                   </tr>
