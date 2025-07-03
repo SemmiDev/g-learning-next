@@ -173,7 +173,6 @@ export default function PengajarSesiPembelajaranBody() {
         id={keyUbahAbsensi}
         show={showUbahAbsensi}
         onHide={doHideUbahAbsensi}
-        listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
       />
 
       <ModalConfirm

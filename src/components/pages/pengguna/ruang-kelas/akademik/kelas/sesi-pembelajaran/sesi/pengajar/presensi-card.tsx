@@ -227,35 +227,40 @@ export default function PengajarPresensiCard({
               </div>
             )}
 
-            {!ubahData && (
-              <Dropdown placement="bottom-end">
-                <Dropdown.Trigger>
-                  <ActionIcon as="span" size="sm" variant="text">
-                    <BsThreeDots className="size-4" />
-                  </ActionIcon>
-                </Dropdown.Trigger>
-                <Dropdown.Menu className="w-52 divide-y !py-0">
-                  <div className="py-2">
-                    <Dropdown.Item
-                      className="text-gray-dark"
-                      onClick={() => doShowUbahAbsensi(idSesi)}
-                    >
-                      <BsPencil className="text-warning size-4 mr-2" />
-                      Ubah Jenis Presensi
-                    </Dropdown.Item>
-                    {dataSesi?.jenis_absensi_peserta !== 'Manual' && (
-                      <Dropdown.Item
-                        className="text-gray-dark"
-                        onClick={() => setUbahData(true)}
-                      >
-                        <BsPencil className="text-warning size-4 mr-2" />
-                        Ubah Data Presensi
-                      </Dropdown.Item>
-                    )}
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-            )}
+            {!ubahData &&
+              (dataSesi?.status !== 'Telah Berakhir' ||
+                dataSesi?.jenis_absensi_peserta !== 'Manual') && (
+                <Dropdown placement="bottom-end">
+                  <Dropdown.Trigger>
+                    <ActionIcon as="span" size="sm" variant="text">
+                      <BsThreeDots className="size-4" />
+                    </ActionIcon>
+                  </Dropdown.Trigger>
+                  <Dropdown.Menu className="w-52 divide-y !py-0">
+                    <div className="py-2">
+                      {dataSesi?.status !== 'Telah Berakhir' && (
+                        <Dropdown.Item
+                          className="text-gray-dark"
+                          onClick={() => doShowUbahAbsensi(idSesi)}
+                        >
+                          <BsPencil className="text-warning size-4 mr-2" />
+                          Ubah Jenis Presensi
+                        </Dropdown.Item>
+                      )}
+
+                      {dataSesi?.jenis_absensi_peserta !== 'Manual' && (
+                        <Dropdown.Item
+                          className="text-gray-dark"
+                          onClick={() => setUbahData(true)}
+                        >
+                          <BsPencil className="text-warning size-4 mr-2" />
+                          Ubah Data Presensi
+                        </Dropdown.Item>
+                      )}
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+              )}
           </div>
         </div>
 

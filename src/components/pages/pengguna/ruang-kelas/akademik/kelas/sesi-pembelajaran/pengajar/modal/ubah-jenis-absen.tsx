@@ -8,6 +8,7 @@ import {
   RadioGroupOptionType,
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { lihatSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/lihat'
 import { ubahJenisAbsenSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/ubah-jenis-absen'
 import { handleActionWithToast } from '@/utils/action'
@@ -38,21 +39,24 @@ type UbahJenisAbsenSesiModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
-  listJenisAbsen?: string[]
 }
 
 export default function UbahJenisAbsenSesiModal({
   id,
   show,
   onHide,
-  listJenisAbsen,
 }: UbahJenisAbsenSesiModalProps) {
-  const { processApi } = useSessionJwt()
+  const { processApi, makeSimpleApiQueryData } = useSessionJwt()
   const queryClient = useQueryClient()
 
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
+  })
 
   const queryKey = [
     'pengguna.ruang-kelas.sesi-pembelajaran.ubah-jenis-absen',
@@ -126,9 +130,9 @@ export default function UbahJenisAbsenSesiModal({
   const jenisAbsenAvailableOptions = useMemo(
     () =>
       jenisAbsenOptions.filter((option) =>
-        listJenisAbsen?.includes(option.value)
+        dataKelas?.pengaturan_absensi_peserta?.includes(option.value)
       ),
-    [listJenisAbsen]
+    [dataKelas]
   )
 
   return (

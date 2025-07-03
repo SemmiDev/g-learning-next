@@ -152,13 +152,16 @@ export default function PengajarSesiItemCard({
                       <BsPencil className="text-warning size-4 mr-2" />
                       Ubah Judul Sesi
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      className="text-gray-dark"
-                      onClick={onUbahAbsensi}
-                    >
-                      <BsPencil className="text-warning size-4 mr-2" />
-                      Ubah Jenis Presensi Peserta
-                    </Dropdown.Item>
+
+                    {sesi.status !== 'Telah Berakhir' && (
+                      <Dropdown.Item
+                        className="text-gray-dark"
+                        onClick={onUbahAbsensi}
+                      >
+                        <BsPencil className="text-warning size-4 mr-2" />
+                        Ubah Jenis Presensi Peserta
+                      </Dropdown.Item>
+                    )}
                   </>
                 )}
               </div>

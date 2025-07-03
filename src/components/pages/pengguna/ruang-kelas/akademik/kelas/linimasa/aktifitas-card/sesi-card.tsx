@@ -94,7 +94,7 @@ export default function SesiCard({ kelas, data, className }: SesiCardProps) {
                   <BsThreeDots className="size-4" />
                 </ActionIcon>
               </Dropdown.Trigger>
-              <Dropdown.Menu className="w-64 divide-y !py-0">
+              <Dropdown.Menu className="w-auto divide-y !py-0">
                 <div className="py-2">
                   <Dropdown.Item
                     className="text-gray-dark"
@@ -105,15 +105,17 @@ export default function SesiCard({ kelas, data, className }: SesiCardProps) {
                     <BsPencil className="text-warning size-4 mr-2" />
                     Ubah Judul Sesi
                   </Dropdown.Item>
-                  <Dropdown.Item
-                    className="text-gray-dark"
-                    onClick={() =>
-                      doShowUbahAbsensi(data.pertemuan_kelas?.id || '')
-                    }
-                  >
-                    <BsPencil className="text-warning size-4 mr-2" />
-                    Ubah Jenis Presensi Peserta
-                  </Dropdown.Item>
+                  {data?.pertemuan_kelas.status !== 'Telah Berakhir' && (
+                    <Dropdown.Item
+                      className="text-gray-dark"
+                      onClick={() =>
+                        doShowUbahAbsensi(data.pertemuan_kelas?.id || '')
+                      }
+                    >
+                      <BsPencil className="text-warning size-4 mr-2" />
+                      Ubah Jenis Presensi Peserta
+                    </Dropdown.Item>
+                  )}
                 </div>
               </Dropdown.Menu>
             </Dropdown>
