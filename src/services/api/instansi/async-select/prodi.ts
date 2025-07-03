@@ -2,12 +2,13 @@ import { AsyncPaginateSelectActionProps } from '@/components/ui/select/async-pag
 import { makeJwtGetRequestSelectDataApi } from '@/utils/api'
 
 export type DataType = {
+  id: string
   id_sms: string
   nm_lemb: string
   nama_jenjang_didik: string
 }
 
-export const jurusanSelectDataApi = async ({
+export const prodiSelectDataApi = async ({
   jwt,
   page,
   search,

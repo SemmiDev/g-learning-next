@@ -16,6 +16,7 @@ import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import _ from 'lodash'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
@@ -91,7 +92,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
         })
         queryClient.setQueryData(queryKey, (oldData: UbahAdminFormSchema) => ({
           ...oldData,
-          ...data,
+          ..._.pick(data, ['nama', 'username']),
         }))
         onHide()
       },

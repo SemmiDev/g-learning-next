@@ -69,12 +69,14 @@ type UbahSesiModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
+  listJenisAbsen?: string[]
 }
 
 export default function UbahSesiModal({
   id,
   show,
   onHide,
+  listJenisAbsen,
 }: UbahSesiModalProps) {
   const { processApi } = useSessionJwt()
   const size = useAutoSizeLargeModal()
@@ -153,6 +155,14 @@ export default function UbahSesiModal({
   const ruanganSelectDataApi = useMemo(
     () => ruanganMakeSelectDataApi(idKelas),
     [idKelas]
+  )
+
+  const jenisAbsenAvailableOptions = useMemo(
+    () =>
+      jenisAbsenOptions.filter((option) =>
+        listJenisAbsen?.includes(option.value)
+      ),
+    [listJenisAbsen]
   )
 
   return (
@@ -254,8 +264,8 @@ export default function UbahSesiModal({
                   className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                   groupClassName="flex-wrap gap-x-8 gap-y-4"
                   optionClassNames="w-full xs:w-auto"
-                  labelClassName="mb-0"
-                  options={jenisAbsenOptions}
+                  labelClassName="min-w-28 mb-0"
+                  options={jenisAbsenAvailableOptions}
                 />
 
                 <FormError error={formError} />

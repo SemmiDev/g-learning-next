@@ -1,7 +1,7 @@
 import {
+  ControlledAsyncPaginateSelect,
   ControlledInput,
   ControlledPassword,
-  ControlledSelect,
   Form,
   FormError,
   Modal,
@@ -9,10 +9,15 @@ import {
   SelectOptionType,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { prodiSelectDataApi } from '@/services/api/instansi/async-select/prodi'
+import { tambahAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/tambah'
+import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
 import { wait } from '@/utils/wait'
 import { z } from '@/utils/zod-id'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
@@ -29,7 +34,7 @@ const formSchema = z
     path: ['ulangiPassword'],
   })
 
-export type TambahProdiFormSchema = {
+export type TambahAdminProdiFormSchema = {
   prodi?: SelectOptionType
   nama?: string
   username?: string
@@ -37,15 +42,7 @@ export type TambahProdiFormSchema = {
   ulangiPassword?: string
 }
 
-const prodiOptions: SelectOptionType[] = [
-  { label: 'Teknik Informatika', value: '1' },
-  { label: 'Teknik Komputer', value: '2' },
-  { label: 'Sistem Informasi', value: '3' },
-  { label: 'Bahasa', value: '4' },
-  { label: 'Teknik Elektro', value: '5' },
-]
-
-const initialValues: TambahProdiFormSchema = {}
+const initialValues: TambahAdminProdiFormSchema = {}
 
 type TambahModalProps = {
   show?: boolean
@@ -56,27 +53,24 @@ export default function TambahModal({
   show = false,
   setShow,
 }: TambahModalProps) {
-  // const { processApi } = useSessionJwt()
-  // const queryClient = useQueryClient()
+  const { processApi } = useSessionJwt()
+  const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
+
   const [formError, setFormError] = useState<string>()
 
-  const onSubmit: SubmitHandler<TambahProdiFormSchema> = async (data) => {
-    console.log(data)
-
-    await wait(3000)
-
-    // await handleActionWithToast(processApi(tambahProdiApi, data), {
-    //   loading: 'Menyimpan...',
-    //   onStart: () => setFormError(undefined),
-    //   onSuccess: () => {
-    //     setShow(false)
-    //     queryClient.invalidateQueries({
-    //       queryKey: ['instansi.prodi.table'],
-    //     })
-    //   },
-    //   onError: ({ message }) => setFormError(message),
-    // })
+  const onSubmit: SubmitHandler<TambahAdminProdiFormSchema> = async (data) => {
+    await handleActionWithToast(processApi(tambahAdminProdiApi, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        setShow(false)
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.manajemen-prodi.table'],
+        })
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   const handleClose = () => {
@@ -92,7 +86,7 @@ export default function TambahModal({
       onClose={handleClose}
       overflow
     >
-      <Form<TambahProdiFormSchema>
+      <Form<TambahAdminProdiFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{
@@ -104,12 +98,16 @@ export default function TambahModal({
         {({ control, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
-              <ControlledSelect
+              <ControlledAsyncPaginateSelect
                 name="prodi"
                 control={control}
-                options={prodiOptions}
                 label="Program Studi"
                 placeholder="Pilih Program Studi"
+                action={prodiSelectDataApi}
+                construct={(data) => ({
+                  label: data.nm_lemb,
+                  value: data.id,
+                })}
                 errors={errors}
                 required
               />

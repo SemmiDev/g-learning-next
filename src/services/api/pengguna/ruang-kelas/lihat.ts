@@ -38,6 +38,14 @@ export type DataType = {
     nama: string
     foto: string
   }[]
+  pengaturan_absensi_peserta: (
+    | 'Manual'
+    | 'Otomatis'
+    | 'GPS'
+    | 'Swafoto'
+    | 'GPS dan Swafoto'
+    | 'QR Code'
+  )[]
   total_pertemuan_terlaksana: number
   peran: 'Pengajar' | 'Peserta'
 }

@@ -1,7 +1,7 @@
 import {
+  ControlledAsyncPaginateSelect,
   ControlledInput,
   ControlledPassword,
-  ControlledSelect,
   Form,
   FormError,
   Loader,
@@ -11,11 +11,16 @@ import {
   TextSpan,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { prodiSelectDataApi } from '@/services/api/instansi/async-select/prodi'
+import { lihatAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/lihat'
+import { ubahAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/ubah'
+import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { objectRequired } from '@/utils/validations/refine'
-import { wait } from '@/utils/wait'
 import { z } from '@/utils/zod-id'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import _ from 'lodash'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
@@ -41,7 +46,7 @@ const formSchema = z
     }
   )
 
-export type UbahProdiFormSchema = {
+export type UbahAdminProdiFormSchema = {
   prodi?: SelectOptionType
   nama?: string
   username?: string
@@ -64,63 +69,62 @@ type UbahModalProps = {
 }
 
 export default function UbahModal({ id, show, onHide }: UbahModalProps) {
-  // const { processApi } = useSessionJwt()
-  // const queryClient = useQueryClient()
+  const { processApi } = useSessionJwt()
+  const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
+
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['instansi.manajemen-prodi.table.ubah', id]
+  const queryKey = ['instansi.profil.manajemen-prodi.table.ubah', id]
 
   const {
     data: initialValues,
     isLoading,
     isFetching,
-  } = useQuery<UbahProdiFormSchema>({
+  } = useQuery<UbahAdminProdiFormSchema>({
     queryKey,
     queryFn: async () => {
       if (!id) return {}
 
-      // const { data } = await processApi(lihatProdiApi, id)
+      const { data } = await processApi(lihatAdminProdiApi, id)
 
       return {
-        prodi: prodiOptions[1],
-        nama: 'Sutandara',
-        username: 'sutandara',
+        prodi: data?.id_sms
+          ? { label: data.nm_lemb, value: data.id_sms }
+          : undefined,
+        nama: data?.nama,
+        username: data?.username,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<UbahProdiFormSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UbahAdminProdiFormSchema> = async (data) => {
     if (!id) return
 
-    console.log(data)
-
-    await wait(3000)
-
-    // await handleActionWithToast(processApi(ubahProdiApi, id, data), {
-    //   loading: 'Menyimpan...',
-    //   onStart: () => setFormError(undefined),
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries({
-    //       queryKey: ['instansi.prodi.table'],
-    //     })
-    //     queryClient.invalidateQueries({
-    //       queryKey: ['instansi.prodi.table.ubah', id],
-    //     })
-    //     queryClient.invalidateQueries({
-    //       queryKey: ['instansi.prodi.detail', id],
-    //     })
-    //     queryClient.setQueryData(
-    //       queryKey,
-    //       (oldData: UbahProdiFormSchema) => ({
-    //         ...oldData,
-    //         ...data,
-    //       })
-    //     )
-    //     onHide()
-    //   },
-    //   onError: ({ message }) => setFormError(message),
-    // })
+    await handleActionWithToast(processApi(ubahAdminProdiApi, id, data), {
+      loading: 'Menyimpan...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.manajemen-prodi.table'],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.manajemen-prodi.table.ubah', id],
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['instansi.profil.manajemen-prodi.detail', id],
+        })
+        queryClient.setQueryData(
+          queryKey,
+          (oldData: UbahAdminProdiFormSchema) => ({
+            ...oldData,
+            ..._.pick(data, ['prodi', 'nama', 'username']),
+          })
+        )
+        onHide()
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   const handleClose = () => {
@@ -141,7 +145,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       {isLoading ? (
         <Loader height={336} />
       ) : (
-        <Form<UbahProdiFormSchema>
+        <Form<UbahAdminProdiFormSchema>
           onSubmit={onSubmit}
           validationSchema={formSchema}
           useFormProps={{
@@ -154,12 +158,16 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
           {({ control, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
-                <ControlledSelect
+                <ControlledAsyncPaginateSelect
                   name="prodi"
                   control={control}
-                  options={prodiOptions}
                   label="Program Studi"
                   placeholder="Pilih Program Studi"
+                  action={prodiSelectDataApi}
+                  construct={(data) => ({
+                    label: data.nm_lemb,
+                    value: data.id,
+                  })}
                   errors={errors}
                   required
                 />

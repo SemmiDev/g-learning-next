@@ -1,20 +1,24 @@
 import {
   ActionIconTooltip,
   Card,
+  getSortOrder,
   ModalConfirm,
   renderTableCellText,
   TableHeaderCell,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { useTableAsync } from '@/hooks/use-table-async'
+import { hapusAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/hapus'
+import { tableAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/table'
 import { ColumnsType } from 'rc-table'
-import { useState } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { LuEye, LuTrash } from 'react-icons/lu'
 import LihatModal from './modal/lihat'
 import UbahModal from './modal/ubah'
 
-const queryKey = ['instansi.manajemen-prodi.table'] as const
+const queryKey = ['instansi.profil.manajemen-prodi.table'] as const
 
 export default function TableProdiCard() {
   const {
@@ -30,54 +34,31 @@ export default function TableProdiCard() {
     doHide: doHideUbah,
   } = useShowModal<string>()
 
-  const [idHapus, setIdHapus] = useState<string>()
+  const {
+    handle: handleHapus,
+    id: idHapus,
+    setId: setIdHapus,
+  } = useHandleApiDelete({
+    action: hapusAdminProdiApi,
+    refetchKey: queryKey,
+  })
 
-  // const {
-  //   handle: handleHapus,
-  //   id: idHapus,
-  //   setId: setIdHapus,
-  // } = useHandleApiDelete({
-  //   action: hapusProdiApi,
-  //   refetchKey: queryKey,
-  // })
-
-  // const {
-  //   data,
-  //   isLoading,
-  //   isFetching,
-  //   page,
-  //   perPage,
-  //   onPageChange,
-  //   totalData,
-  //   sort,
-  //   onSort,
-  //   search,
-  //   onSearch,
-  // } = useTableAsync({
-  //   queryKey,
-  //   action: tableProdiApi,
-  // })
-
-  const data = [
-    {
-      id: '1',
-      nama: 'Heru Setiawan',
-      email: 'heru@uin.ac.id',
-      admin: 'Teknik Informatika',
-    },
-    {
-      id: '2',
-      nama: 'Putri Ayu',
-      email: 'ayu@uin.ac.id',
-      admin: 'Bahasa',
-    },
-    {
-      id: '3',
-      nama: 'Sulaiman Mandiri',
-      email: 'sulaiman@uin.ac.id',
-      admin: 'Teknik Elektro',
-    },
-  ]
+  const {
+    data,
+    isLoading,
+    isFetching,
+    page,
+    perPage,
+    onPageChange,
+    totalData,
+    sort,
+    onSort,
+    search,
+    onSearch,
+  } = useTableAsync({
+    queryKey,
+    action: tableAdminProdiApi,
+  })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
@@ -85,26 +66,48 @@ export default function TableProdiCard() {
         <TableHeaderCell
           title="Nama Pengguna"
           sortable
-          // sort={getSortOrder(sort, 'nama')}
+          sort={getSortOrder(sort, 'nama')}
         />
       ),
       dataIndex: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
         onClick: () => {
-          // onSort('nama')
+          onSort('nama')
         },
       }),
     },
     {
-      title: <TableHeaderCell title="Email" />,
-      dataIndex: 'email',
+      title: (
+        <TableHeaderCell
+          title="Username"
+          sortable
+          sort={getSortOrder(sort, 'username')}
+        />
+      ),
+      dataIndex: 'username',
       render: renderTableCellText,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('username')
+        },
+      }),
     },
     {
-      title: <TableHeaderCell title="Admin Prodi" />,
-      dataIndex: 'admin',
+      title: (
+        <TableHeaderCell
+          title="Admin Prodi"
+          sortable
+          sort={getSortOrder(sort, 'nm_lemb')}
+        />
+      ),
+      dataIndex: 'nm_lemb',
       render: renderTableCellText,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('nm_lemb')
+        },
+      }),
     },
     {
       title: <TableHeaderCell title="Aksi" align="center" />,
@@ -149,21 +152,21 @@ export default function TableProdiCard() {
       <Card className="p-0">
         <ControlledAsyncTable
           data={data}
-          // isLoading={isLoading}
-          // isFetching={isFetching}
+          isLoading={isLoading}
+          isFetching={isFetching}
           columns={tableColumns}
           rowKey={(row) => row.id}
-          // filterOptions={{
-          //   searchTerm: search,
-          //   onSearchClear: () => onSearch(''),
-          //   onSearchChange: (e) => onSearch(e.target.value),
-          // }}
-          // paginatorOptions={{
-          //   current: page,
-          //   pageSize: perPage,
-          //   total: totalData,
-          //   onChange: (page) => onPageChange(page),
-          // }}
+          filterOptions={{
+            searchTerm: search,
+            onSearchClear: () => onSearch(''),
+            onSearchChange: (e) => onSearch(e.target.value),
+          }}
+          paginatorOptions={{
+            current: page,
+            pageSize: perPage,
+            total: totalData,
+            onChange: (page) => onPageChange(page),
+          }}
         />
       </Card>
 
@@ -172,11 +175,11 @@ export default function TableProdiCard() {
 
       <ModalConfirm
         title="Hapus Prodi"
-        desc="Apakah Anda yakin ingin menghapus prodi ini dari database?"
+        desc="Apakah Anda yakin ingin menghapus admin prodi ini dari database?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}
-        // onConfirm={handleHapus}
+        onConfirm={handleHapus}
         headerIcon="help"
         closeOnCancel
       />

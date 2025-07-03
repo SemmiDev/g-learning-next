@@ -70,11 +70,13 @@ export type TambahSesiFormSchema = {
 type TambahSesiModalProps = {
   show: boolean
   onHide: () => void
+  listJenisAbsen?: string[]
 }
 
 export default function TambahSesiModal({
   show,
   onHide,
+  listJenisAbsen,
 }: TambahSesiModalProps) {
   const { jwt } = useSessionJwt()
   const size = useAutoSizeLargeModal()
@@ -157,6 +159,14 @@ export default function TambahSesiModal({
   const ruanganSelectDataApi = useMemo(
     () => ruanganMakeSelectDataApi(idKelas),
     [idKelas]
+  )
+
+  const jenisAbsenAvailableOptions = useMemo(
+    () =>
+      jenisAbsenOptions.filter((option) =>
+        listJenisAbsen?.includes(option.value)
+      ),
+    [listJenisAbsen]
   )
 
   return (
@@ -258,8 +268,8 @@ export default function TambahSesiModal({
                   className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                   groupClassName="flex-wrap gap-x-8 gap-y-4"
                   optionClassNames="w-full xs:w-auto"
-                  labelClassName="mb-0"
-                  options={jenisAbsenOptions}
+                  labelClassName="min-w-28 mb-0"
+                  options={jenisAbsenAvailableOptions}
                 />
 
                 <FormError error={formError} />

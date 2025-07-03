@@ -14,9 +14,8 @@ import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
 
 const formSchema = z.object({
   jenis: z.string(),
@@ -39,12 +38,14 @@ type UbahJenisAbsenSesiModalProps = {
   id: string | undefined
   show: boolean
   onHide: () => void
+  listJenisAbsen?: string[]
 }
 
 export default function UbahJenisAbsenSesiModal({
   id,
   show,
   onHide,
+  listJenisAbsen,
 }: UbahJenisAbsenSesiModalProps) {
   const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
@@ -122,6 +123,14 @@ export default function UbahJenisAbsenSesiModal({
     setFormError(undefined)
   }
 
+  const jenisAbsenAvailableOptions = useMemo(
+    () =>
+      jenisAbsenOptions.filter((option) =>
+        listJenisAbsen?.includes(option.value)
+      ),
+    [listJenisAbsen]
+  )
+
   return (
     <Modal
       title="Ubah Jenis Presensi Peserta"
@@ -155,8 +164,8 @@ export default function UbahJenisAbsenSesiModal({
                   className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
                   groupClassName="flex-wrap gap-x-8 gap-y-4"
                   optionClassNames="w-full xs:w-auto"
-                  labelClassName="mb-0"
-                  options={jenisAbsenOptions}
+                  labelClassName="min-w-28 mb-0"
+                  options={jenisAbsenAvailableOptions}
                 />
 
                 <FormError error={formError} />

@@ -3,29 +3,23 @@ import { makeJwtGetRequestTableApi } from '@/utils/api'
 
 export type DataType = {
   id: string
-  username: string
-  tipe: string
-  nik: string
   nama: string
-  jenis_kelamin: string
-  bio: string
-  hp: string
-  situs_web: string
-  kuota_upload: number
-  foto: string
-  terakhir_login: string
-  created_at: string
-  updated_at: string
+  username: string
+  email: string
+  id_sms: string
+  nm_lemb: string
+  nm_lemb_inggris: string | null
+  nm_jenj_didik: string
 }
 
-export const tableAdminApi = async ({
+export const tableAdminProdiApi = async ({
   jwt,
   page = 1,
   search = '',
   sort,
 }: ControlledAsyncTableApiProps) =>
   makeJwtGetRequestTableApi<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/admin/akun`,
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/akun-prodi`,
     jwt,
     {
       current_page: page,

@@ -3,12 +3,17 @@ import Loader from '@/components/ui/loader'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { listSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
 import { akhiriSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/akhiri-sesi'
 import { hapusSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/hapus-sesi'
 import { handleActionWithToast } from '@/utils/action'
 import { useRouter } from '@bprogress/next/app'
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -19,7 +24,7 @@ import UbahSesiModal from './pengajar/modal/ubah-sesi'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
 
 export default function PengajarSesiPembelajaranBody() {
-  const { jwt, processApi } = useSessionJwt()
+  const { jwt, processApi, makeSimpleApiQueryData } = useSessionJwt()
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -47,6 +52,11 @@ export default function PengajarSesiPembelajaranBody() {
   } = useShowModal<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
+  })
 
   const queryKey = [
     'pengguna.ruang-kelas.sesi-pembelajaran.list',
@@ -140,12 +150,17 @@ export default function PengajarSesiPembelajaranBody() {
           ))}
       </div>
 
-      <TambahSesiModal show={showTambah} onHide={() => setShowTambah(false)} />
+      <TambahSesiModal
+        show={showTambah}
+        onHide={() => setShowTambah(false)}
+        listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
+      />
 
       <UbahSesiModal
         id={keyUbahSesi}
         show={showUbahSesi}
         onHide={doHideUbahSesi}
+        listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
       />
 
       <UbahJudulSesiModal
@@ -158,6 +173,7 @@ export default function PengajarSesiPembelajaranBody() {
         id={keyUbahAbsensi}
         show={showUbahAbsensi}
         onHide={doHideUbahAbsensi}
+        listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
       />
 
       <ModalConfirm

@@ -11,7 +11,7 @@ import AsyncPaginateSelect from '@/components/ui/select/async-paginate'
 import { useDebounceSearch } from '@/hooks/use-debounce-search'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKelasApi } from '@/services/api/instansi/akademik/list-kelas'
-import { jurusanSelectDataApi } from '@/services/api/instansi/async-select/jurusan'
+import { prodiSelectDataApi } from '@/services/api/instansi/async-select/prodi'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -89,7 +89,7 @@ export default function DaftarKelasCard({
         />
         <AsyncPaginateSelect
           placeholder="Pilih Jurusan"
-          action={jurusanSelectDataApi}
+          action={prodiSelectDataApi}
           construct={(data) => ({
             label: data.nm_lemb,
             value: data.id_sms,
