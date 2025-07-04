@@ -19,7 +19,7 @@ import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
@@ -58,7 +58,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
 
   const [formError, setFormError] = useState<string>()
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['pengguna.profil'],
     queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
@@ -90,6 +90,10 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
     setFormError(undefined)
   }
 
+  useEffect(() => {
+    if (show) refetch()
+  }, [show])
+
   return (
     <Modal
       title="Ubah Data Profil"
@@ -99,7 +103,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
       isOpen={show}
       onClose={handleClose}
     >
-      {isLoading || !show ? (
+      {isLoading ? (
         <Loader height={512} />
       ) : (
         <Form<UbahProfilFormSchema>

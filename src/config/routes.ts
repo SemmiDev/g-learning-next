@@ -66,10 +66,19 @@ export const instansiRoutes = {
   akademik: '/instansi/akademik',
 }
 
+export const prodiInstansiRoutes = {
+  pemberitahuan: '/prodi-instansi/pemberitahuan',
+  profile: '/prodi-instansi/profil',
+  profileInstansi: '/prodi-instansi/profil-instansi',
+  profileInstansiPengguna: '/prodi-instansi/profil-instansi/pengguna',
+  akademik: '/prodi-instansi/akademik',
+}
+
 export const routes = {
   dashboard: '/',
   blank: '/blank',
   pengguna: penggunaRoutes,
   admin: adminRoutes,
   instansi: instansiRoutes,
+  prodiInstansi: prodiInstansiRoutes,
 }

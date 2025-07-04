@@ -63,6 +63,7 @@ export default function ProfileMenu({
 
 const linkProfiles = {
   Admin: routes.admin.profile,
+  Prodi: routes.prodiInstansi.profile,
   Pengguna: routes.pengguna.profile,
 }
 

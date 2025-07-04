@@ -1,18 +1,15 @@
 import {
   ControlledInput,
-  ControlledRadioGroup,
   Form,
   FormError,
   Loader,
   Modal,
   ModalFooterButtons,
-  RadioGroupOptionType,
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { dataProfilApi } from '@/services/api/admin/profil/data'
-import { ubahProfilApi } from '@/services/api/admin/profil/ubah-data'
+import { dataProfilApi } from '@/services/api/prodi-instansi/profil/data'
+import { ubahProfilApi } from '@/services/api/prodi-instansi/profil/ubah-data'
 import { handleActionWithToast } from '@/utils/action'
-import { radioGroupOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -22,20 +19,11 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
-  kontak: z.string().optional(),
-  jenisKelamin: z.string().optional(),
 })
 
 type UbahProfilFormSchema = {
   nama?: string
-  kontak?: string
-  jenisKelamin?: string
 }
-
-const jenisKelaminOptions: RadioGroupOptionType[] = [
-  radioGroupOption('Laki-laki'),
-  radioGroupOption('Perempuan'),
-]
 
 type UbahModalProps = {
   show: boolean
@@ -50,14 +38,12 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
   const [formError, setFormError] = useState<string>()
 
   const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ['admin.profil'],
+    queryKey: ['prodi-instansi.profil'],
     queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   const initialValues: UbahProfilFormSchema = {
     nama: data?.nama,
-    kontak: data?.hp,
-    jenisKelamin: data?.jenis_kelamin,
   }
 
   const onSubmit: SubmitHandler<UbahProfilFormSchema> = async (data) => {
@@ -66,7 +52,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
       onStart: () => setFormError(undefined),
       onSuccess: async () => {
         setShow(false)
-        queryClient.invalidateQueries({ queryKey: ['admin.profil'] })
+        queryClient.invalidateQueries({ queryKey: ['prodi-instansi.profil'] })
         updateSession({ name: data.nama })
       },
       onError: ({ message }) => setFormError(message),
@@ -112,24 +98,6 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
                   label="Nama Lengkap"
                   placeholder="Nama Lengkap"
                   required
-                />
-
-                <ControlledRadioGroup
-                  name="jenisKelamin"
-                  control={control}
-                  options={jenisKelaminOptions}
-                  label="Jenis Kelamin"
-                  errors={errors}
-                />
-
-                <ControlledInput
-                  name="kontak"
-                  control={control}
-                  errors={errors}
-                  type="number"
-                  label="Nomor Kontak"
-                  placeholder="08xxxxxxx"
-                  phoneNumber
                 />
 
                 <FormError error={formError} />

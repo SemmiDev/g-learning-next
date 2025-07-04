@@ -101,7 +101,7 @@ export default function PengaturanPresensiBody() {
                   size="sm"
                   color="warning"
                   isSubmitting={isSubmitting}
-                  disabled={!isDirty}
+                  disabled={isLoading || !isDirty}
                   showLoader={false}
                 >
                   Simpan Perubahan

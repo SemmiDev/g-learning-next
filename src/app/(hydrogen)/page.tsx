@@ -2,8 +2,9 @@ import DashboardBody from '@/components/pages/dashboard'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
-import { dataProfilAction } from '@/services/actions/instansi/profil/detail/data'
+import { dataProfilAction as dataProfilInstansiAction } from '@/services/actions/instansi/profil/detail/data'
 import { cekKelengkapanProfilAction } from '@/services/actions/pengguna/dashboard/cek-kelengkapan-profil'
+import { dataProfilAction as dataProfilProdiInstansiAction } from '@/services/actions/prodi-instansi/profil-instansi/detail/data'
 import { makeSimpleQueryData } from '@/utils/query-data'
 import {
   dehydrate,
@@ -38,7 +39,12 @@ export default async function Home() {
   if (level === 'Instansi') {
     await queryClient.prefetchQuery({
       queryKey: ['instansi.profil'],
-      queryFn: makeSimpleQueryData(dataProfilAction),
+      queryFn: makeSimpleQueryData(dataProfilInstansiAction),
+    })
+  } else if (level === 'Prodi') {
+    await queryClient.prefetchQuery({
+      queryKey: ['prodi-instansi.profil'],
+      queryFn: makeSimpleQueryData(dataProfilProdiInstansiAction),
     })
   }
 

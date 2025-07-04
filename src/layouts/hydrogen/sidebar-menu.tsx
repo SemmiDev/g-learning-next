@@ -11,6 +11,7 @@ import { Collapse } from 'rizzui'
 import { menuItemsAdmin } from './menu-items/admin'
 import { menuItemsInstansi } from './menu-items/instansi'
 import { menuItemsPengguna } from './menu-items/pengguna'
+import { menuItemsProdiInstansi } from './menu-items/prodi-instansi'
 import StatusBadge from './status-badge'
 
 export type MenuDropdownItemType = {
@@ -40,6 +41,7 @@ export function SidebarMenu() {
     {
       Admin: menuItemsAdmin,
       Instansi: menuItemsInstansi,
+      Prodi: menuItemsProdiInstansi,
       Pengguna: menuItemsPengguna,
     },
     []

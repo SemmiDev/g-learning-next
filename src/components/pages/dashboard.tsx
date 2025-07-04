@@ -3,6 +3,7 @@
 import DashboardAdminBody from '@/components/pages/admin/dashboard/body'
 import DashboardInstansiBody from '@/components/pages/instansi/dashboard/body'
 import DashboardPenggunaBody from '@/components/pages/pengguna/dashboard/body'
+import DashboardProdiInstansiBody from '@/components/pages/prodi-instansi/dashboard/body'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 
 export default function DashboardBody() {
@@ -13,6 +14,8 @@ export default function DashboardBody() {
       return <DashboardAdminBody />
     case 'Instansi':
       return <DashboardInstansiBody />
+    case 'Prodi':
+      return <DashboardProdiInstansiBody />
     case 'Pengguna':
       return <DashboardPenggunaBody />
     default:
