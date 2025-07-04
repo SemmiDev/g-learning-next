@@ -84,6 +84,7 @@ export default function UbahPasswordModal({
                 errors={errors}
                 label="Kata Sandi Lama"
                 placeholder="Kata Sandi Lama"
+                required
               />
 
               <ControlledPassword
