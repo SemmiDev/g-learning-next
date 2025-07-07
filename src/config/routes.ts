@@ -64,6 +64,7 @@ export const instansiRoutes = {
   profileRiwayatPembayaran: '/instansi/profil/riwayat-pembayaran',
   profileSinkron: '/instansi/profil/sinkron',
   akademik: '/instansi/akademik',
+  kelasAkademik: '/instansi/akademik/kelas',
 }
 
 export const prodiInstansiRoutes = {
@@ -72,6 +73,7 @@ export const prodiInstansiRoutes = {
   profileInstansi: '/prodi-instansi/profil-instansi',
   profileInstansiPengguna: '/prodi-instansi/profil-instansi/pengguna',
   akademik: '/prodi-instansi/akademik',
+  kelasAkademik: '/prodi-instansi/akademik/kelas',
 }
 
 export const routes = {
