@@ -20,8 +20,7 @@ export default function AnggotaKelasBody() {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const queryKey = [
-    'pengguna.ruang-kelas.anggota-kelas.daftar-peserta',
-    'pengajar',
+    'prodi-instansi.profil-instansi.kelas.anggota-kelas.daftar-peserta',
     idKelas,
   ]
 
