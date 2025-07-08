@@ -21,14 +21,14 @@ export default function DashboardProfilCard() {
 
   return (
     <Card className="flex flex-col p-0">
-      <div className="relative h-60">
+      <div className="relative">
         <BackgroundProfil
           persistentKey={`${data?.instansi?.nama}${new Date()
             .toJSON()
             .slice(0, 10)}`}
           className="absolute w-full h-36"
         />
-        <div className="absolute flex flex-col items-center pt-4 pb-4 m-auto left-0 right-0">
+        <div className="relative flex flex-col items-center pt-4 pb-4 m-auto">
           <Thumbnail
             src={data?.instansi?.logo}
             size={150}
@@ -64,7 +64,6 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCalendar}
           label={'Tanggal Pembayaran Selanjutnya'}
-          /* TODO: Tanggal pembayaran selanjutnya jika API sudah ada */
           value="-"
           variant="solid"
           color="green"

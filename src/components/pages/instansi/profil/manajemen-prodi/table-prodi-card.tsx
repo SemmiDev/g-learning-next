@@ -96,7 +96,7 @@ export default function TableProdiCard() {
     {
       title: (
         <TableHeaderCell
-          title="Admin Prodi"
+          title="Program Studi"
           sortable
           sort={getSortOrder(sort, 'nm_lemb')}
         />

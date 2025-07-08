@@ -12,20 +12,20 @@ export default function DashboardProfilCard() {
   const { makeSimpleApiQueryData } = useSessionJwt()
 
   const { data } = useQuery({
-    queryKey: ['prodi-instansi.profil'],
+    queryKey: ['prodi-instansi.profil-instansi'],
     queryFn: makeSimpleApiQueryData(dataProfilApi),
   })
 
   return (
     <Card className="flex flex-col p-0">
-      <div className="relative h-60">
+      <div className="relative">
         <BackgroundProfil
           persistentKey={`${data?.instansi?.nama}${new Date()
             .toJSON()
             .slice(0, 10)}`}
           className="absolute w-full h-36"
         />
-        <div className="absolute flex flex-col items-center pt-4 pb-4 m-auto left-0 right-0">
+        <div className="relative flex flex-col items-center pt-4 pb-4 m-auto">
           <Thumbnail
             src={data?.instansi?.logo}
             size={150}
@@ -36,17 +36,20 @@ export default function DashboardProfilCard() {
             bordered
             priority
           />
-          <Title size="1.5xl">{data?.instansi.nama}</Title>
-          <div className="flex items-center">
-            <Text
-              size="xs"
-              weight="medium"
-              variant="lighter"
-              className="me-1 mt-1.5"
-            >
-              Tipe sinkron: {data?.instansi.tipe_sinkron || '-'}
-            </Text>
-          </div>
+          <Title size="1.5xl" className="text-center">
+            {data?.instansi.nama}
+          </Title>
+          <Text weight="semibold" variant="dark" className="text-center">
+            Program Studi {data?.sms.nm_lemb || '-'}
+          </Text>
+          <Text
+            size="xs"
+            weight="medium"
+            variant="lighter"
+            className="me-1 mt-1.5"
+          >
+            Tipe sinkron: {data?.instansi.tipe_sinkron || '-'}
+          </Text>
         </div>
       </div>
       <div className="flex flex-col gap-3 p-2 sm:flex-row">
@@ -61,7 +64,6 @@ export default function DashboardProfilCard() {
         <ProfilItem
           Icon={LuCalendar}
           label={'Tanggal Pembayaran Selanjutnya'}
-          /* TODO: Tanggal pembayaran selanjutnya jika API sudah ada */
           value="-"
           variant="solid"
           color="green"

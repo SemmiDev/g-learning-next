@@ -117,7 +117,7 @@ export default function KelasCard({ data }: KelasCardProps) {
       </div>
       <Link href={`${routes.prodiInstansi.kelasAkademik}/${data.kelas.id}`}>
         <Button as="span" size="sm" className="w-full">
-          Masuk Kelas
+          Lihat Kelas
         </Button>
       </Link>
     </Card>

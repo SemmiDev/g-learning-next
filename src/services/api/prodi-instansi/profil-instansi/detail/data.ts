@@ -32,6 +32,31 @@ export type DataType = {
     harga: number
     tipe: string
   }
+  pengguna: {
+    id: string
+    username: string
+    tipe: string
+    nik: string
+    nama: string
+    jenis_kelamin: string
+    bio: string
+    hp: string
+    situs_web: string
+    kuota_upload: number
+    foto: string
+    terakhir_login: string
+    diblokir: number
+    keterangan_blokir: string
+    tanggal_blokir: string | null
+    created_at: string
+    updated_at: string
+  }
+  sms: {
+    id: string
+    id_sms: string
+    nm_lemb: string
+    nama_jenjang_didik: string
+  }
   total_penggunaan_penyimpanan: number
   total_pengguna: number
   total_kelas: number

@@ -1,9 +1,12 @@
 import { Card, Circle, Text } from '@/components/ui'
+import Button from '@/components/ui/button/button'
 import RandomCoverImage from '@/components/ui/random/cover-image'
+import { routes } from '@/config/routes'
 import { DataType as DataKelasType } from '@/services/api/instansi/akademik/list-kelas'
 import { deskripsiSemester } from '@/utils/semester'
 import { hourMinute } from '@/utils/text'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Fragment } from 'react'
 import { Progressbar } from 'rizzui'
 
@@ -113,6 +116,11 @@ export default function KelasCard({ data }: KelasCardProps) {
           persen={data.ringkasan_kelas.persentase_kehadiran_pengajar}
         />
       </div>
+      <Link href={`${routes.instansi.kelasAkademik}/${data.kelas.id}`}>
+        <Button as="span" size="sm" className="w-full">
+          Lihat Kelas
+        </Button>
+      </Link>
     </Card>
   )
 }

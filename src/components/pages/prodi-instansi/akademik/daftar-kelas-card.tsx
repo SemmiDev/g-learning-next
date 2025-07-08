@@ -65,7 +65,7 @@ export default function DaftarKelasCard({
         <Input
           placeholder="Cari Kelas"
           className="min-w-56 flex-1 xs:flex-none"
-          inputClassName="bg-white"
+          inputClassName="bg-white dark:bg-transparent"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={inputSearch}
           onChange={(e) => setInputSearch(e.target.value)}

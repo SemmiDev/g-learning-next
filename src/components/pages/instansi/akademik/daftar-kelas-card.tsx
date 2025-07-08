@@ -31,12 +31,12 @@ export default function DaftarKelasCard({
   const { jwt } = useSessionJwt()
   const { inputSearch, setInputSearch, search } = useDebounceSearch('')
 
-  const [jurusan, setJurusan] = useState<SelectOptionType<string> | null>()
+  const [prodi, setProdi] = useState<SelectOptionType<string> | null>()
 
   const queryKey = [
     'instansi.kelas-akademik.list-kelas',
     semester,
-    jurusan,
+    prodi,
     search,
   ]
 
@@ -48,7 +48,7 @@ export default function DaftarKelasCard({
         page,
         search,
         semester: semester ?? undefined,
-        idSms: jurusan?.value ?? undefined,
+        idSms: prodi?.value ?? undefined,
       })
 
       return {
@@ -80,7 +80,7 @@ export default function DaftarKelasCard({
         <Input
           placeholder="Cari Kelas"
           className="min-w-56 flex-1 xs:flex-none"
-          inputClassName="bg-white"
+          inputClassName="bg-white dark:bg-transparent"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={inputSearch}
           onChange={(e) => setInputSearch(e.target.value)}
@@ -88,17 +88,17 @@ export default function DaftarKelasCard({
           onClear={() => setInputSearch('')}
         />
         <AsyncPaginateSelect
-          placeholder="Pilih Jurusan"
+          placeholder="Pilih Prodi"
           action={prodiSelectDataApi}
           construct={(data) => ({
             label: data.nm_lemb,
             value: data.id_sms,
           })}
           onChange={(data) => {
-            if (!data?.value) setJurusan(undefined)
-            else setJurusan(data)
+            if (!data?.value) setProdi(undefined)
+            else setProdi(data)
           }}
-          value={jurusan}
+          value={prodi}
           className="min-w-48 flex-1 xs:flex-none"
           isClearable
         />

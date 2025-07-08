@@ -407,7 +407,7 @@ export default function PustakaMediaBody() {
             type="search"
             placeholder="Cari Berkas"
             className="w-72 sm:w-96"
-            inputClassName="bg-white"
+            inputClassName="bg-white dark:bg-transparent"
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }

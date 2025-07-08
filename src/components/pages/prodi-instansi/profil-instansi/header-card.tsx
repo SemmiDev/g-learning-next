@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, TabGroup, Thumbnail, Title } from '@/components/ui'
+import { Card, TabGroup, Text, Thumbnail, Title } from '@/components/ui'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/prodi-instansi/profil-instansi/detail/data'
@@ -29,13 +29,13 @@ export default function HeaderCard({ className }: { className?: string }) {
 
   return (
     <Card className={cn('flex flex-col', className)}>
-      <div className="flex flex-col items-center gap-3 md:flex-row">
+      <div className="flex flex-col items-center gap-2 md:flex-row">
         <Thumbnail
           src={data?.instansi?.logo}
-          size={150}
+          size={100}
           alt="logo instansi"
           avatar={data?.instansi?.nama}
-          className="shrink-0"
+          className="rounded-full shrink-0 m-[25px]"
           bordered
           priority
         />
@@ -43,6 +43,9 @@ export default function HeaderCard({ className }: { className?: string }) {
           <Title as="h3" size="1.5xl" className="text-center md:text-left">
             {data?.instansi.nama || '-'}
           </Title>
+          <Text weight="semibold" variant="dark" className="text-center mb-1">
+            Program Studi {data?.sms.nm_lemb || '-'}
+          </Text>
           <div className="flex flex-wrap gap-1.5">
             <HeaderItem
               Icon={LuRibbon}

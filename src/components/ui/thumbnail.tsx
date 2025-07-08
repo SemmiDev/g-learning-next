@@ -34,13 +34,13 @@ export default function Thumbnail({
   return (
     <figure
       className={cn(
-        'overflow-clip',
+        'bg-white overflow-clip',
         !!rounded
           ? rounded !== 'base'
             ? `rounded-${rounded}`
             : 'rounded'
           : null,
-        { 'border border-muted': bordered },
+        { 'border border-muted dark:border-gray-800': bordered },
         className
       )}
       style={{

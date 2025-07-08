@@ -79,7 +79,7 @@ export default function TermukanKelasBody() {
           type="search"
           placeholder="Cari Kelas Publik"
           className="w-72 sm:w-96"
-          inputClassName="bg-white"
+          inputClassName="bg-white dark:bg-transparent"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={search}
           onChange={(e) => setSearch(e.target.value)}

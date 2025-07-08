@@ -43,7 +43,7 @@ export default async function Home() {
     })
   } else if (level === 'Prodi') {
     await queryClient.prefetchQuery({
-      queryKey: ['prodi-instansi.profil'],
+      queryKey: ['prodi-instansi.profil-instansi'],
       queryFn: makeSimpleQueryData(dataProfilProdiInstansiAction),
     })
   }

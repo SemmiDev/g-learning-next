@@ -24,7 +24,7 @@ import { Input, Password } from 'rizzui'
 const listUser = [
   { level: 'Admin', username: 'admin@gmail.com' },
   { level: 'Instansi', username: 'adminuin' },
-  { level: 'Prodi Instansi', username: 'joko' },
+  { level: 'Prodi Instansi', username: 'rusdi' },
   { level: 'Contoh Dosen', username: '1502021102950004' },
   { level: 'Contoh Mahasiswa 1', username: '1502020105060001' },
   { level: 'Contoh Mahasiswa 2', username: '1502082008050001' },

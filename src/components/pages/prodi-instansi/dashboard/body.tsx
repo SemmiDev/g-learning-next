@@ -1,4 +1,3 @@
-import DashboardKaryawanTerbaikCard from './karyawan-terbaik-card'
 import DashboardPenggunaCard from './pengguna-card'
 import DashboardProfilCard from './profil-card'
 import DashboardTotalKelasCard from './total-kelas-card'
@@ -13,7 +12,7 @@ export default function DashboardBody() {
         <DashboardPenggunaCard />
       </div>
       <div className="flex flex-col gap-y-4 flex-1 order-last lg:order-none">
-        <DashboardKaryawanTerbaikCard />
+        {/* <DashboardKaryawanTerbaikCard /> */}
         <DashboardTotalRuangPenyimpananCard />
         <DashboardTotalPenggunaCard />
         <DashboardTotalKelasCard />

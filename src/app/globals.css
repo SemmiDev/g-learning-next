@@ -159,9 +159,9 @@
     /* ----------------------------------- */
     /* primary/brand colors */
     /* ----------------------------------- */
-    --primary-lighter: 34 34 34; /* #222222 */
-    --primary-default: 241 241 241; /* #f1f1f1 */
-    --primary-dark: 255 255 255; /* #ffffff */
+    --primary-lighter: var(--blue-100);
+    --primary-default: var(--blue-500);
+    --primary-dark: var(--blue-700);
     --primary-foreground: 0 0 0; /* #000000 */
 
     /* ----------------------------------- */

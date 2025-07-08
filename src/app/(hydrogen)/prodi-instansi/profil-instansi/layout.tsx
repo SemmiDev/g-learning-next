@@ -35,7 +35,7 @@ export default async function ProfilInstansiLayout({
 }) {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
-    queryKey: ['prodi-instansi.profil'],
+    queryKey: ['prodi-instansi.profil-instansi'],
     queryFn: makeSimpleQueryData(dataProfilAction),
   })
 

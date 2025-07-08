@@ -74,7 +74,7 @@ export default function RuangKelasAkademikBody() {
           <Input
             placeholder="Cari Kelas"
             className="min-w-56 flex-1"
-            inputClassName="bg-white"
+            inputClassName="bg-white dark:bg-transparent"
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }

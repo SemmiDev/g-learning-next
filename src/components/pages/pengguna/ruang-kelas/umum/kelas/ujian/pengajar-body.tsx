@@ -82,7 +82,7 @@ export default function PengajarUjianBody() {
             size="sm"
             type="search"
             placeholder="Cari Sesi Ujian"
-            inputClassName="bg-white"
+            inputClassName="bg-white dark:bg-transparent"
             prefix={
               <PiMagnifyingGlass size={20} className="text-gray-lighter" />
             }

@@ -86,7 +86,7 @@ export default function RuangKelasUmumBody() {
           placeholder="Cari Kelas"
           className="md:w-72"
           size="sm"
-          inputClassName="bg-white"
+          inputClassName="bg-white dark:bg-transparent"
           prefix={<PiMagnifyingGlass size={20} className="text-gray-lighter" />}
           value={inputSearch}
           onChange={(e) => setInputSearch(e.target.value)}

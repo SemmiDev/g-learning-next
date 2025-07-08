@@ -12,19 +12,18 @@ import { useTableAsync } from '@/hooks/use-table-async'
 import { tableAbsensiPesertaApi } from '@/services/api/prodi-instansi/akademik/kelas/presensi/table-absensi-peserta'
 import cn from '@/utils/class-names'
 import { useParams } from 'next/navigation'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 
-const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
+type RekapPresensiDaftarAbsensiCardProps = {
+  idSesi: string
+  className?: string
+}
 
 export default function RekapPresensiDaftarAbsensiCard({
   idSesi,
   className,
-}: {
-  idSesi: string
-  className?: string
-}) {
-  const [dataPerubahan, setDataPerubahan] = useState<Record<string, string>>({})
+}: RekapPresensiDaftarAbsensiCardProps) {
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const queryKey = [
@@ -72,63 +71,59 @@ export default function RekapPresensiDaftarAbsensiCard({
         />
       </div>
       <div>
-        {data.map((item) => {
-          const statusPeserta = dataPerubahan[item.id_peserta] ?? item.status
-
-          return (
-            <Fragment key={item.id_peserta}>
-              <CardSeparator />
-              <div className="flex justify-between items-center gap-x-2 px-3 py-2">
-                <div className="flex gap-x-3 min-w-0">
-                  <Thumbnail
-                    src={item.foto || undefined}
-                    alt="profil"
-                    size={40}
-                    rounded="md"
-                    avatar={item.nama}
-                  />
-                  <div className="flex flex-col min-w-0">
-                    <Text
-                      size="sm"
-                      weight="semibold"
-                      variant="dark"
-                      className="truncate"
-                    >
-                      {item.nama}
-                    </Text>
-                    <Text
-                      size="2xs"
-                      weight="medium"
-                      variant="lighter"
-                      className="truncate"
-                    >
-                      {item.email || '-'}
-                    </Text>
-                  </div>
-                </div>
-                <div>
-                  <Badge
-                    rounded="md"
-                    variant="flat"
-                    color={
-                      item.status === 'Hadir'
-                        ? 'primary'
-                        : item.status === 'Izin'
-                        ? 'success'
-                        : item.status === 'Sakit'
-                        ? 'warning'
-                        : item.status === 'Alpha'
-                        ? 'danger'
-                        : 'gray'
-                    }
+        {data.map((item) => (
+          <Fragment key={item.id_peserta}>
+            <CardSeparator />
+            <div className="flex justify-between items-center gap-x-2 px-3 py-2">
+              <div className="flex gap-x-3 min-w-0">
+                <Thumbnail
+                  src={item.foto || undefined}
+                  alt="profil"
+                  size={40}
+                  rounded="md"
+                  avatar={item.nama}
+                />
+                <div className="flex flex-col min-w-0">
+                  <Text
+                    size="sm"
+                    weight="semibold"
+                    variant="dark"
+                    className="truncate"
                   >
-                    {item.status || '-'}
-                  </Badge>
+                    {item.nama}
+                  </Text>
+                  <Text
+                    size="2xs"
+                    weight="medium"
+                    variant="lighter"
+                    className="truncate"
+                  >
+                    {item.email || '-'}
+                  </Text>
                 </div>
               </div>
-            </Fragment>
-          )
-        })}
+              <div>
+                <Badge
+                  rounded="md"
+                  variant="flat"
+                  color={
+                    item.status === 'Hadir'
+                      ? 'primary'
+                      : item.status === 'Izin'
+                      ? 'success'
+                      : item.status === 'Sakit'
+                      ? 'warning'
+                      : item.status === 'Alpha'
+                      ? 'danger'
+                      : 'gray'
+                  }
+                >
+                  {item.status || '-'}
+                </Badge>
+              </div>
+            </div>
+          </Fragment>
+        ))}
       </div>
       <CardSeparator />
       <TablePagination
