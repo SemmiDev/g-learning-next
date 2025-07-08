@@ -43,7 +43,11 @@ export default function HeaderCard({ className }: { className?: string }) {
           <Title as="h3" size="1.5xl" className="text-center md:text-left">
             {data?.instansi.nama || '-'}
           </Title>
-          <Text weight="semibold" variant="dark" className="text-center mb-1">
+          <Text
+            weight="semibold"
+            variant="dark"
+            className="text-center mb-1 md:text-left"
+          >
             Program Studi {data?.sms.nm_lemb || '-'}
           </Text>
           <div className="flex flex-wrap gap-1.5">
