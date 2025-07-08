@@ -1,6 +1,13 @@
 'use client'
 
-import { Card, Select, SelectOptionType, Text, Title } from '@/components/ui'
+import {
+  Button,
+  Card,
+  Select,
+  SelectOptionType,
+  Text,
+  Title,
+} from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataProfilApi } from '@/services/api/prodi-instansi/profil-instansi/detail/data'
 import { deskripsiSemester } from '@/utils/semester'
@@ -29,7 +36,7 @@ const semesterOptions: SelectOptionType<string | null>[] = [
 ]
 
 export default function AkademikBody() {
-  const { makeSimpleApiQueryData } = useSessionJwt()
+  const { jwt, makeSimpleApiQueryData } = useSessionJwt()
 
   const [semester, setSemester] = useState<SelectOptionType<string | null>>(
     semesterOptions[0]
@@ -57,15 +64,31 @@ export default function AkademikBody() {
         >
           Kelas Akademik
         </Title>
-        <Select
-          placeholder="Semester Aktif"
-          options={semesterOptions}
-          onChange={(item) => {
-            if (item) setSemester(item)
-          }}
-          value={semester}
-          className="min-w-48 flex-1 xs:flex-none"
-        />
+        <div className="flex gap-2">
+          <Select
+            placeholder="Semester Aktif"
+            options={semesterOptions}
+            onChange={(item) => {
+              if (item) setSemester(item)
+            }}
+            value={semester}
+            className="min-w-48 flex-1 xs:flex-none"
+          />
+          <Button
+            onClick={() => {
+              window?.open(
+                `${
+                  process.env.NEXT_PUBLIC_API_URL
+                }/prodi/laporan-kelas/export?access_token=${jwt}${
+                  semester.value ? `&semester=${semester.value}` : ''
+                }`,
+                '_blank'
+              )
+            }}
+          >
+            Download Laporan
+          </Button>
+        </div>
       </div>
       <div className="grid grid-cols-12 gap-x-5 gap-y-12">
         <LinimasaSesiSection

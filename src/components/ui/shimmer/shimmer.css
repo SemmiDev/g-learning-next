@@ -4,6 +4,14 @@
   animation: shimmerShine 4.2s linear infinite forwards;
 }
 
+[data-theme='dark'] {
+  .shimmer {
+    background: linear-gradient(to right, #333333 8%, #222222 18%, #333333 33%);
+    background-size: 1000px 100%;
+    animation: shimmerShine 4.2s linear infinite forwards;
+  }
+}
+
 @keyframes shimmerShine {
   0% {
     background-position: -1000px 0;
