@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/providers/theme'
 import { siteConfig } from '@/config/site.config'
 import { cn } from '@/utils/class-names'
 import { getServerSession } from 'next-auth'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/options'
@@ -70,7 +71,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               }
               refetchWhenOffline={false}
             >
-              <QueryProvider>{children}</QueryProvider>
+              <QueryProvider>
+                <NuqsAdapter>{children}</NuqsAdapter>
+              </QueryProvider>
             </SessionProvider>
             <Toaster />
           </ThemeProvider>

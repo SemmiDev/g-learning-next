@@ -8,10 +8,10 @@ import {
   Title,
 } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
-import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import { tableSesiAbsensiApi } from '@/services/api/prodi-instansi/akademik/kelas/presensi/table-sesi-absensi'
 import cn from '@/utils/class-names'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
+import { useQueryState } from 'nuqs'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -52,10 +52,10 @@ type RekapPresensiCardProps = {
 export default function RekapPresensiCard({
   className,
 }: RekapPresensiCardProps) {
-  const searchParams = useSearchParams()
-  const setSearchParams = useSetSearchParams()
+  const [idSesiAktif, setIdSesiAktif] = useQueryState('sesi', {
+    history: 'push',
+  })
 
-  const idSesiAktif = searchParams.get('sesi')
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const {
@@ -159,7 +159,7 @@ export default function RekapPresensiCard({
                         waktu: item.tanggal_realisasi || undefined,
                       }}
                       active={idSesiAktif === item.id}
-                      onClick={() => setSearchParams({ sesi: item.id })}
+                      onClick={() => setIdSesiAktif(item.id)}
                     />
                   )
                 })

@@ -1,10 +1,10 @@
 import { Button, Card, Loader, Shimmer, Text, Title } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
-import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import { tableSesiTugasApi } from '@/services/api/pengguna/ruang-kelas/tugas/pengajar/table-sesi-tugas'
 import cn from '@/utils/class-names'
 import { passedTime } from '@/utils/time'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
+import { useQueryState } from 'nuqs'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -45,10 +45,10 @@ type PengajarRekapTugasCardProps = {
 export default function PengajarRekapTugasCard({
   className,
 }: PengajarRekapTugasCardProps) {
-  const searchParams = useSearchParams()
-  const setSearchParams = useSetSearchParams()
+  const [idSesiAktif, setIdSesiAktif] = useQueryState('sesi', {
+    history: 'push',
+  })
 
-  const idSesiAktif = searchParams.get('sesi')
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const {
@@ -150,7 +150,7 @@ export default function PengajarRekapTugasCard({
                     }}
                     active={idSesiAktif === item.id}
                     open={!passedTime(item.batas_waktu)}
-                    onClick={() => setSearchParams({ sesi: item.id })}
+                    onClick={() => setIdSesiAktif(item.id)}
                   />
                 ))
               ) : (

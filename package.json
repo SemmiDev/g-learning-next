@@ -29,6 +29,7 @@
     "next": "^15.1.7",
     "next-auth": "^4.24.10",
     "next-themes": "^0.2.1",
+    "nuqs": "^2.4.3",
     "qrcode.react": "^4.2.0",
     "quill-resize-image": "^1.0.5",
     "rc-pagination": "^4.0.4",

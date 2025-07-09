@@ -1,10 +1,10 @@
 import { Button, Card, Loader, Shimmer, Text } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
-import { useSetSearchParams } from '@/hooks/use-set-search-params'
 import { tableSesiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/table-sesi'
 import cn from '@/utils/class-names'
 import { betweenTime } from '@/utils/time'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
+import { useQueryState } from 'nuqs'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -39,10 +39,10 @@ const sortData: SortDataType[] = [
 ]
 
 export default function PengajarUjianBody() {
-  const searchParams = useSearchParams()
-  const setSearchParams = useSetSearchParams()
+  const [idSesiAktif, setIdSesiAktif] = useQueryState('sesi', {
+    history: 'push',
+  })
 
-  const idSesiAktif = searchParams.get('sesi')
   const { kelas: idKelas }: { kelas: string } = useParams()
 
   const {
@@ -149,7 +149,7 @@ export default function PengajarUjianBody() {
                     item.waktu_mulai_ujian,
                     item.waktu_selesai_ujian
                   )}
-                  onClick={() => setSearchParams({ sesi: item.id })}
+                  onClick={() => setIdSesiAktif(item.id)}
                 />
               ))
             ) : (

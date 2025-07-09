@@ -62,7 +62,9 @@ const opsiPilihanOptions: SelectOptionType<number>[] = [
   { label: '5 (A, B, C, D, E)', value: 5 },
 ]
 
-const initialValues: GenerateSoalFormSchema = {}
+const initialValues: GenerateSoalFormSchema = {
+  usingMateri: false,
+}
 
 type GenerateSoalModalProps = {
   show?: boolean
