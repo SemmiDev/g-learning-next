@@ -29,14 +29,14 @@ type FormSchema = {
 const initialValues: FormSchema = {}
 
 type ImportSoalModalProps = {
-  showModal?: boolean
-  setShowModal(show: boolean): void
+  show?: boolean
+  setShow(show: boolean): void
   refetchKey: QueryKey
 }
 
 export default function ImportSoalModal({
-  showModal = false,
-  setShowModal,
+  show = false,
+  setShow,
   refetchKey,
 }: ImportSoalModalProps) {
   const { processApi } = useSessionJwt()
@@ -56,7 +56,7 @@ export default function ImportSoalModal({
       error: ({ message }) => message,
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        setShowModal(false)
+        setShow(false)
         queryClient.invalidateQueries({ queryKey: refetchKey })
       },
       onError: ({ message }) => setFormError(message),
@@ -64,21 +64,17 @@ export default function ImportSoalModal({
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
     setFormError(undefined)
   }
 
   return (
-    <Modal
-      title="Import Soal"
-      size={size}
-      isOpen={showModal}
-      onClose={handleClose}
-    >
+    <Modal title="Import Soal" size={size} isOpen={show} onClose={handleClose}>
       <Form<FormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
         useFormProps={{ mode: 'onSubmit', defaultValues: initialValues }}
+        flexing
       >
         {({ control, formState: { errors, isSubmitting } }) => (
           <>

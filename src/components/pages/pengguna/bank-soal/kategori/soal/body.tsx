@@ -44,6 +44,7 @@ import { BiCircle } from 'react-icons/bi'
 import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
 import { Alert, FieldError } from 'rizzui'
 import UbahBankSoalModal from '../modal/ubah-bank-soal'
+import GenerateSoalModal from './modal/generate'
 import ImportSoalModal from './modal/import'
 import UbahSoalModal from './modal/ubah'
 import NomorSoal from './nomor-soal'
@@ -85,7 +86,7 @@ const isEssay = z
   .object({
     tipe: z.object({ label: z.string(), value: z.literal('essay') }),
     jawaban: z.array(z.string()),
-    bobot: z.number().min(0),
+    bobot: z.number().min(1),
   })
   .merge(baseFs)
 
@@ -123,7 +124,8 @@ export default function KelolaSoalBody() {
     doShow: doShowUbahPaket,
     doHide: doHideUbahPaket,
   } = useShowModal<string>()
-  const [showModalImport, setShowModalImport] = useState(false)
+  const [showImport, setShowImport] = useState(false)
+  const [showGenerate, setShowGenerate] = useState(false)
   const [resetValues, setResetValues] = useState<TambahSoalFormSchema>()
   const {
     show: showUbah,
@@ -145,12 +147,7 @@ export default function KelolaSoalBody() {
     queryFn: makeSimpleApiQueryData(lihatBankSoalApi, idKategori, idBankSoal),
   })
 
-  const queryKey = [
-    'pengguna.bank-soal.soal.list',
-    idKategori,
-    idBankSoal,
-    'single-choice',
-  ]
+  const queryKey = ['pengguna.bank-soal.soal.list', idKategori, idBankSoal]
 
   const queryKeyPilihan = [...queryKey, 'single-choice']
   const { data: listSoalPilihan = [], isLoading: isLoadingPilihan } = useQuery({
@@ -172,12 +169,12 @@ export default function KelolaSoalBody() {
     },
   })
 
-  const listSoal = useMemo(
-    () => (tipeSoal === 'single-choice' ? listSoalPilihan : listSoalEsai),
-    [listSoalPilihan, listSoalEsai]
+  const nomorSoalBaru = useMemo(
+    () =>
+      (tipeSoal === 'single-choice' ? listSoalPilihan : listSoalEsai).length +
+      1,
+    [tipeSoal, listSoalPilihan, listSoalEsai]
   )
-
-  type DataType = (typeof listSoal)[number]
 
   const listAllSoal = useMemo(
     () => [...listSoalPilihan, ...listSoalEsai],
@@ -213,10 +210,12 @@ export default function KelolaSoalBody() {
       loading: 'Menghapus...',
       onSuccess: () => {
         setIdHapus(undefined)
-        queryClient.setQueryData(queryKeyPilihan, (oldData: DataType[]) =>
-          oldData.filter((item) => item.id !== idHapus)
+        queryClient.setQueryData(
+          queryKeyPilihan,
+          (oldData: typeof listSoalPilihan) =>
+            oldData.filter((item) => item.id !== idHapus)
         )
-        queryClient.setQueryData(queryKeyEsai, (oldData: DataType[]) =>
+        queryClient.setQueryData(queryKeyEsai, (oldData: typeof listSoalEsai) =>
           oldData.filter((item) => item.id !== idHapus)
         )
         queryClient.invalidateQueries({ queryKey })
@@ -263,18 +262,25 @@ export default function KelolaSoalBody() {
                   formState: { errors, isSubmitting },
                 }) => (
                   <>
-                    <div className="flex justify-between items-center gap-x-2 p-2">
+                    <div className="flex justify-between items-center gap-x-2 gap-y-1 flex-wrap p-2">
                       <Title as="h6" weight="semibold">
-                        Soal Nomor {listSoal.length + 1} ({TipeSoal[tipeSoal]})
+                        Soal Nomor {nomorSoalBaru} ({TipeSoal[tipeSoal]})
                       </Title>
                       {canBeChanged && (
-                        <div className="flex gap-x-2">
+                        <div className="flex gap-2 flex-wrap">
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => setShowModalImport(true)}
+                            onClick={() => setShowImport(true)}
                           >
                             Import Soal
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setShowGenerate(true)}
+                          >
+                            Generate Soal
                           </Button>
                           <ButtonSubmit size="sm" isSubmitting={isSubmitting}>
                             Tambah Soal
@@ -547,7 +553,6 @@ export default function KelolaSoalBody() {
             tipeSoal={tipeSoal}
             listSoalPilihan={listSoalPilihan}
             listSoalEsai={listSoalEsai}
-            listSoal={listSoal}
             soalRef={soalRef}
             soalBaruRef={soalBaruRef}
           />
@@ -563,8 +568,14 @@ export default function KelolaSoalBody() {
       {canBeChanged && (
         <>
           <ImportSoalModal
-            showModal={showModalImport}
-            setShowModal={setShowModalImport}
+            show={showImport}
+            setShow={setShowImport}
+            refetchKey={queryKey}
+          />
+
+          <GenerateSoalModal
+            show={showGenerate}
+            setShow={setShowGenerate}
             refetchKey={queryKey}
           />
 
@@ -599,6 +610,7 @@ function BodyShimmer({ className }: { className?: string }) {
           <div className="flex items-center justify-between gap-x-2 p-2">
             <Shimmer className="h-4 w-3/12" />
             <div className="flex gap-x-2 w-48">
+              <Shimmer className="h-8 flex-1" />
               <Shimmer className="h-8 flex-1" />
               <Shimmer className="h-8 flex-1" />
             </div>

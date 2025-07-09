@@ -1,5 +1,5 @@
-import { DataType as SoalType } from '@/services/api/pengguna/bank-soal/soal/list'
 import { Button, Text } from '@/components/ui'
+import { DataType as SoalType } from '@/services/api/pengguna/bank-soal/soal/list'
 import { RefObject } from 'react'
 import { TipeSoalType } from './body'
 
@@ -8,7 +8,6 @@ type NomorSoalProps = {
   tipeSoal: TipeSoalType
   listSoalPilihan: SoalType[]
   listSoalEsai: SoalType[]
-  listSoal: SoalType[]
   soalRef: RefObject<HTMLDivElement>[]
   soalBaruRef: RefObject<HTMLDivElement | null>
 }
@@ -18,7 +17,6 @@ export default function NomorSoal({
   tipeSoal,
   listSoalPilihan,
   listSoalEsai,
-  listSoal,
   soalRef,
   soalBaruRef,
 }: NomorSoalProps) {
@@ -44,7 +42,7 @@ export default function NomorSoal({
               Pilihan Ganda
             </Text>
             <div className="grid grid-cols-5 gap-2 mb-2 xs:grid-cols-10 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
-              {listSoalPilihan.map((soal, idx) => (
+              {listSoalPilihan.map((_, idx) => (
                 <div
                   key={`pilihan.${idx}`}
                   className="flex justify-center items-center"
@@ -75,7 +73,7 @@ export default function NomorSoal({
                       })
                     }}
                   >
-                    {listSoal.length + 1}
+                    {listSoalPilihan.length + 1}
                   </Button>
                 </div>
               )}
@@ -93,7 +91,7 @@ export default function NomorSoal({
               Esai
             </Text>
             <div className="grid grid-cols-5 gap-2 mb-2 xs:grid-cols-10 md:grid-cols-15 md:gap-3 md:px-2 lg:grid-cols-5 lg:px-3">
-              {listSoalEsai.map((soal, idx) => (
+              {listSoalEsai.map((_, idx) => (
                 <div
                   key={`esai.${idx}`}
                   className="flex justify-center items-center"
@@ -126,7 +124,7 @@ export default function NomorSoal({
                       })
                     }}
                   >
-                    {listSoal.length + 1}
+                    {listSoalEsai.length + 1}
                   </Button>
                 </div>
               )}

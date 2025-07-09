@@ -67,7 +67,7 @@ const isEssay = z
   .object({
     tipe: z.object({ label: z.string(), value: z.literal('essay') }),
     jawaban: z.array(z.string()),
-    bobot: z.number().min(0),
+    bobot: z.number().min(1),
   })
   .merge(baseFs)
 

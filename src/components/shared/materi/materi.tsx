@@ -22,7 +22,7 @@ import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -49,6 +49,7 @@ export type MateriProps = {
   multiple?: boolean
   error?: string
   errorClassName?: string
+  children?: ReactNode
 }
 
 export default function Materi({
@@ -60,6 +61,7 @@ export default function Materi({
   onChange,
   error,
   errorClassName,
+  children,
 }: MateriProps) {
   const { jwt, processApi } = useSessionJwt()
   const { status } = useSession()
@@ -276,9 +278,11 @@ export default function Materi({
                 }}
               />
             )}
-            <Text size="sm" className="materi text-gray-lighter">
-              {placeholder}
-            </Text>
+            {children || (
+              <Text size="sm" className="materi-label text-gray-lighter">
+                {placeholder}
+              </Text>
+            )}
           </div>
         </div>
         {error && (
