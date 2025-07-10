@@ -15,41 +15,57 @@ import {
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { objectRequired } from '@/utils/validations/refine'
+import { generateSoalApi } from '@/services/api/pengguna/bank-soal/soal/generate'
+import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { Alert } from 'rizzui'
 
-const baseFs = z.object({
-  jumlahPilihan: z.number().min(0),
-  opsiPilihan: z.any().superRefine(objectRequired),
-  jumlahEsai: z.number().min(0),
-  bobotEsai: z.number().min(1),
-})
-
-const materiFs = z.object({
-  usingMateri: z.literal(true),
-  materi: z.any().superRefine(objectRequired),
-})
-
-const pustakaMediaFs = z.object({
-  usingMateri: z.literal(false),
-  pustakaMedia: z
-    .array(z.any())
-    .refine((val) => val.length > 0, 'Pustaka media wajib dipilih'),
-})
-
-const formSchema = z.union([
-  baseFs.merge(materiFs),
-  baseFs.merge(pustakaMediaFs),
-])
+const formSchema = z
+  .object({
+    jumlahPilihan: z.number().min(0),
+    opsiPilihan: z.any().optional(),
+    jumlahEsai: z.number().min(0),
+    bobotEsai: z.number().min(1).optional(),
+    usingMateri: z.boolean(),
+    materi: z.any().optional(),
+    pustakaMedia: z.array(z.any()),
+  })
+  .refine(
+    (data) =>
+      (!!data.jumlahPilihan && !!data.opsiPilihan) || !data.jumlahPilihan,
+    {
+      message: 'Wajib dipilih.',
+      path: ['opsiPilihan'],
+    }
+  )
+  .refine(
+    (data) => (!!data.jumlahEsai && !!data.bobotEsai) || !data.jumlahEsai,
+    {
+      message: 'Wajib diisi.',
+      path: ['bobotEsai'],
+    }
+  )
+  .refine((data) => !data.usingMateri || (data.usingMateri && !!data.materi), {
+    message: 'Materi media wajib dipilih',
+    path: ['materi'],
+  })
+  .refine(
+    (data) =>
+      data.usingMateri || (!data.usingMateri && data.pustakaMedia.length > 0),
+    {
+      message: 'Pustaka media wajib dipilih',
+      path: ['pustakaMedia'],
+    }
+  )
 
 export type GenerateSoalFormSchema = {
-  jumlahPilihan?: number
+  jumlahPilihan: number
   opsiPilihan?: SelectOptionType
-  jumlahEsai?: number
+  jumlahEsai: number
   bobotEsai?: number
   usingMateri?: boolean
   materi?: MateriItemType
@@ -63,7 +79,10 @@ const opsiPilihanOptions: SelectOptionType<number>[] = [
 ]
 
 const initialValues: GenerateSoalFormSchema = {
+  jumlahPilihan: 0,
+  jumlahEsai: 0,
   usingMateri: false,
+  pustakaMedia: [],
 }
 
 type GenerateSoalModalProps = {
@@ -86,22 +105,15 @@ export default function GenerateSoalModal({
   const { soal: idBankSoal }: { kategori: string; soal: string } = useParams()
 
   const onSubmit: SubmitHandler<GenerateSoalFormSchema> = async (data) => {
-    if (!idBankSoal) return
-
-    console.log(data)
-
-    // await handleActionWithToast(
-    //   processApi(generateSoalApi, idBankSoal, id, data),
-    //   {
-    //     loading: 'Menyimpan...',
-    //     onStart: () => setFormError(undefined),
-    //     onSuccess: () => {
-    //       queryClient.invalidateQueries({ queryKey: refetchKey })
-    //       setShow(false)
-    //     },
-    //     onError: ({ message }) => setFormError(message),
-    //   }
-    // )
+    await handleActionWithToast(processApi(generateSoalApi, idBankSoal, data), {
+      loading: 'Membuat soal...',
+      onStart: () => setFormError(undefined),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: refetchKey })
+        setShow(false)
+      },
+      onError: ({ message }) => setFormError(message),
+    })
   }
 
   const handleClose = () => {
@@ -125,6 +137,15 @@ export default function GenerateSoalModal({
         {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
+              <Alert color="info">
+                <Text size="sm" weight="semibold">
+                  Fitur generate soal ini menggunakan teknologi AI. Gunakan
+                  fitur ini dengan bijak.
+                  <br />
+                  Periksalah kembali soal yang sudah dibuat sebelum digunakan.
+                </Text>
+              </Alert>
+
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <ControlledInputNumber
                   name="jumlahPilihan"
@@ -136,16 +157,19 @@ export default function GenerateSoalModal({
                   required
                 />
 
-                <ControlledSelect
-                  name="opsiPilihan"
-                  control={control}
-                  options={opsiPilihanOptions}
-                  label="Opsi Pilihan Ganda"
-                  placeholder="Pilih Opsi Pilihan Ganda"
-                  errors={errors}
-                  required
-                />
-
+                {(watch('jumlahPilihan') || 0) > 0 && (
+                  <ControlledSelect
+                    name="opsiPilihan"
+                    control={control}
+                    options={opsiPilihanOptions}
+                    label="Opsi Pilihan Ganda"
+                    placeholder="Pilih Opsi Pilihan Ganda"
+                    errors={errors}
+                    required
+                  />
+                )}
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <ControlledInputNumber
                   name="jumlahEsai"
                   control={control}
@@ -156,15 +180,17 @@ export default function GenerateSoalModal({
                   required
                 />
 
-                <ControlledInputNumber
-                  name="bobotEsai"
-                  control={control}
-                  label="Bobot Soal Esai"
-                  placeholder="Masukkan bobot soal esai di sini"
-                  min={0}
-                  errors={errors}
-                  required
-                />
+                {(watch('jumlahEsai') || 0) > 0 && (
+                  <ControlledInputNumber
+                    name="bobotEsai"
+                    control={control}
+                    label="Bobot Soal Esai"
+                    placeholder="Masukkan bobot soal esai di sini"
+                    min={1}
+                    errors={errors}
+                    required
+                  />
+                )}
               </div>
 
               <div>
@@ -214,6 +240,7 @@ export default function GenerateSoalModal({
               submit="Buat Soal"
               isSubmitting={isSubmitting}
               onCancel={handleClose}
+              disabled={!watch('jumlahPilihan') && !watch('jumlahEsai')}
               borderTop
             />
           </>

@@ -36,7 +36,6 @@ export default function ModalFooterButtons({
   onCancel,
   borderTop,
   disabled = false,
-
   className,
 }: ModalFooterButtonsProps) {
   return (
@@ -71,7 +70,6 @@ export default function ModalFooterButtons({
             color={cancelColor}
             className={cn('w-full', cancelClassName)}
             onClick={onCancel}
-            disabled={disabled}
           >
             {cancel}
           </Button>
