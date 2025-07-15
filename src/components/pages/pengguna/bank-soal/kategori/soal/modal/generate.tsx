@@ -30,6 +30,7 @@ const formSchema = z
     opsiPilihan: z.any().optional(),
     jumlahEsai: z.number().min(0),
     bobotEsai: z.number().min(1).optional(),
+    bahasa: z.any().optional(),
     usingMateri: z.boolean(),
     materi: z.any().optional(),
     pustakaMedia: z.array(z.any()),
@@ -67,6 +68,7 @@ export type GenerateSoalFormSchema = {
   opsiPilihan?: SelectOptionType
   jumlahEsai: number
   bobotEsai?: number
+  bahasa?: SelectOptionType
   usingMateri?: boolean
   materi?: MateriItemType
   pustakaMedia?: PustakaMediaFileType[]
@@ -78,9 +80,15 @@ const opsiPilihanOptions: SelectOptionType<number>[] = [
   { label: '5 (A, B, C, D, E)', value: 5 },
 ]
 
+const bahasaOptions: SelectOptionType[] = [
+  { label: 'Indonesia', value: 'Indonesia' },
+  { label: 'Inggris', value: 'English' },
+]
+
 const initialValues: GenerateSoalFormSchema = {
   jumlahPilihan: 0,
   jumlahEsai: 0,
+  bahasa: bahasaOptions[0],
   usingMateri: false,
   pustakaMedia: [],
 }
@@ -147,6 +155,17 @@ export default function GenerateSoalModal({
               </Alert>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <ControlledSelect
+                  name="bahasa"
+                  control={control}
+                  options={bahasaOptions}
+                  label="Buat Soal Dalam Bahasa"
+                  placeholder="Pilih Bahasa"
+                  errors={errors}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <ControlledInputNumber
                   name="jumlahPilihan"
                   control={control}
@@ -154,6 +173,7 @@ export default function GenerateSoalModal({
                   placeholder="Jumlah soal pilihan ganda yg ingin dibuat"
                   min={0}
                   errors={errors}
+                  stepper
                   required
                 />
 
@@ -177,6 +197,7 @@ export default function GenerateSoalModal({
                   placeholder="Jumlah soal esai yg ingin dibuat"
                   min={0}
                   errors={errors}
+                  stepper
                   required
                 />
 

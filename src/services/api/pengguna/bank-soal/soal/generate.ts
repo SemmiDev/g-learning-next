@@ -13,7 +13,7 @@ export const generateSoalApi = async (
       jumlah_soal_pilihan_ganda: data.jumlahPilihan,
       jumlah_opsi_jawaban: data.opsiPilihan?.value ?? 4,
       jumlah_soal_essay: data.jumlahEsai,
-      bahasa: 'Indonesia',
+      bahasa: data.bahasa?.value ?? 'Indonesia',
       bobot_essay: data.jumlahEsai ? data.bobotEsai : null,
       berkas: !data.usingMateri
         ? (data.pustakaMedia ?? []).map((berkas) => berkas.id)

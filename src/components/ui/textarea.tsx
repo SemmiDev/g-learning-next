@@ -1,3 +1,4 @@
+import cn from '@/utils/class-names'
 import { forwardRef } from 'react'
 import {
   Textarea as RizTextarea,
@@ -7,8 +8,19 @@ import {
 export type TextareaProps = RizTextareaProps
 
 export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { ...props }: TextareaProps,
+  { textareaClassName, ...props }: TextareaProps,
   ref
 ) {
-  return <RizTextarea ref={ref} {...props} />
+  return (
+    <RizTextarea
+      ref={ref}
+      textareaClassName={cn(
+        {
+          'px-2': props.size === 'sm',
+        },
+        textareaClassName
+      )}
+      {...props}
+    />
+  )
 })

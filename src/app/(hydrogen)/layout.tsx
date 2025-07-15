@@ -1,5 +1,3 @@
-'use client'
-
 import HydrogenLayout from '@/layouts/hydrogen/layout'
 
 type LayoutProps = {
