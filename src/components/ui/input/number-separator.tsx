@@ -1,15 +1,17 @@
-import { ReactNode } from 'react'
-import { NumberInput, NumberInputProps } from 'rizzui'
-import Input from './input'
 import { inputToNumber } from '@/utils/validations/transform'
+import { ReactNode, useMemo } from 'react'
+import { NumberInput, NumberInputProps } from 'rizzui'
+import Input, { InputProps } from './input'
 
 export type InputNumberSeparatorProps = Omit<
   NumberInputProps,
-  'formatType' | 'onChange'
+  'formatType' | 'onChange' | 'size' | 'customInput'
 > & {
   label?: ReactNode
   onChange?(value: number | null): void
   error?: string
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  CustomInput?: React.ComponentType<unknown>
 }
 
 export default function InputNumberSeparator({
@@ -17,9 +19,18 @@ export default function InputNumberSeparator({
   onChange,
   onBlur,
   error,
-  customInput = Input as React.ComponentType<unknown>,
+  CustomInput = Input as React.ComponentType<unknown>,
+  size,
   ...props
 }: InputNumberSeparatorProps) {
+  const customInput = useMemo(
+    () =>
+      ((props: InputProps) => (
+        <CustomInput size={size} {...props} />
+      )) as React.ComponentType<unknown>,
+    [CustomInput, size]
+  )
+
   return (
     <NumberInput
       // @ts-ignore

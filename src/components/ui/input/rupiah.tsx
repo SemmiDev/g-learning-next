@@ -8,7 +8,7 @@ export type InputRupiahProps = InputNumberSeparatorProps
 export default function InputRupiah({ ...props }: InputRupiahProps) {
   return (
     <InputNumberSeparator
-      customInput={CustomRupiahInput as React.ComponentType<unknown>}
+      CustomInput={CustomRupiahInput as React.ComponentType<unknown>}
       {...props}
     />
   )
