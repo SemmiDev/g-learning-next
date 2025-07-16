@@ -65,6 +65,7 @@ export const instansiRoutes = {
   profileSinkron: '/instansi/profil/sinkron',
   akademik: '/instansi/akademik',
   kelasAkademik: '/instansi/akademik/kelas',
+  manajemenModul: 'instansi/manajemen-modul',
 }
 
 export const prodiInstansiRoutes = {
