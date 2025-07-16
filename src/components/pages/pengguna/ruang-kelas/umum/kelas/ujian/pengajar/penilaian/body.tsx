@@ -165,14 +165,16 @@ export default function PenilaianUjianBody() {
     setKoreksiOtomatis(true)
 
     if (!hasilKoreksiOtomatis) {
-      const data = await processApi(
+      const { data, success } = await processApi(
         koreksiOtomatisUjianApi,
         idKelas,
         idAktifitas,
         idPeserta
       )
 
-      setHasilKoreksiOtomatis(_.keyBy(data.data?.list, (item) => item.id_soal))
+      if (success) {
+        setHasilKoreksiOtomatis(_.keyBy(data?.list, (item) => item.id_soal))
+      }
     }
   }
 
