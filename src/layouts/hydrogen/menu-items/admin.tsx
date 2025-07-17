@@ -1,6 +1,7 @@
 import { routes } from '@/config/routes'
 import {
   LuBook,
+  LuBookText,
   LuBox,
   LuCreditCard,
   LuFileText,
@@ -56,5 +57,10 @@ export const menuItemsAdmin: MenuItemType[] = [
     name: 'Manajemen Admin',
     href: routes.admin.manajemenAdmin,
     icon: <LuUser />,
+  },
+  {
+    name: 'Manajemen Knowledge',
+    href: routes.admin.manajemenKnowledge,
+    icon: <LuBookText />,
   },
 ]

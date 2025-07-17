@@ -33,6 +33,7 @@ export default forwardRef<HTMLButtonElement, ActionIconProps>(
       <RizActionIcon
         ref={ref}
         className={cn(
+          'shrink-0',
           !props.disabled ? ButtonColorStyles[variant][color] : null,
           fontWeight ? TextWeights[fontWeight] : null,
           className

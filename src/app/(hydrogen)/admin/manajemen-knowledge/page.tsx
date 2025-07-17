@@ -1,21 +1,21 @@
-import ManajemenModulBody from '@/components/pages/instansi/manajemen-modul/body'
+import ManajemenKnowledgeBody from '@/components/pages/admin/manajemen-knowledge/body'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
 
 export const metadata = {
-  ...metaObject('Manajemen Modul'),
+  ...metaObject('Manajemen Knowledge'),
 }
 
 const pageHeader = {
-  title: 'Manajemen Modul',
+  title: 'Manajemen Knowledge',
   breadcrumb: [
     {
       href: routes.dashboard,
       name: 'Dasbor',
     },
     {
-      name: 'Manajemen Modul',
+      name: 'Manajemen Knowledge',
     },
   ],
 }
@@ -24,7 +24,7 @@ export default function ManajemenModulPage() {
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-      <ManajemenModulBody />
+      <ManajemenKnowledgeBody />
     </>
   )
 }
