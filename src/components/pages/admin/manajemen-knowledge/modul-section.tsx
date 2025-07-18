@@ -3,7 +3,7 @@ import { randomString } from '@/utils/random'
 import { TreeItems } from 'dnd-kit-sortable-tree'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { TreeItemDataType } from './modul-sortable'
+import { TreeItemAddNewItem, TreeItemDataType } from './modul-sortable'
 
 const ModulSortable = dynamic(() => import('./modul-sortable'), { ssr: false })
 
@@ -12,24 +12,24 @@ const initialTreeData: TreeItems<TreeItemDataType> = [
     id: randomString(16),
     title: 'Item 1',
     children: [
-      { id: randomString(16), title: 'Item 4' },
-      { id: randomString(16), title: 'Item 5' },
-      { id: randomString(16), action: 'ADD' },
+      { id: randomString(16), title: 'Item 4', canHaveChildren: false },
+      { id: randomString(16), title: 'Item 5', canHaveChildren: false },
+      TreeItemAddNewItem(),
     ],
   },
   {
     id: randomString(16),
     title: 'Item 2',
-    children: [{ id: randomString(16), action: 'ADD' }],
+    children: [TreeItemAddNewItem()],
     collapsed: true,
   },
   {
     id: randomString(16),
     title: 'Item 3',
-    children: [{ id: randomString(16), action: 'ADD' }],
+    children: [TreeItemAddNewItem()],
     collapsed: true,
   },
-  { id: randomString(16), action: 'ADD' },
+  TreeItemAddNewItem(),
 ]
 
 type ModulSectionProps = {
