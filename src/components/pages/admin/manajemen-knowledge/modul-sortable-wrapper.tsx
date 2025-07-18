@@ -45,12 +45,10 @@ export const MakeTreeItem = ({
 
 export const MakeTreeAddNewItem = () => MakeTreeItem({ action: 'ADD' })
 
-type ModulSortableWrapperProps = TreeItemComponentProps<TreeItemDataType>
-
-export default forwardRef<
+const ModulSortableTreeItemComponent = forwardRef<
   HTMLDivElement,
   TreeItemComponentProps<TreeItemDataType>
->(function treeSortableWrapper(props: ModulSortableWrapperProps, ref) {
+>((props: TreeItemComponentProps<TreeItemDataType>, ref) => {
   const { addItem } = useManajemenKnowledgeModulStore()
 
   return (
@@ -75,6 +73,8 @@ export default forwardRef<
     </SimpleTreeItemWrapper>
   )
 })
+
+export default ModulSortableTreeItemComponent
 
 const SortableItem = ({
   item,

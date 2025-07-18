@@ -8,7 +8,7 @@ import {
   ItemChangedReason,
 } from 'dnd-kit-sortable-tree/dist/types'
 import { create } from 'zustand'
-import treeItemComponent, {
+import ModulSortableTreeItemComponent, {
   MakeTreeAddNewItem,
   MakeTreeItem,
   TreeItemDataType,
@@ -40,7 +40,7 @@ export default function ModulSortable() {
       sortableProps={{
         animateLayoutChanges: () => false,
       }}
-      TreeItemComponent={treeItemComponent}
+      TreeItemComponent={ModulSortableTreeItemComponent}
     />
   )
 }
