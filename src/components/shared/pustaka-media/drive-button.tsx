@@ -1,6 +1,7 @@
 import { Text } from '@/components/ui'
 import ModalInfo from '@/components/ui/modal/info'
 import { GOOGLE_PICKER } from '@/config/const'
+import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
 import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from 'react'
@@ -21,6 +22,10 @@ export default function DriveButton({
   active = false,
   ...props
 }: DriveButtonProps) {
+  const { level } = useSessionPengguna()
+
+  if (drive.id === 'GOOGLE_DRIVE' && level !== 'Pengguna') return null
+
   if (drive.id === 'GOOGLE_DRIVE' && !drive.active) {
     const [showInfo, setShowInfo] = useState(false)
 

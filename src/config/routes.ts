@@ -55,7 +55,7 @@ export const adminRoutes = {
   tagihanInstansi: '/admin/tagihan/instansi',
   tagihanPengguna: '/admin/tagihan/pengguna',
   manajemenAdmin: '/admin/manajemen-admin',
-  manajemenKnowledge: 'admin/manajemen-knowledge',
+  manajemenKnowledge: '/admin/manajemen-knowledge',
 }
 
 export const instansiRoutes = {

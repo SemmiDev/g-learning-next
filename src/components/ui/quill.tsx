@@ -1,14 +1,12 @@
 'use client'
 
 import cn from '@/utils/class-names'
-import { googleDriveThumbnailUrl } from '@/utils/google-drive-url'
 import QuillResizeImage from 'quill-resize-image'
 import { useCallback, useRef, useState } from 'react'
 import ReactQuill, { Quill } from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
 import { FieldError } from 'rizzui'
-import { PustakaMediaFileType } from '../shared/pustaka-media'
-import PilihMediaGambar from '../shared/pustaka-media/pilih-media-gambar'
+import ImagePicker from './image-picker'
 import Label from './label'
 import TextLabel from './text/label'
 
@@ -70,16 +68,10 @@ export default function QuillEditor({
     }
   }, [])
 
-  const onPilihGambar = (file: PustakaMediaFileType) => {
+  const onPilihGambar = (imageUrl?: string) => {
     const quill: any = quillRef.current
 
     if (quill) {
-      const imageUrl = googleDriveThumbnailUrl(
-        file.link ?? '',
-        file.link,
-        1024,
-        's'
-      )
       quill.getEditor().insertEmbed(editorIdx, 'image', imageUrl)
     }
   }
@@ -167,7 +159,7 @@ export default function QuillEditor({
       </div>
 
       {['minimalist-image', 'normal-image'].includes(toolbar) && (
-        <PilihMediaGambar
+        <ImagePicker
           show={showPilihGambar}
           setShow={setShowPilihGambar}
           onSelect={onPilihGambar}

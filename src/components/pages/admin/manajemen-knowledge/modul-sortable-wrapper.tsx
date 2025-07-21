@@ -37,7 +37,7 @@ export const MakeTreeItem = ({
       action !== 'ADD' && parent === undefined
         ? [...(children ?? []), MakeTreeAddNewItem()]
         : undefined,
-    collapsed: !children?.length,
+    collapsed: true,
     disableSorting: action === 'ADD',
     canHaveChildren: action !== 'ADD' && parent === undefined,
   }

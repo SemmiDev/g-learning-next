@@ -87,6 +87,7 @@ import FileListItem, {
 } from './file'
 import { Form } from './form'
 import FormError, { FormErrorProps } from './form-error'
+import ImagePicker, { ImagePickerProps } from './image-picker'
 import Input, { InputProps } from './input/input'
 import InputNumber, { InputNumberProps } from './input/number'
 import InputNumberSeparator, {
@@ -179,6 +180,7 @@ export {
   FileListItemShimmer,
   Form,
   FormError,
+  ImagePicker,
   Input,
   InputNumber,
   InputNumberSeparator,
@@ -265,6 +267,7 @@ export {
   type FileListItemProps,
   type FilePreviewType,
   type FormErrorProps,
+  type ImagePickerProps,
   type InputNumberProps,
   type InputNumberSeparatorProps,
   type InputProps,
