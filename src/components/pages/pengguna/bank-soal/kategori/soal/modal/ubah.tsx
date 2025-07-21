@@ -215,11 +215,12 @@ export default function UbahSoalModal({
                   name="soal"
                   control={control}
                   errors={errors}
-                  toolbar="normal-image"
+                  toolbar="normal"
                   size="sm"
                   label="Soal"
                   placeholder="Deskripsi soal"
                   className="text-gray-dark"
+                  toolbarImage
                   noMaxHeight
                   required
                 />
@@ -245,10 +246,11 @@ export default function UbahSoalModal({
                           name={`jawaban.${idx}`}
                           control={control}
                           placeholder="Deskripsi jawaban"
-                          toolbar="minimalist-image"
+                          toolbar="minimalist"
                           size="xs"
                           className="flex-1 text-gray-dark"
                           error={errors.jawaban?.[idx]?.message}
+                          toolbarImage
                           noMaxHeight
                         />
                         {watch('jawaban').length > 3 && (

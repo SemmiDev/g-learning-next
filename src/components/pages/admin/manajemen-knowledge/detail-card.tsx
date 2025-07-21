@@ -1,5 +1,5 @@
 import {
-  Button,
+  ButtonSubmit,
   Card,
   ControlledInput,
   ControlledQuillEditor,
@@ -48,7 +48,7 @@ export default function DetailCard({ className }: DetailCardProps) {
   }
 
   return (
-    <Card className={cn('px-4 py-3', className)}>
+    <Card className={cn('overflow-visible px-4 py-3', className)}>
       <Form<ModulArtikelFormSchema>
         onSubmit={onSubmit}
         validationSchema={formSchema}
@@ -64,7 +64,7 @@ export default function DetailCard({ className }: DetailCardProps) {
               <Title as="h4" size="base" weight="semibold">
                 Modul Akademik
               </Title>
-              <Button>Simpan</Button>
+              <ButtonSubmit isSubmitting={isSubmitting}>Simpan</ButtonSubmit>
             </div>
 
             <ControlledInput
@@ -82,8 +82,9 @@ export default function DetailCard({ className }: DetailCardProps) {
               errors={errors}
               label="Isi Artikel"
               placeholder="Tulis isi artikel di sini"
-              toolbar="normal-image"
               size="md"
+              toolbar="rich"
+              toolbarImage
               noMaxHeight
             />
           </>

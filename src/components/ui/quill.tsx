@@ -34,8 +34,9 @@ export interface QuillEditorProps extends ReactQuill.ReactQuillProps {
   className?: string
   labelClassName?: string
   errorClassName?: string
+  toolbar?: 'minimalist' | 'normal' | 'rich'
   toolbarPosition?: 'top' | 'bottom'
-  toolbar?: 'minimalist' | 'minimalist-image' | 'normal' | 'normal-image'
+  toolbarImage?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   noMaxHeight?: boolean
 }
@@ -51,6 +52,7 @@ export default function QuillEditor({
   tabIndex = 0,
   toolbar = 'normal',
   toolbarPosition = 'top',
+  toolbarImage,
   size = 'sm',
   noMaxHeight,
   ...props
@@ -77,9 +79,10 @@ export default function QuillEditor({
   }
 
   const listToolbar = {
-    minimalist: [['bold', 'italic', 'underline', 'strike', 'clean']],
-    'minimalist-image': [
-      ['bold', 'italic', 'underline', 'strike', 'clean', 'image'],
+    minimalist: [
+      toolbarImage
+        ? ['bold', 'italic', 'underline', 'strike', 'clean', 'image']
+        : ['bold', 'italic', 'underline', 'strike', 'clean'],
     ],
     normal: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -90,18 +93,21 @@ export default function QuillEditor({
       [{ color: [] }, { background: [] }],
       [{ font: [] }],
       [{ align: [] }],
-      ['clean'],
+      toolbarImage ? ['clean', 'image'] : ['clean'],
     ],
-    'normal-image': [
+    rich: [
       ['bold', 'italic', 'underline', 'strike'],
       ['blockquote', 'code-block'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
       [{ script: 'sub' }, { script: 'super' }],
       [{ indent: '-1' }, { indent: '+1' }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ color: [] }, { background: [] }],
       [{ font: [] }],
       [{ align: [] }],
-      ['clean', 'image'],
+      toolbarImage
+        ? ['clean', 'link', 'image', 'video']
+        : ['clean', 'link', 'video'],
     ],
   }
 
@@ -109,7 +115,7 @@ export default function QuillEditor({
     toolbar: {
       container: listToolbar[toolbar],
       handlers: {
-        image: imageHandler,
+        image: toolbarImage && imageHandler,
       },
     },
     resize: {
@@ -158,7 +164,7 @@ export default function QuillEditor({
         )}
       </div>
 
-      {['minimalist-image', 'normal-image'].includes(toolbar) && (
+      {toolbarImage && (
         <ImagePicker
           show={showPilihGambar}
           setShow={setShowPilihGambar}
