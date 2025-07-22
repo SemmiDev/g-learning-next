@@ -82,10 +82,9 @@ export default function DetailCard({ className }: DetailCardProps) {
               errors={errors}
               label="Isi Artikel"
               placeholder="Tulis isi artikel di sini"
-              size="md"
+              size="xl"
               toolbar="rich"
               toolbarImage
-              noMaxHeight
             />
           </>
         )}
