@@ -128,8 +128,6 @@ export default function PreviewSoalBody() {
 
   if (isLoadingBankSoal) return <BodyShimmer />
 
-  console.log(listSoalPilihan)
-
   return (
     <>
       <div className="flex flex-col gap-2 py-2 px-2 md:gap-4 md:px-10 md:py-6 lg:px-20 xl:gap-6 xl:px-40">
