@@ -137,7 +137,7 @@ export default function PengajarSesiItemCard({
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-64 divide-y !py-0">
               <div className="py-2">
-                {sesi.status === 'Belum Dibuka' ? (
+                {sesi.status === 'Belum Dibuka' && !disableAbsensi ? (
                   <Dropdown.Item
                     className="text-gray-dark"
                     onClick={onUbahSesi}

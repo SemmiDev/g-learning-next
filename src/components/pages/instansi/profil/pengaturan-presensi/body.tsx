@@ -123,7 +123,7 @@ export default function PengaturanPresensiBody() {
               <CardSeparator />
               <div className="flex flex-col gap-6 px-2 py-4">
                 <Switch
-                  label="Aktifkan Fitur Absensi"
+                  label="Aktifkan Fitur Presensi"
                   labelClassName="text-gray-dark font-semibold"
                   {...register('aktif')}
                 />
