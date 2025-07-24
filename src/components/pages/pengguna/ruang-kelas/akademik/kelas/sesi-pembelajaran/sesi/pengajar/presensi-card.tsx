@@ -42,6 +42,7 @@ import { Dropdown } from 'rizzui'
 import UbahJenisAbsenSesiModal from '../../pengajar/modal/ubah-jenis-absen'
 import DetailPresensiModal from '../modal/detail-presensi'
 import PresensiCardShimmer from '../shimmer/presensi-card'
+import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 
 const absensiStatus = ['Hadir', 'Izin', 'Sakit', 'Alpha'] as const
 
@@ -75,6 +76,11 @@ export default function PengajarPresensiCard({
 
   const { kelas: idKelas, sesi: idSesi }: { kelas: string; sesi: string } =
     useParams()
+
+  const { data: dataKelas } = useQuery({
+    queryKey: ['pengguna.ruang-kelas.lihat', idKelas],
+    queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
+  })
 
   const { data: dataSesi } = useQuery({
     queryKey: [
@@ -167,6 +173,8 @@ export default function PengajarPresensiCard({
     )
   }
 
+  const disableAbsensi = dataKelas?.pengaturan_absensi_dosen_simpeg
+
   if (isLoading) return <PresensiCardShimmer className={className} />
 
   return (
@@ -177,7 +185,7 @@ export default function PengajarPresensiCard({
             <Title
               as="h6"
               weight="semibold"
-              className="inline-flex items-center leading-4"
+              className="inline-flex items-center leading-4 min-h-7"
             >
               Presensi
               {dataSesi?.jenis_absensi_peserta === 'QR Code' && (
@@ -192,42 +200,45 @@ export default function PengajarPresensiCard({
                 </ActionIconTooltip>
               )}
             </Title>
-            {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) && (
-              <Button
-                size="sm"
-                color="primary"
-                variant="text-colorful"
-                className="p-0"
-                onClick={() => setHadirSemua(true)}
-              >
-                <BsCheck2All className="mr-1" />
-                Tandai Semua Hadir
-              </Button>
-            )}
+            {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) &&
+              !disableAbsensi && (
+                <Button
+                  size="sm"
+                  color="primary"
+                  variant="text-colorful"
+                  className="p-0"
+                  onClick={() => setHadirSemua(true)}
+                >
+                  <BsCheck2All className="mr-1" />
+                  Tandai Semua Hadir
+                </Button>
+              )}
           </div>
 
           <div className="flex gap-x-2">
-            {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) && (
-              <div className="flex justify-end gap-2">
-                {(!_.isEmpty(dataPerubahan) || ubahData) && (
-                  <>
-                    <Button
-                      size="sm"
-                      color="gray"
-                      variant="outline"
-                      onClick={handleBatal}
-                    >
-                      <BsXSquare className="mr-2" /> Batal
-                    </Button>
-                    <Button size="sm" onClick={handleSimpan}>
-                      <BsFloppy2 className="mr-2" /> Simpan
-                    </Button>
-                  </>
-                )}
-              </div>
-            )}
+            {(dataSesi?.jenis_absensi_peserta === 'Manual' || ubahData) &&
+              !disableAbsensi && (
+                <div className="flex justify-end gap-2">
+                  {(!_.isEmpty(dataPerubahan) || ubahData) && (
+                    <>
+                      <Button
+                        size="sm"
+                        color="gray"
+                        variant="outline"
+                        onClick={handleBatal}
+                      >
+                        <BsXSquare className="mr-2" /> Batal
+                      </Button>
+                      <Button size="sm" onClick={handleSimpan}>
+                        <BsFloppy2 className="mr-2" /> Simpan
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
 
             {!ubahData &&
+              !disableAbsensi &&
               (dataSesi?.status !== 'Telah Berakhir' ||
                 dataSesi?.jenis_absensi_peserta !== 'Manual') && (
                 <Dropdown placement="bottom-end">
@@ -305,12 +316,14 @@ export default function PengajarPresensiCard({
                   <div
                     className={cn({
                       'grid grid-cols-2 gap-2 shrink-0 xs:grid-cols-4':
-                        dataSesi?.jenis_absensi_peserta === 'Manual' ||
-                        ubahData,
+                        (dataSesi?.jenis_absensi_peserta === 'Manual' ||
+                          ubahData) &&
+                        !disableAbsensi,
                     })}
                   >
-                    {dataSesi?.jenis_absensi_peserta === 'Manual' ||
-                    ubahData ? (
+                    {(dataSesi?.jenis_absensi_peserta === 'Manual' ||
+                      ubahData) &&
+                    !disableAbsensi ? (
                       absensiStatus.map((status) => (
                         <ActionIconTooltip
                           key={status}

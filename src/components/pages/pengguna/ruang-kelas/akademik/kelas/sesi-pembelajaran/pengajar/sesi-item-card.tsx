@@ -35,6 +35,7 @@ type PengajarSesiItemCardProps = {
   sesi: DataSesiType
   bisaMulai?: boolean
   lastSesi?: boolean
+  disableAbsensi?: boolean
   onUbahSesi?: () => void
   onUbahJudul?: () => void
   onUbahAbsensi?: () => void
@@ -48,6 +49,7 @@ export default function PengajarSesiItemCard({
   sesi,
   bisaMulai,
   lastSesi,
+  disableAbsensi,
   onUbahSesi,
   onUbahJudul,
   onUbahAbsensi,
@@ -153,7 +155,7 @@ export default function PengajarSesiItemCard({
                       Ubah Judul Sesi
                     </Dropdown.Item>
 
-                    {sesi.status !== 'Telah Berakhir' && (
+                    {sesi.status !== 'Telah Berakhir' && !disableAbsensi && (
                       <Dropdown.Item
                         className="text-gray-dark"
                         onClick={onUbahAbsensi}
@@ -262,7 +264,8 @@ export default function PengajarSesiItemCard({
           </div>
           <div
             className={cn('flex flex-col gap-x-2 gap-y-1 flex-1', {
-              'sm:flex-row sm:flex-2': sesi.status === 'Sedang Berlangsung',
+              'sm:flex-row sm:flex-2':
+                sesi.status === 'Sedang Berlangsung' && !disableAbsensi,
             })}
           >
             {sesi.status !== 'Belum Dibuka' && (
@@ -282,7 +285,7 @@ export default function PengajarSesiItemCard({
                 </Button>
               </Link>
             )}
-            {sesi.status === 'Sedang Berlangsung' ? (
+            {sesi.status === 'Sedang Berlangsung' && !disableAbsensi ? (
               <Button size="sm" className="flex-1" onClick={onAkhiri}>
                 Akhiri Sesi
               </Button>
@@ -290,7 +293,7 @@ export default function PengajarSesiItemCard({
               sesi.status === 'Belum Dibuka' && (
                 <Button
                   size="sm"
-                  disabled={!bisaMulai}
+                  disabled={!bisaMulai || disableAbsensi}
                   className="flex-1"
                   onClick={onMulai}
                 >

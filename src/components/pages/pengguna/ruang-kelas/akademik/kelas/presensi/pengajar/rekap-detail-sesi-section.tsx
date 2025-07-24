@@ -102,6 +102,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
   if (!idSesi) return null
 
   const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
+  const disableAbsensi = dataKelas?.pengaturan_absensi_dosen_simpeg
 
   return (
     <div className={className}>
@@ -142,7 +143,7 @@ export default function PengajarRekapPresensiDetailSesiSection({
           >
             <RiFileExcel2Line className="mr-2" /> Ekspor
           </Button>
-          {!ubahData && (
+          {!ubahData && !disableAbsensi && (
             <Button
               size="sm"
               color="warning"

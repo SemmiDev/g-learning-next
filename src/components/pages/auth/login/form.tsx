@@ -33,6 +33,17 @@ const listUser = [
     level: 'Sammi (Pengguna 2)',
     username: 'sammidev4@gmail.com',
   },
+  { level: 'STIE', username: 'adminstie' },
+  {
+    level: 'Contoh Dosen STIE',
+    username: '1471080411670002',
+    password: '1471080411670002',
+  },
+  {
+    level: 'Contoh Mahasiswa STIE',
+    username: '1406052211000006',
+    password: '1406052211000006',
+  },
 ]
 
 const formSchema = z.object({
@@ -144,14 +155,14 @@ export default function LoginForm({ devMode }: LoginFormProps) {
                 size="sm"
                 isOpen={showModalUser}
                 onClose={() => setShowModalUser(false)}
-                bodyClassName="flex flex-col gap-y-2 p-3"
+                bodyClassName="flex flex-col gap-y-2 max-h-[80dvh] overflow-y-auto p-3"
               >
-                {listUser.map(({ level, username }, idx) => (
+                {listUser.map(({ level, username, password }, idx) => (
                   <div
                     className="flex flex-col bg-gray-50/50 rounded-md border border-dashed border-gray-200 cursor-pointer p-2 hover:bg-gray-50"
                     onClick={() => {
                       setValue('username', username)
-                      setValue('password', 'password')
+                      setValue('password', password ?? 'password')
                       setShowModalUser(false)
                     }}
                     key={idx}

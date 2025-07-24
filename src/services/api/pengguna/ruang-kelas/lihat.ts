@@ -38,6 +38,7 @@ export type DataType = {
     nama: string
     foto: string
   }[]
+  pengaturan_absensi_dosen_simpeg: boolean
   pengaturan_absensi_peserta: (
     | 'Manual'
     | 'Otomatis'

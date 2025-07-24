@@ -6,6 +6,7 @@ import {
   CardSeparator,
   Form,
   Label,
+  Switch,
   TextLabel,
   Title,
 } from '@/components/ui'
@@ -14,6 +15,7 @@ import ControlledCheckboxGroup, {
 } from '@/components/ui/controlled/checkbox-group'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { dataPengaturanPresensiApi } from '@/services/api/instansi/profil/pengaturan-presensi/data'
+import { dataPengaturanApi } from '@/services/api/instansi/profil/pengaturan-presensi/data-pengaturan'
 import { ubahPengaturanPresensiApi } from '@/services/api/instansi/profil/pengaturan-presensi/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
@@ -21,6 +23,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
+  aktif: z.boolean(),
   absensiPengajar: z
     .array(z.string())
     .min(1, 'Presensi pengajar wajib dipilih'),
@@ -28,6 +31,7 @@ const formSchema = z.object({
 })
 
 export type PengaturanPresensiFormSchema = {
+  aktif: boolean
   absensiPengajar: string[]
   absensiPeserta: string[]
 }
@@ -55,9 +59,13 @@ export default function PengaturanPresensiBody() {
     useQuery<PengaturanPresensiFormSchema>({
       queryKey,
       queryFn: async () => {
-        const { data } = await dataPengaturanPresensiApi(jwt)
+        const [{ data }, { data: dataPengaturan }] = await Promise.all([
+          dataPengaturanPresensiApi(jwt),
+          dataPengaturanApi(jwt),
+        ])
 
         return {
+          aktif: !(dataPengaturan?.pengaturan_absensi_dosen_simpeg ?? false),
           absensiPengajar: (data?.absensi_dosen ?? [])
             .filter((item) => item.aktif)
             .map((item) => item.tipe),
@@ -91,9 +99,14 @@ export default function PengaturanPresensiBody() {
             values: initialValues,
           }}
         >
-          {({ control, formState: { errors, isSubmitting, isDirty } }) => (
+          {({
+            control,
+            register,
+            watch,
+            formState: { errors, isSubmitting, isDirty },
+          }) => (
             <>
-              <div className="flex justify-between p-2">
+              <div className="flex justify-between flex-wrap gap-1 p-2">
                 <Title as="h4" size="1.5xl" weight="semibold">
                   Pengaturan Presensi
                 </Title>
@@ -108,44 +121,39 @@ export default function PengaturanPresensiBody() {
                 </ButtonSubmit>
               </div>
               <CardSeparator />
-              <table className="mx-2 my-4">
-                <tbody className="[&_td]:align-top [&_td]:py-4">
-                  <tr>
-                    <td width={150}>
-                      <TextLabel>
-                        <Label label="Pengajar" />
-                      </TextLabel>
-                    </td>
-                    <td width={500}>
-                      <ControlledCheckboxGroup
-                        name="absensiPengajar"
-                        control={control}
-                        options={AbsensiPengajarOptions}
-                        errors={errors}
-                        groupClassName="flex-wrap gap-x-6"
-                        disabled={isLoading}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <TextLabel>
-                        <Label label="Peserta" />
-                      </TextLabel>
-                    </td>
-                    <td>
-                      <ControlledCheckboxGroup
-                        name="absensiPeserta"
-                        control={control}
-                        options={AbsensiPesertaOptions}
-                        errors={errors}
-                        groupClassName="flex-wrap gap-x-6"
-                        disabled={isLoading}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="flex flex-col gap-6 px-2 py-4">
+                <Switch
+                  label="Aktifkan Fitur Absensi"
+                  labelClassName="text-gray-dark font-semibold"
+                  {...register('aktif')}
+                />
+                <div className="flex flex-col gap-2">
+                  <TextLabel>
+                    <Label label="Pengajar" />
+                  </TextLabel>
+                  <ControlledCheckboxGroup
+                    name="absensiPengajar"
+                    control={control}
+                    options={AbsensiPengajarOptions}
+                    errors={errors}
+                    groupClassName="flex-wrap gap-x-6"
+                    disabled={isLoading || !watch('aktif')}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <TextLabel>
+                    <Label label="Peserta" />
+                  </TextLabel>
+                  <ControlledCheckboxGroup
+                    name="absensiPeserta"
+                    control={control}
+                    options={AbsensiPesertaOptions}
+                    errors={errors}
+                    groupClassName="flex-wrap gap-x-6"
+                    disabled={isLoading || !watch('aktif')}
+                  />
+                </div>
+              </div>
             </>
           )}
         </Form>

@@ -123,6 +123,8 @@ export default function PengajarSesiPembelajaranBody() {
     )
   }
 
+  const disableAbsensi = dataKelas?.pengaturan_absensi_dosen_simpeg
+
   return (
     <>
       <div className="flex flex-col gap-y-2 mt-8 lg:w-7/12">
@@ -134,6 +136,7 @@ export default function PengajarSesiPembelajaranBody() {
             lastSesi={
               !isFetchingNextPage && sesi.id === list[list.length - 1].id
             }
+            disableAbsensi={disableAbsensi}
             onUbahSesi={() => doShowUbahSesi(sesi.id)}
             onUbahJudul={() => doShowUbahJudul(sesi.id)}
             onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
@@ -143,6 +146,7 @@ export default function PengajarSesiPembelajaranBody() {
           />
         ))}
         {!isLoading &&
+          !disableAbsensi &&
           (hasNextPage ? (
             <Loader ref={refSentry} size="sm" className="py-4" />
           ) : (
@@ -161,6 +165,7 @@ export default function PengajarSesiPembelajaranBody() {
         show={showUbahSesi}
         onHide={doHideUbahSesi}
         listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
+        disableAbsensi={dataKelas?.pengaturan_absensi_dosen_simpeg}
       />
 
       <UbahJudulSesiModal

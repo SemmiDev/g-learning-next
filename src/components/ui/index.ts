@@ -29,6 +29,7 @@ import Button, {
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
 import CardSeparator from './card-separator'
+import Checkbox, { CheckboxProps } from './checkbox'
 import Circle, { CircleProps } from './circle'
 import ControlledAnggotaKelas, {
   ControlledAnggotaKelasProps,
@@ -152,6 +153,7 @@ export {
   ButtonSubmit,
   Card,
   CardSeparator,
+  Checkbox,
   Circle,
   ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
@@ -238,6 +240,7 @@ export {
   type ButtonProps,
   type ButtonSubmitProps,
   type ButtonVariants,
+  type CheckboxProps,
   type CircleProps,
   type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,
