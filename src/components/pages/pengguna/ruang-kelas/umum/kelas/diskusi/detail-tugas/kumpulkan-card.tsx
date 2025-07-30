@@ -108,6 +108,7 @@ export default function KumpulkanTugasCard({
   if (isLoading) return <CardShimmer className={className} />
 
   const terlambat = passedTime(tugas?.aktifitas.batas_waktu)
+  const tampilkanNilai = !tugas?.aktifitas.batas_waktu || terlambat
 
   return (
     <>
@@ -122,7 +123,7 @@ export default function KumpulkanTugasCard({
               Catatan dari pengajar
             </Text>
             <SanitizeHTML
-              html={data?.catatan_pengajar || '-'}
+              html={tampilkanNilai ? data?.catatan_pengajar || '-' : '-'}
               className="text-gray-dark"
             />
           </div>
@@ -131,7 +132,7 @@ export default function KumpulkanTugasCard({
               Nilai
             </Text>
             <Text size="3xl" weight="bold" variant="dark" className="mt-1">
-              {data?.nilai || '-'}
+              {tampilkanNilai ? data?.nilai || '-' : '-'}
             </Text>
           </div>
         </div>
