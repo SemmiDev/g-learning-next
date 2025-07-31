@@ -64,7 +64,7 @@ export default function KoneksiAkunBody() {
 
   return (
     <>
-      <div className="flex flex-col gap-4 lg:w-5/12">
+      <div className="flex flex-col gap-4 xl:w-5/12">
         <KoneksiItem
           title="Zoom Meeting"
           icon={

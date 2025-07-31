@@ -34,7 +34,7 @@ export default function KoneksiItem({
         <Text weight="semibold">{title}</Text>
       </div>
       {isLoading ? (
-        <Loader size="sm" variant="pulse" className="mr-9" />
+        <Loader size="sm" variant="pulse" className="mr-7" />
       ) : !connected ? (
         <Button size="sm" onClick={onConnect}>
           Hubungkan

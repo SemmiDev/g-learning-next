@@ -59,6 +59,9 @@ export const menuItemsAdmin: MenuItemType[] = [
     icon: <LuUser />,
   },
   {
+    name: 'Lainnya',
+  },
+  {
     name: 'Koneksi Akun',
     href: routes.admin.koneksiAkun,
     icon: <LuSettings />,
