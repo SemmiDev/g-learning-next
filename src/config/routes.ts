@@ -55,6 +55,9 @@ export const adminRoutes = {
   tagihanInstansi: '/admin/tagihan/instansi',
   tagihanPengguna: '/admin/tagihan/pengguna',
   manajemenAdmin: '/admin/manajemen-admin',
+  koneksiAkun: '/admin/koneksi-akun',
+  googleMeet: '/admin/google-meet',
+  zoom: '/admin/zoom',
 }
 
 export const instansiRoutes = {

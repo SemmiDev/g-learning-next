@@ -72,6 +72,14 @@ export const GOOGLE_DRIVE_SCOPES = GOOGLE_PICKER
       'https://www.googleapis.com/auth/drive.scripts',
     ]
 
+export const GOOGLE_MEET_SCOPES = [
+  'https://www.googleapis.com/auth/userinfo.email',
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/meetings.space.created',
+  'https://www.googleapis.com/auth/meetings.space.readonly',
+  'https://www.googleapis.com/auth/meetings.space.settings',
+]
+
 export const API_UNREACHABLE_MESSAGE = 'Tidak dapat menghubungi API.' as const
 
 export const CONSOLE_LOG_REQUEST =

@@ -64,6 +64,7 @@ export type DataType = {
   }[]
   total_komentar: number
   link_conference?: string
+  tipe_konferensi?: 'Manual' | 'Otomatis'
   pembuat: {
     id: string
     email: string
