@@ -13,16 +13,17 @@ import {
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataKoneksiAkunApi } from '@/services/api/pengguna/koneksi-akun/data'
 import { tambahAktifitasKonferensiSesiApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/sesi/tambah-konferensi'
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import googleMeetIcon from '@public/icons/google-meet.png'
 import zoomIcon from '@public/icons/zoom.png'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z
@@ -59,12 +60,12 @@ export type TambahKonferensiSesiFormSchema = {
   generateLink?: string
 }
 
-const tipeLinkOptions: RadioGroupOptionType[] = [
+const initTipeLinkOptions: RadioGroupOptionType[] = [
   { label: 'Link Manual', value: 'manual' },
   { label: 'Generate Link', value: 'otomatis' },
 ]
 
-const generateLinkOptions: AdvancedRadioGroupOptionType[] = [
+const initGenerateLinkOptions: AdvancedRadioGroupOptionType[] = [
   {
     value: 'ZOOM',
     label: (
@@ -104,13 +105,38 @@ export default function TambahKonferensiSesiModal({
   show = false,
   onHide,
 }: TambahKonferensiSesiModalProps) {
-  const { processApi } = useSessionJwt()
+  const { processApi, jwt } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const { data: generateLinkOptions } = useQuery<
+    AdvancedRadioGroupOptionType[]
+  >({
+    queryKey: ['pengguna.koneksi-akun', show],
+    queryFn: async () => {
+      if (!show) return []
+
+      const { data } = await dataKoneksiAkunApi(jwt)
+
+      const options = []
+      if (data?.zoom) options.push(initGenerateLinkOptions[0])
+      if (data?.google_meet) options.push(initGenerateLinkOptions[1])
+
+      return options
+    },
+  })
+
+  const tipeLinkOptions = useMemo(
+    () =>
+      !!generateLinkOptions?.length
+        ? initTipeLinkOptions
+        : [initTipeLinkOptions[0]],
+    [generateLinkOptions]
+  )
 
   const onSubmit: SubmitHandler<TambahKonferensiSesiFormSchema> = async (
     data
