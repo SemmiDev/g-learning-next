@@ -212,10 +212,12 @@ function Tanggal({
   return (
     <div className={cn('flex justify-between', className)}>
       {[...Array(7)].map((_, i) => {
+        const date = new Date(curr)
+
         return (
           <TanggalItem
             key={i}
-            date={new Date(curr.setDate(first + i))}
+            date={new Date(date.setDate(first + i))}
             active={currentDay == i}
             onClick={() => setCurrentDay(i)}
           />
