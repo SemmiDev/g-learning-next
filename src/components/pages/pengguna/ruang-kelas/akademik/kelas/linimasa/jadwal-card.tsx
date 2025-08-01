@@ -98,6 +98,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
   })
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
+  const disableAbsensi = kelas?.pengaturan_absensi_dosen_simpeg
 
   return (
     <>
@@ -228,6 +229,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                     size="sm"
                     className="flex-1"
                     onClick={() => setIdSesiMulai(data.id)}
+                    disabled={disableAbsensi}
                   >
                     Mulai Sesi
                   </Button>
@@ -324,10 +326,12 @@ function Tanggal({
   return (
     <div className={cn('flex justify-between', className)}>
       {[...Array(7)].map((_, i) => {
+        const date = new Date(curr)
+
         return (
           <TanggalItem
             key={i}
-            date={new Date(curr.setDate(first + i))}
+            date={new Date(date.setDate(first + i))}
             active={currentDay == i}
             onClick={() => setCurrentDay(i)}
           />
