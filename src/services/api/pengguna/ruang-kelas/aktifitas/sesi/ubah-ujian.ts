@@ -15,7 +15,7 @@ export const ubahAktifitasUjianSesiApi = async (
     {
       judul: data.judul,
       jenis: mustBe(data.jenis?.value, ['Tugas', 'UTS', 'UAS'], 'Tugas'),
-      deskripsi: cleanQuill(data.catatan),
+      deskripsi: cleanQuill(data.catatan) ?? '',
       acak_soal: data.acakSoal === 'aktif' ? 1 : 0,
       acak_jawaban: data.acakJawaban === 'aktif' ? 1 : 0,
       paket: data.paket?.id,

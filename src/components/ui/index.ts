@@ -31,6 +31,10 @@ import Card from './card'
 import CardSeparator from './card-separator'
 import Checkbox, { CheckboxProps } from './checkbox'
 import Circle, { CircleProps } from './circle'
+import ControlledAdvancedRadioGroup, {
+  AdvancedRadioGroupOptionType,
+  ControlledAdvancedRadioGroupProps,
+} from './controlled/advanced-radio-group'
 import ControlledAnggotaKelas, {
   ControlledAnggotaKelasProps,
 } from './controlled/anggota-kelas'
@@ -155,6 +159,7 @@ export {
   CardSeparator,
   Checkbox,
   Circle,
+  ControlledAdvancedRadioGroup,
   ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
@@ -231,6 +236,7 @@ export {
   renderTableCellText,
   type ActionIconProps,
   type ActionIconTooltipProps,
+  type AdvancedRadioGroupOptionType,
   type AnggotaKelasItemType,
   type AnggotaKelasProps,
   type BadgeProps,
@@ -242,6 +248,7 @@ export {
   type ButtonVariants,
   type CheckboxProps,
   type CircleProps,
+  type ControlledAdvancedRadioGroupProps,
   type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,

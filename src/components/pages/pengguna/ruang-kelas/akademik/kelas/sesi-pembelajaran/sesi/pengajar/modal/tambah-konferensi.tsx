@@ -1,11 +1,15 @@
 import {
+  AdvancedRadioGroupOptionType,
+  ControlledAdvancedRadioGroup,
   ControlledInput,
   ControlledQuillEditor,
+  ControlledRadioGroup,
   Form,
   FormError,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
+  Text,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
@@ -13,29 +17,81 @@ import { tambahAktifitasKonferensiSesiApi } from '@/services/api/pengguna/ruang-
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import googleMeetIcon from '@public/icons/google-meet.png'
+import zoomIcon from '@public/icons/zoom.png'
 import { useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
-const formSchema = z.object({
-  judul: z.string().pipe(required),
-  catatan: z.string().optional(),
-  link: z.string().pipe(required.url()),
-})
+const formSchema = z
+  .object({
+    judul: z.string().pipe(required),
+    catatan: z.string().optional(),
+    tipeLink: z.string(),
+    link: z.string().optional(),
+    generateLink: z.string().optional(),
+  })
+  .refine((data) => data.tipeLink !== 'manual' || !!data.link, {
+    message: 'Link wajib diisi',
+    path: ['link'],
+  })
+  .refine(
+    (data) =>
+      data.tipeLink !== 'manual' ||
+      z.string().url().safeParse(data.link).success,
+    {
+      message: 'Format url tidak valid',
+      path: ['link'],
+    }
+  )
+  .refine((data) => data.tipeLink !== 'otomatis' || !!data.generateLink, {
+    message: 'Tipe pembuatan link wajib dipilih',
+    path: ['generateLink'],
+  })
 
 export type TambahKonferensiSesiFormSchema = {
   judul?: string
   catatan?: string
+  tipeLink: string
   link?: string
+  generateLink?: string
 }
 
-const initialValues: TambahKonferensiSesiFormSchema = {}
-
-const presensiOptions: RadioGroupOptionType[] = [
-  { label: 'Aktif', value: 'aktif' },
-  { label: 'Tidak Aktif', value: 'non-aktif' },
+const tipeLinkOptions: RadioGroupOptionType[] = [
+  { label: 'Link Manual', value: 'manual' },
+  { label: 'Generate Link', value: 'otomatis' },
 ]
+
+const generateLinkOptions: AdvancedRadioGroupOptionType[] = [
+  {
+    value: 'ZOOM',
+    label: (
+      <div className="flex items-center gap-2">
+        <Image src={zoomIcon} alt="zoom" width={24} height={24} />
+        <Text size="xs" weight="medium">
+          Zoom
+        </Text>
+      </div>
+    ),
+  },
+  {
+    value: 'GOOGLE_MEET',
+    label: (
+      <div className="flex items-center gap-2">
+        <Image src={googleMeetIcon} alt="google meet" width={24} height={24} />
+        <Text size="xs" weight="medium">
+          Google Meet
+        </Text>
+      </div>
+    ),
+  },
+]
+
+const initialValues: TambahKonferensiSesiFormSchema = {
+  tipeLink: 'manual',
+}
 
 type TambahKonferensiSesiModalProps = {
   idSesi: string | undefined
@@ -116,7 +172,7 @@ export default function TambahKonferensiSesiModal({
         }}
         flexing
       >
-        {({ control, formState: { errors, isSubmitting } }) => (
+        {({ control, watch, formState: { errors, isSubmitting } }) => (
           <>
             <div className="flex flex-col gap-4 p-3">
               <ControlledInput
@@ -137,14 +193,36 @@ export default function TambahKonferensiSesiModal({
                 toolbar="minimalist"
               />
 
-              <ControlledInput
-                name="link"
+              <ControlledRadioGroup
+                name="tipeLink"
                 control={control}
+                options={tipeLinkOptions}
                 errors={errors}
-                label="Link Konferensi"
-                placeholder="Tulis link konferensi di sini"
-                required
+                className="mt-2 mb-1.5"
+                groupClassName="gap-8"
               />
+
+              {watch('tipeLink') === 'manual' ? (
+                <ControlledInput
+                  name="link"
+                  control={control}
+                  errors={errors}
+                  label="Link Konferensi"
+                  placeholder="Tulis link konferensi di sini"
+                  required
+                />
+              ) : (
+                <ControlledAdvancedRadioGroup
+                  name="generateLink"
+                  control={control}
+                  options={generateLinkOptions}
+                  errors={errors}
+                  className="mb-1.5"
+                  groupClassName="gap-4"
+                  optionContentClassNames="px-6 py-3"
+                  optionInputClassNames="[&:checked~span_.icon]:block"
+                />
+              )}
 
               <FormError error={formError} />
             </div>

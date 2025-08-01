@@ -13,7 +13,7 @@ export const ubahAktifitasKonferensiApi = async (
     jwt,
     {
       judul: data.judul,
-      deskripsi: cleanQuill(data.catatan),
+      deskripsi: cleanQuill(data.catatan) ?? '',
       jadwal: data.jadwal ?? '',
       link: data.link,
     }

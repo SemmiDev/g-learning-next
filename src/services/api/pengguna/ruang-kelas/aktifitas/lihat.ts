@@ -12,6 +12,7 @@ export type DataType = {
       | 'Penugasan'
       | 'Ujian'
       | 'Pengumuman'
+    tipe_konferensi?: 'Manual' | 'Otomatis'
     kategori_nilai: 'Tugas' | 'UTS' | 'UAS' | null
     judul: string
     deskripsi: string | null
@@ -64,7 +65,6 @@ export type DataType = {
   }[]
   total_komentar: number
   link_conference?: string
-  tipe_konferensi?: 'Manual' | 'Otomatis'
   pembuat: {
     id: string
     email: string

@@ -1,12 +1,17 @@
 import {
+  AdvancedRadioGroupOptionType,
   CardSeparator,
+  ControlledAdvancedRadioGroup,
   ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
+  ControlledRadioGroup,
   Form,
   FormError,
   Modal,
   ModalFooterButtons,
+  RadioGroupOptionType,
+  Text,
 } from '@/components/ui'
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
@@ -14,7 +19,10 @@ import { tambahAktifitasKonferensiApi } from '@/services/api/pengguna/ruang-kela
 import { handleActionWithToast } from '@/utils/action'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
+import googleMeetIcon from '@public/icons/google-meet.png'
+import zoomIcon from '@public/icons/zoom.png'
 import { useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
@@ -23,33 +31,86 @@ import { Switch } from 'rizzui'
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
   catatan: z.string().optional(),
-  link: z.string().pipe(required.url()),
+  tipeLink: z.string(),
+  link: z.string().optional(),
+  generateLink: z.string().optional(),
 })
 
-const formSchema = z.discriminatedUnion('penjadwalan', [
-  z
-    .object({
-      penjadwalan: z.literal(false),
-    })
-    .merge(baseFormSchema),
-  z
-    .object({
-      penjadwalan: z.literal(true),
-      jadwal: z.date(),
-    })
-    .merge(baseFormSchema),
-])
+const formSchema = z
+  .discriminatedUnion('penjadwalan', [
+    z
+      .object({
+        penjadwalan: z.literal(false),
+      })
+      .merge(baseFormSchema),
+    z
+      .object({
+        penjadwalan: z.literal(true),
+        jadwal: z.date(),
+      })
+      .merge(baseFormSchema),
+  ])
+  .refine((data) => data.tipeLink !== 'manual' || !!data.link, {
+    message: 'Link wajib diisi',
+    path: ['link'],
+  })
+  .refine(
+    (data) =>
+      data.tipeLink !== 'manual' ||
+      z.string().url().safeParse(data.link).success,
+    {
+      message: 'Format url tidak valid',
+      path: ['link'],
+    }
+  )
+  .refine((data) => data.tipeLink !== 'otomatis' || !!data.generateLink, {
+    message: 'Tipe pembuatan link wajib dipilih',
+    path: ['generateLink'],
+  })
 
 export type TambahKonferensiFormSchema = {
   judul?: string
   catatan?: string
+  tipeLink: string
   link?: string
+  generateLink?: string
   penjadwalan: boolean
   jadwal?: Date
 }
 
+const tipeLinkOptions: RadioGroupOptionType[] = [
+  { label: 'Link Manual', value: 'manual' },
+  { label: 'Generate Link', value: 'otomatis' },
+]
+
+const generateLinkOptions: AdvancedRadioGroupOptionType[] = [
+  {
+    value: 'ZOOM',
+    label: (
+      <div className="flex items-center gap-2">
+        <Image src={zoomIcon} alt="zoom" width={24} height={24} />
+        <Text size="xs" weight="medium">
+          Zoom
+        </Text>
+      </div>
+    ),
+  },
+  {
+    value: 'GOOGLE_MEET',
+    label: (
+      <div className="flex items-center gap-2">
+        <Image src={googleMeetIcon} alt="google meet" width={24} height={24} />
+        <Text size="xs" weight="medium">
+          Google Meet
+        </Text>
+      </div>
+    ),
+  },
+]
+
 const initialValues: TambahKonferensiFormSchema = {
   penjadwalan: false,
+  tipeLink: 'manual',
 }
 
 type TambahKonferensiModalProps = {
@@ -135,14 +196,36 @@ export default function TambahKonferensiModal({
                   toolbar="minimalist"
                 />
 
-                <ControlledInput
-                  name="link"
+                <ControlledRadioGroup
+                  name="tipeLink"
                   control={control}
+                  options={tipeLinkOptions}
                   errors={errors}
-                  label="Link Konferensi"
-                  placeholder="Tulis link konferensi di sini"
-                  required
+                  className="mt-2 mb-1.5"
+                  groupClassName="gap-8"
                 />
+
+                {watch('tipeLink') === 'manual' ? (
+                  <ControlledInput
+                    name="link"
+                    control={control}
+                    errors={errors}
+                    label="Link Konferensi"
+                    placeholder="Tulis link konferensi di sini"
+                    required
+                  />
+                ) : (
+                  <ControlledAdvancedRadioGroup
+                    name="generateLink"
+                    control={control}
+                    options={generateLinkOptions}
+                    errors={errors}
+                    className="mb-1.5"
+                    groupClassName="gap-4"
+                    optionContentClassNames="px-6 py-3"
+                    optionInputClassNames="[&:checked~span_.icon]:block"
+                  />
+                )}
               </div>
 
               <CardSeparator />

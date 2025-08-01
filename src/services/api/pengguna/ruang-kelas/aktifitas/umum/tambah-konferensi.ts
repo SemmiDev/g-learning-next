@@ -16,6 +16,8 @@ export const tambahAktifitasKonferensiApi = async (
       tipe: 'Konferensi',
       tipe_presensi: data.presensi === 'aktif' ? 'Manual' : undefined,
       jadwal: data.jadwal,
-      link: data.link,
+      tipe_konferensi:
+        data.tipeLink === 'otomatis' ? data.generateLink : undefined,
+      link: data.tipeLink === 'manual' ? data.link : undefined,
     }
   )

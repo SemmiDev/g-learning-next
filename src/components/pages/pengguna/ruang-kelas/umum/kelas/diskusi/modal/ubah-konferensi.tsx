@@ -23,7 +23,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
 import { Switch } from 'rizzui'
 
 const baseFormSchema = z.object({
@@ -54,6 +53,7 @@ export type UbahKonferensiFormSchema = {
   presensi: string
   penjadwalan: boolean
   jadwal?: Date
+  editableLink?: boolean
 }
 
 const presensiOptions: RadioGroupOptionType[] = [
@@ -100,6 +100,7 @@ export default function UbahKonferensiModal({
         presensi: !!data?.aktifitas.absen ? 'aktif' : 'non-aktif',
         penjadwalan: !!data?.aktifitas.waktu_tersedia,
         jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),
+        editableLink: data?.aktifitas.tipe_konferensi === 'Manual',
       }
     },
   })
@@ -191,6 +192,7 @@ export default function UbahKonferensiModal({
                     errors={errors}
                     label="Link Konferensi"
                     placeholder="Tulis link konferensi di sini"
+                    disabled={!watch('editableLink')}
                     required
                   />
 
