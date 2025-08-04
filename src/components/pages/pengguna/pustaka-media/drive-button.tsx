@@ -96,7 +96,7 @@ export default function DriveButton({
               />
               Google Drive
             </Text>
-            <Text size="sm" weight="medium" variant="lighter" className="ms-7">
+            <Text size="sm" weight="medium" variant="lighter" className="ms-6">
               {drive.name}
             </Text>
           </div>
