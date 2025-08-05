@@ -8,7 +8,7 @@ type DataType = {
 
 export const tableKaryawanTerbaikApi = async (jwt: string) =>
   makeJwtGetRequestTableApi<DataType>(
-    `${process.env.NEXT_PUBLIC_API_URL}/prodi/poin-pengguna`,
+    `${process.env.NEXT_PUBLIC_API_URL}/instansi/poin-pengguna`,
     jwt,
     {
       current_page: 1,
