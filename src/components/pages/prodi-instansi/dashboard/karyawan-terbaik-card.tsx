@@ -7,9 +7,14 @@ import {
   Title,
 } from '@/components/ui'
 import ControlledAsyncTable from '@/components/ui/controlled-async-table'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { tableKaryawanTerbaikApi } from '@/services/api/prodi-instansi/dashboard/table-karyawan-terbaik'
 import cn from '@/utils/class-names'
+import { useQuery } from '@tanstack/react-query'
 import { ColumnsType } from 'rc-table'
 import { PiStarFill } from 'react-icons/pi'
+
+const queryKey = ['prodi-instansi.dashboard.karyawan-terbaik']
 
 type DashboardKaryawanTerbaikCardProps = {
   className?: string
@@ -18,33 +23,16 @@ type DashboardKaryawanTerbaikCardProps = {
 export default function DashboardKaryawanTerbaikCard({
   className,
 }: DashboardKaryawanTerbaikCardProps) {
-  const data = [
-    {
-      id: 1,
-      pegawai: 'Pegawai 1',
-      poin: 95.95,
+  const { processApi } = useSessionJwt()
+
+  const { data = [], isLoading } = useQuery({
+    queryKey,
+    queryFn: async () => {
+      const { data } = await processApi(tableKaryawanTerbaikApi)
+
+      return data?.list
     },
-    {
-      id: 2,
-      pegawai: 'Pegawai 2',
-      poin: 92.72,
-    },
-    {
-      id: 3,
-      pegawai: 'Pegawai 3',
-      poin: 91.05,
-    },
-    {
-      id: 4,
-      pegawai: 'Pegawai 4',
-      poin: 89.3,
-    },
-    {
-      id: 5,
-      pegawai: 'Pegawai 5',
-      poin: 88.25,
-    },
-  ]
+  })
 
   const tableColumns: ColumnsType<(typeof data)[number]> = [
     {
@@ -54,12 +42,12 @@ export default function DashboardKaryawanTerbaikCard({
     },
     {
       title: <TableHeaderCell title="Pegawai" />,
-      dataIndex: 'pegawai',
+      dataIndex: 'nama',
       render: renderTableCellText,
     },
     {
       title: <TableHeaderCell title="Poin" />,
-      dataIndex: 'poin',
+      dataIndex: 'total_poin',
 
       render: (value: number) => (
         <div className="flex items-center gap-x-1.5 shrink-0">
@@ -79,17 +67,9 @@ export default function DashboardKaryawanTerbaikCard({
       </div>
       <ControlledAsyncTable
         data={data}
-        // isLoading={isLoading}
-        // isFetching={isFetching}
+        isLoading={isLoading}
         columns={tableColumns}
-        rowKey={(row) => row.id}
-        // paginatorOptions={{
-        //   current: page,
-        //   pageSize: perPage,
-        //   total: totalData,
-        //   onChange: (page) => onPageChange(page),
-        //   paginatorClassName: 'p-2',
-        // }}
+        rowKey={(row) => row.id_pengguna}
         variant="elegant"
       />
     </Card>
