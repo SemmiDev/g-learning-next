@@ -84,6 +84,7 @@ export default function DetailCard({ className }: DetailCardProps) {
               placeholder="Tulis isi artikel di sini"
               size="xl"
               toolbar="rich"
+              className="text-gray-dark"
               toolbarImage
             />
           </>
