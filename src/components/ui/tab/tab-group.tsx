@@ -2,61 +2,25 @@
 
 import { useScrollableSlider } from '@/hooks/use-scrollable-slider'
 import cn from '@/utils/class-names'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { useMemo } from 'react'
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
 import { Button } from 'rizzui'
-import Text from './text/text'
+import { TabParam } from '.'
+import Tab, { TabItem } from './tab'
 
-type TabItem = {
-  text: string
-  slug?: string
-  slugAlias?: string
+type TabGroupProps = {
+  type?: 'path' | 'param'
+  path: string
+  items: TabItem[]
+  className?: string
 }
 
-export const Tab = ({ path, item }: { path: string; item: TabItem }) => {
-  const pathname = usePathname()
-
-  const link = item.slug ? path + '/' + item.slug : path
-  const linkAlias = item.slugAlias ? path + '/' + item.slugAlias : null
-
-  const isActive =
-    (link === path && pathname === link) ||
-    (link !== path && pathname.startsWith(link)) ||
-    (linkAlias !== null && pathname.startsWith(linkAlias))
-
-  return (
-    <div
-      className={cn(
-        'group relative cursor-pointer whitespace-nowrap py-2.5 px-1 text-gray-dark before:absolute before:bottom-0 before:left-0 before:z-[1] before:h-0.5 before:bg-primary before:transition-all',
-        isActive
-          ? 'text-primary before:visible before:w-full before:opacity-100'
-          : 'before:invisible before:w-0 before:opacity-0'
-      )}
-    >
-      <Link href={link}>
-        <Text
-          as="span"
-          size="sm"
-          weight="semibold"
-          className="inline-flex rounded-md px-2.5 py-1.5 transition-all duration-200 group-hover:bg-muted/40"
-        >
-          {item.text}
-        </Text>
-      </Link>
-    </div>
-  )
-}
-
-export const TabGroup = ({
+export default function TabGroup({
   className,
   path,
   items,
-}: {
-  className?: string
-  path: string
-  items: TabItem[]
-}) => {
+  type = 'path',
+}: TabGroupProps) {
   const {
     sliderEl,
     sliderPrevBtn,
@@ -64,6 +28,15 @@ export const TabGroup = ({
     scrollToTheRight,
     scrollToTheLeft,
   } = useScrollableSlider()
+
+  const checkAlias = useMemo(
+    () => items.filter((item) => item.slugAlias).length > 1,
+    [items]
+  )
+
+  if (checkAlias) {
+    throw new Error('Slug alias cannot be more than 1 in TabGroup')
+  }
 
   return (
     <div
@@ -86,9 +59,13 @@ export const TabGroup = ({
           className="flex w-full overflow-x-auto scroll-smooth"
           ref={sliderEl}
         >
-          {items.map((item) => (
-            <Tab key={path + item.slug} item={item} path={path} />
-          ))}
+          {items.map((item) =>
+            type === 'param' ? (
+              <TabParam key={path + item.slug} item={item} />
+            ) : (
+              <Tab key={path + item.slug} item={item} path={path} />
+            )
+          )}
         </div>
       </div>
       <Button

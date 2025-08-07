@@ -1,4 +1,10 @@
-import { ActionIcon, Card, Loader, Textarea, Title } from '@/components/ui'
+import {
+  ActionIcon,
+  Card,
+  ContentLoader,
+  Textarea,
+  Title,
+} from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { NewChatResponseType } from '@/layouts/header-menu-right-items/obrolan-ai/drawer'
 import { listObrolanAiApi } from '@/services/api/shared/riwayat-obrolan-ai/list-obrolan'
@@ -177,7 +183,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
             ref={chatRef}
             className="flex flex-col gap-6 max-h-[60dvh] overflow-y-auto"
           >
-            {isLoading && !isFreshHistory && <Loader className="py-8" />}
+            {isLoading && !isFreshHistory && <ContentLoader className="py-8" />}
 
             {list.map((chat, idx) => (
               <Fragment key={idx}>
@@ -189,7 +195,7 @@ export default function ObrolanCard({ className }: ObrolanCardProps) {
               </Fragment>
             ))}
 
-            {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+            {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
 
             {newChatList.map((chat, idx) => (
               <Fragment key={idx}>

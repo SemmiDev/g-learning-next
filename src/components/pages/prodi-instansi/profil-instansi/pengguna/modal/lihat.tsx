@@ -1,7 +1,7 @@
 import {
   Button,
   CardSeparator,
-  Loader,
+  ContentLoader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -13,7 +13,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatPenggunaApi } from '@/services/api/prodi-instansi/profil-instansi/pengguna/lihat'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 
 type LihatModalProps = {
   id: string | undefined
@@ -37,7 +37,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
       onClose={onHide}
     >
       {isLoading ? (
-        <Loader height={440} />
+        <ContentLoader height={440} />
       ) : (
         <>
           <div className="flex flex-col items-center p-3">

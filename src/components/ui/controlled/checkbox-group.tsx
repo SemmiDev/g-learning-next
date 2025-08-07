@@ -10,7 +10,8 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
-import { Checkbox, CheckboxProps, FieldError } from 'rizzui'
+import { FieldError } from 'rizzui'
+import Checkbox, { CheckboxProps } from '../checkbox'
 import Label from '../label'
 import TextLabel from '../text/label'
 
@@ -95,10 +96,7 @@ export default function ControlledCheckboxGroup<
                 {options?.map((option) => (
                   <Checkbox
                     key={option.value}
-                    className={cn(
-                      '[&_.rizzui-radio-field]:cursor-pointer',
-                      optionClassNames
-                    )}
+                    className={optionClassNames}
                     label={option.label}
                     name={name}
                     value={option.value}

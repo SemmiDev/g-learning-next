@@ -4,9 +4,9 @@ import {
   ActionIconTooltip,
   Button,
   CardSeparator,
+  ContentLoader,
   FilePreviewType,
   Input,
-  Loader,
   Modal,
   ModalConfirm,
   ModalFilePreview,
@@ -463,7 +463,7 @@ export default function PilihMediaGambar({
                   </div>
                   <div className="flex flex-col lg:h-[calc(100dvh-206px)] xl:max-h-[400px]">
                     {isLoadingFiles || (!files.length && isFetchingFiles) ? (
-                      <Loader height={320} />
+                      <ContentLoader height={320} />
                     ) : files.length > 0 ? (
                       files.map((file) =>
                         file.folder ? (
@@ -528,7 +528,11 @@ export default function PilihMediaGambar({
                       </div>
                     )}
                     {!isLoadingFiles && hasNextPageFiles && (
-                      <Loader ref={refSentry} size="sm" className="py-4" />
+                      <ContentLoader
+                        ref={refSentry}
+                        size="sm"
+                        className="py-4"
+                      />
                     )}
                   </div>
                 </>

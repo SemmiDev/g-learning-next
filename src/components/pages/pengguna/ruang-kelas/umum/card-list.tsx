@@ -1,4 +1,4 @@
-import { Loader, ModalConfirm, Shimmer, Text } from '@/components/ui'
+import { ContentLoader, ModalConfirm, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
@@ -124,7 +124,9 @@ export default function ListKelasCardList({
         </div>
       )}
 
-      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
+      {!isLoading && hasNextPage && (
+        <ContentLoader ref={refSentry} className="py-4" />
+      )}
 
       <ModalConfirm
         title="Keluar Kelas"

@@ -2,9 +2,9 @@
 
 import {
   Button,
+  ContentLoader,
   Input,
   Label,
-  Loader,
   Modal,
   ModalConfirm,
   ModalFooterButtons,
@@ -369,7 +369,7 @@ export default function Materi({
             {activeKategori && (
               <>
                 {isLoadingMateri || (!listMateri.length && isFetchingMateri) ? (
-                  <Loader height={320} />
+                  <ContentLoader height={320} />
                 ) : listMateri.length > 0 ? (
                   listMateri.map((materi) => (
                     <MateriButton
@@ -397,7 +397,11 @@ export default function Materi({
                   </div>
                 )}
                 {!isLoadingMateri && hasNextPageMateri && (
-                  <Loader ref={refSentryMateri} size="sm" className="py-4" />
+                  <ContentLoader
+                    ref={refSentryMateri}
+                    size="sm"
+                    className="py-4"
+                  />
                 )}
               </>
             )}
@@ -405,7 +409,7 @@ export default function Materi({
               <>
                 {isLoadingKategori ||
                 (!listKategori.length && isFetchingKategori) ? (
-                  <Loader height={288} />
+                  <ContentLoader height={288} />
                 ) : listKategori.length > 0 ? (
                   listKategori.map((kategori) => (
                     <KategoriButton
@@ -426,7 +430,11 @@ export default function Materi({
                   </div>
                 )}
                 {!isLoadingKategori && hasNextPageKategori && (
-                  <Loader ref={refSentryKategori} size="sm" className="py-4" />
+                  <ContentLoader
+                    ref={refSentryKategori}
+                    size="sm"
+                    className="py-4"
+                  />
                 )}
               </>
             )}

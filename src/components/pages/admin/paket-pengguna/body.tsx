@@ -1,6 +1,12 @@
 'use client'
 
-import { Button, Loader, ModalConfirm, Text, Title } from '@/components/ui'
+import {
+  Button,
+  ContentLoader,
+  ModalConfirm,
+  Text,
+  Title,
+} from '@/components/ui'
 import TablePagination from '@/components/ui/controlled-async-table/pagination'
 import { useHandleApiDelete } from '@/hooks/handle/use-handle-delete'
 import { useShowModal } from '@/hooks/use-show-modal'
@@ -102,7 +108,7 @@ export default function PaketPenggunaBody() {
         ) : (
           <div className="flex flex-col justify-center items-center gap-y-2 h-64">
             {isLoading ? (
-              <Loader />
+              <ContentLoader />
             ) : (
               <>
                 <Text weight="medium">Paket Masih Kosong</Text>

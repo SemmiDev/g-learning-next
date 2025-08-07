@@ -1,8 +1,8 @@
 import {
   Card,
+  ContentLoader,
   DatePicker,
   Input,
-  Loader,
   Select,
   SelectOptionType,
   Shimmer,
@@ -179,7 +179,7 @@ export default function LinimasaSesiSection({
             </div>
           )}
 
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
         </>
       )}
     </div>

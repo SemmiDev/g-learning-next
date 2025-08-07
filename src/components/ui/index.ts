@@ -29,7 +29,12 @@ import Button, {
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
 import CardSeparator from './card-separator'
+import Checkbox, { CheckboxProps } from './checkbox'
 import Circle, { CircleProps } from './circle'
+import ControlledAdvancedRadioGroup, {
+  AdvancedRadioGroupOptionType,
+  ControlledAdvancedRadioGroupProps,
+} from './controlled/advanced-radio-group'
 import ControlledAnggotaKelas, {
   ControlledAnggotaKelasProps,
 } from './controlled/anggota-kelas'
@@ -97,7 +102,8 @@ import InputRupiah, { InputRupiahProps } from './input/rupiah'
 import Label from './label'
 import LabelOrDiv, { LabelOrDivProps } from './label-or-div'
 import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
-import Loader, { LoaderProps } from './loader'
+import ContentLoader, { ContentLoaderProps } from './loader/content'
+import Loader, { LoaderProps } from './loader/loader'
 import ModalConfirm from './modal/confirm'
 import ModalFilePreview, {
   FilePreviewType,
@@ -153,7 +159,10 @@ export {
   ButtonSubmit,
   Card,
   CardSeparator,
+  Checkbox,
   Circle,
+  ContentLoader,
+  ControlledAdvancedRadioGroup,
   ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
@@ -231,6 +240,7 @@ export {
   renderTableCellText,
   type ActionIconProps,
   type ActionIconTooltipProps,
+  type AdvancedRadioGroupOptionType,
   type AnggotaKelasItemType,
   type AnggotaKelasProps,
   type BadgeProps,
@@ -240,7 +250,10 @@ export {
   type ButtonProps,
   type ButtonSubmitProps,
   type ButtonVariants,
+  type CheckboxProps,
   type CircleProps,
+  type ContentLoaderProps,
+  type ControlledAdvancedRadioGroupProps,
   type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,
   type ControlledDatePickerProps,

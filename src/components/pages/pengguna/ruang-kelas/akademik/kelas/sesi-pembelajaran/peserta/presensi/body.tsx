@@ -6,7 +6,7 @@ import {
   ButtonSubmit,
   Card,
   CardSeparator,
-  Loader,
+  ContentLoader,
   Text,
   Title,
 } from '@/components/ui'
@@ -108,7 +108,7 @@ export default function PresensiSesiBody() {
     }, 100)
   }, [isLoading])
 
-  if (isLoading) return <Loader height={200} />
+  if (isLoading) return <ContentLoader height={200} />
 
   return (
     <>

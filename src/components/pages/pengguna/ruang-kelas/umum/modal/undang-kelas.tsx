@@ -1,6 +1,6 @@
 import {
   ActionIconTooltip,
-  Loader,
+  ContentLoader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -47,7 +47,7 @@ export default function UndangKelasModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={250} />
+        <ContentLoader height={250} />
       ) : (
         <div className="flex flex-col gap-4 p-3">
           <Input

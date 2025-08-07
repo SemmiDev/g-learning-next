@@ -1,9 +1,9 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledInput,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -97,7 +97,7 @@ export default function UbahKategoriModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={154} />
+        <ContentLoader height={154} />
       ) : (
         <Form<UbahKategoriFormSchema>
           onSubmit={onSubmit}

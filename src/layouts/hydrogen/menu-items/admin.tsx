@@ -6,6 +6,7 @@ import {
   LuCreditCard,
   LuFileText,
   LuHouse,
+  LuSettings,
   LuUser,
   LuUsers,
 } from 'react-icons/lu'
@@ -57,6 +58,14 @@ export const menuItemsAdmin: MenuItemType[] = [
     name: 'Manajemen Admin',
     href: routes.admin.manajemenAdmin,
     icon: <LuUser />,
+  },
+  {
+    name: 'Lainnya',
+  },
+  {
+    name: 'Koneksi Akun',
+    href: routes.admin.koneksiAkun,
+    icon: <LuSettings />,
   },
   {
     name: 'Manajemen Knowledge',

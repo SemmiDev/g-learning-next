@@ -1,10 +1,10 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
@@ -104,7 +104,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={512} />
+        <ContentLoader height={512} />
       ) : (
         <Form<UbahProfilFormSchema>
           onSubmit={onSubmit}

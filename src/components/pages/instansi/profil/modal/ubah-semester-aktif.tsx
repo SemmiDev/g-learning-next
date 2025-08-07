@@ -1,8 +1,8 @@
 import {
+  ContentLoader,
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
@@ -98,7 +98,7 @@ export default function UbahSemesterAktifModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={547} />
+        <ContentLoader height={547} />
       ) : (
         <Form<UbahSemesterAktifFormSchema>
           onSubmit={onSubmit}

@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, Text, TextSpan, Thumbnail, Time } from '@/components/ui'
-import Loader from '@/components/ui/loader'
+import ContentLoader from '@/components/ui/loader/content'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKomentarChildApi } from '@/services/api/shared/komentar/list-child'
 import { listKomentarParentApi } from '@/services/api/shared/komentar/list-parent'
@@ -266,7 +266,7 @@ export default function Komentar({
         </Text>
       </div>
       {isLoadingFirstLv1 && total && total > 0 ? (
-        <Loader size="sm" className="pb-3" />
+        <ContentLoader size="sm" className="pb-3" />
       ) : (
         <div className="flex flex-col gap-y-2">
           {listLv1.map((item, idx) => {
@@ -330,7 +330,7 @@ export default function Komentar({
                     </Button>
                   )}
                   {queryLv2[idx].isLoading ? (
-                    <Loader size="sm" className="w-full" />
+                    <ContentLoader size="sm" className="w-full" />
                   ) : (
                     showLv2[item.id] && (
                       <div className="flex flex-col gap-y-2 mt-1">
@@ -380,7 +380,7 @@ export default function Komentar({
         hasMoreThanFirst) && (
         <div className="flex justify-center ps-4 mt-2">
           {isLoadingLv1 || isFetchingNextPageLv1 ? (
-            <Loader size="sm" />
+            <ContentLoader size="sm" />
           ) : (
             (hasNextPageLv1 || (!isLoadMore && hasMoreThanFirst)) && (
               <Button

@@ -1,4 +1,5 @@
 import {
+  ContentLoader,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -6,7 +7,6 @@ import {
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
@@ -28,17 +28,6 @@ import moment from 'moment'
 import { useParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-
-const formSchema = z.object({
-  judul: z.string().pipe(required),
-  hari: z.any().superRefine(objectRequired),
-  mulai: z.date(),
-  sampai: z.date(),
-  mulaiWaktu: z.string(),
-  sampaiWaktu: z.string(),
-  ruangan: z.any().superRefine(objectRequired),
-  jenisAbsenPeserta: z.string(),
-})
 
 const hariOptions: SelectOptionType[] = NAMA_HARI.map((hari) => ({
   label: hari,
@@ -70,6 +59,7 @@ type UbahSesiModalProps = {
   show: boolean
   onHide: () => void
   listJenisAbsen?: string[]
+  disableAbsensi?: boolean
 }
 
 export default function UbahSesiModal({
@@ -77,6 +67,7 @@ export default function UbahSesiModal({
   show,
   onHide,
   listJenisAbsen,
+  disableAbsensi,
 }: UbahSesiModalProps) {
   const { processApi } = useSessionJwt()
   const size = useAutoSizeLargeModal()
@@ -85,6 +76,17 @@ export default function UbahSesiModal({
   const [formError, setFormError] = useState<string>()
 
   const { kelas: idKelas }: { kelas: string } = useParams()
+
+  const formSchema = z.object({
+    judul: z.string().pipe(required),
+    hari: z.any().superRefine(objectRequired),
+    mulai: z.date(),
+    sampai: z.date(),
+    mulaiWaktu: z.string(),
+    sampaiWaktu: z.string(),
+    ruangan: z.any().superRefine(objectRequired),
+    jenisAbsenPeserta: disableAbsensi ? z.string().optional() : z.string(),
+  })
 
   const queryKey = [
     'pengguna.ruang-kelas.sesi-pembelajaran.ubah',
@@ -119,7 +121,9 @@ export default function UbahSesiModal({
               value: data?.id_ruangan,
             }
           : undefined,
-        jenisAbsenPeserta: data?.jenis_absensi_peserta,
+        jenisAbsenPeserta: !disableAbsensi
+          ? data?.jenis_absensi_peserta
+          : undefined,
       }
     },
   })
@@ -176,7 +180,7 @@ export default function UbahSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={154} />
+        <ContentLoader height={154} />
       ) : (
         <Form<UbahSesiFormSchema>
           onSubmit={onSubmit}
@@ -256,17 +260,19 @@ export default function UbahSesiModal({
                   required
                 />
 
-                <ControlledRadioGroup
-                  name="jenisAbsenPeserta"
-                  control={control}
-                  errors={errors}
-                  label="Jenis Presensi Peserta"
-                  className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
-                  groupClassName="flex-wrap gap-x-8 gap-y-4"
-                  optionClassNames="w-full xs:w-auto"
-                  labelClassName="min-w-28 mb-0"
-                  options={jenisAbsenAvailableOptions}
-                />
+                {!disableAbsensi && (
+                  <ControlledRadioGroup
+                    name="jenisAbsenPeserta"
+                    control={control}
+                    errors={errors}
+                    label="Jenis Presensi Peserta"
+                    className="flex flex-col gap-x-8 gap-y-4 my-2 xs:flex-row"
+                    groupClassName="flex-wrap gap-x-8 gap-y-4"
+                    optionClassNames="w-full xs:w-auto"
+                    labelClassName="min-w-28 mb-0"
+                    options={jenisAbsenAvailableOptions}
+                  />
+                )}
 
                 <FormError error={formError} />
               </div>

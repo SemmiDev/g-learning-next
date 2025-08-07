@@ -2,7 +2,6 @@
 
 import {
   ActionIcon,
-  ActionIconTooltip,
   Button,
   Card,
   CardSeparator,
@@ -23,6 +22,7 @@ import {
 import ButtonSubmit from '@/components/ui/button/submit'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { PILIHAN_JAWABAN } from '@/config/const'
+import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { lihatBankSoalApi } from '@/services/api/pengguna/bank-soal/lihat'
@@ -37,12 +37,19 @@ import { cleanQuill } from '@/utils/string'
 import { required } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createRef, RefObject, useMemo, useRef, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BiCircle } from 'react-icons/bi'
-import { BsPencil, BsPlus, BsTrash } from 'react-icons/bs'
-import { Alert, FieldError } from 'rizzui'
+import {
+  BsLayoutTextWindowReverse,
+  BsPencil,
+  BsPlus,
+  BsThreeDots,
+  BsTrash,
+} from 'react-icons/bs'
+import { Alert, Dropdown, FieldError } from 'rizzui'
 import UbahBankSoalModal from '../modal/ubah-bank-soal'
 import GenerateSoalModal from './modal/generate'
 import ImportSoalModal from './modal/import'
@@ -526,11 +533,41 @@ export default function KelolaSoalBody() {
         </div>
         <Card className="flex flex-col w-full p-0 lg:w-4/12 lg:sticky lg:right-0 lg:top-24">
           <div className="flex flex-col p-2">
-            <div className="flex justify-between gap-x-2">
+            <div className="flex justify-between items-center gap-x-2">
               <Title as="h6" weight="semibold">
                 {dataBankSoal?.judul ?? ''}
               </Title>
-              <ActionIconTooltip
+              <Dropdown placement="bottom-end">
+                <Dropdown.Trigger>
+                  <ActionIcon as="span" size="sm" variant="text">
+                    <BsThreeDots className="size-3" />
+                  </ActionIcon>
+                </Dropdown.Trigger>
+                <Dropdown.Menu className="w-auto divide-y !py-0">
+                  <div className="py-2">
+                    <Dropdown.Item
+                      className="text-gray-dark"
+                      onClick={() => {
+                        if (!dataBankSoal?.id) return
+
+                        doShowUbahPaket(dataBankSoal?.id)
+                      }}
+                    >
+                      <BsPencil className="text-warning size-4 mr-2" />
+                      Ubah
+                    </Dropdown.Item>
+                    <Link
+                      href={`${routes.pengguna.bankSoal}/${idKategori}/soal/${idBankSoal}/preview`}
+                    >
+                      <Dropdown.Item className="text-gray-dark">
+                        <BsLayoutTextWindowReverse className="text-primary size-4 mr-2" />
+                        Preview
+                      </Dropdown.Item>
+                    </Link>
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+              {/* <ActionIconTooltip
                 tooltip="Ubah"
                 size="sm"
                 variant="text-colorful"
@@ -542,7 +579,7 @@ export default function KelolaSoalBody() {
                 }}
               >
                 <BsPencil className="size-3" />
-              </ActionIconTooltip>
+              </ActionIconTooltip> */}
             </div>
             <SanitizeHTML
               html={dataBankSoal?.deskripsi || '-'}

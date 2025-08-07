@@ -15,7 +15,9 @@ export const tambahAktifitasKonferensiSesiApi = async (
       judul: data.judul,
       deskripsi: cleanQuill(data.catatan),
       tipe: 'Konferensi',
-      link: data.link,
+      tipe_konferensi:
+        data.tipeLink === 'otomatis' ? data.generateLink : undefined,
+      link: data.tipeLink === 'manual' ? data.link : undefined,
       id_pertemuan_kelas: idSesi,
     }
   )

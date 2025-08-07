@@ -1,4 +1,5 @@
 import {
+  ContentLoader,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -7,7 +8,6 @@ import {
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
@@ -157,7 +157,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       overflow
     >
       {isLoading ? (
-        <Loader height={336} />
+        <ContentLoader height={336} />
       ) : (
         <Form<UbahTagihanInstansiFormSchema>
           onSubmit={onSubmit}

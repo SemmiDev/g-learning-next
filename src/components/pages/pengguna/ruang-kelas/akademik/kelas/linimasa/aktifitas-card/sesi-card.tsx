@@ -54,6 +54,8 @@ export default function SesiCard({ kelas, data, className }: SesiCardProps) {
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
   const tipeKelas = kelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
+  const disableAbsensi = kelas?.pengaturan_absensi_dosen_simpeg
+
   if (!data.pertemuan_kelas) return null
 
   return (
@@ -105,17 +107,18 @@ export default function SesiCard({ kelas, data, className }: SesiCardProps) {
                     <BsPencil className="text-warning size-4 mr-2" />
                     Ubah Judul Sesi
                   </Dropdown.Item>
-                  {data?.pertemuan_kelas.status !== 'Telah Berakhir' && (
-                    <Dropdown.Item
-                      className="text-gray-dark"
-                      onClick={() =>
-                        doShowUbahAbsensi(data.pertemuan_kelas?.id || '')
-                      }
-                    >
-                      <BsPencil className="text-warning size-4 mr-2" />
-                      Ubah Jenis Presensi Peserta
-                    </Dropdown.Item>
-                  )}
+                  {data?.pertemuan_kelas.status !== 'Telah Berakhir' &&
+                    !disableAbsensi && (
+                      <Dropdown.Item
+                        className="text-gray-dark"
+                        onClick={() =>
+                          doShowUbahAbsensi(data.pertemuan_kelas?.id || '')
+                        }
+                      >
+                        <BsPencil className="text-warning size-4 mr-2" />
+                        Ubah Jenis Presensi Peserta
+                      </Dropdown.Item>
+                    )}
                 </div>
               </Dropdown.Menu>
             </Dropdown>

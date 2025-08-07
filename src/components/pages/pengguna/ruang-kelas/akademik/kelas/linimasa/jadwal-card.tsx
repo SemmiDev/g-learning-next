@@ -3,8 +3,8 @@ import {
   Button,
   Card,
   CardSeparator,
+  ContentLoader,
   LinkOrDiv,
-  Loader,
   ModalConfirm,
   Text,
   Time,
@@ -98,6 +98,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
   })
 
   const jenisKelas = kelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
+  const disableAbsensi = kelas?.pengaturan_absensi_dosen_simpeg
 
   return (
     <>
@@ -118,7 +119,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
         <CardSeparator />
         <div className="flex flex-col px-1">
           {isLoading ? (
-            <Loader className="py-4" />
+            <ContentLoader className="py-4" />
           ) : data ? (
             <div className="flex flex-col gap-y-1 [&:not(:last-child)]:border-b border-b-muted px-1 py-2">
               <div className="flex items-center flex-wrap gap-x-2">
@@ -228,6 +229,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
                     size="sm"
                     className="flex-1"
                     onClick={() => setIdSesiMulai(data.id)}
+                    disabled={disableAbsensi}
                   >
                     Mulai Sesi
                   </Button>
@@ -324,10 +326,12 @@ function Tanggal({
   return (
     <div className={cn('flex justify-between', className)}>
       {[...Array(7)].map((_, i) => {
+        const date = new Date(curr)
+
         return (
           <TanggalItem
             key={i}
-            date={new Date(curr.setDate(first + i))}
+            date={new Date(date.setDate(first + i))}
             active={currentDay == i}
             onClick={() => setCurrentDay(i)}
           />

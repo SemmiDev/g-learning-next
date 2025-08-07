@@ -8,6 +8,7 @@ import { BiShareAlt } from 'react-icons/bi'
 import {
   BsCardChecklist,
   BsCopy,
+  BsLayoutTextWindowReverse,
   BsPencil,
   BsThreeDotsVertical,
   BsTrash3,
@@ -86,12 +87,20 @@ export default function SoalCard({
                 <BsPencil className="text-orange size-4 mr-2" />
                 Ubah
               </Dropdown.Item>
+              <Link
+                href={`${routes.pengguna.bankSoal}/${idKategori}/soal/${soal.id}/preview`}
+              >
+                <Dropdown.Item className="text-gray-dark">
+                  <BsLayoutTextWindowReverse className="text-primary size-4 mr-2" />
+                  Preview
+                </Dropdown.Item>
+              </Link>
               {onDuplicate && (
                 <Dropdown.Item
                   className="text-gray-dark"
                   onClick={() => onDuplicate(soal)}
                 >
-                  <BsCopy className="text-success size-4 mr-2" />
+                  <BsCopy className="text-secondary size-4 mr-2" />
                   Duplikat
                 </Dropdown.Item>
               )}

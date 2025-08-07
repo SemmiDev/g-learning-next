@@ -12,6 +12,7 @@ export type DataType = {
       | 'Penugasan'
       | 'Ujian'
       | 'Pengumuman'
+    tipe_konferensi?: 'Manual' | 'Otomatis'
     kategori_nilai: 'Tugas' | 'UTS' | 'UAS' | null
     judul: string
     deskripsi: string | null

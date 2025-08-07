@@ -1,11 +1,11 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -49,6 +49,7 @@ export type UbahKonferensiFormSchema = {
   link?: string
   penjadwalan: boolean
   jadwal?: Date
+  editableLink?: boolean
 }
 
 type UbahKonferensiModalProps = {
@@ -89,6 +90,7 @@ export default function UbahKonferensiModal({
         link: data?.link_conference,
         penjadwalan: !!data?.aktifitas.waktu_tersedia,
         jadwal: parseDate(data?.aktifitas.waktu_tersedia ?? undefined),
+        editableLink: data?.aktifitas.tipe_konferensi === 'Manual',
       }
     },
   })
@@ -135,7 +137,7 @@ export default function UbahKonferensiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahKonferensiFormSchema>
           onSubmit={onSubmit}
@@ -180,6 +182,7 @@ export default function UbahKonferensiModal({
                     errors={errors}
                     label="Link Konferensi"
                     placeholder="Tulis link konferensi di sini"
+                    disabled={!watch('editableLink')}
                     required
                   />
                 </div>

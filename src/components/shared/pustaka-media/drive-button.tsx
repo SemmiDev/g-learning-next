@@ -4,8 +4,9 @@ import { GOOGLE_PICKER } from '@/config/const'
 import { useSessionPengguna } from '@/hooks/use-session-pengguna'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
+import googleDriveIcon from '@public/icons/google-drive.png'
+import Image from 'next/image'
 import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from 'react'
-import { FaGoogleDrive } from 'react-icons/fa'
 import { Progressbar } from 'rizzui'
 import { DriveType } from './pustaka-media'
 
@@ -36,7 +37,14 @@ export default function DriveButton({
           onClick={() => setShowInfo(true)}
         >
           <div className="flex flex-wrap items-center gap-x-1">
-            {drive.id === 'GOOGLE_DRIVE' && <FaGoogleDrive />}
+            {drive.id === 'GOOGLE_DRIVE' && (
+              <Image
+                src={googleDriveIcon}
+                alt="Google Drive"
+                width={16}
+                height={16}
+              />
+            )}
             <Text
               weight="semibold"
               color={active ? 'primary' : 'gray'}
@@ -82,7 +90,12 @@ export default function DriveButton({
             title={drive.name}
             className="flex flex-wrap items-center gap-x-1"
           >
-            <FaGoogleDrive />
+            <Image
+              src={googleDriveIcon}
+              alt="Google Drive"
+              width={16}
+              height={16}
+            />
             Google Drive
           </Text>
         ) : (
@@ -95,7 +108,12 @@ export default function DriveButton({
                 title={drive.name}
                 className="flex flex-wrap items-center gap-x-1"
               >
-                <FaGoogleDrive />
+                <Image
+                  src={googleDriveIcon}
+                  alt="Google Drive"
+                  width={16}
+                  height={16}
+                />
                 Google Drive
               </Text>
             ) : (

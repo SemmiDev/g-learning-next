@@ -1,9 +1,9 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledInput,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -99,7 +99,7 @@ export default function UbahFolderModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={236} />
+        <ContentLoader height={236} />
       ) : (
         <Form<UbahFolderFormSchema>
           onSubmit={onSubmit}

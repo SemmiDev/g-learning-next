@@ -1,10 +1,10 @@
 import {
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputRupiah,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -120,7 +120,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       overflow
     >
       {isLoading ? (
-        <Loader height={318} />
+        <ContentLoader height={318} />
       ) : (
         <Form<UbahPembayaranTagihanInstansiFormSchema>
           onSubmit={onSubmit}

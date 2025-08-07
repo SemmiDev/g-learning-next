@@ -3,7 +3,7 @@ import {
   Button,
   Card,
   CardSeparator,
-  Loader,
+  ContentLoader,
   Text,
   Time,
   Title,
@@ -106,7 +106,7 @@ export default function JadwalAkademik({
       <CardSeparator />
       <div className="flex flex-col px-1">
         {isLoading ? (
-          <Loader className="py-4" />
+          <ContentLoader className="py-4" />
         ) : list.length > 0 ? (
           <>
             {list.map((item) => (
@@ -177,7 +177,7 @@ export default function JadwalAkademik({
               </div>
             ))}
             {!isLoading && hasNextPage && (
-              <Loader ref={refSentry} className="py-4" />
+              <ContentLoader ref={refSentry} className="py-4" />
             )}
           </>
         ) : (
@@ -212,10 +212,12 @@ function Tanggal({
   return (
     <div className={cn('flex justify-between', className)}>
       {[...Array(7)].map((_, i) => {
+        const date = new Date(curr)
+
         return (
           <TanggalItem
             key={i}
-            date={new Date(curr.setDate(first + i))}
+            date={new Date(date.setDate(first + i))}
             active={currentDay == i}
             onClick={() => setCurrentDay(i)}
           />

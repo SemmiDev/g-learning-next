@@ -1,10 +1,10 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledInputNumber,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -138,7 +138,7 @@ export default function UbahBankSoalModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={447} />
+        <ContentLoader height={447} />
       ) : (
         <Form<UbahBankSoalFormSchema>
           onSubmit={onSubmit}

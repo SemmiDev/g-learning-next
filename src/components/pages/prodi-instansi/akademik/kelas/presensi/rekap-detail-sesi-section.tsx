@@ -83,6 +83,11 @@ export default function RekapPresensiDetailSesiSection({
 
     const ws = utils.json_to_sheet(allData)
     const wb = utils.book_new()
+    ws['!cols'] = [
+      { wch: allData.reduce((w, r) => Math.max(w, r.Nama.length), 10) },
+      { wch: allData.reduce((w, r) => Math.max(w, r.Email.length), 10) },
+      { wch: allData.reduce((w, r) => Math.max(w, r.Status.length), 10) },
+    ]
     utils.book_append_sheet(wb, ws, 'Data')
     writeFile(wb, `Data Presensi - ${data?.judul}.xlsx`)
   }, [idKelas, idSesi, data])

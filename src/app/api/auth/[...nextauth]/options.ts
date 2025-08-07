@@ -173,7 +173,7 @@ export const authOptions: AuthOptions = {
           image: token.picture,
         }
         session.jwt = jwtToken
-        session.refreshToken = token.refreshToken as string
+        // session.refreshToken = token.refreshToken as string
       }
 
       return session

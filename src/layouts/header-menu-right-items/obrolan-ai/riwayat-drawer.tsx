@@ -4,8 +4,8 @@ import RiwayatItem, {
 } from '@/components/pages/pengguna/obrolan-ai/riwayat-item'
 import {
   ActionIcon,
+  ContentLoader,
   Drawer,
-  Loader,
   ModalConfirm,
   Title,
 } from '@/components/ui'
@@ -105,7 +105,7 @@ export default function RiwayatObrolanAiDrawer() {
       </div>
       <div className="flex flex-col overflow-y-auto">
         {isLoading ? (
-          <Loader className="py-16" />
+          <ContentLoader className="py-16" />
         ) : (
           list.map((item) => (
             <RiwayatItem
@@ -124,7 +124,7 @@ export default function RiwayatObrolanAiDrawer() {
         )}
       </div>
 
-      {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+      {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
 
       <UbahRiwayatObrolanModal
         show={showUbah}

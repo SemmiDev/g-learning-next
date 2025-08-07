@@ -1,5 +1,6 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -7,7 +8,6 @@ import {
   ControlledSwitch,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -152,7 +152,7 @@ export default function UbahMateriModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahMateriFormSchema>
           onSubmit={onSubmit}

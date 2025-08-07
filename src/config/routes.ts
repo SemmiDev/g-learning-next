@@ -56,6 +56,9 @@ export const adminRoutes = {
   tagihanPengguna: '/admin/tagihan/pengguna',
   manajemenAdmin: '/admin/manajemen-admin',
   manajemenKnowledge: '/admin/manajemen-knowledge',
+  koneksiAkun: '/admin/koneksi-akun',
+  googleMeet: '/admin/google-meet',
+  zoom: '/admin/zoom',
 }
 
 export const instansiRoutes = {
@@ -66,6 +69,7 @@ export const instansiRoutes = {
   profileSinkron: '/instansi/profil/sinkron',
   akademik: '/instansi/akademik',
   kelasAkademik: '/instansi/akademik/kelas',
+  pengaturan: '/instansi/pengaturan',
 }
 
 export const prodiInstansiRoutes = {

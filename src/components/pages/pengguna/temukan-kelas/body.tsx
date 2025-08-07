@@ -2,8 +2,8 @@
 
 import {
   Card,
+  ContentLoader,
   Input,
-  Loader,
   ModalConfirm,
   Shimmer,
   Text,
@@ -106,7 +106,9 @@ export default function TermukanKelasBody() {
         )}
       </div>
 
-      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
+      {!isLoading && hasNextPage && (
+        <ContentLoader ref={refSentry} className="py-4" />
+      )}
 
       <ModalConfirm
         title="Gabung Kelas"

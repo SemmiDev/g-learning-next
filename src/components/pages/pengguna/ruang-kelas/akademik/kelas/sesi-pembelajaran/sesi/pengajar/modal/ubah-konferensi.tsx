@@ -1,9 +1,9 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -29,6 +29,7 @@ export type UbahKonferensiSesiFormSchema = {
   judul?: string
   catatan?: string
   link?: string
+  editableLink?: boolean
 }
 
 type UbahKonferensiSesiModalProps = {
@@ -73,6 +74,7 @@ export default function UbahKonferensiSesiModal({
         judul: data?.aktifitas.judul,
         catatan: data?.aktifitas.deskripsi ?? undefined,
         link: data?.link_conference,
+        editableLink: data?.aktifitas.tipe_konferensi === 'Manual',
       }
     },
   })
@@ -125,7 +127,7 @@ export default function UbahKonferensiSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahKonferensiSesiFormSchema>
           onSubmit={onSubmit}
@@ -137,7 +139,7 @@ export default function UbahKonferensiSesiModal({
           }}
           flexing
         >
-          {({ control, formState: { errors, isSubmitting } }) => (
+          {({ control, watch, formState: { errors, isSubmitting } }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
                 <ControlledInput
@@ -164,6 +166,7 @@ export default function UbahKonferensiSesiModal({
                   errors={errors}
                   label="Link Konferensi"
                   placeholder="Tulis link konferensi di sini"
+                  disabled={!watch('editableLink')}
                   required
                 />
 

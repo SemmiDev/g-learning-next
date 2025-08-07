@@ -1,8 +1,8 @@
 import {
   Button,
   Card,
+  ContentLoader,
   Input,
-  Loader,
   Shimmer,
   Text,
   Title,
@@ -175,7 +175,7 @@ export default function PengajarRekapPresensiCard({
             </div>
 
             {!isLoading && hasNextPage && (
-              <Loader ref={refSentry} className="py-4" />
+              <ContentLoader ref={refSentry} className="py-4" />
             )}
           </Card>
         </div>

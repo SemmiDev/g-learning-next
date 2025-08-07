@@ -1,4 +1,10 @@
-import { ActionIcon, Drawer, Loader, Textarea, Title } from '@/components/ui'
+import {
+  ActionIcon,
+  ContentLoader,
+  Drawer,
+  Textarea,
+  Title,
+} from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listObrolanAiApi } from '@/services/api/shared/riwayat-obrolan-ai/list-obrolan'
 import { ChatAiItemType, useAiChatStore } from '@/stores/ai-chat'
@@ -275,7 +281,7 @@ export default function ObrolanAiDrawer() {
             </Fragment>
           ))}
 
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
 
           {newChatList.map((chat, idx) => (
             <Fragment key={idx}>

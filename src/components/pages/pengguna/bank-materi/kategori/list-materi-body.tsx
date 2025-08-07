@@ -3,7 +3,7 @@
 import {
   Button,
   Card,
-  Loader,
+  ContentLoader,
   MateriItemType,
   ModalConfirm,
   Shimmer,
@@ -209,7 +209,7 @@ export default function ListMateriBody() {
             </div>
           )}
 
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
         </div>
       )}
 

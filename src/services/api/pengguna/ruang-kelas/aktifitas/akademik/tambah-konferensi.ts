@@ -15,6 +15,8 @@ export const tambahAktifitasKonferensiApi = async (
       deskripsi: cleanQuill(data.catatan),
       tipe: 'Konferensi',
       jadwal: data.jadwal,
-      link: data.link,
+      tipe_konferensi:
+        data.tipeLink === 'otomatis' ? data.generateLink : undefined,
+      link: data.tipeLink === 'manual' ? data.link : undefined,
     }
   )

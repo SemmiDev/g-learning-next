@@ -13,7 +13,7 @@ export const ubahAktifitasMateriSesiApi = async (
     jwt,
     {
       judul: data.judul,
-      deskripsi: cleanQuill(data.catatan),
+      deskripsi: cleanQuill(data.catatan) ?? '',
       berkas: (data.berkas ?? []).map((item) => item.id),
       tipe: 'Materi',
     }

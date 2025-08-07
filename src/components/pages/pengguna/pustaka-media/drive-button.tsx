@@ -3,9 +3,11 @@ import { GOOGLE_PICKER } from '@/config/const'
 import { routes } from '@/config/routes'
 import { formatBytes } from '@/utils/bytes'
 import cn from '@/utils/class-names'
+import googleDriveIcon from '@public/icons/google-drive.png'
+import Image from 'next/image'
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 import { BsX } from 'react-icons/bs'
-import { FaArrowRight, FaGoogleDrive } from 'react-icons/fa'
+import { FaArrowRight } from 'react-icons/fa'
 import { Progressbar } from 'rizzui'
 
 type DriveButtonProps = DetailedHTMLProps<
@@ -33,7 +35,14 @@ export default function DriveButton({
       >
         <div className="flex flex-col items-stretch flex-1 gap-y-2.5 p-2">
           <div className="flex flex-wrap items-center gap-x-1">
-            {drive.id === 'GOOGLE_DRIVE' && <FaGoogleDrive />}
+            {drive.id === 'GOOGLE_DRIVE' && (
+              <Image
+                src={googleDriveIcon}
+                alt="Google Drive"
+                width={16}
+                height={16}
+              />
+            )}
             <Text
               weight="semibold"
               color={active ? 'primary' : 'gray'}
@@ -78,10 +87,16 @@ export default function DriveButton({
               title={drive.name}
               className="flex flex-wrap items-center gap-x-1"
             >
-              <FaGoogleDrive className="me-1" />
+              <Image
+                src={googleDriveIcon}
+                alt="Google Drive"
+                width={16}
+                height={16}
+                className="me-1"
+              />
               Google Drive
             </Text>
-            <Text size="sm" weight="medium" variant="lighter" className="ms-7">
+            <Text size="sm" weight="medium" variant="lighter" className="ms-6">
               {drive.name}
             </Text>
           </div>
@@ -115,7 +130,12 @@ export default function DriveButton({
                   title={drive.name}
                   className="flex flex-wrap items-center gap-x-1"
                 >
-                  <FaGoogleDrive />
+                  <Image
+                    src={googleDriveIcon}
+                    alt="Google Drive"
+                    width={16}
+                    height={16}
+                  />
                   Google Drive
                 </Text>
                 <Text size="2xs">{drive.name}</Text>

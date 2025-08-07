@@ -3,9 +3,9 @@
 import {
   Button,
   Card,
+  ContentLoader,
   FilePreviewType,
   Input,
-  Loader,
   ModalFilePreview,
   Shimmer,
   Text,
@@ -221,7 +221,7 @@ export default function BerkasBody() {
             </div>
           )}
 
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
         </div>
       )}
 
