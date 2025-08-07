@@ -1,8 +1,8 @@
 import {
+  ContentLoader,
   ControlledRadioGroup,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
@@ -146,7 +146,7 @@ export default function UbahJenisAbsenSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={168} />
+        <ContentLoader height={168} />
       ) : (
         <Form<UbahJenisAbsenSesiFormSchema>
           onSubmit={onSubmit}

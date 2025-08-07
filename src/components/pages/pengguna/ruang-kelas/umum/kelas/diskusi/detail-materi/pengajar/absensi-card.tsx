@@ -4,7 +4,7 @@ import {
   Button,
   Card,
   CardSeparator,
-  Loader,
+  ContentLoader,
   ModalConfirm,
   Text,
   Thumbnail,
@@ -248,7 +248,11 @@ export default function PengajarAbsensiCard({
             )
           })}
           {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} size="sm" className="border-muted py-4" />
+            <ContentLoader
+              ref={refSentry}
+              size="sm"
+              className="border-muted py-4"
+            />
           )}
         </div>
         {tipe === 'Manual' && (

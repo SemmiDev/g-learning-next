@@ -1,6 +1,12 @@
 'use client'
 
-import { Button, ButtonSubmit, Card, Loader, Text } from '@/components/ui'
+import {
+  Button,
+  ButtonSubmit,
+  Card,
+  ContentLoader,
+  Text,
+} from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
 import { SanitizeHTML } from '@/components/ui/sanitize-html'
 import { routes } from '@/config/routes'
@@ -79,7 +85,7 @@ export default function UndanganKelasBody() {
     })
   }
 
-  if (isLoading || !data) return <Loader />
+  if (isLoading || !data) return <ContentLoader />
 
   return (
     <Card className="flex flex-col items-center w-[600px] max-w-full py-8 px-2 mx-2 sm:px-8 sm:mx-4">

@@ -101,7 +101,8 @@ import InputRupiah, { InputRupiahProps } from './input/rupiah'
 import Label from './label'
 import LabelOrDiv, { LabelOrDivProps } from './label-or-div'
 import LinkOrDiv, { LinkOrDivProps } from './link-or-div'
-import Loader, { LoaderProps } from './loader'
+import ContentLoader, { ContentLoaderProps } from './loader/content'
+import Loader, { LoaderProps } from './loader/loader'
 import ModalConfirm from './modal/confirm'
 import ModalFilePreview, {
   FilePreviewType,
@@ -159,6 +160,7 @@ export {
   CardSeparator,
   Checkbox,
   Circle,
+  ContentLoader,
   ControlledAdvancedRadioGroup,
   ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
@@ -248,6 +250,7 @@ export {
   type ButtonVariants,
   type CheckboxProps,
   type CircleProps,
+  type ContentLoaderProps,
   type ControlledAdvancedRadioGroupProps,
   type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,

@@ -1,6 +1,6 @@
 import {
   Button,
-  Loader,
+  ContentLoader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -74,7 +74,7 @@ export default function HasilUjianModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={172} />
+        <ContentLoader height={172} />
       ) : (
         <>
           <div className="flex flex-col-reverse gap-y-3 p-3 md:flex-row">

@@ -1,9 +1,9 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -96,7 +96,7 @@ export default function UbahModal({ show, setShow }: UbahModalProps) {
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={547} />
+        <ContentLoader height={547} />
       ) : (
         <Form<UbahProfilFormSchema>
           onSubmit={onSubmit}

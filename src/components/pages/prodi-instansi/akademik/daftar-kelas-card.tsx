@@ -1,4 +1,11 @@
-import { Card, Input, Loader, Shimmer, Text, Title } from '@/components/ui'
+import {
+  Card,
+  ContentLoader,
+  Input,
+  Shimmer,
+  Text,
+  Title,
+} from '@/components/ui'
 import { useDebounceSearch } from '@/hooks/use-debounce-search'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKelasApi } from '@/services/api/prodi-instansi/akademik/list-kelas'
@@ -93,7 +100,7 @@ export default function DaftarKelasCard({
           )}
 
           {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} className="py-4" />
+            <ContentLoader ref={refSentry} className="py-4" />
           )}
         </>
       )}

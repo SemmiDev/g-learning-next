@@ -1,7 +1,7 @@
 import {
   Card,
   CardSeparator,
-  Loader,
+  ContentLoader,
   ModalConfirm,
   Text,
   Title,
@@ -100,7 +100,7 @@ export default function RiwayatCard({ className }: RiwayatCardProps) {
           <CardSeparator />
 
           {isLoading ? (
-            <Loader className="py-4" />
+            <ContentLoader className="py-4" />
           ) : (
             list.map((item) => (
               <RiwayatItem
@@ -114,7 +114,7 @@ export default function RiwayatCard({ className }: RiwayatCardProps) {
             ))
           )}
 
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
         </div>
       </Card>
 

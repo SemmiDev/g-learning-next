@@ -1,10 +1,10 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -139,7 +139,7 @@ export default function UbahMateriSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahMateriSesiFormSchema>
           onSubmit={onSubmit}

@@ -1,13 +1,13 @@
 import {
   ActionIcon,
   Button,
+  ContentLoader,
   ControlledInputNumber,
   ControlledQuillEditor,
   ControlledRadio,
   Form,
   FormError,
   Label,
-  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
@@ -179,7 +179,7 @@ export default function UbahSoalModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={447} />
+        <ContentLoader height={447} />
       ) : (
         <Form<UbahSoalFormSchema>
           onSubmit={onSubmit}

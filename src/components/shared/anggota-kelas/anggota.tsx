@@ -1,6 +1,13 @@
 'use client'
 
-import { Button, Input, Label, Loader, Modal, Text } from '@/components/ui'
+import {
+  Button,
+  ContentLoader,
+  Input,
+  Label,
+  Modal,
+  Text,
+} from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listAnggotaKelasApi } from '@/services/api/shared/anggota-kelas/list'
@@ -186,7 +193,7 @@ export default function AnggotaKelas({
           </div>
           <div className="flex flex-col overflow-y-auto sm:max-h-[400px]">
             {isLoading || (!list.length && isFetching) ? (
-              <Loader height={320} />
+              <ContentLoader height={320} />
             ) : list.length > 0 ? (
               list.map((anggota, idx) => (
                 <AnggotaKelasButton
@@ -208,7 +215,7 @@ export default function AnggotaKelas({
               </div>
             )}
             {!isLoading && hasNextPage && (
-              <Loader ref={refSentry} size="sm" className="py-4" />
+              <ContentLoader ref={refSentry} size="sm" className="py-4" />
             )}
           </div>
         </div>

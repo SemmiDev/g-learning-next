@@ -5,7 +5,7 @@ import {
 } from '@/utils/google-drive-url'
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
-import Loader from '../../loader'
+import ContentLoader from '../../loader/content'
 import Modal from '../modal'
 
 type ModalImagePreviewProps = {
@@ -35,7 +35,7 @@ export default function ModalImagePreview({
       containerClassName="relative w-fit bg-transparent shadow-none"
       onClose={onClose}
     >
-      {loading && <Loader className="bg-white/50 rounded-md p-4" />}
+      {loading && <ContentLoader className="bg-white/50 rounded-md p-4" />}
       {!!imageUrl && (
         <Image
           src={imageUrl}

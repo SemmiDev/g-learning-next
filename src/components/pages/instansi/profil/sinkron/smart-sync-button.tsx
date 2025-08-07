@@ -1,5 +1,5 @@
 import { Button, Text, TextSpan, Time } from '@/components/ui'
-import Loader from '@/components/ui/loader'
+import ContentLoader from '@/components/ui/loader/content'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { prosesPullSmartApi } from '@/services/api/instansi/profil/sinkron/smart/proses-pull'
 import { statusSinkronSmartApi } from '@/services/api/instansi/profil/sinkron/smart/status'
@@ -110,7 +110,7 @@ export default function SinkronSmartButton({
     toast.error(<Text>Fitur ini masih belum dapat digunakan</Text>)
   }
 
-  if (isLoading) return <Loader className="py-6" />
+  if (isLoading) return <ContentLoader className="py-6" />
 
   return (
     <>

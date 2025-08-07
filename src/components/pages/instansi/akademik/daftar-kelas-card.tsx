@@ -1,7 +1,7 @@
 import {
   Card,
+  ContentLoader,
   Input,
-  Loader,
   SelectOptionType,
   Shimmer,
   Text,
@@ -123,7 +123,7 @@ export default function DaftarKelasCard({
           )}
 
           {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} className="py-4" />
+            <ContentLoader ref={refSentry} className="py-4" />
           )}
         </>
       )}

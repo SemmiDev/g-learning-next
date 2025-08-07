@@ -2,7 +2,7 @@ import {
   Button,
   Card,
   CardSeparator,
-  Loader,
+  ContentLoader,
   ModalConfirm,
   Shimmer,
   Text,
@@ -222,7 +222,7 @@ export default function PengajarPermintaanBergabungCard({
             </Text>
           )}
           {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} size="sm" className="py-4" />
+            <ContentLoader ref={refSentry} size="sm" className="py-4" />
           )}
         </div>
         {list.length > 0 && (

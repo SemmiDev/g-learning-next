@@ -1,4 +1,4 @@
-import { Loader, Shimmer, Text } from '@/components/ui'
+import { ContentLoader, Shimmer, Text } from '@/components/ui'
 import Card from '@/components/ui/card'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKelasApi } from '@/services/api/pengguna/ruang-kelas/list'
@@ -77,7 +77,9 @@ export default function ListKelasCardList({
         </div>
       )}
 
-      {!isLoading && hasNextPage && <Loader ref={refSentry} className="py-4" />}
+      {!isLoading && hasNextPage && (
+        <ContentLoader ref={refSentry} className="py-4" />
+      )}
     </>
   )
 }

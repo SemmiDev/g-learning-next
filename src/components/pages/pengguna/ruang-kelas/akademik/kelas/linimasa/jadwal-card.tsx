@@ -3,8 +3,8 @@ import {
   Button,
   Card,
   CardSeparator,
+  ContentLoader,
   LinkOrDiv,
-  Loader,
   ModalConfirm,
   Text,
   Time,
@@ -119,7 +119,7 @@ export default function JadwalCard({ kelas, className }: JadwalCardProps) {
         <CardSeparator />
         <div className="flex flex-col px-1">
           {isLoading ? (
-            <Loader className="py-4" />
+            <ContentLoader className="py-4" />
           ) : data ? (
             <div className="flex flex-col gap-y-1 [&:not(:last-child)]:border-b border-b-muted px-1 py-2">
               <div className="flex items-center flex-wrap gap-x-2">

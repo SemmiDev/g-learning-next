@@ -4,7 +4,7 @@ import {
   Button,
   Card,
   CardSeparator,
-  Loader,
+  ContentLoader,
   ModalConfirm,
   Text,
   Thumbnail,
@@ -144,7 +144,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
           Anggota Kelas
         </Title>
         {isLoading ? (
-          <Loader height={100} />
+          <ContentLoader height={100} />
         ) : (
           <>
             {tipe === 'Manual' && list.length > 0 && (
@@ -254,7 +254,7 @@ export default function AbsensiCard({ className }: AbsensiCardProps) {
                 )
               })}
               {!isLoading && hasNextPage && (
-                <Loader
+                <ContentLoader
                   ref={refSentry}
                   size="sm"
                   className="border-muted py-4"

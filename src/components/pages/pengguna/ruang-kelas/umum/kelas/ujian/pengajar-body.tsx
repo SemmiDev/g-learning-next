@@ -1,4 +1,4 @@
-import { Button, Card, Loader, Shimmer, Text } from '@/components/ui'
+import { Button, Card, ContentLoader, Shimmer, Text } from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { tableSesiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/table-sesi'
 import cn from '@/utils/class-names'
@@ -164,7 +164,7 @@ export default function PengajarUjianBody() {
           </div>
 
           {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} className="py-4" />
+            <ContentLoader ref={refSentry} className="py-4" />
           )}
         </Card>
       </div>

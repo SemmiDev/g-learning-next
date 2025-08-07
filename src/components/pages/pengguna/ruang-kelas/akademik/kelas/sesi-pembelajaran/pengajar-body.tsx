@@ -1,5 +1,5 @@
 import { Button, ModalConfirm } from '@/components/ui'
-import Loader from '@/components/ui/loader'
+import ContentLoader from '@/components/ui/loader/content'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
@@ -148,7 +148,7 @@ export default function PengajarSesiPembelajaranBody() {
         {!isLoading &&
           !disableAbsensi &&
           (hasNextPage ? (
-            <Loader ref={refSentry} size="sm" className="py-4" />
+            <ContentLoader ref={refSentry} size="sm" className="py-4" />
           ) : (
             <Button onClick={() => setShowTambah(true)}>Tambah Sesi</Button>
           ))}

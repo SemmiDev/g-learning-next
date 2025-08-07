@@ -1,30 +1,41 @@
 import { forwardRef } from 'react'
-import { Loader, LoaderTypes } from 'rizzui'
 import Button, { ButtonProps } from './button'
+import Loader, { LoaderProps } from '../loader/loader'
 
 export type ButtonSubmitProps = Omit<ButtonProps, 'isLoading'> & {
   isSubmitting?: boolean
   showLoader?: boolean
-  loaderSize?: LoaderTypes['size']
+  loaderSize?: LoaderProps['size']
 }
 
 export default forwardRef<HTMLButtonElement, ButtonSubmitProps>(
   function ButtonSubmit(
     {
       type = 'submit',
+      size = 'md',
       isSubmitting = false,
       showLoader = true,
-      loaderSize = 'sm',
+      loaderSize,
       disabled,
       children,
       ...props
     }: ButtonSubmitProps,
     ref
   ) {
+    loaderSize =
+      loaderSize ?? size === 'sm'
+        ? '2xs'
+        : size === 'lg'
+        ? 'sm'
+        : size === 'xl'
+        ? 'md'
+        : 'xs'
+
     return (
       <Button
         ref={ref}
         type={type}
+        size={size}
         disabled={isSubmitting || disabled}
         {...props}
       >

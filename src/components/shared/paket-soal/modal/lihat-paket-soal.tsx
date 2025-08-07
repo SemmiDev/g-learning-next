@@ -1,6 +1,6 @@
 import {
   CardSeparator,
-  Loader,
+  ContentLoader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -41,7 +41,7 @@ export default function LihatSoalModal({
       onClose={onHide}
     >
       {isLoading ? (
-        <Loader height={330} />
+        <ContentLoader height={330} />
       ) : (
         <>
           <table className="w-[calc(100%-1.5rem)] mx-3">

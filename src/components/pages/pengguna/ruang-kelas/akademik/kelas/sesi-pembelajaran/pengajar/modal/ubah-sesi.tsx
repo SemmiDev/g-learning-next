@@ -1,4 +1,5 @@
 import {
+  ContentLoader,
   ControlledAsyncPaginateSelect,
   ControlledDatePicker,
   ControlledInput,
@@ -6,7 +7,6 @@ import {
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
@@ -180,7 +180,7 @@ export default function UbahSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={154} />
+        <ContentLoader height={154} />
       ) : (
         <Form<UbahSesiFormSchema>
           onSubmit={onSubmit}

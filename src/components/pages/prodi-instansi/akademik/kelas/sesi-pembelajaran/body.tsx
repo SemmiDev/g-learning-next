@@ -1,6 +1,6 @@
 'use client'
 
-import { Loader } from '@/components/ui'
+import { ContentLoader } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listSesiPembelajaranApi } from '@/services/api/prodi-instansi/akademik/kelas/sesi-pembelajaran/list'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -49,7 +49,7 @@ export default function SesiPembelajaranBody() {
         <PesertaSesiItemCard key={idx} sesi={sesi} />
       ))}
       {!isLoading && hasNextPage && (
-        <Loader ref={refSentry} size="sm" className="py-4" />
+        <ContentLoader ref={refSentry} size="sm" className="py-4" />
       )}
     </div>
   )

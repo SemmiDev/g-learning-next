@@ -1,10 +1,10 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledInput,
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
@@ -134,7 +134,7 @@ export default function UbahLinkModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={236} />
+        <ContentLoader height={236} />
       ) : (
         <Form<UbahLinkFormSchema>
           onSubmit={onSubmit}

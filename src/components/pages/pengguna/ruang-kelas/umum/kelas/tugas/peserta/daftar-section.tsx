@@ -1,8 +1,8 @@
 import {
   Button,
   Card,
+  ContentLoader,
   Input,
-  Loader,
   Shimmer,
   Text,
   TimeIndo,
@@ -228,7 +228,7 @@ export default function PesertaDaftarTugasSection() {
             </div>
           )}
           {!isLoading && hasNextPage && (
-            <Loader ref={refSentry} size="sm" className="py-4" />
+            <ContentLoader ref={refSentry} size="sm" className="py-4" />
           )}
         </Card>
       )}

@@ -1,9 +1,9 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledPassword,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   TextSpan,
@@ -115,7 +115,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={336} />
+        <ContentLoader height={336} />
       ) : (
         <Form<UbahAdminFormSchema>
           onSubmit={onSubmit}

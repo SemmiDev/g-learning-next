@@ -2,9 +2,9 @@
 
 import {
   Button,
+  ContentLoader,
   Input,
   Label,
-  Loader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -308,7 +308,7 @@ export default function PaketSoal({
             {activeKategori && (
               <>
                 {isLoadingSoal || (!listSoal.length && isFetchingSoal) ? (
-                  <Loader height={320} />
+                  <ContentLoader height={320} />
                 ) : listSoal.length > 0 ? (
                   listSoal.map((soal) => (
                     <SoalButton
@@ -332,7 +332,11 @@ export default function PaketSoal({
                   </div>
                 )}
                 {!isLoadingSoal && hasNextPageSoal && (
-                  <Loader ref={refSentrySoal} size="sm" className="py-4" />
+                  <ContentLoader
+                    ref={refSentrySoal}
+                    size="sm"
+                    className="py-4"
+                  />
                 )}
               </>
             )}
@@ -341,7 +345,7 @@ export default function PaketSoal({
               <>
                 {isLoadingKategori ||
                 (!listKategori.length && isFetchingKategori) ? (
-                  <Loader height={320} />
+                  <ContentLoader height={320} />
                 ) : listKategori.length > 0 ? (
                   listKategori.map((kategori) => (
                     <KategoriButton
@@ -361,7 +365,11 @@ export default function PaketSoal({
                   </div>
                 )}
                 {!isLoadingKategori && hasNextPageKategori && (
-                  <Loader ref={refSentryKategori} size="sm" className="py-4" />
+                  <ContentLoader
+                    ref={refSentryKategori}
+                    size="sm"
+                    className="py-4"
+                  />
                 )}
               </>
             )}

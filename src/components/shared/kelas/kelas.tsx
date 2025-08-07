@@ -1,6 +1,13 @@
 'use client'
 
-import { Button, Input, Label, Loader, Modal, Text } from '@/components/ui'
+import {
+  Button,
+  ContentLoader,
+  Input,
+  Label,
+  Modal,
+  Text,
+} from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listKelasApi } from '@/services/api/shared/kelas/list'
@@ -181,7 +188,7 @@ export default function Kelas({
           </div>
           <div className="flex flex-col overflow-y-auto sm:max-h-[400px]">
             {isLoadingKelas || (!listKelas.length && isFetchingKelas) ? (
-              <Loader height={320} />
+              <ContentLoader height={320} />
             ) : listKelas.length > 0 ? (
               listKelas.map((kelas) => (
                 <KelasButton
@@ -203,7 +210,7 @@ export default function Kelas({
               </div>
             )}
             {!isLoadingKelas && hasNextPageKelas && (
-              <Loader ref={refSentry} size="sm" className="py-4" />
+              <ContentLoader ref={refSentry} size="sm" className="py-4" />
             )}
           </div>
         </div>

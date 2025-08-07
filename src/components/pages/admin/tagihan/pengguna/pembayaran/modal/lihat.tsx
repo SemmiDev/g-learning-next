@@ -1,5 +1,5 @@
 import {
-  Loader,
+  ContentLoader,
   Modal,
   ModalFooterButtons,
   TextBordered,
@@ -41,7 +41,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
       onClose={onHide}
     >
       {isLoading ? (
-        <Loader height={336} />
+        <ContentLoader height={336} />
       ) : (
         <div className="flex flex-col gap-4 p-3">
           <TextBordered label="Nomor Pembayaran">

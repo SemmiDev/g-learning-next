@@ -3,8 +3,8 @@
 import {
   Button,
   Card,
+  ContentLoader,
   FilePreviewType,
-  Loader,
   ModalConfirm,
   ModalFilePreview,
   PustakaMediaDriveType,
@@ -531,7 +531,9 @@ export default function PustakaMediaBody() {
             </div>
           )}
 
-          {hasNextPageFiles && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPageFiles && (
+            <ContentLoader ref={refSentry} className="py-4" />
+          )}
         </div>
       )}
 

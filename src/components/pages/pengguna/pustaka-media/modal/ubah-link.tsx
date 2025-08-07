@@ -1,9 +1,9 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
@@ -134,7 +134,7 @@ export default function UbahLinkModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={236} />
+        <ContentLoader height={236} />
       ) : (
         <Form<UbahLinkFormSchema>
           onSubmit={onSubmit}

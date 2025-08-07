@@ -1,18 +1,23 @@
 import {
+  Button,
   ButtonSubmit,
   Card,
   CardSeparator,
   ControlledInputNumber,
   Form,
+  Loader,
   TextLabel,
   Title,
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { hitungPoinApi } from '@/services/api/instansi/pengaturan/hitung-poin'
 import { dataPengaturanPoinApi } from '@/services/api/instansi/pengaturan/poin'
+import { statusHitungPoinApi } from '@/services/api/instansi/pengaturan/status-hitung-poin'
 import { ubahPengaturanPoinApi } from '@/services/api/instansi/pengaturan/ubah-poin'
 import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
@@ -36,8 +41,10 @@ export type PengaturanPoinTabFormSchema = {
 const queryKey = ['instansi.pengaturan.poin']
 
 export default function PengaturanPoinTab() {
-  const { jwt, processApi } = useSessionJwt()
+  const { processApi } = useSessionJwt()
   const queryClient = useQueryClient()
+
+  const [cekStatusHitung, setCekStatusHitung] = useState(true)
 
   const { data: initialValues, isLoading } =
     useQuery<PengaturanPoinTabFormSchema>({
@@ -56,6 +63,20 @@ export default function PengaturanPoinTab() {
       },
     })
 
+  const { data: prosesStatusHitung } = useQuery({
+    queryKey: ['instansi.poin.status-hitung'],
+    queryFn: async () => {
+      const { data } = await processApi(statusHitungPoinApi)
+
+      const inProgress = data?.status !== 'done'
+
+      setCekStatusHitung(inProgress)
+
+      return inProgress
+    },
+    refetchInterval: cekStatusHitung ? 1000 : false,
+  })
+
   const onSubmit: SubmitHandler<PengaturanPoinTabFormSchema> = async (data) => {
     await handleActionWithToast(processApi(ubahPengaturanPoinApi, data), {
       loading: 'Menyimpan...',
@@ -63,6 +84,11 @@ export default function PengaturanPoinTab() {
         queryClient.invalidateQueries({ queryKey })
       },
     })
+  }
+
+  const handleHitungPoin = async () => {
+    setCekStatusHitung(true)
+    await processApi(hitungPoinApi)
   }
 
   return (
@@ -82,15 +108,28 @@ export default function PengaturanPoinTab() {
               <Title as="h4" size="1.5xl" weight="semibold">
                 Pengaturan Poin
               </Title>
-              <ButtonSubmit
-                size="sm"
-                color="warning"
-                isSubmitting={isSubmitting}
-                disabled={isLoading || !isDirty}
-                showLoader={false}
-              >
-                Simpan Perubahan
-              </ButtonSubmit>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  color="primary"
+                  disabled={isLoading || cekStatusHitung || isDirty}
+                  onClick={handleHitungPoin}
+                >
+                  {(cekStatusHitung || prosesStatusHitung) && !isLoading && (
+                    <Loader size="2xs" variant="spinner" className="mr-2" />
+                  )}
+                  Hitung Poin
+                </Button>
+                <ButtonSubmit
+                  size="sm"
+                  color="warning"
+                  isSubmitting={isSubmitting}
+                  disabled={isLoading || !isDirty}
+                  showLoader={false}
+                >
+                  Simpan Perubahan
+                </ButtonSubmit>
+              </div>
             </div>
             <CardSeparator />
             <div className="flex flex-col max-w-72 overflow-x-auto px-2 py-2">

@@ -1,10 +1,10 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -130,7 +130,7 @@ export default function UbahMateriModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={447} />
+        <ContentLoader height={447} />
       ) : (
         <Form<UbahMateriFormSchema>
           onSubmit={onSubmit}

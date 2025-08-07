@@ -1,5 +1,6 @@
 import {
   Button,
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -8,7 +9,6 @@ import {
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -33,7 +33,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import moment from 'moment'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle, BsPlusSquare, BsTrash } from 'react-icons/bs'
+import { BsPlusSquare, BsTrash } from 'react-icons/bs'
 
 const formSchema = z.object({
   program: z.string().pipe(required),
@@ -176,7 +176,7 @@ export default function PengaturanKelasModal({
       onClose={handleClose}
     >
       {isLoading || !id ? (
-        <Loader height={450} />
+        <ContentLoader height={450} />
       ) : (
         <Form<PengaturanKelasFormSchema>
           onSubmit={onSubmit}

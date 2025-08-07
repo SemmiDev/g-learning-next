@@ -1,4 +1,5 @@
 import {
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
@@ -7,7 +8,6 @@ import {
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PaketSoalItemType,
@@ -33,7 +33,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsCardChecklist, BsInfoCircle } from 'react-icons/bs'
+import { BsCardChecklist } from 'react-icons/bs'
 import { GoDotFill } from 'react-icons/go'
 import { Switch, Tooltip } from 'rizzui'
 
@@ -214,7 +214,7 @@ export default function UbahUjianModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahUjianFormSchema>
           onSubmit={onSubmit}

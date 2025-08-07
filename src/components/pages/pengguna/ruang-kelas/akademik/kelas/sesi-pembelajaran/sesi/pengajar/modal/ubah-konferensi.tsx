@@ -1,9 +1,9 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -127,7 +127,7 @@ export default function UbahKonferensiSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahKonferensiSesiFormSchema>
           onSubmit={onSubmit}

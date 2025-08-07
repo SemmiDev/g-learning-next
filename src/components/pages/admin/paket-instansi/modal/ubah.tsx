@@ -1,11 +1,11 @@
 import {
+  ContentLoader,
   ControlledInput,
   ControlledInputNumber,
   ControlledInputRupiah,
   ControlledSelect,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   SelectOptionType,
@@ -172,7 +172,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={482} />
+        <ContentLoader height={482} />
       ) : (
         <Form<UbahPaketInstansiFormSchema>
           onSubmit={onSubmit}

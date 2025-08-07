@@ -1,4 +1,4 @@
-import { Loader, Text } from '@/components/ui'
+import { ContentLoader, Text } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
 import { DataType as DataKelasType } from '@/services/api/pengguna/ruang-kelas/lihat'
@@ -111,7 +111,7 @@ export default function DiskusiCardList({
       )}
 
       {!isLoading && hasNextPage && (
-        <Loader ref={refSentry} className="pt-8 pb-4" />
+        <ContentLoader ref={refSentry} className="pt-8 pb-4" />
       )}
     </div>
   )

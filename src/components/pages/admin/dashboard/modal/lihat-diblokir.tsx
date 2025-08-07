@@ -1,7 +1,7 @@
 import {
   Button,
   CardSeparator,
-  Loader,
+  ContentLoader,
   Modal,
   ModalConfirm,
   ModalFooterButtons,
@@ -62,7 +62,7 @@ export default function LihatDiblokirModal({
       onClose={onHide}
     >
       {isLoading ? (
-        <Loader height={512} />
+        <ContentLoader height={512} />
       ) : (
         <>
           <div className="flex flex-col items-center p-3">

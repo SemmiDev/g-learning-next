@@ -1,12 +1,12 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
   ControlledQuillEditor,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -152,7 +152,7 @@ export default function UbahInformasiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahInformasiFormSchema>
           onSubmit={onSubmit}

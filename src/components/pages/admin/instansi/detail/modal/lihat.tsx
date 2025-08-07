@@ -1,7 +1,7 @@
 import {
   Button,
   CardSeparator,
-  Loader,
+  ContentLoader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -43,7 +43,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
       onClose={onHide}
     >
       {isLoading ? (
-        <Loader height={410} />
+        <ContentLoader height={410} />
       ) : (
         <>
           <div className="flex flex-col items-center p-3">

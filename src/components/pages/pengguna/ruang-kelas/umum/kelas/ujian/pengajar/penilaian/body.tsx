@@ -4,9 +4,9 @@ import {
   Button,
   ButtonSubmit,
   Card,
+  ContentLoader,
   ControlledInputNumber,
   Form,
-  Loader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -303,7 +303,7 @@ export default function PenilaianUjianBody() {
             <>
               {!hasilKoreksiOtomatis ? (
                 <div className="flex-1 flex items-center justify-center">
-                  <Loader size="xl" />
+                  <ContentLoader size="xl" />
                 </div>
               ) : (
                 <div className="overflow-y-auto">

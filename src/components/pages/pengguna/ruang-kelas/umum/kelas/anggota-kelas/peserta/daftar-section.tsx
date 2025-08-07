@@ -1,8 +1,8 @@
 import {
   Card,
   CardSeparator,
+  ContentLoader,
   Input,
-  Loader,
   Shimmer,
   Text,
   Thumbnail,
@@ -136,7 +136,7 @@ export default function PesertaDaftarAnggotaSection({
           </div>
         )}
         {!isLoading && hasNextPage && (
-          <Loader ref={refSentry} size="sm" className="py-4" />
+          <ContentLoader ref={refSentry} size="sm" className="py-4" />
         )}
       </div>
     </Card>

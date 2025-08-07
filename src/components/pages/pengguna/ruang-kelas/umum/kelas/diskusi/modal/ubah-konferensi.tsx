@@ -1,12 +1,12 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledQuillEditor,
   ControlledRadioGroup,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   RadioGroupOptionType,
@@ -147,7 +147,7 @@ export default function UbahKonferensiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahKonferensiFormSchema>
           onSubmit={onSubmit}

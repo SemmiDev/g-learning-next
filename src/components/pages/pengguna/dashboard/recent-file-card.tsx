@@ -2,8 +2,8 @@ import {
   Button,
   Card,
   CardSeparator,
+  ContentLoader,
   FilePreviewType,
-  Loader,
   ModalFilePreview,
   PustakaMediaDriveType,
   PustakaMediaFileType,
@@ -156,7 +156,7 @@ export default function DashboardRecentFileCard({
         </div>
         <CardSeparator />
         {isLoadingFiles ? (
-          <Loader height={344} />
+          <ContentLoader height={344} />
         ) : totalData > 0 ? (
           <div className="min-h-[344px]">
             {files.map((file) => (

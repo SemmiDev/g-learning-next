@@ -1,7 +1,6 @@
-import { Button, Card, Text } from '@/components/ui'
+import { Button, Card, ContentLoader, Text } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
-import { Loader } from 'rizzui'
 
 type KoneksiItemProps = {
   title: string
@@ -34,7 +33,7 @@ export default function KoneksiItem({
         <Text weight="semibold">{title}</Text>
       </div>
       {isLoading ? (
-        <Loader size="sm" variant="pulse" className="mr-7" />
+        <ContentLoader size="sm" variant="pulse" className="mr-7" />
       ) : !connected ? (
         <Button size="sm" onClick={onConnect}>
           Hubungkan

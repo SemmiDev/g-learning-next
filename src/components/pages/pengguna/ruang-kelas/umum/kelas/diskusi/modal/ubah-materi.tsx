@@ -1,5 +1,6 @@
 import {
   CardSeparator,
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -8,7 +9,6 @@ import {
   ControlledSwitch,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -27,7 +27,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { BsInfoCircle } from 'react-icons/bs'
 
 const baseFormSchema = z.object({
   judul: z.string().pipe(required),
@@ -175,7 +174,7 @@ export default function UbahMateriModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahMateriFormSchema>
           onSubmit={onSubmit}

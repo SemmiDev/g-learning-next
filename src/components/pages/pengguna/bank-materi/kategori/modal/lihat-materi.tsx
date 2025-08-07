@@ -1,7 +1,7 @@
 import {
+  ContentLoader,
   FileListItem,
   FilePreviewType,
-  Loader,
   Modal,
   ModalFilePreview,
   ModalFooterButtons,
@@ -67,7 +67,7 @@ export default function LihatMateriModal({
         bodyClassName="justify-between"
       >
         {isLoading ? (
-          <Loader height={330} />
+          <ContentLoader height={330} />
         ) : (
           <>
             <div className="overflow-auto px-3">

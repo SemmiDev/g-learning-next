@@ -1,4 +1,4 @@
-import { Button, Card, Loader, Shimmer, Title } from '@/components/ui'
+import { Button, Card, ContentLoader, Shimmer, Title } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { useShowModal } from '@/hooks/use-show-modal'
 import { listAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/list'
@@ -173,7 +173,7 @@ export default function BahanAjarCard({
                 )
             )}
             {!isLoading && hasNextPage && (
-              <Loader ref={refSentry} size="sm" className="py-4" />
+              <ContentLoader ref={refSentry} size="sm" className="py-4" />
             )}
           </div>
         )}

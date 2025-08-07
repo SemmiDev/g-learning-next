@@ -1,4 +1,11 @@
-import { Button, Card, Loader, Shimmer, Text, Title } from '@/components/ui'
+import {
+  Button,
+  Card,
+  ContentLoader,
+  Shimmer,
+  Text,
+  Title,
+} from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
 import { tableSesiTugasApi } from '@/services/api/pengguna/ruang-kelas/tugas/pengajar/table-sesi-tugas'
 import cn from '@/utils/class-names'
@@ -165,7 +172,7 @@ export default function PengajarRekapTugasCard({
             </div>
 
             {!isLoading && hasNextPage && (
-              <Loader ref={refSentry} className="py-4" />
+              <ContentLoader ref={refSentry} className="py-4" />
             )}
           </Card>
         </div>

@@ -1,8 +1,8 @@
 import {
+  ContentLoader,
   ControlledInput,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
@@ -124,7 +124,7 @@ export default function UbahJudulSesiModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={154} />
+        <ContentLoader height={154} />
       ) : (
         <Form<UbahJudulSesiFormSchema>
           onSubmit={onSubmit}

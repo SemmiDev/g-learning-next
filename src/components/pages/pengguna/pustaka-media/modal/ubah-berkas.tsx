@@ -1,8 +1,8 @@
 import {
+  ContentLoader,
   ControlledInput,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   Text,
@@ -99,7 +99,7 @@ export default function UbahBerkasModal({
       onClose={handleClose}
     >
       {isLoading ? (
-        <Loader height={236} />
+        <ContentLoader height={236} />
       ) : (
         <Form<UbahBerkasFormSchema>
           onSubmit={onSubmit}

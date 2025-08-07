@@ -3,7 +3,7 @@
 import {
   Button,
   Card,
-  Loader,
+  ContentLoader,
   ModalConfirm,
   Shimmer,
   Text,
@@ -147,7 +147,7 @@ export default function ListKategoriSoalBody() {
             </div>
           )}
 
-          {hasNextPage && <Loader ref={refSentry} className="py-4" />}
+          {hasNextPage && <ContentLoader ref={refSentry} className="py-4" />}
         </div>
       )}
 

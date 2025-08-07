@@ -1,4 +1,5 @@
 import {
+  ContentLoader,
   ControlledDatePicker,
   ControlledInput,
   ControlledPustakaMedia,
@@ -6,7 +7,6 @@ import {
   ControlledSwitch,
   Form,
   FormError,
-  Loader,
   Modal,
   ModalFooterButtons,
   PustakaMediaFileType,
@@ -152,7 +152,7 @@ export default function UbahTugasModal({
       overflow
     >
       {isLoading ? (
-        <Loader height={500} />
+        <ContentLoader height={500} />
       ) : (
         <Form<UbahTugasFormSchema>
           onSubmit={onSubmit}
