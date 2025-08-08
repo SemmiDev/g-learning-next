@@ -1,4 +1,4 @@
-import { ActionIcon, TextSpan } from '@/components/ui'
+import { ActionIcon, Button, TextSpan } from '@/components/ui'
 import cn from '@/utils/class-names'
 import { randomString } from '@/utils/random'
 import {
@@ -7,9 +7,10 @@ import {
   TreeItemComponentProps,
 } from 'dnd-kit-sortable-tree'
 import { forwardRef } from 'react'
-import { BsChevronDown, BsChevronUp } from 'react-icons/bs'
+import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
 import { MdAdd, MdClose, MdDragIndicator } from 'react-icons/md'
-import { useManajemenKnowledgeModulStore } from './modul-sortable'
+import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
+import { useManajemenKnowledgeSortableStore } from './stores/sortable'
 
 export type TreeItemDataType = {
   title?: string
@@ -49,7 +50,8 @@ const ModulSortableTreeItemComponent = forwardRef<
   HTMLDivElement,
   TreeItemComponentProps<TreeItemDataType>
 >((props: TreeItemComponentProps<TreeItemDataType>, ref) => {
-  const { addItem } = useManajemenKnowledgeModulStore()
+  const { setShowTambahModul } = useManajemenKnowledgeSortableStore()
+  const { tambahArtikel, ubahArtikel } = useManajemenKnowledgeArtikelStore()
 
   return (
     <SimpleTreeItemWrapper
@@ -64,7 +66,11 @@ const ModulSortableTreeItemComponent = forwardRef<
           {...props}
           title={props.depth ? 'Tambah Artikel' : 'Tambah Modul'}
           onClick={() => {
-            addItem(props)
+            if (props.depth && props.parent?.id) {
+              tambahArtikel(props.parent?.id as string)
+            } else {
+              setShowTambahModul(true)
+            }
           }}
         />
       ) : (
@@ -84,6 +90,9 @@ const SortableItem = ({
   collapsed,
   clone,
 }: TreeItemComponentProps<TreeItemDataType>) => {
+  const { setIdHapusModul, doShowUbahModul } =
+    useManajemenKnowledgeSortableStore()
+
   return (
     <div className="flex gap-2 justify-between bg-white rounded-md border border-muted px-1 py-2">
       <div
@@ -99,6 +108,20 @@ const SortableItem = ({
         <TextSpan size={clone ? 'base' : 'sm'} weight="medium">
           {item.title}
         </TextSpan>
+        {
+          <Button
+            size="sm"
+            color="warning"
+            variant="text-colorful"
+            className="min-h-0 px-1"
+            onClick={(e) => {
+              e.stopPropagation()
+              doShowUbahModul(item.id as string)
+            }}
+          >
+            <BsPencilSquare className="size-3" />
+          </Button>
+        }
       </div>
       {onRemove && (!childCount || childCount <= 1) && (
         <ActionIcon
@@ -107,7 +130,7 @@ const SortableItem = ({
           variant="outline-hover-colorful"
           onClick={(e) => {
             e.stopPropagation()
-            onRemove()
+            setIdHapusModul(item.id as string, onRemove)
           }}
         >
           <MdClose />

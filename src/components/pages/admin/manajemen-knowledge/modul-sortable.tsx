@@ -1,126 +1,103 @@
-import {
-  SortableTree,
-  TreeItemComponentProps,
-  TreeItems,
-} from 'dnd-kit-sortable-tree'
-import {
-  FlattenedItem,
-  ItemChangedReason,
-} from 'dnd-kit-sortable-tree/dist/types'
-import { create } from 'zustand'
+import { ModalConfirm } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { hapusModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/hapus'
+import { listModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/list'
+import { handleActionWithToast } from '@/utils/action'
+import { useQuery } from '@tanstack/react-query'
+import { SortableTree } from 'dnd-kit-sortable-tree'
+import TambahModulModal from './modal/tambah-modul'
+import UbahModulModal from './modal/ubah-modul'
 import ModulSortableTreeItemComponent, {
   MakeTreeAddNewItem,
   MakeTreeItem,
-  TreeItemDataType,
 } from './modul-sortable-wrapper'
+import { useManajemenKnowledgeSortableStore } from './stores/sortable'
 
-const initialTreeData: TreeItems<TreeItemDataType> = [
-  MakeTreeItem({
-    children: [...Array(3)].map(() => MakeTreeItem({ parent: 0 })),
-  }),
-  MakeTreeItem(),
-  MakeTreeItem({
-    children: [...Array(2)].map(() => MakeTreeItem({ parent: 0 })),
-  }),
-  MakeTreeItem(),
-  MakeTreeItem(),
-  MakeTreeItem(),
-  MakeTreeAddNewItem(),
-]
+const queryKey = ['modul.manajemen-knowledge.sortable']
 
 export default function ModulSortable() {
-  const { items, changeItem } = useManajemenKnowledgeModulStore()
+  const { processApi } = useSessionJwt()
+
+  const {
+    items,
+    setItems,
+    changeItem,
+    showTambahModul,
+    setShowTambahModul,
+    showUbahModul,
+    idUbahModul,
+    doHideUbahModul,
+    idHapusModul,
+    setIdHapusModul,
+    onSuccessHapusModul,
+  } = useManajemenKnowledgeSortableStore()
+
+  useQuery({
+    queryKey,
+    queryFn: async () => {
+      const { data } = await processApi(listModulKnowledgeApi)
+
+      setItems([
+        ...(data?.list.map((item) =>
+          MakeTreeItem({
+            id: item.id,
+            title: item.nama,
+            children: item.artikel.map((item) =>
+              MakeTreeItem({ id: item.id, title: item.judul })
+            ),
+          })
+        ) || []),
+        MakeTreeAddNewItem(),
+      ])
+
+      return null
+    },
+    refetchOnWindowFocus: false,
+  })
+
+  const handleHapusModul = async () => {
+    if (!idHapusModul) return
+
+    await handleActionWithToast(
+      processApi(hapusModulKnowledgeApi, idHapusModul),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => onSuccessHapusModul(),
+      }
+    )
+  }
 
   return (
-    <SortableTree
-      items={items}
-      onItemsChanged={changeItem}
-      indentationWidth={40}
-      dropAnimation={null}
-      sortableProps={{
-        animateLayoutChanges: () => false,
-      }}
-      TreeItemComponent={ModulSortableTreeItemComponent}
-    />
+    <>
+      <SortableTree
+        items={items}
+        onItemsChanged={changeItem}
+        indentationWidth={40}
+        dropAnimation={null}
+        sortableProps={{
+          animateLayoutChanges: () => false,
+        }}
+        TreeItemComponent={ModulSortableTreeItemComponent}
+      />
+
+      <TambahModulModal show={showTambahModul} setShow={setShowTambahModul} />
+
+      <UbahModulModal
+        show={showUbahModul}
+        id={idUbahModul}
+        onHide={doHideUbahModul}
+      />
+
+      <ModalConfirm
+        title="Hapus Modul"
+        desc="Apakah Anda yakin ingin menghapus modul ini?"
+        color="danger"
+        isOpen={!!idHapusModul}
+        onClose={() => setIdHapusModul(null)}
+        onConfirm={handleHapusModul}
+        headerIcon="warning"
+        closeOnCancel
+      />
+    </>
   )
 }
-
-type ManajemenKnowledgeModulStoreType = {
-  items: TreeItems<TreeItemDataType>
-  setItems: (items: ManajemenKnowledgeModulStoreType['items']) => void
-  addItem: (treeItem: TreeItemComponentProps<TreeItemDataType>) => void
-  changeItem: (
-    items: TreeItems<TreeItemDataType>,
-    reason: ItemChangedReason<FlattenedItem<TreeItemDataType>>
-  ) => void
-}
-
-export const useManajemenKnowledgeModulStore =
-  create<ManajemenKnowledgeModulStoreType>((set) => ({
-    items: initialTreeData,
-    setItems: (items) => set(() => ({ items })),
-    addItem: (treeItem) =>
-      set(({ items }) => {
-        const newItems = [...items]
-
-        // add new item in parent
-        if (treeItem.depth) {
-          return {
-            items: newItems.map((prevItem) => {
-              if (prevItem.id !== treeItem.parent?.id) return prevItem
-
-              prevItem.children?.splice(
-                prevItem.children.length - 1,
-                0,
-                MakeTreeItem({ parent: 0 })
-              )
-
-              return {
-                ...prevItem,
-                children: prevItem.children
-                  ? [...prevItem.children]
-                  : undefined,
-              }
-            }),
-          }
-        }
-        // add new item in root
-        else {
-          newItems.splice(newItems.length - 1, 0, MakeTreeItem())
-          return { items: newItems }
-        }
-      }),
-    changeItem: (items, reason) =>
-      set(({ items: oldItems }) => {
-        if (reason.type === 'dropped') {
-          const { draggedItem, droppedToParent, draggedFromParent } = reason
-          // cancel when dropped to parent on depth more than 0
-          if (droppedToParent?.depth !== draggedFromParent?.depth) {
-            return { items: oldItems }
-          }
-
-          const parent = items.find((item) => item.id === droppedToParent?.id)
-          const parentItems = parent?.children || items
-
-          // when dropped to last item, change to second last item
-          if (
-            parentItems.findIndex((item) => item.id === draggedItem.id) ===
-            parentItems.length - 1
-          ) {
-            parentItems.splice(
-              parentItems.length - 1,
-              1,
-              parentItems.splice(
-                parentItems.length - 2,
-                1,
-                parentItems[parentItems.length - 1]
-              )[0]
-            )
-
-            return { items: [...items] }
-          }
-        }
-
-        return { items }
-      }),
-  }))
