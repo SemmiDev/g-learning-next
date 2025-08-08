@@ -11,6 +11,11 @@ import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
 import { MdAdd, MdClose, MdDragIndicator } from 'react-icons/md'
 import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
+import {
+  LuArrowRight,
+  LuArrowRightFromLine,
+  LuChevronRight,
+} from 'react-icons/lu'
 
 export type TreeItemDataType = {
   title?: string
@@ -51,7 +56,8 @@ const ModulSortableTreeItemComponent = forwardRef<
   TreeItemComponentProps<TreeItemDataType>
 >((props: TreeItemComponentProps<TreeItemDataType>, ref) => {
   const { setShowTambahModul } = useManajemenKnowledgeSortableStore()
-  const { tambahArtikel, ubahArtikel } = useManajemenKnowledgeArtikelStore()
+  const { modulId, action, tambahArtikel, ubahArtikel } =
+    useManajemenKnowledgeArtikelStore()
 
   return (
     <SimpleTreeItemWrapper
@@ -65,6 +71,7 @@ const ModulSortableTreeItemComponent = forwardRef<
         <AddSortableItem
           {...props}
           title={props.depth ? 'Tambah Artikel' : 'Tambah Modul'}
+          active={action === 'tambah' && modulId === props.parent?.id}
           onClick={() => {
             if (props.depth && props.parent?.id) {
               tambahArtikel(props.parent?.id as string)
@@ -148,21 +155,31 @@ const SortableItem = ({
 const AddSortableItem = ({
   title,
   onClick,
+  active,
 }: TreeItemComponentProps<TreeItemDataType> & {
   title: string
   onClick?: () => void
+  active?: boolean
 }) => {
   return (
     <button
-      className="flex items-center gap-1 bg-white rounded-md border border-muted w-full px-1 py-2 active:enabled:translate-y-px"
+      className={cn(
+        'flex items-center justify-between gap-1 bg-white rounded-md border border-muted w-full px-1 py-2 active:enabled:translate-y-px',
+        {
+          'bg-primary-lighter/10 text-primary': active,
+        }
+      )}
       onClick={onClick}
     >
-      <figure className="inline-flex items-center justify-center size-7">
-        <MdAdd />
-      </figure>
-      <TextSpan size="xs" weight="medium">
-        {title}
-      </TextSpan>
+      <div className="flex items-center gap-1">
+        <figure className="inline-flex items-center justify-center size-7">
+          <MdAdd />
+        </figure>
+        <TextSpan size="xs" weight="medium">
+          {title}
+        </TextSpan>
+      </div>
+      {active && <LuChevronRight className="size-4" />}
     </button>
   )
 }
