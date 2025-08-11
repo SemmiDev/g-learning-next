@@ -52,7 +52,7 @@ const ModulSortableTreeItemComponent = forwardRef<
   TreeItemComponentProps<TreeItemDataType>
 >((props: TreeItemComponentProps<TreeItemDataType>, ref) => {
   const { setShowTambahModul } = useManajemenKnowledgeSortableStore()
-  const { idModul, action, tambahArtikel, ubahArtikel, tutupArtikel } =
+  const { idModul, action, tambahArtikel, tutupArtikel } =
     useManajemenKnowledgeArtikelStore()
 
   return (
@@ -97,13 +97,15 @@ const SortableItem = ({
   collapsed,
   clone,
   depth,
-  parent,
 }: TreeItemComponentProps<TreeItemDataType>) => {
-  const { doShowUbahModul, setIdHapusModul, setIdHapusArtikel } =
+  const { isSaving, doShowUbahModul, setIdHapusModul, setIdHapusArtikel } =
     useManajemenKnowledgeSortableStore()
-  const { action, id, ubahArtikel } = useManajemenKnowledgeArtikelStore()
+  const { action, id, tutupArtikel, ubahArtikel } =
+    useManajemenKnowledgeArtikelStore()
 
   const active = action === 'ubah' && id === item.id
+
+  const dragProps = !isSaving ? handleProps : {}
 
   return (
     <div
@@ -114,10 +116,14 @@ const SortableItem = ({
           'bg-primary-lighter/10 text-primary': active,
         }
       )}
-      onClick={(e) => {
+      onClick={() => {
         if (depth === 0) return
 
-        ubahArtikel(item.id as string)
+        if (action === 'ubah' && item.id === id) {
+          tutupArtikel()
+        } else {
+          ubahArtikel(item.id as string)
+        }
       }}
     >
       <div
@@ -126,7 +132,13 @@ const SortableItem = ({
         })}
       >
         {!clone && (
-          <ActionIcon size="sm" variant="text" color="gray" {...handleProps}>
+          <ActionIcon
+            size="sm"
+            variant="text"
+            color="gray"
+            className={cn('cursor-grab', { 'cursor-not-allowed': isSaving })}
+            {...dragProps}
+          >
             <MdDragIndicator />
           </ActionIcon>
         )}

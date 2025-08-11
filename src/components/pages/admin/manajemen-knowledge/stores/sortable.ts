@@ -5,18 +5,21 @@ import {
 } from 'dnd-kit-sortable-tree/dist/types'
 import { create } from 'zustand'
 import { MakeTreeItem, TreeItemDataType } from '../modul-sortable-wrapper'
+import _ from 'lodash'
 
 type SortableStoreType = {
+  isSaving: boolean
   items: TreeItems<TreeItemDataType>
   setItems: (items: SortableStoreType['items']) => void
   addModulItem: (id: string, title: string) => void
   updateModulItem: (id: string, title: string) => void
   addArtikelItem: (id: string, title: string, idModul: string) => void
   updateArtikelItem: (id: string, title: string) => void
-  changeItem: (
+  changeItems: (
     items: TreeItems<TreeItemDataType>,
     reason: ItemChangedReason<FlattenedItem<TreeItemDataType>>
   ) => void
+  itemsSaved: () => void
   showTambahModul: boolean
   setShowTambahModul: (show: boolean) => void
   idUbahModul: string | null
@@ -40,6 +43,7 @@ type SortableStoreType = {
 
 export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
   (set) => ({
+    isSaving: false,
     items: [],
     setItems: (items) => set(() => ({ items })),
     addModulItem: (id, title) =>
@@ -90,12 +94,29 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
 
         return { items: newItems }
       }),
-    changeItem: (items, reason) =>
+    changeItems: (items, reason) =>
       set(({ items: oldItems }) => {
         if (reason.type === 'dropped') {
           const { draggedItem, droppedToParent, draggedFromParent } = reason
+
           // cancel when dropped to parent on depth more than 0
           if (droppedToParent?.depth !== draggedFromParent?.depth) {
+            return { items: oldItems }
+          }
+
+          // cancel when olditems is equals to newitems
+          if (
+            _.isEqual(
+              _.flatMapDeep(oldItems, (item) => [
+                item,
+                ...(item.children ?? []),
+              ]).map((item) => item.id),
+              _.flatMapDeep(items, (item) => [
+                item,
+                ...(item.children ?? []),
+              ]).map((item) => item.id)
+            )
+          ) {
             return { items: oldItems }
           }
 
@@ -117,12 +138,15 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
               )[0]
             )
 
-            return { items: [...items] }
+            return { items: [...items], isSaving: true }
           }
+
+          return { items, isSaving: true }
         }
 
         return { items }
       }),
+    itemsSaved: () => set(() => ({ isSaving: false })),
     showTambahModul: false,
     setShowTambahModul: (show) => set(() => ({ showTambahModul: show })),
     idUbahModul: null,

@@ -22,7 +22,7 @@ export default function ModulSortable() {
   const {
     items,
     setItems,
-    changeItem,
+    changeItems,
     showTambahModul,
     setShowTambahModul,
     showUbahModul,
@@ -87,7 +87,7 @@ export default function ModulSortable() {
     <>
       <SortableTree
         items={items}
-        onItemsChanged={changeItem}
+        onItemsChanged={changeItems}
         indentationWidth={40}
         dropAnimation={null}
         sortableProps={{
