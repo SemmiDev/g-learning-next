@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   ButtonSubmit,
-  ContentLoader,
   ControlledInput,
   ControlledQuillEditor,
   ControlledSelect,
@@ -27,17 +26,17 @@ import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
-  tipe: z.object({ label: z.string(), value: z.string() }),
+  level: z.object({ label: z.string(), value: z.string() }),
   isi: z.string().optional(),
 })
 
 export type TambahArtikelFormSchema = {
   judul?: string
-  tipe?: SelectOptionType
+  level?: SelectOptionType
   isi?: string
 }
 
-const tipeOptions: SelectOptionType[] = [
+const levelOptions: SelectOptionType[] = [
   selectOption('Mahasiswa'),
   selectOption('Dosen'),
   selectOption('Akademik'),
@@ -125,9 +124,9 @@ export default function TambahArtikelForm() {
           />
 
           <ControlledSelect
-            name="tipe"
+            name="level"
             control={control}
-            options={tipeOptions}
+            options={levelOptions}
             label="Level"
             placeholder="Pilih Level"
             errors={errors}

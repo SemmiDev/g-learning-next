@@ -27,7 +27,7 @@ export const tambahArtikelKnowledgeApi = async (
       judul: data.judul,
       isi: data.isi,
       level: mustBe(
-        data.tipe?.value,
+        data.level?.value,
         ['Mahasiswa', 'Dosen', 'Akademik'] as const,
         'Akademik'
       ),

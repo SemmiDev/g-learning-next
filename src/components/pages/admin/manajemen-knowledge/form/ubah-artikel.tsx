@@ -28,18 +28,18 @@ import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 
 const formSchema = z.object({
   judul: z.string().pipe(required),
-  tipe: z.object({ label: z.string(), value: z.string() }),
+  level: z.object({ label: z.string(), value: z.string() }),
   isi: z.string().optional(),
 })
 
 export type UbahArtikelFormSchema = {
   judul?: string
-  tipe?: SelectOptionType
+  level?: SelectOptionType
   isi?: string
   modul?: string
 }
 
-const tipeOptions: SelectOptionType[] = [
+const levelOptions: SelectOptionType[] = [
   selectOption('Mahasiswa'),
   selectOption('Dosen'),
   selectOption('Akademik'),
@@ -69,7 +69,7 @@ export default function UbahArtikelForm() {
 
       return {
         judul: data?.judul,
-        tipe: tipeOptions.find((item) => item.value === data?.level),
+        level: levelOptions.find((item) => item.value === data?.level),
         isi: data?.isi,
         modul: data?.id_modul,
       }
@@ -159,9 +159,9 @@ export default function UbahArtikelForm() {
           />
 
           <ControlledSelect
-            name="tipe"
+            name="level"
             control={control}
-            options={tipeOptions}
+            options={levelOptions}
             label="Level"
             placeholder="Pilih Level"
             errors={errors}
