@@ -113,7 +113,7 @@ const SortableItem = ({
         'flex gap-2 justify-between bg-white rounded-md border border-muted hover:bg-muted/5 px-1 py-2',
         {
           'cursor-pointer': depth > 0,
-          'bg-primary-lighter/10 text-primary': active,
+          'bg-warning-lighter/10 text-warning': active,
         }
       )}
       onClick={() => {

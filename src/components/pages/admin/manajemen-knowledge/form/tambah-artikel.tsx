@@ -98,13 +98,19 @@ export default function TambahArtikelForm() {
               </Title>
             )}
             <div className="flex gap-2">
-              <ButtonSubmit isSubmitting={isSubmitting} disabled={isLoading}>
+              <ButtonSubmit
+                size="sm"
+                isSubmitting={isSubmitting}
+                disabled={isLoading}
+                className="sm:px-4 sm:py-2 sm:text-sm sm:min-h-10"
+              >
                 Simpan
               </ButtonSubmit>
               <ActionIcon
+                size="sm"
                 variant="text"
                 color="gray"
-                className="text-gray-lighter"
+                className="text-gray-lighter sm:p-1 sm:w-9 sm:h-9"
                 onClick={tutupArtikel}
               >
                 <MdClose className="size-4" />

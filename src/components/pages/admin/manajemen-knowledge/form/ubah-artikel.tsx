@@ -138,10 +138,19 @@ export default function UbahArtikelForm() {
               )}
             </div>
             <div className="flex gap-2">
-              <ButtonSubmit color="warning" isSubmitting={isSubmitting}>
+              <ButtonSubmit
+                color="warning"
+                isSubmitting={isSubmitting}
+                className="sm:px-4 sm:py-2 sm:text-sm sm:min-h-10"
+              >
                 Simpan
               </ButtonSubmit>
-              <ActionIcon variant="text" color="gray" onClick={tutupArtikel}>
+              <ActionIcon
+                variant="text"
+                color="gray"
+                onClick={tutupArtikel}
+                className="text-gray-lighter sm:p-1 sm:w-9 sm:h-9"
+              >
                 <MdClose className="size-4" />
               </ActionIcon>
             </div>
