@@ -70,7 +70,7 @@ export const listLinimasaSesiApi = async ({
       id_sms: idSms,
       rentang_waktu: mustBe(
         rentangWaktu,
-        ['Hari Ini', 'Minggu Ini', 'Bulan Ini', 'Rentang Waktu'],
+        ['Hari Ini', 'Minggu Ini', 'Bulan Ini', 'Rentang Waktu'] as const,
         'Hari Ini'
       ),
       tanggal_mulai:

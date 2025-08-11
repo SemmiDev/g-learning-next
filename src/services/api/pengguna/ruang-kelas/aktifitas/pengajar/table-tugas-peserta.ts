@@ -36,7 +36,7 @@ export const tableTugasPesertaApi = async ({
       per_page: perPage,
       status: mustBe(
         filters?.status,
-        ['SUDAH_MENGUMPULKAN', 'BELUM_MENGUMPULKAN', undefined],
+        ['SUDAH_MENGUMPULKAN', 'BELUM_MENGUMPULKAN', undefined] as const,
         undefined
       ),
     }

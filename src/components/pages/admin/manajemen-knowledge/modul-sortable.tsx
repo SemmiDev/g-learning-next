@@ -1,5 +1,6 @@
 import { ModalConfirm } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { hapusArtikelKnowledgeApi } from '@/services/api/admin/knowledge/artikel/hapus'
 import { hapusModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/hapus'
 import { listModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/list'
 import { handleActionWithToast } from '@/utils/action'
@@ -13,7 +14,7 @@ import ModulSortableTreeItemComponent, {
 } from './modul-sortable-wrapper'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
 
-const queryKey = ['modul.manajemen-knowledge.sortable']
+const queryKey = ['admin.manajemen-knowledge.sortable']
 
 export default function ModulSortable() {
   const { processApi } = useSessionJwt()
@@ -30,6 +31,9 @@ export default function ModulSortable() {
     idHapusModul,
     setIdHapusModul,
     onSuccessHapusModul,
+    idHapusArtikel,
+    setIdHapusArtikel,
+    onSuccessHapusArtikel,
   } = useManajemenKnowledgeSortableStore()
 
   useQuery({
@@ -43,7 +47,7 @@ export default function ModulSortable() {
             id: item.id,
             title: item.nama,
             children: item.artikel.map((item) =>
-              MakeTreeItem({ id: item.id, title: item.judul })
+              MakeTreeItem({ id: item.id, title: item.judul, parent: 0 })
             ),
           })
         ) || []),
@@ -63,6 +67,18 @@ export default function ModulSortable() {
       {
         loading: 'Menghapus...',
         onSuccess: () => onSuccessHapusModul(),
+      }
+    )
+  }
+
+  const handleHapusArtikel = async () => {
+    if (!idHapusArtikel) return
+
+    await handleActionWithToast(
+      processApi(hapusArtikelKnowledgeApi, idHapusArtikel),
+      {
+        loading: 'Menghapus...',
+        onSuccess: () => onSuccessHapusArtikel(),
       }
     )
   }
@@ -95,6 +111,17 @@ export default function ModulSortable() {
         isOpen={!!idHapusModul}
         onClose={() => setIdHapusModul(null)}
         onConfirm={handleHapusModul}
+        headerIcon="warning"
+        closeOnCancel
+      />
+
+      <ModalConfirm
+        title="Hapus Artikel"
+        desc="Apakah Anda yakin ingin menghapus artikel ini?"
+        color="danger"
+        isOpen={!!idHapusArtikel}
+        onClose={() => setIdHapusArtikel(null)}
+        onConfirm={handleHapusArtikel}
         headerIcon="warning"
         closeOnCancel
       />

@@ -14,7 +14,11 @@ export const tambahAktifitasUjianSesiApi = async (
     jwt,
     {
       judul: data.judul,
-      jenis: mustBe(data.jenis?.value, ['Tugas', 'UTS', 'UAS'], 'Tugas'),
+      jenis: mustBe(
+        data.jenis?.value,
+        ['Tugas', 'UTS', 'UAS'] as const,
+        'Tugas'
+      ),
       deskripsi: cleanQuill(data.catatan),
       tipe: 'Ujian',
       acak_soal: data.acakSoal === 'aktif' ? 1 : 0,

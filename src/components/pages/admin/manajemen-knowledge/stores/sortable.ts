@@ -1,4 +1,4 @@
-import { TreeItemComponentProps, TreeItems } from 'dnd-kit-sortable-tree'
+import { TreeItems } from 'dnd-kit-sortable-tree'
 import {
   FlattenedItem,
   ItemChangedReason,
@@ -10,7 +10,9 @@ type SortableStoreType = {
   items: TreeItems<TreeItemDataType>
   setItems: (items: SortableStoreType['items']) => void
   addModulItem: (id: string, title: string) => void
-  addArtikelItem: (id: string, title: string, parentId: string) => void
+  updateModulItem: (id: string, title: string) => void
+  addArtikelItem: (id: string, title: string, idModul: string) => void
+  updateArtikelItem: (id: string, title: string) => void
   changeItem: (
     items: TreeItems<TreeItemDataType>,
     reason: ItemChangedReason<FlattenedItem<TreeItemDataType>>
@@ -24,10 +26,16 @@ type SortableStoreType = {
   idHapusModul: string | null
   setIdHapusModul: (
     id: string | null,
-    onRemove?: SortableStoreType['removeModulItem']
+    onRemove?: SortableStoreType['removeItem']
   ) => void
   onSuccessHapusModul: () => void
-  removeModulItem?: () => void
+  idHapusArtikel: string | null
+  setIdHapusArtikel: (
+    id: string | null,
+    onRemove?: SortableStoreType['removeItem']
+  ) => void
+  onSuccessHapusArtikel: () => void
+  removeItem?: () => void
 }
 
 export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
@@ -42,13 +50,22 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
 
         return { items: newItems }
       }),
-    addArtikelItem: (id, title, parentId) =>
+    updateModulItem: (id, title) =>
+      set(({ items }) => {
+        const newItems = [...items]
+
+        const find = newItems.find((item) => item.id === id)
+        if (find) find.title = title
+
+        return { items: newItems }
+      }),
+    addArtikelItem: (id, title, idModul) =>
       set(({ items }) => {
         const newItems = [...items]
 
         return {
           items: newItems.map((prevItem) => {
-            if (prevItem.id !== parentId) return prevItem
+            if (prevItem.id !== idModul) return prevItem
 
             prevItem.children?.splice(
               prevItem.children.length - 1,
@@ -62,6 +79,16 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
             }
           }),
         }
+      }),
+    updateArtikelItem: (id, title) =>
+      set(({ items }) => {
+        const newItems = [...items]
+
+        const flatted = newItems.flatMap((item) => item.children || [])
+        const find = flatted.find((item) => item.id === id)
+        if (find) find.title = title
+
+        return { items: newItems }
       }),
     changeItem: (items, reason) =>
       set(({ items: oldItems }) => {
@@ -109,11 +136,25 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
     },
     idHapusModul: null,
     setIdHapusModul: (id, onRemove) =>
-      set(() => ({ idHapusModul: id, removeModulItem: onRemove })),
+      set(() => ({ idHapusModul: id, removeItem: onRemove })),
     onSuccessHapusModul: () =>
-      set(({ removeModulItem }) => {
-        removeModulItem?.()
-        return { idHapusModul: null, removeModulItem: undefined }
+      set(({ removeItem }) => {
+        removeItem?.()
+        return { idHapusModul: null, removeItem: undefined }
+      }),
+    idHapusArtikel: null,
+    setIdHapusArtikel: (id, onRemove) =>
+      set(() => ({
+        idHapusArtikel: id,
+        removeItem: onRemove,
+      })),
+    onSuccessHapusArtikel: () =>
+      set(({ removeItem }) => {
+        removeItem?.()
+        return {
+          idHapusArtikel: null,
+          removeItem: undefined,
+        }
       }),
   })
 )

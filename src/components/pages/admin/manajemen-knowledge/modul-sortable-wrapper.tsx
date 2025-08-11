@@ -8,14 +8,10 @@ import {
 } from 'dnd-kit-sortable-tree'
 import { forwardRef } from 'react'
 import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
+import { LuChevronRight } from 'react-icons/lu'
 import { MdAdd, MdClose, MdDragIndicator } from 'react-icons/md'
 import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
-import {
-  LuArrowRight,
-  LuArrowRightFromLine,
-  LuChevronRight,
-} from 'react-icons/lu'
 
 export type TreeItemDataType = {
   title?: string
@@ -56,7 +52,7 @@ const ModulSortableTreeItemComponent = forwardRef<
   TreeItemComponentProps<TreeItemDataType>
 >((props: TreeItemComponentProps<TreeItemDataType>, ref) => {
   const { setShowTambahModul } = useManajemenKnowledgeSortableStore()
-  const { modulId, action, tambahArtikel, ubahArtikel } =
+  const { idModul, action, tambahArtikel, ubahArtikel, tutupArtikel } =
     useManajemenKnowledgeArtikelStore()
 
   return (
@@ -71,10 +67,14 @@ const ModulSortableTreeItemComponent = forwardRef<
         <AddSortableItem
           {...props}
           title={props.depth ? 'Tambah Artikel' : 'Tambah Modul'}
-          active={action === 'tambah' && modulId === props.parent?.id}
+          active={action === 'tambah' && idModul === props.parent?.id}
           onClick={() => {
             if (props.depth && props.parent?.id) {
-              tambahArtikel(props.parent?.id as string)
+              if (action === 'tambah' && idModul === props.parent?.id) {
+                tutupArtikel()
+              } else {
+                tambahArtikel(props.parent?.id as string)
+              }
             } else {
               setShowTambahModul(true)
             }
@@ -96,12 +96,30 @@ const SortableItem = ({
   onRemove,
   collapsed,
   clone,
+  depth,
+  parent,
 }: TreeItemComponentProps<TreeItemDataType>) => {
-  const { setIdHapusModul, doShowUbahModul } =
+  const { doShowUbahModul, setIdHapusModul, setIdHapusArtikel } =
     useManajemenKnowledgeSortableStore()
+  const { action, id, ubahArtikel } = useManajemenKnowledgeArtikelStore()
+
+  const active = action === 'ubah' && id === item.id
 
   return (
-    <div className="flex gap-2 justify-between bg-white rounded-md border border-muted px-1 py-2">
+    <div
+      className={cn(
+        'flex gap-2 justify-between bg-white rounded-md border border-muted hover:bg-muted/5 px-1 py-2',
+        {
+          'cursor-pointer': depth > 0,
+          'bg-primary-lighter/10 text-primary': active,
+        }
+      )}
+      onClick={(e) => {
+        if (depth === 0) return
+
+        ubahArtikel(item.id as string)
+      }}
+    >
       <div
         className={cn('flex items-center gap-1 flex-1', {
           'px-4': clone,
@@ -115,7 +133,7 @@ const SortableItem = ({
         <TextSpan size={clone ? 'base' : 'sm'} weight="medium">
           {item.title}
         </TextSpan>
-        {
+        {depth === 0 && (
           <Button
             size="sm"
             color="warning"
@@ -128,21 +146,27 @@ const SortableItem = ({
           >
             <BsPencilSquare className="size-3" />
           </Button>
-        }
+        )}
       </div>
-      {onRemove && (!childCount || childCount <= 1) && (
+      {onRemove && (!childCount || childCount <= 1) && !active && (
         <ActionIcon
           size="sm"
           color="danger"
           variant="outline-hover-colorful"
           onClick={(e) => {
             e.stopPropagation()
-            setIdHapusModul(item.id as string, onRemove)
+
+            if (depth === 0) {
+              setIdHapusModul(item.id as string, onRemove)
+            } else {
+              setIdHapusArtikel(item.id as string, onRemove)
+            }
           }}
         >
           <MdClose />
         </ActionIcon>
       )}
+      {active && <LuChevronRight className="size-4 self-center" />}
       {!!childCount && !clone && (
         <ActionIcon size="sm" variant="text" color="gray">
           {collapsed ? <BsChevronDown /> : <BsChevronUp />}

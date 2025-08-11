@@ -28,7 +28,13 @@ export const tambahAktifitasMateriApi = async (
         data.presensi === 'aktif'
           ? mustBe(
               data.tipe_presensi,
-              ['Manual', 'Otomatis', 'GPS', 'GPS dan Swafoto', 'QR Code'],
+              [
+                'Manual',
+                'Otomatis',
+                'GPS',
+                'GPS dan Swafoto',
+                'QR Code',
+              ] as const,
               'Manual'
             )
           : null,

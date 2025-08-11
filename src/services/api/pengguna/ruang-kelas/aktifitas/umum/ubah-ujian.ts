@@ -14,7 +14,11 @@ export const ubahAktifitasUjianApi = async (
     jwt,
     {
       judul: data.judul,
-      jenis: mustBe(data.jenis?.value, ['Tugas', 'UTS', 'UAS'], 'Tugas'),
+      jenis: mustBe(
+        data.jenis?.value,
+        ['Tugas', 'UTS', 'UAS'] as const,
+        'Tugas'
+      ),
       deskripsi: cleanQuill(data.catatan),
       tipe_presensi: data.presensi === 'aktif' ? 'Otomatis' : '',
       waktu_akhir_absen: undefined,

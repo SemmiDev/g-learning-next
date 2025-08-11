@@ -15,7 +15,11 @@ export const shareSoalUjianApi = async (
     jwt,
     {
       judul: data.judul,
-      jenis: mustBe(data.jenis?.value, ['Tugas', 'UTS', 'UAS'], 'Tugas'),
+      jenis: mustBe(
+        data.jenis?.value,
+        ['Tugas', 'UTS', 'UAS'] as const,
+        'Tugas'
+      ),
       deskripsi: cleanQuill(data.catatan),
       tipe: 'Ujian',
       tipe_presensi: data.presensi === 'aktif' ? 'Otomatis' : undefined,

@@ -16,6 +16,7 @@ import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
+import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 
 const formSchema = z.object({
   nama: z.string().pipe(required),
@@ -35,9 +36,12 @@ export default function UbahModulModal({ id, show, onHide }: UbahModalProps) {
   const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
   const size = useAutoSizeMediumModal()
+
+  const { updateModulItem } = useManajemenKnowledgeSortableStore()
+
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['modul.manajemen-knowledge.modul.ubah', id]
+  const queryKey = ['admin.manajemen-knowledge.modul.ubah', id]
 
   const {
     data: initialValues,
@@ -63,13 +67,16 @@ export default function UbahModulModal({ id, show, onHide }: UbahModalProps) {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['modul.manajemen-knowledge.sortable'],
-        })
         queryClient.setQueryData(queryKey, (oldData: UbahModulFormSchema) => ({
           ...oldData,
           ...data,
         }))
+        queryClient.invalidateQueries({
+          queryKey: ['admin.manajemen-knowledge.modul.lihat', id],
+        })
+
+        if (data?.nama) updateModulItem(id, data?.nama)
+
         onHide()
       },
       onError: ({ message }) => setFormError(message),
@@ -91,7 +98,7 @@ export default function UbahModulModal({ id, show, onHide }: UbahModalProps) {
       onClose={handleClose}
     >
       {isLoading ? (
-        <ContentLoader height={336} />
+        <ContentLoader height={154} />
       ) : (
         <Form<UbahModulFormSchema>
           onSubmit={onSubmit}

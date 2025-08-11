@@ -6,8 +6,8 @@ import {
   LuCreditCard,
   LuFileText,
   LuHouse,
-  LuSettings,
   LuUser,
+  LuUserCog,
   LuUsers,
 } from 'react-icons/lu'
 import { MenuItemType } from '../sidebar-menu'
@@ -65,7 +65,7 @@ export const menuItemsAdmin: MenuItemType[] = [
   {
     name: 'Koneksi Akun',
     href: routes.admin.koneksiAkun,
-    icon: <LuSettings />,
+    icon: <LuUserCog />,
   },
   {
     name: 'Manajemen Knowledge',

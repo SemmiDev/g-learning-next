@@ -13,7 +13,11 @@ export const tambahAktifitasUjianApi = async (
     jwt,
     {
       judul: data.judul,
-      jenis: mustBe(data.jenis?.value, ['Tugas', 'UTS', 'UAS'], 'Tugas'),
+      jenis: mustBe(
+        data.jenis?.value,
+        ['Tugas', 'UTS', 'UAS'] as const,
+        'Tugas'
+      ),
       deskripsi: cleanQuill(data.catatan),
       tipe: 'Ujian',
       waktu_akhir_absen: undefined,

@@ -18,8 +18,15 @@ export type LoaderProps = Omit<RizLoaderTypes, 'size'> & {
 export default function Loader({
   height,
   size = 'md',
+  variant = 'spinner',
   className,
   ...props
 }: LoaderProps) {
-  return <RizLoader className={cn(loaderSizes[size], className)} {...props} />
+  return (
+    <RizLoader
+      variant={variant}
+      className={cn(loaderSizes[size], className)}
+      {...props}
+    />
+  )
 }
