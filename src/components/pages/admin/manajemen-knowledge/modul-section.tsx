@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { PiSealCheck, PiSpinner } from 'react-icons/pi'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
-import { wait } from '@/utils/wait'
 
 const ModulSortable = dynamic(() => import('./modul-sortable'), { ssr: false })
 
@@ -21,8 +20,6 @@ export default function ModulSection({ className }: ModulSectionProps) {
   const [showSaved, setShowSaved] = useState(false)
 
   const handleSave = async () => {
-    await wait(3000)
-
     const data = items
       .filter((item) => item.action !== 'ADD')
       .map((item, idx) => ({
@@ -36,7 +33,7 @@ export default function ModulSection({ className }: ModulSectionProps) {
           })),
       }))
 
-    // await processApi(ubahTreeKnowledgeApi, data)
+    await processApi(ubahTreeKnowledgeApi, data)
 
     itemsSaved()
   }

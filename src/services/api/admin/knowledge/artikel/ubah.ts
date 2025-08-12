@@ -1,6 +1,7 @@
 import { UbahArtikelFormSchema } from '@/components/pages/admin/manajemen-knowledge/form/ubah-artikel'
 import { makeJwtPutRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
+import { cleanQuill } from '@/utils/string'
 
 export const ubahArtikelKnowledgeApi = async (
   jwt: string,
@@ -12,7 +13,7 @@ export const ubahArtikelKnowledgeApi = async (
     jwt,
     {
       judul: data.judul,
-      isi: data.isi,
+      isi: cleanQuill(data.isi),
       level: mustBe(
         data.level?.value,
         ['Mahasiswa', 'Dosen', 'Akademik'] as const,

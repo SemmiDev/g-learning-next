@@ -16,8 +16,9 @@ import { lihatModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/lih
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
+import { quillRequired } from '@/utils/validations/simple-refine'
 import { z } from '@/utils/zod-id'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { MdClose } from 'react-icons/md'
@@ -27,7 +28,7 @@ import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 const formSchema = z.object({
   judul: z.string().pipe(required),
   level: z.object({ label: z.string(), value: z.string() }),
-  isi: z.string().optional(),
+  isi: z.string().refine(...quillRequired),
 })
 
 export type TambahArtikelFormSchema = {
@@ -45,10 +46,12 @@ const levelOptions: SelectOptionType[] = [
 const initialValues: TambahArtikelFormSchema = {}
 
 export default function TambahArtikelForm() {
+  const queryClient = useQueryClient()
   const { makeSimpleApiQueryData, processApi } = useSessionJwt()
 
   const { addArtikelItem } = useManajemenKnowledgeSortableStore()
-  const { idModul, tutupArtikel } = useManajemenKnowledgeArtikelStore()
+  const { idModul, ubahArtikel, tutupArtikel } =
+    useManajemenKnowledgeArtikelStore()
 
   const [formError, setFormError] = useState<string>()
 
@@ -67,10 +70,19 @@ export default function TambahArtikelForm() {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
         onSuccess: ({ data }) => {
-          if (!data?.id) return
+          if (!data || !data.id) return
 
-          addArtikelItem(data?.id, data?.judul, idModul)
-          tutupArtikel()
+          addArtikelItem(data.id, data.judul, idModul)
+          queryClient.setQueryData(
+            ['admin.manajemen-knowledge.artikel.ubah', data.id],
+            () => ({
+              judul: data.judul,
+              level: levelOptions.find((item) => item.value === data.level),
+              isi: data.isi,
+              modul: data.id_modul,
+            })
+          )
+          ubahArtikel(data.id)
         },
         onError: ({ message }) => setFormError(message),
       }
@@ -120,24 +132,28 @@ export default function TambahArtikelForm() {
 
           <FormError error={formError} />
 
-          <ControlledInput
-            name="judul"
-            control={control}
-            errors={errors}
-            label="Judul Artikel"
-            placeholder="Tulis judul artikel di sini"
-            required
-          />
+          <div className="flex gap-2 flex-wrap">
+            <ControlledInput
+              name="judul"
+              control={control}
+              errors={errors}
+              label="Judul Artikel"
+              placeholder="Tulis judul artikel di sini"
+              className="flex-1"
+              required
+            />
 
-          <ControlledSelect
-            name="level"
-            control={control}
-            options={levelOptions}
-            label="Level"
-            placeholder="Pilih Level"
-            errors={errors}
-            required
-          />
+            <ControlledSelect
+              name="level"
+              control={control}
+              options={levelOptions}
+              label="Level"
+              placeholder="Pilih Level"
+              errors={errors}
+              className="w-full sm:w-36"
+              required
+            />
+          </div>
 
           <ControlledQuillEditor
             name="isi"

@@ -1,6 +1,7 @@
 import { TambahArtikelFormSchema } from '@/components/pages/admin/manajemen-knowledge/form/tambah-artikel'
 import { makeJwtPostRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
+import { cleanQuill } from '@/utils/string'
 
 type DataType = {
   id: string
@@ -25,7 +26,7 @@ export const tambahArtikelKnowledgeApi = async (
     jwt,
     {
       judul: data.judul,
-      isi: data.isi,
+      isi: cleanQuill(data.isi),
       level: mustBe(
         data.level?.value,
         ['Mahasiswa', 'Dosen', 'Akademik'] as const,

@@ -18,6 +18,7 @@ import { lihatModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/lih
 import { handleActionWithToast } from '@/utils/action'
 import { selectOption } from '@/utils/object'
 import { required } from '@/utils/validations/pipe'
+import { quillRequired } from '@/utils/validations/simple-refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -29,7 +30,7 @@ import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 const formSchema = z.object({
   judul: z.string().pipe(required),
   level: z.object({ label: z.string(), value: z.string() }),
-  isi: z.string().optional(),
+  isi: z.string().refine(...quillRequired),
 })
 
 export type UbahArtikelFormSchema = {
@@ -158,24 +159,28 @@ export default function UbahArtikelForm() {
 
           <FormError error={formError} />
 
-          <ControlledInput
-            name="judul"
-            control={control}
-            errors={errors}
-            label="Judul Artikel"
-            placeholder="Tulis judul artikel di sini"
-            required
-          />
+          <div className="flex gap-2 flex-wrap">
+            <ControlledInput
+              name="judul"
+              control={control}
+              errors={errors}
+              label="Judul Artikel"
+              placeholder="Tulis judul artikel di sini"
+              className="flex-1"
+              required
+            />
 
-          <ControlledSelect
-            name="level"
-            control={control}
-            options={levelOptions}
-            label="Level"
-            placeholder="Pilih Level"
-            errors={errors}
-            required
-          />
+            <ControlledSelect
+              name="level"
+              control={control}
+              options={levelOptions}
+              label="Level"
+              placeholder="Pilih Level"
+              errors={errors}
+              className="w-full sm:w-36"
+              required
+            />
+          </div>
 
           <ControlledQuillEditor
             name="isi"

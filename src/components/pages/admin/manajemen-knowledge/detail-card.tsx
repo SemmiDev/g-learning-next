@@ -14,7 +14,7 @@ export default function DetailCard({ className }: DetailCardProps) {
   if (!action) return null
 
   return (
-    <Card className={cn('overflow-visible px-4 py-3', className)}>
+    <Card className={cn('px-4 py-3', className)}>
       {action === 'tambah' ? (
         <TambahArtikelForm />
       ) : (
