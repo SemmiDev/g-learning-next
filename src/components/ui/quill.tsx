@@ -12,6 +12,9 @@ import TextLabel from './text/label'
 
 Quill.register('modules/resize', QuillResizeImage)
 
+const ATTRIBUTES = ['alt', 'height', 'width', 'style']
+const WHITE_STYLE = ['margin', 'display', 'float']
+
 const Image = Quill.import('formats/image') as any
 
 class ImageBlot extends Image {
@@ -22,6 +25,41 @@ class ImageBlot extends Image {
     node.setAttribute('referrerpolicy', 'no-referrer')
 
     return node
+  }
+
+  static formats(domNode: any) {
+    return ATTRIBUTES.reduce((formats: any, attribute) => {
+      if (domNode.hasAttribute(attribute)) {
+        formats[attribute] = domNode.getAttribute(attribute)
+      }
+      return formats
+    }, {})
+  }
+
+  format(name: string, value: any) {
+    if (ATTRIBUTES.indexOf(name) > -1) {
+      if (value) {
+        if (name === 'style') {
+          value = this.sanitize_style(value)
+        }
+        this.domNode.setAttribute(name, value)
+      } else {
+        this.domNode.removeAttribute(name)
+      }
+    } else {
+      super.format(name, value)
+    }
+  }
+
+  sanitize_style = (style: string) => {
+    const style_arr = style.split(';')
+    let allow_style = ''
+    style_arr.forEach((v) => {
+      if (WHITE_STYLE.indexOf(v.trim().split(':')[0]) !== -1) {
+        allow_style += `${v};`
+      }
+    })
+    return allow_style
   }
 }
 
