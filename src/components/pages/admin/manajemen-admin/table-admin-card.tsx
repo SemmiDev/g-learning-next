@@ -74,9 +74,7 @@ export default function TableAdminCard() {
       dataIndex: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama')
-        },
+        onClick: () => onSort('nama'),
       }),
     },
     {
@@ -90,9 +88,7 @@ export default function TableAdminCard() {
       dataIndex: 'username',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('username')
-        },
+        onClick: () => onSort('username'),
       }),
     },
     {
@@ -110,9 +106,7 @@ export default function TableAdminCard() {
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('terakhir_login')
-        },
+        onClick: () => onSort('terakhir_login'),
       }),
     },
     {

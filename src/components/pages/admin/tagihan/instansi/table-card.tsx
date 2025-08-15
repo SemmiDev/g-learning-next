@@ -77,9 +77,7 @@ export default function TableTagihanInstansiCard() {
       dataIndex: 'nama_instansi',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama_instansi')
-        },
+        onClick: () => onSort('nama_instansi'),
       }),
     },
     {
@@ -110,9 +108,7 @@ export default function TableTagihanInstansiCard() {
         </div>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nomor_invoice')
-        },
+        onClick: () => onSort('nomor_invoice'),
       }),
     },
     {
@@ -143,9 +139,7 @@ export default function TableTagihanInstansiCard() {
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tanggal_tagihan')
-        },
+        onClick: () => onSort('tanggal_tagihan'),
       }),
     },
     {
@@ -173,9 +167,7 @@ export default function TableTagihanInstansiCard() {
         )
       },
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jatuh_tempo')
-        },
+        onClick: () => onSort('jatuh_tempo'),
       }),
     },
     {
@@ -192,9 +184,7 @@ export default function TableTagihanInstansiCard() {
         <TableCellText align="center">{rupiah(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('total_tagihan')
-        },
+        onClick: () => onSort('total_tagihan'),
       }),
     },
     {

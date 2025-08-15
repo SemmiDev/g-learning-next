@@ -72,9 +72,7 @@ export default function TableProdiCard() {
       dataIndex: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama')
-        },
+        onClick: () => onSort('nama'),
       }),
     },
     {
@@ -88,9 +86,7 @@ export default function TableProdiCard() {
       dataIndex: 'username',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('username')
-        },
+        onClick: () => onSort('username'),
       }),
     },
     {
@@ -104,9 +100,7 @@ export default function TableProdiCard() {
       dataIndex: 'tipe',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tipe')
-        },
+        onClick: () => onSort('tipe'),
       }),
     },
     {
@@ -120,9 +114,7 @@ export default function TableProdiCard() {
       dataIndex: 'nm_lemb',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nm_lemb')
-        },
+        onClick: () => onSort('nm_lemb'),
       }),
     },
     {

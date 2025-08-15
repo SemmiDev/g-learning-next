@@ -48,9 +48,7 @@ export default function ProfilRiwayatPembayaranBody() {
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tanggal_pembayaran')
-        },
+        onClick: () => onSort('tanggal_pembayaran'),
       }),
     },
     {
@@ -72,9 +70,7 @@ export default function ProfilRiwayatPembayaranBody() {
         <TableCellText align="center">{rupiah(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jumlah_pembayaran')
-        },
+        onClick: () => onSort('jumlah_pembayaran'),
       }),
     },
     {
@@ -89,9 +85,7 @@ export default function ProfilRiwayatPembayaranBody() {
       dataIndex: 'nomor_pembayaran',
       render: renderTableCellTextCenter,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nomor_pembayaran')
-        },
+        onClick: () => onSort('nomor_pembayaran'),
       }),
     },
     {
@@ -106,9 +100,7 @@ export default function ProfilRiwayatPembayaranBody() {
       dataIndex: 'nomor_invoice',
       render: renderTableCellTextCenter,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nomor_invoice')
-        },
+        onClick: () => onSort('nomor_invoice'),
       }),
     },
     /* {

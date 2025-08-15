@@ -76,9 +76,7 @@ export default function TableTagihanPenggunaCard() {
       dataIndex: 'nama_pengguna',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama_pengguna')
-        },
+        onClick: () => onSort('nama_pengguna'),
       }),
     },
     {
@@ -109,9 +107,7 @@ export default function TableTagihanPenggunaCard() {
         </div>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nomor_invoice')
-        },
+        onClick: () => onSort('nomor_invoice'),
       }),
     },
     {
@@ -142,9 +138,7 @@ export default function TableTagihanPenggunaCard() {
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tanggal_tagihan')
-        },
+        onClick: () => onSort('tanggal_tagihan'),
       }),
     },
     {
@@ -172,9 +166,7 @@ export default function TableTagihanPenggunaCard() {
         )
       },
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jatuh_tempo')
-        },
+        onClick: () => onSort('jatuh_tempo'),
       }),
     },
     {
@@ -191,9 +183,7 @@ export default function TableTagihanPenggunaCard() {
         <TableCellText align="center">{rupiah(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('total_tagihan')
-        },
+        onClick: () => onSort('total_tagihan'),
       }),
     },
     {

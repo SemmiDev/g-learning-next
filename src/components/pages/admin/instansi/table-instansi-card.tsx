@@ -71,9 +71,7 @@ export default function TableInstansiCard() {
       dataIndex: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama')
-        },
+        onClick: () => onSort('nama'),
       }),
     },
     {
@@ -125,9 +123,7 @@ export default function TableInstansiCard() {
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jatuh_tempo')
-        },
+        onClick: () => onSort('jatuh_tempo'),
       }),
     },
     {

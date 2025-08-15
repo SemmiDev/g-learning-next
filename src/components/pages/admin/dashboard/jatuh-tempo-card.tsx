@@ -68,9 +68,7 @@ export default function DashboardJatuhTempoCard({
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jatuh_tempo')
-        },
+        onClick: () => onSort('jatuh_tempo'),
       }),
     },
   ]

@@ -60,9 +60,7 @@ export default function DashboardPenggunaDiblokirCard({
       dataIndex: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama')
-        },
+        onClick: () => onSort('nama'),
       }),
     },
     {
@@ -86,9 +84,7 @@ export default function DashboardPenggunaDiblokirCard({
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tanggal_blokir')
-        },
+        onClick: () => onSort('tanggal_blokir'),
       }),
     },
     {
