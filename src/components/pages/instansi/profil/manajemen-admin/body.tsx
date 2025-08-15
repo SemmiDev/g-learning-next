@@ -3,9 +3,9 @@
 import { Button, Title } from '@/components/ui'
 import { useState } from 'react'
 import TambahModal from './modal/tambah'
-import TableProdiCard from './table-prodi-card'
+import TableProdiCard from './table-admin-card'
 
-export default function ManajemenProdiBody() {
+export default function ManajemenAdminBody() {
   const [showTambah, setShowTambah] = useState(false)
 
   return (

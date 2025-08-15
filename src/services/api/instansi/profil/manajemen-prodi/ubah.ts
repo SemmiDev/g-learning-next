@@ -1,4 +1,4 @@
-import { UbahAdminProdiFormSchema } from '@/components/pages/instansi/profil/manajemen-prodi/modal/ubah'
+import { UbahAdminProdiFormSchema } from '@/components/pages/instansi/profil/manajemen-admin/modal/ubah'
 import { makeJwtPutRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
 import { switchCaseObject } from '@/utils/switch-case'

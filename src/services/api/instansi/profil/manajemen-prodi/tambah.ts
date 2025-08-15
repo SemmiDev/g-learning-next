@@ -1,4 +1,4 @@
-import { TambahAdminProdiFormSchema } from '@/components/pages/instansi/profil/manajemen-prodi/modal/tambah'
+import { TambahAdminProdiFormSchema } from '@/components/pages/instansi/profil/manajemen-admin/modal/tambah'
 import { makeJwtPostRequestApi } from '@/utils/api'
 import { mustBe } from '@/utils/must-be'
 import { switchCaseObject } from '@/utils/switch-case'
