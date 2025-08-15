@@ -159,7 +159,7 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
 
   return (
     <Modal
-      title="Ubah Admin Prodi"
+      title="Ubah Admin"
       isLoading={!isLoading && isFetching}
       color="warning"
       size={size}

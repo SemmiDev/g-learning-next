@@ -25,7 +25,7 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
 
   return (
     <Modal
-      title="Detail Admin Prodi"
+      title="Detail Admin"
       isLoading={!isLoading && isFetching}
       color="info"
       isOpen={show}

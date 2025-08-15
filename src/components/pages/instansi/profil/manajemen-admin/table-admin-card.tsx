@@ -191,7 +191,7 @@ export default function TableProdiCard() {
 
       <ModalConfirm
         title="Hapus Prodi"
-        desc="Apakah Anda yakin ingin menghapus admin prodi ini dari database?"
+        desc="Apakah Anda yakin ingin menghapus admin ini dari database?"
         color="danger"
         isOpen={!!idHapus}
         onClose={() => setIdHapus(undefined)}

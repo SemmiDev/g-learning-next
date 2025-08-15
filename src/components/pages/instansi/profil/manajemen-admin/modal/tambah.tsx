@@ -106,7 +106,7 @@ export default function TambahModal({
 
   return (
     <Modal
-      title="Tambah Admin Prodi"
+      title="Tambah Admin"
       size={size}
       isOpen={show}
       onClose={handleClose}
