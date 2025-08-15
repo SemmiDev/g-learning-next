@@ -10,6 +10,7 @@ export type DataType = {
   nm_lemb: string
   nm_lemb_inggris: string | null
   nm_jenj_didik: string
+  tipe: 'Prodi' | 'Fakultas'
 }
 
 export const lihatAdminProdiApi = async (jwt: string, id: string) =>

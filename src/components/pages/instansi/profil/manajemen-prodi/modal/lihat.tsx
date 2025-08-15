@@ -37,7 +37,11 @@ export default function LihatModal({ id, show, onHide }: LihatModalProps) {
         <div className="flex flex-col gap-4 p-3">
           <TextBordered label="Nama Lengkap">{data?.nama}</TextBordered>
           <TextBordered label="Username">{data?.username}</TextBordered>
-          <TextBordered label="Program Studi">{data?.nm_lemb}</TextBordered>
+          <TextBordered
+            label={data?.tipe === 'Prodi' ? 'Program Studi' : data?.tipe}
+          >
+            {data?.nm_lemb}
+          </TextBordered>
           <TextBordered label="Terakhir Login">
             <Time
               date={data?.terakhir_login}

@@ -8,7 +8,7 @@ export type DataType = {
   nama_jenjang_didik: string
 }
 
-export const prodiSelectDataApi = async ({
+export const fakultasSelectDataApi = async ({
   jwt,
   page,
   search,
@@ -17,7 +17,7 @@ export const prodiSelectDataApi = async ({
     `${process.env.NEXT_PUBLIC_API_URL}/instansi/sms`,
     jwt,
     {
-      jenis: 'Prodi',
+      jenis: 'Fakultas',
       current_page: page,
       keyword: search,
     }

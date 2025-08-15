@@ -96,7 +96,23 @@ export default function TableProdiCard() {
     {
       title: (
         <TableHeaderCell
-          title="Program Studi"
+          title="Tipe"
+          sortable
+          sort={getSortOrder(sort, 'tipe')}
+        />
+      ),
+      dataIndex: 'tipe',
+      render: renderTableCellText,
+      onHeaderCell: () => ({
+        onClick: () => {
+          onSort('tipe')
+        },
+      }),
+    },
+    {
+      title: (
+        <TableHeaderCell
+          title="Fakultas / Prodi"
           sortable
           sort={getSortOrder(sort, 'nm_lemb')}
         />

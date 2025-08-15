@@ -3,21 +3,24 @@ import {
   ControlledAsyncPaginateSelect,
   ControlledInput,
   ControlledPassword,
+  ControlledRadioGroup,
   Form,
   FormError,
   Modal,
   ModalFooterButtons,
+  RadioGroupOptionType,
   SelectOptionType,
   TextSpan,
 } from '@/components/ui'
 import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { fakultasSelectDataApi } from '@/services/api/instansi/async-select/fakultas'
 import { prodiSelectDataApi } from '@/services/api/instansi/async-select/prodi'
 import { lihatAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/lihat'
 import { ubahAdminProdiApi } from '@/services/api/instansi/profil/manajemen-prodi/ubah'
 import { handleActionWithToast } from '@/utils/action'
+import { radioGroupOption } from '@/utils/object'
 import { required, requiredPassword } from '@/utils/validations/pipe'
-import { objectRequired } from '@/utils/validations/refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
@@ -26,7 +29,9 @@ import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z
   .object({
-    prodi: z.any().superRefine(objectRequired),
+    tipe: z.string(),
+    fakultas: z.object({ label: z.string(), value: z.string() }).nullish(),
+    prodi: z.object({ label: z.string(), value: z.string() }).nullish(),
     nama: z.string().pipe(required),
     username: z.string().pipe(required),
     password: z.string().pipe(requiredPassword).optional().or(z.literal('')),
@@ -38,6 +43,21 @@ const formSchema = z
   })
   .refine(
     (data) =>
+      data.tipe !== 'Fakultas' || (data.tipe === 'Fakultas' && !!data.fakultas),
+    {
+      message: 'Fakultas harus dipilih.',
+      path: ['fakultas'],
+    }
+  )
+  .refine(
+    (data) => data.tipe !== 'Prodi' || (data.tipe === 'Prodi' && !!data.prodi),
+    {
+      message: 'Program Studi harus dipilih.',
+      path: ['prodi'],
+    }
+  )
+  .refine(
+    (data) =>
       (!data.password && !data.ulangiPassword) ||
       data.password === data.ulangiPassword,
     {
@@ -47,19 +67,18 @@ const formSchema = z
   )
 
 export type UbahAdminProdiFormSchema = {
-  prodi?: SelectOptionType
+  tipe?: string
+  fakultas?: SelectOptionType | null
+  prodi?: SelectOptionType | null
   nama?: string
   username?: string
   password?: string
   ulangiPassword?: string
 }
 
-const prodiOptions: SelectOptionType[] = [
-  { label: 'Teknik Informatika', value: '1' },
-  { label: 'Teknik Komputer', value: '2' },
-  { label: 'Sistem Informasi', value: '3' },
-  { label: 'Bahasa', value: '4' },
-  { label: 'Teknik Elektro', value: '5' },
+const tipeOptions: RadioGroupOptionType[] = [
+  radioGroupOption('Fakultas'),
+  radioGroupOption('Prodi'),
 ]
 
 type UbahModalProps = {
@@ -89,9 +108,15 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
       const { data } = await processApi(lihatAdminProdiApi, id)
 
       return {
-        prodi: data?.id_sms
-          ? { label: data.nm_lemb, value: data.id_sms }
-          : undefined,
+        tipe: data?.tipe,
+        fakultas:
+          data?.tipe === 'Fakultas' && data.id_sms
+            ? { label: data.nm_lemb, value: data.id_sms }
+            : undefined,
+        prodi:
+          data?.tipe === 'Prodi' && data.id_sms
+            ? { label: data.nm_lemb, value: data.id_sms }
+            : undefined,
         nama: data?.nama,
         username: data?.username,
       }
@@ -155,22 +180,61 @@ export default function UbahModal({ id, show, onHide }: UbahModalProps) {
           }}
           flexing
         >
-          {({ control, formState: { errors, isSubmitting } }) => (
+          {({
+            control,
+            watch,
+            setValue,
+            formState: { errors, isSubmitting },
+          }) => (
             <>
               <div className="flex flex-col gap-4 p-3">
-                <ControlledAsyncPaginateSelect
-                  name="prodi"
+                <ControlledRadioGroup
+                  name="tipe"
                   control={control}
-                  label="Program Studi"
-                  placeholder="Pilih Program Studi"
-                  action={prodiSelectDataApi}
-                  construct={(data) => ({
-                    label: data.nm_lemb,
-                    value: data.id,
-                  })}
+                  options={tipeOptions}
+                  label="Tipe"
                   errors={errors}
+                  onChange={(item) => {
+                    if (item.value === 'Fakultas') {
+                      setValue('prodi', null)
+                    } else {
+                      setValue('fakultas', null)
+                    }
+                  }}
                   required
                 />
+
+                {watch('tipe') === 'Fakultas' && (
+                  <ControlledAsyncPaginateSelect
+                    name="fakultas"
+                    control={control}
+                    label="Fakultas"
+                    placeholder="Pilih Fakultas"
+                    action={fakultasSelectDataApi}
+                    construct={(data) => ({
+                      label: data.nm_lemb,
+                      value: data.id,
+                    })}
+                    errors={errors}
+                    required
+                  />
+                )}
+
+                {watch('tipe') === 'Prodi' && (
+                  <ControlledAsyncPaginateSelect
+                    name="prodi"
+                    control={control}
+                    label="Program Studi"
+                    placeholder="Pilih Program Studi"
+                    action={prodiSelectDataApi}
+                    construct={(data) => ({
+                      label: data.nm_lemb,
+                      value: data.id,
+                    })}
+                    errors={errors}
+                    required
+                  />
+                )}
 
                 <ControlledInput
                   name="nama"
