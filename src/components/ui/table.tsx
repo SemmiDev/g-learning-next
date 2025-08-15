@@ -178,7 +178,10 @@ export function TableHeaderCell({
   )
 }
 
-export const getSortOrder = (sort?: SortType, name?: string) => {
+export const getSortOrder = <T extends string>(
+  sort?: SortType<T>,
+  name?: T
+) => {
   return sort?.name === name ? sort?.order : undefined
 }
 
