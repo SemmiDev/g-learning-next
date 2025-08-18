@@ -4,15 +4,19 @@ export type DataType = {
   kelas: {
     id: string
     id_instansi: string | null
-    id_pengajar: string
     nama_kelas: string
     sub_judul: string
     id_kelas_instansi: string
+    id_kelas_semester: string
     status: string
     deskripsi: string
     tipe: string
     kode_unik: string
+    id_sms: string
     thumbnail: string
+    total_pertemuan: number
+    created_at: string
+    updated_at: string
     nama_instansi: string
     verifikasi_instansi: boolean
   }
@@ -31,6 +35,7 @@ export type DataType = {
     nama: string
     foto: string
   }[]
+  total_pertemuan_terlaksana: number
   peran: 'Pengajar' | 'Peserta'
 }
 
@@ -39,11 +44,13 @@ export const listKelasApi = async ({
   page = 1,
   search = '',
   kategori,
+  semester,
 }: {
   jwt: string
   page?: number
   search?: string
   kategori?: 'Dikelola' | 'Diikuti'
+  semester?: string
 }) =>
   makeJwtGetRequestTableApi<DataType>(
     `${process.env.NEXT_PUBLIC_API_URL}/kelas`,
@@ -53,5 +60,6 @@ export const listKelasApi = async ({
       keyword: search,
       per_page: 20,
       kategori,
+      semester,
     }
   )

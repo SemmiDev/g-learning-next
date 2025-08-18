@@ -1,5 +1,6 @@
 import { Text } from '@/components/ui'
 import RandomCoverImage from '@/components/ui/random/cover-image'
+import { deskripsiSemester } from '@/utils/semester'
 import Image from 'next/image'
 import { Radio } from 'rizzui'
 
@@ -7,6 +8,7 @@ export type KelasItemType = {
   id: string
   program: string
   kelas?: string
+  semester?: string
   instansi?: string
   cover?: string
 }
@@ -77,6 +79,17 @@ export default function KelasButton({
                 className="truncate"
               >
                 {kelas.kelas}
+              </Text>
+            )}
+            {kelas.semester && (
+              <Text
+                size="sm"
+                weight="medium"
+                variant="lighter"
+                title={kelas.semester}
+                className="truncate"
+              >
+                {deskripsiSemester(kelas.semester)}
               </Text>
             )}
 

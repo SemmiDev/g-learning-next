@@ -14,7 +14,7 @@ import { listKelasApi } from '@/services/api/shared/kelas/list'
 import cn from '@/utils/class-names'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { useDebounce } from 'react-use'
@@ -22,14 +22,13 @@ import { FieldError } from 'rizzui'
 import KelasButton, { KelasItemType } from './kelas-button'
 import SelectedKelas from './selected-kelas'
 
-const queryKey = ['shared.kelas.list']
-
 export type KelasProps = {
   label?: string
   required?: boolean
   placeholder?: string
   value?: KelasItemType
   onChange?(val?: KelasItemType): void
+  semester?: string
   type?: 'Pengajar' | 'Peserta'
   error?: string
   errorClassName?: string
@@ -43,6 +42,7 @@ export default function Kelas({
   value,
   onChange,
   type,
+  semester,
   error,
   errorClassName,
   clearable,
@@ -64,6 +64,8 @@ export default function Kelas({
     onChange && onChange(selected)
   }
 
+  const queryKey = ['shared.kelas.list', type || null, semester || null]
+
   const {
     data: dataKelas,
     isLoading: isLoadingKelas,
@@ -78,6 +80,7 @@ export default function Kelas({
         jwt,
         page,
         search,
+        semester,
         kategori:
           type === 'Pengajar'
             ? 'Dikelola'
@@ -91,6 +94,7 @@ export default function Kelas({
           id: item.kelas.id,
           program: item.kelas.nama_kelas,
           kelas: item.kelas.sub_judul,
+          semester: item.kelas.id_kelas_semester || undefined,
           instansi: item.kelas.nama_instansi,
           cover: item.kelas.thumbnail,
         })) as KelasItemType[],
@@ -113,6 +117,10 @@ export default function Kelas({
   })
 
   useDebounce(() => refetchKelas(), search ? 250 : 0, [refetchKelas, search])
+
+  useEffect(() => {
+    setSelectedKelas(value)
+  }, [value])
 
   if (status === 'unauthenticated') {
     return (

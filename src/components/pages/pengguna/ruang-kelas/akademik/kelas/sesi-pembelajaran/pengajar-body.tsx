@@ -1,4 +1,4 @@
-import { Button, ModalConfirm } from '@/components/ui'
+import { Button, ModalConfirm, Title } from '@/components/ui'
 import ContentLoader from '@/components/ui/loader/content'
 import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
@@ -22,6 +22,7 @@ import UbahJenisAbsenSesiModal from './pengajar/modal/ubah-jenis-absen'
 import UbahJudulSesiModal from './pengajar/modal/ubah-judul'
 import UbahSesiModal from './pengajar/modal/ubah-sesi'
 import PengajarSesiItemCard from './pengajar/sesi-item-card'
+import DuplikatBahanAjar from './pengajar/duplikat-bahan-ajar'
 
 export default function PengajarSesiPembelajaranBody() {
   const { jwt, processApi, makeSimpleApiQueryData } = useSessionJwt()
@@ -127,31 +128,39 @@ export default function PengajarSesiPembelajaranBody() {
 
   return (
     <>
-      <div className="flex flex-col gap-y-2 mt-8 lg:w-7/12">
-        {list.map((sesi, idx) => (
-          <PengajarSesiItemCard
-            key={idx}
-            sesi={sesi}
-            bisaMulai={sesi.id === firstBelumMulai?.id && !adaBerlangsung}
-            lastSesi={
-              !isFetchingNextPage && sesi.id === list[list.length - 1].id
-            }
-            disableAbsensi={disableAbsensi}
-            onUbahSesi={() => doShowUbahSesi(sesi.id)}
-            onUbahJudul={() => doShowUbahJudul(sesi.id)}
-            onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
-            onHapus={() => setIdHapus(sesi.id)}
-            onMulai={() => setIdSesiMulai(sesi.id)}
-            onAkhiri={() => setIdSesiAkhiri(sesi.id)}
-          />
-        ))}
-        {!isLoading &&
-          !disableAbsensi &&
-          (hasNextPage ? (
-            <ContentLoader ref={refSentry} size="sm" className="py-4" />
-          ) : (
-            <Button onClick={() => setShowTambah(true)}>Tambah Sesi</Button>
+      <div className="flex flex-col gap-6 mt-8">
+        <div className="flex justify-between gap-2 flex-wrap">
+          <Title as="h3" size="1.5xl" weight="semibold">
+            Sesi Pembelajaran
+          </Title>
+          <DuplikatBahanAjar />
+        </div>
+        <div className="flex flex-col gap-y-2 lg:w-7/12">
+          {list.map((sesi, idx) => (
+            <PengajarSesiItemCard
+              key={idx}
+              sesi={sesi}
+              bisaMulai={sesi.id === firstBelumMulai?.id && !adaBerlangsung}
+              lastSesi={
+                !isFetchingNextPage && sesi.id === list[list.length - 1].id
+              }
+              disableAbsensi={disableAbsensi}
+              onUbahSesi={() => doShowUbahSesi(sesi.id)}
+              onUbahJudul={() => doShowUbahJudul(sesi.id)}
+              onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
+              onHapus={() => setIdHapus(sesi.id)}
+              onMulai={() => setIdSesiMulai(sesi.id)}
+              onAkhiri={() => setIdSesiAkhiri(sesi.id)}
+            />
           ))}
+          {!isLoading &&
+            !disableAbsensi &&
+            (hasNextPage ? (
+              <ContentLoader ref={refSentry} size="sm" className="py-4" />
+            ) : (
+              <Button onClick={() => setShowTambah(true)}>Tambah Sesi</Button>
+            ))}
+        </div>
       </div>
 
       <TambahSesiModal
