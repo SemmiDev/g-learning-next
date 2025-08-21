@@ -22,9 +22,9 @@ import ActionIconTooltip, {
   ActionIconTooltipProps,
 } from './button/action-icon-tooltip'
 import Button, {
-  ButtonColors,
+  ButtonColorType,
   ButtonProps,
-  ButtonVariants,
+  ButtonVariantType,
 } from './button/button'
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
@@ -246,10 +246,10 @@ export {
   type BadgeProps,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
-  type ButtonColors,
+  type ButtonColorType,
   type ButtonProps,
   type ButtonSubmitProps,
-  type ButtonVariants,
+  type ButtonVariantType,
   type CheckboxProps,
   type CircleProps,
   type ContentLoaderProps,

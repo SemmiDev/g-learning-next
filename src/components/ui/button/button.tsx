@@ -1,9 +1,9 @@
 import cn from '@/utils/class-names'
 import { forwardRef } from 'react'
 import { Button as RizButton, type ButtonProps as RizButtonProps } from 'rizzui'
-import { DefaultTextProps, TextWeights } from '../text/text'
+import { DefaultTextProps, textWeights } from '../text/text'
 
-export type ButtonColors =
+export type ButtonColorType =
   | 'primary'
   | 'secondary'
   | 'info'
@@ -12,24 +12,10 @@ export type ButtonColors =
   | 'danger'
   | 'gray'
 
-export type ButtonVariants =
-  | 'solid'
-  | 'flat'
-  | 'flat-colorful'
-  | 'outline'
-  | 'outline-colorful'
-  | 'outline-hover'
-  | 'outline-hover-colorful'
-  | 'text'
-  | 'text-colorful'
-
-export type ButtonProps = Omit<RizButtonProps, 'color' | 'variant'> & {
-  variant?: ButtonVariants
-  color?: ButtonColors
-  fontWeight?: DefaultTextProps['weight']
-}
-
-export const ButtonColorStyles = {
+export const buttonColorStyles: Record<
+  string,
+  Record<ButtonColorType, string>
+> = {
   solid: {
     primary:
       'bg-primary hover:bg-primary-dark focus-visible:ring-primary-lighter',
@@ -152,7 +138,7 @@ export const ButtonColorStyles = {
   },
 }
 
-const ButtonSizeStyles = {
+const buttonSizeStyles = {
   sm: 'min-h-8',
   md: 'min-h-10',
   lg: 'min-h-12',
@@ -160,7 +146,7 @@ const ButtonSizeStyles = {
 }
 
 export const getRizVariant = (
-  variant: ButtonVariants,
+  variant: ButtonVariantType,
   disabled: boolean = false
 ): RizButtonProps['variant'] => {
   if (disabled) return 'solid'
@@ -182,6 +168,14 @@ export const getRizVariant = (
   }
 }
 
+export type ButtonVariantType = keyof typeof buttonColorStyles
+
+export type ButtonProps = Omit<RizButtonProps, 'color' | 'variant'> & {
+  variant?: ButtonVariantType
+  color?: ButtonColorType
+  fontWeight?: DefaultTextProps['weight']
+}
+
 export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     color = 'primary',
@@ -199,9 +193,9 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       ref={ref}
       className={cn(
         'h-fit',
-        !disabled ? ButtonColorStyles[variant][color] : null,
-        ButtonSizeStyles[size],
-        fontWeight ? TextWeights[fontWeight] : null,
+        !disabled ? buttonColorStyles[variant][color] : null,
+        buttonSizeStyles[size],
+        fontWeight ? textWeights[fontWeight] : null,
         className
       )}
       size={size}
