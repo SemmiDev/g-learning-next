@@ -1,15 +1,31 @@
 import cn from '@/utils/class-names'
 import { forwardRef } from 'react'
 
+const cardShadows = {
+  base: 'shadow',
+  sm: 'shadow-sm',
+  md: 'shadow-md',
+  lg: 'shadow-lg',
+  xl: 'shadow-xl',
+}
+
+const cardRoundeds = {
+  base: 'rounded',
+  sm: 'rounded-sm',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
+}
+
 export type CardProps = {
-  shadow?: 'normal' | 'sm' | 'md' | 'lg' | 'xl'
-  rounded?: 'normal' | 'sm' | 'md' | 'lg' | 'xl'
+  shadow?: keyof typeof cardShadows
+  rounded?: keyof typeof cardRoundeds
   className?: string
   children?: React.ReactNode
 }
 
 export default forwardRef<HTMLDivElement, CardProps>(function Card(
-  { shadow = 'normal', rounded = 'md', className, children }: CardProps,
+  { shadow = 'base', rounded = 'md', className, children }: CardProps,
   ref
 ) {
   return (
@@ -17,8 +33,8 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(
       ref={ref}
       className={cn(
         'bg-white border border-muted rounded-md overflow-clip p-2 dark:bg-gray-50',
-        shadow == 'normal' ? 'shadow' : `shadow-${shadow}`,
-        rounded == 'normal' ? 'rounded' : `rounded-${rounded}`,
+        cardShadows[shadow],
+        cardRoundeds[rounded],
         className
       )}
     >

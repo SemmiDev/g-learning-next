@@ -1,19 +1,7 @@
 import cn from '@/utils/class-names'
 import { Text as RizText, TextProps as RizTextProps } from 'rizzui'
 
-export type DefaultTextProps = {
-  size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '1.5xl' | '2xl' | '3xl'
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'gray'
-  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'
-  align?: 'left' | 'center' | 'right'
-}
-
-export type TextProps = Omit<RizTextProps, 'color' | 'fontWeight'> &
-  DefaultTextProps & {
-    variant?: 'default' | 'dark' | 'lighter'
-  }
-
-export const TextSizes = {
+export const textSizes = {
   '2xs': 'text-2xs',
   xs: 'text-xs',
   sm: 'text-sm',
@@ -25,7 +13,7 @@ export const TextSizes = {
   '3xl': 'text-3xl',
 }
 
-export const TextColors = {
+export const textColors = {
   gray: {
     default: 'text-gray',
     dark: 'text-gray-dark',
@@ -58,7 +46,7 @@ export const TextColors = {
   },
 }
 
-export const TextWeights = {
+export const textWeights = {
   light: 'font-light',
   normal: 'font-normal',
   medium: 'font-medium',
@@ -66,6 +54,24 @@ export const TextWeights = {
   bold: 'font-bold',
   extrabold: 'font-extrabold',
 }
+
+export const textAligns = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+}
+
+export type DefaultTextProps = {
+  size?: keyof typeof textSizes
+  color?: keyof typeof textColors
+  weight?: keyof typeof textWeights
+  align?: keyof typeof textAligns
+}
+
+export type TextProps = Omit<RizTextProps, 'color' | 'fontWeight'> &
+  DefaultTextProps & {
+    variant?: 'default' | 'dark' | 'lighter'
+  }
 
 export default function Text({
   size = 'base',
@@ -79,13 +85,13 @@ export default function Text({
   return (
     <RizText
       className={cn(
-        TextSizes[size],
-        TextWeights[weight],
-        { [`text-${align}`]: !!align },
+        textSizes[size],
+        textWeights[weight],
+        align ? textAligns[align] : null,
         color
-          ? TextColors[color][variant ?? 'default']
+          ? textColors[color][variant ?? 'default']
           : variant
-          ? TextColors['gray'][variant]
+          ? textColors['gray'][variant]
           : null,
         className
       )}

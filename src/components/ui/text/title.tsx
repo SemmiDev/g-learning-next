@@ -1,6 +1,6 @@
 import cn from '@/utils/class-names'
 import { Title as RizTitle, TitleProps as RizTitleProps } from 'rizzui'
-import { DefaultTextProps, TextColors, TextSizes, TextWeights } from './text'
+import { DefaultTextProps, textColors, textSizes, textWeights } from './text'
 
 type TextProps = Omit<RizTitleProps, 'color' | 'fontWeight'> &
   DefaultTextProps & {
@@ -18,9 +18,9 @@ export default function Title({
   return (
     <RizTitle
       className={cn(
-        TextColors[color][variant],
-        TextWeights[weight],
-        size ? TextSizes[size] : null,
+        textColors[color][variant],
+        textWeights[weight],
+        size ? textSizes[size] : null,
         className
       )}
       {...props}

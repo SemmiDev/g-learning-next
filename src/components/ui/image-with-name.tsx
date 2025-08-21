@@ -20,6 +20,9 @@ const colorHSL = (hsl: HSL) => {
 
 export type ImageName = {
   name: string
+  /**
+   * size in px
+   */
   size: number
 }
 
