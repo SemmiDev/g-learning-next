@@ -1,5 +1,7 @@
 export type AnyObject = Record<string, any>
 
+export type AnyString = string & {}
+
 export type Nullish<T> = { [P in keyof T]: T[P] | null }
 
 export type Prettify<T> = { [K in keyof T]: T[K] } & {}
