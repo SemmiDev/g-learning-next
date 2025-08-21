@@ -2,6 +2,7 @@ import DashboardBody from '@/components/pages/dashboard'
 import PageHeader from '@/components/shared/page-header'
 import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
+import { dataProfilAction as dataProfilFakultasInstansiAction } from '@/services/actions/fakultas-instansi/profil-instansi/detail/data'
 import { dataProfilAction as dataProfilInstansiAction } from '@/services/actions/instansi/profil/detail/data'
 import { cekKelengkapanProfilAction } from '@/services/actions/pengguna/dashboard/cek-kelengkapan-profil'
 import { dataProfilAction as dataProfilProdiInstansiAction } from '@/services/actions/prodi-instansi/profil-instansi/detail/data'
@@ -40,6 +41,11 @@ export default async function Home() {
     await queryClient.prefetchQuery({
       queryKey: ['instansi.profil'],
       queryFn: makeSimpleQueryData(dataProfilInstansiAction),
+    })
+  } else if (level === 'Fakultas') {
+    await queryClient.prefetchQuery({
+      queryKey: ['fakultas-instansi.profil-instansi'],
+      queryFn: makeSimpleQueryData(dataProfilFakultasInstansiAction),
     })
   } else if (level === 'Prodi') {
     await queryClient.prefetchQuery({
