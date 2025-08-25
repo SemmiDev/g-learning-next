@@ -1,5 +1,3 @@
-'use client'
-
 import {
   ButtonSubmit,
   Card,
@@ -49,9 +47,9 @@ const AbsensiPesertaOptions: CheckboxGroupOptionType[] = [
   { label: 'Presensi QR Code', value: 'QR Code' },
 ]
 
-const queryKey = ['instansi.profil.pengaturan-presensi']
+const queryKey = ['instansi.pengaturan.presensi']
 
-export default function PengaturanPresensiBody() {
+export default function PengaturanPresensiTab() {
   const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
@@ -106,7 +104,7 @@ export default function PengaturanPresensiBody() {
             formState: { errors, isSubmitting, isDirty },
           }) => (
             <>
-              <div className="flex justify-between flex-wrap gap-1 p-2">
+              <div className="flex justify-between flex-wrap gap-1 px-2.5 py-2">
                 <Title as="h4" size="1.5xl" weight="semibold">
                   Pengaturan Presensi
                 </Title>
@@ -121,7 +119,7 @@ export default function PengaturanPresensiBody() {
                 </ButtonSubmit>
               </div>
               <CardSeparator />
-              <div className="flex flex-col gap-6 px-2 py-4">
+              <div className="flex flex-col gap-6 px-2.5 py-4">
                 <Switch
                   label="Aktifkan Fitur Presensi"
                   labelClassName="text-gray-dark font-semibold"

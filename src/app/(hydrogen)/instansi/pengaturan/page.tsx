@@ -4,7 +4,7 @@ import { routes } from '@/config/routes'
 import { metaObject } from '@/config/site.config'
 
 export const metadata = {
-  ...metaObject('Pemberitahuan'),
+  ...metaObject('Pengaturan'),
 }
 
 const pageHeader = {

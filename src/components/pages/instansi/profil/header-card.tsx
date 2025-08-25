@@ -151,10 +151,6 @@ export default function HeaderCard({ className }: { className?: string }) {
               slug: 'riwayat-pembayaran',
             },
             {
-              text: 'Pengaturan Presensi',
-              slug: 'pengaturan-presensi',
-            },
-            {
               text: 'Sinkron',
               slug: 'sinkron',
             },

@@ -1,4 +1,4 @@
-import { PengaturanPresensiFormSchema } from '@/components/pages/instansi/profil/pengaturan-presensi/body'
+import { PengaturanPresensiFormSchema } from '@/components/pages/instansi/pengaturan/presensi-tab'
 import { ActionResponseType } from '@/utils/action'
 import { makeJwtPutRequestApi } from '@/utils/api'
 
