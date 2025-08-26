@@ -41,6 +41,9 @@ import ControlledAnggotaKelas, {
 import ControlledAsyncPaginateSelect, {
   ControlledAsyncPaginateSelectProps,
 } from './controlled/async-paginate-select'
+import ControlledCheckbox, {
+  ControlledCheckboxProps,
+} from './controlled/checkbox'
 import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
@@ -165,6 +168,7 @@ export {
   ControlledAdvancedRadioGroup,
   ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
+  ControlledCheckbox,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
@@ -256,6 +260,7 @@ export {
   type ControlledAdvancedRadioGroupProps,
   type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,
+  type ControlledCheckboxProps,
   type ControlledDatePickerProps,
   type ControlledInputNumberProps,
   type ControlledInputNumberSeparatorProps,

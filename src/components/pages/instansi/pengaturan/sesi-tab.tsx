@@ -2,34 +2,31 @@ import {
   ButtonSubmit,
   Card,
   CardSeparator,
+  ControlledCheckbox,
   Form,
   Label,
   TextLabel,
   Title,
 } from '@/components/ui'
-import ControlledCheckboxGroup, {
-  CheckboxGroupOptionType,
-} from '@/components/ui/controlled/checkbox-group'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
+import { dataPengaturanApi } from '@/services/api/instansi/pengaturan/data'
+import { ubahPengaturanSesiApi } from '@/services/api/instansi/pengaturan/sesi/ubah'
+import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 
 const formSchema = z.object({
-  aksesSesiPengajar: z
-    .array(z.string())
-    .min(1, 'Presensi pengajar wajib dipilih'),
+  aksesTambah: z.boolean(),
+  aksesUbah: z.boolean(),
+  aksesHapus: z.boolean(),
 })
 
 export type PengaturanSesiFormSchema = {
-  aksesSesiPengajar: string[]
+  aksesTambah: boolean
+  aksesUbah: boolean
+  aksesHapus: boolean
 }
-
-const AksesOptions: CheckboxGroupOptionType[] = [
-  { label: 'Tambah Sesi', value: 'Tambah' },
-  { label: 'Ubah Sesi', value: 'Ubah' },
-  { label: 'Hapus Sesi', value: 'Hapus' },
-]
 
 const queryKey = ['instansi.pengaturan.sesi']
 
@@ -37,36 +34,31 @@ export default function PengaturanSesiTab() {
   const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
 
-  const initialValues = {
-    aksesSesiPengajar: [],
-  }
+  const { data: initialValues, isLoading } = useQuery<PengaturanSesiFormSchema>(
+    {
+      queryKey,
+      queryFn: async () => {
+        const { data } = await dataPengaturanApi(jwt)
 
-  // const { data: initialValues, isLoading } =
-  //   useQuery<PengaturanSesiFormSchema>({
-  //     queryKey,
-  //     queryFn: async () => {
-  //       const {data} = dataPengaturanSesiApi(jwt)
-
-  //       return {
-  //         aksesSesiPengajar: (data?.absensi_dosen ?? [])
-  //           .filter((item) => item.aktif)
-  //           .map((item) => item.tipe),
-  //       }
-  //     },
-  //   })
+        return {
+          aksesTambah: data?.pengaturan_tambah_pertemuan ?? false,
+          aksesUbah: data?.pengaturan_edit_pertemuan ?? false,
+          aksesHapus: data?.pengaturan_hapus_pertemuan ?? false,
+        }
+      },
+    }
+  )
 
   const onSubmit: SubmitHandler<PengaturanSesiFormSchema> = async (data) => {
     console.log(data)
 
-    // await handleActionWithToast(processApi(ubahPengaturanSesiApi, data), {
-    //   loading: 'Menyimpan...',
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries({ queryKey })
-    //   },
-    // })
+    await handleActionWithToast(processApi(ubahPengaturanSesiApi, data), {
+      loading: 'Menyimpan...',
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey })
+      },
+    })
   }
-
-  const isLoading = false
 
   return (
     <>
@@ -102,14 +94,29 @@ export default function PengaturanSesiTab() {
                   <TextLabel>
                     <Label label="Akses Kontrol Pengajar pada Sesi Pembelajaran" />
                   </TextLabel>
-                  <ControlledCheckboxGroup
-                    name="aksesSesiPengajar"
-                    control={control}
-                    options={AksesOptions}
-                    errors={errors}
-                    groupClassName="flex-wrap gap-x-6"
-                    disabled={isLoading}
-                  />
+                  <div className="flex gap-4">
+                    <ControlledCheckbox
+                      name="aksesTambah"
+                      label="Tambah Sesi"
+                      control={control}
+                      errors={errors}
+                      disabled={isLoading}
+                    />
+                    <ControlledCheckbox
+                      name="aksesUbah"
+                      label="Ubah Sesi"
+                      control={control}
+                      errors={errors}
+                      disabled={isLoading}
+                    />
+                    <ControlledCheckbox
+                      name="aksesHapus"
+                      label="Hapus Sesi"
+                      control={control}
+                      errors={errors}
+                      disabled={isLoading}
+                    />
+                  </div>
                 </div>
               </div>
             </>

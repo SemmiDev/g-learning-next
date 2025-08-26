@@ -12,9 +12,9 @@ import ControlledCheckboxGroup, {
   CheckboxGroupOptionType,
 } from '@/components/ui/controlled/checkbox-group'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { dataPengaturanPresensiApi } from '@/services/api/instansi/profil/pengaturan-presensi/data'
-import { dataPengaturanApi } from '@/services/api/instansi/profil/pengaturan-presensi/data-pengaturan'
-import { ubahPengaturanPresensiApi } from '@/services/api/instansi/profil/pengaturan-presensi/ubah'
+import { dataPengaturanApi } from '@/services/api/instansi/pengaturan/data'
+import { dataPengaturanPresensiApi } from '@/services/api/instansi/pengaturan/presensi/data'
+import { ubahPengaturanPresensiApi } from '@/services/api/instansi/pengaturan/presensi/ubah'
 import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'

@@ -36,6 +36,8 @@ type PengajarSesiItemCardProps = {
   bisaMulai?: boolean
   lastSesi?: boolean
   disableAbsensi?: boolean
+  enableUbahSesi?: boolean
+  enableHapusSesi?: boolean
   onUbahSesi?: () => void
   onUbahJudul?: () => void
   onUbahAbsensi?: () => void
@@ -50,6 +52,8 @@ export default function PengajarSesiItemCard({
   bisaMulai,
   lastSesi,
   disableAbsensi,
+  enableUbahSesi,
+  enableHapusSesi,
   onUbahSesi,
   onUbahJudul,
   onUbahAbsensi,
@@ -137,7 +141,7 @@ export default function PengajarSesiItemCard({
             </Dropdown.Trigger>
             <Dropdown.Menu className="w-64 divide-y !py-0">
               <div className="py-2">
-                {sesi.status === 'Belum Dibuka' && !disableAbsensi ? (
+                {sesi.status === 'Belum Dibuka' && enableUbahSesi ? (
                   <Dropdown.Item
                     className="text-gray-dark"
                     onClick={onUbahSesi}
@@ -167,7 +171,7 @@ export default function PengajarSesiItemCard({
                   </>
                 )}
               </div>
-              {lastSesi && (
+              {lastSesi && enableHapusSesi && (
                 <div className="py-2">
                   <Dropdown.Item className="text-gray-dark" onClick={onHapus}>
                     <BsTrash3 className="text-danger size-4 mr-2" />
