@@ -27,8 +27,8 @@ export default function LihatSesiBody() {
 
   if (!dataKelas) return null
 
-  const jenisKelas = dataKelas.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
-  const tipeKelas = dataKelas.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
+  const jenisKelas = dataKelas?.peran === 'Pengajar' ? 'dikelola' : 'diikuti'
+  const tipeKelas = dataKelas?.kelas.tipe === 'Akademik' ? 'akademik' : 'umum'
 
   return (
     <>
