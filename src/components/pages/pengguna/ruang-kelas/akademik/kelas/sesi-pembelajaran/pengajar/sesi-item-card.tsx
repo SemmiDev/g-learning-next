@@ -301,7 +301,7 @@ export default function PengajarSesiItemCard({
                 <Button
                   size="sm"
                   disabled={!bisaMulai || disableAbsensi}
-                  className="flex-1"
+                  className="hidden flex-1 sm:block"
                   onClick={onMulai}
                 >
                   Mulai Sesi
