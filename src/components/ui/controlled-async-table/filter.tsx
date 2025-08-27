@@ -163,9 +163,7 @@ export default function TableFilter({
           <Button
             {...(isMediumScreen || enableDrawerFilter
               ? {
-                  onClick: () => {
-                    setOpenDrawer(() => !openDrawer)
-                  },
+                  onClick: () => setOpenDrawer(() => !openDrawer),
                 }
               : { onClick: () => setShowFilters(() => !showFilters) })}
             variant={'outline'}

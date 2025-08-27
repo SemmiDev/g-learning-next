@@ -43,9 +43,9 @@ export default function RuangKelasAkademikBody() {
     {
       dikelola: 'Dikelola',
       diikuti: 'Diikuti',
-    },
+    } as const,
     undefined
-  ) as 'Dikelola' | 'Diikuti' | undefined
+  )
 
   return (
     <>

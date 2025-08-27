@@ -1,6 +1,6 @@
 import cn from '@/utils/class-names'
 import { forwardRef } from 'react'
-import { TextColors, TextProps, TextSizes, TextWeights } from './text'
+import { textColors, TextProps, textSizes, textWeights } from './text'
 
 export default forwardRef<HTMLSpanElement, TextProps>(function TextSpan(
   {
@@ -18,9 +18,9 @@ export default forwardRef<HTMLSpanElement, TextProps>(function TextSpan(
     <span
       ref={ref}
       className={cn(
-        size ? TextSizes[size] : null,
-        weight ? TextWeights[weight] : null,
-        color ? TextColors[color][variant] : null,
+        size ? textSizes[size] : null,
+        weight ? textWeights[weight] : null,
+        color ? textColors[color][variant] : null,
         className
       )}
       {...props}

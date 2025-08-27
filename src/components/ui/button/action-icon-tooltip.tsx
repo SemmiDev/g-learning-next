@@ -4,7 +4,7 @@ import { Tooltip, TooltipProps } from 'rizzui'
 import ActionIcon, { ActionIconProps } from './action-icon'
 
 export type ActionIconTooltipProps = ActionIconProps & {
-  tooltip: string | ReactNode
+  tooltip: ReactNode
   tooltipSize?: 'sm' | 'md' | 'lg' | 'xl'
   tooltipPosition?: Placement
   tooltipColor?: TooltipProps['color']

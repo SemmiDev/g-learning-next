@@ -1,20 +1,20 @@
 import cn from '@/utils/class-names'
+import { forwardRef } from 'react'
 import {
   ActionIcon as RizActionIcon,
   type ActionIconProps as RizActionIconProps,
 } from 'rizzui'
-import { DefaultTextProps, TextWeights } from '../text/text'
+import { DefaultTextProps, textWeights } from '../text/text'
 import {
-  ButtonColors,
-  ButtonColorStyles,
-  ButtonVariants,
+  buttonColorStyles,
+  ButtonColorType,
+  ButtonVariantType,
   getRizVariant,
 } from './button'
-import { forwardRef } from 'react'
 
 export type ActionIconProps = Omit<RizActionIconProps, 'color' | 'variant'> & {
-  variant?: ButtonVariants
-  color?: ButtonColors
+  variant?: ButtonVariantType
+  color?: ButtonColorType
   fontWeight?: DefaultTextProps['weight']
 }
 
@@ -34,8 +34,8 @@ export default forwardRef<HTMLButtonElement, ActionIconProps>(
         ref={ref}
         className={cn(
           'shrink-0',
-          !props.disabled ? ButtonColorStyles[variant][color] : null,
-          fontWeight ? TextWeights[fontWeight] : null,
+          !props.disabled ? buttonColorStyles[variant][color] : null,
+          fontWeight ? textWeights[fontWeight] : null,
           className
         )}
         variant={getRizVariant(variant)}

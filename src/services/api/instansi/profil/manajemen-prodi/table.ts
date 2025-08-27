@@ -6,10 +6,12 @@ export type DataType = {
   nama: string
   username: string
   email: string
+  terakhir_login: string | null
   id_sms: string
   nm_lemb: string
   nm_lemb_inggris: string | null
   nm_jenj_didik: string
+  tipe: 'Prodi' | 'Fakultas'
 }
 
 export const tableAdminProdiApi = async ({

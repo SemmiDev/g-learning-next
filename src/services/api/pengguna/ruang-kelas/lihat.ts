@@ -39,6 +39,9 @@ export type DataType = {
     foto: string
   }[]
   pengaturan_absensi_dosen_simpeg: boolean
+  pengaturan_tambah_pertemuan: boolean
+  pengaturan_edit_pertemuan: boolean
+  pengaturan_hapus_pertemuan: boolean
   pengaturan_absensi_peserta: (
     | 'Manual'
     | 'Otomatis'

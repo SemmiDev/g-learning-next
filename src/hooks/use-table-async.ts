@@ -11,8 +11,8 @@ import { useEffect, useState } from 'react'
 import { useDebounce } from 'react-use'
 import { useSessionJwt } from './use-session-jwt'
 
-export type SortType = {
-  name?: string
+export type SortType<T extends string = string> = {
+  name?: T
   order?: 'asc' | 'desc'
 }
 
@@ -34,7 +34,7 @@ export function useTableAsync<
   ) => Promise<ControlledAsyncTableActionType<T>>
   actionParams?: AnyObject
   initialFilter?: TFilters
-  initialSort?: SortType
+  initialSort?: SortType<Extract<keyof T, string> | (string & {})>
   initialPerPage?: number
   enabled?: boolean
 }) {
@@ -45,7 +45,9 @@ export function useTableAsync<
   const [filters, setFilters] = useState<TFilters>(
     initialFilter ?? ({} as TFilters)
   )
-  const [sort, setSort] = useState<SortType | undefined>(initialSort)
+  const [sort, setSort] = useState<
+    SortType<Extract<keyof T, string> | (string & {})> | undefined
+  >(initialSort)
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
   const {
@@ -106,7 +108,10 @@ export function useTableAsync<
   /*
    * Handle sorting
    */
-  function onSort(name: string, order?: 'asc' | 'desc') {
+  function onSort(
+    name: Extract<keyof T, string> | (string & {}),
+    order?: 'asc' | 'desc'
+  ) {
     const newOrder =
       order ?? (sort?.name === name && sort?.order === 'asc' ? 'desc' : 'asc')
 

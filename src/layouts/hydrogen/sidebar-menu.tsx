@@ -9,6 +9,7 @@ import { Fragment, ReactNode } from 'react'
 import { PiCaretDownBold } from 'react-icons/pi'
 import { Collapse } from 'rizzui'
 import { menuItemsAdmin } from './menu-items/admin'
+import { menuItemsFakultasInstansi } from './menu-items/fakultas-instansi'
 import { menuItemsInstansi } from './menu-items/instansi'
 import { menuItemsPengguna } from './menu-items/pengguna'
 import { menuItemsProdiInstansi } from './menu-items/prodi-instansi'
@@ -41,6 +42,7 @@ export function SidebarMenu() {
     {
       Admin: menuItemsAdmin,
       Instansi: menuItemsInstansi,
+      Fakultas: menuItemsFakultasInstansi,
       Prodi: menuItemsProdiInstansi,
       Pengguna: menuItemsPengguna,
     },

@@ -93,6 +93,9 @@ export default function ControlledRadioGroup<
                     '[&_.rizzui-radio-field]:cursor-pointer',
                     optionClassNames
                   )}
+                  inputClassName={cn({
+                    'border border-danger ring-1 ring-danger': error,
+                  })}
                   label={option.label}
                   name={name}
                   value={option.value}

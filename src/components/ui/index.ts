@@ -22,9 +22,9 @@ import ActionIconTooltip, {
   ActionIconTooltipProps,
 } from './button/action-icon-tooltip'
 import Button, {
-  ButtonColors,
+  ButtonColorType,
   ButtonProps,
-  ButtonVariants,
+  ButtonVariantType,
 } from './button/button'
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
@@ -41,6 +41,9 @@ import ControlledAnggotaKelas, {
 import ControlledAsyncPaginateSelect, {
   ControlledAsyncPaginateSelectProps,
 } from './controlled/async-paginate-select'
+import ControlledCheckbox, {
+  ControlledCheckboxProps,
+} from './controlled/checkbox'
 import ControlledDatePicker, {
   ControlledDatePickerProps,
 } from './controlled/datepicker'
@@ -165,6 +168,7 @@ export {
   ControlledAdvancedRadioGroup,
   ControlledAnggotaKelas,
   ControlledAsyncPaginateSelect,
+  ControlledCheckbox,
   ControlledDatePicker,
   ControlledInput,
   ControlledInputNumber,
@@ -246,16 +250,17 @@ export {
   type BadgeProps,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
-  type ButtonColors,
+  type ButtonColorType,
   type ButtonProps,
   type ButtonSubmitProps,
-  type ButtonVariants,
+  type ButtonVariantType,
   type CheckboxProps,
   type CircleProps,
   type ContentLoaderProps,
   type ControlledAdvancedRadioGroupProps,
   type ControlledAnggotaKelasProps,
   type ControlledAsyncPaginateSelectProps,
+  type ControlledCheckboxProps,
   type ControlledDatePickerProps,
   type ControlledInputNumberProps,
   type ControlledInputNumberSeparatorProps,

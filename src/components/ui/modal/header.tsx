@@ -95,7 +95,7 @@ export default function ModalHeader({
       sm: 'rounded-t-lg',
       lg: 'rounded-t-2xl',
       xl: 'rounded-t-3xl',
-    },
+    } as const,
     'rounded-t-xl'
   )
 

@@ -94,9 +94,7 @@ export default function TablePembayaranTagihanPenggunaCard() {
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tanggal_pembayaran')
-        },
+        onClick: () => onSort('tanggal_pembayaran'),
       }),
     },
     {
@@ -113,9 +111,7 @@ export default function TablePembayaranTagihanPenggunaCard() {
         <TableCellText align="center">{rupiah(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jumlah_pembayaran')
-        },
+        onClick: () => onSort('jumlah_pembayaran'),
       }),
     },
     {
@@ -146,9 +142,7 @@ export default function TablePembayaranTagihanPenggunaCard() {
         </div>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nomor_pembayaran')
-        },
+        onClick: () => onSort('nomor_pembayaran'),
       }),
     },
     {

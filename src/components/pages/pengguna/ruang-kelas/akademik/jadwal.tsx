@@ -46,9 +46,9 @@ export default function JadwalAkademik({
     {
       dikelola: 'Dikelola',
       diikuti: 'Diikuti',
-    },
+    } as const,
     undefined
-  ) as 'Dikelola' | 'Diikuti' | undefined
+  )
 
   const queryKey = [
     'pengguna.ruang-kelas.list-jadwal',

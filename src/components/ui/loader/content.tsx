@@ -4,7 +4,7 @@ import { LoaderTypes as RizLoaderTypes } from 'rizzui'
 import Loader from './loader'
 
 export type ContentLoaderProps = RizLoaderTypes & {
-  height?: number
+  height?: number | string
   loaderClassName?: string
 }
 
@@ -25,7 +25,11 @@ export default forwardRef<HTMLDivElement, ContentLoaderProps>(
       <div
         ref={ref}
         className={cn('flex justify-center items-center', className)}
-        style={height ? { height: `${height}px` } : {}}
+        style={
+          height
+            ? { height: typeof height === 'number' ? `${height}px` : height }
+            : undefined
+        }
       >
         <Loader
           variant={variant}

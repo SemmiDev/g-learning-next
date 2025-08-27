@@ -53,9 +53,7 @@ export default function DashboardRiwayatPembayaranCard({
         </TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('tanggal_pembayaran')
-        },
+        onClick: () => onSort('tanggal_pembayaran'),
       }),
     },
     {
@@ -77,9 +75,7 @@ export default function DashboardRiwayatPembayaranCard({
         <TableCellText align="center">{angka(value)}</TableCellText>
       ),
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('jumlah_pembayaran')
-        },
+        onClick: () => onSort('jumlah_pembayaran'),
       }),
     },
     {
@@ -94,27 +90,9 @@ export default function DashboardRiwayatPembayaranCard({
       dataIndex: 'nomor_pembayaran',
       render: renderTableCellTextCenter,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nomor_pembayaran')
-        },
+        onClick: () => onSort('nomor_pembayaran'),
       }),
     },
-    /* {
-      title: <TableHeaderCell title="Invoice" align="center" />,
-      width: 70,
-      render: (_, row) => (
-        <div className="flex justify-center">
-          <ActionIconTooltip
-            tooltip="Unduh"
-            size="sm"
-            variant="text-colorful"
-            color="primary"
-          >
-            <LuDownload />
-          </ActionIconTooltip>
-        </div>
-      ),
-    }, */
   ]
 
   return (

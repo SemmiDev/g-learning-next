@@ -72,6 +72,15 @@ export const instansiRoutes = {
   pengaturan: '/instansi/pengaturan',
 }
 
+export const fakultasInstansiRoutes = {
+  pemberitahuan: '/fakultas-instansi/pemberitahuan',
+  profile: '/fakultas-instansi/profil',
+  profileInstansi: '/fakultas-instansi/profil-instansi',
+  profileInstansiPengguna: '/fakultas-instansi/profil-instansi/pengguna',
+  akademik: '/fakultas-instansi/akademik',
+  kelasAkademik: '/fakultas-instansi/akademik/kelas',
+}
+
 export const prodiInstansiRoutes = {
   pemberitahuan: '/prodi-instansi/pemberitahuan',
   profile: '/prodi-instansi/profil',
@@ -87,5 +96,6 @@ export const routes = {
   pengguna: penggunaRoutes,
   admin: adminRoutes,
   instansi: instansiRoutes,
+  fakultasInstansi: fakultasInstansiRoutes,
   prodiInstansi: prodiInstansiRoutes,
 }

@@ -125,6 +125,9 @@ export default function PengajarSesiPembelajaranBody() {
   }
 
   const disableAbsensi = dataKelas?.pengaturan_absensi_dosen_simpeg
+  const aksesTambahSesi = dataKelas?.pengaturan_tambah_pertemuan || false
+  const aksesUbahSesi = dataKelas?.pengaturan_edit_pertemuan || false
+  const aksesHapusSesi = dataKelas?.pengaturan_hapus_pertemuan || false
 
   return (
     <>
@@ -145,6 +148,8 @@ export default function PengajarSesiPembelajaranBody() {
                 !isFetchingNextPage && sesi.id === list[list.length - 1].id
               }
               disableAbsensi={disableAbsensi}
+              enableUbahSesi={aksesUbahSesi}
+              enableHapusSesi={aksesHapusSesi}
               onUbahSesi={() => doShowUbahSesi(sesi.id)}
               onUbahJudul={() => doShowUbahJudul(sesi.id)}
               onUbahAbsensi={() => doShowUbahAbsensi(sesi.id)}
@@ -154,28 +159,33 @@ export default function PengajarSesiPembelajaranBody() {
             />
           ))}
           {!isLoading &&
-            !disableAbsensi &&
             (hasNextPage ? (
               <ContentLoader ref={refSentry} size="sm" className="py-4" />
             ) : (
-              <Button onClick={() => setShowTambah(true)}>Tambah Sesi</Button>
+              aksesTambahSesi && (
+                <Button onClick={() => setShowTambah(true)}>Tambah Sesi</Button>
+              )
             ))}
         </div>
       </div>
 
-      <TambahSesiModal
-        show={showTambah}
-        onHide={() => setShowTambah(false)}
-        listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
-      />
+      {aksesTambahSesi && (
+        <TambahSesiModal
+          show={showTambah}
+          onHide={() => setShowTambah(false)}
+          listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
+        />
+      )}
 
-      <UbahSesiModal
-        id={keyUbahSesi}
-        show={showUbahSesi}
-        onHide={doHideUbahSesi}
-        listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
-        disableAbsensi={dataKelas?.pengaturan_absensi_dosen_simpeg}
-      />
+      {aksesUbahSesi && (
+        <UbahSesiModal
+          id={keyUbahSesi}
+          show={showUbahSesi}
+          onHide={doHideUbahSesi}
+          listJenisAbsen={dataKelas?.pengaturan_absensi_peserta}
+          disableAbsensi={dataKelas?.pengaturan_absensi_dosen_simpeg}
+        />
+      )}
 
       <UbahJudulSesiModal
         id={keyUbahJudul}
@@ -189,16 +199,18 @@ export default function PengajarSesiPembelajaranBody() {
         onHide={doHideUbahAbsensi}
       />
 
-      <ModalConfirm
-        title="Hapus Sesi"
-        desc="Apakah Anda yakin ingin menghapus sesi ini?"
-        color="danger"
-        isOpen={!!idHapus}
-        onClose={() => setIdHapus(undefined)}
-        onConfirm={handleHapus}
-        headerIcon="warning"
-        closeOnCancel
-      />
+      {aksesHapusSesi && (
+        <ModalConfirm
+          title="Hapus Sesi"
+          desc="Apakah Anda yakin ingin menghapus sesi ini?"
+          color="danger"
+          isOpen={!!idHapus}
+          onClose={() => setIdHapus(undefined)}
+          onConfirm={handleHapus}
+          headerIcon="warning"
+          closeOnCancel
+        />
+      )}
 
       <ModalConfirm
         title="Mulai Sesi"

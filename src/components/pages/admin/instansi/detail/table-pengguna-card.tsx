@@ -57,9 +57,7 @@ export default function TablePenggunaCard() {
       dataIndex: 'nama',
       render: renderTableCellText,
       onHeaderCell: () => ({
-        onClick: () => {
-          onSort('nama')
-        },
+        onClick: () => onSort('nama'),
       }),
     },
     {

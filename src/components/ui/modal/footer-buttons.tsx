@@ -1,19 +1,19 @@
 import cn from '@/utils/class-names'
 import { ReactNode } from 'react'
-import Button, { ButtonColors, ButtonVariants } from '../button/button'
+import Button, { ButtonColorType, ButtonVariantType } from '../button/button'
 import ButtonSubmit from '../button/submit'
 
 type ModalFooterButtonsProps = {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   submit?: ReactNode
-  submitColor?: ButtonColors
-  submitVariant?: ButtonVariants
+  submitColor?: ButtonColorType
+  submitVariant?: ButtonVariantType
   submitClassName?: string
   isSubmitting?: boolean
   children?: ReactNode
   cancel?: string
-  cancelColor?: ButtonColors
-  cancelVariant?: ButtonVariants
+  cancelColor?: ButtonColorType
+  cancelVariant?: ButtonVariantType
   cancelClassName?: string
   onCancel?(): void
   disabled?: boolean

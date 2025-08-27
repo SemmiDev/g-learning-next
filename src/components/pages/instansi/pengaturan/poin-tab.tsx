@@ -10,10 +10,10 @@ import {
   Title,
 } from '@/components/ui'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
-import { hitungPoinApi } from '@/services/api/instansi/pengaturan/hitung-poin'
-import { dataPengaturanPoinApi } from '@/services/api/instansi/pengaturan/poin'
-import { statusHitungPoinApi } from '@/services/api/instansi/pengaturan/status-hitung-poin'
-import { ubahPengaturanPoinApi } from '@/services/api/instansi/pengaturan/ubah-poin'
+import { hitungPoinApi } from '@/services/api/instansi/pengaturan/poin/hitung-poin'
+import { dataPengaturanPoinApi } from '@/services/api/instansi/pengaturan/poin/poin'
+import { statusHitungPoinApi } from '@/services/api/instansi/pengaturan/poin/status-hitung-poin'
+import { ubahPengaturanPoinApi } from '@/services/api/instansi/pengaturan/poin/ubah-poin'
 import { handleActionWithToast } from '@/utils/action'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -68,7 +68,7 @@ export default function PengaturanPoinTab() {
     queryFn: async () => {
       const { data } = await processApi(statusHitungPoinApi)
 
-      const inProgress = data?.status !== 'done'
+      const inProgress = data?.status === 'in_progress'
 
       setCekStatusHitung(inProgress)
 
@@ -104,7 +104,7 @@ export default function PengaturanPoinTab() {
       >
         {({ control, formState: { errors, isSubmitting, isDirty } }) => (
           <>
-            <div className="flex justify-between flex-wrap gap-1 p-2">
+            <div className="flex justify-between flex-wrap gap-1 px-2.5 py-2">
               <Title as="h4" size="1.5xl" weight="semibold">
                 Pengaturan Poin
               </Title>
@@ -132,7 +132,7 @@ export default function PengaturanPoinTab() {
               </div>
             </div>
             <CardSeparator />
-            <div className="flex flex-col max-w-72 overflow-x-auto px-2 py-2">
+            <div className="flex flex-col max-w-72 overflow-x-auto px-2.5 py-2">
               <table className="[&_td]:py-2.5 [&_td:first-child]:pe-2">
                 <tbody>
                   <tr>

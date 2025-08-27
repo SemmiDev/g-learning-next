@@ -3,7 +3,7 @@
 import cn from '@/utils/class-names'
 import { ReactNode, useState } from 'react'
 import { ButtonSubmit } from '..'
-import { ButtonColors } from '../button/button'
+import { ButtonColorType } from '../button/button'
 import CardSeparator from '../card-separator'
 import Text from '../text/text'
 import ModalFooterButtons from './footer-buttons'
@@ -11,7 +11,7 @@ import Modal, { ModalProps } from './modal'
 
 export type ModalConfirmProps = Omit<ModalProps, 'children' | 'desc'> & {
   confirm?: string
-  confirmColor?: ButtonColors
+  confirmColor?: ButtonColorType
   onConfirm?(): Promise<void> | void
   confirmLoading?: boolean
   cancel?: string

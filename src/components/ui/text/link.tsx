@@ -1,7 +1,7 @@
 import cn from '@/utils/class-names'
 import Link, { LinkProps } from 'next/link'
 import { ReactNode } from 'react'
-import { DefaultTextProps, TextSizes, TextWeights } from './text'
+import { DefaultTextProps, textSizes, textWeights } from './text'
 
 type TextLinkProps = Omit<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -21,7 +21,7 @@ type TextLinkProps = Omit<
     children?: ReactNode
   } & React.RefAttributes<HTMLAnchorElement>
 
-const TextLinkColors = {
+const textLinkColors = {
   default: 'text-gray hover:text-primary',
   primary: 'text-primary hover:text-primary-dark',
   secondary: 'text-secondary hover:text-secondary-dark',
@@ -42,9 +42,9 @@ export default function TextLink({
     <Link
       className={cn(
         'transition-colors',
-        TextLinkColors[color],
-        TextWeights[weight],
-        size ? TextSizes[size] : null,
+        textLinkColors[color],
+        textWeights[weight],
+        size ? textSizes[size] : null,
         className
       )}
       {...props}

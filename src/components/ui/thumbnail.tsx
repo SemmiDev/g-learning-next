@@ -4,10 +4,21 @@ import Image from 'next/image'
 import { ReactNode } from 'react'
 import ImageName from './image-with-name'
 
+const thumbnailRoundeds = {
+  sm: 'rounded-sm',
+  base: 'rounded',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
+  '2xl': 'rounded-2xl',
+  '3xl': 'rounded-3xl',
+  full: 'rounded-full',
+}
+
 export type ThumbnailProps = {
   size: number
   resize?: number //resized image size by nextjs, default is same as size
-  rounded?: 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
+  rounded?: keyof typeof thumbnailRoundeds
   src: string | StaticImport | undefined
   alt: string
   avatar?: string
@@ -35,11 +46,7 @@ export default function Thumbnail({
     <figure
       className={cn(
         'bg-white overflow-clip',
-        !!rounded
-          ? rounded !== 'base'
-            ? `rounded-${rounded}`
-            : 'rounded'
-          : null,
+        thumbnailRoundeds[rounded],
         { 'border border-muted dark:border-gray-800': bordered },
         className
       )}

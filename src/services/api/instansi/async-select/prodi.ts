@@ -17,6 +17,7 @@ export const prodiSelectDataApi = async ({
     `${process.env.NEXT_PUBLIC_API_URL}/instansi/sms`,
     jwt,
     {
+      jenis: 'Prodi',
       current_page: page,
       keyword: search,
     }
