@@ -82,7 +82,7 @@ export default function PengajarPresensiCard({
     queryFn: makeSimpleApiQueryData(lihatKelasApi, idKelas),
   })
 
-  const { data: dataSesi } = useQuery({
+  const { data: dataSesi, isLoading: isLoadingSesi } = useQuery({
     queryKey: [
       'pengguna.ruang-kelas.sesi-pembelajaran.lihat',
       'pengajar',
@@ -173,9 +173,11 @@ export default function PengajarPresensiCard({
     )
   }
 
-  const disableAbsensi = dataKelas?.pengaturan_absensi_dosen_simpeg
+  if (dataSesi?.status === 'Belum Dibuka') return null
 
   if (isLoading) return <PresensiCardShimmer className={className} />
+
+  const disableAbsensi = dataKelas?.pengaturan_absensi_dosen_simpeg
 
   return (
     <>

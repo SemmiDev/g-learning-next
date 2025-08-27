@@ -269,26 +269,29 @@ export default function PengajarSesiItemCard({
           <div
             className={cn('flex flex-col gap-x-2 gap-y-1 flex-1', {
               'sm:flex-row sm:flex-2':
-                sesi.status === 'Sedang Berlangsung' && !disableAbsensi,
+                sesi.status !== 'Telah Berakhir' && !disableAbsensi,
             })}
           >
-            {sesi.status !== 'Belum Dibuka' && (
-              <Link
-                href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${sesi.id_kelas}/sesi-pembelajaran/${sesi.id}`}
-                className="flex-1"
+            <Link
+              href={`${routes.pengguna.ruangKelas.dikelola.akademik}/${sesi.id_kelas}/sesi-pembelajaran/${sesi.id}`}
+              className="flex-1"
+            >
+              <Button
+                as="span"
+                size="sm"
+                color={switchCaseObject(
+                  sesi.status,
+                  {
+                    'Sedang Berlangsung': 'success',
+                    'Telah Berakhir': 'primary',
+                  } as const,
+                  'info'
+                )}
+                className="w-full text-center"
               >
-                <Button
-                  as="span"
-                  size="sm"
-                  color={
-                    sesi.status === 'Sedang Berlangsung' ? 'success' : 'primary'
-                  }
-                  className="w-full text-center"
-                >
-                  Lihat Detail
-                </Button>
-              </Link>
-            )}
+                Lihat Detail
+              </Button>
+            </Link>
             {sesi.status === 'Sedang Berlangsung' && !disableAbsensi ? (
               <Button size="sm" className="flex-1" onClick={onAkhiri}>
                 Akhiri Sesi

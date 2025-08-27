@@ -5,6 +5,7 @@ import {
   Checkbox,
   ContentLoader,
   FormError,
+  KelasItemType,
   Modal,
   Text,
   Time,
@@ -12,10 +13,12 @@ import {
 import { useAutoSizeLargeModal } from '@/hooks/auto-size-modal/use-large-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { listSesiPembelajaranApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/list'
+import { duplikatBahanAjarSesiApi } from '@/services/api/pengguna/ruang-kelas/sesi-pembelajaran/pengajar/duplikat-bahan-ajar-sesi'
+import { handleActionWithToast } from '@/utils/action'
 import cn from '@/utils/class-names'
 import { hourMinute } from '@/utils/text'
-import { wait } from '@/utils/wait'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
   LuBook,
@@ -27,26 +30,31 @@ import {
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 
 type SesiBahanAjarModalProps = {
-  idKelas: string | undefined
+  kelasSumber: KelasItemType | undefined
   show: boolean
   onHide: () => void
+  onBack: () => void
 }
 
 export default function SesiBahanAjarModal({
-  idKelas,
+  kelasSumber,
   show,
   onHide,
+  onBack,
 }: SesiBahanAjarModalProps) {
-  const { jwt } = useSessionJwt()
+  const { jwt, processApi } = useSessionJwt()
+  const queryClient = useQueryClient()
   const size = useAutoSizeLargeModal()
 
   const [checked, setChecked] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState<string>()
 
+  const { kelas: idKelas }: { kelas: string } = useParams()
+
   const queryKey = [
     'pengguna.ruang-kelas.sesi-pembelajaran.list-duplikat',
-    idKelas,
+    kelasSumber?.id || null,
   ]
 
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
@@ -56,7 +64,7 @@ export default function SesiBahanAjarModal({
         jwt,
         page,
         perPage: 50,
-        idKelas: idKelas || '',
+        idKelas: kelasSumber?.id || '',
       })
 
       return {
@@ -69,23 +77,38 @@ export default function SesiBahanAjarModal({
       lastPage.pagination?.hasNextPage
         ? (lastPage.pagination?.page ?? 1) + 1
         : undefined,
-    enabled: !!idKelas,
+    enabled: !!kelasSumber,
   })
 
   const list = data?.pages.flatMap((page) => page.list) ?? []
 
   const onSubmit = async () => {
-    console.log(checked)
+    if (!kelasSumber?.id) return
 
-    setIsSubmitting(true)
-    await wait(3000)
-    setIsSubmitting(false)
-
-    onHide()
+    await handleActionWithToast(
+      processApi(duplikatBahanAjarSesiApi, kelasSumber.id, idKelas, checked),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setIsSubmitting(true),
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'pengguna.ruang-kelas.sesi-pembelajaran.list',
+              'pengajar',
+              idKelas,
+            ],
+          })
+          onHide()
+          setFormError(undefined)
+        },
+        onError: ({ message }) => setFormError(message),
+        onFinish: () => setIsSubmitting(false),
+      }
+    )
   }
 
   const handleClose = () => {
-    onHide()
+    onBack()
     setFormError(undefined)
   }
 
@@ -145,22 +168,16 @@ export default function SesiBahanAjarModal({
         <ButtonSubmit
           type="button"
           isSubmitting={isSubmitting}
+          disabled={checked.length === 0}
           onClick={onSubmit}
           className="w-full"
         >
           Duplikat Bahan Ajar
         </ButtonSubmit>
-        <Button variant="outline" className="w-full" onClick={() => onHide()}>
-          Batal
+        <Button variant="outline" className="w-full" onClick={handleClose}>
+          Kembali
         </Button>
       </div>
-      {/* <ModalFooterButtons
-        submit="Duplikat Bahan Ajar"
-        isSubmitting={isSubmitting}
-        onCancel={handleClose}
-        className="sm:justify-end"
-        borderTop
-      /> */}
     </Modal>
   )
 }

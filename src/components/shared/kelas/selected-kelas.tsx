@@ -1,6 +1,7 @@
 import { Text } from '@/components/ui'
 import ActionIcon from '@/components/ui/button/action-icon'
 import RandomCoverImage from '@/components/ui/random/cover-image'
+import { deskripsiSemester } from '@/utils/semester'
 import Image from 'next/image'
 import { LuChevronDown } from 'react-icons/lu'
 import { MdClose } from 'react-icons/md'
@@ -53,6 +54,17 @@ export default function SelectedKelas({ kelas, onRemove }: SelectedFileProps) {
               className="truncate"
             >
               {kelas.kelas}
+            </Text>
+          )}
+          {kelas.semester && (
+            <Text
+              size="sm"
+              weight="medium"
+              variant="lighter"
+              title={kelas.semester}
+              className="truncate"
+            >
+              {deskripsiSemester(kelas.semester)}
             </Text>
           )}
 

@@ -30,6 +30,7 @@ export type KelasProps = {
   onChange?(val?: KelasItemType): void
   semester?: string
   type?: 'Pengajar' | 'Peserta'
+  defaultSearch?: string
   error?: string
   errorClassName?: string
   clearable?: boolean
@@ -43,6 +44,7 @@ export default function Kelas({
   onChange,
   type,
   semester,
+  defaultSearch = '',
   error,
   errorClassName,
   clearable,
@@ -52,7 +54,7 @@ export default function Kelas({
   const size = useAutoSizeMediumModal()
 
   const [show, setShow] = useState(false)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(defaultSearch)
   const [checkedKelas, setCheckedKelas] = useState<KelasItemType | undefined>()
   const [selectedKelas, setSelectedKelas] = useState<KelasItemType | undefined>(
     value
@@ -118,6 +120,8 @@ export default function Kelas({
 
   useDebounce(() => refetchKelas(), search ? 250 : 0, [refetchKelas, search])
 
+  const handleClose = () => setShow(false)
+
   useEffect(() => {
     setSelectedKelas(value)
   }, [value])
@@ -173,7 +177,7 @@ export default function Kelas({
         title="Cari dan Pilih Kelas"
         size={size}
         isOpen={show}
-        onClose={() => setShow(false)}
+        onClose={handleClose}
         isLoading={isFetchingKelas}
         containerClassName="max-h-dvh"
         bodyClassName="justify-between"
@@ -238,7 +242,7 @@ export default function Kelas({
             size="sm"
             variant="outline"
             className="w-full sm:w-36"
-            onClick={() => setShow(false)}
+            onClick={handleClose}
           >
             Batal
           </Button>

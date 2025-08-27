@@ -1,17 +1,22 @@
-import { Button } from '@/components/ui'
-import { useShowModal } from '@/hooks/use-show-modal'
+import { Button, KelasItemType } from '@/components/ui'
 import { useState } from 'react'
 import SesiBahanAjarModal from './modal/sesi-bahan-ajar'
 import SumberBahanAjarModal from './modal/sumber-bahan-ajar'
 
 export default function DuplikatBahanAjar() {
   const [showSumber, setShowSumber] = useState(false)
-  const {
-    show: showPilihSesi,
-    key: kelasSumber,
-    doShow: setKelasSumber,
-    doHide: closePilihSesi,
-  } = useShowModal<string>()
+  const [showPilihSesi, setShowPilihSesi] = useState(false)
+  const [kelasSumber, setKelasSumber] = useState<KelasItemType>()
+
+  const handleCloseBahanAjar = () => {
+    setShowSumber(false)
+    setTimeout(() => setKelasSumber(undefined), 300)
+  }
+
+  const handleHidePilihSesi = () => {
+    setShowPilihSesi(false)
+    setTimeout(() => setKelasSumber(undefined), 300)
+  }
 
   return (
     <>
@@ -21,14 +26,23 @@ export default function DuplikatBahanAjar() {
 
       <SumberBahanAjarModal
         show={showSumber}
-        onHide={() => setShowSumber(false)}
-        onSelect={(idKelas) => setKelasSumber(idKelas)}
+        defaultKelas={kelasSumber}
+        onNext={() => setShowSumber(false)}
+        onHide={handleCloseBahanAjar}
+        onSelect={(kelas) => {
+          setKelasSumber(kelas)
+          setShowPilihSesi(true)
+        }}
       />
 
       <SesiBahanAjarModal
-        idKelas={kelasSumber}
+        kelasSumber={kelasSumber}
         show={showPilihSesi}
-        onHide={closePilihSesi}
+        onHide={handleHidePilihSesi}
+        onBack={() => {
+          setShowPilihSesi(false)
+          setShowSumber(true)
+        }}
       />
     </>
   )
