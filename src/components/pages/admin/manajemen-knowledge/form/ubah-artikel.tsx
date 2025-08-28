@@ -104,7 +104,7 @@ export default function UbahArtikelForm() {
           })
         )
 
-        updateArtikelItem(id, data?.judul || '')
+        updateArtikelItem(id, data.judul || '', data.level?.value || '')
       },
       onError: ({ message }) => setFormError(message),
     })
@@ -192,6 +192,7 @@ export default function UbahArtikelForm() {
             toolbar="rich"
             className="text-gray-dark"
             toolbarImage
+            required
           />
         </>
       )}

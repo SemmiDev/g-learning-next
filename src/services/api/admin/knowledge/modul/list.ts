@@ -7,6 +7,7 @@ type DataType = {
     id: string
     id_modul: string
     judul: string
+    level: string
   }[]
 }
 

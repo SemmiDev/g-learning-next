@@ -3,9 +3,9 @@ import {
   FlattenedItem,
   ItemChangedReason,
 } from 'dnd-kit-sortable-tree/dist/types'
+import _ from 'lodash'
 import { create } from 'zustand'
 import { MakeTreeItem, TreeItemDataType } from '../modul-sortable-wrapper'
-import _ from 'lodash'
 
 type SortableStoreType = {
   isSaving: boolean
@@ -13,8 +13,13 @@ type SortableStoreType = {
   setItems: (items: SortableStoreType['items']) => void
   addModulItem: (id: string, title: string) => void
   updateModulItem: (id: string, title: string) => void
-  addArtikelItem: (id: string, title: string, idModul: string) => void
-  updateArtikelItem: (id: string, title: string) => void
+  addArtikelItem: (
+    id: string,
+    title: string,
+    badge: string,
+    idModul: string
+  ) => void
+  updateArtikelItem: (id: string, title: string, badge: string) => void
   changeItems: (
     items: TreeItems<TreeItemDataType>,
     reason: ItemChangedReason<FlattenedItem<TreeItemDataType>>
@@ -63,7 +68,7 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
 
         return { items: newItems }
       }),
-    addArtikelItem: (id, title, idModul) =>
+    addArtikelItem: (id, title, badge, idModul) =>
       set(({ items }) => {
         const newItems = [...items]
 
@@ -74,7 +79,7 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
             prevItem.children?.splice(
               prevItem.children.length - 1,
               0,
-              MakeTreeItem({ id, title, parent: 0 })
+              MakeTreeItem({ id, title, badge, parent: 0 })
             )
 
             return {
@@ -84,13 +89,16 @@ export const useManajemenKnowledgeSortableStore = create<SortableStoreType>(
           }),
         }
       }),
-    updateArtikelItem: (id, title) =>
+    updateArtikelItem: (id, title, badge) =>
       set(({ items }) => {
         const newItems = [...items]
 
         const flatted = newItems.flatMap((item) => item.children || [])
         const find = flatted.find((item) => item.id === id)
-        if (find) find.title = title
+        if (find) {
+          find.title = title
+          find.badge = badge
+        }
 
         return { items: newItems }
       }),

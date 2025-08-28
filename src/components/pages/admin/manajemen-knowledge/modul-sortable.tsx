@@ -47,7 +47,12 @@ export default function ModulSortable() {
             id: item.id,
             title: item.nama,
             children: item.artikel.map((item) =>
-              MakeTreeItem({ id: item.id, title: item.judul, parent: 0 })
+              MakeTreeItem({
+                id: item.id,
+                title: item.judul,
+                badge: item.level,
+                parent: 0,
+              })
             ),
           })
         ) || []),

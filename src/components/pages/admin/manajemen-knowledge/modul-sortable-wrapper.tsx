@@ -15,12 +15,14 @@ import { useManajemenKnowledgeSortableStore } from './stores/sortable'
 
 export type TreeItemDataType = {
   title?: string
+  badge?: string
   action?: 'ADD'
 }
 
 export const MakeTreeItem = ({
   id,
   title,
+  badge,
   action,
   parent,
   children,
@@ -34,6 +36,7 @@ export const MakeTreeItem = ({
   return {
     id: id ?? newId,
     title: title ?? (action !== 'ADD' ? `Item ${newId}` : undefined),
+    badge,
     action,
     children:
       action !== 'ADD' && parent === undefined
@@ -43,7 +46,6 @@ export const MakeTreeItem = ({
       action === 'ADD' ||
       parent !== undefined ||
       (parent === undefined && !children?.length),
-    // collapsed: true,
     disableSorting: action === 'ADD',
     canHaveChildren: action !== 'ADD' && parent === undefined,
   }
@@ -114,10 +116,11 @@ const SortableItem = ({
   return (
     <div
       className={cn(
-        'flex gap-2 justify-between bg-white rounded-md border border-muted hover:bg-muted/5 px-1 py-2',
+        'flex gap-2 justify-between items-center min-h-[3.125rem] bg-white rounded-md border border-muted hover:bg-muted/5 px-1 py-2',
         {
           'cursor-pointer': depth > 0,
-          'bg-warning-lighter/10 text-warning': active,
+          'bg-warning-lighter/10 text-warning [&_.sortable-badge]:text-warning-dark':
+            active,
         }
       )}
       onClick={() => {
@@ -146,9 +149,16 @@ const SortableItem = ({
             <MdDragIndicator />
           </ActionIcon>
         )}
-        <TextSpan size={clone ? 'base' : 'sm'} weight="medium">
-          {item.title}
-        </TextSpan>
+        <div className="flex flex-col items-start">
+          {!!item.badge && (
+            <strong className="sortable-badge text-gray-lighter text-2xs">
+              [{item.badge}]
+            </strong>
+          )}
+          <TextSpan size={clone ? 'base' : 'sm'} weight="medium">
+            {item.title}{' '}
+          </TextSpan>
+        </div>
         {depth === 0 && (
           <Button
             size="sm"
@@ -182,7 +192,7 @@ const SortableItem = ({
           <MdClose />
         </ActionIcon>
       )}
-      {active && <LuChevronRight className="size-4 self-center" />}
+      {active && <LuChevronRight className="size-4 m-2" />}
       {!!childCount && !clone && (
         <ActionIcon size="sm" variant="text" color="gray">
           {collapsed ? <BsChevronDown /> : <BsChevronUp />}
@@ -204,7 +214,7 @@ const AddSortableItem = ({
   return (
     <button
       className={cn(
-        'flex items-center justify-between gap-1 bg-white rounded-md border border-muted w-full px-1 py-2 active:enabled:translate-y-px',
+        'flex items-center justify-between gap-1 min-h-[3.125rem] bg-white rounded-md border border-muted w-full hover:bg-muted/5 px-1 py-2 active:enabled:translate-y-px',
         {
           'bg-primary-lighter/10 text-primary': active,
         }
@@ -219,7 +229,7 @@ const AddSortableItem = ({
           {title}
         </TextSpan>
       </div>
-      {active && <LuChevronRight className="size-4" />}
+      {active && <LuChevronRight className="size-4 m-2" />}
     </button>
   )
 }

@@ -72,7 +72,7 @@ export default function TambahArtikelForm() {
         onSuccess: ({ data }) => {
           if (!data || !data.id) return
 
-          addArtikelItem(data.id, data.judul, idModul)
+          addArtikelItem(data.id, data.judul, data.level, idModul)
           queryClient.setQueryData(
             ['admin.manajemen-knowledge.artikel.ubah', data.id],
             () => ({
@@ -165,6 +165,7 @@ export default function TambahArtikelForm() {
             toolbar="rich"
             className="text-gray-dark"
             toolbarImage
+            required
           />
         </>
       )}
