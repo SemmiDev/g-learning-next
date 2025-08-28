@@ -193,7 +193,7 @@ const SortableItem = ({
           <LuTrash2 />
         </ActionIcon>
       )}
-      {active && <LuChevronRight className="size-4 m-2" />}
+      {active && <LuChevronRight className="size-4 m-1.5" />}
       {!!childCount && !clone && (
         <ActionIcon size="sm" variant="text" color="gray">
           {collapsed ? <BsChevronDown /> : <BsChevronUp />}
@@ -230,7 +230,7 @@ const AddSortableItem = ({
           {title}
         </TextSpan>
       </div>
-      {active && <LuChevronRight className="size-4 m-2" />}
+      {active && <LuChevronRight className="size-4 m-1.5" />}
     </button>
   )
 }
