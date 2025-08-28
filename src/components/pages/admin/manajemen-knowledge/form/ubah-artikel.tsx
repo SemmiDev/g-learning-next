@@ -123,7 +123,7 @@ export default function UbahArtikelForm() {
       }}
       className="flex flex-col gap-4"
     >
-      {({ control, formState: { errors, isSubmitting } }) => (
+      {({ control, formState: { errors, isSubmitting, isDirty } }) => (
         <>
           <div className="flex items-center justify-between gap-2">
             <div className="flex gap-0.5 flex-wrap">
@@ -142,6 +142,7 @@ export default function UbahArtikelForm() {
               <ButtonSubmit
                 color="warning"
                 isSubmitting={isSubmitting}
+                disabled={!isDirty}
                 className="sm:px-4 sm:py-2 sm:text-sm sm:min-h-10"
               >
                 Simpan

@@ -8,8 +8,8 @@ import {
 } from 'dnd-kit-sortable-tree'
 import { forwardRef } from 'react'
 import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
-import { LuChevronRight } from 'react-icons/lu'
-import { MdAdd, MdClose, MdDragIndicator } from 'react-icons/md'
+import { LuChevronRight, LuTrash, LuTrash2 } from 'react-icons/lu'
+import { MdAdd, MdDragIndicator } from 'react-icons/md'
 import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
 
@@ -178,7 +178,8 @@ const SortableItem = ({
         <ActionIcon
           size="sm"
           color="danger"
-          variant="outline-hover-colorful"
+          variant="outline-hover"
+          className="text-gray-lighter"
           onClick={(e) => {
             e.stopPropagation()
 
@@ -189,7 +190,7 @@ const SortableItem = ({
             }
           }}
         >
-          <MdClose />
+          <LuTrash2 />
         </ActionIcon>
       )}
       {active && <LuChevronRight className="size-4 m-2" />}
