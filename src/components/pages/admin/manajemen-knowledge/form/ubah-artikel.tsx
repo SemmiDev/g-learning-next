@@ -10,6 +10,7 @@ import {
   FormError,
   Loader,
   Modal,
+  ModalFooterButtons,
   SelectOptionType,
   Title,
 } from '@/components/ui'
@@ -49,7 +50,15 @@ const levelOptions: SelectOptionType[] = [
   selectOption('Akademik'),
 ]
 
-export default function UbahArtikelForm() {
+type UbahArtikelFormProps = {
+  showHeader?: boolean
+  onClose?: () => void
+}
+
+export default function UbahArtikelForm({
+  showHeader,
+  onClose,
+}: UbahArtikelFormProps) {
   const queryClient = useQueryClient()
   const { processApi, makeSimpleApiQueryData } = useSessionJwt()
 
@@ -101,12 +110,13 @@ export default function UbahArtikelForm() {
     await handleActionWithToast(processApi(ubahArtikelKnowledgeApi, id, data), {
       loading: 'Menyimpan...',
       onStart: () => setFormError(undefined),
-      onSuccess: () => {
+      onSuccess: ({ data: resData }) => {
         queryClient.setQueryData(
           queryKey,
           (oldData: UbahArtikelFormSchema) => ({
             ...oldData,
             ...data,
+            isi: resData?.isi,
           })
         )
 
@@ -130,86 +140,99 @@ export default function UbahArtikelForm() {
           values: initialValues,
           defaultValues: initialValues,
         }}
-        className="flex flex-col gap-4"
+        flexing
       >
         {({ control, formState: { errors, isSubmitting, isDirty } }) => (
           <>
-            <div className="flex items-center justify-between gap-2 flex-wrap-reverse">
-              <div className="flex gap-0.5 flex-wrap">
-                {isLoadingModul ? (
-                  <Loader size="sm" color="primary" />
-                ) : (
-                  <Title as="h4" size="base" weight="semibold">
-                    {dataModul?.nama || '-'}
-                  </Title>
-                )}
-                {(isFetching || isFetchingModul) && (
-                  <Loader size="sm" variant="pulse" />
-                )}
-              </div>
-              <div className="flex justify-end gap-2 flex-grow">
-                <Button
-                  color="info"
-                  disabled={isDirty}
-                  onClick={() => setShowReview(true)}
-                >
-                  Review
-                </Button>
-                <ButtonSubmit
-                  color="warning"
-                  isSubmitting={isSubmitting}
-                  disabled={!isDirty}
-                  className="sm:px-4 sm:py-2 sm:text-sm sm:min-h-10"
-                >
-                  Simpan
-                </ButtonSubmit>
-                <ActionIcon
-                  variant="text"
-                  color="gray"
-                  onClick={tutupArtikel}
-                  className="text-gray-lighter sm:p-1 sm:w-9 sm:h-9"
-                >
-                  <MdClose className="size-4" />
-                </ActionIcon>
-              </div>
-            </div>
+            <div className="flex flex-col gap-4 p-2">
+              {showHeader && (
+                <div className="flex items-center justify-between gap-2 flex-wrap-reverse">
+                  <div className="flex gap-0.5 flex-wrap">
+                    {isLoadingModul ? (
+                      <Loader size="sm" color="primary" />
+                    ) : (
+                      <Title as="h4" size="base" weight="semibold">
+                        {dataModul?.nama || '-'}
+                      </Title>
+                    )}
+                    {(isFetching || isFetchingModul) && (
+                      <Loader size="sm" variant="pulse" />
+                    )}
+                  </div>
+                  <div className="flex justify-end gap-2 flex-grow">
+                    <Button
+                      color="info"
+                      disabled={isDirty}
+                      onClick={() => setShowReview(true)}
+                    >
+                      Review
+                    </Button>
+                    <ButtonSubmit
+                      color="warning"
+                      isSubmitting={isSubmitting}
+                      disabled={!isDirty}
+                      className="sm:px-4 sm:py-2 sm:text-sm sm:min-h-10"
+                    >
+                      Simpan
+                    </ButtonSubmit>
+                    <ActionIcon
+                      variant="text"
+                      color="gray"
+                      onClick={tutupArtikel}
+                      className="text-gray-lighter sm:p-1 sm:w-9 sm:h-9"
+                    >
+                      <MdClose className="size-4" />
+                    </ActionIcon>
+                  </div>
+                </div>
+              )}
 
-            <FormError error={formError} />
+              <FormError error={formError} />
 
-            <div className="flex gap-2 flex-wrap">
-              <ControlledInput
-                name="judul"
+              <div className="flex gap-2 flex-wrap">
+                <ControlledInput
+                  name="judul"
+                  control={control}
+                  errors={errors}
+                  label="Judul Artikel"
+                  placeholder="Tulis judul artikel di sini"
+                  className="flex-1"
+                  required
+                />
+
+                <ControlledSelect
+                  name="level"
+                  control={control}
+                  options={levelOptions}
+                  label="Level"
+                  placeholder="Pilih Level"
+                  errors={errors}
+                  className="w-full sm:w-36"
+                  required
+                />
+              </div>
+
+              <ControlledQuillEditor
+                name="isi"
                 control={control}
                 errors={errors}
-                label="Judul Artikel"
-                placeholder="Tulis judul artikel di sini"
-                className="flex-1"
-                required
-              />
-
-              <ControlledSelect
-                name="level"
-                control={control}
-                options={levelOptions}
-                label="Level"
-                placeholder="Pilih Level"
-                errors={errors}
-                className="w-full sm:w-36"
+                label="Isi Artikel"
+                placeholder="Tulis isi artikel di sini"
+                size={showHeader ? 'xl' : 'lg'}
+                toolbar="rich"
+                className="text-gray-dark"
+                toolbarImage
                 required
               />
             </div>
 
-            <ControlledQuillEditor
-              name="isi"
-              control={control}
-              errors={errors}
-              label="Isi Artikel"
-              placeholder="Tulis isi artikel di sini"
-              size="xl"
-              toolbar="rich"
-              className="text-gray-dark"
-              toolbarImage
-              required
+            <ModalFooterButtons
+              submit="Simpan"
+              submitColor="warning"
+              isSubmitting={isSubmitting}
+              onCancel={onClose}
+              className="md:hidden"
+              borderTop
             />
           </>
         )}

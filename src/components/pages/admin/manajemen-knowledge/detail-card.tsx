@@ -1,25 +1,53 @@
-import { Card } from '@/components/ui'
+import { Card, Modal } from '@/components/ui'
+import { useMinViewportSize } from '@/hooks/viewport-size/use-min-size'
 import cn from '@/utils/class-names'
-import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
+import { useEffect, useState } from 'react'
 import TambahArtikelForm from './form/tambah-artikel'
 import UbahArtikelForm from './form/ubah-artikel'
+import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
 
 type DetailCardProps = {
   className?: string
 }
 
 export default function DetailCard({ className }: DetailCardProps) {
-  const { action } = useManajemenKnowledgeArtikelStore()
+  const atMinSize = useMinViewportSize('md')
+  const { action, tutupArtikel } = useManajemenKnowledgeArtikelStore()
 
-  if (!action) return null
+  const [showModal, setShowModal] = useState(false)
+
+  const handleTutupArtikel = () => {
+    setShowModal(false)
+    setTimeout(() => tutupArtikel(), 250)
+  }
+
+  useEffect(() => {
+    if (action) setShowModal(true)
+  }, [action])
+
+  const ArtikelForm =
+    action === 'tambah' ? (
+      <TambahArtikelForm showHeader={atMinSize} onClose={handleTutupArtikel} />
+    ) : (
+      action === 'ubah' && (
+        <UbahArtikelForm showHeader={atMinSize} onClose={handleTutupArtikel} />
+      )
+    )
+
+  if (atMinSize) {
+    if (!action) return null
+
+    return <Card className={cn('px-4 py-3', className)}>{ArtikelForm}</Card>
+  }
 
   return (
-    <Card className={cn('px-4 py-3', className)}>
-      {action === 'tambah' ? (
-        <TambahArtikelForm />
-      ) : (
-        action === 'ubah' && <UbahArtikelForm />
-      )}
-    </Card>
+    <Modal
+      size="full"
+      title={action === 'tambah' ? 'Tambah Artikel' : 'Ubah Artikel'}
+      isOpen={showModal}
+      onClose={handleTutupArtikel}
+    >
+      {ArtikelForm}
+    </Modal>
   )
 }

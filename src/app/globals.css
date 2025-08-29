@@ -1493,7 +1493,7 @@ div[style='z-index: 1000001;'],
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ql-editor ol {
+.ql-container .ql-editor ol {
   padding-left: 0;
 }
 
