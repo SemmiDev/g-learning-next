@@ -16,7 +16,7 @@ export default function HamburgerButton({
     <ActionIcon
       aria-label="Open Sidebar Menu"
       variant="text"
-      className={cn('me-3 h-auto w-auto p-0 sm:me-4 xl:hidden', className)}
+      className={cn('me-6 h-auto w-auto p-0 sm:me-4 xl:hidden', className)}
       onClick={onClick}
     >
       <svg
