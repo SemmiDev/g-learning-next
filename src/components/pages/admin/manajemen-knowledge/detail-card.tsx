@@ -11,7 +11,7 @@ type DetailCardProps = {
 }
 
 export default function DetailCard({ className }: DetailCardProps) {
-  const atMinSize = useMinViewportSize('md')
+  const atMinSizeMd = useMinViewportSize('md')
   const { action, tutupArtikel } = useManajemenKnowledgeArtikelStore()
 
   const [showModal, setShowModal] = useState(false)
@@ -27,14 +27,20 @@ export default function DetailCard({ className }: DetailCardProps) {
 
   const ArtikelForm =
     action === 'tambah' ? (
-      <TambahArtikelForm showHeader={atMinSize} onClose={handleTutupArtikel} />
+      <TambahArtikelForm
+        showHeader={atMinSizeMd}
+        onClose={handleTutupArtikel}
+      />
     ) : (
       action === 'ubah' && (
-        <UbahArtikelForm showHeader={atMinSize} onClose={handleTutupArtikel} />
+        <UbahArtikelForm
+          showHeader={atMinSizeMd}
+          onClose={handleTutupArtikel}
+        />
       )
     )
 
-  if (atMinSize) {
+  if (atMinSizeMd) {
     if (!action) return null
 
     return <Card className={cn('px-4 py-3', className)}>{ArtikelForm}</Card>

@@ -4,6 +4,7 @@ import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
 import { tableAbsensiPesertaApi } from '@/services/api/pengguna/ruang-kelas/presensi/umum/pengajar/table-absensi-peserta'
+import cn from '@/utils/class-names'
 import { switchCaseObject } from '@/utils/switch-case'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { useQuery } from '@tanstack/react-query'
@@ -18,10 +19,12 @@ import PengajarRekapPresensiDaftarAbsensiCard from './rekap-detail-daftar-absens
 
 type PengajarRekapDetailSesiSectionProps = {
   className?: string
+  inModal?: boolean
 }
 
 export default function PengajarRekapPresensiDetailSesiSection({
   className,
+  inModal,
 }: PengajarRekapDetailSesiSectionProps) {
   const { jwt, makeSimpleApiQueryData } = useSessionJwt()
   const searchParams = useSearchParams()
@@ -122,7 +125,11 @@ export default function PengajarRekapPresensiDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card className="flex justify-between gap-2 flex-wrap">
+      <Card
+        className={cn('flex justify-between gap-2 flex-wrap', {
+          'rounded-none shadow-none': inModal,
+        })}
+      >
         <div className="flex flex-col">
           <Text weight="semibold" variant="dark">
             {data?.aktifitas.judul}
@@ -178,7 +185,9 @@ export default function PengajarRekapPresensiDetailSesiSection({
         idAktifitas={idAktifitas}
         ubahData={ubahData}
         hideUbahData={() => setUbahData(false)}
-        className="mt-4"
+        className={cn('mt-4', {
+          'rounded-none border-y-0 shadow-none mt-0': inModal,
+        })}
       />
     </div>
   )
