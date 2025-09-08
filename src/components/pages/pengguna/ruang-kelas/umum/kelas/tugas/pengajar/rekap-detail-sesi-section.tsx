@@ -10,6 +10,7 @@ import { routes } from '@/config/routes'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatAktifitasApi } from '@/services/api/pengguna/ruang-kelas/aktifitas/lihat'
 import { lihatKelasApi } from '@/services/api/pengguna/ruang-kelas/lihat'
+import cn from '@/utils/class-names'
 import { stripHtmlAndEllipsis } from '@/utils/text'
 import { passedTime } from '@/utils/time'
 import { useQuery } from '@tanstack/react-query'
@@ -20,10 +21,12 @@ import PengajarRekapTugasDaftarPengumpulanCard from './rekap-daftar-pengumpulan-
 
 type PengajarRekapTugasDetailSesiSectionProps = {
   className?: string
+  inModal?: boolean
 }
 
 export default function PengajarRekapTugasDetailSesiSection({
   className,
+  inModal,
 }: PengajarRekapTugasDetailSesiSectionProps) {
   const { makeSimpleApiQueryData } = useSessionJwt()
   const searchParams = useSearchParams()
@@ -70,7 +73,11 @@ export default function PengajarRekapTugasDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card className="flex justify-between gap-2 flex-wrap">
+      <Card
+        className={cn('flex justify-between gap-2 flex-wrap', {
+          'rounded-none shadow-none': inModal,
+        })}
+      >
         <div>
           <Text weight="semibold" variant="dark">
             {data?.aktifitas.judul}
@@ -110,7 +117,9 @@ export default function PengajarRekapTugasDetailSesiSection({
 
       <PengajarRekapTugasDaftarPengumpulanCard
         sesi={data}
-        className="flex-1 mt-4"
+        className={cn('flex-1 mt-4', {
+          'rounded-none border-y-0 shadow-none mt-0': inModal,
+        })}
       />
 
       <Card className="mt-4">
