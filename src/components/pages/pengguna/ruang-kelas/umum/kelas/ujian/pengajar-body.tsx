@@ -1,10 +1,19 @@
-import { Button, Card, ContentLoader, Shimmer, Text } from '@/components/ui'
+import {
+  Button,
+  Card,
+  ContentLoader,
+  Modal,
+  Shimmer,
+  Text,
+} from '@/components/ui'
 import { useInfiniteListAsync } from '@/hooks/use-infinite-list-async'
+import { useMinViewportSize } from '@/hooks/viewport-size/use-min-size'
 import { tableSesiUjianApi } from '@/services/api/pengguna/ruang-kelas/ujian/pengajar/table-sesi'
 import cn from '@/utils/class-names'
 import { betweenTime } from '@/utils/time'
 import { useParams } from 'next/navigation'
 import { useQueryState } from 'nuqs'
+import { useEffect, useState } from 'react'
 import { BsCheck, BsChevronDown } from 'react-icons/bs'
 import { CgSpinner } from 'react-icons/cg'
 import { PiMagnifyingGlass } from 'react-icons/pi'
@@ -39,9 +48,12 @@ const sortData: SortDataType[] = [
 ]
 
 export default function PengajarUjianBody() {
+  const atMinSizeLg = useMinViewportSize('lg')
   const [idSesiAktif, setIdSesiAktif] = useQueryState('sesi', {
     history: 'push',
   })
+
+  const [showModalDetail, setShowModalDetail] = useState(false)
 
   const { kelas: idKelas }: { kelas: string } = useParams()
 
@@ -72,105 +84,129 @@ export default function PengajarUjianBody() {
     onLoadMore: fetchNextPage,
   })
 
+  const handleTutupDetail = () => {
+    setShowModalDetail(false)
+    setTimeout(() => setIdSesiAktif(null), 250)
+  }
+
+  useEffect(() => {
+    setShowModalDetail(!atMinSizeLg && !!idSesiAktif)
+  }, [atMinSizeLg, idSesiAktif])
+
   if (isLoading) return <OuterCardShimmer className="mt-8" />
 
   return (
-    <div className="flex flex-wrap gap-4 mt-8 lg:flex-nowrap">
-      <div className="w-full lg:w-5/12">
-        <div className="flex justify-between">
-          <Input
-            size="sm"
-            type="search"
-            placeholder="Cari Sesi Ujian"
-            inputClassName="bg-white dark:bg-transparent"
-            prefix={
-              <PiMagnifyingGlass size={20} className="text-gray-lighter" />
-            }
-            value={search}
-            onChange={(e) => onSearch(e.target.value)}
-            clearable
-            onClear={() => onSearch('')}
-          />
-          <Dropdown>
-            <Dropdown.Trigger>
-              <Button
-                as="span"
-                size="sm"
-                variant="outline"
-                className="bg-white"
-              >
-                {sorting && (
-                  <>
-                    {sorting?.title} <BsChevronDown className="ml-2 w-5" />
-                  </>
-                )}
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Menu>
-              {sortData.map((item) => (
-                <Dropdown.Item
-                  key={item.title}
-                  className="justify-between"
-                  onClick={() => onSort(item.sort.name, item.sort.order)}
+    <>
+      <div className="flex flex-wrap gap-4 mt-8 lg:flex-nowrap">
+        <div className="w-full lg:w-5/12">
+          <div className="flex justify-between">
+            <Input
+              size="sm"
+              type="search"
+              placeholder="Cari Sesi Ujian"
+              inputClassName="bg-white dark:bg-transparent"
+              prefix={
+                <PiMagnifyingGlass size={20} className="text-gray-lighter" />
+              }
+              value={search}
+              onChange={(e) => onSearch(e.target.value)}
+              clearable
+              onClear={() => onSearch('')}
+            />
+            <Dropdown>
+              <Dropdown.Trigger>
+                <Button
+                  as="span"
+                  size="sm"
+                  variant="outline"
+                  className="bg-white"
                 >
-                  <Text size="sm" className="text-left">
-                    {item.title}
-                  </Text>{' '}
-                  {sort?.name === item.sort.name &&
-                    sort?.order === item.sort.order && <BsCheck size={18} />}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-
-        <Card className="relative p-0 mt-2">
-          {isFetching && (
-            <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 rounded-md">
-              <div className="size-10 rounded-full bg-transparent">
-                <CgSpinner className="size-10 animate-spin text-primary" />
-              </div>
-            </div>
-          )}
-          <div className="lg:max-h-[58rem] lg:overflow-y-auto">
-            {data.length > 0 ? (
-              data.map((item, idx) => (
-                <PengajarRekapUjianItem
-                  key={item.id}
-                  idx={idx}
-                  sesi={{
-                    id: item.id,
-                    judul: item.judul,
-                    waktuMulai: item.waktu_mulai_ujian,
-                    waktuSelesai: item.waktu_selesai_ujian,
-                  }}
-                  active={item.id === idSesiAktif}
-                  open={betweenTime(
-                    item.waktu_mulai_ujian,
-                    item.waktu_selesai_ujian
+                  {sorting && (
+                    <>
+                      {sorting?.title} <BsChevronDown className="ml-2 w-5" />
+                    </>
                   )}
-                  onClick={() => setIdSesiAktif(item.id)}
-                />
-              ))
-            ) : (
-              <div className="flex items-center justify-center h-40">
-                <Text size="sm" weight="medium">
-                  {search
-                    ? 'Sesi ujian tidak ditemukan'
-                    : 'Belum ada sesi ujian'}
-                </Text>
-              </div>
-            )}
+                </Button>
+              </Dropdown.Trigger>
+              <Dropdown.Menu>
+                {sortData.map((item) => (
+                  <Dropdown.Item
+                    key={item.title}
+                    className="justify-between"
+                    onClick={() => onSort(item.sort.name, item.sort.order)}
+                  >
+                    <Text size="sm" className="text-left">
+                      {item.title}
+                    </Text>{' '}
+                    {sort?.name === item.sort.name &&
+                      sort?.order === item.sort.order && <BsCheck size={18} />}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
 
-          {!isLoading && hasNextPage && (
-            <ContentLoader ref={refSentry} className="py-4" />
-          )}
-        </Card>
+          <Card className="relative p-0 mt-2">
+            {isFetching && (
+              <div className="flex justify-center items-center absolute m-auto left-0 right-0 top-0 bottom-0 bg-black/10 rounded-md">
+                <div className="size-10 rounded-full bg-transparent">
+                  <CgSpinner className="size-10 animate-spin text-primary" />
+                </div>
+              </div>
+            )}
+            <div className="lg:max-h-[58rem] lg:overflow-y-auto">
+              {data.length > 0 ? (
+                data.map((item, idx) => (
+                  <PengajarRekapUjianItem
+                    key={item.id}
+                    idx={idx}
+                    sesi={{
+                      id: item.id,
+                      judul: item.judul,
+                      waktuMulai: item.waktu_mulai_ujian,
+                      waktuSelesai: item.waktu_selesai_ujian,
+                    }}
+                    active={item.id === idSesiAktif}
+                    open={betweenTime(
+                      item.waktu_mulai_ujian,
+                      item.waktu_selesai_ujian
+                    )}
+                    onClick={() =>
+                      setIdSesiAktif(idSesiAktif !== item.id ? item.id : null)
+                    }
+                  />
+                ))
+              ) : (
+                <div className="flex items-center justify-center h-40">
+                  <Text size="sm" weight="medium">
+                    {search
+                      ? 'Sesi ujian tidak ditemukan'
+                      : 'Belum ada sesi ujian'}
+                  </Text>
+                </div>
+              )}
+            </div>
+
+            {!isLoading && hasNextPage && (
+              <ContentLoader ref={refSentry} className="py-4" />
+            )}
+          </Card>
+        </div>
+
+        {idSesiAktif && atMinSizeLg && (
+          <PengajarRekapUjianDetailSesiSection className="w-full lg:w-7/12" />
+        )}
       </div>
 
-      <PengajarRekapUjianDetailSesiSection className="w-full lg:w-7/12" />
-    </div>
+      <Modal
+        size="full"
+        title="Detail Rekap Ujian"
+        isOpen={showModalDetail}
+        onClose={handleTutupDetail}
+      >
+        <PengajarRekapUjianDetailSesiSection inModal />
+      </Modal>
+    </>
   )
 }
 

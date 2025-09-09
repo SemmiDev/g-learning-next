@@ -16,13 +16,16 @@ import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { BsDoorOpen } from 'react-icons/bs'
 import PengajarRekapUjianDaftarMengikutiCard from './rekap-daftar-mengikuti-card'
+import cn from '@/utils/class-names'
 
 type PengajarRekapUjianDetailSesiSectionProps = {
   className?: string
+  inModal?: boolean
 }
 
 export default function PengajarRekapUjianDetailSesiSection({
   className,
+  inModal,
 }: PengajarRekapUjianDetailSesiSectionProps) {
   const { makeSimpleApiQueryData } = useSessionJwt()
   const searchParams = useSearchParams()
@@ -69,7 +72,11 @@ export default function PengajarRekapUjianDetailSesiSection({
 
   return (
     <div className={className}>
-      <Card className="flex justify-between gap-2 flex-wrap">
+      <Card
+        className={cn('flex justify-between gap-2 flex-wrap', {
+          'rounded-none shadow-none': inModal,
+        })}
+      >
         <div>
           <Text weight="semibold" variant="dark">
             {data?.aktifitas.judul}
@@ -128,7 +135,9 @@ export default function PengajarRekapUjianDetailSesiSection({
 
       <PengajarRekapUjianDaftarMengikutiCard
         sesi={data}
-        className="flex-1 mt-4"
+        className={cn('flex-1 mt-4', {
+          'rounded-none border-y-0 shadow-none mt-0': inModal,
+        })}
       />
 
       <Card className="mt-4">
