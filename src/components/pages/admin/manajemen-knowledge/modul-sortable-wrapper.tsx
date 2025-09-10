@@ -11,11 +11,11 @@ import {
   TreeItem,
   TreeItemComponentProps,
 } from 'dnd-kit-sortable-tree'
+import { useQueryState } from 'nuqs'
 import { forwardRef } from 'react'
 import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
 import { LuChevronRight, LuDownload, LuTrash2 } from 'react-icons/lu'
 import { MdAdd, MdDragIndicator } from 'react-icons/md'
-import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
 
 export type TreeItemDataType = {
@@ -63,8 +63,9 @@ const ModulSortableTreeItemComponent = forwardRef<
   TreeItemComponentProps<TreeItemDataType>
 >((props: TreeItemComponentProps<TreeItemDataType>, ref) => {
   const { setShowTambahModul } = useManajemenKnowledgeSortableStore()
-  const { idModul, action, tambahArtikel, tutupArtikel } =
-    useManajemenKnowledgeArtikelStore()
+
+  const [tambahArtikel, setTambahArtikel] = useQueryState('tambah-artikel')
+  const [_, setUbahArtikel] = useQueryState('ubah-artikel')
 
   return (
     <SimpleTreeItemWrapper
@@ -78,13 +79,14 @@ const ModulSortableTreeItemComponent = forwardRef<
         <AddSortableItem
           {...props}
           title={props.depth ? 'Tambah Artikel' : 'Tambah Modul'}
-          active={action === 'tambah' && idModul === props.parent?.id}
+          active={tambahArtikel === props.parent?.id}
           onClick={() => {
             if (props.depth && props.parent?.id) {
-              if (action === 'tambah' && idModul === props.parent?.id) {
-                tutupArtikel()
+              if (tambahArtikel === props.parent?.id) {
+                setTambahArtikel(null)
               } else {
-                tambahArtikel(props.parent?.id as string)
+                setTambahArtikel(props.parent?.id as string)
+                setUbahArtikel(null)
               }
             } else {
               setShowTambahModul(true)
@@ -111,10 +113,11 @@ const SortableItem = ({
 }: TreeItemComponentProps<TreeItemDataType>) => {
   const { isSaving, doShowUbahModul, setIdHapusModul, setIdHapusArtikel } =
     useManajemenKnowledgeSortableStore()
-  const { action, id, tutupArtikel, ubahArtikel } =
-    useManajemenKnowledgeArtikelStore()
 
-  const active = action === 'ubah' && id === item.id
+  const [_, setTambahArtikel] = useQueryState('tambah-artikel')
+  const [ubahArtikel, setUbahArtikel] = useQueryState('ubah-artikel')
+
+  const active = ubahArtikel === item.id
 
   const dragProps = !isSaving ? handleProps : {}
 
@@ -131,10 +134,11 @@ const SortableItem = ({
       onClick={() => {
         if (depth === 0) return
 
-        if (action === 'ubah' && item.id === id) {
-          tutupArtikel()
+        if (ubahArtikel === item.id) {
+          setUbahArtikel(null)
         } else {
-          ubahArtikel(item.id as string)
+          setTambahArtikel(null)
+          setUbahArtikel(item.id as string)
         }
       }}
     >
@@ -204,7 +208,7 @@ const SortableItem = ({
 
       {active && !clone && <LuChevronRight className="size-4 m-1.5" />}
 
-      {childCount && childCount > 1 && !clone && (
+      {!!childCount && childCount > 1 && !clone && (
         <div className="flex gap-2 items-center">
           <ActionIconTooltip
             tooltip="Unduh Modul"

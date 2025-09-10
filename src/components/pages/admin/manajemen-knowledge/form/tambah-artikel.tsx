@@ -20,10 +20,10 @@ import { required } from '@/utils/validations/pipe'
 import { quillRequired } from '@/utils/validations/simple-refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryState } from 'nuqs'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { MdClose } from 'react-icons/md'
-import { useManajemenKnowledgeArtikelStore } from '../stores/artikel'
 import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 
 const formSchema = z.object({
@@ -59,29 +59,30 @@ export default function TambahArtikelForm({
   const { makeSimpleApiQueryData, processApi } = useSessionJwt()
 
   const { addArtikelItem } = useManajemenKnowledgeSortableStore()
-  const { idModul, ubahArtikel, tutupArtikel } =
-    useManajemenKnowledgeArtikelStore()
+
+  const [tambahArtikel, setTambahArtikel] = useQueryState('tambah-artikel')
+  const [_, setUbahArtikel] = useQueryState('ubah-artikel')
 
   const [formError, setFormError] = useState<string>()
 
   const { data: dataModul, isLoading } = useQuery({
-    queryKey: ['admin.manajemen-knowledge.modul.lihat', idModul],
-    queryFn: makeSimpleApiQueryData(lihatModulKnowledgeApi, idModul),
-    enabled: !!idModul,
+    queryKey: ['admin.manajemen-knowledge.modul.lihat', tambahArtikel],
+    queryFn: makeSimpleApiQueryData(lihatModulKnowledgeApi, tambahArtikel),
+    enabled: !!tambahArtikel,
   })
 
   const onSubmit: SubmitHandler<TambahArtikelFormSchema> = async (data) => {
-    if (!idModul) return
+    if (!tambahArtikel) return
 
     await handleActionWithToast(
-      processApi(tambahArtikelKnowledgeApi, idModul, data),
+      processApi(tambahArtikelKnowledgeApi, tambahArtikel, data),
       {
         loading: 'Menyimpan...',
         onStart: () => setFormError(undefined),
         onSuccess: ({ data }) => {
           if (!data || !data.id) return
 
-          addArtikelItem(data.id, data.judul, data.level, idModul)
+          addArtikelItem(data.id, data.judul, data.level, tambahArtikel)
           queryClient.setQueryData(
             ['admin.manajemen-knowledge.artikel.ubah', data.id],
             () => ({
@@ -91,7 +92,8 @@ export default function TambahArtikelForm({
               modul: data.id_modul,
             })
           )
-          ubahArtikel(data.id)
+          setUbahArtikel(data.id)
+          setTambahArtikel(null)
         },
         onError: ({ message }) => setFormError(message),
       }
@@ -134,7 +136,7 @@ export default function TambahArtikelForm({
                     variant="text"
                     color="gray"
                     className="text-gray-lighter sm:p-1 sm:w-9 sm:h-9"
-                    onClick={tutupArtikel}
+                    onClick={() => setTambahArtikel(null)}
                   >
                     <MdClose className="size-4" />
                   </ActionIcon>

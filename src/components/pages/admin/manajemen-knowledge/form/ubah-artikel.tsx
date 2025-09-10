@@ -24,10 +24,10 @@ import { required } from '@/utils/validations/pipe'
 import { quillRequired } from '@/utils/validations/simple-refine'
 import { z } from '@/utils/zod-id'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryState } from 'nuqs'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { MdClose } from 'react-icons/md'
-import { useManajemenKnowledgeArtikelStore } from '../stores/artikel'
 import { useManajemenKnowledgeSortableStore } from '../stores/sortable'
 
 const formSchema = z.object({
@@ -63,13 +63,13 @@ export default function UbahArtikelForm({
   const { processApi, makeSimpleApiQueryData } = useSessionJwt()
 
   const { updateArtikelItem } = useManajemenKnowledgeSortableStore()
-  const { id, tutupArtikel } = useManajemenKnowledgeArtikelStore()
+
+  const [ubahArtikel, setUbahArtikel] = useQueryState('ubah-artikel')
 
   const [showReview, setShowReview] = useState(false)
-
   const [formError, setFormError] = useState<string>()
 
-  const queryKey = ['admin.manajemen-knowledge.artikel.ubah', id]
+  const queryKey = ['admin.manajemen-knowledge.artikel.ubah', ubahArtikel]
 
   const {
     data: initialValues = {},
@@ -78,9 +78,9 @@ export default function UbahArtikelForm({
   } = useQuery<UbahArtikelFormSchema>({
     queryKey,
     queryFn: async () => {
-      if (!id) return {}
+      if (!ubahArtikel) return {}
 
-      const { data } = await processApi(lihatArtikelKnowledgeApi, id)
+      const { data } = await processApi(lihatArtikelKnowledgeApi, ubahArtikel)
 
       return {
         judul: data?.judul,
@@ -105,30 +105,37 @@ export default function UbahArtikelForm({
   })
 
   const onSubmit: SubmitHandler<UbahArtikelFormSchema> = async (data) => {
-    if (!id) return
+    if (!ubahArtikel) return
 
-    await handleActionWithToast(processApi(ubahArtikelKnowledgeApi, id, data), {
-      loading: 'Menyimpan...',
-      onStart: () => setFormError(undefined),
-      onSuccess: ({ data: resData }) => {
-        queryClient.setQueryData(
-          queryKey,
-          (oldData: UbahArtikelFormSchema) => ({
-            ...oldData,
-            ...data,
-            isi: resData?.isi,
-          })
-        )
+    await handleActionWithToast(
+      processApi(ubahArtikelKnowledgeApi, ubahArtikel, data),
+      {
+        loading: 'Menyimpan...',
+        onStart: () => setFormError(undefined),
+        onSuccess: ({ data: resData }) => {
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: UbahArtikelFormSchema) => ({
+              ...oldData,
+              ...data,
+              isi: resData?.isi,
+            })
+          )
 
-        updateArtikelItem(id, data.judul || '', data.level?.value || '')
-      },
-      onError: ({ message }) => setFormError(message),
-    })
+          updateArtikelItem(
+            ubahArtikel,
+            data.judul || '',
+            data.level?.value || ''
+          )
+        },
+        onError: ({ message }) => setFormError(message),
+      }
+    )
   }
 
   if (isLoading) return <ContentLoader height={460} />
 
-  if (!id) return null
+  if (!ubahArtikel) return null
 
   return (
     <>
@@ -178,7 +185,7 @@ export default function UbahArtikelForm({
                     <ActionIcon
                       variant="text"
                       color="gray"
-                      onClick={tutupArtikel}
+                      onClick={() => setUbahArtikel(null)}
                       className="text-gray-lighter sm:p-1 sm:w-9 sm:h-9"
                     >
                       <MdClose className="size-4" />
