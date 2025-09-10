@@ -1,4 +1,9 @@
-import { ActionIcon, Button, TextSpan } from '@/components/ui'
+import {
+  ActionIcon,
+  ActionIconTooltip,
+  ButtonTooltip,
+  TextSpan,
+} from '@/components/ui'
 import cn from '@/utils/class-names'
 import { randomString } from '@/utils/random'
 import {
@@ -8,7 +13,7 @@ import {
 } from 'dnd-kit-sortable-tree'
 import { forwardRef } from 'react'
 import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
-import { LuChevronRight, LuTrash, LuTrash2 } from 'react-icons/lu'
+import { LuChevronRight, LuDownload, LuTrash2 } from 'react-icons/lu'
 import { MdAdd, MdDragIndicator } from 'react-icons/md'
 import { useManajemenKnowledgeArtikelStore } from './stores/artikel'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
@@ -116,11 +121,11 @@ const SortableItem = ({
   return (
     <div
       className={cn(
-        'flex gap-2 justify-between items-center min-h-[3.125rem] bg-white rounded-md border border-muted hover:bg-muted/5 px-1 py-2',
+        'flex gap-4 justify-between items-center min-h-[3.125rem] bg-white rounded-md border border-muted hover:bg-muted/5 px-1 py-2',
         {
           'cursor-pointer': depth > 0,
           'bg-warning-lighter/10 text-warning [&_.sortable-badge]:text-warning-dark':
-            active,
+            active && !clone,
         }
       )}
       onClick={() => {
@@ -160,7 +165,8 @@ const SortableItem = ({
           </TextSpan>
         </div>
         {depth === 0 && (
-          <Button
+          <ButtonTooltip
+            tooltip="Ubah Modul"
             size="sm"
             color="warning"
             variant="text-colorful"
@@ -171,11 +177,13 @@ const SortableItem = ({
             }}
           >
             <BsPencilSquare className="size-3" />
-          </Button>
+          </ButtonTooltip>
         )}
       </div>
+
       {onRemove && (!childCount || childCount <= 1) && !active && (
-        <ActionIcon
+        <ActionIconTooltip
+          tooltip={depth === 0 ? 'Hapus Modul' : 'Hapus Artikel'}
           size="sm"
           color="danger"
           variant="outline-hover"
@@ -191,13 +199,28 @@ const SortableItem = ({
           }}
         >
           <LuTrash2 />
-        </ActionIcon>
+        </ActionIconTooltip>
       )}
-      {active && <LuChevronRight className="size-4 m-1.5" />}
-      {!!childCount && !clone && (
-        <ActionIcon size="sm" variant="text" color="gray">
-          {collapsed ? <BsChevronDown /> : <BsChevronUp />}
-        </ActionIcon>
+
+      {active && !clone && <LuChevronRight className="size-4 m-1.5" />}
+
+      {childCount && childCount > 1 && !clone && (
+        <div className="flex gap-2 items-center">
+          <ActionIconTooltip
+            tooltip="Unduh Modul"
+            size="sm"
+            variant="outline-hover-colorful"
+            onClick={(e) => {
+              e.stopPropagation()
+              /* TODO: download modul */
+            }}
+          >
+            <LuDownload />
+          </ActionIconTooltip>
+          <ActionIcon size="sm" variant="text" color="gray">
+            {collapsed ? <BsChevronDown /> : <BsChevronUp />}
+          </ActionIcon>
+        </div>
       )}
     </div>
   )

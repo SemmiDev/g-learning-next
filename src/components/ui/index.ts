@@ -26,6 +26,7 @@ import Button, {
   ButtonProps,
   ButtonVariantType,
 } from './button/button'
+import ButtonTooltip, { ButtonTooltipProps } from './button/button-tooltip'
 import ButtonSubmit, { ButtonSubmitProps } from './button/submit'
 import Card from './card'
 import CardSeparator from './card-separator'
@@ -160,6 +161,7 @@ export {
   Breadcrumb,
   Button,
   ButtonSubmit,
+  ButtonTooltip,
   Card,
   CardSeparator,
   Checkbox,
@@ -253,6 +255,7 @@ export {
   type ButtonColorType,
   type ButtonProps,
   type ButtonSubmitProps,
+  type ButtonTooltipProps,
   type ButtonVariantType,
   type CheckboxProps,
   type CircleProps,

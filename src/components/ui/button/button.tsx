@@ -12,8 +12,19 @@ export type ButtonColorType =
   | 'danger'
   | 'gray'
 
+export type ButtonVariantType =
+  | 'solid'
+  | 'flat'
+  | 'flat-colorful'
+  | 'outline'
+  | 'outline-colorful'
+  | 'outline-hover'
+  | 'outline-hover-colorful'
+  | 'text'
+  | 'text-colorful'
+
 export const buttonColorStyles: Record<
-  string,
+  ButtonVariantType,
   Record<ButtonColorType, string>
 > = {
   solid: {
@@ -167,8 +178,6 @@ export const getRizVariant = (
       return 'text'
   }
 }
-
-export type ButtonVariantType = keyof typeof buttonColorStyles
 
 export type ButtonProps = Omit<RizButtonProps, 'color' | 'variant'> & {
   variant?: ButtonVariantType

@@ -6,7 +6,6 @@ import {
   Modal,
   ModalFooterButtons,
 } from '@/components/ui'
-import { useAutoSizeMediumModal } from '@/hooks/auto-size-modal/use-medium-modal'
 import { useSessionJwt } from '@/hooks/use-session-jwt'
 import { lihatModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/lihat'
 import { ubahModulKnowledgeApi } from '@/services/api/admin/knowledge/modul/ubah'
@@ -35,7 +34,6 @@ type UbahModalProps = {
 export default function UbahModulModal({ id, show, onHide }: UbahModalProps) {
   const { jwt, processApi } = useSessionJwt()
   const queryClient = useQueryClient()
-  const size = useAutoSizeMediumModal()
 
   const { updateModulItem } = useManajemenKnowledgeSortableStore()
 
@@ -93,7 +91,7 @@ export default function UbahModulModal({ id, show, onHide }: UbahModalProps) {
       title="Ubah Modul"
       isLoading={!isLoading && isFetching}
       color="warning"
-      size={size}
+      size="md"
       isOpen={show}
       onClose={handleClose}
     >
