@@ -8,6 +8,7 @@ import {
   FieldPath,
   FieldValues,
 } from 'react-hook-form'
+import ReactQuill, { DeltaStatic, EmitterSource } from 'react-quill-new'
 import { QuillEditorProps } from '../quill'
 
 const QuillEditor = dynamic(() => import('../quill'), { ssr: false })
@@ -19,7 +20,12 @@ export type ControlledQuillEditorProps<
   name: TName
   control: Control<TFieldValues>
   errors?: FieldErrors<TFieldValues>
-  onChange?(value: any): void
+  onChange?(
+    value: string,
+    delta: DeltaStatic,
+    source: EmitterSource,
+    editor: ReactQuill.UnprivilegedEditor
+  ): void
 }
 
 export default function ControlledQuillEditor<
@@ -40,8 +46,8 @@ export default function ControlledQuillEditor<
       render={({ field: { value, onChange: setValue, onBlur } }) => (
         <QuillEditor
           value={value}
-          onChange={(val) => {
-            onChange && onChange(val)
+          onChange={(val, delta, source, editor) => {
+            onChange && onChange(val, delta, source, editor)
             setValue(val)
           }}
           onBlur={onBlur}
