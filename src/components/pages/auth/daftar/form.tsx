@@ -1,22 +1,27 @@
 'use client'
 
 import {
+  Button,
   ButtonSubmit,
   ControlledInput,
   ControlledPassword,
   Form,
   FormError,
+  Input,
   Text,
   TextLink,
 } from '@/components/ui'
 import { authRoutes, publicRoutes } from '@/config/routes'
+import { useMinViewportSize } from '@/hooks/viewport-size/use-min-size'
 import { daftarAction } from '@/services/actions/auth/daftar'
 import { handleActionWithToast } from '@/utils/action'
 import { required, requiredPassword } from '@/utils/validations/pipe'
 import { z } from '@/utils/zod-id'
 import { useRouter } from '@bprogress/next/app'
-import { useState } from 'react'
-import { SubmitHandler } from 'react-hook-form'
+import MTCaptcha from 'mt-react-captcha'
+import { useEffect, useState } from 'react'
+import { Controller, SubmitHandler } from 'react-hook-form'
+import { LuCheck, LuRefreshCw } from 'react-icons/lu'
 import { Checkbox } from 'rizzui'
 
 const formSchema = z
@@ -25,6 +30,9 @@ const formSchema = z
     nama: z.string().pipe(required),
     password: z.string().pipe(requiredPassword),
     ulangiPassword: z.string().pipe(requiredPassword),
+    captcha: z.boolean().refine((data) => data, {
+      message: 'Captcha tidak valid.',
+    }),
   })
   .refine((data) => data.password === data.ulangiPassword, {
     message: 'Kata sandi dan ulangi kata sandi harus sama.',
@@ -36,24 +44,42 @@ export type DaftarFormSchema = {
   nama?: string
   password?: string
   ulangiPassword?: string
+  captcha?: boolean
+  inputCaptcha?: string
 }
 
-const initialValues = {}
+const initialValues = {
+  captcha: false,
+  inputCaptcha: '',
+}
 
 export default function DaftarForm() {
   const router = useRouter()
+  const atMinSizeXs = useMinViewportSize('xs')
 
   const [agreed, setAgreed] = useState(false)
+  const [reloadCaptcha, setReloadCaptcha] = useState(false)
   const [formError, setFormError] = useState<string>()
+  const [resetValues, setResetValues] = useState<DaftarFormSchema>()
 
   const onSubmit: SubmitHandler<DaftarFormSchema> = async (data) => {
     await handleActionWithToast(daftarAction(data), {
       loading: 'Mendaftar...',
       onStart: () => setFormError(undefined),
       onSuccess: () => router.push(authRoutes.login),
-      onError: ({ message }) => setFormError(message),
+      onError: ({ message }) => {
+        setResetValues({ ...data, captcha: false, inputCaptcha: '' })
+        setReloadCaptcha(true)
+        setFormError(message)
+      },
     })
   }
+
+  useEffect(() => {
+    if (reloadCaptcha) {
+      setTimeout(() => setReloadCaptcha(false), 500)
+    }
+  }, [reloadCaptcha])
 
   return (
     <>
@@ -63,8 +89,15 @@ export default function DaftarForm() {
         useFormProps={{
           defaultValues: initialValues,
         }}
+        resetValues={resetValues}
       >
-        {({ control, formState: { errors, isSubmitting } }) => (
+        {({
+          control,
+          watch,
+          setValue,
+          trigger,
+          formState: { errors, isSubmitting },
+        }) => (
           <div className="flex flex-col gap-y-5 lg:gap-y-6">
             <ControlledInput
               name="email"
@@ -100,6 +133,57 @@ export default function DaftarForm() {
                 placeholder="Tulis ulang kata sandi Anda di sini"
               />
             </div>
+
+            <Controller
+              name="inputCaptcha"
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <div className="flex gap-2">
+                  <div className="relative">
+                    {watch('captcha') ? (
+                      <div className="absolute top-0 right-0 p-1">
+                        <LuCheck className="size-4 text-success" />
+                      </div>
+                    ) : (
+                      <Button
+                        variant="text"
+                        size="sm"
+                        className="absolute top-0 right-0 min-h-6 py-0 px-1.5"
+                        onClick={() => setReloadCaptcha(true)}
+                      >
+                        <LuRefreshCw />
+                      </Button>
+                    )}
+                    <MTCaptcha
+                      length={5}
+                      mode="numbersOnly"
+                      fontSize={58}
+                      fontWeight={600}
+                      height={40}
+                      width={atMinSizeXs ? 200 : 150}
+                      userText={value}
+                      onValidate={(val) => {
+                        if (!watch('captcha') && val) {
+                          setValue('captcha', val)
+                          trigger('captcha')
+                        }
+                      }}
+                      regenerate={reloadCaptcha}
+                    />
+                  </div>
+
+                  <Input
+                    placeholder="Masukkan angka di samping"
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    className="w-full"
+                    disabled={watch('captcha')}
+                    error={errors.captcha?.message}
+                  />
+                </div>
+              )}
+            />
 
             <div className="col-span-2 flex items-start">
               <Checkbox

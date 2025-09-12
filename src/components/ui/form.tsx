@@ -17,7 +17,7 @@ type FormProps<TFormValues extends FieldValues> = {
   children: (methods: UseFormReturn<TFormValues>) => React.ReactNode
   useFormProps?: UseFormProps<TFormValues>
   validationSchema?: Schema<TFormValues>
-  resetValues?: any
+  resetValues?: TFormValues
   flexing?: boolean
   className?: string
 }

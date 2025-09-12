@@ -17,6 +17,7 @@ import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
 import { LuChevronRight, LuDownload, LuTrash2 } from 'react-icons/lu'
 import { MdAdd, MdDragIndicator } from 'react-icons/md'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
+import toast from 'react-hot-toast'
 
 export type TreeItemDataType = {
   title?: string
@@ -217,6 +218,7 @@ const SortableItem = ({
             onClick={(e) => {
               e.stopPropagation()
               /* TODO: download modul */
+              toast.error('Fitur ini belum tersedia')
             }}
           >
             <LuDownload />
