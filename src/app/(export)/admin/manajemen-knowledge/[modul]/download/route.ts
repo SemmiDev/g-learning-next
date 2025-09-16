@@ -34,8 +34,6 @@ export async function GET(
       headers,
     })
   } catch (error) {
-    console.error('Download error:', error)
-
     return NextResponse.json({ error: 'File not found.' }, { status: 404 })
   }
 }
