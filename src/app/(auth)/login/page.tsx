@@ -56,7 +56,7 @@ export default async function LoginPage() {
       }
       description="Dengan mendaftar di Smart Campus, jelajahi sumber belajar yang beragam dan juga dapat terhubung dengan guru, dosen, siswa dan mahasiswa diseluruh indonesia"
     >
-      <LoginForm testingUsers={devMode ? testingUsers : []} />
+      <LoginForm testingUsers={devMode ? testingUsers : undefined} />
     </AuthWrapper>
   )
 }
