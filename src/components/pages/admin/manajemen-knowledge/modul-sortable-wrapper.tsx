@@ -4,6 +4,7 @@ import {
   ButtonTooltip,
   TextSpan,
 } from '@/components/ui'
+import { useSessionJwt } from '@/hooks/use-session-jwt'
 import cn from '@/utils/class-names'
 import { randomString } from '@/utils/random'
 import {
@@ -17,7 +18,8 @@ import { BsChevronDown, BsChevronUp, BsPencilSquare } from 'react-icons/bs'
 import { LuChevronRight, LuDownload, LuTrash2 } from 'react-icons/lu'
 import { MdAdd, MdDragIndicator } from 'react-icons/md'
 import { useManajemenKnowledgeSortableStore } from './stores/sortable'
-import toast from 'react-hot-toast'
+import { routes } from '@/config/routes'
+import { slugify } from '@/utils/string'
 
 export type TreeItemDataType = {
   title?: string
@@ -112,6 +114,8 @@ const SortableItem = ({
   clone,
   depth,
 }: TreeItemComponentProps<TreeItemDataType>) => {
+  const { jwt } = useSessionJwt()
+
   const { isSaving, doShowUbahModul, setIdHapusModul, setIdHapusArtikel } =
     useManajemenKnowledgeSortableStore()
 
@@ -217,8 +221,13 @@ const SortableItem = ({
             variant="outline-hover-colorful"
             onClick={(e) => {
               e.stopPropagation()
-              /* TODO: download modul */
-              toast.error('Fitur ini belum tersedia')
+
+              window?.open(
+                `${routes.admin.manajemenKnowledge}/${
+                  item.id
+                }/download?file=${slugify(`modul-${item.title}`)}.pdf`,
+                '_blank'
+              )
             }}
           >
             <LuDownload />

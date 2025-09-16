@@ -17,6 +17,14 @@ export const makeUrl = (
   return url + (params ? '?' : '') + makeParams(params)
 }
 
+export const slugify = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-+/g, '-')
+}
+
 export const cleanQuill = (value: string | undefined) => {
   if (value === '<p><br></p>') return
 
